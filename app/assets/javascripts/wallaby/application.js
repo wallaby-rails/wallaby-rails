@@ -11,5 +11,3 @@
 // about supported directives.
 //
 //= require_tree .
-//= require vendor/modernizr
-$(function(){ $(document).foundation(); });
