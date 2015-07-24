@@ -11,11 +11,11 @@
     <%= csrf_meta_tags %>
   </head>
   <body class="<%= body_class %>">
-    <%= render_partial :header %>
+    <%= render 'header' %>
     <main role="main">
       <%= yield %>
     </main>
-    <%= render_partial :footer %>
+    <%= render 'footer' %>
     <%= javascript_include_tag 'wallaby/application', 'data-turbolinks-track' => true %>
     <%= yield :custom_javascript %>
   </body>
