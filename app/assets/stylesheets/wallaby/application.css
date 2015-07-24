@@ -11,5 +11,10 @@
  * file per style scope.
  *
  *= require ./foundation_and_overrides
-
+ *= require ./base/_vars
+ *= require ./base/_mixins
+ *= require ./base/_functions
+ *= require ./base/_normalize
+ *= require ./base/_reset
+ *= require ./base/_layout
  */

@@ -1,0 +1,5 @@
+@import 'foundation';
+
+.main {
+  @include grid-row();
+}
