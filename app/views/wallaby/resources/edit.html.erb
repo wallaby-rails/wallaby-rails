@@ -1,0 +1,13 @@
+<section>
+  <h1>Edit a <%= model_decorator.model_name %></h1>
+  <%= form_for record, url: wallaby_engine.resource_path, method: :put do |form| %>
+    <% model_decorator.editable_fields.each do |field| %>
+      <div>
+        <%= form.label field %>
+        <%= form.text_field field %>
+      </div>
+    <% end %>
+    <%= form.submit %>
+    <%= cancel_link %>
+  <% end %>
+</section>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= yield(:custom_title) || 'Wallaby' %></title>
+
+    <%= stylesheet_link_tag "wallaby/application", media: "all", 'data-turbolinks-track' => true %>
+    <%= yield :custom_stylesheet %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="<%= action_name %> <%= yield :custom_body_class %>">
+    <header>
+      header goes here
+    </header>
+    <aside>
+      aside goes here
+    </aside>
+    <article>
+      <%= yield %>
+    </article>
+    <footer>
+      footer goes here
+    </footer>
+    <%= javascript_include_tag "wallaby/application", 'data-turbolinks-track' => true %>
+    <%= yield :custom_javascript %>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<%= render_partial 'shared/breadcrumb' %>
+
+<section>
+  Search
+</section>
+
+<section>
+  Advance Search
+</section>
+
+<section>
+  <h1>List of <%= model_decorator.model_name %></h1>
+  <table>
+    <thead>
+      <tr>
+        <% model_decorator.list_fields.each do |field| %>
+          <th><%= model_decorator.label_of field %></th>
+        <% end %>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if records.present? %>
+        <% records.each do |record| %>
+          <% pretty_record = record_decorator(record) %>
+          <tr>
+            <% model_decorator.list_fields.each do |field| %>
+              <td>
+                <%= pretty_record.send "list_#{ field }" %>
+              </td>
+            <% end %>
+            <td>
+              <%= show_link record.id, class: 'show-icon-link' %>
+              <%= edit_link record.id, class: 'edit-icon-link' %>
+              <%= delete_link record.id, class: 'delete-icon-link' %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="<%= model_decorator.fields.length %>">
+            <%= t 'records.not_found' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

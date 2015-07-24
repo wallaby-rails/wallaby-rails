@@ -1,0 +1,9 @@
+<nav>
+  <ol>
+    <% breadcrumb_components.each do |component| %>
+      <li>
+        <%= breadcrumb_item_for component %>
+      </li>
+    <% end %>
+  </ol>
+</nav>
