@@ -1,5 +1,13 @@
 module Wallaby
   module ApplicationHelper
+    def body_class
+      [
+        action_name,
+        resources_name.gsub('::', '__'),
+        content_for(:custom_body_class)
+      ].compact.join ' '
+    end
+
     def render_partial partial_view_path, options = {}
       ancestors = controller.class.ancestors.select do |constance|
         constance <= ::ApplicationController
