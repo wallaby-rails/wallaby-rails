@@ -24,7 +24,7 @@ module Wallaby
       namespace = normalize_namespace env
       [
         [ namespace, resources ],
-        [ 'wallaby', resources ],
+        [ Wallaby::NAMESPACE, resources ],
       ].map do |namespace, controller_name|
         "#{ namespace }/#{ controller_name }_controller".camelize
       end
