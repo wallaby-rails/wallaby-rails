@@ -9,8 +9,8 @@ module Wallaby
     end
 
     def render options = {}, locals = {}, &block
-      view_path = File.dirname caller[0].gsub(%r(:.*\Z), '')
-      view_paths << view_path
+      caller_view_path = File.dirname caller[0].gsub(%r(:.*\Z), '')
+      view_paths << caller_view_path
       super options, locals, &block
     end
 
