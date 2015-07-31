@@ -1,8 +1,8 @@
-<% pretty_record = record_decorator record %>
+<% pretty_record = decorator %>
 <% record_datetime = proc do |field| %>
   <% if pretty_record.respond_to?(field) && pretty_record.send(field).present? %>
     <span>
-      <%= model_decorator.label_of field %>
+      <%= pretty_record.label_of field %>
       <time datetime="<%= pretty_record.send(field).to_s :db %>">
         <%= pretty_record.send field %>
       </time>
@@ -11,6 +11,7 @@
 <% end %>
 
 <%= render 'shared/breadcrumb' %>
+
 <nav>
   <ol>
     <li>
@@ -32,13 +33,13 @@
     </div>
   </header>
   <section class="fields">
-    <% model_decorator.show_fields.each do |field| %>
+    <% pretty_record.show_fields.each do |field| %>
       <article class="field">
         <h2>
-          <%= model_decorator.label_of field %>
+          <%= pretty_record.label_of field %>
         </h2>
         <code class="box">
-          <%= pretty_record.send "show_#{ field }" %>
+          <%= pretty_record.show field %>
         </code>
       </article>
     <% end %>

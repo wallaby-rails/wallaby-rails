@@ -1,12 +1,15 @@
+<%= render 'shared/breadcrumb' %>
+
 <section>
-  <h1>Create a <%= model_decorator.model_name %></h1>
+  <h1>Create a <%= decorator.model_name %></h1>
   <%= form_for new_record, url: wallaby_engine.resources_path, method: :post do |form| %>
-    <% model_decorator.editable_fields.each do |field| %>
+    <% decorator.new_fields.each do |field| %>
       <div>
-        <%= form.label field, model_decorator.name_of(field) %>
-        <%= build_field form, field %>
+        <%= form.label field %>
+        <%= form.text_field field %>
       </div>
     <% end %>
     <%= form.submit %>
+    <%= cancel_link %>
   <% end %>
 </section>

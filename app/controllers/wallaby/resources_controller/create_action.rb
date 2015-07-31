@@ -7,7 +7,7 @@ module Wallaby::ResourcesController::CreateAction
   end
 
   def create_success
-    redirect_to wallaby_engine.resource_path(resources_name, record.id), notice: 'successfully created'
+    redirect_to wallaby_engine.resource_path(resources_name, new_record.id), notice: 'successfully created'
   end
 
   def create_error

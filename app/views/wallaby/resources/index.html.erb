@@ -9,12 +9,12 @@
 </section>
 
 <section>
-  <h1>List of <%= model_decorator.model_name %></h1>
+  <h1>List of <%= decorator.model_name %></h1>
   <table>
     <thead>
       <tr>
-        <% model_decorator.list_fields.each do |field| %>
-          <th><%= model_decorator.label_of field %></th>
+        <% decorator.list_fields.each do |field| %>
+          <th><%= decorator.label_of field %></th>
         <% end %>
         <th></th>
       </tr>
@@ -22,11 +22,11 @@
     <tbody>
       <% if records.present? %>
         <% records.each do |record| %>
-          <% pretty_record = record_decorator(record) %>
+          <% pretty_record = decorator(model_class, record) %>
           <tr>
-            <% model_decorator.list_fields.each do |field| %>
+            <% decorator.list_fields.each do |field| %>
               <td>
-                <%= pretty_record.send "list_#{ field }" %>
+                <%= pretty_record.list field %>
               </td>
             <% end %>
             <td>
@@ -38,7 +38,7 @@
         <% end %>
       <% else %>
         <tr>
-          <td colspan="<%= model_decorator.fields.length %>">
+          <td colspan="<%= decorator.fields.length %>">
             <%= t 'records.not_found' %>
           </td>
         </tr>

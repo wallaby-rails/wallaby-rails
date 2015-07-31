@@ -1,7 +1,7 @@
 module Wallaby::ResourcesController::HelperMethods
   extend ActiveSupport::Concern
   included do
-    helper_method  :records, :record, :new_record, :model_class, :resources_name, :resource_name, :resource_params, :model_decorator, :record_decorator, :id
+    helper_method  :records, :record, :new_record, :model_class, :resources_name, :resource_name, :resource_params, :decorator, :id
   end
 
   protected
@@ -10,7 +10,7 @@ module Wallaby::ResourcesController::HelperMethods
   end
 
   def record
-    @record ||= resource_set model_class.find(id)
+    @record ||= resource_set model_class.find(id) if id.present?
   end
 
   def new_record
@@ -35,12 +35,8 @@ module Wallaby::ResourcesController::HelperMethods
     params.require(resource_name).permit *white_list_fields
   end
 
-  def model_decorator
-    @model_decorator ||= Wallaby::Services::model_decorator.build model_class
-  end
-
-  def record_decorator record
-    Wallaby::Services::record_decorator.build record
+  def decorator target_model_class = model_class, target_record = record
+    Wallaby::Decorator.build target_model_class, target_record
   end
 
   def id
