@@ -7,12 +7,12 @@ module Wallaby
     def breadcrumb_item_for component, last_component = breadcrumb_components.last
       if component != last_component
         if component == resources_name
-          link_to t("breadcrumb.#{ component }"), wallaby_engine.resources_path
+          link_to ct("breadcrumb.#{ component }"), wallaby_engine.resources_path
         elsif component == id
-          link_to t('breadcrumb.show'), wallaby_engine.resource_path
+          link_to ct('breadcrumb.show'), wallaby_engine.resource_path
         end
       else
-        t "breadcrumb.#{ component == id ? 'show' : component }"
+        ct "breadcrumb.#{ component == id ? 'show' : component }"
       end
     end
 
