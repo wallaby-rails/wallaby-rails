@@ -1,8 +1,6 @@
 class Wallaby::ResourcesController::PrefixesBuilder
   attr_reader :controller
 
-  delegate :resources_name, :action_name, to: :@controller
-
   def initialize controller
     @controller = controller
   end
@@ -22,7 +20,7 @@ class Wallaby::ResourcesController::PrefixesBuilder
   end
 
   def resources_basepath
-    resources_name.try do |string|
+    controller.send(:resources_name).try do |string|
       string.gsub '::', '/'
     end
   end
@@ -38,7 +36,7 @@ class Wallaby::ResourcesController::PrefixesBuilder
   def prefixes_combo prefixes, base_paths
     base_paths = [ base_paths ] unless base_paths.is_a? Array
     base_paths.each do |base_path|
-      prefixes << "#{ base_path }/#{ action_name }"
+      prefixes << "#{ base_path }/#{ controller.action_name }"
       prefixes << base_path
     end
   end
