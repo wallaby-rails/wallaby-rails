@@ -7,6 +7,7 @@ Wallaby::Engine.routes.draw do
   scope path: ':resources' do
     resources_router = Wallaby::ResourcesRouter.new
     with_options to: resources_router do |route|
+      id_constraints = { id: %r(\d+) }
       route.match '',
         defaults: { action: :index },   via: :get,    as: :resources
       route.match '',
@@ -14,13 +15,13 @@ Wallaby::Engine.routes.draw do
       route.match 'new',
         defaults: { action: :new },     via: :get,    as: :new_resource
       route.match ':id/edit',
-        defaults: { action: :edit },    via: :get,    as: :edit_resource
+        defaults: { action: :edit },    via: :get,    as: :edit_resource, constraints: id_constraints
       route.match ':id',
-        defaults: { action: :show },    via: :get,    as: :resource
+        defaults: { action: :show },    via: :get,    as: :resource, constraints: id_constraints
       route.match ':id',
-        defaults: { action: :update },  via: %i( patch put )
+        defaults: { action: :update },  via: %i( patch put ), constraints: id_constraints
       route.match ':id',
-        defaults: { action: :destroy }, via: :delete
+        defaults: { action: :destroy }, via: :delete, constraints: id_constraints
       route.match '(:id)/:action', via: :all
     end
   end
