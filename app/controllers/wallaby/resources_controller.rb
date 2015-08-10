@@ -2,6 +2,13 @@ module Wallaby
   class ResourcesController < CoreController
     include CreateAction, UpdateAction, DestroyAction, HelperMethods
 
+    before_action :build_up_view_paths
+
+    protected
+    def build_up_view_paths
+      lookup_context.prefixes = PrefixesBuilder.new(self).build
+    end
+
     def index
       records
     end
