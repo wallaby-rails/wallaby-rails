@@ -24,26 +24,26 @@ module Wallaby
 
     def new_link options = {}, title = nil, resources = nil
       resources ||= resources_name
-      title     ||= ct('new')
+      title     ||= ct('link.new')
       link_to title, wallaby_engine.resource_path(resources), options
     end
 
     def show_link id, options = {}, title = nil, resources = nil
       resources ||= resources_name
-      title     ||= ct('show')
+      title     ||= ct('link.show')
       link_to title, wallaby_engine.resource_path(resources, id), options
     end
 
     def edit_link id, options = {}, title = nil, resources = nil
       resources ||= resources_name
-      title     ||= ct('edit')
+      title     ||= ct('link.edit')
       link_to title, wallaby_engine.edit_resource_path(resources, id), options
     end
 
     def delete_link id, options = {}, title = nil, confirm = nil, resources = nil
       resources ||= resources_name
-      title     ||= ct('delete')
-      confirm   ||= ct('confirm.delete')
+      title     ||= ct('link.delete')
+      confirm   ||= ct('link.confirm.delete')
       link_to title, wallaby_engine.resource_path(resources, id), options.merge(method: :delete, confirm: confirm)
     end
 
