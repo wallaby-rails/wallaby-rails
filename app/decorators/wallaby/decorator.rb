@@ -2,26 +2,11 @@ module Wallaby
   class Decorator
     include ModelMethods
     include RecordMethods
-
-    class << self
-      attr_writer :model_class
-
-      def build model, record = nil
-        decorator = subclasses.find do |klass|
-          klass.name == "#{ model.name }Decorator" ||
-          klass.model_class.name == model.name
-        end || self
-        decorator.new model, record
-      end
-
-      def model_class
-        @model_class ||= name.gsub('Decorator', '').constantize
-      end
-    end
+    include ClassMethods
 
     attr_reader :model_class, :record
 
-    def initialize model_class = nil, record = nil
+    def initialize record, model_class = nil
       @model_class = model_class || self.class.model_class
       @record = record
       delegate_attributes if record.present?
@@ -37,7 +22,17 @@ module Wallaby
     end
 
     def to_label
-      to_s
+      candidates = record.class.columns.select do |column|
+        column.type == :string
+      end.map(&:name)
+      title_or_name = candidates.grep(%r((\A|_)(name|title)\Z)).first
+      if title_or_name.present?
+        record.send title_or_name
+      elsif candidates.first.present?
+        record.send candidates.first
+      else
+        record.to_s
+      end
     end
   end
 end
