@@ -220,12 +220,12 @@ $include-html-global-classes: $include-html-classes;
 // $header-text-rendering: optimizeLegibility;
 
 // We use these to control header font sizes
-// $h1-font-size: rem-calc(44);
-// $h2-font-size: rem-calc(37);
-// $h3-font-size: rem-calc(27);
-// $h4-font-size: rem-calc(23);
-// $h5-font-size: rem-calc(18);
-// $h6-font-size: 1rem;
+$h1-font-size: rem-calc(30);
+$h2-font-size: rem-calc(27);
+$h3-font-size: rem-calc(24);
+$h4-font-size: rem-calc(21);
+$h5-font-size: rem-calc(18);
+$h6-font-size: 1rem;
 
 // We use these to control header size reduction on small screens
 // $h1-font-reduction: rem-calc(10);
@@ -1302,7 +1302,7 @@ $include-html-global-classes: $include-html-classes;
 
 // These control the table head styles
 // $table-head-bg: $white-smoke;
-// $table-head-font-size: rem-calc(14);
+$table-head-font-size: rem-calc(12);
 // $table-head-font-color: $jet;
 // $table-head-font-weight: $font-weight-bold;
 // $table-head-padding: rem-calc(8 10 10);
@@ -1322,7 +1322,7 @@ $include-html-global-classes: $include-html-classes;
 
 // These control the row padding and font styles
 // $table-row-padding: rem-calc(9 10);
-// $table-row-font-size: rem-calc(14);
+$table-row-font-size: rem-calc(12);
 // $table-row-font-color: $jet;
 // $table-line-height: rem-calc(18);
 
