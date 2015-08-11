@@ -1,5 +1,9 @@
 module Wallaby
   module ApplicationHelper
+    def page_title
+      ct('page.title', default: false) || 'Wallaby::Admin'
+    end
+
     def body_class
       [
         action_name,
