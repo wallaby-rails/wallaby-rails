@@ -1,7 +1,7 @@
 <nav>
-  <ol>
+  <ul class="breadcrumbs">
     <% breadcrumb_components.each do |component| %>
-      <li>
+      <li class="<%= component == breadcrumb_components.last && 'current' %>">
         <%= breadcrumb_item_for component %>
       </li>
     <% end %>
