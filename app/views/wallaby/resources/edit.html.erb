@@ -1,7 +1,7 @@
-<%= render 'shared/breadcrumb' %>
-
 <section>
   <h1>Edit a <%= decorator.model_name %></h1>
+  <hr />
+  <%= render 'shared/breadcrumb' %>
   <%= form_for record, url: wallaby_engine.resource_path, method: :put do |form| %>
     <% decorator.edit_fields.each do |field| %>
       <div>
@@ -9,7 +9,7 @@
         <%= form.text_field field %>
       </div>
     <% end %>
-    <%= form.submit %>
+    <%= form.submit class: 'button small' %>
     <%= cancel_link %>
   <% end %>
 </section>

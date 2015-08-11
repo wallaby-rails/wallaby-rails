@@ -49,7 +49,7 @@ module Wallaby
 
     def cancel_link title = nil
       title ||= ct('cancel')
-      link_to title, :back
+      link_to title, :back, class: 'button small'
     end
   end
 end
