@@ -16,10 +16,12 @@ module Wallaby::Decorator::ModelMethods
   end
 
   def new_fields
-    fields
+    model_class.columns.select do |column|
+      ![ model_class.primary_key, 'updated_at', 'created_at' ].include? column.name
+    end.map &:name
   end
 
   def edit_fields
-    fields
+    new_fields
   end
 end
