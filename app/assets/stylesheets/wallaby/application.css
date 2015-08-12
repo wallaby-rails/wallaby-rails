@@ -9,12 +9,11 @@
  * compiled file so the styles you add here take precedence over styles defined in any styles
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
- *
- *= require ./foundation_and_overrides
- *= require ./base/_vars
- *= require ./base/_mixins
- *= require ./base/_functions
- *= require ./base/_normalize
- *= require ./base/_reset
- *= require ./base/_layout
  */
+@import 'foundation_and_overrides';
+@import 'base/_vars';
+@import 'base/_mixins';
+@import 'base/_functions';
+@import 'base/_normalize';
+@import 'base/_reset';
+@import 'base/_layout';
