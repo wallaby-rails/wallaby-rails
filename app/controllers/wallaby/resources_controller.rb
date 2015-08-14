@@ -4,9 +4,10 @@ module Wallaby
 
     before_action :build_up_view_paths
 
-    protected
-    def build_up_view_paths
-      lookup_context.prefixes = PrefixesBuilder.new(self).build
+    class << self
+      def resources_name
+        name.gsub('Controller', '').underscore.gsub('/', '::')
+      end
     end
 
     def index
@@ -55,6 +56,11 @@ module Wallaby
 
     def history
       # TODO: for papertrail
+    end
+
+    protected
+    def build_up_view_paths
+      lookup_context.prefixes = PrefixesBuilder.new(self).build
     end
   end
 end
