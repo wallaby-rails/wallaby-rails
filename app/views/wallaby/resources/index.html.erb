@@ -3,7 +3,7 @@
   <h1 class="subheader">List of <%= decorator.model_name %></h1>
   <hr />
   <%= render 'shared/breadcrumb' %>
-  <table>
+  <table class="table">
     <thead>
       <tr>
         <% decorator.list_fields.each do |field| %>
@@ -12,7 +12,7 @@
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-striped">
       <% if records.present? %>
         <% records.each do |record| %>
           <% pretty_record = decorator(model_class, record) %>

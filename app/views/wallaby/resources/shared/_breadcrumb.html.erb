@@ -1,7 +1,8 @@
 <nav>
-  <ul class="breadcrumbs">
+  <ol class="breadcrumb">
+    <li><%= link_to 'Dashboard', wallaby_engine.root_path %></li>
     <% breadcrumb_components.each do |component| %>
-      <li class="<%= component == breadcrumb_components.last && 'current' %>">
+      <li class="<%= component == breadcrumb_components.last && 'active' %>">
         <%= breadcrumb_item_for component %>
       </li>
     <% end %>

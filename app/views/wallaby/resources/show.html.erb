@@ -5,27 +5,26 @@
   </h1>
   <div>
     <% %w( updated_at created_at ).each do |datetime| %>
-      <small>
+      <span>
         <strong><%= pretty_record.label_of datetime %>:</strong>
         <span><%= pretty_record.send datetime %></span>
-      </small>
+      </span>
     <% end %>
   </div>
   <hr />
   <%= render 'shared/breadcrumb' %>
   <nav>
-    <dl class="sub-nav">
-      <dt>Links:</dt>
-      <dd class="active">
+    <ul class="nav nav-pills">
+      <li role="presentation" class="active">
         <%= show_link record.id, class: 'show-icon-label-link' %>
-      </dd>
-      <dd>
+      </li>
+      <li role="presentation">
         <%= edit_link record.id, class: 'edit-icon-label-link' %>
-      </dd>
-      <dd>
+      </li>
+      <li role="presentation">
         <%= delete_link record.id, class: 'delete-icon-label-link' %>
-      </dd>
-    </dl>
+      </li>
+    </ul>
   </nav>
   <section class="fields">
     <% pretty_record.show_fields.each do |field| %>

@@ -1,32 +1,40 @@
 <header>
-  <nav class="top-bar sticky" data-topbar role="navigation">
-    <ul class="title-area">
-      <li class="name">
-        <h1><a href="#">Admin</a></h1>
-      </li>
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-    </ul>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <%# Brand %>
+      <div class="navbar-header">
+        <%# Mobile Menu Toggler %>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%# //Mobile Menu Toggler %>
+        <a class="navbar-brand" href="#">Wallaby Admin</a>
+      </div>
+      <%# //Brand %>
 
-    <section class="top-bar-section">
-      <!-- Right Nav Section -->
-      <ul class="right">
-        <li class=""><a href="#" class="alert">Logout</a></li>
-        <li class=""><a href="javascript:;"><img src="http://www.gravatar.com/avatar/5f0efb20de5ecfedbe0bf5e7c12353fe?s=30" /></a></li>
-      </ul>
-
-      <!-- Left Nav Section -->
-      <ul class="left">
-        <li class="divider"></li>
-        <li class=""><a href="#">Dashboard</a></li>
-        <li class="divider"></li>
-        <li class="has-dropdown">
-          <a href="#">Resources</a>
-          <ul class="dropdown">
-            <li class=""><a href="">Post</a></li>
-          </ul>
-        </li>
-        <li class="divider"></li>
-      </ul>
-    </section>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Post</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li role="separator" class="divider"></li>
+          <li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="https://www.ruby-lang.org/images/download-ruby-arrow@2x.png" width="20" height="20" class="hidden-xs" /> <span class="visible-xs-inline-block">User</span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Sign out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>

@@ -14,6 +14,9 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 group :development do
+  gem 'bootstrap-sass'
+  gem 'jquery-rails'
+
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'better_errors'
