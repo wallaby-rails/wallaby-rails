@@ -14,8 +14,6 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 group :development do
-  gem 'foundation-rails', github: "zurb/foundation-rails"
-
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'better_errors'

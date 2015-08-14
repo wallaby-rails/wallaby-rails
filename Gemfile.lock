@@ -1,16 +1,7 @@
-GIT
-  remote: git://github.com/zurb/foundation-rails.git
-  revision: a709f2e60f8428c979397cbaedc19077be1a8cf5
-  specs:
-    foundation-rails (5.5.2.1)
-      railties (>= 3.1.0)
-      sass (>= 3.3.0, < 3.5)
-
 PATH
   remote: .
   specs:
     wallaby (0.0.1)
-      foundation-rails
       kaminari
       rails (~> 4.2.3)
       sass-rails
@@ -162,7 +153,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   ffaker
-  foundation-rails!
   pry-rails
   rspec-rails
   sqlite3
