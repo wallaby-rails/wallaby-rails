@@ -1,18 +1,8 @@
 module Wallaby
   class ResourcesController < CoreController
-    include CreateAction, UpdateAction, DestroyAction, HelperMethods
+    include CoreMethods, CreateAction, UpdateAction, DestroyAction, HelperMethods
 
     before_action :build_up_view_paths
-
-    class << self
-      def resources_name
-        Wallaby::Utils.to_resources_name name.gsub('Controller', '')
-      end
-
-      def model_class
-        Wallaby::Utils.to_model_name(resources_name).constantize
-      end
-    end
 
     def index
       records

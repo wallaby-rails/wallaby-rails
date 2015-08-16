@@ -17,18 +17,6 @@ module Wallaby::ResourcesController::HelperMethods
     @new_record ||= resource_set model_class.new
   end
 
-  def model_class
-    @model_class ||= resource_name.gsub('::', '/').camelize.constantize
-  end
-
-  def resources_name
-    params[:resources]
-  end
-
-  def resource_name
-    resources_name.singularize
-  end
-
   def resource_params
     # can be overridden
     white_list_fields = model_class.column_names.reject{ |v| v == 'id' }
