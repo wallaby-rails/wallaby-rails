@@ -1,7 +1,7 @@
 module Wallaby::ResourcesController::HelperMethods
   extend ActiveSupport::Concern
   included do
-    helper_method  :records, :record, :new_record, :model_class, :resources_name, :resource_name, :resource_params, :decorator, :id
+    helper_method  :records, :record, :new_record, :model_class, :resources_name, :resource_name, :resource_params, :decorator, :id, :model_decorator
   end
 
   protected

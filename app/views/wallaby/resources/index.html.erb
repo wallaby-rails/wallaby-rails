@@ -1,13 +1,13 @@
 
 <section>
-  <h1 class="subheader">List of <%= decorator.model_name %></h1>
+  <h1 class="subheader">List of <%= model_decorator %></h1>
   <hr />
   <%= render 'shared/breadcrumb' %>
   <table class="table">
     <thead>
       <tr>
-        <% decorator.list_fields.each do |field| %>
-          <th><%= decorator.label_of field %></th>
+        <% model_decorator.list_field_names.each do |field| %>
+          <th><%= model_decorator.label_of field %></th>
         <% end %>
         <th></th>
       </tr>
@@ -17,7 +17,7 @@
         <% records.each do |record| %>
           <% pretty_record = decorator(model_class, record) %>
           <tr>
-            <% decorator.list_fields.each do |field| %>
+            <% model_decorator.list_field_names.each do |field| %>
               <td>
                 <%= pretty_record.list field %>
               </td>

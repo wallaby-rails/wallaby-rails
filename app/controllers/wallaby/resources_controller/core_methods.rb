@@ -26,4 +26,13 @@ module Wallaby::ResourcesController::CoreMethods
   def model_class
     self.class.model_class || self.class.model_class(resource_name, true)
   end
+
+  def model_decorator
+    @model_decorator ||= begin
+      target_decorator_class = Wallaby::Decorator.subclasses.find do |klass|
+        klass.model_class == model_class
+      end
+      target_decorator_class || Wallaby::ModelDecorator.new(model_class)
+    end
+  end
 end
