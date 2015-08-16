@@ -6,7 +6,7 @@ module Wallaby
 
     class << self
       def resources_name
-        name.gsub('Controller', '').underscore.gsub('/', '::')
+        Wallaby::Utils.to_resources_name name.gsub('Controller', '')
       end
     end
 
