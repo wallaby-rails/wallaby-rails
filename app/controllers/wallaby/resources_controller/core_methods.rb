@@ -2,15 +2,15 @@ module Wallaby::ResourcesController::CoreMethods
   extend ActiveSupport::Concern
 
   class_methods do
-    def resources_name
-      unless self == Wallaby::ResourcesController
+    def resources_name condition = self < Wallaby::ResourcesController
+      if condition
         Wallaby::Utils.to_resources_name name.gsub('Controller', '')
       end
     end
 
-    def model_class
-      unless self == Wallaby::ResourcesController
-        Wallaby::Utils.to_model_name(resources_name).constantize
+    def model_class target_resources_name = resources_name, condition = self < Wallaby::ResourcesController
+      if condition
+        Wallaby::Utils.to_model_name(target_resources_name).constantize
       end
     end
   end
@@ -24,6 +24,6 @@ module Wallaby::ResourcesController::CoreMethods
   end
 
   def model_class
-    self.class.model_class || Wallaby::Utils.to_model_name(resource_name).constantize
+    self.class.model_class || self.class.model_class(resource_name, true)
   end
 end
