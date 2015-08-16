@@ -1,0 +1,2 @@
+module Wallaby::CoreHelper
+end
