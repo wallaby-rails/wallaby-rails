@@ -3,7 +3,6 @@ Wallaby::Engine.routes.draw do
   get 'er_diagram', to: 'wallaby/database#er_diagram'
 
   get 'status.json', to: 'core#status'
-  puts method(:match).source_location
 
   scope path: ':resources' do
     resources_router      = Wallaby::ResourcesRouter.new
