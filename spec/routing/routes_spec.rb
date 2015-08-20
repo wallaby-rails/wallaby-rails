@@ -25,6 +25,7 @@ describe 'routing', type: :request do
     get "#{ script_name }/#{ resources }/1-d"
 
     expect(Wallaby::ResourcesController).to receive(:action).with('update').and_return(response)
+    put "#{ script_name }/#{ resources }/1"
     patch "#{ script_name }/#{ resources }/1"
 
     expect(Wallaby::ResourcesController).to receive(:action).with('destroy').and_return(response)
@@ -61,6 +62,7 @@ describe 'routing', type: :request do
       get "#{ script_name }/#{ resources }/1-d"
 
       expect(AliensController).to receive(:action).with('update').and_return(response)
+      put "#{ script_name }/#{ resources }/1"
       patch "#{ script_name }/#{ resources }/1"
 
       expect(AliensController).to receive(:action).with('destroy').and_return(response)
