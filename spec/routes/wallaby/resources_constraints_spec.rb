@@ -3,32 +3,27 @@ require 'rails_helper'
 describe Wallaby::ResourcesConstraints do
   describe '#matches?' do
     let(:request) do
-      double 'request', env: {
-        'action_dispatch.request.path_parameters' => {
-          id: id
-        }
-      }
+      double 'Request', env: { 'action_dispatch.request.path_parameters' => params }
     end
-    let(:id) { nil }
+    let(:params) { { } }
 
     it 'returns false when params are blank' do
+      params[:id] = nil
       expect(subject.matches? request).to be_falsy
-      request.env[:id] = ''
+      params[:id] = ''
       expect(subject.matches? request).to be_falsy
     end
 
     context 'when id has digits' do
-      let(:id) { 'this-is-a-uuid-1' }
-
       it 'returns true' do
+        params[:id] = 'this-is-a-uuid-1'
         expect(subject.matches? request).to be_truthy
       end
     end
 
     context 'when id has no digits' do
-      let(:id) { 'this-is-a-string' }
-
-      it 'returns false regardless what action is' do
+      it 'returns false' do
+        params[:id] = 'this-is-a-string'
         expect(subject.matches? request).to be_falsy
       end
     end
