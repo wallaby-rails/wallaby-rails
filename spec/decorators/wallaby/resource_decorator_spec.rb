@@ -52,33 +52,37 @@ describe Wallaby::ResourceDecorator do
   end
 
   describe 'instance methods' do
-    let(:subject) { Wallaby::ResourceDecorator.new record }
-    let(:record) { Post.new }
+    let(:subject) { Wallaby::ResourceDecorator.new resource }
+    let(:resource) { AbstractPost.new }
 
     before do
-      class Post; end
-      allow(Post).to receive(:columns).and_return([
+      class AbstractPost
+        def self.columns; end
+        def self.primary_key; end
+        def self.human_attribute_name field; end
+      end
+      allow(AbstractPost).to receive(:columns).and_return([
         double('ID', name: 'id', type: :integer),
         double('Title', name: 'title', type: :string),
         double('Published at', name: 'published_at', type: :datetime),
         double('Updated at', name: 'updated_at', type: :datetime)
       ])
 
-      allow(Post).to receive(:primary_key).and_return('id')
+      allow(AbstractPost).to receive(:primary_key).and_return('id')
 
-      allow(Post).to receive(:human_attribute_name)
+      allow(AbstractPost).to receive(:human_attribute_name)
     end
 
     describe '#model_class' do
       it 'returns model class' do
-        expect(subject.model_class).to eq Post
+        expect(subject.model_class).to eq AbstractPost
       end
     end
 
     describe '.model_decorator' do
       it 'returns model class' do
         expect(subject.model_decorator).not_to be_nil
-        expect(subject.model_decorator.model_class).to eq Post
+        expect(subject.model_decorator.model_class).to eq AbstractPost
       end
     end
 
@@ -95,7 +99,7 @@ describe Wallaby::ResourceDecorator do
           end
 
           it 'is not allowed to modify the field names array' do
-            expect{ subject.send("#{ prefix }field_names").delete 'title' }.to change{ subject.send "#{ prefix }field_names" }.from(["title", "published_at"]).to(["published_at"])
+            expect{ subject.send("#{ prefix }field_names").delete 'title' }.to raise_error "can't modify frozen Array"
           end
         end
 
@@ -105,7 +109,7 @@ describe Wallaby::ResourceDecorator do
           end
 
           it 'is not allowed to modify the field labels' do
-            expect{ subject.send("#{ prefix }field_labels")['title'] = 'Title' }.to change{ subject.send("#{ prefix }field_labels")['title'] }.from(nil).to('Title')
+            expect{ subject.send("#{ prefix }field_labels")['title'] = 'Title' }.to raise_error "can't modify frozen Hash"
           end
         end
 
@@ -119,7 +123,7 @@ describe Wallaby::ResourceDecorator do
           end
 
           it 'is not allowed the field types' do
-            expect{ subject.send("#{ prefix }field_types")['title'] = :rich_text }.to change{ subject.send("#{ prefix }field_types")['title'] }.from(:string).to(:rich_text)
+            expect{ subject.send("#{ prefix }field_types")['title'] = :rich_text }.to raise_error "can't modify frozen Hash"
           end
         end
 
@@ -140,35 +144,39 @@ describe Wallaby::ResourceDecorator do
 
   context 'subclasses' do
     let(:klass) do
-      class PostDecorator < Wallaby::ResourceDecorator; end
-      PostDecorator
+      class AbstractPostDecorator < Wallaby::ResourceDecorator; end
+      AbstractPostDecorator
     end
 
     before do
-      class Post; end
-      allow(Post).to receive(:columns).and_return([
+      class AbstractPost
+        def self.columns; end
+        def self.primary_key; end
+        def self.human_attribute_name field; end
+      end
+      allow(AbstractPost).to receive(:columns).and_return([
         double('ID', name: 'id', type: :integer),
         double('Title', name: 'title', type: :string),
         double('Published at', name: 'published_at', type: :datetime),
         double('Updated at', name: 'updated_at', type: :datetime)
       ])
 
-      allow(Post).to receive(:primary_key).and_return('id')
+      allow(AbstractPost).to receive(:primary_key).and_return('id')
 
-      allow(Post).to receive(:human_attribute_name)
+      allow(AbstractPost).to receive(:human_attribute_name)
     end
 
     describe 'class methods' do
       describe '.model_class' do
         it 'returns model class' do
-          expect(klass.model_class).to eq Post
+          expect(klass.model_class).to eq AbstractPost
         end
       end
 
       describe '.model_decorator' do
         it 'returns model class' do
           expect(klass.model_decorator).not_to be_nil
-          expect(klass.model_decorator.model_class).to eq Post
+          expect(klass.model_decorator.model_class).to eq AbstractPost
         end
       end
 
