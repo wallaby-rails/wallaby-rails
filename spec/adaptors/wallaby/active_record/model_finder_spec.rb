@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecordModelFinder do
+describe Wallaby::ActiveRecord::ModelFinder do
   describe '#available_model_classes' do
     let(:all_model_classes) do
       class Airport < ActiveRecord::Base; end

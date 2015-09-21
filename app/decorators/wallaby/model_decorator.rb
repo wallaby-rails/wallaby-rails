@@ -1,18 +1,31 @@
 class Wallaby::ModelDecorator
-  METHODS_TO_IMPLEMENT = %w(
-    list_field_names
-    label_of
-    to_param
-    to_s
-  )
+  attr_reader :model_class
+
   def initialize model_class
     @model_class = model_class
   end
 
-  delegate *METHODS_TO_IMPLEMENT, to: :adaptor
+  [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+    class_eval <<-RUBY
+      def #{ prefix }field_names
+        raise Wallaby::NotImplemented
+      end
 
-  protected
-  def adaptor
-    @adaptor ||= Wallaby.configuration.model_decorator.new(@model_class)
+      def #{ prefix }field_labels
+        raise Wallaby::NotImplemented
+      end
+
+      def #{ prefix }field_types
+        raise Wallaby::NotImplemented
+      end
+
+      def #{ prefix }label_of field_name
+        #{ prefix }field_labels[field_name]
+      end
+
+      def #{ prefix }type_of field_name
+        #{ prefix }field_types[field_name]
+      end
+    RUBY
   end
 end
