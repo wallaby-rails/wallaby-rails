@@ -6,12 +6,7 @@ module Wallaby
 
     begin # global helpers
       def model_classes
-        @model_classes ||= begin
-          classes = Wallaby.configuration.model_finder.new.available_model_classes
-          classes.map do |klass|
-            Wallaby.configuration.model_decorator.new klass
-          end
-        end
+        @model_classes ||= Wallaby.adaptor.model_finder.new.available_model_classes
       end
 
       helper_method :model_classes

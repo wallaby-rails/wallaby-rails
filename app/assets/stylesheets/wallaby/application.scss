@@ -9,3 +9,14 @@
 @import 'base/_normalize';
 @import 'base/_reset';
 @import 'base/_layout';
+
+i.glyphicon {
+  color: lighten($gray, 40%);
+  &:hover {
+    color: $gray-dark;
+  }
+}
+
+nav.top-nav {
+  margin-bottom: 0px;
+}

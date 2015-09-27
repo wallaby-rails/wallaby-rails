@@ -28,6 +28,14 @@ module Wallaby::ResourcesController::CoreMethods
   end
 
   def model_decorator
-    @model_decorator ||= Wallaby::Services.model_decorator_finder.find model_class
+    @model_decorator ||= Wallaby::ModelDecoratorFinder.find model_class
+  end
+
+  def decorator
+    @decorator ||= Wallaby::ResourceDecoratorFinder.find model_class
+  end
+
+  def id
+    params[:id]
   end
 end

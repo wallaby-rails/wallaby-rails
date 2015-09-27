@@ -1,7 +1,7 @@
 module Wallaby
   class Configuration
-    attr_accessor :models
-    attr_accessor :data_access_mode
+    attr_accessor \
+      :display_null
 
     def initialize
       @models = Models.new

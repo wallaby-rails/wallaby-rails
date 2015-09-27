@@ -5,11 +5,11 @@ module Wallaby
     before_action :build_up_view_paths
 
     def index
-      records
+      collection
     end
 
     def new
-      new_record
+      resource
     end
 
     def create
@@ -21,11 +21,11 @@ module Wallaby
     end
 
     def show
-      record
+      resource
     end
 
     def edit
-      record
+      resource
     end
 
     def update

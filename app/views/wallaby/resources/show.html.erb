@@ -1,13 +1,13 @@
-<% pretty_record = decorator %>
+<% decorated_resource = decorator.new resource %>
 <article>
   <h1>
-    <%= pretty_record.to_label %>
+    <%= decorated_resource.to_label %>
   </h1>
   <div>
-    <% %w( updated_at created_at ).each do |datetime| %>
+    <% (decorated_resource.show_field_names & %w( updated_at created_at )).each do |field_name| %>
       <span>
-        <strong><%= pretty_record.label_of datetime %>:</strong>
-        <span><%= pretty_record.send datetime %></span>
+        <span><%= decorated_resource.show_label_of field_name %>:</span>
+        <em class="text-muted"><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, value: decorated_resource.send(field_name) %></em>
       </span>
     <% end %>
   </div>
@@ -16,24 +16,24 @@
   <nav>
     <ul class="nav nav-pills">
       <li role="presentation" class="active">
-        <%= show_link record.id, class: 'show-icon-label-link' %>
+        <%= show_link decorated_resource, class: 'show-icon-label-link' %>
       </li>
       <li role="presentation">
-        <%= edit_link record.id, class: 'edit-icon-label-link' %>
+        <%= edit_link decorated_resource, class: 'edit-icon-label-link' %>
       </li>
       <li role="presentation">
-        <%= delete_link record.id, class: 'delete-icon-label-link' %>
+        <%= delete_link decorated_resource, class: 'delete-icon-label-link' %>
       </li>
     </ul>
   </nav>
   <section class="fields">
-    <% pretty_record.show_fields.each do |field| %>
+    <% decorated_resource.show_field_names.each do |field_name| %>
       <article class="field">
         <h6>
-          <%= pretty_record.label_of field %>
+          <%= decorated_resource.show_label_of field_name %>
         </h6>
         <code class="box">
-          <%= pretty_record.show field %>
+          <%= type_partial_render decorated_resource.show_type_of(field_name).to_s, value: decorated_resource.send(field_name) %>
         </code>
       </article>
     <% end %>

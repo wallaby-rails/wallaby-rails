@@ -1,8 +1,25 @@
 class Wallaby::ModelDecorator
   attr_reader :model_class
+  delegate :to_s, to: :model_class
 
   def initialize model_class
     @model_class = model_class
+  end
+
+  def primary_key
+    raise Wallaby::NotImplemented
+  end
+
+  def collection
+    raise Wallaby::NotImplemented
+  end
+
+  def find_or_initialize id
+    raise Wallaby::NotImplemented
+  end
+
+  def guess_label resource
+    raise Wallaby::NotImplemented
   end
 
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|

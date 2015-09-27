@@ -1,38 +1,41 @@
 
 <section>
+  <div class="pull-right">
+    <%= new_link %>
+  </div>
   <h1 class="subheader">List of <%= model_decorator %></h1>
   <hr />
   <%= render 'shared/breadcrumb' %>
-  <table class="table">
+  <table class="table table-condensed table-striped">
     <thead>
       <tr>
-        <% model_decorator.list_field_names.each do |field| %>
-          <th><%= model_decorator.label_of field %></th>
+        <% model_decorator.index_field_names.each do |field_name| %>
+          <th><%= model_decorator.index_label_of field_name %></th>
         <% end %>
-        <th></th>
+        <th>Actions</th>
       </tr>
     </thead>
-    <tbody class="table-striped">
-      <% if records.present? %>
-        <% records.each do |record| %>
-          <% pretty_record = decorator(model_class, record) %>
+    <tbody>
+      <% if collection.present? %>
+        <% collection.each do |resource| %>
+          <% decorated_resource = decorator.new resource %>
           <tr>
-            <% model_decorator.list_field_names.each do |field| %>
+            <% decorated_resource.index_field_names.each do |field_name| %>
               <td>
-                <%= pretty_record.list field %>
+                <%= type_partial_render decorated_resource.index_type_of(field_name).to_s, value: decorated_resource.send(field_name) %>
               </td>
             <% end %>
             <td>
-              <%= show_link record.id, class: 'show-icon-link' %>
-              <%= edit_link record.id, class: 'edit-icon-link' %>
-              <%= delete_link record.id, class: 'delete-icon-link' %>
+              <%= show_link decorated_resource, class: 'glyphicon glyphicon-info-sign', button: true %>
+              <%= edit_link decorated_resource, class: 'glyphicon glyphicon-edit', button: true %>
+              <%= delete_link decorated_resource, class: 'glyphicon glyphicon-remove-sign', button: true %>
             </td>
           </tr>
         <% end %>
       <% else %>
         <tr>
           <td colspan="<%= decorator.fields.length %>">
-            <%= t 'records.not_found' %>
+            <%= t 'collection.not_found' %>
           </td>
         </tr>
       <% end %>

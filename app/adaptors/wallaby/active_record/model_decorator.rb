@@ -3,11 +3,36 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
     @primary_key ||= model_class.primary_key
   end
 
+  def collection
+    model_class.where(nil)
+  end
+
+  def find_or_initialize id
+    if id.present?
+      model_class.find id
+    else
+      model_class.new
+    end
+  end
+
+  def guess_label resource
+    possible_attributes = resource.class.columns.select do |column|
+      column.type == :string
+    end
+    possible_attribute = possible_attributes.find do |column|
+      column.name =~ /title|name|string/
+    end || possible_attributes.first
+    [ resource.class, possible_attribute ? resource.send(possible_attribute.name) : nil ].compact.join ': '
+  end
+
   def field_names
     @field_names ||= begin
       fields = @model_class.columns.map &:name
-      fields.delete primary_key
-      fields.unshift primary_key
+      if primary_key
+        fields.delete primary_key
+        fields.unshift primary_key
+      end
+      fields
     end || []
   end
 

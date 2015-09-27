@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar navbar-default">
+  <nav class="top-nav navbar navbar-default">
     <div class="container-fluid">
       <%# Brand %>
       <div class="navbar-header">
@@ -24,7 +24,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% model_classes.each do |model_class| %>
-                <li><%= link_to model_class, wallaby_engine.resources_path(model_class) %> </li>
+                <li><%= link_to model_class, wallaby_engine.resources_path(Wallaby::Utils.to_resources_name model_class.to_s) %> </li>
               <% end %>
             </ul>
           </li>
