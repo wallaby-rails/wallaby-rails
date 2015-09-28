@@ -15,6 +15,10 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
     end
   end
 
+  def model_label
+    model_class.name.gsub '::', ' '
+  end
+
   def guess_label resource
     possible_attributes = resource.class.columns.select do |column|
       column.type == :string

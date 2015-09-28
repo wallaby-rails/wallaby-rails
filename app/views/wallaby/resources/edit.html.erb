@@ -1,6 +1,6 @@
 <% decorated_resource = decorator.new resource %>
 <section>
-  <h1>Edit <%= decorated_resource.to_label %></h1>
+  <h1>Edit <%= decorated_resource.model_label %></h1>
   <hr />
   <%= render 'shared/breadcrumb' %>
   <%= form_for decorated_resource, url: wallaby_engine.resource_path, method: :put do |form| %>

@@ -1,15 +1,16 @@
-<%= render 'shared/breadcrumb' %>
-
+<% decorated_resource = decorator.new resource %>
 <section>
-  <h1>Create a <%= decorator.model_name %></h1>
-  <%= form_for new_record, url: wallaby_engine.resources_path, method: :post do |form| %>
-    <% decorator.new_fields.each do |field| %>
-      <div>
-        <%= form.label field %>
-        <%= form.text_field field %>
+  <h1>Create a <%= decorated_resource.model_label %></h1>
+  <hr />
+  <%= render 'shared/breadcrumb' %>
+  <%= form_for decorated_resource, url: wallaby_engine.resources_path, method: :post do |form| %>
+    <% decorated_resource.form_field_names.each do |field_name| %>
+      <div class="form-group">
+        <%= form.label field_name, decorated_resource.form_label_of(field_name) %>
+        <%= form_type_partial_render decorated_resource.form_type_of(field_name), value: decorated_resource.send(field_name), field_name: field_name, form: form %>
       </div>
     <% end %>
-    <%= form.submit %>
+    <%= form.submit class: 'btn btn-default' %>
     <%= cancel_link %>
   <% end %>
 </section>

@@ -31,6 +31,10 @@ class Wallaby::ResourceDecorator
       model_class.try(:name) || ''
     end
 
+    def model_label
+      model_decorator.try :model_label
+    end
+
     [ '', 'index_', 'show_', 'form_' ].each do |prefix|
       class_eval <<-RUBY
         def #{ prefix }field_names
@@ -71,6 +75,7 @@ class Wallaby::ResourceDecorator
 
   attr_accessor :resource, :model_decorator
   delegate :to_s, :to_param, :to_params, to: :resource
+  delegate :model_label, to: :model_decorator
 
   def model_class
     @resource.class
