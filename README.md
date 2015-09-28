@@ -78,6 +78,11 @@ Assume that you have an active model `Post(id: integer, title: string, body: tex
 
     If you want to make it available for other models, you could move it to `app/views/resources/index/_markdown`
 
+# How to test
+
+```
+bundle exec rake spec
+```
 
 # WIP Feature list
 
