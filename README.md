@@ -1,5 +1,7 @@
 # Wallaby
 
+![Travis CI](https://travis-ci.org/reinteractive-open/wallaby.svg)
+
 Wallaby is a Rails engine to manage your data.
 
 ## Requirements
