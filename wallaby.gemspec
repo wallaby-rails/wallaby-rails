@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
                         'README.rdoc' ]
   s.test_files  = Dir[ 'test/**/*' ]
 
-  s.add_dependency 'rails', '~> 4.2.3'
+  s.add_dependency 'rails', '>= 4.0'
   s.add_dependency 'sass-rails'
   s.add_dependency 'kaminari'
   s.add_dependency 'bootstrap-sass'

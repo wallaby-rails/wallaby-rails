@@ -5,7 +5,7 @@ PATH
       bootstrap-sass
       jquery-rails
       kaminari
-      rails (~> 4.2.3)
+      rails (>= 4.0)
       sass-rails
       sprockets-rails
 
