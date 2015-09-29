@@ -27,15 +27,38 @@ module Wallaby::ResourcesController::CoreMethods
     self.class.model_class || self.class.model_class(resource_name, true)
   end
 
-  def model_decorator
-    @model_decorator ||= Wallaby::ModelDecoratorFinder.find model_class
+  def model_decorator model = nil
+    if model
+      Wallaby::DecoratorFinder.find_model model
+    else
+      @model_decorator ||= Wallaby::DecoratorFinder.find_model model_class
+    end
   end
 
   def decorator
-    @decorator ||= Wallaby::ResourceDecoratorFinder.find model_class
+    @decorator ||= Wallaby::DecoratorFinder.find_resource model_class
+  end
+
+  def collection
+    @collection ||= model_decorator.collection
+  end
+
+  def resource
+    @resource ||= model_decorator.find_or_initialize id
   end
 
   def id
     params[:id]
+  end
+
+  def resource_params
+    # can be overridden
+    white_list_fields = model_class.column_names.reject{ |v| v == 'id' }
+    params.require(resource_name).permit *white_list_fields
+  end
+
+  protected
+  def build_up_view_paths
+    lookup_context.prefixes = self.class::PrefixesBuilder.new(self).build
   end
 end

@@ -1,8 +1,14 @@
 module Wallaby
   class ResourcesController < CoreController
-    include CoreMethods, CreateAction, UpdateAction, DestroyAction, HelperMethods
+    include CoreMethods, CreateAction, UpdateAction, DestroyAction
 
     before_action :build_up_view_paths
+    helper_method \
+      :model_class,
+      :resources_name, :resource_name,
+      :model_decorator, :decorator,
+      :collection, :resource,
+      :id, :resource_params
 
     def index
       collection
@@ -50,11 +56,6 @@ module Wallaby
 
     def history
       # TODO: for papertrail
-    end
-
-    protected
-    def build_up_view_paths
-      lookup_context.prefixes = PrefixesBuilder.new(self).build
     end
   end
 end

@@ -16,7 +16,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def model_label
-    model_class.name.titleize.gsub('/', ' / ')
+    model_class.to_s.titleize.gsub('/', ' / ')
   end
 
   def guess_label resource
@@ -26,7 +26,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
     possible_attribute = possible_attributes.find do |column|
       column.name =~ /title|name|string/
     end || possible_attributes.first
-    [ resource.class, possible_attribute ? resource.send(possible_attribute.name) : nil ].compact.join ': '
+    possible_attribute ? resource.send(possible_attribute.name) : nil
   end
 
   def field_names

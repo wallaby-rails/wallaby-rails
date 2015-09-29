@@ -22,10 +22,10 @@ module Wallaby
       t *args
     end
 
-    def link_to_model model_class
-      model_decorator = Wallaby::ModelDecoratorFinder.find model_class
-      resources_name  = Wallaby::Utils.to_resources_name model_class.to_s
-      link_to model_decorator.model_label, wallaby_engine.resources_path(resources_name)
+    def link_to_model model
+      decorator = model_decorator model
+      name      = Wallaby::Utils.to_resources_name model.to_s
+      link_to decorator.model_label, wallaby_engine.resources_path(name)
     end
   end
 end

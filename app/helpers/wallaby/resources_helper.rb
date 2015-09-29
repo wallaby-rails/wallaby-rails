@@ -1,7 +1,10 @@
 module Wallaby
   module ResourcesHelper
     def type_partial_render options = {}, locals = {}, &block
-      if lookup_context.exists?(options, lookup_context.prefixes, true)
+      # TODO: temporary solution, need to get a way to speed up this partial rendering
+      @type_partials ||= {}
+      @type_partials[options] = lookup_context.exists?(options, lookup_context.prefixes, true) if @type_partials[options].nil?
+      if @type_partials[options]
         render options, locals, &block
       else
         locals[:value]
@@ -89,6 +92,10 @@ module Wallaby
       is_button = options.delete(:button)
       options[:title] = title and title = '' if is_button
       link_to title, :back, options
+    end
+
+    def show_title decorator
+      [ decorator.model_label, decorator.to_label ].compact.join ': '
     end
   end
 end

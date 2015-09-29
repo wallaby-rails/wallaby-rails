@@ -1,7 +1,7 @@
 <% decorated_resource = decorator.new resource %>
 <article>
   <h1>
-    <%= decorated_resource.to_label %>
+    <%= show_title decorated_resource %>
   </h1>
   <div>
     <% (decorated_resource.show_field_names & %w( updated_at created_at )).each do |field_name| %>
