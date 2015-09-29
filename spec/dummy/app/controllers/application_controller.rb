@@ -3,5 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  Post
+  begin # preload class for development
+    Product
+    Category
+    Tag
+  end
 end
