@@ -88,7 +88,7 @@ module Wallaby
       title ||= ct('cancel')
       is_button = options.delete(:button)
       options[:title] = title and title = '' if is_button
-      link_to title, :back, class: 'button small'
+      link_to title, :back, options
     end
   end
 end

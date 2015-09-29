@@ -16,7 +16,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def model_label
-    model_class.name.gsub '::', ' '
+    model_class.name.titleize.gsub('/', ' / ')
   end
 
   def guess_label resource

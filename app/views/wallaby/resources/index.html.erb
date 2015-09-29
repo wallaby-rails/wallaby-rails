@@ -1,7 +1,7 @@
 
 <section>
   <div class="pull-right">
-    <%= new_link %>
+    <%= new_link class: 'btn btn-primary' %>
   </div>
   <h1 class="subheader">List of <%= model_decorator %></h1>
   <hr />
@@ -34,7 +34,7 @@
         <% end %>
       <% else %>
         <tr>
-          <td colspan="<%= decorator.fields.length %>">
+          <td colspan="<%= model_decorator.index_field_names.length + 1 %>">
             <%= t 'collection.not_found' %>
           </td>
         </tr>
