@@ -6,7 +6,7 @@ module Wallaby::ApplicationHelper
   def body_class
     [
       action_name,
-      resources_name.gsub('::', '__'),
+      (resources_name || '').gsub('::', '__'),
       content_for(:custom_body_class)
     ].compact.join ' '
   end
