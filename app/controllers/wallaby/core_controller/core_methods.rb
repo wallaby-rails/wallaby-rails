@@ -1,5 +1,14 @@
-module Wallaby::ResourcesController::CoreMethods
+module Wallaby::CoreController::CoreMethods
   extend ActiveSupport::Concern
+
+  included do
+    helper_method \
+      :model_class,
+      :resources_name, :resource_name,
+      :model_decorator, :decorator,
+      :collection, :resource,
+      :id, :resource_params
+  end
 
   class_methods do
     def resources_name condition = self < Wallaby::ResourcesController

@@ -1,14 +1,8 @@
 module Wallaby
   class ResourcesController < CoreController
-    include CoreMethods, CreateAction, UpdateAction, DestroyAction
+    include CreateAction, UpdateAction, DestroyAction
 
     before_action :build_up_view_paths
-    helper_method \
-      :model_class,
-      :resources_name, :resource_name,
-      :model_decorator, :decorator,
-      :collection, :resource,
-      :id, :resource_params
 
     def index
       collection

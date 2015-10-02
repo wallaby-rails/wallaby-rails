@@ -1,5 +1,7 @@
 module Wallaby
   class CoreController < SecureController
+    include CoreMethods
+
     def status
       render text: 'ok'
     end
