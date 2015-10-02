@@ -2,6 +2,8 @@ module Wallaby
   class CoreController < SecureController
     include CoreMethods
 
+    before_action :build_up_view_paths
+
     def status
       render text: 'ok'
     end

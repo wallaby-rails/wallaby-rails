@@ -2,8 +2,6 @@ module Wallaby
   class ResourcesController < CoreController
     include CreateAction, UpdateAction, DestroyAction
 
-    before_action :build_up_view_paths
-
     def index
       collection
     end

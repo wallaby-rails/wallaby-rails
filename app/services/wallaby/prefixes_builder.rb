@@ -1,4 +1,4 @@
-class Wallaby::ResourcesController::PrefixesBuilder
+class Wallaby::CoreController::PrefixesBuilder
   attr_reader :controller
 
   def initialize controller

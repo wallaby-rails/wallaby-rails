@@ -68,6 +68,6 @@ module Wallaby::CoreController::CoreMethods
 
   protected
   def build_up_view_paths
-    lookup_context.prefixes = self.class::PrefixesBuilder.new(self).build
+    lookup_context.prefixes = Wallaby::PrefixesBuilder.new(self).build
   end
 end
