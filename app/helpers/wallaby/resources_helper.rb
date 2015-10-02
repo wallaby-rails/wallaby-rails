@@ -1,101 +1,102 @@
-module Wallaby
-  module ResourcesHelper
-    def type_partial_render options = {}, locals = {}, &block
-      # TODO: temporary solution, need to get a way to speed up this partial rendering
-      @type_partials ||= {}
-      @type_partials[options] = lookup_context.exists?(options, lookup_context.prefixes, true) if @type_partials[options].nil?
-      if @type_partials[options]
-        render options, locals, &block
+module Wallaby::ResourcesHelper
+  def type_partial_render options = {}, locals = {}, &block
+    @type_partial_success ||= {}
+    @type_partial_success[options.to_s] = true unless @type_partial_success.has_key? options.to_s
+    html = if @type_partial_success[options.to_s]
+      render options, locals, &block
+    else
+      puts "#{ '-' * 10 } #{ options }"
+      html ||= locals[:value]
+    end
+  rescue
+    @type_partial_success[options.to_s] = false
+    html ||= locals[:value]
+  end
+
+  def form_type_partial_render options = {}, locals = {}, &block
+    if lookup_context.exists?(options, lookup_context.prefixes, true)
+      render options, locals, &block
+    else
+      case options.to_s
+      when 'text'
+        locals[:form].text_area locals[:field_name], class: 'form-control'
       else
-        locals[:value]
+        locals[:form].text_field locals[:field_name], class: 'form-control'
       end
     end
+  end
 
-    def form_type_partial_render options = {}, locals = {}, &block
-      if lookup_context.exists?(options, lookup_context.prefixes, true)
-        render options, locals, &block
-      else
-        case options.to_s
-        when 'text'
-          locals[:form].text_area locals[:field_name], class: 'form-control'
-        else
-          locals[:form].text_field locals[:field_name], class: 'form-control'
-        end
+  def null
+    unless Wallaby.configuration.display_null == false
+      content_tag :i, '<null>', "class" => 'text-muted'
+    end
+  end
+
+  def i_tooltip title, icon = "info-sign"
+    content_tag :i, nil, "class" => "glyphicon glyphicon-#{ icon }", "data-toggle" => "tooltip", "data-placement" => "top", "title" => title
+  end
+
+  def breadcrumb_components
+    request.env['PATH_INFO'].split('/').reject{ |v| v.blank? }
+  end
+
+  def breadcrumb_item_for component, last_component = breadcrumb_components.last
+    if component != last_component
+      if component == resources_name
+        link_to ct("breadcrumb.#{ component }"), wallaby_engine.resources_path
+      elsif component == id
+        link_to ct('breadcrumb.show'), wallaby_engine.resource_path
       end
+    else
+      ct "breadcrumb.#{ component == id ? 'show' : component }"
     end
+  end
 
-    def null
-      unless Wallaby.configuration.display_null == false
-        content_tag :i, '<null>', "class" => 'text-muted'
-      end
-    end
+  def index_link options = {}, title = nil, resources = nil
+    resources ||= resources_name
+    title     ||= ct(resources)
+    link_to title, wallaby_engine.resources_path, options
+  end
 
-    def i_tooltip title, icon = "info-sign"
-      content_tag :i, nil, "class" => "glyphicon glyphicon-#{ icon }", "data-toggle" => "tooltip", "data-placement" => "top", "title" => title
-    end
+  def new_link options = {}, title = nil, resources = nil
+    resources ||= resources_name
+    title     ||= ct('link.new')
+    link_to title, wallaby_engine.new_resource_path, options
+  end
 
-    def breadcrumb_components
-      request.env['PATH_INFO'].split('/').reject{ |v| v.blank? }
-    end
+  def show_link resource, options = {}, title = nil, resources = nil
+    resources ||= resources_name
+    title     ||= ct('link.show')
+    is_button = options.delete(:button)
+    options[:title] = title and title = '' if is_button
+    link_to title, wallaby_engine.resource_path(resources, resource), options
+  end
 
-    def breadcrumb_item_for component, last_component = breadcrumb_components.last
-      if component != last_component
-        if component == resources_name
-          link_to ct("breadcrumb.#{ component }"), wallaby_engine.resources_path
-        elsif component == id
-          link_to ct('breadcrumb.show'), wallaby_engine.resource_path
-        end
-      else
-        ct "breadcrumb.#{ component == id ? 'show' : component }"
-      end
-    end
+  def edit_link resource, options = {}, title = nil, resources = nil
+    resources ||= resources_name
+    title     ||= ct('link.edit')
+    is_button = options.delete(:button)
+    options[:title] = title and title = '' if is_button
+    link_to title, wallaby_engine.edit_resource_path(resources, resource), options
+  end
 
-    def index_link options = {}, title = nil, resources = nil
-      resources ||= resources_name
-      title     ||= ct(resources)
-      link_to title, wallaby_engine.resources_path, options
-    end
+  def delete_link resource, options = {}, title = nil, confirm = nil, resources = nil
+    resources ||= resources_name
+    title     ||= ct('link.delete')
+    confirm   ||= ct('link.confirm.delete')
+    is_button = options.delete(:button)
+    options[:title] = title and title = '' if is_button
+    link_to title, wallaby_engine.resource_path(resources, resource), options.merge(method: :delete, confirm: confirm)
+  end
 
-    def new_link options = {}, title = nil, resources = nil
-      resources ||= resources_name
-      title     ||= ct('link.new')
-      link_to title, wallaby_engine.new_resource_path, options
-    end
+  def cancel_link title = nil, options = {}
+    title ||= ct('cancel')
+    is_button = options.delete(:button)
+    options[:title] = title and title = '' if is_button
+    link_to title, :back, options
+  end
 
-    def show_link resource, options = {}, title = nil, resources = nil
-      resources ||= resources_name
-      title     ||= ct('link.show')
-      is_button = options.delete(:button)
-      options[:title] = title and title = '' if is_button
-      link_to title, wallaby_engine.resource_path(resources, resource), options
-    end
-
-    def edit_link resource, options = {}, title = nil, resources = nil
-      resources ||= resources_name
-      title     ||= ct('link.edit')
-      is_button = options.delete(:button)
-      options[:title] = title and title = '' if is_button
-      link_to title, wallaby_engine.edit_resource_path(resources, resource), options
-    end
-
-    def delete_link resource, options = {}, title = nil, confirm = nil, resources = nil
-      resources ||= resources_name
-      title     ||= ct('link.delete')
-      confirm   ||= ct('link.confirm.delete')
-      is_button = options.delete(:button)
-      options[:title] = title and title = '' if is_button
-      link_to title, wallaby_engine.resource_path(resources, resource), options.merge(method: :delete, confirm: confirm)
-    end
-
-    def cancel_link title = nil, options = {}
-      title ||= ct('cancel')
-      is_button = options.delete(:button)
-      options[:title] = title and title = '' if is_button
-      link_to title, :back, options
-    end
-
-    def show_title decorator
-      [ decorator.model_label, decorator.to_label ].compact.join ': '
-    end
+  def show_title decorator
+    [ decorator.model_label, decorator.to_label ].compact.join ': '
   end
 end
