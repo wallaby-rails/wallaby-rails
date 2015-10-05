@@ -18,6 +18,8 @@ Because this engine is built in Rails way! You could customize things like what 
 1. Add to `Gemfile`:
 
     ```ruby
+    gem 'bootstrap-sass'
+    gem 'jquery-rails'
     gem 'wallaby'
     ```
 
@@ -85,13 +87,6 @@ Assume that you have an active model `Post(id: integer, title: string, body: tex
 ```
 bundle exec rake spec
 ```
-
-# WIP Feature list
-
-- Association fields for active model
-- Authentication
-- Pagination for resources
-- Search for resources
 
 # License
 This project rocks and uses MIT-LICENSE.
