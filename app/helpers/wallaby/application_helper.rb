@@ -18,8 +18,16 @@ module Wallaby::ApplicationHelper
     super options, locals, &block
   end
 
-  def ct *args
-    t *args
+  def ct key, options = {}
+    @custom_translation ||= {}
+    if @custom_translation.has_key? key
+      @custom_translation[key]
+    else
+      @custom_translation[key] = t key, { raise: true }.merge(options)
+    end
+  rescue I18n::MissingTranslationData => e
+    keys = I18n.normalize_keys(e.locale, e.key, e.options[:scope])
+    @custom_translation[key] = keys.last.to_s.titleize
   end
 
   protected
