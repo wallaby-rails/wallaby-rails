@@ -6,11 +6,15 @@ class Wallaby::ModelDecorator
     @model_class = model_class
   end
 
+  def model_label
+    Wallaby::Utils.to_model_label @model_class
+  end
+
   def primary_key
     raise Wallaby::NotImplemented
   end
 
-  def collection
+  def collection params = {}
     raise Wallaby::NotImplemented
   end
 
@@ -24,24 +28,24 @@ class Wallaby::ModelDecorator
 
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
     class_eval <<-RUBY
+      def #{ prefix }fields
+        raise Wallaby::NotImplemented
+      end
+
       def #{ prefix }field_names
-        raise Wallaby::NotImplemented
+        @#{ prefix }field_names ||= #{ prefix }fields.keys
       end
 
-      def #{ prefix }field_labels
-        raise Wallaby::NotImplemented
-      end
-
-      def #{ prefix }field_types
-        raise Wallaby::NotImplemented
+      def #{ prefix }metadata_of field_name
+        #{ prefix }fields[field_name]
       end
 
       def #{ prefix }label_of field_name
-        #{ prefix }field_labels[field_name]
+        #{ prefix }metadata_of(field_name)[:label]
       end
 
       def #{ prefix }type_of field_name
-        #{ prefix }field_types[field_name]
+        #{ prefix }metadata_of(field_name)[:type]
       end
     RUBY
   end
