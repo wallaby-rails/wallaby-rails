@@ -22,7 +22,7 @@ describe Wallaby::ModelDecorator do
         expect{ instance.primary_key }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.collection }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.find_or_initialize nil }.not_to raise_error Wallaby::NotImplemented
-        expect{ instance.guess_label nil }.not_to raise_error Wallaby::NotImplemented
+        expect{ instance.guess_title nil }.not_to raise_error Wallaby::NotImplemented
       end
     end
   end

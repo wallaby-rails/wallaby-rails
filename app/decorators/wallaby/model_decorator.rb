@@ -1,7 +1,4 @@
 class Wallaby::ModelDecorator
-  attr_reader :model_class
-  delegate :to_s, to: :model_class
-
   def initialize model_class
     @model_class = model_class
   end
@@ -22,7 +19,7 @@ class Wallaby::ModelDecorator
     raise Wallaby::NotImplemented
   end
 
-  def guess_label resource
+  def guess_title resource
     raise Wallaby::NotImplemented
   end
 
