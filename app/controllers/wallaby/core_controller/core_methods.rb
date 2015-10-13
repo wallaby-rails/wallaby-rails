@@ -24,8 +24,12 @@ module Wallaby::CoreController::CoreMethods
     end
   end
 
-  def resources_name
-    self.class.resources_name || params[:resources]
+  def resources_name resource = nil
+    if resource
+      Wallaby::Utils.to_resources_name resource.class.to_s
+    else
+      self.class.resources_name || params[:resources]
+    end
   end
 
   def resource_name
@@ -44,8 +48,12 @@ module Wallaby::CoreController::CoreMethods
     end
   end
 
-  def decorator
-    @decorator ||= Wallaby::DecoratorFinder.find_resource model_class
+  def decorator resource = nil
+    if resource
+      Wallaby::DecoratorFinder.find_resource resource.class
+    else
+      @decorator ||= Wallaby::DecoratorFinder.find_resource model_class
+    end
   end
 
   def collection
