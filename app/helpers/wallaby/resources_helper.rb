@@ -5,6 +5,8 @@ module Wallaby::ResourcesHelper
     raise ArgumentError unless %i( object field_name ).all? { |key| locals.has_key? key }
     locals[:value] = locals[:object].send locals[:field_name]
     render options, locals, &block or locals[:value]
+  rescue ActionView::MissingTemplate
+    locals[:value]
   end
 
   def form_type_partial_render options = {}, locals = {}, &block

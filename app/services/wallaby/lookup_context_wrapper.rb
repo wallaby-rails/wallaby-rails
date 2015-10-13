@@ -20,10 +20,13 @@ class Wallaby::LookupContextWrapper
   def cache key
     @templates ||= {}
     unless @templates.has_key? key
-      @templates[key] = yield
+      @templates[key] = begin
+        yield
+      rescue ActionView::MissingTemplate => e
+        e
+      end
     end
+    raise @templates[key] if @templates[key].is_a? ActionView::MissingTemplate
     @templates[key]
-  rescue ActionView::MissingTemplate
-    @templates[key] = nil
   end
 end
