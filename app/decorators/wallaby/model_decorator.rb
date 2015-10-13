@@ -30,11 +30,13 @@ class Wallaby::ModelDecorator
       end
 
       def #{ prefix }field_names
-        @#{ prefix }field_names ||= #{ prefix }fields.keys
+        @#{ prefix }field_names ||= #{ prefix }fields.keys.tap do |names|
+          names.unshift primary_key
+        end.uniq
       end
 
       def #{ prefix }metadata_of field_name
-        #{ prefix }fields[field_name]
+        #{ prefix }fields[field_name] || {}
       end
 
       def #{ prefix }label_of field_name
