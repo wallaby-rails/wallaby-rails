@@ -3,7 +3,7 @@
   <div class="pull-right">
     <%= new_link class: 'btn btn-primary' %>
   </div>
-  <h1 class="subheader">List of <%= model_decorator %></h1>
+  <h1 class="subheader">List of <%= model_decorator.model_label %></h1>
   <hr />
   <%= render 'shared/breadcrumb' %>
   <table class="table table-condensed table-striped">
@@ -22,7 +22,7 @@
           <tr>
             <% decorated_resource.index_field_names.each do |field_name| %>
               <td>
-                <%= type_partial_render decorated_resource.index_type_of(field_name).to_s, value: decorated_resource.send(field_name) %>
+                <%= type_partial_render decorated_resource.index_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %>
               </td>
             <% end %>
             <td>
