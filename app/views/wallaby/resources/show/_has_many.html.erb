@@ -1,0 +1,2 @@
+<% unique_collection = value.uniq %>
+<%= raw unique_collection.map { |item| link_to_resource item }.join(', ') %>

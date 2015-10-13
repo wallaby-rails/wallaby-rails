@@ -7,7 +7,7 @@
     <% (decorated_resource.show_field_names & %w( updated_at created_at )).each do |field_name| %>
       <span>
         <span><%= decorated_resource.show_label_of field_name %>:</span>
-        <em class="text-muted"><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, value: decorated_resource.send(field_name) %></em>
+        <em class="text-muted"><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %></em>
       </span>
     <% end %>
   </div>
@@ -27,15 +27,21 @@
     </ul>
   </nav>
   <section class="fields">
-    <% decorated_resource.show_field_names.each do |field_name| %>
-      <article class="field">
-        <h6>
-          <%= decorated_resource.show_label_of field_name %>
-        </h6>
-        <code class="box">
-          <%= type_partial_render decorated_resource.show_type_of(field_name).to_s, value: decorated_resource.send(field_name) %>
-        </code>
-      </article>
-    <% end %>
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% decorated_resource.show_field_names.each do |field_name| %>
+          <tr>
+            <th><%= decorated_resource.show_label_of field_name %></th>
+            <td><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </section>
 </article>
