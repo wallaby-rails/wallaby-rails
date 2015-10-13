@@ -23,5 +23,7 @@ class Wallaby::LookupContextWrapper
       @templates[key] = yield
     end
     @templates[key]
+  rescue ActionView::MissingTemplate
+    @templates[key] = nil
   end
 end
