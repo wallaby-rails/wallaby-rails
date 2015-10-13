@@ -1,16 +1,10 @@
+require 'securerandom'
+
 module Wallaby::ResourcesHelper
   def type_partial_render options = {}, locals = {}, &block
-    @type_partial_success ||= {}
-    @type_partial_success[options.to_s] = true unless @type_partial_success.has_key? options.to_s
-    html = if @type_partial_success[options.to_s]
-      render options, locals, &block
-    else
-      puts "#{ '-' * 10 } #{ options }"
-      html ||= locals[:value]
-    end
-  rescue
-    @type_partial_success[options.to_s] = false
-    html ||= locals[:value]
+    raise ArgumentError unless %i( object field_name ).all? { |key| locals.has_key? key }
+    locals[:value] = locals[:object].send locals[:field_name]
+    render options, locals, &block or locals[:value]
   end
 
   def form_type_partial_render options = {}, locals = {}, &block
@@ -28,12 +22,13 @@ module Wallaby::ResourcesHelper
 
   def null
     unless Wallaby.configuration.display_null == false
-      content_tag :i, '<null>', "class" => 'text-muted'
+      content_tag :i, '<null>', class: 'text-muted'
     end
   end
 
   def i_tooltip title, icon = "info-sign"
-    content_tag :i, nil, "class" => "glyphicon glyphicon-#{ icon }", "data-toggle" => "tooltip", "data-placement" => "top", "title" => title
+    content_tag :i, nil, title: title, class: "glyphicon glyphicon-#{ icon }",
+      data: { toggle: "tooltip", placement: "top" }
   end
 
   def breadcrumb_components
@@ -98,5 +93,14 @@ module Wallaby::ResourcesHelper
 
   def show_title decorator
     [ decorator.model_label, decorator.to_label ].compact.join ': '
+  end
+
+  def link_to_resource resource
+    decorated_resource = decorator(resource).new resource
+    link_to decorated_resource.to_label, wallaby_engine.resource_path(decorated_resource.resources_name, decorated_resource)
+  end
+
+  def random_uuid
+    SecureRandom.uuid
   end
 end
