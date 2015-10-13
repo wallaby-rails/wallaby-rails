@@ -22,4 +22,15 @@ describe Wallaby::Utils do
       expect(described_class.to_model_name 'wallaby::people').to eq 'Wallaby::Person'
     end
   end
+
+  describe '.to_model_label' do
+    it 'returns model label for a model class' do
+      expect(described_class.to_model_label 'posts').to eq 'Posts'
+      expect(described_class.to_model_label 'wallaby::posts').to eq 'Wallaby / Posts'
+      expect(described_class.to_model_label 'post').to eq 'Post'
+      expect(described_class.to_model_label 'wallaby::post').to eq 'Wallaby / Post'
+      expect(described_class.to_model_label 'people').to eq 'People'
+      expect(described_class.to_model_label 'wallaby::people').to eq 'Wallaby / People'
+    end
+  end
 end
