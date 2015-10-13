@@ -6,7 +6,7 @@ class Wallaby::ResourceDecorator
       end
     end
 
-    def model_decorator model = nil
+    def model_decorator model = model_class
       if self < Wallaby::ResourceDecorator
         @model_decorator ||= build_model_decorator model
       else
@@ -14,49 +14,13 @@ class Wallaby::ResourceDecorator
       end
     end
 
+    template_methods = Wallaby::ModelDecorator.instance_methods - Object.instance_methods - %i( model_class )
+
+    delegate *template_methods, to: :model_decorator, allow_nil: true
+
     def build_model_decorator model
       model ||= self.model_class
       Wallaby.adaptor.model_decorator.new model if model
-    end
-
-    def collection
-      model_decorator.collection
-    end
-
-    def find_or_initialize id
-      model_decorator.find id
-    end
-
-    def to_s
-      model_class.try(:name) || ''
-    end
-
-    def model_label
-      model_decorator.try :model_label
-    end
-
-    [ '', 'index_', 'show_', 'form_' ].each do |prefix|
-      class_eval <<-RUBY
-        def #{ prefix }field_names
-          model_decorator.try :#{ prefix }field_names
-        end
-
-        def #{ prefix }field_labels
-          model_decorator.try :#{ prefix }field_labels
-        end
-
-        def #{ prefix }field_types
-          model_decorator.try :#{ prefix }field_types
-        end
-
-        def #{ prefix }label_of field_name
-          #{ prefix }field_labels.try :[], field_name
-        end
-
-        def #{ prefix }type_of field_name
-          #{ prefix }field_types.try :[], field_name
-        end
-      RUBY
     end
   end
 
@@ -81,31 +45,30 @@ class Wallaby::ResourceDecorator
     @resource.class
   end
 
+  def to_label
+    model_decorator.guess_title resource
+  end
+
+  def resources_name
+    Wallaby::Utils.to_resources_name model_class.to_s
+  end
+
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
     class_eval <<-RUBY
+      def #{ prefix }fields
+        @#{ prefix }fields ||= model_decorator.#{ prefix }fields.dup.freeze
+      end
+
       def #{ prefix }field_names
         @#{ prefix }field_names ||= model_decorator.#{ prefix }field_names.dup.freeze
       end
-
-      def #{ prefix }field_labels
-        @#{ prefix }field_labels ||= model_decorator.#{ prefix }field_labels.dup.freeze
-      end
-
-      def #{ prefix }field_types
-        @#{ prefix }field_types ||= model_decorator.#{ prefix }field_types.dup.freeze
-      end
-
-      def #{ prefix }label_of field_name
-        #{ prefix }field_labels[field_name]
-      end
-
-      def #{ prefix }type_of field_name
-        #{ prefix }field_types[field_name]
-      end
     RUBY
+
+    template_methods = %w( metadata_of label_of type_of ).map { |method_id| "#{ prefix }#{ method_id }" }
+    delegate *template_methods, to: :model_decorator
   end
 
-  def to_label
-    model_decorator.guess_label resource
-  end
+  template_methods = (Wallaby::ModelDecorator.instance_methods - Object.instance_methods).reject { |method_id| %r(model_class|fields|field_names) =~ method_id.to_s }
+
+  delegate *template_methods, to: :model_decorator
 end

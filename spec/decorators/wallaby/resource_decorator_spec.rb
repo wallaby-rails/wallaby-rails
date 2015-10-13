@@ -18,21 +18,21 @@ describe Wallaby::ResourceDecorator do
     [ '', 'index_', 'show_', 'form_' ].each do |prefix|
       title = prefix.gsub '_', ''
       describe "for #{ title }" do
+        describe ".#{ prefix }fields" do
+          it 'returns nil' do
+            expect(described_class.send "#{ prefix }fields").to be_nil
+          end
+        end
+
         describe ".#{ prefix }field_names" do
-          it 'returns empty array' do
+          it 'returns nil' do
             expect(described_class.send "#{ prefix }field_names").to be_nil
           end
         end
 
-        describe ".#{ prefix }field_labels" do
-          it 'returns empty hash' do
-            expect(described_class.send "#{ prefix }field_labels").to be_nil
-          end
-        end
-
-        describe ".#{ prefix }field_types" do
-          it 'returns empty hash' do
-            expect(described_class.send "#{ prefix }field_types").to be_nil
+        describe ".#{ prefix }metadata_of" do
+          it 'returns nil' do
+            expect(described_class.send "#{ prefix }metadata_of").to be_nil
           end
         end
 
@@ -53,42 +53,54 @@ describe Wallaby::ResourceDecorator do
 
   describe 'instance methods' do
     let(:subject) { Wallaby::ResourceDecorator.new resource }
-    let(:resource) { AbstractPost.new }
+    let(:resource) { double 'Resource', class: post_model }
+    let(:post_model) { double 'Post', name: 'Post' }
 
     before do
-      class AbstractPost
-        def self.columns; end
-        def self.primary_key; end
-        def self.human_attribute_name field; end
-      end
-      allow(AbstractPost).to receive(:columns).and_return([
-        double('ID', name: 'id', type: :integer),
+      allow(post_model).to receive(:columns).and_return([
         double('Title', name: 'title', type: :string),
         double('Published at', name: 'published_at', type: :datetime),
-        double('Updated at', name: 'updated_at', type: :datetime)
+        double('Updated at', name: 'updated_at', type: :datetime),
+        double('ID', name: 'id', type: :integer)
       ])
 
-      allow(AbstractPost).to receive(:primary_key).and_return('id')
+      allow(post_model).to receive(:primary_key).and_return('id')
 
-      allow(AbstractPost).to receive(:human_attribute_name)
+      allow(post_model).to receive(:human_attribute_name).and_return('fake title')
+
+      allow(post_model).to receive(:reflect_on_all_associations).and_return([])
     end
 
     describe '#model_class' do
       it 'returns model class' do
-        expect(subject.model_class).to eq AbstractPost
+        expect(subject.model_class).to eq post_model
       end
     end
 
     describe '.model_decorator' do
       it 'returns model class' do
         expect(subject.model_decorator).not_to be_nil
-        expect(subject.model_decorator.model_class).to eq AbstractPost
       end
     end
 
     [ '', 'index_', 'show_', 'form_' ].each do |prefix|
       title = prefix.gsub '_', ''
       describe "for #{ title }" do
+        describe "##{ prefix }fields" do
+          it 'returns fields hash' do
+            expect(subject.send "#{ prefix }fields").to eq({
+              'title'         => { type: :string, label: 'fake title' },
+              'published_at'  => { type: :datetime, label: 'fake title' },
+              'updated_at'    => { type: :datetime, label: 'fake title' },
+              'id'            => { type: :integer, label: 'fake title' }
+            })
+          end
+
+          it 'is not allowed to modify the fields array' do
+            expect{ subject.send("#{ prefix }fields").delete 'title' }.to raise_error "can't modify frozen Hash"
+          end
+        end
+
         describe "##{ prefix }field_names" do
           it 'returns field names array' do
             if prefix == 'form_'
@@ -103,39 +115,24 @@ describe Wallaby::ResourceDecorator do
           end
         end
 
-        describe "##{ prefix }field_labels" do
-          it 'returns empty hash' do
-            expect(subject.send "#{ prefix }field_labels").to eq({ "id" => nil, "title" => nil, "published_at" => nil, "updated_at" => nil })
-          end
-
-          it 'is not allowed to modify the field labels' do
-            expect{ subject.send("#{ prefix }field_labels")['title'] = 'Title' }.to raise_error "can't modify frozen Hash"
-          end
-        end
-
-        describe "##{ prefix }field_types" do
-          after do
-            subject.model_decorator.instance_variable_set "@#{ prefix }field_types", nil
-          end
-
-          it 'returns empty hash' do
-            expect(subject.send "#{ prefix }field_types").to eq({ "id" => :integer, "title" => :string, "published_at" => :datetime, "updated_at" => :datetime })
-          end
-
-          it 'is not allowed the field types' do
-            expect{ subject.send("#{ prefix }field_types")['title'] = :rich_text }.to raise_error "can't modify frozen Hash"
+        describe "##{ prefix }metadata_of" do
+          it 'returns metadata' do
+            expect(subject.send "#{ prefix }metadata_of", 'id').to eq({
+              type:   :integer,
+              label:  'fake title'
+            })
           end
         end
 
         describe "##{ prefix }label_of" do
-          it 'returns nil' do
-            expect(subject.send "#{ prefix }label_of", '').to be_nil
+          it 'returns label' do
+            expect(subject.send "#{ prefix }label_of", 'id').to eq 'fake title'
           end
         end
 
         describe "##{ prefix }type_of" do
-          it 'returns nil' do
-            expect(subject.send "#{ prefix }type_of", '').to be_nil
+          it 'returns type' do
+            expect(subject.send "#{ prefix }type_of", 'id').to eq :integer
           end
         end
       end
@@ -147,42 +144,76 @@ describe Wallaby::ResourceDecorator do
       class AbstractPostDecorator < Wallaby::ResourceDecorator; end
       AbstractPostDecorator
     end
-
-    before do
+    let(:post_model) do
       class AbstractPost
         def self.columns; end
         def self.primary_key; end
         def self.human_attribute_name field; end
+        def self.reflect_on_all_associations; end
       end
-      allow(AbstractPost).to receive(:columns).and_return([
-        double('ID', name: 'id', type: :integer),
+      AbstractPost
+    end
+
+    before do
+      allow(klass).to receive(:model_class).and_return(post_model)
+      allow(post_model).to receive(:columns).and_return([
         double('Title', name: 'title', type: :string),
         double('Published at', name: 'published_at', type: :datetime),
-        double('Updated at', name: 'updated_at', type: :datetime)
+        double('Updated at', name: 'updated_at', type: :datetime),
+        double('ID', name: 'id', type: :integer)
       ])
 
-      allow(AbstractPost).to receive(:primary_key).and_return('id')
+      allow(post_model).to receive(:primary_key).and_return('id')
 
-      allow(AbstractPost).to receive(:human_attribute_name)
+      allow(post_model).to receive(:human_attribute_name).and_return('fake title')
+
+      allow(post_model).to receive(:reflect_on_all_associations).and_return([])
     end
 
     describe 'class methods' do
       describe '.model_class' do
         it 'returns model class' do
-          expect(klass.model_class).to eq AbstractPost
+          expect(klass.model_class).to eq post_model
         end
       end
 
       describe '.model_decorator' do
         it 'returns model class' do
           expect(klass.model_decorator).not_to be_nil
-          expect(klass.model_decorator.model_class).to eq AbstractPost
         end
       end
 
       [ '', 'index_', 'show_', 'form_' ].each do |prefix|
         title = prefix.gsub '_', ''
         describe "for #{ title }" do
+          describe ".#{ prefix }fields" do
+            after do
+              klass.model_decorator.instance_variable_set "@#{ prefix }fields", nil
+            end
+
+            it 'returns fields hash' do
+              expect(klass.send "#{ prefix }fields").to eq({
+                'title'         => { type: :string, label: 'fake title' },
+                'published_at'  => { type: :datetime, label: 'fake title' },
+                'updated_at'    => { type: :datetime, label: 'fake title' },
+                'id'            => { type: :integer, label: 'fake title' }
+              })
+            end
+
+            it 'caches the fields hash' do
+              expect{ klass.send("#{ prefix }fields").delete 'title' }.to change{ klass.send "#{ prefix }fields" }.from({
+                'title'         => { type: :string, label: 'fake title' },
+                'published_at'  => { type: :datetime, label: 'fake title' },
+                'updated_at'    => { type: :datetime, label: 'fake title' },
+                'id'            => { type: :integer, label: 'fake title' }
+              }).to({
+                'published_at'  => { type: :datetime, label: 'fake title' },
+                'updated_at'    => { type: :datetime, label: 'fake title' },
+                'id'            => { type: :integer, label: 'fake title' }
+              })
+            end
+          end
+
           describe ".#{ prefix }field_names" do
             after do
               klass.model_decorator.instance_variable_set "@#{ prefix }field_names", nil
@@ -205,43 +236,24 @@ describe Wallaby::ResourceDecorator do
             end
           end
 
-          describe ".#{ prefix }field_labels" do
-            after do
-              klass.model_decorator.instance_variable_set "@#{ prefix }field_labels", nil
-            end
-
-            it 'returns empty hash' do
-              expect(klass.send "#{ prefix }field_labels").to eq({ "id" => nil, "title" => nil, "published_at" => nil, "updated_at" => nil })
-            end
-
-            it 'caches the field labels' do
-              expect{ klass.send("#{ prefix }field_labels")['title'] = 'Title' }.to change{ klass.send("#{ prefix }field_labels")['title'] }.from(nil).to('Title')
-            end
-          end
-
-          describe ".#{ prefix }field_types" do
-            after do
-              klass.model_decorator.instance_variable_set "@#{ prefix }field_types", nil
-            end
-
-            it 'returns empty hash' do
-              expect(klass.send "#{ prefix }field_types").to eq({ "id" => :integer, "title" => :string, "published_at" => :datetime, "updated_at" => :datetime })
-            end
-
-            it 'caches the field types' do
-              expect{ klass.send("#{ prefix }field_types")['title'] = :rich_text }.to change{ klass.send("#{ prefix }field_types")['title'] }.from(:string).to(:rich_text)
+          describe ".#{ prefix }metadata_of" do
+            it 'returns metadata' do
+              expect(klass.send "#{ prefix }metadata_of", 'id').to eq({
+                type:   :integer,
+                label:  'fake title'
+              })
             end
           end
 
           describe ".#{ prefix }label_of" do
-            it 'returns nil' do
-              expect(klass.send "#{ prefix }label_of", '').to be_nil
+            it 'returns label' do
+              expect(klass.send "#{ prefix }label_of", 'id').to eq 'fake title'
             end
           end
 
           describe ".#{ prefix }type_of" do
-            it 'returns nil' do
-              expect(klass.send "#{ prefix }type_of", '').to be_nil
+            it 'returns type' do
+              expect(klass.send "#{ prefix }type_of", 'id').to eq :integer
             end
           end
         end
