@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wallaby (0.0.2)
+    wallaby (0.0.3)
       bootstrap-sass
       jquery-rails
       kaminari

@@ -1,9 +1,7 @@
 # History:
 
 # WIP Feature list
-- Refactor resource and model decorator again
-- Association fields for active model
-- General templates for show and form actions
+- Form errors
 - Authentication (use device)
 - Pagination for collection
 - Search for collection
@@ -13,3 +11,8 @@
 2. Moved prefix builder to core controller.
 2. Created general tempaltes for resources index action.
 3. Created a wrapper to speed up view rendering by caching the `find_template` result.
+
+## v0.0.3
+1. Refactored model decorator and use `fields` as base information for all fields
+2. Included association fields and exclude those foreign keys for these associations
+3. Created general templates for show/form
