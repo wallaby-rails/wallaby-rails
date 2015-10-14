@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ResourcesController::PrefixesBuilder do
+describe Wallaby::PrefixesBuilder do
   let(:controller) do
     double 'Controller',
       class: klass,
