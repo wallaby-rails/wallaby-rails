@@ -2,7 +2,7 @@
 
 ![Travis CI](https://travis-ci.org/reinteractive-open/wallaby.svg)
 
-Wallaby is a Rails engine to manage your data.
+Wallaby is a Rails engine to manage your data. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
 
 ## Requirements
 Rails 4.0 and above
@@ -66,8 +66,8 @@ Assume that you have an active model `Post(id: integer, title: string, body: tex
     ```ruby
     class PostDecorator < ResourceDecorator
       index_field_names.delete 'body'
-      show_field_types['body'] = 'markdown'
-      form_field_labels['body'] = 'Content'
+      show_fields['body'][:type] = 'markdown'
+      form_fields['body'][:label] = 'Content'
     end
     ```
 
