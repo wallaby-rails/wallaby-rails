@@ -29,14 +29,14 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
       end
     end
 
-    it 'returns the type for through associations' do
+    it 'returns a through type for through associations' do
       has_many_association = double 'ActiveRecord::Reflection::HasManyReflection', class: double('class', name: 'HasManyReflection')
       expect(subject.send :extract_type_from, has_many_association).to eq 'has_many'
 
       through_association = double 'Through',
         class: double('class', name: 'ActiveRecord::Reflection::ThroughReflection'),
         delegate_reflection: has_many_association
-      expect(subject.send :extract_type_from, through_association).to eq 'has_many'
+      expect(subject.send :extract_type_from, through_association).to eq 'through'
     end
   end
 end
