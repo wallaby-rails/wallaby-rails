@@ -23,6 +23,10 @@ class Wallaby::ModelDecorator
     raise Wallaby::NotImplemented
   end
 
+  def resources_name
+    Wallaby::Utils.to_resources_name @model_class.to_s
+  end
+
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
     class_eval <<-RUBY
       def #{ prefix }fields
