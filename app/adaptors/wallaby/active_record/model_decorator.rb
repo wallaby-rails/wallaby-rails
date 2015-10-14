@@ -17,7 +17,11 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def fields
-    @fields ||= FieldsBuilder.new(@model_class).build
+    @fields ||= begin
+      field_builder.general_fields
+        .merge(field_builder.association_fields)
+        .except(*field_builder.foreign_keys_from_associations)
+    end
   end
 
   def index_fields
@@ -33,12 +37,31 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def form_field_names
-    @form_field_names ||= form_fields.keys.reject do |field_name|
-       %W( #{ primary_key } updated_at created_at ).include? field_name
+    @form_field_names ||= form_fields.reject do |key, value|
+      %W( #{ primary_key } updated_at created_at ).include?(key) ||
+      %w( has_one ).include?(form_type_of key) ||
+      form_metadata_of(key)[:through]
+    end.keys
+  end
+
+  def form_strong_param_names
+    @form_strong_param_names ||= begin
+      general_fields = field_builder.general_fields.keys
+      many_fields = form_fields.select do |key, value|
+        /many/ =~ value[:type]
+      end.values.inject({}) do |hash, field|
+        hash[field[:id_key]] = []
+        hash
+      end
+      general_fields + [ many_fields ]
     end
   end
 
   protected
+  def field_builder
+    @field_builder ||= FieldsBuilder.new(@model_class)
+  end
+
   def possible_title_columns
     @model_class.columns.select do |column|
       %i( string ).include? column.type
