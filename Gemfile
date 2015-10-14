@@ -13,7 +13,7 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
-group :development do
+group :development, :test do
   gem 'bootstrap-sass'
   gem 'jquery-rails'
 
