@@ -69,9 +69,7 @@ module Wallaby::CoreController::CoreMethods
   end
 
   def resource_params
-    # can be overridden
-    white_list_fields = model_class.column_names.reject{ |v| v == 'id' }
-    params.require(resource_name).permit *white_list_fields
+    params.require(resource_name).permit *model_decorator.form_strong_param_names
   end
 
   protected
