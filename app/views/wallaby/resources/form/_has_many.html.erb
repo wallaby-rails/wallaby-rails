@@ -1,0 +1,9 @@
+<% this_model_decorator = model_decorator metadata[:class_name].constantize %>
+<% choices = this_model_decorator.collection.collect do |item|
+    decorated = decorator(item).new item
+    [ decorated.to_label, decorated.send(decorated.primary_key) ]
+  end %>
+<div class="col-sm-5">
+  <%= form.select metadata[:id_key], choices, { }, { class: 'form-control', multiple: true } %>
+  <p class="help-block">Press CTRL to select/deselect multiple items</p>
+</div>

@@ -1,8 +1,11 @@
-<% decorated_resource.form_field_names.each do |field_name| %>
-  <div class="form-group">
-    <%= form.label field_name, decorated_resource.form_label_of(field_name) %>
-    <%= form_type_partial_render decorated_resource.form_type_of(field_name), value: decorated_resource.send(field_name), field_name: field_name, form: form %>
-  </div>
-<% end %>
-<%= form.submit class: 'btn btn-primary' %>
-<%= cancel_link nil, class: 'btn btn-default' %>
+<div class="form-horizontal">
+  <% decorated_resource.form_field_names.each do |field_name| %>
+    <%- #=decorated_resource.form_type_of(field_name) %>
+    <div class="form-group">
+      <%= form.label field_name, decorated_resource.form_label_of(field_name), class: 'col-sm-2 control-label' %>
+      <%= form_type_partial_render decorated_resource.form_type_of(field_name).to_s, field_name: field_name, form: form %>
+    </div>
+  <% end %>
+  <%= form.submit class: 'btn btn-primary' %>
+  <%= cancel_link nil, class: 'btn btn-default' %>
+</div>
