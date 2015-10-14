@@ -4,21 +4,25 @@ module Wallaby::ResourcesHelper
   def type_partial_render options = {}, locals = {}, &block
     raise ArgumentError unless %i( object field_name ).all? { |key| locals.has_key? key }
     locals[:value] = locals[:object].send locals[:field_name]
+    locals[:metadata] = locals[:object].metadata_of locals[:field_name]
     render options, locals, &block or locals[:value]
   rescue ActionView::MissingTemplate
     locals[:value]
   end
 
   def form_type_partial_render options = {}, locals = {}, &block
-    if lookup_context.exists?(options, lookup_context.prefixes, true)
-      render options, locals, &block
+    raise ArgumentError unless %i( form field_name ).all? { |key| locals.has_key? key }
+    options = "form/#{ options }" if options.is_a? String
+    locals[:object] = locals[:form].object
+    locals[:value] = locals[:object].send locals[:field_name]
+    locals[:metadata] = locals[:object].metadata_of locals[:field_name]
+    render options, locals, &block
+  rescue ActionView::MissingTemplate
+    case options.to_s
+    when 'text'
+      locals[:form].text_area locals[:field_name], class: 'form-control'
     else
-      case options.to_s
-      when 'text'
-        locals[:form].text_area locals[:field_name], class: 'form-control'
-      else
-        locals[:form].text_field locals[:field_name], class: 'form-control'
-      end
+      locals[:form].text_field locals[:field_name], class: 'form-control'
     end
   end
 
@@ -97,9 +101,16 @@ module Wallaby::ResourcesHelper
     [ decorator.model_label, decorator.to_label ].compact.join ': '
   end
 
-  def link_to_resource resource
-    decorated_resource = decorator(resource).new resource
-    link_to decorated_resource.to_label, wallaby_engine.resource_path(decorated_resource.resources_name, decorated_resource)
+  def link_to_resource resource, class_name = nil
+    if resource
+      decorated_resource = decorator(resource).new resource
+      link_to decorated_resource.to_label, wallaby_engine.resource_path(decorated_resource.resources_name, decorated_resource)
+    else
+      model = model_decorator(class_name.constantize)
+      link_to wallaby_engine.new_resource_path(model.resources_name) do
+        'Create one'
+      end
+    end
   end
 
   def random_uuid
