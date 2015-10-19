@@ -6,8 +6,6 @@ module Wallaby::ResourcesHelper
     locals[:value] = locals[:object].send locals[:field_name]
     locals[:metadata] = locals[:object].metadata_of locals[:field_name]
     render options, locals, &block or locals[:value]
-  rescue ActionView::MissingTemplate
-    locals[:value]
   end
 
   def form_type_partial_render options = {}, locals = {}, &block
@@ -16,14 +14,14 @@ module Wallaby::ResourcesHelper
     locals[:object] = locals[:form].object
     locals[:value] = locals[:object].send locals[:field_name]
     locals[:metadata] = locals[:object].metadata_of locals[:field_name]
-    render options, locals, &block
-  rescue ActionView::MissingTemplate
-    case options.to_s
-    when 'text'
-      locals[:form].text_area locals[:field_name], class: 'form-control'
-    else
-      locals[:form].text_field locals[:field_name], class: 'form-control'
-    end
+    render options, locals, &block or
+      default_rendered = \
+        case options.to_s
+        when 'text'
+          locals[:form].text_area locals[:field_name], class: 'form-control'
+        else
+          locals[:form].text_field locals[:field_name], class: 'form-control'
+        end
   end
 
   def null
