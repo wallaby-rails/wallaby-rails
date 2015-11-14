@@ -1,30 +1,16 @@
 class Wallaby::ModelDecorator
-  def initialize model_class
+  attr_reader :model_class
+
+  def initialize(model_class)
     @model_class = model_class
   end
 
-  def model_label
-    Wallaby::Utils.to_model_label @model_class
-  end
-
-  def primary_key
+  def collection(query = {})
     raise Wallaby::NotImplemented
   end
 
-  def collection params = {}
+  def find_or_initialize(id = nil)
     raise Wallaby::NotImplemented
-  end
-
-  def find_or_initialize id
-    raise Wallaby::NotImplemented
-  end
-
-  def guess_title resource
-    raise Wallaby::NotImplemented
-  end
-
-  def resources_name
-    Wallaby::Utils.to_resources_name @model_class.to_s
   end
 
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
@@ -35,21 +21,42 @@ class Wallaby::ModelDecorator
 
       def #{ prefix }field_names
         @#{ prefix }field_names ||= #{ prefix }fields.keys.tap do |names|
+          names.delete primary_key
           names.unshift primary_key
-        end.uniq
+        end
       end
 
-      def #{ prefix }metadata_of field_name
+      def #{ prefix }metadata_of(field_name)
         #{ prefix }fields[field_name] || {}
       end
 
-      def #{ prefix }label_of field_name
+      def #{ prefix }label_of(field_name)
         #{ prefix }metadata_of(field_name)[:label]
       end
 
-      def #{ prefix }type_of field_name
+      def #{ prefix }type_of(field_name)
         #{ prefix }metadata_of(field_name)[:type]
       end
     RUBY
+  end
+
+  def form_strong_param_names
+    raise Wallaby::NotImplemented
+  end
+
+  def primary_key
+    raise Wallaby::NotImplemented
+  end
+
+  def guess_title(resource)
+    raise Wallaby::NotImplemented
+  end
+
+  def model_label
+    Wallaby::Utils.to_model_label @model_class
+  end
+
+  def resources_name
+    Wallaby::Utils.to_resources_name @model_class
   end
 end
