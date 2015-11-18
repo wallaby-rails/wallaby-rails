@@ -1,17 +1,12 @@
 class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
-  def initialize model_class
+  def initialize(model_class)
     @model_class = model_class
   end
 
-  def build
-    fields      = general_fields.merge association_fields
-    excludings  = foreign_keys_from_associations
-    fields.except *excludings
-  end
-
   def general_fields
-    @model_class.columns.inject({}) do |fields, column|
+    @general_fields ||= @model_class.columns.inject({}) do |fields, column|
       fields[column.name] = {
+        name:   column.name,
         type:   column.type,
         label:  @model_class.human_attribute_name(column.name)
       }
@@ -20,33 +15,92 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
   end
 
   def association_fields
-    @model_class.reflect_on_all_associations.inject({}) do |fields, association|
-      type = extract_type_from association
-      through = type == 'through'
-      type = extract_type_from association.delegate_reflection if through
+    @association_fields ||= @model_class.reflections.inject({}) do |fields, (field_name, reflection)|
+      type = extract_type_from(reflection)
 
-      label = Wallaby::Utils.to_model_label association.class_name
-      label = label.pluralize if /many/ =~ type
-
-      id_key = association.foreign_key
-      id_key = "#{ association.name.to_s.singularize }_ids" if /many/ =~ type
-
-      fields[association.name] = {
-        label:      label,
-        type:       type,
-        id_key:     id_key,
-        class_name: association.class_name,
-        through:    through
+      fields[field_name] = {
+        name:           field_name,
+        type:           type,
+        label:          label_for(reflection, type),
+        is_polymorphic: is_polymorphic?(reflection),
+        is_through:     is_through?(reflection),
+        has_scope:      has_scope?(reflection),
+        foreign_key:    foreign_key_for(reflection, type),
+        foreign_type:   foreign_type_for(reflection, type),
+        foreign_list:   foreign_list_for(reflection),
+        class:          class_for(reflection)
       }
       fields
     end
   end
 
-  def foreign_keys_from_associations
-    @model_class.reflect_on_all_associations.map &:foreign_key
+  protected
+  def has_scope?(reflection)
+    reflection.scope.present?
   end
 
-  def extract_type_from association
-    type = association.class.name.match(/([^:]+)Reflection/)[1].underscore
+  def is_through?(reflection)
+    reflection.respond_to? :delegate_reflection
+  end
+
+  def is_polymorphic?(reflection)
+    reflection.options[:polymorphic] || reflection.options[:as].present?
+  end
+
+  def extract_type_from(reflection)
+    target = if is_through?(reflection)
+      reflection.delegate_reflection
+    else
+      reflection
+    end
+    target.class.name.match(/([^:]+)Reflection/)[1].underscore
+  end
+
+  def label_for(reflection, type)
+    label = Wallaby::Utils.to_model_label reflection.class_name
+    label = label.pluralize if many? type
+    label
+  end
+
+  def foreign_key_for(reflection, type)
+    foreign_key = reflection.association_foreign_key
+    foreign_key = "#{ foreign_key }s" if many? type
+    foreign_key
+  end
+
+  def foreign_type_for(reflection, type)
+    if is_polymorphic? reflection
+      foreign_key = foreign_key_for reflection, type
+      foreign_key.gsub %r(_ids?$), '_type'
+    end
+  end
+
+  def foreign_list_for(reflection)
+    if is_polymorphic? reflection
+      all_model_class.inject([]) do |list, model_class|
+        if model_defined_polymorphic_name? model_class, reflection.name
+          list << model_class
+        end
+        list
+      end
+    end || []
+  end
+
+  def model_defined_polymorphic_name?(model_class, polymorphic_name)
+    model_class.reflections.any? do |field_name, reflection|
+      reflection.options[:as].to_s == polymorphic_name.to_s
+    end
+  end
+
+  def all_model_class
+    Wallaby.adaptor.model_finder.new.available_model_classes
+  end
+
+  def class_for(reflection)
+    reflection.class_name.constantize if !is_polymorphic? reflection
+  end
+
+  def many?(type)
+    /many/ =~ type
   end
 end
