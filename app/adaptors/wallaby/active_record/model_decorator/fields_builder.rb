@@ -64,6 +64,8 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
 
   def foreign_key_for(reflection, type)
     foreign_key = reflection.association_foreign_key
+    namespace   = reflection.class_name.split('::')[0...-1].map(&:underscore).join '_'
+    foreign_key = "#{ namespace }_#{ foreign_key }" if namespace.present?
     foreign_key = "#{ foreign_key }s" if many? type
     foreign_key
   end

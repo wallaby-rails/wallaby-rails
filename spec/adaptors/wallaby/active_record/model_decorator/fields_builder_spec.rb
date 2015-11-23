@@ -1,42 +1,163 @@
 require 'rails_helper'
 
 describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
-  subject { described_class.new post_model }
-  let(:post_model) { double 'Post', primary_key: 'id' }
+  subject { described_class.new model_class }
 
   describe '#general_fields' do
+    let(:model_class) do
+      Class.new ActiveRecord::Base do
+        def self.name
+          'Product'
+        end
+      end
+    end
+
     it 'returns a hash using column names as keys' do
-      id    = double 'id',    name: 'id',     type: :integer
-      uuid  = double 'uuid',  name: 'uuid',   type: :string
-      title = double 'title', name: 'title',  type: :string
-      allow(post_model).to receive(:columns).and_return([ id, uuid, title ])
-      allow(post_model).to receive(:human_attribute_name).and_return('fake_title')
-      expect(subject.send :general_fields).to eq({
-        "id"    => { type: :integer,  label: "fake_title" },
-        "title" => { type: :string,   label: "fake_title" },
-        "uuid"  => { type: :string,   label: "fake_title" }
+      expect(subject.general_fields).to eq({
+        "id" => {
+          name: "id", type: :integer, label: "Id"
+        },
+        "category_id" => {
+          name: "category_id", type: :integer, label: "Category"
+        },
+        "sku" => {
+          name: "sku", type: :string, label: "Sku"
+        },
+        "name" => {
+          name: "name", type: :string, label: "Name"
+        },
+        "description" => {
+          name: "description", type: :text, label: "Description"
+        },
+        "stock" => {
+          name: "stock", type: :integer, label: "Stock"
+        },
+        "price" => {
+          name: "price", type: :float, label: "Price"
+        },
+        "featured" => {
+          name: "featured", type: :boolean, label: "Featured"
+        },
+        "available_to_date" => {
+          name: "available_to_date", type: :date, label: "Available to date"
+        },
+        "available_to_time" => {
+          name: "available_to_time", type: :time, label: "Available to time"
+        },
+        "published_at" => {
+          name: "published_at", type: :datetime, label: "Published at"
+        }
       })
     end
   end
 
-  describe '#extract_type_from' do
-    it 'returns the type for general associations' do
-      types = %w( has_many has_one belongs_to has_and_belongs_to_many )
-      allow(post_model).to receive(:pluralize_table_names)
-      ActiveRecord::Reflection::AssociationReflection.subclasses.each_with_index do |klass, index|
-        association = klass.new 'fake', nil, {}, post_model
-        expect(subject.send :extract_type_from, association).to eq types[index]
+  describe '#association_fields' do
+    let(:model_class) do
+      Class.new ActiveRecord::Base do
+        def self.name
+          'Product'
+        end
       end
     end
 
-    it 'returns a through type for through associations' do
-      has_many_association = double 'ActiveRecord::Reflection::HasManyReflection', class: double('class', name: 'HasManyReflection')
-      expect(subject.send :extract_type_from, has_many_association).to eq 'has_many'
+    it 'returns nothing if none is declared' do
+      expect(subject.association_fields).to be_blank
+    end
 
-      through_association = double 'Through',
-        class: double('class', name: 'ActiveRecord::Reflection::ThroughReflection'),
-        delegate_reflection: has_many_association
-      expect(subject.send :extract_type_from, through_association).to eq 'through'
+    context 'for belongs_to' do
+      it 'returns association_fields that has a belongs_to association' do
+        model_class.belongs_to :category
+        expect(subject.association_fields['category']).to eq({
+          name: "category",
+          type: "belongs_to",
+          label: "Category",
+          is_polymorphic: false,
+          is_through: false,
+          has_scope: false,
+          foreign_key: "category_id",
+          foreign_type: nil,
+          foreign_list: [],
+          class: Category
+        })
+      end
+    end
+
+    context 'for has_one' do
+      it 'returns association_fields that has a has_one association' do
+        model_class.has_one :product_detail
+        model_class.has_one :picture, as: :imageable
+        expect(subject.association_fields['product_detail']).to eq({
+          name: "product_detail",
+          type: "has_one",
+          label: "Product Detail",
+          is_polymorphic: false,
+          is_through: false,
+          has_scope: false,
+          foreign_key: "product_detail_id",
+          foreign_type: nil,
+          foreign_list: [],
+          class: ProductDetail
+        })
+
+        expect(subject.association_fields['picture']).to eq({
+          name: "picture",
+          type: "has_one",
+          label: "Picture",
+          is_polymorphic: true,
+          is_through: false,
+          has_scope: false,
+          foreign_key: "picture_id",
+          foreign_type: "picture_type",
+          foreign_list: [],
+          class: nil
+        })
+      end
+    end
+
+    context 'for has_many' do
+      it 'returns association_fields that has a has_many association' do
+        model_class.has_many :items, class_name: 'Order::Item'
+        model_class.has_many :orders, through: :items
+        model_class.has_many :pictures, as: :imageable
+        expect(subject.association_fields['items']).to eq({
+          name: "items",
+          type: "has_many",
+          label: "Order / Items",
+          is_polymorphic: false,
+          is_through: false,
+          has_scope: false,
+          foreign_key: "order_item_ids",
+          foreign_type: nil,
+          foreign_list: [],
+          class: Order::Item
+        })
+
+        expect(subject.association_fields['orders']).to eq({
+          name: "orders",
+          type: "has_many",
+          label: "Orders",
+          is_polymorphic: false,
+          is_through: true,
+          has_scope: false,
+          foreign_key: "order_ids",
+          foreign_type: nil,
+          foreign_list: [],
+          class: Order
+        })
+
+        expect(subject.association_fields['pictures']).to eq({
+          name: "pictures",
+          type: "has_many",
+          label: "Pictures",
+          is_polymorphic: true,
+          is_through: false,
+          has_scope: false,
+          foreign_key: "picture_ids",
+          foreign_type: "picture_type",
+          foreign_list: [],
+          class: nil
+        })
+      end
     end
   end
 end
