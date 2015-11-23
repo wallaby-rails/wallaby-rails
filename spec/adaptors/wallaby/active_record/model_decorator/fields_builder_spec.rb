@@ -15,37 +15,37 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
     it 'returns a hash using column names as keys' do
       expect(subject.general_fields).to eq({
         "id" => {
-          name: "id", type: :integer, label: "Id"
+          name: "id", type: "integer", label: "Id"
         },
         "category_id" => {
-          name: "category_id", type: :integer, label: "Category"
+          name: "category_id", type: "integer", label: "Category"
         },
         "sku" => {
-          name: "sku", type: :string, label: "Sku"
+          name: "sku", type: "string", label: "Sku"
         },
         "name" => {
-          name: "name", type: :string, label: "Name"
+          name: "name", type: "string", label: "Name"
         },
         "description" => {
-          name: "description", type: :text, label: "Description"
+          name: "description", type: "text", label: "Description"
         },
         "stock" => {
-          name: "stock", type: :integer, label: "Stock"
+          name: "stock", type: "integer", label: "Stock"
         },
         "price" => {
-          name: "price", type: :float, label: "Price"
+          name: "price", type: "float", label: "Price"
         },
         "featured" => {
-          name: "featured", type: :boolean, label: "Featured"
+          name: "featured", type: "boolean", label: "Featured"
         },
         "available_to_date" => {
-          name: "available_to_date", type: :date, label: "Available to date"
+          name: "available_to_date", type: "date", label: "Available to date"
         },
         "available_to_time" => {
-          name: "available_to_time", type: :time, label: "Available to time"
+          name: "available_to_time", type: "time", label: "Available to time"
         },
         "published_at" => {
-          name: "published_at", type: :datetime, label: "Published at"
+          name: "published_at", type: "datetime", label: "Published at"
         }
       })
     end
@@ -71,6 +71,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           name: "category",
           type: "belongs_to",
           label: "Category",
+          is_association: true,
           is_polymorphic: false,
           is_through: false,
           has_scope: false,
@@ -83,13 +84,13 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
     end
 
     context 'for has_one' do
-      it 'returns association_fields that has a has_one association' do
+      it 'returns association_fields' do
         model_class.has_one :product_detail
-        model_class.has_one :picture, as: :imageable
         expect(subject.association_fields['product_detail']).to eq({
           name: "product_detail",
           type: "has_one",
           label: "Product Detail",
+          is_association: true,
           is_polymorphic: false,
           is_through: false,
           has_scope: false,
@@ -98,31 +99,36 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           foreign_list: [],
           class: ProductDetail
         })
+      end
 
-        expect(subject.association_fields['picture']).to eq({
-          name: "picture",
-          type: "has_one",
-          label: "Picture",
-          is_polymorphic: true,
-          is_through: false,
-          has_scope: false,
-          foreign_key: "picture_id",
-          foreign_type: "picture_type",
-          foreign_list: [],
-          class: nil
-        })
+      context 'and polymorphic' do
+        it 'returns association_fields' do
+          model_class.has_one :picture, as: :imageable
+          expect(subject.association_fields['picture']).to eq({
+            name: "picture",
+            type: "has_one",
+            label: "Picture",
+            is_association: true,
+            is_polymorphic: true,
+            is_through: false,
+            has_scope: false,
+            foreign_key: "picture_id",
+            foreign_type: "picture_type",
+            foreign_list: [],
+            class: nil
+          })
+        end
       end
     end
 
     context 'for has_many' do
-      it 'returns association_fields that has a has_many association' do
+      it 'returns association_fields' do
         model_class.has_many :items, class_name: 'Order::Item'
-        model_class.has_many :orders, through: :items
-        model_class.has_many :pictures, as: :imageable
         expect(subject.association_fields['items']).to eq({
           name: "items",
           type: "has_many",
           label: "Order / Items",
+          is_association: true,
           is_polymorphic: false,
           is_through: false,
           has_scope: false,
@@ -131,31 +137,63 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           foreign_list: [],
           class: Order::Item
         })
+      end
 
-        expect(subject.association_fields['orders']).to eq({
-          name: "orders",
-          type: "has_many",
-          label: "Orders",
+      context 'and through' do
+        it 'returns association_fields' do
+          model_class.has_many :items, class_name: 'Order::Item'
+          model_class.has_many :orders, through: :items
+          expect(subject.association_fields['orders']).to eq({
+            name: "orders",
+            type: "has_many",
+            label: "Orders",
+            is_association: true,
+            is_polymorphic: false,
+            is_through: true,
+            has_scope: false,
+            foreign_key: "order_ids",
+            foreign_type: nil,
+            foreign_list: [],
+            class: Order
+          })
+        end
+      end
+
+      context 'and polymorphic' do
+        it 'returns association_fields' do
+          model_class.has_many :pictures, as: :imageable
+          expect(subject.association_fields['pictures']).to eq({
+            name: "pictures",
+            type: "has_many",
+            label: "Pictures",
+            is_association: true,
+            is_polymorphic: true,
+            is_through: false,
+            has_scope: false,
+            foreign_key: "picture_ids",
+            foreign_type: "picture_type",
+            foreign_list: [],
+            class: nil
+          })
+        end
+      end
+    end
+
+    context 'for has_and_belongs_to_many' do
+      it 'returns association_fields' do
+        model_class.has_and_belongs_to_many :tags
+        expect(subject.association_fields['tags']).to eq({
+          name: "tags",
+          type: "has_and_belongs_to_many",
+          label: "Tags",
+          is_association: true,
           is_polymorphic: false,
-          is_through: true,
-          has_scope: false,
-          foreign_key: "order_ids",
-          foreign_type: nil,
-          foreign_list: [],
-          class: Order
-        })
-
-        expect(subject.association_fields['pictures']).to eq({
-          name: "pictures",
-          type: "has_many",
-          label: "Pictures",
-          is_polymorphic: true,
           is_through: false,
           has_scope: false,
-          foreign_key: "picture_ids",
-          foreign_type: "picture_type",
+          foreign_key: "tag_ids",
+          foreign_type: nil,
           foreign_list: [],
-          class: nil
+          class: Tag
         })
       end
     end

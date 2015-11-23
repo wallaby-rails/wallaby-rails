@@ -7,7 +7,7 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
     @general_fields ||= @model_class.columns.inject({}) do |fields, column|
       fields[column.name] = {
         name:   column.name,
-        type:   column.type,
+        type:   column.type.to_s,
         label:  @model_class.human_attribute_name(column.name)
       }
       fields
@@ -16,12 +16,13 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
 
   def association_fields
     @association_fields ||= @model_class.reflections.inject({}) do |fields, (field_name, reflection)|
-      type = extract_type_from(reflection)
+      type = extract_type_from reflection
 
       fields[field_name] = {
         name:           field_name,
         type:           type,
         label:          label_for(reflection, type),
+        is_association: true,
         is_polymorphic: is_polymorphic?(reflection),
         is_through:     is_through?(reflection),
         has_scope:      has_scope?(reflection),
