@@ -1,10 +1,9 @@
 class Wallaby::Configuration::Models
-  attr_accessor \
-    :except,
-    :only
+  def excludes
+    @excludes ||= []
+  end
 
-  def initialize
-    @except = []
-    @only   = []
+  def exclude(*models)
+    @excludes = models
   end
 end
