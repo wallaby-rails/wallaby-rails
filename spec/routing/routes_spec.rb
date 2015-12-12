@@ -33,9 +33,6 @@ describe 'routing', type: :request do
 
     expect(Wallaby::ResourcesController).to receive(:action).with('history').and_return(response)
     get "#{ script_name }/#{ resources }/1/history"
-
-    expect(Wallaby::ResourcesController).to receive(:action).with('history').and_return(response)
-    get "#{ script_name }/#{ resources }/history"
   end
 
   context 'when target resources controller exists' do
@@ -70,9 +67,6 @@ describe 'routing', type: :request do
 
       expect(AliensController).to receive(:action).with('history').and_return(response)
       get "#{ script_name }/#{ resources }/1/history"
-
-      expect(AliensController).to receive(:action).with('history').and_return(response)
-      get "#{ script_name }/#{ resources }/history"
     end
   end
 end

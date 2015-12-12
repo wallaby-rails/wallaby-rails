@@ -6,7 +6,6 @@ Wallaby::Engine.routes.draw do
 
   scope path: ':resources' do
     resources_router      = Wallaby::ResourcesRouter.new
-    resources_constraints = Wallaby::ResourcesConstraints.new
     with_options to: resources_router do |route|
       begin # resourceful routes
         route.get '',
@@ -17,25 +16,20 @@ Wallaby::Engine.routes.draw do
           as: :new_resource
         route.get ':id/edit',
           defaults: { action: 'edit' },
-          as: :edit_resource,
-          constraints: resources_constraints
+          as: :edit_resource
         route.get ':id',
           defaults: { action: 'show' },
-          as: :resource,
-          constraints: resources_constraints
+          as: :resource
 
         route.post '',
           defaults: { action: 'create' }
         route.match ':id',
           via: %i(  patch put ),
-          defaults: { action: 'update' },
-          constraints: resources_constraints
+          defaults: { action: 'update' }
         route.delete ':id',
-          defaults: { action: 'destroy' },
-          constraints: resources_constraints
+          defaults: { action: 'destroy' }
       end
       route.match ':id/:action', via: :all
-      route.match ':action', via: :all
     end
   end
 end
