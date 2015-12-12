@@ -1,7 +1,7 @@
 Wallaby::Engine.routes.draw do
   root to: 'wallaby/core#home'
 
-  get 'status.json', to: 'wallaby/core#status'
+  get 'status', to: 'wallaby/core#status'
 
   scope path: ':resources' do
     resources_router      = Wallaby::ResourcesRouter.new

@@ -69,4 +69,14 @@ describe 'routing', type: :request do
       get "#{ script_name }/#{ resources }/1/history"
     end
   end
+
+  describe 'general routes' do
+    it 'routes for general routes' do
+      expect(Wallaby::CoreController).to receive(:action).with('home').and_return(response)
+      get "#{ script_name }"
+
+      expect(Wallaby::CoreController).to receive(:action).with('status').and_return(response)
+      get "#{ script_name }/status"
+    end
+  end
 end
