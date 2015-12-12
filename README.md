@@ -20,6 +20,7 @@ Because this engine is built in Rails way! You could customize things like what 
     ```ruby
     gem 'bootstrap-sass'
     gem 'jquery-rails'
+    gem 'kaminari'
     gem 'wallaby'
     ```
 
@@ -31,9 +32,52 @@ Because this engine is built in Rails way! You could customize things like what 
 
 # Customization
 
-Assume that you have an active model `Post(id: integer, title: string, body: text, publish_time: datetime, creator_id: integer, updator_id: integer, created_at: datetime, updated_at: datetime)`
+> Assume that you have an active model `Post(id: integer, title: string, body: text, publish_time: datetime, creator_id: integer, updator_id: integer, created_at: datetime, updated_at: datetime)`
 
-1. Controller
+1. Configuration
+
+    This engine by default uses ActiveRecord adaptor, you could change this to other adaptor (e.g. Mongo / HER adaptor) as below:
+
+    ```ruby
+    # config/initializers/wallaby.rb
+    Wallaby.config do |config|
+      config.adaptor = Wallaby::SomeOtherAdaptor
+    end
+    ```
+
+    By default, there is no authentication, and you need to do the following config if you need one:
+
+    ```ruby
+    # config/initializers/wallaby.rb
+    Wallaby.config do |config|
+      config.security.authenticate do
+        # you could use any controller methods here
+        authenticate_or_request_with_http_basic do |username, password|
+          username == 'too_simple' && password == 'too_naive'
+        end
+      end
+
+      config.security.current_user do
+        # you could use any controller methods here
+        Class.new do
+          def email
+            'user@example.com'
+          end
+        end.new
+      end
+    end
+    ```
+
+    You could hide some models using configuration as below:
+
+    ```ruby
+    # config/initializers/wallaby.rb
+    Wallaby.config do |config|
+      config.models.exclude ProductDetail, Order, Order::Item
+    end
+    ```
+
+2. Controller
 
     You could modify the logics for Post model by defining a controller as below:
 
@@ -58,7 +102,7 @@ Assume that you have an active model `Post(id: integer, title: string, body: tex
     end
     ```
 
-2. Decorator
+3. Decorator
 
     Similar to the controller above, you could use two ways to define a decorator.
     Having a decorator, you could then modify what fields to use for views index/show/form
@@ -71,7 +115,7 @@ Assume that you have an active model `Post(id: integer, title: string, body: tex
     end
     ```
 
-3. View
+4. View
 
     You could easily define any field view for any custom type (e.g. markdown) for Post by defining a partial under `app/views/posts/index/_markdown`
 
