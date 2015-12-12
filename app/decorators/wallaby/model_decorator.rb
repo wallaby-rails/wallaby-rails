@@ -5,7 +5,11 @@ class Wallaby::ModelDecorator
     @model_class = model_class
   end
 
-  def collection(query = {})
+  def collection(params = {})
+    raise Wallaby::NotImplemented
+  end
+
+  def search(params = {})
     raise Wallaby::NotImplemented
   end
 
