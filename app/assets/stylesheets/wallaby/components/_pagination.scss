@@ -1,0 +1,105 @@
+.pagination {
+  @extend .pull-right;
+  display: inline-block;
+  padding-left: 0;
+  margin: 0 auto;
+  border-radius: $border-radius-base;
+
+  > span {
+    display: inline; // Remove list-style and block-level defaults
+    position: relative;
+    float: left; // Collapse white-space
+    line-height: $line-height-base;
+    text-decoration: none;
+    background-color: $pagination-bg;
+    border: 1px solid $pagination-border;
+    margin-left: -1px;
+    &.first > a {
+      content: '&laquo;';
+    }
+    &.last > a {
+      content: '&raquo;';
+    }
+    &.previous > a {
+      content: '&lsaquo;';
+    }
+    &.next > a {
+      content: '&rsaquo;';
+    }
+    > a {
+      display: inline-block;
+      color: $pagination-color;
+      padding: $padding-base-vertical $padding-base-horizontal;
+    }
+    &:first-child {
+      margin-left: 0;
+      @include border-left-radius($border-radius-base);
+    }
+    &:last-child {
+      @include border-right-radius($border-radius-base);
+    }
+    &.page, &.first, &.prev, &.next, &.last {
+      &.gap, &.current {
+        padding: $padding-base-vertical $padding-base-horizontal;
+      }
+    }
+  }
+
+  > span > a {
+    &:hover,
+    &:focus {
+      z-index: 2;
+      color: $pagination-hover-color;
+      background-color: $pagination-hover-bg;
+      border-color: $pagination-hover-border;
+      text-decoration: none;
+    }
+  }
+
+  > .current {
+    &,
+    &:hover,
+    &:focus {
+      z-index: 3;
+      color: $pagination-active-color;
+      background-color: $pagination-active-bg;
+      border-color: $pagination-active-border;
+      cursor: default;
+    }
+  }
+
+  > .disabled {
+    > span,
+    > span:hover,
+    > span:focus,
+    > a,
+    > a:hover,
+    > a:focus {
+      color: $pagination-disabled-color;
+      background-color: $pagination-disabled-bg;
+      border-color: $pagination-disabled-border;
+      cursor: $cursor-disabled;
+    }
+  }
+}
+
+// Sizing
+// --------------------------------------------------
+
+// Large
+.pagination-lg {
+  @include pagination-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $border-radius-large);
+}
+
+// Small
+.pagination-sm {
+  @include pagination-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
+}
+
+.pagination-info {
+  line-height: 34px;
+  color: $breadcrumb-color;
+  b {
+    color: $gray-light;
+  }
+}

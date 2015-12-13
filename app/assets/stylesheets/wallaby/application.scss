@@ -9,6 +9,9 @@
 @import 'base/_normalize';
 @import 'base/_reset';
 @import 'base/_layout';
+@import 'components/_tables';
+@import 'components/_forms';
+@import 'components/_pagination';
 
 i.glyphicon {
   color: lighten($gray, 40%);

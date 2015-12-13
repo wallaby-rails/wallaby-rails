@@ -1,0 +1,33 @@
+//
+// Tables
+// --------------------------------------------------
+table.data-table {
+  @extend .table, .table-striped;
+  thead tr th {
+    color: $gray-light;
+    text-transform: uppercase;
+  }
+  tbody tr td {
+    padding: 8px 12px;
+    a, a:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+table.detail-table {
+  @extend .table;
+  thead tr th, tbody tr th {
+    color: $gray-light;
+    text-transform: uppercase;
+  }
+  tbody tr {
+    td {
+      padding: 8px 12px;
+
+      a, a:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
