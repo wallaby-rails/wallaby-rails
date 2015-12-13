@@ -10,7 +10,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::SearchQueryBuilder do
     end
   end
 
-
   describe '#build' do
     let(:fields) do
       {
