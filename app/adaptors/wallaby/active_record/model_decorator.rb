@@ -1,17 +1,19 @@
 class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
-  def collection(query = {}, options = {})
-    search = @model_class.where(nil)
-    # TODO: complete the query
-    if options[:includes]
-      associations  = field_builder.association_fields.keys
-      search        = search.includes *(associations & index_field_names)
-    end
-    search
+  def collection(params = {})
+    params      = params.dup
+    page_number = params.delete :page
+    per_number  = params.delete(:per) || 15
+    search(params).page(page_number).per per_number
+  end
+
+  def search(params = {})
+    keyword = params.delete :q
+    query   = search_query_builder.build keyword
   end
 
   def find_or_initialize(id = nil)
-    record = if id.present?
-      @model_class.where(primary_key => id).first
+    if id.present?
+      @model_class.where(primary_key => id).first or raise Wallaby::ResourceNotFound.new id
     else
       @model_class.new
     end
@@ -22,9 +24,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def index_fields
-    @index_fields ||= fields.reject do |field, metadata|
-      metadata[:has_scope]
-    end
+    @index_fields ||= fields.dup
   end
 
   def show_fields
@@ -32,19 +32,27 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def form_fields
-    @form_fields  ||= fields.reject do |field, metadata|
-      metadata[:has_scope]
-    end
+    @form_fields  ||= fields.dup
+  end
+
+  def index_field_names
+    @index_field_names ||= index_fields.reject do |field_name, metadata|
+      metadata[:is_association] ||
+      %w( text binary ).include?(metadata[:type])
+    end.keys
   end
 
   def form_field_names
-    @form_field_names ||= form_fields.reject do |field_name, value|
-      type        = form_type_of field_name
-      is_through  = form_metadata_of(field_name)[:is_through]
-
+    @form_field_names ||= form_fields.reject do |field_name, metadata|
+      metadata[:type] == 'has_one' ||
       %W( #{ primary_key } updated_at created_at ).include?(field_name) ||
-        type == 'has_one' || is_through
+      metadata[:has_scope] ||
+      metadata[:is_through]
     end.keys
+  end
+
+  def form_require_name
+    @model_class.model_name.param_key
   end
 
   def form_strong_param_names
@@ -56,7 +64,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def guess_title(resource)
-    resource.send possible_title_field_name if possible_title_field_name.present?
+    resource.send title_field_finder.find
   end
 
   protected
@@ -64,46 +72,43 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
     @field_builder ||= FieldsBuilder.new @model_class
   end
 
+  def search_query_builder
+    @search_query_builder ||= SearchQueryBuilder.new @model_class, general_fields
+  end
+
+  def title_field_finder
+    @title_field_finder ||= TitleFieldFinder.new @model_class, general_fields
+  end
+
   delegate :general_fields, :association_fields, to: :field_builder
-
-  def possible_title_fields
-    general_fields.values.select do |field|
-      %i( string ).include? field[:type]
-    end
-  end
-
-  def possible_title_field_name
-    field = possible_title_fields.find do |field|
-      %r(title|name|string) =~ field[:name]
-    end || possible_title_fields.first
-    field.try :[], :name
-  end
 
   def foreign_keys_from_associations(associations = association_fields)
     associations.inject([]) do |keys, (field_name, metadata)|
-      keys << metadata[:foreign_type]
-      keys << metadata[:foreign_key]
-    end.compact
+      keys << metadata[:foreign_key]      if metadata[:foreign_key]
+      keys << metadata[:polymorphic_type] if metadata[:polymorphic_type]
+      keys
+    end
   end
 
-  def many_associations
-    association_fields.select do |field_name, metadata|
+  def many_associations(associations = association_fields)
+    associations.select do |field_name, metadata|
       /many/ =~ metadata[:type] && !metadata[:is_through]
     end
   end
 
-  def belongs_to_associations
-    association_fields.select do |field_name, metadata|
+  def belongs_to_associations(associations = association_fields)
+    associations.select do |field_name, metadata|
       'belongs_to' == metadata[:type]
     end
   end
 
   def general_form_field_names
-    form_field_names - association_fields.keys + foreign_keys_from_associations(belongs_to_associations)
+    form_field_names - association_fields.keys \
+      + foreign_keys_from_associations(belongs_to_associations)
   end
 
-  def many_association_form_params
-    many_associations.slice(*form_field_names).inject({}) do |params, (field_name, metadata)|
+  def many_association_form_params(associations = many_associations, forms = form_field_names)
+    associations.slice(*forms).inject({}) do |params, (field_name, metadata)|
       params[metadata[:foreign_key]] = []
       params
     end
