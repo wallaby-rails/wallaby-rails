@@ -44,6 +44,10 @@ class Wallaby::ModelDecorator
     RUBY
   end
 
+  def form_require_name
+    raise Wallaby::NotImplemented
+  end
+
   def form_strong_param_names
     raise Wallaby::NotImplemented
   end
