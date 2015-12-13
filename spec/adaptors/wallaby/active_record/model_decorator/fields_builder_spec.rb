@@ -133,7 +133,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             is_polymorphic: false,
             is_through: false,
             has_scope: false,
-            foreign_key: "order_item_ids",
+            foreign_key: "item_ids",
             polymorphic_type: nil,
             polymorphic_list: [],
             class: Order::Item
