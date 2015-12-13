@@ -7,11 +7,11 @@ class Wallaby::LookupContextWrapper
 
   delegate *original_methods, to: :@lookup_context
 
-  def initialize lookup_context
+  def initialize(lookup_context)
     @lookup_context = lookup_context
   end
 
-  def find_template *args
+  def find_template(*args)
     key = args.join '/'
     caching key do
       @lookup_context.find_template *args
@@ -19,13 +19,12 @@ class Wallaby::LookupContextWrapper
   end
 
   protected
-  def caching key
+  def caching(key)
     @templates ||= {}
     if ! @templates.has_key? key
       @templates[key] = begin
         yield
       rescue ActionView::MissingTemplate => e
-        Rails.logger.warn e
         BlankTemplate.new
       end
     end
