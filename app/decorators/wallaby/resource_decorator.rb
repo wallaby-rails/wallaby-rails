@@ -1,4 +1,10 @@
 class Wallaby::ResourceDecorator
+  def self.inherited(subclass)
+    [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+      subclass.send "#{ prefix }field_names"
+    end
+  end
+
   class << self
     def model_class
       if self < Wallaby::ResourceDecorator
@@ -20,7 +26,12 @@ class Wallaby::ResourceDecorator
 
     def build_model_decorator model
       model ||= self.model_class
-      Wallaby.adaptor.model_decorator.new model if model
+      Wallaby.configuration.adaptor.model_decorator.new model if model
+    end
+
+    def decorate(resource)
+      return resource if resource.is_a? Wallaby::ResourceDecorator
+      new resource
     end
   end
 
