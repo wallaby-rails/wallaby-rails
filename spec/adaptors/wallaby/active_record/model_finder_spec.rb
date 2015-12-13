@@ -1,20 +1,24 @@
 require 'rails_helper'
 
 describe Wallaby::ActiveRecord::ModelFinder do
-  describe '#available_model_classes' do
-    let(:all_model_classes) do
+  describe '#all' do
+    let(:valid_model_classes) do
       class Airport < ActiveRecord::Base; end
       class Airline < ActiveRecord::Base; end
       class Airplane < ActiveRecord::Base; end
       [ Airport, Airline, Airplane ]
     end
 
-    before do
-      allow(ActiveRecord::Base).to receive(:subclasses).and_return(all_model_classes)
+    let(:anonymous_class) do
+      Class.new ActiveRecord::Base
     end
 
-    it 'returns a list of model class' do
-      expect(subject.available_model_classes).to eq [ Airport, Airline, Airplane ]
+    before do
+      allow(ActiveRecord::Base).to receive(:subclasses).and_return(valid_model_classes + [ anonymous_class ])
+    end
+
+    it 'excludes anonymous_class' do
+      expect(subject.send :all).to eq valid_model_classes
     end
   end
 end
