@@ -1,7 +1,10 @@
 class Wallaby::ModelFinder
-  def available_model_classes
-    # TODO: filters the model classes using Wallaby.configuration
-    all
+  def available
+    all_models = all
+    (Wallaby.configuration.models.excludes || []).each do |model|
+      all_models.delete model
+    end
+    all_models
   end
 
   protected
