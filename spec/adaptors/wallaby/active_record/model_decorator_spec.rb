@@ -87,17 +87,35 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     it 'has same value as fields' do
       expect(subject.index_fields).to eq subject.fields
     end
+
+    context 'changing index_fields' do
+      it 'doesnt modify fields' do
+        expect{ subject.index_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+      end
+    end
   end
 
   describe '#show_fields' do
     it 'has same value as fields' do
       expect(subject.show_fields).to eq subject.fields
     end
+
+    context 'changing show_fields' do
+      it 'doesnt modify fields' do
+        expect{ subject.show_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+      end
+    end
   end
 
   describe '#form_fields' do
     it 'has same value as fields' do
       expect(subject.form_fields).to eq subject.fields
+    end
+
+    context 'changing form_fields' do
+      it 'doesnt modify fields' do
+        expect{ subject.form_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+      end
     end
   end
 

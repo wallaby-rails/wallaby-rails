@@ -24,15 +24,15 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def index_fields
-    @index_fields ||= fields.dup
+    @index_fields ||= fields.deep_dup
   end
 
   def show_fields
-    @show_fields  ||= fields.dup
+    @show_fields  ||= fields.deep_dup
   end
 
   def form_fields
-    @form_fields  ||= fields.dup
+    @form_fields  ||= fields.deep_dup
   end
 
   def index_field_names
