@@ -8,7 +8,7 @@ class Wallaby::ActiveRecord::ModelDecorator::SearchQueryBuilder
     query = @model_class.where(nil)
     return query unless keyword.present?
     queries = search_queries keyword
-    query.where queries.keys.join(' OR '), *queries.values
+    query.where queries.keys.join(' OR '), *queries.values.flatten
   end
 
   protected
@@ -20,10 +20,15 @@ class Wallaby::ActiveRecord::ModelDecorator::SearchQueryBuilder
         queries["#{ field_name } = ?"] = keyword if %r(^\d+(\.\d+)?$) =~ keyword
       when 'boolean'
         queries["#{ field_name } = ?"] = keyword if %r(^(true|false)$) =~ keyword
-      when 'date', 'datetime', 'time'
-        if date = Time.zone.parse(keyword) rescue nil
-          queries["#{ field_name } = ?"] = date
+      when 'date'
+        if date = Date.parse(keyword) rescue nil
+          queries["(#{ field_name } >= ? AND #{ field_name } < ?)"] = [ date, date + 1.day ]
         end
+      when 'datetime'
+        if datetime = Time.zone.parse(keyword) rescue nil
+          queries["(#{ field_name } >= ? AND #{ field_name } <= ?)"] = [ datetime, datetime ]
+        end
+      when 'time'
       when 'string', 'text'
         like_keyword = "%#{ keyword }%".upcase
         queries["UPPER(#{ field_name }) LIKE ?"] = like_keyword

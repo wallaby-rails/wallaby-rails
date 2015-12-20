@@ -68,26 +68,67 @@ describe Wallaby::ActiveRecord::ModelDecorator::SearchQueryBuilder do
       end
     end
 
-    context 'when field is dates' do
+    context 'when field is date' do
       let(:fields) do
         {
-          'published_at' => { name: 'published_at', type: 'datetime' },
-          'start_date' => { name: 'start_date', type: 'date' },
-          'start_time' => { name: 'start_time', type: 'time' },
+          'start_date' => { name: 'start_date', type: 'date' }
         }
       end
       context 'and keyword is date' do
         let(:keyword) { '2012-12-02T11:23:46Z' }
         it 'returns a query' do
           query = subject.send :search_queries, keyword
-          expect(query['published_at = ?']).to eq keyword
-          expect(query['start_date = ?']).to eq keyword
-          expect(query['start_time = ?']).to eq keyword
+          expect(query['(start_date >= ? AND start_date < ?)']).to eq [ Date.new(2012, 12, 02), Date.new(2012, 12, 03) ]
         end
       end
 
       context 'and keyword is not date' do
         let(:keyword) { 'not_a_date' }
+        it 'returns empty query' do
+          query = subject.send :search_queries, keyword
+          expect(query).to be_blank
+        end
+      end
+    end
+
+    context 'when field is time' do
+      let(:fields) do
+        {
+          'start_time' => { name: 'start_time', type: 'time' }
+        }
+      end
+      context 'and keyword is time' do
+        let(:keyword) { '2012-12-02T11:23:46Z' }
+        xit 'returns a query' do
+        end
+      end
+
+      context 'and keyword is not time' do
+        let(:keyword) { 'not_a_time' }
+        it 'returns empty query' do
+          query = subject.send :search_queries, keyword
+          expect(query).to be_blank
+        end
+      end
+    end
+
+    context 'when field is datetime' do
+      let(:fields) do
+        {
+          'published_at' => { name: 'published_at', type: 'datetime' }
+        }
+      end
+      context 'and keyword is datetime' do
+        let(:keyword) { '2012-12-02T11:23:46Z' }
+        it 'returns a query' do
+          query = subject.send :search_queries, keyword
+          time = Time.zone.parse keyword
+          expect(query['(published_at >= ? AND published_at <= ?)']).to eq [ time, time ]
+        end
+      end
+
+      context 'and keyword is not datetime' do
+        let(:keyword) { 'not_a_datetime' }
         it 'returns empty query' do
           query = subject.send :search_queries, keyword
           expect(query).to be_blank
