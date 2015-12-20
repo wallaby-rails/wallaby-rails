@@ -4,7 +4,7 @@ describe Wallaby::PrefixesBuilder do
   let(:controller) do
     double 'Controller',
       class: klass,
-      action_name: action_name,
+      params: { action: action_name },
       resources_name: resources_name
   end
   let(:action_name) { 'show' }

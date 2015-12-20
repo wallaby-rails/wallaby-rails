@@ -36,7 +36,7 @@ class Wallaby::PrefixesBuilder
   def prefixes_combo prefixes, base_paths
     base_paths = [ base_paths ] unless base_paths.is_a? Array
     base_paths.each do |base_path|
-      prefixes << "#{ base_path }/#{ controller.action_name }"
+      prefixes << "#{ base_path }/#{ controller.params[:action] }"
       prefixes << base_path
     end
   end
