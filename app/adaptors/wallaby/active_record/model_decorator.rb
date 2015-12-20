@@ -13,7 +13,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
 
   def find_or_initialize(id = nil)
     if id.present?
-      @model_class.where(primary_key => id).first or raise Wallaby::ResourceNotFound.new id
+      @model_class.where(primary_key => id).first or fail Wallaby::ResourceNotFound, id
     else
       @model_class.new
     end

@@ -6,21 +6,21 @@ class Wallaby::ModelDecorator
   end
 
   def collection(params = {})
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 
   def search(params = {})
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 
   def find_or_initialize(id = nil)
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
     class_eval <<-RUBY
       def #{ prefix }fields
-        raise Wallaby::NotImplemented
+        fail Wallaby::NotImplemented
       end
 
       def #{ prefix }field_names
@@ -45,19 +45,19 @@ class Wallaby::ModelDecorator
   end
 
   def form_require_name
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 
   def form_strong_param_names
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 
   def primary_key
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 
   def guess_title(resource)
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 
   def model_label

@@ -9,6 +9,6 @@ class Wallaby::ModelFinder
 
   protected
   def all
-    raise Wallaby::NotImplemented
+    fail Wallaby::NotImplemented
   end
 end
