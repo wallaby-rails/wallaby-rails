@@ -1,10 +1,4 @@
 class Wallaby::ResourceDecorator
-  def self.inherited(subclass)
-    [ '', 'index_', 'show_', 'form_' ].each do |prefix|
-      subclass.send "#{ prefix }field_names"
-    end
-  end
-
   class << self
     def model_class
       if self < Wallaby::ResourceDecorator
@@ -38,6 +32,13 @@ class Wallaby::ResourceDecorator
   def initialize resource
     @resource         = resource
     @model_decorator  = self.class.model_decorator model_class
+
+    if self.class < Wallaby::ResourceDecorator
+      [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+        send "#{ prefix }field_names"
+        send "#{ prefix }fields"
+      end
+    end
   end
 
   def method_missing method_id, *args
