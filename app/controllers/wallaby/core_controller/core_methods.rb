@@ -5,9 +5,9 @@ module Wallaby::CoreController::CoreMethods
     helper_method \
       :model_class,
       :resources_name, :resource_name,
-      :model_decorator, :decorator,
+      :model_decorator, :resource_decorator,
       :collection, :resource,
-      :id, :resource_params
+      :resource_id, :resource_params
   end
 
   class_methods do
@@ -19,7 +19,9 @@ module Wallaby::CoreController::CoreMethods
 
     def model_class target_resources_name = resources_name, condition = self < Wallaby::ResourcesController
       if condition
-        Wallaby::Utils.to_model_name(target_resources_name).constantize
+        class_name = Wallaby::Utils.to_model_name target_resources_name
+        class_name.constantize rescue
+          fail Wallaby::ModelNotFound.new class_name
       end
     end
   end
@@ -40,40 +42,35 @@ module Wallaby::CoreController::CoreMethods
     self.class.model_class || self.class.model_class(resource_name, true)
   end
 
-  def model_decorator model = nil
-    if model
-      Wallaby::DecoratorFinder.find_model model
+  def model_decorator model_class = nil
+    if model_class
+      Wallaby::DecoratorFinder.find_model model_class
     else
-      @model_decorator ||= Wallaby::DecoratorFinder.find_model model_class
+      @model_decorator ||= Wallaby::DecoratorFinder.find_model self.model_class
     end
   end
 
-  def decorator resource = nil
+  def resource_decorator resource = nil
     if resource
       Wallaby::DecoratorFinder.find_resource resource.class
     else
-      @decorator ||= Wallaby::DecoratorFinder.find_resource model_class
+      @resource_decorator ||= Wallaby::DecoratorFinder.find_resource model_class
     end
   end
 
   def collection
-    @collection ||= model_decorator.collection
+    @collection ||= model_decorator.collection params
   end
 
   def resource
-    @resource ||= model_decorator.find_or_initialize id
+    @resource ||= model_decorator.find_or_initialize resource_id
   end
 
-  def id
+  def resource_id
     params[:id]
   end
 
   def resource_params
-    params.require(resource_name).permit *model_decorator.form_strong_param_names
-  end
-
-  protected
-  def build_up_view_paths
-    lookup_context.prefixes = Wallaby::PrefixesBuilder.new(self).build
+    params.require(model_decorator.form_require_name).permit *model_decorator.form_strong_param_names
   end
 end
