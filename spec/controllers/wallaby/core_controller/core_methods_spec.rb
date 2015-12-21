@@ -64,7 +64,7 @@ describe Wallaby::CoreController::CoreMethods do
           model_decorator = controller.model_decorator
           expect(model_decorator).to be_a Wallaby::ModelDecorator
           expect(model_decorator.model_class).to eq model_class
-          expect(controller.instance_variable_get :@model_decorator).to eq model_decorator
+          expect(assigns :model_decorator).to eq model_decorator
         end
 
         context 'when model_class is given' do
@@ -72,7 +72,7 @@ describe Wallaby::CoreController::CoreMethods do
             model_decorator = controller.model_decorator Product
             expect(model_decorator).to be_a Wallaby::ModelDecorator
             expect(model_decorator.model_class).to eq Product
-            expect(controller.instance_variable_get :@model_decorator).to be_nil
+            expect(assigns :model_decorator).to be_nil
           end
         end
       end
@@ -89,14 +89,14 @@ describe Wallaby::CoreController::CoreMethods do
         it 'returns resource decorator for default resource' do
           resource_decorator = controller.resource_decorator
           expect(resource_decorator).to eq Wallaby::ResourceDecorator
-          expect(controller.instance_variable_get :@resource_decorator).to eq resource_decorator
+          expect(assigns :resource_decorator).to eq resource_decorator
         end
 
         context 'when resource is given' do
           it 'returns resource decorator for given resource' do
             resource_decorator = controller.resource_decorator Product
             expect(resource_decorator).to eq Wallaby::ResourceDecorator
-            expect(controller.instance_variable_get :@resource_decorator).to be_nil
+            expect(assigns :resource_decorator).to be_nil
           end
         end
       end
