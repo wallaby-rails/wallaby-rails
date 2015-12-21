@@ -9,7 +9,6 @@ module Wallaby::CoreHelper
 
   # override `actionview/lib/action_view/helpers/rendering_helper.rb#render`
   def render options = {}, locals = {}, &block
-    customize_lookup_context
     caller_view_path = File.dirname caller[0].gsub(%r(:.*\Z), '')
     view_paths << caller_view_path
     super options, locals, &block
@@ -35,12 +34,5 @@ module Wallaby::CoreHelper
   rescue I18n::MissingTranslationData => e
     keys = I18n.normalize_keys(e.locale, e.key, e.options[:scope])
     @custom_translation[key] = keys.last.to_s.titleize
-  end
-
-  protected
-  def customize_lookup_context
-    @customize_lookup_context ||= begin
-      view_renderer.lookup_context = Wallaby::LookupContextWrapper.new lookup_context
-    end
   end
 end
