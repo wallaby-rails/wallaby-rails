@@ -13,6 +13,19 @@ describe Wallaby::Configuration::Security do
     end
   end
 
+  describe 'current_user?' do
+    it 'returns false' do
+      expect(subject.current_user?).to be_falsy
+    end
+
+    context 'when current_user is changed' do
+      it 'returns true' do
+        subject.current_user { 'custom user' }
+        expect(subject.current_user?).to be_truthy
+      end
+    end
+  end
+
   describe 'authenticate' do
     it 'assigns authenticate if block is given' do
       block = -> { 'doing nothing' }
@@ -22,6 +35,19 @@ describe Wallaby::Configuration::Security do
 
     it 'returns default block if no block is given' do
       expect(subject.authenticate).to eq described_class::DEFAULT_AUTHENTICATE
+    end
+  end
+
+  describe 'authenticate?' do
+    it 'returns false' do
+      expect(subject.authenticate?).to be_falsy
+    end
+
+    context 'when authenticate is changed' do
+      it 'returns true' do
+        subject.authenticate { false }
+        expect(subject.authenticate?).to be_truthy
+      end
     end
   end
 end

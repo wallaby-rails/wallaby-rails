@@ -12,11 +12,19 @@ class Wallaby::Configuration::Security
     end
   end
 
+  def current_user?
+    current_user != DEFAULT_CURRENT_USER
+  end
+
   def authenticate(&block)
     if block_given?
       @authenticate = block
     else
       @authenticate ||= DEFAULT_AUTHENTICATE
     end
+  end
+
+  def authenticate?
+    authenticate != DEFAULT_AUTHENTICATE
   end
 end
