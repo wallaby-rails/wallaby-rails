@@ -17,4 +17,15 @@ describe Wallaby::Configuration do
       expect(subject.adaptor).to respond_to :resource_commander
     end
   end
+
+  describe 'base_controller' do
+    it 'returns ApplicationController by default' do
+      expect(subject.base_controller).to eq ::ApplicationController
+    end
+
+    it 'returns whatever is set' do
+      subject.base_controller = ::ActionController::Base
+      expect(subject.base_controller).to eq ::ActionController::Base
+    end
+  end
 end

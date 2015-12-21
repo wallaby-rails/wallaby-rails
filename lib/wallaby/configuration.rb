@@ -18,6 +18,14 @@ module Wallaby
     def security
       @security ||= Security.new
     end
+
+    def base_controller
+      @base_controller ||= ::ApplicationController
+    end
+
+    def base_controller=(base_controller)
+      @base_controller = base_controller
+    end
   end
 
   def self.configuration
