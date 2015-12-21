@@ -41,13 +41,5 @@ module Wallaby
         destroy_error
       end
     end
-
-    def search
-      # TODO: for ransack
-    end
-
-    def history
-      # TODO: for papertrail
-    end
   end
 end
