@@ -5,19 +5,19 @@ module Wallaby::CoreController::CoreMethods
     helper_method \
       :model_class,
       :resources_name, :resource_name,
-      :model_decorator, :resource_decorator,
+      :model_decorator, :resource_decorator, :decorate,
       :collection, :resource,
       :resource_id, :resource_params
   end
 
   class_methods do
-    def resources_name condition = self < Wallaby::ResourcesController
+    def resources_name(condition = self < Wallaby::ResourcesController)
       if condition
         Wallaby::Utils.to_resources_name name.gsub('Controller', '')
       end
     end
 
-    def model_class target_resources_name = resources_name, condition = self < Wallaby::ResourcesController
+    def model_class(target_resources_name = resources_name, condition = self < Wallaby::ResourcesController)
       if condition
         class_name = Wallaby::Utils.to_model_name target_resources_name
         class_name.constantize rescue
@@ -26,9 +26,9 @@ module Wallaby::CoreController::CoreMethods
     end
   end
 
-  def resources_name resource = nil
+  def resources_name(resource = nil)
     if resource
-      Wallaby::Utils.to_resources_name resource.class.to_s
+      Wallaby::Utils.to_resources_name resource.class
     else
       self.class.resources_name || params[:resources]
     end
@@ -42,7 +42,7 @@ module Wallaby::CoreController::CoreMethods
     self.class.model_class || self.class.model_class(resource_name, true)
   end
 
-  def model_decorator model_class = nil
+  def model_decorator(model_class = nil)
     if model_class
       Wallaby::DecoratorFinder.find_model model_class
     else
@@ -50,11 +50,19 @@ module Wallaby::CoreController::CoreMethods
     end
   end
 
-  def resource_decorator resource = nil
+  def resource_decorator(resource = nil)
     if resource
       Wallaby::DecoratorFinder.find_resource resource.class
     else
       @resource_decorator ||= Wallaby::DecoratorFinder.find_resource model_class
+    end
+  end
+
+  def decorate(resource)
+    if resource.respond_to? :map # collection
+      resource.map &method(:decoration)
+    else
+      decoration resource
     end
   end
 
@@ -72,5 +80,10 @@ module Wallaby::CoreController::CoreMethods
 
   def resource_params
     params.require(model_decorator.form_require_name).permit *model_decorator.form_strong_param_names
+  end
+
+  protected
+  def decoration(item)
+    resource_decorator(item).decorate item
   end
 end

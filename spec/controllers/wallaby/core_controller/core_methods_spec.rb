@@ -101,6 +101,23 @@ describe Wallaby::CoreController::CoreMethods do
         end
       end
 
+      describe '#decorate' do
+        context 'when it is a collection' do
+          it 'returns a collection of decorators' do
+            collection = [ model_class.new, model_class.new ]
+            decorated = controller.decorate collection
+            expect(decorated).to be_a Array
+            expect(decorated).to all be_a Wallaby::ResourceDecorator
+          end
+        end
+
+        context 'when it is a resource' do
+          it 'returns a decorator' do
+            expect(controller.decorate model_class.new).to be_a Wallaby::ResourceDecorator
+          end
+        end
+      end
+
       describe '#collection' do
         it 'expects call from model_decorator' do
           expect(controller.model_decorator).to receive(:collection)
