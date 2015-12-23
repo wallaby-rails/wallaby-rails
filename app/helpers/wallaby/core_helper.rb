@@ -7,12 +7,6 @@ module Wallaby::CoreHelper
     ].compact.join ' '
   end
 
-  # override `actionview/lib/action_view/helpers/rendering_helper.rb#render`
-  def render options = {}, locals = {}, &block
-    caller_view_path = File.dirname caller[0].gsub(%r(:.*\Z), '')
-    view_paths << caller_view_path
-    super options, locals, &block
-  end
 
   def link_to_model model
     decorator = model_decorator model
