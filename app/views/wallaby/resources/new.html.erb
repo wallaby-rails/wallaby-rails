@@ -1,9 +1,14 @@
-<% decorated_resource = decorator.new resource %>
+<%
+# decorate first on every page or partial
+decorated_resource = decorate resource
+%>
 <section>
-  <h1>Create a <%= decorated_resource.model_label %></h1>
-  <hr />
-  <%= render 'shared/breadcrumb' %>
-  <%= form_for decorated_resource, url: wallaby_engine.resources_path, method: :post do |form| %>
+  <%= render 'wallaby/resources/shared/resource_nav' %>
+  <div class="page-header">
+    <h1>Create a <%= decorated_resource.model_label %></h1>
+  </div>
+  <%= render 'wallaby/shared/flash_messages' %>
+  <%= form_for decorated_resource, url: wallaby_engine.resources_path, method: :post, html: { :multipart => true } do |form| %>
     <%= render 'form', form: form, decorated_resource: decorated_resource %>
   <% end %>
 </section>
