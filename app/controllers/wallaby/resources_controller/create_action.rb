@@ -11,7 +11,7 @@ module Wallaby::ResourcesController::CreateAction
   end
 
   def create_error
-    flash[:error] = 'failed to create'
+    flash.now[:error] = 'failed to create'
     render :new
   end
 end

@@ -10,7 +10,7 @@ module Wallaby::ResourcesController::UpdateAction
   end
 
   def update_error
-    flash[:error] = 'failed to update'
+    flash.now[:error] = 'failed to update'
     render :edit
   end
 end
