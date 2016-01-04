@@ -2,7 +2,7 @@
 // Tables
 // --------------------------------------------------
 table.data-table {
-  @extend .table, .table-striped;
+  @extend .table;
   thead tr th {
     color: $gray-light;
     text-transform: uppercase;
