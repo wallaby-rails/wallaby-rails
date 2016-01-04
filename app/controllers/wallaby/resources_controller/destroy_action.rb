@@ -4,7 +4,7 @@ module Wallaby::ResourcesController::DestroyAction
   end
 
   def destroy_success
-    redirect_to wallaby_engine.resource_path(resources_name, resource.id), notice: 'successfully destroyed'
+    redirect_to wallaby_engine.resources_path(resources_name), notice: 'successfully destroyed'
   end
 
   def destroy_error
