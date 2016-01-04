@@ -28,4 +28,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'bootstrap-sass'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'sprockets-rails'
+  s.add_dependency 'devise'
 end

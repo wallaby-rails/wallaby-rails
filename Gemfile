@@ -14,6 +14,8 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 group :development, :test do
+  gem 'kaminari'
+  gem 'devise'
   gem 'bootstrap-sass'
   gem 'jquery-rails'
 
