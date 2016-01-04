@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= page_title %></title>
+
+    <%= stylesheet_link_tag 'wallaby/application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= yield :custom_stylesheet %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="<%= body_class %>">
+    <main>
+      <%= yield %>
+    </main>
+    <%= javascript_include_tag 'wallaby/application', 'data-turbolinks-track' => true %>
+    <%= yield :custom_javascript %>
+  </body>
+</html>
