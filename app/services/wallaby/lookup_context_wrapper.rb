@@ -25,13 +25,25 @@ class Wallaby::LookupContextWrapper
       @templates[key] = begin
         yield
       rescue ActionView::MissingTemplate => e
-        BlankTemplate.new
+        if Rails.env.development?
+          raise
+        else
+          BlankTemplate.new
+        end
       end
     end
     @templates[key]
   end
 
   class BlankTemplate
-    def render *args; end
+    def render *args
+    end
+
+    def identifier
+    end
+
+    def formats
+      [ :html ]
+    end
   end
 end
