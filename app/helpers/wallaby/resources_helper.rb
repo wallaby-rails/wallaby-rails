@@ -1,15 +1,17 @@
 require 'securerandom'
 
 module Wallaby::ResourcesHelper
-  def type_partial_render options = {}, locals = {}, &block
-    raise ArgumentError unless %i( object field_name ).all? { |key| locals.has_key? key }
-    locals[:value] = locals[:object].send locals[:field_name]
+  def type_partial_render(options = {}, locals = {}, &block)
+    fail ArgumentError unless %i( object field_name ).all?{ |key| locals.has_key? key } && locals[:object].is_a?(Wallaby::ResourceDecorator)
     locals[:metadata] = locals[:object].metadata_of locals[:field_name]
+    locals[:value] = locals[:object].send(locals[:field_name]).tap do |value|
+      value = decorate value if locals[:metadata][:is_association]
+    end
     render options, locals, &block or locals[:value]
   end
 
-  def form_type_partial_render options = {}, locals = {}, &block
-    raise ArgumentError unless %i( form field_name ).all? { |key| locals.has_key? key }
+  def form_type_partial_render(options = {}, locals = {}, &block)
+    fail ArgumentError unless %i( form field_name ).all?{ |key| locals.has_key? key }
     options = "form/#{ options }" if options.is_a? String
     locals[:object] = locals[:form].object
     locals[:value] = locals[:object].send locals[:field_name]
@@ -25,45 +27,48 @@ module Wallaby::ResourcesHelper
   end
 
   def null
-    unless Wallaby.configuration.display_null == false
-      content_tag :i, '<null>', class: 'text-muted'
-    end
+    content_tag :i, '<null>', class: 'text-muted'
   end
 
-  def i_tooltip title, icon = "info-sign"
+  def i_tooltip(title, icon = "info-sign")
     content_tag :i, nil, title: title, class: "glyphicon glyphicon-#{ icon }",
       data: { toggle: "tooltip", placement: "top" }
   end
 
-  def breadcrumb_components
-    request.env['PATH_INFO'].split('/').reject{ |v| v.blank? }
-  end
-
-  def breadcrumb_item_for component, last_component = breadcrumb_components.last
-    if component != last_component
-      if component == resources_name
-        link_to ct("breadcrumb.#{ component }"), wallaby_engine.resources_path
-      elsif component == id
-        link_to ct('breadcrumb.show'), wallaby_engine.resource_path
+  def open_model(title, body, label = nil)
+    uuid = random_uuid
+    label ||= content_tag :i, nil, class: 'glyphicon glyphicon-circle-arrow-up'
+    link_to(label, 'javascript:;', data: { toggle: 'modal', target: "##{ uuid }" }) +
+    content_tag(:div, id: uuid, class: 'modal fade', tabindex: -1, role: 'dialog') do
+      content_tag :div, class: 'modal-dialog modal-lg' do
+        content_tag :div, class: 'modal-content' do
+          content_tag(:div, class: 'modal-header') do
+            button_tag(type: 'button', class: 'close', data: { dismiss: 'modal' }, aria: { label: 'Close' }) do
+              content_tag :span, raw('&times;'), aria: { hidden: true }
+            end +
+            content_tag(:h4, title, class: 'modal-title')
+          end +
+          content_tag(:div, class: 'modal-body') do
+            body
+          end
+        end
       end
-    else
-      ct "breadcrumb.#{ component == id ? 'show' : component }"
     end
   end
 
-  def index_link options = {}, title = nil, resources = nil
+  def index_link(options = {}, title = nil, resources = nil)
     resources ||= resources_name
     title     ||= ct(resources)
     link_to title, wallaby_engine.resources_path, options
   end
 
-  def new_link options = {}, title = nil, resources = nil
+  def new_link(options = {}, title = nil, resources = nil)
     resources ||= resources_name
     title     ||= ct('link.new')
     link_to title, wallaby_engine.new_resource_path, options
   end
 
-  def show_link resource, options = {}, title = nil, resources = nil
+  def show_link(resource, options = {}, title = nil, resources = nil)
     resources ||= resources_name
     title     ||= ct('link.show')
     is_button = options.delete(:button)
@@ -71,7 +76,7 @@ module Wallaby::ResourcesHelper
     link_to title, wallaby_engine.resource_path(resources, resource), options
   end
 
-  def edit_link resource, options = {}, title = nil, resources = nil
+  def edit_link(resource, options = {}, title = nil, resources = nil)
     resources ||= resources_name
     title     ||= ct('link.edit')
     is_button = options.delete(:button)
@@ -79,16 +84,21 @@ module Wallaby::ResourcesHelper
     link_to title, wallaby_engine.edit_resource_path(resources, resource), options
   end
 
-  def delete_link resource, options = {}, title = nil, confirm = nil, resources = nil
+  def delete_link(resource, html_options = {}, title = nil, confirm = nil, resources = nil)
     resources ||= resources_name
     title     ||= ct('link.delete')
     confirm   ||= ct('link.confirm.delete')
-    is_button = options.delete(:button)
-    options[:title] = title and title = '' if is_button
-    link_to title, wallaby_engine.resource_path(resources, resource), options.merge(method: :delete, confirm: confirm)
+    is_button = html_options.delete(:button)
+    html_options[:title] = title and title = '' if is_button
+    options = {
+      url: wallaby_engine.resource_path(resources, resource),
+      method: :delete,
+      confirm: confirm
+    }
+    link_to title, wallaby_engine.resource_path(resources, resource), html_options.merge(options)
   end
 
-  def cancel_link title = nil, options = {}
+  def cancel_link(title = nil, options = {})
     title ||= ct('cancel')
     is_button = options.delete(:button)
     options[:title] = title and title = '' if is_button
@@ -99,13 +109,13 @@ module Wallaby::ResourcesHelper
     [ decorator.model_label, decorator.to_label ].compact.join ': '
   end
 
-  def link_to_resource resource, class_name = nil
+  def link_to_resource(resource = nil, klass = nil)
     if resource
-      decorated_resource = decorator(resource).new resource
-      link_to decorated_resource.to_label, wallaby_engine.resource_path(decorated_resource.resources_name, decorated_resource)
+      decorated = resource.decorate
+      link_to decorated.to_label, wallaby_engine.resource_path(decorated.resources_name, decorated)
     else
-      model = model_decorator(class_name.constantize)
-      link_to wallaby_engine.new_resource_path(model.resources_name) do
+      this_model_decorator = model_decorator(klass)
+      link_to wallaby_engine.new_resource_path(this_model_decorator.resources_name) do
         'Create one'
       end
     end
@@ -113,5 +123,23 @@ module Wallaby::ResourcesHelper
 
   def random_uuid
     SecureRandom.uuid
+  end
+
+  def resource_links
+    decorated = decorate resource
+    links = [ index_link({}, 'List') ]
+    if decorated.send decorated.primary_key
+      links << show_link(decorated) if params[:action] == 'edit'
+      links << edit_link(decorated) if params[:action] == 'show'
+      links << delete_link(decorated, class: 'text-danger')
+    end
+    links
+  end
+
+  def model_choices(this_model_decorator)
+    choices = this_model_decorator.search.map do |item|
+      decorated = item.decorate
+      [ decorated.to_label, decorated.send(decorated.primary_key) ]
+    end
   end
 end
