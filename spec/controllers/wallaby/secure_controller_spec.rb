@@ -40,7 +40,7 @@ describe Wallaby::SecureController do
             { email: 'admin@wallaby.org.au' }
           end
         end
-        described_class.include MockSuper
+        described_class.send :include, MockSuper
       end
       it 'returns a cacheing current_user' do
         security_config = Wallaby::Configuration::Security.new
@@ -68,7 +68,7 @@ describe Wallaby::SecureController do
             raise 'custom authentication error'
           end
         end
-        described_class.include MockSuper
+        described_class.send :include, MockSuper
       end
       it 'returns a cacheing authenticate_user' do
         security_config = Wallaby::Configuration::Security.new
