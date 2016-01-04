@@ -87,8 +87,8 @@ describe Wallaby::ResourceDecorator do
         resource.errors.add :name, 'can not be nil'
         resource.errors.add :base, 'has error'
         expect(subject.errors).to eq({
-          name:['can not be nil'],
-          base:['has error']
+          'name' => ['can not be nil'],
+          'base' => ['has error']
         })
       end
     end
