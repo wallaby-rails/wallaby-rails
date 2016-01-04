@@ -1,0 +1,5 @@
+<% decorated_resource.form_field_names.each do |field_name| %>
+  <%= form_type_partial_render decorated_resource.form_type_of(field_name).to_s, field_name: field_name, form: form %>
+<% end %>
+<%= form.submit class: 'btn btn-primary' %>
+<%= cancel_link nil, class: 'btn btn-default' %>

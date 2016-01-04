@@ -1,10 +1,10 @@
-<div class="col-sm-10 radio">
+<div class="form-group">
+  <%= form.label field_name, metadata[:label] %>
+  <br />
   <label>
-    <%= form.radio_button field_name, true %>
-    YES
+    <%= form.radio_button field_name, true %> Yes
   </label>
   <label>
-    <%= form.radio_button field_name, false %>
-    NO
+    <%= form.radio_button field_name, false %> No
   </label>
 </div>

@@ -1,8 +1,24 @@
-<% this_model_decorator = model_decorator metadata[:class_name].constantize %>
-<% choices = this_model_decorator.collection.collect do |item|
-    decorated = decorator(item).new item
-    [ decorated.to_label, decorated.send(decorated.primary_key) ]
-  end %>
-<div class="col-sm-5">
-  <%= form.select metadata[:id_key], choices, { include_blank: true }, { class: 'form-control' } %>
+<%
+this_model_decorator = model_decorator metadata[:class]
+%>
+<div class="form-group">
+  <%= form.label metadata[:foreign_key], metadata[:label] %>
+  <div class="row">
+    <% if metadata[:is_polymorphic] %>
+      <div class="col-xs-3">
+        <%= form.select metadata[:polymorphic_type], metadata[:polymorphic_list].map(&:to_s), { include_blank: true }, { class: 'form-control js-foreign-type' } %>
+      </div>
+      <div class="col-xs-3">
+        <%= form.text_field metadata[:foreign_key], class: 'form-control' %>
+      </div>
+    <% else %>
+      <div class="col-xs-6">
+        <%= form.select metadata[:foreign_key], model_choices(this_model_decorator), { include_blank: true }, { class: 'form-control js-foreign-key' } %>
+        <p class="help-block">
+          Or
+          <%= link_to "Create #{ metadata[:label] }", wallaby_engine.new_resource_path(this_model_decorator.resources_name) %>
+        </p>
+      </div>
+    <% end %>
+  </div>
 </div>

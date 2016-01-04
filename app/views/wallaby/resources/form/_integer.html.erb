@@ -1,3 +1,8 @@
-<div class="col-sm-2">
-  <%= form.number_field field_name, class: 'form-control' %>
+<div class="form-group">
+  <%= form.label field_name, metadata[:label] %>
+  <div class="row">
+    <div class="col-xs-3">
+      <%= form.number_field field_name, class: 'form-control' %>
+    </div>
+  </div>
 </div>
