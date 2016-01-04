@@ -1,1 +1,12 @@
-<%= value || null %>
+<% max   = 32 unless local_assigns[:max].present? %>
+<% if value %>
+  <% value = value.to_s %>
+  <% if value.length > max %>
+    <span><%= value.truncate max %></span>
+    <%= i_tooltip value %>
+  <% else %>
+    <span><%= value %></span>
+  <% end %>
+<% else %>
+  <%= null %>
+<% end %>

@@ -1,12 +1,24 @@
-
+<%
+# decorate first on every page or partial
+decorated_collection = decorate collection
+%>
 <section>
-  <div class="pull-right">
-    <%= new_link class: 'btn btn-primary' %>
+  <% # Search form %>
+  <div class="search-form">
+    <div class="pull-right">
+      <%= new_link class: 'btn btn-primary' %>
+    </div>
+    <span class="icon"></span>
+    <div class="keyword">
+      <%= form_tag wallaby_engine.resources_path, method: :get do %>
+        <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search"  %>
+      <% end %>
+    </div>
   </div>
-  <h1 class="subheader">List of <%= model_decorator.model_label %></h1>
-  <hr />
-  <%= render 'shared/breadcrumb' %>
-  <table class="table table-condensed table-striped">
+  <% # /Search form %>
+  <%= render 'wallaby/shared/flash_messages' %>
+  <% # Data table %>
+  <table class="data-table">
     <thead>
       <tr>
         <% model_decorator.index_field_names.each do |field_name| %>
@@ -16,19 +28,18 @@
       </tr>
     </thead>
     <tbody>
-      <% if collection.present? %>
-        <% collection.each do |resource| %>
-          <% decorated_resource = decorator.new resource %>
+      <% if decorated_collection.present? %>
+        <% decorated_collection.each do |decorated_resource| %>
           <tr>
             <% decorated_resource.index_field_names.each do |field_name| %>
               <td>
-                <%= type_partial_render decorated_resource.index_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %>
+                <%= type_partial_render decorated_resource.index_type_of(field_name), object: decorated_resource, field_name: field_name %>
               </td>
             <% end %>
             <td>
               <%= show_link decorated_resource, class: 'glyphicon glyphicon-info-sign', button: true %>
-              <%= edit_link decorated_resource, class: 'glyphicon glyphicon-edit', button: true %>
-              <%= delete_link decorated_resource, class: 'glyphicon glyphicon-remove-sign', button: true %>
+              <%= edit_link decorated_resource, class: 'text-warning glyphicon glyphicon-edit', button: true %>
+              <%= delete_link decorated_resource, class: 'text-danger glyphicon glyphicon-remove-sign', button: true %>
             </td>
           </tr>
         <% end %>
@@ -41,4 +52,17 @@
       <% end %>
     </tbody>
   </table>
+  <% # /Data table %>
+  <% # Kaminari pagination %>
+  <% if collection.present? && collection.respond_to?(:total_pages) %>
+    <div class="kaminari clearfix">
+      <div class="pull-left pagination-info">
+        <%= page_entries_info collection %>
+      </div>
+      <% _with_routes wallaby_engine do %>
+        <%= paginate collection %>
+      <% end %>
+    </div>
+  <% end %>
+  <% # /Kaminari pagination %>
 </section>

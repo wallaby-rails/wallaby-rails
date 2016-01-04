@@ -2,8 +2,9 @@
 <% if value %>
   <% value = value.to_s %>
   <% if value.length > max %>
+    <% uuid   = random_uuid %>
     <span><%= value.truncate max %></span>
-    <%= i_tooltip value %>
+    <%= open_model metadata[:label], value %>
   <% else %>
     <span><%= value %></span>
   <% end %>
