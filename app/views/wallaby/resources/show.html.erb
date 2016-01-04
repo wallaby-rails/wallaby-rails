@@ -1,33 +1,25 @@
-<% decorated_resource = decorator.new resource %>
+<%
+# decorate first on every page or partial
+decorated_resource = decorate resource
+%>
 <article>
-  <h1>
-    <%= show_title decorated_resource %>
-  </h1>
-  <div>
-    <% (decorated_resource.show_field_names & %w( updated_at created_at )).each do |field_name| %>
-      <span>
-        <span><%= decorated_resource.show_label_of field_name %>:</span>
-        <em class="text-muted"><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %></em>
-      </span>
-    <% end %>
+  <%= render 'wallaby/resources/shared/resource_nav' %>
+  <div class="page-header">
+    <h1>
+      <%= show_title decorated_resource %>
+    </h1>
+    <div>
+      <% (decorated_resource.show_field_names & %w( updated_at created_at )).each do |field_name| %>
+        <span>
+          <span><%= decorated_resource.show_label_of field_name %>:</span>
+          <em class="text-muted"><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %></em>
+        </span>
+      <% end %>
+    </div>
   </div>
-  <hr />
-  <%= render 'shared/breadcrumb' %>
-  <nav>
-    <ul class="nav nav-pills">
-      <li role="presentation" class="active">
-        <%= show_link decorated_resource, class: 'show-icon-label-link' %>
-      </li>
-      <li role="presentation">
-        <%= edit_link decorated_resource, class: 'edit-icon-label-link' %>
-      </li>
-      <li role="presentation">
-        <%= delete_link decorated_resource, class: 'delete-icon-label-link' %>
-      </li>
-    </ul>
-  </nav>
+  <%= render 'wallaby/shared/flash_messages' %>
   <section class="fields">
-    <table class="table table-condensed table-striped">
+    <table class="detail-table">
       <thead>
         <tr>
           <th>Field</th>
