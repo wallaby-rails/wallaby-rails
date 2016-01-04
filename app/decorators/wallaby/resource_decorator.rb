@@ -61,6 +61,10 @@ class Wallaby::ResourceDecorator
     model_decorator.guess_title resource
   end
 
+  def errors
+    model_decorator.form_errors(resource).with_indifferent_access
+  end
+
   def resources_name
     Wallaby::Utils.to_resources_name model_class.to_s
   end

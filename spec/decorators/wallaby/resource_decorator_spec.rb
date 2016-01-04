@@ -82,6 +82,17 @@ describe Wallaby::ResourceDecorator do
       end
     end
 
+    describe '#errors' do
+      it 'returns errors' do
+        resource.errors.add :name, 'can not be nil'
+        resource.errors.add :base, 'has error'
+        expect(subject.errors).to eq({
+          name:['can not be nil'],
+          base:['has error']
+        })
+      end
+    end
+
     describe '.model_decorator' do
       it 'returns model decorator' do
         expect(subject.model_decorator).to be_a Wallaby::ModelDecorator

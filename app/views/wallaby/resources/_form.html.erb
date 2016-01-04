@@ -1,3 +1,10 @@
+<% decorated_resource.errors[:base].try do |messages| %>
+  <% Array(messages).each do |message| %>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <%= raw message %>
+    </div>
+  <% end %>
+<% end %>
 <% decorated_resource.form_field_names.each do |field_name| %>
   <%= form_type_partial_render decorated_resource.form_type_of(field_name).to_s, field_name: field_name, form: form %>
 <% end %>

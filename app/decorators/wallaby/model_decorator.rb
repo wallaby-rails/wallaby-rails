@@ -52,6 +52,10 @@ class Wallaby::ModelDecorator
     fail Wallaby::NotImplemented
   end
 
+  def form_errors(resource)
+    fail Wallaby::NotImplemented
+  end
+
   def primary_key
     fail Wallaby::NotImplemented
   end

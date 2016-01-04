@@ -59,6 +59,10 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
     @form_strong_param_names ||= general_form_field_names + [ many_association_form_params ]
   end
 
+  def form_errors(resource)
+    resource.errors.messages
+  end
+
   def primary_key
     @model_class.primary_key
   end

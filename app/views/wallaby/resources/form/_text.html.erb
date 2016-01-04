@@ -1,4 +1,5 @@
 <div class="form-group">
   <%= form.label field_name, metadata[:label] %>
   <%= form.text_area field_name, class: 'form-control' %>
+  <%= form_field_error_messages object, field_name %>
 </div>

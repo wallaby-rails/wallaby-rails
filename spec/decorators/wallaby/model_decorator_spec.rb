@@ -29,6 +29,7 @@ describe Wallaby::ModelDecorator do
         end
         expect{ instance.form_require_name }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.form_strong_param_names }.not_to raise_error Wallaby::NotImplemented
+        expect{ instance.form_errors nil }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.primary_key }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.guess_title nil }.not_to raise_error Wallaby::NotImplemented
       end

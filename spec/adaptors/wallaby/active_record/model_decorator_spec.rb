@@ -168,6 +168,18 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     end
   end
 
+  describe '#form_errors' do
+    it 'returns the form errors' do
+      resource = double errors: ActiveModel::Errors.new({})
+      resource.errors.add :name, 'can not be nil'
+      resource.errors.add :base, 'has error'
+      expect(subject.form_errors resource).to eq({
+        name:['can not be nil'],
+        base:['has error']
+      })
+    end
+  end
+
   describe '#primary_key' do
     it 'returns model primary_key' do
       allow(model_class).to receive(:primary_key).and_return('product_id')

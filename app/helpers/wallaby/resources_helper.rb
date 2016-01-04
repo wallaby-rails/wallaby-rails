@@ -11,7 +11,7 @@ module Wallaby::ResourcesHelper
   end
 
   def form_type_partial_render(options = {}, locals = {}, &block)
-    fail ArgumentError unless %i( form field_name ).all?{ |key| locals.has_key? key }
+    fail ArgumentError unless %i( form field_name ).all?{ |key| locals.has_key? key } && locals[:form].object.is_a?(Wallaby::ResourceDecorator)
     options = "form/#{ options }" if options.is_a? String
     locals[:object] = locals[:form].object
     locals[:value] = locals[:object].send locals[:field_name]
@@ -33,6 +33,14 @@ module Wallaby::ResourcesHelper
   def i_tooltip(title, icon = "info-sign")
     content_tag :i, nil, title: title, class: "glyphicon glyphicon-#{ icon }",
       data: { toggle: "tooltip", placement: "top" }
+  end
+
+  def form_field_error_messages(decorated_resource, field_name)
+    content_tag :ul, class: 'text-danger' do
+      Array(decorated_resource.errors[field_name]).map do |message|
+        content_tag :li, content_tag(:small, raw(message))
+      end.join.html_safe
+    end
   end
 
   def open_model(title, body, label = nil)
@@ -138,7 +146,7 @@ module Wallaby::ResourcesHelper
 
   def model_choices(this_model_decorator)
     choices = this_model_decorator.search.map do |item|
-      decorated = item.decorate
+      decorated = decorate item
       [ decorated.to_label, decorated.send(decorated.primary_key) ]
     end
   end
