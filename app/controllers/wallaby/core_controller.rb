@@ -1,9 +1,8 @@
 module Wallaby
   class CoreController < SecureController
-
-    helper_method :model_classes
-
     include CoreMethods
+    before_action :authenticate_user!, except: [ :status ]
+    helper_method :model_classes
 
     def status
       render text: 'healthy'
