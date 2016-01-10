@@ -65,7 +65,7 @@ describe Wallaby::SecureController do
       before do
         module MockSuper
           def authenticate_user!
-            raise 'custom authentication error'
+            fail 'custom authentication error'
           end
         end
         described_class.send :include, MockSuper
