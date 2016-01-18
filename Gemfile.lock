@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wallaby (0.0.3)
+    wallaby (0.0.4)
       bootstrap-sass
       devise
       jquery-rails
