@@ -119,7 +119,7 @@ module Wallaby::ResourcesHelper
 
   def link_to_resource(resource = nil, klass = nil)
     if resource
-      decorated = resource.decorate
+      decorated = decorate resource
       link_to decorated.to_label, wallaby_engine.resource_path(decorated.resources_name, decorated)
     else
       this_model_decorator = model_decorator(klass)
