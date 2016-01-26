@@ -23,11 +23,19 @@ class Wallaby::ModelDecorator
         fail Wallaby::NotImplemented
       end
 
+      def #{ prefix }fields=(#{ prefix }fields)
+        @#{ prefix }fields = #{ prefix }fields
+      end
+
       def #{ prefix }field_names
         @#{ prefix }field_names ||= #{ prefix }fields.keys.tap do |names|
           names.delete primary_key
           names.unshift primary_key
         end
+      end
+
+      def #{ prefix }field_names=(#{ prefix }field_names)
+        @#{ prefix }field_names = #{ prefix }field_names
       end
 
       def #{ prefix }metadata_of(field_name)
