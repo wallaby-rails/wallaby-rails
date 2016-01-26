@@ -1,3 +1,14 @@
+if Rails.env.development?
+  # NOTE: we search for subclasses of Wallaby::ResourcesController and Wallaby::ResourceDecorator.
+  # therefore, under development environment, we need to preload all classes under /app folder in main_app
+  require 'wallaby/application_controller'
+
+  Dir[ 'app/**/*.rb' ].each do |file_path|
+    name = file_path[ %r(app/[^/]+/(.+)\.rb), 1 ]
+    require name
+  end
+end
+
 class Wallaby::ResourcesRouter
   def call env
     params            = env['action_dispatch.request.path_parameters']
