@@ -1,13 +1,13 @@
 module Wallaby::ActiveRecord
   def self.model_decorator
-    ModelDecorator
+    self::ModelDecorator
   end
 
   def self.model_finder
-    ModelFinder
+    self::ModelFinder
   end
 
   def self.resource_commander
-    ResourceCommander
+    self::ResourceCommander
   end
 end

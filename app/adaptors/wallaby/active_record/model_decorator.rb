@@ -73,15 +73,15 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
 
   protected
   def field_builder
-    @field_builder ||= FieldsBuilder.new @model_class
+    @field_builder ||= Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder.new @model_class
   end
 
   def search_query_builder
-    @search_query_builder ||= SearchQueryBuilder.new @model_class, general_fields
+    @search_query_builder ||= Wallaby::ActiveRecord::ModelDecorator::SearchQueryBuilder.new @model_class, general_fields
   end
 
   def title_field_finder
-    @title_field_finder ||= TitleFieldFinder.new @model_class, general_fields
+    @title_field_finder ||= Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder.new @model_class, general_fields
   end
 
   delegate :general_fields, :association_fields, to: :field_builder
