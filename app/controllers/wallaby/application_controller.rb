@@ -10,7 +10,16 @@ class Wallaby::ApplicationController < ::Wallaby.configuration.base_controller
   end
 
   def _prefixes
-    @_prefixes ||= Wallaby::PrefixesBuilder.new(self).build
+    @_prefixes ||= begin
+      if respond_to? :resources_name
+        # NOTE: this is to override the origin prefix and speed up things
+        # we only need two prefixes
+        resource_prefix = resources_name.gsub '::', '/'
+        [ resource_prefix, 'wallaby/resources' ]
+      else
+        super
+      end
+    end
   end
 
   def lookup_context
