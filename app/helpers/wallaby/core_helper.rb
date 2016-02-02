@@ -22,12 +22,6 @@ module Wallaby::CoreHelper
     label.html_safe
   end
 
-  def link_to_model(model)
-    decorator = model_decorator model
-    name      = Wallaby::Utils.to_resources_name model
-    link_to decorator.model_label, wallaby_engine.resources_path(name)
-  end
-
   def ct(key, options = {})
     # TODO: review this when we are going to replace all plain text with I18n translation
     @custom_translation ||= {}
@@ -39,5 +33,9 @@ module Wallaby::CoreHelper
   rescue I18n::MissingTranslationData => e
     keys = I18n.normalize_keys(e.locale, e.key, e.options[:scope])
     @custom_translation[key] = keys.last.to_s.titleize
+  end
+
+  def random_uuid
+    SecureRandom.uuid
   end
 end
