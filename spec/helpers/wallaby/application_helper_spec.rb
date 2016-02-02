@@ -24,7 +24,7 @@ describe Wallaby::ApplicationHelper do
   describe '#render' do
     it 'adds caller path to view_paths' do
       helper.render '/wallaby/shared/flash_messages'
-      expect(helper.view_paths.map(&:to_path).last).to match %r(lib/action_view\Z)
+      expect(helper.view_paths.map(&:to_path).last).to match %r(/app/views)
     end
   end
 

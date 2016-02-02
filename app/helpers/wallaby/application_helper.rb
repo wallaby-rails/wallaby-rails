@@ -1,8 +1,7 @@
 module Wallaby::ApplicationHelper
   # override `actionview/lib/action_view/routing_url_for.rb#url_for`
   def url_for(options = nil)
-    if options.is_a?(Hash) &&
-      %i( action resources ).all?{|key| options.key? key }
+    if options.is_a?(Hash) && options.slice(:action, :resources).size == 2
       return wallaby_resourceful_url_for options
     end
     super
@@ -11,7 +10,10 @@ module Wallaby::ApplicationHelper
   # override `actionview/lib/action_view/helpers/rendering_helper.rb#render`
   def render(options = {}, locals = {}, &block)
     caller_view_path = File.dirname caller[0].gsub(%r(:.*\Z), '')
-    view_paths << caller_view_path
+    if caller_view_path =~ %r(/app/views) &&
+      !view_paths.map(&:to_path).include?(caller_view_path)
+      view_paths << caller_view_path
+    end
     super options, locals, &block
   end
 
