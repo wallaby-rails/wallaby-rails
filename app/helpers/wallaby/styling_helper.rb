@@ -17,7 +17,7 @@ module Wallaby::StylingHelper
     end
   end
 
-  def open_model(title, body, label = nil)
+  def imodal(title, body, label = nil)
     uuid = random_uuid
     label ||= icon 'circle-arrow-up'
     link_to(label, 'javascript:;', data: { toggle: 'modal', target: "##{ uuid }" }) +

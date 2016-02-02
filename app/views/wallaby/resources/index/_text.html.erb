@@ -1,13 +1,12 @@
-<% max   = 32 unless local_assigns[:max].present? %>
-<% if value %>
+<% max   = metadata[:max] || 28 %>
+<% if value.nil? %>
+  <%= null %>
+<% else %>
   <% value = value.to_s %>
   <% if value.length > max %>
-    <% uuid   = random_uuid %>
     <span><%= value.truncate max %></span>
-    <%= open_model metadata[:label], value %>
+    <%= imodal metadata[:label], value %>
   <% else %>
     <span><%= value %></span>
   <% end %>
-<% else %>
-  <%= null %>
 <% end %>

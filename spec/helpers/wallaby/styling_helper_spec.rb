@@ -19,10 +19,10 @@ describe Wallaby::StylingHelper do
     end
   end
 
-  describe '#open_model' do
+  describe '#imodal' do
     it 'returns modal html' do
       allow(helper).to receive(:random_uuid) { 'random_uuid' }
-      expect(helper.open_model 'this is a title', 'this is the body').to eq "<a data-toggle=\"modal\" data-target=\"#random_uuid\" href=\"javascript:;\"><i class=\"glyphicon glyphicon-circle-arrow-up\"></i></a><div id=\"random_uuid\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\"><div class=\"modal-header\"><button name=\"button\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4 class=\"modal-title\">this is a title</h4></div><div class=\"modal-body\">this is the body</div></div></div></div>"
+      expect(helper.imodal 'this is a title', 'this is the body').to eq "<a data-toggle=\"modal\" data-target=\"#random_uuid\" href=\"javascript:;\"><i class=\"glyphicon glyphicon-circle-arrow-up\"></i></a><div id=\"random_uuid\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\"><div class=\"modal-header\"><button name=\"button\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><h4 class=\"modal-title\">this is a title</h4></div><div class=\"modal-body\">this is the body</div></div></div></div>"
     end
   end
 
