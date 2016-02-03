@@ -1,0 +1,15 @@
+.nav {
+  .text-danger {
+    &:hover {
+      background-color: #d04437;
+      color: #ffffff;
+    }
+  }
+
+  .text-success {
+    &:hover {
+      background-color: #8eb021;
+      color: #ffffff;
+    }
+  }
+}

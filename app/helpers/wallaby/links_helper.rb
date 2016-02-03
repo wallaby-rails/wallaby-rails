@@ -65,7 +65,7 @@ module Wallaby::LinksHelper
     links = [ index_link({}, 'List') ]
     if decorated.send decorated.primary_key
       links << show_link(decorated) if params[:action] == 'edit'
-      links << edit_link(decorated) if params[:action] == 'show'
+      links << edit_link(decorated, class: 'text-success') if params[:action] == 'show'
       links << delete_link(decorated, class: 'text-danger')
     end
     links
