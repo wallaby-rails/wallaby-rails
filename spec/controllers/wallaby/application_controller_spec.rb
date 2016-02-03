@@ -29,9 +29,17 @@ describe Wallaby::ApplicationController do
   end
 
   describe '_prefixes' do
-    it 'returns a new _prefixes' do
-      allow(controller).to receive(:params).and_return({ action: 'index' })
-      expect(controller._prefixes).to eq ["wallaby/application/index", "wallaby/application", ""]
+    it 'returns origin _prefixes' do
+      expect(controller._prefixes).to eq ["wallaby/application", "application"]
+    end
+
+    context 'when it has resources_name' do
+      it 'returns a new _prefixes' do
+        def controller.resources_name
+          'products'
+        end
+        expect(controller._prefixes).to eq ["products", "wallaby/resources"]
+      end
     end
   end
 end
