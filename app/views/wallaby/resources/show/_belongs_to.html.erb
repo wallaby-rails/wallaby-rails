@@ -1,1 +1,2 @@
-<%= link_to_resource value, metadata[:class] %>
+<%= link_to_resource value, metadata[:class] if value %>
+<%= link_to_resource nil, metadata[:class] %>
