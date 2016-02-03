@@ -1,12 +1,9 @@
-# History:
+# v0.0.5
 
-## v0.0.4
-
-1. Basic search for collection
-2. Kaminari pagination for collection.
-3. Basic flash message.
-4. Authentication. It can be configured.
-5. Basic form errors
+1. Resolved Autoload
+2. Reduced view path set and speeded up page render
+3. Broke down resources_helper into styling_helper/links_helper/form_helper
+4. Added partial for type inet
 
 # WIP Feature list
 
@@ -21,6 +18,16 @@
 - Autoload is not working for finding out all subclasses in development mode
 - Form partial is not rendering in development mode
 - Missing assets for kaminari and bootstrap-sass if kaminari and bootstrap-sass are not in the `Gemfile`
+
+# History:
+
+## v0.0.4
+
+1. Basic search for collection
+2. Kaminari pagination for collection.
+3. Basic flash message.
+4. Authentication. It can be configured.
+5. Basic form errors
 
 ## v0.0.3
 

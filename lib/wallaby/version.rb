@@ -1,3 +1,3 @@
 module Wallaby
-  VERSION = '0.0.4-patched'
+  VERSION = '0.0.5'
 end

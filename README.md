@@ -6,13 +6,12 @@ Wallaby is a Rails engine to manage your data. You could have a play with the [d
 
 ## What's new
 
-### v0.0.4
+### v0.0.5
 
-1. Basic search for collection
-2. Kaminari pagination for collection.
-3. Basic flash message.
-4. Authentication. It can be configured.
-5. Basic form errors
+1. Resolved Autoload
+2. Reduced view path set and speeded up page render
+3. Broke down resources_helper into styling_helper/links_helper/form_helper
+4. Added partial for type inet
 
 For more, see [Changlog](CHANGELOG.md)
 
