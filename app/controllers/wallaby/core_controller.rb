@@ -1,6 +1,9 @@
 module Wallaby
   class CoreController < SecureController
     include CoreMethods
+    helper 'wallaby/styling'
+    helper 'wallaby/links'
+
     before_action :authenticate_user!, except: [ :status ]
     helper_method :model_classes
 

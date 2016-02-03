@@ -1,6 +1,7 @@
 module Wallaby
   class ResourcesController < CoreController
     include CreateAction, UpdateAction, DestroyAction
+    helper 'wallaby/form'
 
     def index
       collection
