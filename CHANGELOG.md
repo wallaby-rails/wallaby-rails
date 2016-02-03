@@ -1,9 +1,6 @@
-# v0.0.5
+# v0.0.6
 
-1. Resolved Autoload
-2. Reduced view path set and speeded up page render
-3. Broke down resources_helper into styling_helper/links_helper/form_helper
-4. Added partial for type inet
+1. Resolved Autoload issue
 
 # WIP Feature list
 
@@ -15,11 +12,16 @@
 
 # Knonw issues
 
-- Autoload is not working for finding out all subclasses in development mode
-- Form partial is not rendering in development mode
 - Missing assets for kaminari and bootstrap-sass if kaminari and bootstrap-sass are not in the `Gemfile`
 
 # History:
+
+## v0.0.5
+
+1. Resolved Autoload (failed)
+2. Reduced view path set and speeded up page render
+3. Broke down resources_helper into styling_helper/links_helper/form_helper
+4. Added partial for type inet
 
 ## v0.0.4
 

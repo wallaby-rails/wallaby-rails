@@ -6,12 +6,9 @@ Wallaby is a Rails engine to manage your data. You could have a play with the [d
 
 ## What's new
 
-### v0.0.5
+### v0.0.6
 
-1. Resolved Autoload
-2. Reduced view path set and speeded up page render
-3. Broke down resources_helper into styling_helper/links_helper/form_helper
-4. Added partial for type inet
+1. Resolved Autoload issue
 
 For more, see [Changlog](CHANGELOG.md)
 
