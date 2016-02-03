@@ -1,0 +1,8 @@
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <%= value %>
+  <%= link_to "http://ip-api.com/##{ value }", target: :_blank do %>
+    <i class="glyphicon glyphicon-new-window"></i>
+  <% end %>
+<% end %>

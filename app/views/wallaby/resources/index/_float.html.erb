@@ -1,1 +1,5 @@
-<%= number_with_precision(value.to_f, precision: 2) || null %>
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <%= number_with_precision value.to_f, precision: (metadata[:precision] || 2) %>
+<% end %>

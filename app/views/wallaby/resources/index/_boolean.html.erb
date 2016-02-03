@@ -1,1 +1,5 @@
-<%= value == true ? 'YES' : (value == false ? 'NO' : null) %>
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <%= value ? 'YES' : 'NO' %>
+<% end %>
