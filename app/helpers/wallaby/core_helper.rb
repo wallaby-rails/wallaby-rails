@@ -38,4 +38,8 @@ module Wallaby::CoreHelper
   def random_uuid
     SecureRandom.uuid
   end
+
+  def model_classes
+    @model_classes ||= Wallaby.configuration.adaptor.model_finder.new.available
+  end
 end
