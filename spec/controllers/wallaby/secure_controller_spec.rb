@@ -15,13 +15,17 @@ describe Wallaby::SecureController do
       end
 
       it 'renders access_denied view' do
-        expect(controller).to receive(:render).with('wallaby/errors/access_denied', status: 401, layout: 'wallaby/error')
+        expect(controller).to receive(:access_denied)
         get :index
       end
     end
   end
 
   describe '#current_user' do
+    it 'returns nil by default' do
+      expect(controller.send :current_user).to be_nil
+    end
+
     context 'when current_user setting exists' do
       it 'returns a cacheing current_user' do
         user = { email: 'wallaby@wallaby.org.au' }
@@ -42,6 +46,7 @@ describe Wallaby::SecureController do
         end
         described_class.send :include, MockSuper
       end
+
       it 'returns a cacheing current_user' do
         security_config = Wallaby::Configuration::Security.new
         allow(controller).to receive(:security_config).and_return(security_config)
@@ -52,6 +57,10 @@ describe Wallaby::SecureController do
   end
 
   describe '#authenticate_user!' do
+    it 'returns true by default' do
+      expect(controller.send :authenticate_user!).to be_truthy
+    end
+
     context 'when authenticate_user setting exists' do
       it 'returns a cacheing authenticate_user' do
         security_config = Wallaby::Configuration::Security.new
@@ -70,6 +79,7 @@ describe Wallaby::SecureController do
         end
         described_class.send :include, MockSuper
       end
+
       it 'returns a cacheing authenticate_user' do
         security_config = Wallaby::Configuration::Security.new
         allow(controller).to receive(:security_config).and_return(security_config)

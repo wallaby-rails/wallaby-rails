@@ -24,6 +24,7 @@ module Wallaby
         super
       end
       fail Wallaby::NotAuthenticated if !authenticated
+      true
     end
 
     def security_config
