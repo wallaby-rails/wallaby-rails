@@ -35,12 +35,6 @@ describe Wallaby::CoreController::CoreMethods do
         end
       end
 
-      describe '#resource_name' do
-        it 'returns resource name from params' do
-          expect(controller.resource_name).to eq 'fish_and_chip'
-        end
-      end
-
       describe '#model_class' do
         context 'when model exists' do
           it 'returns model class for resource' do

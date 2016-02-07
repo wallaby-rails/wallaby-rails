@@ -4,7 +4,7 @@ module Wallaby::CoreController::CoreMethods
   included do
     helper_method \
       :model_class,
-      :resources_name, :resource_name,
+      :resources_name,
       :model_decorator, :resource_decorator, :decorate,
       :collection, :resource,
       :resource_id, :resource_params
@@ -34,12 +34,9 @@ module Wallaby::CoreController::CoreMethods
     end
   end
 
-  def resource_name
-    resources_name.singularize
-  end
-
   def model_class
-    self.class.model_class || self.class.model_class(resource_name, true)
+    self.class.model_class ||
+    self.class.model_class(resources_name.singularize, true)
   end
 
   def model_decorator(model_class = nil)
@@ -60,9 +57,11 @@ module Wallaby::CoreController::CoreMethods
 
   def decorate(resource)
     if resource.respond_to? :map # collection
-      resource.map &method(:decoration)
+      resource.map do |item|
+        decorate item
+      end
     else
-      decoration resource
+      resource_decorator(resource).decorate resource
     end
   end
 
@@ -79,11 +78,7 @@ module Wallaby::CoreController::CoreMethods
   end
 
   def resource_params
-    params.require(model_decorator.form_require_name).permit *model_decorator.form_strong_param_names
-  end
-
-  protected
-  def decoration(item)
-    resource_decorator(item).decorate item
+    params.require(model_decorator.form_require_name)
+      .permit *model_decorator.form_strong_param_names
   end
 end
