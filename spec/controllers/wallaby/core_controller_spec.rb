@@ -5,6 +5,9 @@ describe Wallaby::CoreController do
     it 'returns healthy' do
       get :status
       expect(response.body).to eq 'healthy'
+
+      get :status, format: :json
+      expect(response.body).to eq 'healthy'
     end
   end
 end
