@@ -29,5 +29,17 @@ describe Wallaby::ActiveRecord::ModelFinder do
         expect(subject.send :all).to be_blank
       end
     end
+
+    context 'when there is anonymous class' do
+      it 'filters out anonymous class' do
+        anonymous_class = Class.new do
+          def self.abstract_class?
+            false
+          end
+        end
+        allow(ActiveRecord::Base).to receive(:subclasses).and_return [ anonymous_class ]
+        expect(subject.send :all).to be_blank
+      end
+    end
   end
 end
