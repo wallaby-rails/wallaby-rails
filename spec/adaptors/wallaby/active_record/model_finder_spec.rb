@@ -2,23 +2,32 @@ require 'rails_helper'
 
 describe Wallaby::ActiveRecord::ModelFinder do
   describe '#all' do
-    let(:valid_model_classes) do
-      class Airport < ActiveRecord::Base; end
-      class Airline < ActiveRecord::Base; end
-      class Airplane < ActiveRecord::Base; end
-      [ Airport, Airline, Airplane ]
-    end
-
-    let(:anonymous_class) do
-      Class.new ActiveRecord::Base
-    end
-
     before do
-      allow(ActiveRecord::Base).to receive(:subclasses).and_return(valid_model_classes + [ anonymous_class ])
+      class Airport; def self.abstract_class?; false; end; end
+      class Airline; def self.abstract_class?; false; end; end
+      class Airplane; def self.abstract_class?; false; end; end
+      class Airplane::HABTM_Airports; def self.abstract_class?; false; end; end
+      class AbstractAirport; def self.abstract_class?; true; end; end
+      Rails.cache.delete 'wallaby/model_finder'
     end
 
-    it 'excludes anonymous_class' do
-      expect(subject.send :all).to eq valid_model_classes
+    it 'returns valid model classes in alphabetic order' do
+      allow(ActiveRecord::Base).to receive(:subclasses).and_return [ Airport, Airplane, Airline ]
+      expect(subject.send :all).to eq [ Airline, Airplane, Airport ]
+    end
+
+    context 'when there is abstract class' do
+      it 'filters out abstract class' do
+        allow(ActiveRecord::Base).to receive(:subclasses).and_return [ AbstractAirport ]
+        expect(subject.send :all).to be_blank
+      end
+    end
+
+    context 'when there is HABTM class' do
+      it 'filters out HABTM class' do
+        allow(ActiveRecord::Base).to receive(:subclasses).and_return [ Airplane::HABTM_Airports ]
+        expect(subject.send :all).to be_blank
+      end
     end
   end
 end
