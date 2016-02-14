@@ -25,12 +25,26 @@ describe Wallaby::Utils do
 
   describe '.to_model_label' do
     it 'returns model label for a model class' do
-      expect(described_class.to_model_label 'posts').to eq 'Posts'
-      expect(described_class.to_model_label 'wallaby::posts').to eq 'Wallaby / Posts'
+      expect(described_class.to_model_label 'posts').to eq 'Post'
+      expect(described_class.to_model_label 'wallaby::posts').to eq 'Wallaby / Post'
       expect(described_class.to_model_label 'post').to eq 'Post'
       expect(described_class.to_model_label 'wallaby::post').to eq 'Wallaby / Post'
-      expect(described_class.to_model_label 'people').to eq 'People'
-      expect(described_class.to_model_label 'wallaby::people').to eq 'Wallaby / People'
+      expect(described_class.to_model_label 'people').to eq 'Person'
+      expect(described_class.to_model_label 'wallaby::people').to eq 'Wallaby / Person'
+
+      expect(described_class.to_model_label 'person').to eq 'Person'
+      expect(described_class.to_model_label 'wallaby::person').to eq 'Wallaby / Person'
+    end
+  end
+
+  describe '.to_model_class' do
+    it 'returns model class' do
+      class ActiveProduct; end
+      expect(described_class.to_model_class 'active_products').to eq ActiveProduct
+    end
+
+    context 'when resources_name is unknown' do
+      expect{ described_class.to_model_class 'unknown' }.to raise_error Wallaby::ModelNotFound
     end
   end
 end
