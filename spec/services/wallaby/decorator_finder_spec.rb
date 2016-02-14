@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe Wallaby::DecoratorFinder do
+  before do
+    Rails.cache.delete 'wallaby/decorator_finder'
+  end
+
   describe '.find_model' do
     let(:model_class) { Category }
 
