@@ -11,12 +11,14 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
     query   = search_query_builder.build keyword
   end
 
-  def find_or_initialize(id = nil)
-    if id.present?
+  def find_or_initialize(id = nil, params = {})
+    resource = if id.present?
       @model_class.where(primary_key => id).first or fail Wallaby::ResourceNotFound, id
     else
       @model_class.new
     end
+    resource.assign_attributes params
+    resource
   end
 
   def fields
@@ -73,15 +75,15 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
 
   protected
   def field_builder
-    @field_builder ||= FieldsBuilder.new @model_class
+    @field_builder ||= Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder.new @model_class
   end
 
   def search_query_builder
-    @search_query_builder ||= SearchQueryBuilder.new @model_class, general_fields
+    @search_query_builder ||= Wallaby::ActiveRecord::ModelDecorator::SearchQueryBuilder.new @model_class, general_fields
   end
 
   def title_field_finder
-    @title_field_finder ||= TitleFieldFinder.new @model_class, general_fields
+    @title_field_finder ||= Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder.new @model_class, general_fields
   end
 
   delegate :general_fields, :association_fields, to: :field_builder

@@ -29,7 +29,9 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
   describe '#find_or_initialize' do
     it 'finds the record by id' do
-      allow(model_class).to receive_message_chain(:where, :first).and_return(model_class.new)
+      resource = model_class.new
+      allow(model_class).to receive_message_chain(:where, :first).and_return resource
+      expect(resource).to receive :assign_attributes
       expect{ subject.find_or_initialize 1 }.not_to raise_error
 
       allow(model_class).to receive_message_chain(:where, :first).and_return(nil)
@@ -37,6 +39,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     end
 
     it 'builds a new record' do
+      expect_any_instance_of(model_class).to receive :assign_attributes
       new_record = subject.find_or_initialize nil
       expect(new_record).to be_a model_class
       expect(new_record).to be_new_record
