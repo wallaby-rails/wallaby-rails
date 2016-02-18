@@ -13,6 +13,8 @@ module Wallaby::Utils
   end
 
   def self.to_model_class(resources_name)
+    return if resources_name.blank?
+
     class_name = to_model_name resources_name
     class_name.constantize rescue
       fail Wallaby::ModelNotFound.new class_name

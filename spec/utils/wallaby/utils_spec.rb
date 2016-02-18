@@ -10,6 +10,13 @@ describe Wallaby::Utils do
       expect(described_class.to_resources_name 'Wallaby::Person').to eq 'wallaby::people'
       expect(described_class.to_resources_name 'wallaby/person').to eq 'wallaby::people'
     end
+
+    context 'when model_class is blank' do
+      it 'returns blank string' do
+        expect(described_class.to_resources_name nil).to eq ''
+        expect(described_class.to_resources_name '').to eq ''
+      end
+    end
   end
 
   describe '.to_model_name' do
@@ -20,6 +27,13 @@ describe Wallaby::Utils do
       expect(described_class.to_model_name 'wallaby::post').to eq 'Wallaby::Post'
       expect(described_class.to_model_name 'people').to eq 'Person'
       expect(described_class.to_model_name 'wallaby::people').to eq 'Wallaby::Person'
+    end
+
+    context 'when resources_name is blank' do
+      it 'returns blank string' do
+        expect(described_class.to_model_name nil).to eq ''
+        expect(described_class.to_model_name '').to eq ''
+      end
     end
   end
 
@@ -35,6 +49,13 @@ describe Wallaby::Utils do
       expect(described_class.to_model_label 'person').to eq 'Person'
       expect(described_class.to_model_label 'wallaby::person').to eq 'Wallaby / Person'
     end
+
+    context 'when model_class is blank' do
+      it 'returns blank string' do
+        expect(described_class.to_model_label nil).to eq ''
+        expect(described_class.to_model_label '').to eq ''
+      end
+    end
   end
 
   describe '.to_model_class' do
@@ -44,7 +65,16 @@ describe Wallaby::Utils do
     end
 
     context 'when resources_name is unknown' do
-      expect{ described_class.to_model_class 'unknown' }.to raise_error Wallaby::ModelNotFound
+      it 'raises ModelNotFound error' do
+        expect{ described_class.to_model_class 'unknown' }.to raise_error Wallaby::ModelNotFound
+      end
+    end
+
+    context 'when resources_name is blank' do
+      it 'returns nil' do
+        expect(described_class.to_model_class nil).to be_nil
+        expect(described_class.to_model_class '').to be_nil
+      end
     end
   end
 end
