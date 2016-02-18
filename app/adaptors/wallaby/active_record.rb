@@ -7,7 +7,7 @@ module Wallaby::ActiveRecord
     Wallaby::ActiveRecord::ModelFinder
   end
 
-  def self.resource_commander
-    Wallaby::ActiveRecord::ResourceCommander
+  def self.model_servicer
+    Wallaby::ActiveRecord::ModelServicer
   end
 end
