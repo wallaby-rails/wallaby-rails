@@ -1,25 +1,26 @@
 # NOTE: Global helper methods should go in here
 module Wallaby::CoreHelper
+  include Wallaby::StylingHelper
+  include Wallaby::LinksHelper
+
+  def current_model_label
+    if current_resources_name.present?
+      model_label = Wallaby::Utils.to_model_label current_resources_name
+      return "Resource: #{ model_label }" if model_label.present?
+    end
+    'Resources'
+  end
+
   def body_class
     [
       params[:action],
-      resources_name.try(:gsub, '::', '__'),
+      current_resources_name.try(:gsub, '::', '__'),
       content_for(:custom_body_class)
     ].compact.join ' '
   end
 
   def page_title
-    ct('page.title', default: false) || 'Wallaby::Admin'
-  end
-
-  def current_model_label
-    label = 'Resources'
-    if resources_name.present?
-      label << ': ' << content_tag(:strong, (Wallaby::Utils.try do |util|
-        util.to_model_label util.to_model_name(resources_name)
-      end))
-    end
-    label.html_safe
+    'Wallaby::Admin'
   end
 
   def ct(key, options = {})
