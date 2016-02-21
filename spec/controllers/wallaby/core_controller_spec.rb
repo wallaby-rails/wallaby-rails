@@ -16,15 +16,6 @@ describe Wallaby::CoreController do
       allow(controller).to receive(:params).and_return({ resources: 'on_sale_products' })
       expect(controller.send :current_resources_name).to eq 'on_sale_products'
     end
-
-    context 'when it responds to resources_name' do
-      it 'returns resources_name from controller class' do
-        klass = double resources_name: 'products', superclass: Object
-        allow(controller).to receive(:class).and_return klass
-        allow(controller).to receive(:params).and_return({ resources: 'on_sale_products' })
-        expect(controller.send :current_resources_name).to eq 'products'
-      end
-    end
   end
 
   describe '#current_model_class' do

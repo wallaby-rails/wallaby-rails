@@ -13,9 +13,7 @@ module Wallaby
         :current_model_class
 
       def current_resources_name
-        @current_resources_name ||= if self.class.respond_to? :resources_name
-          self.class.resources_name
-        end || params[:resources]
+        @current_resources_name ||= params[:resources]
       end
 
       def current_model_class
