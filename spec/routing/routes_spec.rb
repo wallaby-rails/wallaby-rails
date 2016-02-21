@@ -4,6 +4,8 @@ describe 'routing', type: :request do
   let(:response) { double 'Response', call: [ 200, {}, ["Coming soon"] ] }
   let(:script_name) { '/admin' }
 
+  before { Rails.cache.clear }
+
   it 'routes to the general resourceful routes' do
     resources = 'posts'
     expect(Wallaby::ResourcesController).to receive(:action).with('index').and_return(response)
@@ -37,7 +39,7 @@ describe 'routing', type: :request do
 
   context 'when target resources controller exists' do
     it 'routes to the general resourceful routes' do
-      class AliensController < Wallaby::ResourcesController; end
+      stub_const 'AliensController', Class.new(Wallaby::ResourcesController)
       resources = 'aliens'
 
       expect(AliensController).to receive(:action).with('index').and_return(response)
