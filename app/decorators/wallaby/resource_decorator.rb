@@ -6,11 +6,12 @@ class Wallaby::ResourceDecorator
       end
     end
 
-    def model_decorator model = model_class
+    def model_decorator(model_class = self.model_class)
+      model_decorator_class = Wallaby.configuration.adaptor.model_decorator
       if self < Wallaby::ResourceDecorator
-        @model_decorator ||= build_model_decorator model
+        @model_decorator ||= model_decorator_class.new model_class
       else
-        build_model_decorator model
+        model_decorator_class.new model_class if model_class
       end
     end
 
@@ -18,18 +19,13 @@ class Wallaby::ResourceDecorator
 
     delegate *template_methods, to: :model_decorator, allow_nil: true
 
-    def build_model_decorator model
-      model ||= self.model_class
-      Wallaby.configuration.adaptor.model_decorator.new model if model
-    end
-
     def decorate(resource)
       return resource if resource.is_a? Wallaby::ResourceDecorator
       new resource
     end
   end
 
-  def initialize resource
+  def initialize(resource)
     @resource         = resource
     @model_decorator  = self.class.model_decorator model_class
 
@@ -41,7 +37,7 @@ class Wallaby::ResourceDecorator
     end
   end
 
-  def method_missing method_id, *args
+  def method_missing(method_id, *args)
     if resource.respond_to? method_id
       resource.send method_id, *args
     else
@@ -51,7 +47,6 @@ class Wallaby::ResourceDecorator
 
   attr_accessor :resource, :model_decorator
   delegate :to_s, :to_param, :to_params, to: :resource
-  delegate :model_label, to: :model_decorator
 
   def model_class
     @resource.class

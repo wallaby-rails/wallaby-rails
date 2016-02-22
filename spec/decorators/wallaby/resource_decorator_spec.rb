@@ -54,13 +54,7 @@ describe Wallaby::ResourceDecorator do
   describe 'instance methods' do
     let(:subject) { Wallaby::ResourceDecorator.new resource }
     let(:resource) { model_class.new }
-    let(:model_class) do
-      Class.new ActiveRecord::Base do
-        def self.name
-          'Product'
-        end
-      end
-    end
+    let(:model_class) { Product }
 
     let(:model_fields) do
       {
@@ -155,10 +149,7 @@ describe Wallaby::ResourceDecorator do
 
   context 'subclasses' do
     let(:model_class) { Product }
-    let(:klass) do
-      class ProductDecorator < Wallaby::ResourceDecorator; end
-      ProductDecorator
-    end
+    let(:klass) { stub_const 'ProductDecorator', Class.new(Wallaby::ResourceDecorator) }
     let(:model_fields) do
       {
         'id'            => { type: 'integer', label: 'fake title' },
@@ -174,7 +165,6 @@ describe Wallaby::ResourceDecorator do
       end
     end
 
-
     describe 'class methods' do
       describe '.model_class' do
         it 'returns model class' do
@@ -185,6 +175,8 @@ describe Wallaby::ResourceDecorator do
       describe '.model_decorator' do
         it 'returns model class' do
           expect(klass.model_decorator).not_to be_nil
+          decorator = klass.model_decorator
+          expect(klass.model_decorator).to eq decorator
         end
       end
 
