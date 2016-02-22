@@ -14,7 +14,7 @@ describe Wallaby::Configuration do
     it 'responds to the following methods' do
       expect(subject.adaptor).to respond_to :model_decorator
       expect(subject.adaptor).to respond_to :model_finder
-      expect(subject.adaptor).to respond_to :resource_commander
+      expect(subject.adaptor).to respond_to :model_servicer
     end
   end
 
