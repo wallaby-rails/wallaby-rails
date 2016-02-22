@@ -1,17 +1,19 @@
 class Wallaby::DecoratorFinder
+  DEFAULT_DECORATOR = Wallaby::ResourceDecorator
+
   def self.find_model(model_class)
     find_class(model_class) ||
-    Wallaby::ResourceDecorator.model_decorator(model_class)
+    DEFAULT_DECORATOR.model_decorator(model_class)
   end
 
   def self.find_resource(model_class)
-    find_class(model_class) || Wallaby::ResourceDecorator
+    find_class(model_class) || DEFAULT_DECORATOR
   end
 
   protected
   def self.cached_subclasses
     Rails.cache.fetch 'wallaby/decorator_finder' do
-      Wallaby::ResourceDecorator.subclasses.reject do |klass|
+      DEFAULT_DECORATOR.subclasses.reject do |klass|
         klass.name.blank?
       end
     end
