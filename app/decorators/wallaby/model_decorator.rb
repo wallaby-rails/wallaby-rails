@@ -72,10 +72,6 @@ class Wallaby::ModelDecorator
     fail Wallaby::NotImplemented
   end
 
-  def model_label
-    Wallaby::Utils.to_model_label @model_class
-  end
-
   def resources_name
     Wallaby::Utils.to_resources_name @model_class
   end

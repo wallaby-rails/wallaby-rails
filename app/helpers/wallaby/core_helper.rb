@@ -3,10 +3,14 @@ module Wallaby::CoreHelper
   include Wallaby::StylingHelper
   include Wallaby::LinksHelper
 
+  def to_model_label(model_class)
+    Wallaby::Utils.to_model_label model_class
+  end
+
   def current_model_label
     if current_resources_name.present?
-      model_label = Wallaby::Utils.to_model_label current_resources_name
-      return "Resource: #{ model_label }" if model_label.present?
+      label = to_model_label current_resources_name
+      return "Resource: #{ label }" if label.present?
     end
     'Resources'
   end

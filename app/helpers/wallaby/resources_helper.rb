@@ -1,6 +1,23 @@
 require 'securerandom'
 
 module Wallaby::ResourcesHelper
+  include Wallaby::FormHelper
+
+  def decorate(resource)
+    if resource.respond_to? :map # collection
+      resource.map do |item|
+        decorate item
+      end
+    else
+      decorator = Wallaby::DecoratorFinder.find_resource resource.class
+      decorator.decorate resource
+    end
+  end
+
+  def model_decorator(model_class)
+    Wallaby::DecoratorFinder.find_model model_class
+  end
+
   def type_partial_render(options = {}, locals = {}, &block)
     decorated   = locals[:object]
     field_name  = locals[:field_name].to_s
@@ -17,6 +34,6 @@ module Wallaby::ResourcesHelper
 
   def show_title(decorated)
     fail ArgumentError unless decorated.is_a? Wallaby::ResourceDecorator
-    [ decorated.model_label, decorated.to_label ].compact.join ': '
+    [ to_model_label(decorated.model_class), decorated.to_label ].compact.join ': '
   end
 end

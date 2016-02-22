@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 describe Wallaby::ModelDecorator do
-  describe '#model_label' do
-    it 'returns label for model class' do
-      mocked_class = double to_s: 'Core::Post'
-      decorator = described_class.new mocked_class
-      expect(decorator.model_label).to eq 'Core / Post'
-    end
-  end
-
   describe '#resources_name' do
     it 'returns resources name for model class' do
       mocked_class = double to_s: 'Core::Post'
