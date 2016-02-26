@@ -66,6 +66,48 @@ describe Wallaby::ResourcesController do
         expect(controller.send :resource_params).to eq({ 'name' =>'salmon' })
       end
     end
+
+    describe '#lookup_context' do
+      it 'returns a cacheing lookup_context' do
+        allow(controller).to receive(:current_resources_name) { 'wallaby/resources' }
+        expect(controller.send :lookup_context).to be_a Wallaby::LookupContextWrapper
+        expect(controller.instance_variable_get :@_lookup_context).to be_a Wallaby::LookupContextWrapper
+      end
+    end
+
+    describe '_prefixes' do
+      it 'returns prefixes' do
+        allow(controller).to receive(:current_resources_name) { 'wallaby/resources' }
+        expect(controller.send :_prefixes).to eq [ 'wallaby/resources' ]
+      end
+
+      context 'when current_resources_name is different' do
+        it 'returns prefixes' do
+          allow(controller).to receive(:current_resources_name) { 'products' }
+          expect(controller.send :_prefixes).to eq [ 'products', 'wallaby/resources' ]
+        end
+      end
+
+      context 'for subclasses' do
+        module Space
+          class PlanetsController < Wallaby::ResourcesController; end
+        end
+
+        describe Space::PlanetsController do
+          it 'returns prefixes' do
+            allow(controller).to receive(:current_resources_name) { 'space/planets' }
+            expect(controller.send :_prefixes).to eq [ 'space/planets', 'wallaby/resources' ]
+          end
+
+          context 'when current_resources_name is different' do
+            it 'returns prefixes' do
+              allow(controller).to receive(:current_resources_name) { 'mars' }
+              expect(controller.send :_prefixes).to eq [ 'mars', 'space/planets', 'wallaby/resources' ]
+            end
+          end
+        end
+      end
+    end
   end
 
   describe 'actions' do
@@ -96,15 +138,13 @@ describe Wallaby::ResourcesController do
 
   describe 'subclasses of Wallaby::ResourcesController' do
     let(:subclasses_controller) do
-      class CampervansController < Wallaby::ResourcesController; end
-      CampervansController
+      stub_const 'CampervansController', Class.new(Wallaby::ResourcesController)
     end
 
     let!(:model_class) do
-      class Campervan < ActiveRecord::Base
+      stub_const 'Campervan', (Class.new(ActiveRecord::Base) do
         self.table_name = 'products'
-      end
-      Campervan
+      end)
     end
 
     describe 'class methods ' do

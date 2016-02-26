@@ -57,6 +57,20 @@ module Wallaby
     end
 
     protected
+    def _prefixes
+      @_prefixes ||= begin
+        resource_prefix = current_resources_name.gsub '::', '/'
+        wallaby_path = Wallaby::ResourcesController.controller_path
+        origin = super[0..super.index(wallaby_path)]
+        origin.unshift resource_prefix unless origin.index resource_prefix
+        origin
+      end
+    end
+
+    def lookup_context
+      @_lookup_context ||= Wallaby::LookupContextWrapper.new super
+    end
+
     def resources_index_path(name = current_resources_name)
       wallaby_engine.resources_path name
     end
@@ -92,7 +106,7 @@ module Wallaby
       def collection
         @collection ||= begin
           page_number = params.delete :page
-          per_number  = params.delete(:per) || 15
+          per_number  = params.delete(:per) || 100
           query       = current_model_decorator.collection params
           if %i( page per ).all?{ |m| query.respond_to? m }
             query     = query.page(page_number).per per_number
