@@ -59,11 +59,14 @@ module Wallaby
     protected
     def _prefixes
       @_prefixes ||= begin
-        resource_prefix = current_resources_name.gsub '::', '/'
-        wallaby_path = Wallaby::ResourcesController.controller_path
-        origin = super[0..super.index(wallaby_path)]
-        origin.unshift resource_prefix unless origin.index resource_prefix
-        origin
+        resources_prefix  = current_resources_name.gsub '::', '/'
+        wallaby_path      = Wallaby::ResourcesController.controller_path
+
+        minimal_prefixes  = super[0..super.index(wallaby_path)]
+        unless minimal_prefixes.index resources_prefix
+          minimal_prefixes.unshift resources_prefix
+        end
+        minimal_prefixes
       end
     end
 
