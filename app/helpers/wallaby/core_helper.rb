@@ -45,6 +45,6 @@ module Wallaby::CoreHelper
   end
 
   def model_classes
-    @model_classes ||= Wallaby.configuration.adaptor.model_finder.new.available
+    @model_classes ||= Wallaby.adaptor.model_finder.new.available
   end
 end

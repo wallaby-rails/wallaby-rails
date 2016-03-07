@@ -88,7 +88,7 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
   end
 
   def available_model_class
-    Wallaby.configuration.adaptor.model_finder.new.available
+    Wallaby.adaptor.model_finder.new.available
   end
 
   def class_for(reflection)
