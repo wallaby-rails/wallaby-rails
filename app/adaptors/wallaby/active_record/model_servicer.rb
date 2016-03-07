@@ -15,7 +15,7 @@ class Wallaby::ActiveRecord::ModelServicer
     resource.assign_attributes params
     resource.save
     [ resource, resource.errors.blank? ]
-  rescue
+  rescue ActiveRecord::RecordNotFound
     [ nil, false ]
   end
 
