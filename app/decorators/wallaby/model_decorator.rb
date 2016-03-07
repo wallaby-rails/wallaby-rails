@@ -9,10 +9,6 @@ class Wallaby::ModelDecorator
     fail Wallaby::NotImplemented
   end
 
-  def search(params = {})
-    fail Wallaby::NotImplemented
-  end
-
   def find_or_initialize(id = nil)
     fail Wallaby::NotImplemented
   end

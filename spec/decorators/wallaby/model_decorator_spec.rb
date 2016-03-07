@@ -14,7 +14,6 @@ describe Wallaby::ModelDecorator do
       described_class.subclasses.each do |klass|
         instance = klass.new nil
         expect{ instance.collection }.not_to raise_error Wallaby::NotImplemented
-        expect{ instance.search }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.find_or_initialize nil }.not_to raise_error Wallaby::NotImplemented
         [ '', 'index_', 'show_', 'form_' ].each do |prefix|
           expect{ instance.send "#{ prefix }fields" }.not_to raise_error Wallaby::NotImplemented

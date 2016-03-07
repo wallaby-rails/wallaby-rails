@@ -12,18 +12,8 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
   describe '#collection' do
     it 'returns a query' do
-      allow(subject).to receive(:search).and_return(model_class.where(nil))
       expect(subject.collection).to be_a ActiveRecord::Relation
       expect(subject.collection.where_values).to eq []
-      expect(subject.collection.limit_value).to eq 15
-      expect(subject.collection.offset_value).to eq 0
-    end
-  end
-
-  describe '#search' do
-    it 'delegates to search_query_builder' do
-      expect(subject).to receive(:search_query_builder).and_return(double build: nil)
-      subject.search
     end
   end
 

@@ -1,12 +1,6 @@
 class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   def collection(params = {})
-    params      = params.dup
-    page_number = params.delete :page
-    per_number  = params.delete(:per) || 15
-    search(params).page(page_number).per per_number
-  end
-
-  def search(params = {})
+    params  = params.dup
     keyword = params.delete :q
     query   = search_query_builder.build keyword
   end
