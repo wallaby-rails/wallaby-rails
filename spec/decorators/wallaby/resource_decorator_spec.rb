@@ -15,6 +15,14 @@ describe Wallaby::ResourceDecorator do
       end
     end
 
+    describe '.decorate' do
+      it 'returns a resource decorator instance' do
+        subject = Wallaby::ResourceDecorator.decorate Product.new
+        expect(subject).to be_a Wallaby::ResourceDecorator
+        expect(Wallaby::ResourceDecorator.decorate subject).to eq subject
+      end
+    end
+
     [ '', 'index_', 'show_', 'form_' ].each do |prefix|
       title = prefix.gsub '_', ''
       describe "for #{ title }" do
@@ -80,9 +88,10 @@ describe Wallaby::ResourceDecorator do
       it 'returns errors' do
         resource.errors.add :name, 'can not be nil'
         resource.errors.add :base, 'has error'
-        expect(subject.errors).to eq({
-          'name' => ['can not be nil'],
-          'base' => ['has error']
+        expect(subject.errors).to be_a ActiveModel::Errors
+        expect(subject.errors.messages).to eq({
+          name: ['can not be nil'],
+          base: ['has error']
         })
       end
     end
