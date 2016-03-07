@@ -52,7 +52,7 @@ class Wallaby::ResourceDecorator
   end
 
   def errors
-    @model_decorator.form_errors(@resource).with_indifferent_access
+    @model_decorator.form_active_errors(@resource)
   end
 
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
