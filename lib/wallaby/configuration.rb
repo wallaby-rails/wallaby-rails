@@ -35,6 +35,10 @@ module Wallaby
   def self.config
     yield configuration
   end
+
+  def self.adaptor
+    configuration.adaptor
+  end
 end
 
 require 'wallaby/configuration/models'
