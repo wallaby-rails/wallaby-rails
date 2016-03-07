@@ -1,3 +1,5 @@
+require 'securerandom'
+
 # NOTE: Global helper methods should go in here
 module Wallaby::CoreHelper
   include Wallaby::StylingHelper
