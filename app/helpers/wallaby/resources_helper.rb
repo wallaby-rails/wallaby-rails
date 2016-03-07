@@ -1,12 +1,11 @@
-require 'securerandom'
-
 module Wallaby::ResourcesHelper
   include Wallaby::FormHelper
 
   def decorate(resource)
     if resource.respond_to? :map # collection
+      decorator = Wallaby::DecoratorFinder.find_resource resource.first.class
       resource.map do |item|
-        decorate item
+        decorator.decorate item
       end
     else
       decorator = Wallaby::DecoratorFinder.find_resource resource.class
