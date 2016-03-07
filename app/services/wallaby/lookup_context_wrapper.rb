@@ -1,11 +1,8 @@
 class Wallaby::LookupContextWrapper
-  def self.original_methods
-    ActionView::LookupContext.public_instance_methods - \
-      Object.instance_methods - \
-      %i( find_template )
-  end
-
-  delegate *original_methods, to: :@lookup_context
+  delegate *begin # origin methods
+    ActionView::LookupContext.instance_methods \
+      - Object.instance_methods - %i( find_template )
+  end, to: :@lookup_context
 
   def initialize(lookup_context)
     @lookup_context = lookup_context
@@ -21,29 +18,23 @@ class Wallaby::LookupContextWrapper
   protected
   def caching(key)
     @templates ||= {}
-    if ! @templates.has_key? key
+    unless @templates.has_key? key
       @templates[key] = begin
         yield
-      rescue ActionView::MissingTemplate => e
-        if Rails.env.development?
-          raise
-        else
-          BlankTemplate.new
-        end
+      rescue ActionView::MissingTemplate
+        raise if Rails.env.development?
+        BlankTemplate.new
       end
     end
     @templates[key]
   end
 
-  class BlankTemplate
-    def render *args
+  class BlankTemplate < ActionView::Template::HTML
+    def initialize
+      super nil
     end
 
-    def identifier
-    end
-
-    def formats
-      [ :html ]
+    def render(*args)
     end
   end
 end
