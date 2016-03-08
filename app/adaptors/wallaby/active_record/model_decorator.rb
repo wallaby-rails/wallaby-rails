@@ -1,7 +1,6 @@
 class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   def collection(params = {})
-    params  = params.dup
-    keyword = params.delete :q
+    keyword = params.dup.delete :q
     query   = search_query_builder.build keyword
   end
 
