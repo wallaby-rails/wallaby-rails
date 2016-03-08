@@ -109,11 +109,11 @@ module Wallaby
       def collection
         @collection ||= begin
           page_number = params.delete :page
-          per_number  = params.delete(:per) || 100
-          query       = current_model_decorator.collection params
-          if %i( page per ).all?{ |m| query.respond_to? m }
-            query     = query.page(page_number).per per_number
-          end
+          per_number  = params.delete(:per) || 50
+
+          query = current_model_decorator.collection params
+          query = query.page page_number if query.respond_to? :page
+          query = query.per per_number if query.respond_to? :per
           query
         end
       end
