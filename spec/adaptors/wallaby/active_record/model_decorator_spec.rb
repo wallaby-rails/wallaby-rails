@@ -166,7 +166,8 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       resource = double errors: ActiveModel::Errors.new({})
       resource.errors.add :name, 'can not be nil'
       resource.errors.add :base, 'has error'
-      expect(subject.form_active_errors resource).to eq({
+      expect(subject.form_active_errors resource).to be_a ActiveModel::Errors
+      expect(subject.form_active_errors(resource).messages).to eq({
         name: ['can not be nil'],
         base: ['has error']
       })
