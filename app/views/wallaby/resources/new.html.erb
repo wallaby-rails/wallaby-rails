@@ -5,7 +5,7 @@ decorated_resource = decorate resource
 <section>
   <%= render 'wallaby/resources/shared/resource_nav' %>
   <div class="page-header">
-    <h1>Create a <%= decorated_resource.model_label %></h1>
+    <h1>Create a <%= to_model_label current_resources_name %></h1>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
   <%= form_for decorated_resource, url: wallaby_engine.resources_path, method: :post, html: { :multipart => true } do |form| %>
