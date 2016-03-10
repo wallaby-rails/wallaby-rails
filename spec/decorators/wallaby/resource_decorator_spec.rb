@@ -96,7 +96,7 @@ describe Wallaby::ResourceDecorator do
       end
     end
 
-    describe '.model_decorator' do
+    describe '#model_decorator' do
       it 'returns model decorator' do
         expect(subject.model_decorator).to be_a Wallaby::ModelDecorator
       end
@@ -151,6 +151,22 @@ describe Wallaby::ResourceDecorator do
               expect(subject.send "#{ prefix }type_of", 'id').to eq 'integer'
             end
           end
+        end
+      end
+    end
+
+    describe '#to_label' do
+      it 'returns name' do
+        resource.id = 1
+        resource.name = 'Bed Frame'
+        expect(subject.to_label).to eq 'Bed Frame'
+      end
+
+      context 'when name does not exist' do
+        it 'returns id' do
+          resource.id = 1
+          resource.name = nil
+          expect(subject.to_label).to eq 1
         end
       end
     end

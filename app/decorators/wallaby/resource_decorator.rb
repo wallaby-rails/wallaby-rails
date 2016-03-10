@@ -48,11 +48,15 @@ class Wallaby::ResourceDecorator
   end
 
   def to_label
-    @model_decorator.guess_title @resource
+    @model_decorator.guess_title(@resource) || primary_key_value
   end
 
   def errors
     @model_decorator.form_active_errors(@resource)
+  end
+
+  def primary_key_value
+    @resource.send primary_key
   end
 
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
