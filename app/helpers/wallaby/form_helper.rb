@@ -30,7 +30,7 @@ module Wallaby::FormHelper
 
   def model_choices(model_decorator)
     decorate(model_decorator.collection).map do |decorated|
-      [ decorated.to_label, decorated.send(decorated.primary_key) ]
+      [ decorated.to_label, decorated.primary_key_value ]
     end
   end
 end
