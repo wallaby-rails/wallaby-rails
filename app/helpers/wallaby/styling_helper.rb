@@ -1,13 +1,16 @@
 module Wallaby::StylingHelper
-  def icon(icon_suffix, html_options = {})
+  def icon(icon_suffix, html_options = {}, &block)
     html_options[:class] = Array html_options[:class]
     html_options[:class] << "glyphicon glyphicon-#{ icon_suffix }"
 
-    content_tag :i, nil, html_options
+    content_tag :i, nil, html_options, &block
   end
 
-  def itooltip(title, icon_suffix = 'info-sign')
-    icon icon_suffix, title: title, data: { toggle: "tooltip", placement: "top" }
+  def itooltip(title, icon_suffix = 'info-sign', html_options = {})
+    html_options[:title] = title
+    (html_options[:data] ||= {}).merge! toggle: "tooltip", placement: "top"
+
+    icon icon_suffix, html_options
   end
 
   def ilink_to(options = nil, html_options = {})
