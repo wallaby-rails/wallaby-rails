@@ -1,8 +1,28 @@
 <nav class="pull-right">
   <ul class="nav nav-pills">
-    <% resource_links.each_with_index do |link, index| %>
+    <%# list %>
+    <li role="presentation">
+      <%= index_link { ct 'link.list' } %>
+    </li>
+
+    <%# show %>
+    <% if action_name == 'edit' %>
       <li role="presentation">
-        <%= link %>
+        <%= show_link(resource) { ct 'link.show' } %>
+      </li>
+    <% end %>
+
+    <%# edit %>
+    <% if action_name == 'show' %>
+      <li role="presentation">
+        <%= edit_link(resource, class: 'text-warning') { ct 'link.edit' } %>
+      </li>
+    <% end %>
+
+    <%# delete %>
+    <% if action_name == 'show' %>
+      <li role="presentation">
+        <%= delete_link(resource, class: 'text-danger'){ ct 'link.delete' } %>
       </li>
     <% end %>
   </ul>
