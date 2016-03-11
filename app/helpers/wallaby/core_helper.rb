@@ -9,6 +9,10 @@ module Wallaby::CoreHelper
     Wallaby::Utils.to_model_label model_class
   end
 
+  def to_resources_name(model_class)
+    Wallaby::Utils.to_resources_name model_class
+  end
+
   def current_model_label
     if current_resources_name.present?
       label = to_model_label current_resources_name
@@ -30,16 +34,10 @@ module Wallaby::CoreHelper
   end
 
   def ct(key, options = {})
-    # TODO: review this when we are going to replace all plain text with I18n translation
-    @custom_translation ||= {}
-    if @custom_translation.has_key? key
-      @custom_translation[key]
-    else
-      @custom_translation[key] = t key, { raise: true }.merge(options)
-    end
+    t key, { raise: true }.merge(options)
   rescue I18n::MissingTranslationData => e
     keys = I18n.normalize_keys(e.locale, e.key, e.options[:scope])
-    @custom_translation[key] = keys.last.to_s.titleize
+    keys.last.to_s.titleize
   end
 
   def random_uuid
