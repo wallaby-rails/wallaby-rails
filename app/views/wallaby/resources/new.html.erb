@@ -1,6 +1,6 @@
 <%
 # decorate first on every page or partial
-decorated_resource = decorate resource
+decorated = decorate resource
 %>
 <section>
   <%= render 'wallaby/resources/shared/resource_nav' %>
@@ -8,7 +8,7 @@ decorated_resource = decorate resource
     <h1>Create a <%= to_model_label current_resources_name %></h1>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
-  <%= form_for decorated_resource, url: wallaby_engine.resources_path, method: :post, html: { :multipart => true } do |form| %>
-    <%= render 'form', form: form, decorated_resource: decorated_resource %>
+  <%= form_for decorated, url: wallaby_engine.resources_path, method: :post, html: { :multipart => true } do |form| %>
+    <%= render 'form', form: form, decorated: decorated %>
   <% end %>
 </section>
