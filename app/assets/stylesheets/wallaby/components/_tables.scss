@@ -13,6 +13,21 @@ table.data-table {
       text-decoration: none;
     }
   }
+  i.glyphicon {
+    color: lighten($gray, 40%);
+    &:hover {
+      color: $gray-dark;
+    }
+  }
+  a {
+    i.glyphicon {
+      margin-right: 2px;
+      color: inherit;
+      &:hover {
+        color: inherit;
+      }
+    }
+  }
 }
 
 table.detail-table {
@@ -31,3 +46,4 @@ table.detail-table {
     }
   }
 }
+

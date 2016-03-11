@@ -15,11 +15,8 @@
 @import 'components/_forms';
 @import 'components/_pagination';
 
-i.glyphicon {
-  color: lighten($gray, 40%);
-  &:hover {
-    color: $gray-dark;
-  }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 nav.top-nav {
