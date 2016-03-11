@@ -1,79 +1,61 @@
 module Wallaby::LinksHelper
-  def index_link(options = {}, title = nil, resources = nil)
-    resources ||= resources_name
-    title     ||= ct(resources)
-    link_to title, wallaby_engine.resources_path, options
+  def index_path(model_class = nil)
+    model_class ||= current_model_class
+    wallaby_engine.resources_path to_resources_name model_class
   end
 
-  def new_link(options = {}, title = nil, resources = nil)
-    resources ||= resources_name
-    title     ||= ct('link.new')
-    link_to title, wallaby_engine.new_resource_path, options
+  def new_path(model_class = nil)
+    model_class ||= current_model_class
+    wallaby_engine.new_resource_path to_resources_name model_class
   end
 
-  def show_link(resource, options = {}, title = nil, resources = nil)
-    resources ||= resources_name
-    title     ||= ct('link.show')
-    is_button = options.delete(:button)
-    options[:title] = title and title = '' if is_button
-    link_to title, wallaby_engine.resource_path(resources, resource), options
-  end
-
-  def edit_link(resource, options = {}, title = nil, resources = nil)
-    resources ||= resources_name
-    title     ||= ct('link.edit')
-    is_button = options.delete(:button)
-    options[:title] = title and title = '' if is_button
-    link_to title, wallaby_engine.edit_resource_path(resources, resource), options
-  end
-
-  def delete_link(resource, html_options = {}, title = nil, confirm = nil, resources = nil)
-    resources ||= resources_name
-    title     ||= ct('link.delete')
-    confirm   ||= ct('link.confirm.delete')
-    is_button = html_options.delete(:button)
-    html_options[:title] = title and title = '' if is_button
-    options = {
-      url: wallaby_engine.resource_path(resources, resource),
-      method: :delete,
-      confirm: confirm
-    }
-    link_to title, wallaby_engine.resource_path(resources, resource), html_options.merge(options)
-  end
-
-  def cancel_link(title = nil, options = {})
-    title ||= ct('cancel')
-    is_button = options.delete(:button)
-    options[:title] = title and title = '' if is_button
-    link_to title, :back, options
-  end
-
-  def link_to_resource(resource = nil, klass = nil)
-    if resource
-      decorated = decorate resource
-      link_to decorated.to_label, wallaby_engine.resource_path(decorated.resources_name, decorated)
-    else
-      this_model_decorator = model_decorator(klass)
-      link_to wallaby_engine.new_resource_path(this_model_decorator.resources_name), class: 'text-success' do
-        "Create #{ this_model_decorator.model_label }"
-      end
-    end
-  end
-
-  def resource_links
+  def show_path(resource)
     decorated = decorate resource
-    links = [ index_link({}, 'List') ]
-    if decorated.send decorated.primary_key
-      links << show_link(decorated) if params[:action] == 'edit'
-      links << edit_link(decorated, class: 'text-success') if params[:action] == 'show'
-      links << delete_link(decorated, class: 'text-danger')
-    end
-    links
+    wallaby_engine.resource_path decorated.resources_name, decorated.primary_key_value
   end
 
-  def link_to_model(model)
-    decorator = model_decorator model
-    name      = Wallaby::Utils.to_resources_name model
-    link_to decorator.model_label, wallaby_engine.resources_path(name)
+  def edit_path(resource)
+    decorated = decorate resource
+    wallaby_engine.edit_resource_path decorated.resources_name, decorated.primary_key_value
+  end
+
+  def index_link(model_class = nil, html_options = {}, &block)
+    model_class ||= current_model_class
+    block ||= -> { to_model_label model_class }
+
+    link_to index_path(model_class), html_options, &block
+  end
+
+  def new_link(model_class = nil, html_options = {}, &block)
+    block ||= -> { ct 'link.new', model: to_model_label(model_class) }
+    html_options[:class] = 'text-success' unless html_options.has_key? :class
+
+    link_to new_path(model_class), html_options, &block
+  end
+
+  def show_link(resource, html_options = {}, &block)
+    # NOTE: to_s is a must
+    # if a block is returning integer (e.g. `{ 1 }`)
+    # `link_to` will render blank text note inside hyper link
+    block ||= -> { decorate(resource).to_label.to_s }
+
+    link_to show_path(resource), html_options, &block
+  end
+
+  def edit_link(resource, html_options = {}, &block)
+    link_to edit_path(resource), html_options, &block
+  end
+
+  def delete_link(resource, html_options = {}, &block)
+    html_options[:method] ||= :delete
+    html_options[:data]   ||= {}
+    html_options[:data][:confirm] ||= ct('link.confirm.delete')
+
+    link_to show_path(resource), html_options, &block
+  end
+
+  def cancel_link(html_options = {})
+    label = html_options.delete(:label) || ct('link.cancel')
+    link_to label, :back, html_options
   end
 end
