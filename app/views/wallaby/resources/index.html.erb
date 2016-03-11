@@ -6,7 +6,7 @@ decorated_collection = decorate collection
   <% # Search form %>
   <div class="search-form">
     <div class="pull-right">
-      <%= new_link class: 'btn btn-primary' %>
+      <%= new_link(current_model_class, class: 'btn btn-primary') { ct 'link.new', model: nil } %>
     </div>
     <span class="icon"></span>
     <div class="keyword">
@@ -21,31 +21,31 @@ decorated_collection = decorate collection
   <table class="data-table">
     <thead>
       <tr>
-        <% model_decorator.index_field_names.each do |field_name| %>
-          <th><%= model_decorator.index_label_of field_name %></th>
+        <% current_model_decorator.index_field_names.each do |field_name| %>
+          <th><%= current_model_decorator.index_label_of field_name %></th>
         <% end %>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% if decorated_collection.present? %>
-        <% decorated_collection.each do |decorated_resource| %>
+        <% decorated_collection.each do |decorated| %>
           <tr>
-            <% decorated_resource.index_field_names.each do |field_name| %>
+            <% current_model_decorator.index_field_names.each do |field_name| %>
               <td>
-                <%= type_partial_render decorated_resource.index_type_of(field_name), object: decorated_resource, field_name: field_name %>
+                <%= type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
               </td>
             <% end %>
             <td>
-              <%= show_link decorated_resource, class: 'glyphicon glyphicon-info-sign', button: true %>
-              <%= edit_link decorated_resource, class: 'text-warning glyphicon glyphicon-edit', button: true %>
-              <%= delete_link decorated_resource, class: 'text-danger glyphicon glyphicon-remove-sign', button: true %>
+              <%= show_link(decorated, class: 'text-info') { itooltip ct('link.show'), 'link' } %>
+              <%= edit_link(decorated, class: 'text-warning') { itooltip ct('link.edit'), 'pencil' } %>
+              <%= delete_link(decorated, class: 'text-danger') { itooltip ct('link.delete'), 'trash' } %>
             </td>
           </tr>
         <% end %>
       <% else %>
         <tr>
-          <td colspan="<%= model_decorator.index_field_names.length + 1 %>">
+          <td colspan="<%= current_model_decorator.index_field_names.length + 1 %>">
             <%= t 'collection.not_found' %>
           </td>
         </tr>
@@ -54,7 +54,7 @@ decorated_collection = decorate collection
   </table>
   <% # /Data table %>
   <% # Kaminari pagination %>
-  <% if collection.present? && collection.respond_to?(:total_pages) %>
+  <% if defined?(Kaminari) && collection.present? && collection.respond_to?(:total_pages) %>
     <div class="kaminari clearfix">
       <div class="pull-left pagination-info">
         <%= page_entries_info collection %>
