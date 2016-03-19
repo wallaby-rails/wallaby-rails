@@ -1,1 +1,1 @@
-<%= link_to_resource value, metadata[:class] %>
+<%= value.present? ? show_link(value) : null %>

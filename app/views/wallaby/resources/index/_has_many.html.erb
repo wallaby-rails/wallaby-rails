@@ -1,20 +1,11 @@
 <% unique_collection = value.uniq %>
-<%= raw unique_collection.first(2).map { |item| link_to_resource item }.join(', ') %>
+<%= raw unique_collection.first(2).map{ |item| show_link item }.join(', ') %>
 
 <% if unique_collection.size > 2 %>
-  <% uuid   = random_uuid %>
-  and <%= link_to "#{ unique_collection.size - 2 } more", 'javascript:;', 'data-toggle' => 'modal', 'data-target' => "##{ uuid }" %>
-  <div id="<%= uuid %>" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title"><%= object.index_label_of field_name %></h4>
-        </div>
-        <div class="modal-body">
-          <%= raw unique_collection.map { |item| link_to_resource item }.join(', ') %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <% title  = metadata[:label] %>
+  <% body   = unique_collection.map{ |item| show_link item }.to_sentence.html_safe %>
+  <% label  = "#{ unique_collection.size - 2 } more" %>
+  and <%= imodal title, body, label: label %>
+<% elsif unique_collection.blank? %>
+  <%= null %>
 <% end %>

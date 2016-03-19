@@ -4,9 +4,9 @@
   <% max    = metadata[:max] || 20 %>
   <% value  = value.to_s %>
   <% if value.length > max %>
-    <span><%= value.truncate max %></span>
-    <%= itooltip value %>
+    <code><%= value.truncate max %></code>
+    <%= imodal metadata[:label], "<pre>#{ h value }</pre>".html_safe %>
   <% else %>
-    <%= value %>
+    <code><%= value %></code>
   <% end %>
 <% end %>

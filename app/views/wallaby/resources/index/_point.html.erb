@@ -1,0 +1,6 @@
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  (<span class="x"><%= value.first %></span>,
+  <span class="y"><%= value.last %></span>)
+<% end %>

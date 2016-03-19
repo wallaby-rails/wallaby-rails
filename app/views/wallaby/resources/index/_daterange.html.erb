@@ -1,0 +1,8 @@
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <span class="from"><%= I18n.l value.first, format: :short %></span>
+  ...
+  <span class="to"><%= I18n.l value.last, format: :short %></span>
+  <%= itooltip "#{ I18n.l value.first } ... #{ I18n.l value.last }", 'time' %>
+<% end %>

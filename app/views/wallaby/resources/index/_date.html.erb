@@ -2,6 +2,6 @@
   <%= null %>
 <% else %>
   <% value = Time.zone.parse value if value.is_a? String %>
-  <span><%= I18n.l value, format: :short %></span>
-  <%= itooltip I18n.l(value), 'time' %>
+  <% value = value.to_date if value.is_a? Time %>
+  <%= I18n.l value %>
 <% end %>

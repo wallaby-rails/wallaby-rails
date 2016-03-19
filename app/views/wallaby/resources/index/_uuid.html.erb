@@ -1,1 +1,12 @@
-<%= value || null %>
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <% max    = metadata[:max] || 17 %>
+  <% value  = value.to_s %>
+  <% if value.length > max %>
+    <span><%= value.truncate max %></span>
+    <%= itooltip value %>
+  <% else %>
+    <%= value %>
+  <% end %>
+<% end %>
