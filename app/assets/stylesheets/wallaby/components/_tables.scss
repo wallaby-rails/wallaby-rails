@@ -14,9 +14,9 @@ table.data-table {
     }
   }
   i.glyphicon {
-    color: lighten($gray, 40%);
+    color: $gray-lighter;
     &:hover {
-      color: $gray-dark;
+      color: $gray-light;
     }
   }
   a {
@@ -25,6 +25,12 @@ table.data-table {
       color: inherit;
       &:hover {
         color: inherit;
+      }
+    }
+    i.glyphicon.glyphicon-circle-arrow-up {
+      color: $gray-lighter;
+      &:hover {
+        color: $gray-light;
       }
     }
   }
