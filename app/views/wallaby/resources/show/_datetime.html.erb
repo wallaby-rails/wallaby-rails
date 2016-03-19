@@ -1,6 +1,6 @@
-<% if value.present? %>
-  <% value = Time.zone.parse value if value.is_a? String %>
-  <%= I18n.l(value) %>
-<% else %>
+<% if value.nil? %>
   <%= null %>
+<% else %>
+  <% value  = Time.zone.parse value if value.is_a? String %>
+  <%= I18n.l value %>
 <% end %>

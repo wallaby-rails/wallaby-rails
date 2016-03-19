@@ -1,3 +1,6 @@
 <% unique_collection = value.uniq %>
-<%= raw unique_collection.map { |item| link_to_resource item }.join(', ') %>
-<%= link_to_resource nil, metadata[:class] %>
+<% if unique_collection.present? %>
+  <%= raw unique_collection.map { |item| show_link item }.to_sentence %>
+  or
+<% end %>
+<%= new_link metadata[:class], class: 'text-success' %>

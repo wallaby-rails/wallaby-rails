@@ -1,0 +1,7 @@
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <span class="from"><%= value.first %></span>
+  ...
+  <span class="to"><%= value.last %></span>
+<% end %>

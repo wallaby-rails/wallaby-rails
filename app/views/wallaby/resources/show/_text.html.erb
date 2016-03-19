@@ -1,6 +1,1 @@
-<% max   = 32 unless local_assigns[:max].present? %>
-<% if value %>
-  <%= value %>
-<% else %>
-  <%= null %>
-<% end %>
+<%= value || null %>

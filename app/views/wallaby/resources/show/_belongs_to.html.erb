@@ -1,2 +1,1 @@
-<%= link_to_resource value, metadata[:class] if value %>
-<%= link_to_resource nil, metadata[:class] %>
+<%= value.present? ? show_link(value) : new_link(metadata[:class]) %>
