@@ -25,6 +25,13 @@ describe 'partial' do
     end
   end
 
+  context 'when max is set to 30' do
+    let(:metadata) { Hash max: 30 }
+    it 'renders the hstore' do
+      expect(rendered).to eq "    <code>{&quot;key&quot;:&quot;very long long text&quot;}</code>\n"
+    end
+  end
+
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders null' do

@@ -26,6 +26,13 @@ describe 'partial' do
     end
   end
 
+  context 'when max is set to 50' do
+    let(:metadata) { Hash max: 50 }
+    it 'renders the jsonb' do
+      expect(rendered).to eq "    <code>{&quot;kind&quot;:&quot;user_renamed&quot;,&quot;change&quot;:[&quot;jack&quot;,&quot;john&quot;]}</code>\n"
+    end
+  end
+
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders null' do

@@ -18,10 +18,10 @@ describe 'partial' do
     end
   end
 
-  context 'when max is set to 10' do
-    let(:metadata)  { { max: 10 } }
+  context 'when max is set to 50' do
+    let(:metadata)  { Hash max: 50 }
     it 'renders the string' do
-      expect(rendered).to eq "    <span>this is...</span>\n    <i title=\"this is a text for more than 20 characters\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"glyphicon glyphicon-info-sign\"></i>\n"
+      expect(rendered).to eq "    this is a text for more than 20 characters\n"
     end
   end
 

@@ -21,6 +21,13 @@ describe 'partial' do
     end
   end
 
+  context 'when max is set to 40' do
+    let(:metadata) { Hash max: 40 }
+    it 'renders the ltree' do
+      expect(rendered).to eq "    Top.Science.Astronomy.Cosmology\n"
+    end
+  end
+
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders null' do

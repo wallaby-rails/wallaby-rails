@@ -8,7 +8,7 @@ describe 'partial' do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the cidr' do
-    expect(rendered).to eq "  <span>192.168.2.0</span>\n  <a target=\"_blank\" class=\"text-info\" href=\"http://ip-api.com/#192.168.2.0\"><i class=\"glyphicon glyphicon-new-window\"></i></a>\n"
+    expect(rendered).to eq "  <code>192.168.2.0</code>\n  <a target=\"_blank\" class=\"text-info\" href=\"http://ip-api.com/#192.168.2.0\"><i class=\"glyphicon glyphicon-new-window\"></i></a>\n"
   end
 
   context 'when value is nil' do

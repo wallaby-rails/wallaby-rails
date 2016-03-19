@@ -1,1 +1,5 @@
-<%= value || null %>
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <code><%= value %></code>
+<% end %>
