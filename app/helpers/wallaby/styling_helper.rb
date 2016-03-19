@@ -20,9 +20,11 @@ module Wallaby::StylingHelper
     end
   end
 
-  def imodal(title, body, label = nil)
+  def imodal(title, body, html_options = {})
     uuid = random_uuid
-    label ||= icon 'circle-arrow-up'
+    label ||= html_options.delete(:label) ||
+              html_options.delete(:icon) ||
+              icon('circle-arrow-up')
     link_to(label, 'javascript:;', data: { toggle: 'modal', target: "##{ uuid }" }) +
     content_tag(:div, id: uuid, class: 'modal fade', tabindex: -1, role: 'dialog') do
       content_tag :div, class: 'modal-dialog modal-lg' do
