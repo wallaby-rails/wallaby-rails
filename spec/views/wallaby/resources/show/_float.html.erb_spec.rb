@@ -14,7 +14,7 @@ describe 'partial' do
   context 'when value is 0' do
     let(:value) { 0 }
     it 'renders the float' do
-      expect(rendered).to eq "0\n"
+      expect(rendered).to eq "0.0\n"
     end
   end
 
