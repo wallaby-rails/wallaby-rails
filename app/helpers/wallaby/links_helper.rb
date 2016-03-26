@@ -30,6 +30,7 @@ module Wallaby::LinksHelper
     block ||= -> { ct 'link.new', model: to_model_label(model_class) }
     html_options[:class] = 'text-success' unless html_options.has_key? :class
 
+    prepend_if html_options
     link_to new_path(model_class), html_options, &block
   end
 
@@ -43,6 +44,9 @@ module Wallaby::LinksHelper
   end
 
   def edit_link(resource, html_options = {}, &block)
+    block ||= -> { "#{ ct 'link.edit' } #{ decorate(resource).to_label }" }
+    html_options[:class] = 'text-warning' unless html_options.has_key? :class
+
     link_to edit_path(resource), html_options, &block
   end
 
@@ -57,5 +61,9 @@ module Wallaby::LinksHelper
   def cancel_link(html_options = {})
     label = html_options.delete(:label) || ct('link.cancel')
     link_to label, :back, html_options
+  end
+
+  def prepend_if(html_options = {})
+    concat "#{ html_options.delete :prepend } " if html_options[:prepend]
   end
 end

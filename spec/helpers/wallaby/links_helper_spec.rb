@@ -50,7 +50,8 @@ describe Wallaby::LinksHelper do
 
   describe '#edit_link' do
     it 'returns edit link' do
-      expect(helper.edit_link(Product.new id: 1) { 'Edit' }).to eq "<a href=\"/admin/products/1/edit\">Edit</a>"
+      expect(helper.edit_link(Product.new id: 1)).to eq "<a class=\"text-warning\" href=\"/admin/products/1/edit\">Edit 1</a>"
+      expect(helper.edit_link(Product.new id: 1) { 'Edit' }).to eq "<a class=\"text-warning\" href=\"/admin/products/1/edit\">Edit</a>"
     end
   end
 
@@ -63,6 +64,14 @@ describe Wallaby::LinksHelper do
   describe '#cancel_link' do
     it 'returns cancel link' do
       expect(helper.cancel_link).to eq "<a href=\"javascript:history.back()\">Cancel</a>"
+    end
+  end
+
+  describe '#prepend_if' do
+    it 'returns the prepended text' do
+      expect(helper.prepend_if).to be_nil
+      expect(helper).to receive(:concat).with('Or ') { 'Or ' }
+      expect(helper.prepend_if prepend: 'Or').to eq 'Or '
     end
   end
 end
