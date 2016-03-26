@@ -110,6 +110,7 @@ GEM
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
+    pg (0.18.3)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -198,6 +199,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   ffaker
+  pg
   pry-rails
   rspec-rails
   sqlite3
