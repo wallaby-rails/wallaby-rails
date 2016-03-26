@@ -1,0 +1,10 @@
+//= require codemirror
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'bootstrap-datetimepicker';
+@import 'summernote';
+
+.CodeMirror {
+  height: 168px;
+  border: 1px solid #eeeeee;
+}
