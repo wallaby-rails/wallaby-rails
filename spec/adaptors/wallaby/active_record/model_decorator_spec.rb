@@ -130,7 +130,6 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       associations = {
         'id' => { type: 'integer' },
         'sku' => { type: 'string' },
-        'has_one' => { type: 'has_one', },
         'has_many' => { type: 'has_many', has_scope: true },
         'has_and_belongs_to_many' => { type: 'has_and_belongs_to_many', is_through: true },
         'updated_at' => { type: 'datetime' },

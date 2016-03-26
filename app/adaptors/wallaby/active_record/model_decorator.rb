@@ -39,7 +39,6 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
 
   def form_field_names
     @form_field_names ||= form_fields.reject do |field_name, metadata|
-      metadata[:type] == 'has_one' ||
       %W( #{ primary_key } updated_at created_at ).include?(field_name) ||
       metadata[:has_scope] ||
       metadata[:is_through]
