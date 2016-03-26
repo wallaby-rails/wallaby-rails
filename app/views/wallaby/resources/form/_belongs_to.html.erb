@@ -1,25 +1,21 @@
-<%
-this_model_decorator = model_decorator metadata[:class]
-%>
-<div class="form-group">
+<div class="form-group <%= form.error_class field_name %>">
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
     <% if metadata[:is_polymorphic] %>
-      <div class="col-xs-3">
-        <%= form.select metadata[:polymorphic_type], metadata[:polymorphic_list].map(&:to_s), { include_blank: true }, { class: 'form-control js-foreign-type' } %>
+      <div class="col-xs-6 col-sm-3">
+        <%= form.select metadata[:polymorphic_type], metadata[:polymorphic_list].try(:map, &:to_s), { include_blank: true }, { class: 'form-control' } %>
       </div>
       <div class="col-xs-3">
         <%= form.text_field metadata[:foreign_key], class: 'form-control' %>
       </div>
     <% else %>
-      <div class="col-xs-6">
-        <%= form.select metadata[:foreign_key], model_choices(this_model_decorator), { include_blank: true }, { class: 'form-control js-foreign-key' } %>
+      <div class="col-xs-6 col-sm-3">
+        <%= form.select metadata[:foreign_key], model_choices(model_decorator(metadata[:class])), { include_blank: true }, { class: 'form-control' } %>
         <p class="help-block">
-          Or
-          <%= link_to "Create #{ metadata[:label] }", wallaby_engine.new_resource_path(this_model_decorator.resources_name) %>
+          <%= new_link metadata[:class], prepend: 'Or' %>
         </p>
       </div>
     <% end %>
   </div>
-  <%= form_field_error_messages object, field_name %>
+  <%= form.error_messages field_name %>
 </div>

@@ -3,7 +3,15 @@
   <div class="row">
     <div class="col-xs-6 col-sm-3">
       <div class="input-group date" data-init='datetimepicker'>
-        <%= form.text_field field_name, value: value, class: 'form-control' %>
+        <span class="input-group-addon">F</span>
+        <%= form.text_field field_name, value: value.try(:first), multiple: true, class: 'form-control' %>
+        <span class="input-group-addon"><%= icon 'calendar' %></span>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <div class="input-group date" data-init='datetimepicker'>
+        <span class="input-group-addon">T</span>
+        <%= form.text_field field_name, value: value.try(:last), multiple: true, class: 'form-control' %>
         <span class="input-group-addon"><%= icon 'calendar' %></span>
       </div>
     </div>

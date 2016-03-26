@@ -1,1 +1,7 @@
-_belongs_to.html.erb
+<% # TODO: consider to pass new_link default params to create %>
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label field_name, metadata[:label] %>
+  <div>
+    <%= value.present? ? edit_link(value) : new_link(metadata[:class]) %>
+  </div>
+</div>

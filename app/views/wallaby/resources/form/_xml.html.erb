@@ -1,0 +1,23 @@
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label field_name, metadata[:label] %>
+  <%= form.text_area field_name, class: 'form-control', data: { init: 'codemirror', mode: 'xml' } %>
+  <%= form.error_messages field_name %>
+</div>
+
+<% unless @codemirror_init %>
+  <% @codemirror_init = true %>
+  <% content_for :custom_javascript do %>
+    <% javascript_tag do %>
+      jQuery(function($) {
+        $('textarea[data-init="codemirror"]').each(function (index, element) {
+          CodeMirror.fromTextArea(element, {
+            mode: $(element).data('mode'),
+            theme: "default",
+            lineNumbers: true
+          });
+
+        })
+      })
+    <% end %>
+  <% end %>
+<% end %>

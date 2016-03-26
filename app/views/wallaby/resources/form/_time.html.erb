@@ -1,9 +1,29 @@
-<div class="form-group">
+<div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
   <div class="row">
-    <div class="col-xs-3">
-      <%= form.time_field field_name, class: 'form-control' %>
+    <div class="col-xs-6 col-sm-3">
+      <div class="input-group date" data-init='timepicker'>
+        <%= form.time_field field_name, value: value, class: 'form-control' %>
+        <span class="input-group-addon"><%= icon 'time' %></span>
+      </div>
     </div>
   </div>
-  <%= form_field_error_messages object, field_name %>
+  <%= form.error_messages field_name %>
 </div>
+
+<% unless @timepicker_init %>
+  <% @timepicker_init = true %>
+  <% content_for :custom_javascript do %>
+    <% javascript_tag do %>
+      jQuery(function($) {
+        $('[data-init="timepicker"]').each(function() {
+          var $input = $('input', this)
+          $input.val(moment($input.attr('value')).format('HH:mm'))
+          $(this).datetimepicker({
+            format: 'HH:mm'
+          })
+        })
+      })
+    <% end %>
+  <% end %>
+<% end %>

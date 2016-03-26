@@ -1,1 +1,13 @@
-_has_many.html.erb
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label metadata[:foreign_key], metadata[:label] %>
+  <div class="row">
+    <div class="col-xs-6 col-sm-3">
+      <%= form.select metadata[:foreign_key], model_choices(model_decorator metadata[:class]), { }, { class: 'form-control', multiple: true } %>
+      <p class="help-block">
+        Press CTRL to select/deselect multiple items.
+        <%= new_link metadata[:class], prepend: 'Or' %>
+      </p>
+    </div>
+  </div>
+  <%= form.error_messages field_name %>
+</div>

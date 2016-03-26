@@ -1,11 +1,14 @@
-<div class="form-group">
+<div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
-  <br />
-  <label>
-    <%= form.radio_button field_name, true %> Yes
-  </label>
-  <label>
-    <%= form.radio_button field_name, false %> No
-  </label>
-  <%= form_field_error_messages object, field_name %>
+  <div class="row">
+    <div class="col-xs-12">
+      <label class="radio-inline">
+        <%= form.radio_button field_name, true %> Yes
+      </label>
+      <label class="radio-inline">
+        <%= form.radio_button field_name, false %> No
+      </label>
+    </div>
+  </div>
+  <%= form.error_messages field_name %>
 </div>
