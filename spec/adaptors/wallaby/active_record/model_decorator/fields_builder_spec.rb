@@ -15,37 +15,37 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
     it 'returns a hash using column names as keys' do
       expect(subject.general_fields).to eq({
         "id" => {
-          name: "id", type: "integer", label: "Id"
+          name: "id", type: "integer", origin: "integer", label: "Id"
         },
         "category_id" => {
-          name: "category_id", type: "integer", label: "Category"
+          name: "category_id", type: "integer", origin: "integer", label: "Category"
         },
         "sku" => {
-          name: "sku", type: "string", label: "Sku"
+          name: "sku", type: "string", origin: "string", label: "Sku"
         },
         "name" => {
-          name: "name", type: "string", label: "Name"
+          name: "name", type: "string", origin: "string", label: "Name"
         },
         "description" => {
-          name: "description", type: "text", label: "Description"
+          name: "description", type: "text", origin: "text", label: "Description"
         },
         "stock" => {
-          name: "stock", type: "integer", label: "Stock"
+          name: "stock", type: "integer", origin: "integer", label: "Stock"
         },
         "price" => {
-          name: "price", type: "float", label: "Price"
+          name: "price", type: "float", origin: "float", label: "Price"
         },
         "featured" => {
-          name: "featured", type: "boolean", label: "Featured"
+          name: "featured", type: "boolean", origin: "boolean", label: "Featured"
         },
         "available_to_date" => {
-          name: "available_to_date", type: "date", label: "Available to date"
+          name: "available_to_date", type: "date", origin: "date", label: "Available to date"
         },
         "available_to_time" => {
-          name: "available_to_time", type: "time", label: "Available to time"
+          name: "available_to_time", type: "time", origin: "time", label: "Available to time"
         },
         "published_at" => {
-          name: "published_at", type: "datetime", label: "Published at"
+          name: "published_at", type: "datetime", origin: "datetime", label: "Published at"
         }
       })
     end
@@ -71,6 +71,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           expect(subject.association_fields['category']).to eq({
             name: "category",
             type: "belongs_to",
+            origin: "belongs_to",
             label: "Category",
             is_association: true,
             is_polymorphic: false,
@@ -90,6 +91,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           expect(subject.association_fields['product_detail']).to eq({
             name: "product_detail",
             type: "has_one",
+            origin: "has_one",
             label: "Product Detail",
             is_association: true,
             is_polymorphic: false,
@@ -108,6 +110,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             expect(subject.association_fields['picture']).to eq({
               name: "picture",
               type: "has_one",
+              origin: "has_one",
               label: "Picture",
               is_association: true,
               is_polymorphic: false,
@@ -128,6 +131,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           expect(subject.association_fields['items']).to eq({
             name: "items",
             type: "has_many",
+            origin: "has_many",
             label: "Items",
             is_association: true,
             is_polymorphic: false,
@@ -147,6 +151,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             expect(subject.association_fields['orders']).to eq({
               name: "orders",
               type: "has_many",
+              origin: "has_many",
               label: "Orders",
               is_association: true,
               is_polymorphic: false,
@@ -166,6 +171,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             expect(subject.association_fields['pictures']).to eq({
               name: "pictures",
               type: "has_many",
+              origin: "has_many",
               label: "Pictures",
               is_association: true,
               is_polymorphic: false,
@@ -186,6 +192,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           expect(subject.association_fields['tags']).to eq({
             name: "tags",
             type: "has_and_belongs_to_many",
+            origin: "has_and_belongs_to_many",
             label: "Tags",
             is_association: true,
             is_polymorphic: false,
@@ -215,6 +222,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           imageable = subject.association_fields['imageable']
           expect(imageable[:name]).to eq "imageable"
           expect(imageable[:type]).to eq "belongs_to"
+          expect(imageable[:origin]).to eq "belongs_to"
           expect(imageable[:label]).to eq "Imageable"
           expect(imageable[:is_association]).to be_truthy
           expect(imageable[:is_polymorphic]).to be_truthy

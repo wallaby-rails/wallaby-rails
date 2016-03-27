@@ -40,37 +40,37 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     it 'returns a hash of all keys' do
       expect(subject.fields).to eq({
         "id" => {
-          :name=>"id", :type=>"integer", :label=>"Id"
+          :name=>"id", :type=>"integer", :origin=>"integer", :label=>"Id"
         },
         "category_id" => {
-          :name=>"category_id", :type=>"integer", :label=>"Category"
+          :name=>"category_id", :type=>"integer", :origin=>"integer", :label=>"Category"
         },
         "sku" => {
-          :name=>"sku", :type=>"string", :label=>"Sku"
+          :name=>"sku", :type=>"string", :origin=>"string", :label=>"Sku"
         },
         "name" => {
-          :name=>"name", :type=>"string", :label=>"Name"
+          :name=>"name", :type=>"string", :origin=>"string", :label=>"Name"
         },
         "description" => {
-          :name=>"description", :type=>"text", :label=>"Description"
+          :name=>"description", :type=>"text", :origin=>"text", :label=>"Description"
         },
         "stock" => {
-          :name=>"stock", :type=>"integer", :label=>"Stock"
+          :name=>"stock", :type=>"integer", :origin=>"integer", :label=>"Stock"
         },
         "price" => {
-          :name=>"price", :type=>"float", :label=>"Price"
+          :name=>"price", :type=>"float", :origin=>"float", :label=>"Price"
         },
         "featured" => {
-          :name=>"featured", :type=>"boolean", :label=>"Featured"
+          :name=>"featured", :type=>"boolean", :origin=>"boolean", :label=>"Featured"
         },
         "available_to_date" => {
-          :name=>"available_to_date", :type=>"date", :label=>"Available to date"
+          :name=>"available_to_date", :type=>"date", :origin=>"date", :label=>"Available to date"
         },
         "available_to_time" => {
-          :name=>"available_to_time", :type=>"time", :label=>"Available to time"
+          :name=>"available_to_time", :type=>"time", :origin=>"time", :label=>"Available to time"
         },
         "published_at" => {
-          :name=>"published_at", :type=>"datetime", :label=>"Published at"
+          :name=>"published_at", :type=>"datetime", :origin=>"datetime", :label=>"Published at"
         }
       })
     end
