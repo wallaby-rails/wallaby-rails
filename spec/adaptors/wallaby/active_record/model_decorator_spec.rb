@@ -140,7 +140,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     end
   end
 
-  describe '#form_require_name' do
+  describe '#param_key' do
     let(:model_class) do
       Class.new ActiveRecord::Base do
         def self.name
@@ -150,7 +150,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     end
 
     it 'returns the require name for form' do
-      expect(subject.form_require_name).to eq 'order_item'
+      expect(subject.param_key).to eq 'order_item'
     end
   end
 

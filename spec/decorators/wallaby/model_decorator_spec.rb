@@ -18,7 +18,7 @@ describe Wallaby::ModelDecorator do
         [ '', 'index_', 'show_', 'form_' ].each do |prefix|
           expect{ instance.send "#{ prefix }fields" }.not_to raise_error Wallaby::NotImplemented
         end
-        expect{ instance.form_require_name }.not_to raise_error Wallaby::NotImplemented
+        expect{ instance.param_key }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.form_strong_param_names }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.form_active_errors nil }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.primary_key }.not_to raise_error Wallaby::NotImplemented

@@ -45,7 +45,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
     end.keys
   end
 
-  def form_require_name
+  def param_key
     @model_class.model_name.param_key
   end
 

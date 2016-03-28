@@ -58,10 +58,10 @@ describe Wallaby::ResourcesController do
     end
 
     describe '#resource_params' do
-      it 'requires form_require_name and form_strong_param_names' do
+      it 'requires param_key and form_strong_param_names' do
         allow(controller).to receive(:params) { ActionController::Parameters.new fish_and_chips: { name: 'salmon' }, resources: 'fish_and_chips' }
         current_model_decorator = controller.send :current_model_decorator
-        expect(current_model_decorator).to receive(:form_require_name) { 'fish_and_chips' }
+        expect(current_model_decorator).to receive(:param_key) { 'fish_and_chips' }
         expect(current_model_decorator).to receive(:form_strong_param_names) { ['name'] }
         expect(controller.send :resource_params).to eq({ 'name' =>'salmon' })
       end

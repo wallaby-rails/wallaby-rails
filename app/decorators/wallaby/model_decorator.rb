@@ -48,7 +48,7 @@ class Wallaby::ModelDecorator
     RUBY
   end
 
-  def form_require_name
+  def param_key
     fail Wallaby::NotImplemented
   end
 

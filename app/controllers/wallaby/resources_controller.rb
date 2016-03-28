@@ -97,7 +97,7 @@ module Wallaby
       end
 
       def resource_params
-        form_name = current_model_decorator.form_require_name
+        form_name = current_model_decorator.param_key
         if params.has_key? form_name
           params.require(form_name)
             .permit *current_model_decorator.form_strong_param_names
