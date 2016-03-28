@@ -1,21 +1,13 @@
 <%
 # decorate first on every page or partial
-decorated_resource = decorate resource
+decorated = decorate resource
 %>
 <article>
   <%= render 'wallaby/resources/shared/resource_nav' %>
   <div class="page-header">
     <h1>
-      <%= show_title decorated_resource %>
+      <%= show_title decorated %>
     </h1>
-    <div>
-      <% (decorated_resource.show_field_names & %w( updated_at created_at )).each do |field_name| %>
-        <span>
-          <span><%= decorated_resource.show_label_of field_name %>:</span>
-          <em class="text-muted"><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %></em>
-        </span>
-      <% end %>
-    </div>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
   <section class="fields">
@@ -27,10 +19,10 @@ decorated_resource = decorate resource
         </tr>
       </thead>
       <tbody>
-        <% decorated_resource.show_field_names.each do |field_name| %>
+        <% decorated.show_field_names.each do |field_name| %>
           <tr>
-            <th><%= decorated_resource.show_label_of field_name %></th>
-            <td><%= type_partial_render decorated_resource.show_type_of(field_name).to_s, object: decorated_resource, field_name: field_name %></td>
+            <th><%= decorated.show_label_of field_name %></th>
+            <td><%= type_partial_render decorated.show_type_of(field_name).to_s, object: decorated, field_name: field_name %></td>
           </tr>
         <% end %>
       </tbody>
