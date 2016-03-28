@@ -25,27 +25,48 @@ describe Wallaby::ModelServicer do
   end
 
   describe 'instance methods' do
-    let(:servicer) { double :servicer }
-    subject { described_class.new nil, servicer }
+    subject { described_class.new Product }
+    let(:servicer) { subject.instance_variable_get '@servicer' }
+
+    describe '#collection' do
+      it 'deletgates collection method to servicer' do
+        expect(servicer).to receive :collection
+        subject.collection ActionController::Parameters.new({})
+      end
+    end
+
+    describe '#new' do
+      it 'deletgates new method to servicer' do
+        expect(servicer).to receive :new
+        subject.new ActionController::Parameters.new({})
+      end
+    end
+
+    describe '#find' do
+      it 'deletgates find method to servicer' do
+        expect(servicer).to receive :find
+        subject.find 1, ActionController::Parameters.new({})
+      end
+    end
 
     describe '#create' do
       it 'deletgates create method to servicer' do
         expect(servicer).to receive :create
-        subject.create Hash.new
+        subject.create ActionController::Parameters.new({})
       end
     end
 
     describe '#update' do
       it 'deletgates update method to servicer' do
         expect(servicer).to receive :update
-        subject.update 1, Hash.new
+        subject.update 1, ActionController::Parameters.new({})
       end
     end
 
     describe '#destroy' do
       it 'deletgates destroy method to servicer' do
         expect(servicer).to receive :destroy
-        subject.destroy 1
+        subject.destroy 1, ActionController::Parameters.new({})
       end
     end
   end
