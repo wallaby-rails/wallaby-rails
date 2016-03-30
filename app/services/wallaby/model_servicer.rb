@@ -13,5 +13,27 @@ class Wallaby::ModelServicer
     @servicer         = Wallaby.adaptor.model_servicer.new @model_class, @model_decorator
   end
 
-  delegate *%i( collection new find create update destroy ), to: :@servicer
+  def collection(params)
+    @servicer.collection(params)
+  end
+
+  def new(params)
+    @servicer.new params
+  end
+
+  def find(id, params)
+    @servicer.find id, params
+  end
+
+  def create(params)
+    @servicer.create params
+  end
+
+  def update(id, params)
+    @servicer.update id, params
+  end
+
+  def destroy(id, params)
+    @servicer.destroy id, params
+  end
 end
