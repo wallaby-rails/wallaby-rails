@@ -44,7 +44,7 @@ describe Wallaby::ResourcesController do
     describe '#resource' do
       it 'expects call from current_model_decorator' do
         resource = double 'resource'
-        expect(controller.send :current_model_decorator).to receive(:find_or_initialize) { resource }
+        expect(controller.send :current_model_service).to receive(:find) { resource }
         controller.send :resource
         expect(assigns :resource).to eq resource
       end
@@ -54,16 +54,6 @@ describe Wallaby::ResourcesController do
       it 'equals params[:id]' do
         allow(controller).to receive(:params) { ActionController::Parameters.new id: 'abc123' }
         expect(controller.send :resource_id).to eq 'abc123'
-      end
-    end
-
-    describe '#resource_params' do
-      it 'requires param_key and form_strong_param_names' do
-        allow(controller).to receive(:params) { ActionController::Parameters.new fish_and_chips: { name: 'salmon' }, resources: 'fish_and_chips' }
-        current_model_decorator = controller.send :current_model_decorator
-        expect(current_model_decorator).to receive(:param_key) { 'fish_and_chips' }
-        expect(current_model_decorator).to receive(:form_strong_param_names) { ['name'] }
-        expect(controller.send :resource_params).to eq({ 'name' =>'salmon' })
       end
     end
 

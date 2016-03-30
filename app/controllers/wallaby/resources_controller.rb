@@ -17,13 +17,13 @@ module Wallaby
     end
 
     def new
-      resource
+      new_resource
     end
 
     def create
-      @resource, is_success = current_model_service.create resource_params
+      @resource, is_success = current_model_service.create params
       if is_success
-        redirect_to resources_show_path, notice: 'successfully created'
+        redirect_to resources_index_path, notice: 'successfully created'
       else
         flash.now[:error] = 'failed to create'
         render :new
@@ -39,7 +39,7 @@ module Wallaby
     end
 
     def update
-      @resource, is_success = current_model_service.update resource_id, resource_params
+      @resource, is_success = current_model_service.update resource_id, params
       if is_success
         redirect_to resources_show_path, notice: 'successfully updated'
       else
@@ -49,7 +49,7 @@ module Wallaby
     end
 
     def destroy
-      if current_model_service.destroy resource_id
+      if current_model_service.destroy resource_id, params
         redirect_to resources_index_path, notice: 'successfully destroyed'
       else
         redirect_to resources_show_path, error: 'failed to destroy'
@@ -87,23 +87,10 @@ module Wallaby
     end
 
     begin # helper methods
-      helper_method \
-        :resource_id, :resource_params,
-        :resource, :collection,
-        :current_model_decorator
+      helper_method :resource_id, :resource, :collection, :current_model_decorator
 
       def resource_id
         params[:id]
-      end
-
-      def resource_params
-        form_name = current_model_decorator.param_key
-        if params.has_key? form_name
-          params.require(form_name)
-            .permit *current_model_decorator.form_strong_param_names
-        else
-          { }
-        end
       end
 
       def collection
@@ -119,7 +106,11 @@ module Wallaby
       end
 
       def resource
-        @resource ||= current_model_decorator.find_or_initialize resource_id, resource_params
+        @resource ||= current_model_service.find resource_id, params
+      end
+
+      def new_resource
+        @resource ||= current_model_service.new params
       end
 
       def current_model_decorator
