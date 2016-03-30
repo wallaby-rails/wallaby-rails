@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'devise'
   s.add_dependency 'kaminari'
   s.add_dependency 'redcarpet'
+  s.add_dependency 'cancancan'
 
   s.add_dependency 'sprockets-rails'
   s.add_dependency 'sass-rails'
