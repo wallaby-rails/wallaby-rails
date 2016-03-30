@@ -1,1 +1,7 @@
-<%= value.present? ? show_link(value) : new_link(metadata[:class]) %>
+<% if value.present? %>
+  <%= show_link value %>
+<% elsif !metadata[:is_polymorphic] %>
+  <%= new_link metadata[:class] %>
+<% else %>
+  <%= null %>
+<% end %>
