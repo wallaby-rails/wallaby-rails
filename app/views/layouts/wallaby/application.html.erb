@@ -10,7 +10,7 @@
     <%= yield :custom_stylesheet %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="<%= body_class %>">
+  <body class="application <%= body_class %>">
     <%= render 'layouts/wallaby/header' %>
     <main>
       <%= yield %>
