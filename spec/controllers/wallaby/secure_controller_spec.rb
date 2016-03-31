@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::SecureController do
   describe 'error handling' do
-    context 'Wallaby::NotAuthenticated' do
+    describe 'Wallaby::NotAuthenticated' do
       controller do
         def index
           fail Wallaby::NotAuthenticated
@@ -12,6 +12,20 @@ describe Wallaby::SecureController do
       it 'rescues the exception and renders 401' do
         expect{ get :index }.not_to raise_error
         expect(response.status).to eq 401
+        expect(response).to render_template 'wallaby/errors/not_authenticated'
+      end
+    end
+
+    describe 'CanCan::AccessDenied' do
+      controller do
+        def index
+          fail CanCan::AccessDenied
+        end
+      end
+
+      it 'rescues the exception and renders 401' do
+        expect{ get :index }.not_to raise_error
+        expect(response.status).to eq 403
         expect(response).to render_template 'wallaby/errors/access_denied'
       end
     end
