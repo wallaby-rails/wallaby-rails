@@ -1,4 +1,5 @@
 require 'devise'
+require 'cancancan'
 require 'kaminari' # required before requiring rails
 
 module Wallaby
