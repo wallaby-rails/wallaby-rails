@@ -21,7 +21,7 @@
 
 en:
   link:
-    new: Create %{model}
+    new: Create
     show: Show
     edit: Edit
     delete: Delete

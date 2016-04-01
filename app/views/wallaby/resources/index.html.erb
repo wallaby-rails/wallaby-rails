@@ -6,7 +6,7 @@ decorated_collection = decorate collection
   <% # Search form %>
   <div class="search-form">
     <div class="pull-right">
-      <%= new_link(current_model_class, class: 'btn btn-primary') { ct 'link.new', model: nil } %>
+      <%= new_link(current_model_class, class: 'btn btn-primary') { ct 'link.new' } %>
     </div>
     <span class="icon"></span>
     <div class="keyword">
@@ -38,8 +38,8 @@ decorated_collection = decorate collection
             <% end %>
             <td>
               <%= show_link(decorated, class: 'text-info') { itooltip ct('link.show'), 'link' } %>
-              <%= edit_link(decorated, class: 'text-warning') { itooltip ct('link.edit'), 'pencil' } %>
-              <%= delete_link(decorated, class: 'text-danger') { itooltip ct('link.delete'), 'trash' } %>
+              <%= edit_link(decorated) { itooltip ct('link.edit'), 'pencil' } %>
+              <%= delete_link(decorated) { itooltip ct('link.delete'), 'trash' } %>
             </td>
           </tr>
         <% end %>

@@ -15,14 +15,14 @@
     <%# edit %>
     <% if action_name == 'show' %>
       <li role="presentation">
-        <%= edit_link(resource, class: 'text-warning') { ct 'link.edit' } %>
+        <%= edit_link(resource) { ct 'link.edit' } %>
       </li>
     <% end %>
 
     <%# delete %>
     <% if action_name == 'show' %>
       <li role="presentation">
-        <%= delete_link(resource, class: 'text-danger'){ ct 'link.delete' } %>
+        <%= delete_link resource %>
       </li>
     <% end %>
   </ul>

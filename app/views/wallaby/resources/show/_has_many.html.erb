@@ -1,6 +1,5 @@
 <% unique_collection = value.uniq %>
 <% if unique_collection.present? %>
   <%= raw unique_collection.map { |item| show_link item }.to_sentence %>
-  or
 <% end %>
-<%= new_link metadata[:class], class: 'text-success' %>
+<%= new_link metadata[:class], prepend: unique_collection.present? && 'or' %>
