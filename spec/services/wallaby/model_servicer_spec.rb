@@ -26,47 +26,55 @@ describe Wallaby::ModelServicer do
 
   describe 'instance methods' do
     subject { described_class.new Product }
-    let(:servicer) { subject.instance_variable_get '@servicer' }
+    let(:servicer)  { subject.instance_variable_get '@servicer' }
+    let(:params)    { ActionController::Parameters.new({}) }
+    let(:ability)   { Ability.new nil }
+    let(:resource)  { Product.new }
+
+    it 'has model_class and model_decorator' do
+      expect(subject.instance_variable_get '@model_class').to eq Product
+      expect(subject.instance_variable_get '@model_decorator').to be_a Wallaby::ModelDecorator
+    end
 
     describe '#collection' do
       it 'deletgates collection method to servicer' do
-        expect(servicer).to receive :collection
-        subject.collection ActionController::Parameters.new({})
+        expect(servicer).to receive(:collection).with params, ability
+        subject.collection params, ability
       end
     end
 
     describe '#new' do
       it 'deletgates new method to servicer' do
-        expect(servicer).to receive :new
-        subject.new ActionController::Parameters.new({})
+        expect(servicer).to receive(:new).with params
+        subject.new params
       end
     end
 
     describe '#find' do
       it 'deletgates find method to servicer' do
-        expect(servicer).to receive :find
-        subject.find 1, ActionController::Parameters.new({})
+        expect(servicer).to receive(:find).with 1, params
+        subject.find 1, params
       end
     end
 
     describe '#create' do
       it 'deletgates create method to servicer' do
-        expect(servicer).to receive :create
-        subject.create ActionController::Parameters.new({})
+        expect(servicer).to receive(:create).with params, ability
+        subject.create params, ability
       end
     end
 
     describe '#update' do
       it 'deletgates update method to servicer' do
-        expect(servicer).to receive :update
-        subject.update 1, ActionController::Parameters.new({})
+        expect(servicer).to receive(:update).with resource, params, ability
+        subject.update resource, params, ability
       end
     end
 
     describe '#destroy' do
       it 'deletgates destroy method to servicer' do
-        expect(servicer).to receive :destroy
-        subject.destroy 1, ActionController::Parameters.new({})
+        expect(servicer).to receive(:destroy).with resource, params
+        subject.destroy resource, params
       end
     end
   end
