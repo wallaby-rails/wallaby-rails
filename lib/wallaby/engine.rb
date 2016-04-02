@@ -1,6 +1,18 @@
+# NOTE: We need to require the following rails engines
+# so that the main app could pick up the assets from these engines even they don't appear in the `Gemfile`
 require 'devise'
 require 'cancancan'
-require 'kaminari' # required before requiring rails
+require 'kaminari'
+require 'redcarpet'
+
+require 'sass-rails'
+require 'jquery-rails'
+require 'bootstrap-sass'
+require 'momentjs-rails'
+require 'bootstrap3-datetimepicker-rails'
+require 'rails-bootstrap-markdown'
+require 'summernote-rails'
+require 'codemirror-rails'
 
 module Wallaby
   class Engine < ::Rails::Engine
@@ -8,22 +20,6 @@ module Wallaby
     initializer "wallaby.assets.precompile" do |app|
       app.config.assets.precompile += %w( wallaby/form.js wallaby/form.css )
       app.config.assets.precompile += %w( codemirror* codemirror/**/* )
-    end
-
-    {
-      'jquery-rails' => nil,
-      'bootstrap-sass' => '/assets/*',
-      'momentjs-rails' => nil,
-      'bootstrap3-datetimepicker-rails' => nil,
-      'rails-bootstrap-markdown' => '/app/assets/*',
-      'summernote-rails' => nil,
-      'codemirror-rails' => nil
-    }.each do |gem_name, assets_folders|
-      initializer "#{ gem_name }.assets.precompile" do |app|
-        require gem_name
-
-        app.config.assets.paths += Dir[ "#{ Gem.loaded_specs[ gem_name ].full_gem_path }#{ assets_folders || '/vendor/assets/*' }" ]
-      end
     end
   end
 end
