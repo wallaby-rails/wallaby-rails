@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ApplicationController do
   describe 'error handling' do
-    context 'Wallaby::ResourceNotFound' do
+    describe 'Wallaby::ResourceNotFound' do
       controller do
         def index
           fail Wallaby::ResourceNotFound, 'Product'
@@ -12,11 +12,35 @@ describe Wallaby::ApplicationController do
       it 'rescues the exception and renders 404' do
         expect{ get :index }.not_to raise_error
         expect(response.status).to eq 404
+        expect(response).to render_template 'wallaby/errors/not_found'
+      end
+    end
+
+    describe 'Wallaby::ModelNotFound' do
+      controller do
+        def index
+          fail Wallaby::ModelNotFound, 'Product'
+        end
       end
 
-      it 'renders not_found view' do
-        expect(controller).to receive(:render).with('wallaby/errors/not_found', status: 404)
-        get :index
+      it 'rescues the exception and renders 404' do
+        expect{ get :index }.not_to raise_error
+        expect(response.status).to eq 404
+        expect(response).to render_template 'wallaby/errors/not_found'
+      end
+    end
+
+    describe 'ActionController::ParameterMissing' do
+      controller do
+        def index
+          params.require(:product)
+        end
+      end
+
+      it 'rescues the exception and renders 404' do
+        expect{ get :index }.not_to raise_error
+        expect(response.status).to eq 422
+        expect(response).to render_template 'wallaby/errors/unprocessable_entity'
       end
     end
   end
