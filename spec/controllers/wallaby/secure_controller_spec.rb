@@ -48,13 +48,15 @@ describe Wallaby::SecureController do
     end
 
     context 'when current_user setting doesnt exist and super exists' do
-      before do
-        module MockSuper
+      around do |example|
+        module SuperCurrentUser
           def current_user
             { email: 'admin@wallaby.org.au' }
           end
         end
-        described_class.send :include, MockSuper
+        described_class.send :include, SuperCurrentUser
+        example.run
+        SuperCurrentUser.send :undef_method, :current_user
       end
 
       it 'returns a cacheing current_user' do
@@ -81,13 +83,15 @@ describe Wallaby::SecureController do
     end
 
     context 'when authenticate_user setting doesnt exist and super exists' do
-      before do
-        module MockSuper
+      around do |example|
+        module SuperAuthenticateUser
           def authenticate_user!
             fail 'custom authentication error'
           end
         end
-        described_class.send :include, MockSuper
+        described_class.send :include, SuperAuthenticateUser
+        example.run
+        SuperAuthenticateUser.send :undef_method, :authenticate_user!
       end
 
       it 'returns a cacheing authenticate_user' do
