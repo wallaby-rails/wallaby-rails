@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'partial' do
+describe 'partial', :current_user do
   let(:partial)   { 'wallaby/resources/show/has_many.html.erb' }
   let(:value) do
     [
@@ -14,7 +14,7 @@ describe 'partial' do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the has_many' do
-    expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a>, <a href=\"/admin/products/2\">Hiking pole</a>, and <a href=\"/admin/products/3\">Hiking jacket</a>\n  or\n<a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
+    expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a>, <a href=\"/admin/products/2\">Hiking pole</a>, and <a href=\"/admin/products/3\">Hiking jacket</a>\nor <a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
   end
 
   context 'when value size is no more than 2' do
@@ -26,7 +26,7 @@ describe 'partial' do
     end
 
     it 'renders the has_many' do
-      expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a> and <a href=\"/admin/products/2\">Hiking pole</a>\n  or\n<a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
+      expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a> and <a href=\"/admin/products/2\">Hiking pole</a>\nor <a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
     end
   end
 

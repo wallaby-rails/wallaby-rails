@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'partial' do
+describe 'partial', :current_user do
   let(:partial)   { 'wallaby/resources/index/belongs_to.html.erb' }
   let(:value)     { Product.new id: 1, name: 'Hiking shoes' }
   let(:metadata)  { Hash.new }

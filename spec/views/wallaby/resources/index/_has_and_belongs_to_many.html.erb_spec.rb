@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'partial' do
+describe 'partial', :current_user do
   let(:partial)   { 'wallaby/resources/index/has_and_belongs_to_many.html.erb' }
   let(:value) do
     [

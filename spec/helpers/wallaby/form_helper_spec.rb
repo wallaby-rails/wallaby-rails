@@ -40,7 +40,7 @@ describe Wallaby::FormHelper do
     end
   end
 
-  describe '#model_choices' do
+  describe '#model_choices', :current_user do
     it 'returns a list of choise for select' do
       collection = [
         Product.new(id: 1, name: 'Coconut'),
