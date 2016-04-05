@@ -25,14 +25,14 @@ describe Wallaby::ModelServicer do
   end
 
   describe 'instance methods' do
-    subject { described_class.new Product }
+    subject { described_class.new AllPostgresType }
     let(:servicer)  { subject.instance_variable_get '@servicer' }
     let(:params)    { ActionController::Parameters.new({}) }
     let(:ability)   { Ability.new nil }
-    let(:resource)  { Product.new }
+    let(:resource)  { AllPostgresType.new }
 
     it 'has model_class and model_decorator' do
-      expect(subject.instance_variable_get '@model_class').to eq Product
+      expect(subject.instance_variable_get '@model_class').to eq AllPostgresType
       expect(subject.instance_variable_get '@model_decorator').to be_a Wallaby::ModelDecorator
     end
 
