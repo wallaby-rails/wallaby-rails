@@ -72,6 +72,7 @@ module Wallaby::LinksHelper
   end
 
   def prepend_if(html_options = {})
-    concat "#{ html_options.delete :prepend } " if html_options[:prepend]
+    prepend = html_options.delete :prepend
+    concat "#{ prepend } " if prepend.present?
   end
 end

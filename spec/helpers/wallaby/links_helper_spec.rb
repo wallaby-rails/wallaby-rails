@@ -121,7 +121,10 @@ describe Wallaby::LinksHelper do
     it 'returns the prepended text' do
       expect(helper.prepend_if).to be_nil
       expect(helper).to receive(:concat).with('Or ') { 'Or ' }
-      expect(helper.prepend_if prepend: 'Or').to eq 'Or '
+
+      html_options = { prepend: 'Or' }
+      expect(helper.prepend_if html_options).to eq 'Or '
+      expect(html_options).not_to have_key :prepend
     end
   end
 end
