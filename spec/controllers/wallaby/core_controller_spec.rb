@@ -25,12 +25,20 @@ describe Wallaby::CoreController do
     end
 
     context 'when it responds to model_class' do
-      it 'returns model_class from controller class' do
-        klass = double model_class: Product, superclass: Object
-        allow(controller).to receive(:class) { klass }
-        allow(controller).to receive(:current_resources_name) { 'categories' }
-        expect(controller.send :current_model_class).to eq Product
+      CampervansController = Class.new(Wallaby::ResourcesController) do
+        def current_resources_name; 'categories'; end
       end
+
+      Campervan = Class.new(ActiveRecord::Base) do
+        self.table_name = 'all_postgres_types'
+      end
+
+      describe CampervansController do
+        it 'returns model_class from controller class' do
+          expect(controller.send :current_model_class).to eq Campervan
+        end
+      end
+
     end
   end
 end

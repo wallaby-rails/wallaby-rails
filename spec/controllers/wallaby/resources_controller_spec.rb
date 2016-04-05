@@ -127,26 +127,26 @@ describe Wallaby::ResourcesController do
   end
 
   describe 'subclasses of Wallaby::ResourcesController' do
-    let(:subclasses_controller) do
-      stub_const 'CampervansController', Class.new(Wallaby::ResourcesController)
+    CampervansController = Class.new(Wallaby::ResourcesController) do
+      def current_resources_name; 'categories'; end
     end
 
-    let!(:model_class) do
-      stub_const 'Campervan', (Class.new(ActiveRecord::Base) do
-        self.table_name = 'products'
-      end)
+    Campervan = Class.new(ActiveRecord::Base) do
+      self.table_name = 'all_postgres_types'
     end
 
-    describe 'class methods ' do
-      describe '.resources_name' do
-        it 'returns resources name from controller name' do
-          expect(subclasses_controller.resources_name).to eq 'campervans'
+    describe CampervansController do
+      describe 'class methods ' do
+        describe '.resources_name' do
+          it 'returns resources name from controller name' do
+            expect(described_class.resources_name).to eq 'campervans'
+          end
         end
-      end
 
-      describe '.model_class' do
-        it 'returns model class' do
-          expect(subclasses_controller.model_class).to eq model_class
+        describe '.model_class' do
+          it 'returns model class' do
+            expect(described_class.model_class).to eq Campervan
+          end
         end
       end
     end
