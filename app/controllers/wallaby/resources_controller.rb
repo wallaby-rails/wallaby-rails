@@ -13,15 +13,17 @@ module Wallaby
     end
 
     def index
+      authorize! :index, current_model_class
       collection
     end
 
     def new
-      new_resource
+      authorize! :new, new_resource
     end
 
     def create
-      @resource, is_success = current_model_service.create params
+      authorize! :create, current_model_class
+      @resource, is_success = current_model_service.create params, current_ability
       if is_success
         redirect_to resources_index_path, notice: 'successfully created'
       else
@@ -31,15 +33,16 @@ module Wallaby
     end
 
     def show
-      resource
+      authorize! :show, resource
     end
 
     def edit
-      resource
+      authorize! :edit, resource
     end
 
     def update
-      @resource, is_success = current_model_service.update resource_id, params
+      authorize! :update, resource
+      @resource, is_success = current_model_service.update resource, params, current_ability
       if is_success
         redirect_to resources_show_path, notice: 'successfully updated'
       else
@@ -49,7 +52,8 @@ module Wallaby
     end
 
     def destroy
-      if current_model_service.destroy resource_id, params
+      authorize! :destroy, resource
+      if current_model_service.destroy resource, params
         redirect_to resources_index_path, notice: 'successfully destroyed'
       else
         redirect_to resources_show_path, error: 'failed to destroy'
@@ -83,7 +87,11 @@ module Wallaby
     end
 
     def current_model_service
-      @current_model_service ||= Wallaby::ServicerFinder.find(current_model_class).new current_model_class
+      @current_model_service ||= Wallaby::ServicerFinder.find(current_model_class).new current_model_class, current_model_decorator
+    end
+
+    def new_resource
+      @resource ||= current_model_service.new params
     end
 
     begin # helper methods
@@ -98,7 +106,7 @@ module Wallaby
           page_number = params.delete :page
           per_number  = params.delete(:per) || 50
 
-          query = current_model_decorator.collection params
+          query = current_model_service.collection params, current_ability
           query = query.page page_number if query.respond_to? :page
           query = query.per per_number if query.respond_to? :per
           query
@@ -107,10 +115,6 @@ module Wallaby
 
       def resource
         @resource ||= current_model_service.find resource_id, params
-      end
-
-      def new_resource
-        @resource ||= current_model_service.new params
       end
 
       def current_model_decorator
