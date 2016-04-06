@@ -4,7 +4,7 @@ describe 'Postgres Types' do
   it 'returns the expected native types' do
     native_types = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::NATIVE_DATABASE_TYPES.keys.map &:to_s
 
-    expect(native_types.size).to eq 34
+    expect(native_types.length).to eq 34
     expect(native_types.sort).to eq [ "bigint", "bigserial", "binary", "bit", "bit_varying", "boolean", "cidr", "citext", "date", "daterange", "datetime", "decimal", "float", "hstore", "inet", "int4range", "int8range", "integer", "json", "jsonb", "ltree", "macaddr", "money", "numrange", "point", "primary_key", "string", "text", "time", "tsrange", "tstzrange", "tsvector", "uuid", "xml" ]
   end
 

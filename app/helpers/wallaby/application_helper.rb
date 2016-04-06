@@ -1,7 +1,7 @@
 module Wallaby::ApplicationHelper
   # override `actionview/lib/action_view/routing_url_for.rb#url_for`
   def url_for(options = nil)
-    if options.is_a?(Hash) && options.slice(:action, :resources).size == 2
+    if options.is_a?(Hash) && options.slice(:action, :resources).length == 2
       return wallaby_resourceful_url_for options
     end
     super

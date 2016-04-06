@@ -1,10 +1,10 @@
 <% unique_collection = value.uniq %>
 <%= raw unique_collection.first(2).map{ |item| show_link item }.join(', ') %>
 
-<% if unique_collection.size > 2 %>
+<% if unique_collection.length > 2 %>
   <% title  = metadata[:label] %>
   <% body   = unique_collection.map{ |item| show_link item }.to_sentence.html_safe %>
-  <% label  = "#{ unique_collection.size - 2 } more" %>
+  <% label  = "#{ unique_collection.length - 2 } more" %>
   and <%= imodal title, body, label: label %>
 <% elsif unique_collection.blank? %>
   <%= null %>
