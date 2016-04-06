@@ -5,8 +5,9 @@ class Wallaby::ActiveRecord::ModelServicer
     @model_decorator  = model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
   end
 
-  def collection(params)
-    @model_decorator.collection params
+  def collection(params, ability)
+    query = querier.search params
+    query.accessible_by ability
   end
 
   def new(params)
@@ -20,9 +21,10 @@ class Wallaby::ActiveRecord::ModelServicer
     fail Wallaby::ResourceNotFound
   end
 
-  def create(params)
+  def create(params, ability)
     resource = @model_class.new
     resource.assign_attributes normalize permit(params)
+    ensure_attributes_for ability, :create, resource
     resource.save if valid? resource
     [ resource, resource.errors.blank? ]
   rescue ActiveRecord::StatementInvalid => e
@@ -30,108 +32,56 @@ class Wallaby::ActiveRecord::ModelServicer
     [ resource, false ]
   end
 
-  def update(id, params)
-    resource = @model_class.find id
+  def update(resource, params, ability)
     resource.assign_attributes normalize permit(params)
+    ensure_attributes_for ability, :update, resource
     resource.save if valid? resource
     [ resource, resource.errors.blank? ]
-  rescue ActiveRecord::RecordNotFound
-    fail Wallaby::ResourceNotFound
   rescue ActiveRecord::StatementInvalid => e
     resource.errors.add :base, e.message
     [ resource, false ]
   end
 
-  def destroy(id, params)
-    @model_class.delete id
+  def destroy(resource, params)
+    resource.destroy
   end
 
   protected
   def permit(params)
-    params.require(param_key).permit(simple_field_names << compound_hashed_fields)
+    params.require(param_key).permit(permitter.simple_field_names << permitter.compound_hashed_fields)
   end
 
   def normalize(params)
-    params.each do |field_name, values|
-      metadata = @model_decorator.fields[field_name]
-      next unless metadata
-      type = metadata[:type]
-
-      case type
-      when /range/
-        if values.is_a?(Array) && values.size == 2
-          params[field_name] = values.first...values.last
-        end
-      when /point/
-        params[field_name] = values.map &:to_f
-      when /binary/
-        if values.is_a?(ActionDispatch::Http::UploadedFile)
-          params[field_name] = values.read
-        end
-      end
-    end
+    normalizer.normalize params
   end
 
   def valid?(resource)
-    resource.attributes.each do |field_name, values|
-      metadata = @model_decorator.fields[field_name]
-      if /(date|ts|tstz)range/ =~ metadata[:type] && values.try(:any?, &:blank?)
-        resource.errors.add field_name, 'required for range data'
-      end
-    end
-    resource.errors.blank?
+    validator.valid? resource
+  end
+
+  def ensure_attributes_for(ability, action, resource)
+    return if ability.blank?
+    restricted_conditions = ability.attributes_for action, resource
+    resource.assign_attributes restricted_conditions
   end
 
   def param_key
     @model_class.model_name.param_key
   end
 
-  def simple_field_names
-    non_range_fields.keys + belongs_to_fields.map do |_, metadata|
-      [ metadata[:foreign_key], metadata[:polymorphic_type] ].compact
-    end.flatten
+  def permitter
+    @permitter ||= Wallaby::ActiveRecord::ModelServicer::Permitter.new @model_decorator
   end
 
-  def compound_hashed_fields
-    field_names = range_fields.keys +
-      point_fields.keys +
-      many_association_fields.map{ |_, metadata| metadata[:foreign_key] }
-    field_names.map{ |field_name| [ field_name, [] ] }.to_h
+  def querier
+    @querier ||= Wallaby::ActiveRecord::ModelServicer::Querier.new @model_decorator
   end
 
-  def non_association_fields
-    @model_decorator.fields.select{ |_, metadata| !metadata[:is_association] }
+  def normalizer
+    @normalizer ||= Wallaby::ActiveRecord::ModelServicer::Normalizer.new @model_decorator
   end
 
-  def non_range_fields
-    non_association_fields.select{ |_, metadata| !(/range|point/ =~ metadata[:type]) }
-  end
-
-  def range_fields
-    non_association_fields.select do |_, metadata|
-      /range|point/ =~ metadata[:type]
-    end
-  end
-
-  def point_fields
-    non_association_fields.select do |_, metadata|
-      /point/ =~ metadata[:type]
-    end
-  end
-
-  def association_fields
-    @model_decorator.fields.select do |_, metadata|
-      metadata[:is_association] && !metadata[:has_scope] && !metadata[:is_through]
-    end
-  end
-
-  def many_association_fields
-    association_fields.select{ |_, metadata| /many/ =~ metadata[:type] }
-  end
-
-  def belongs_to_fields
-    association_fields.select do |field_name, metadata|
-      'belongs_to' == metadata[:type]
-    end
+  def validator
+    @validator ||= Wallaby::ActiveRecord::ModelServicer::Validator.new @model_decorator
   end
 end
