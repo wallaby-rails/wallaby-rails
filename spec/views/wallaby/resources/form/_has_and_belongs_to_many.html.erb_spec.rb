@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'partial', :current_user do
   let(:partial)     { 'wallaby/resources/form/has_many.html.erb' }
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
-  let(:object)      { Product.new metadata[:name] => value }
+  let(:object)      { Product.new field_name => value }
   let(:field_name)  { metadata[:name] }
   let(:value)       { [ Tag.new(id: 1, name: 'Toy') ] }
   let(:metadata)    do
