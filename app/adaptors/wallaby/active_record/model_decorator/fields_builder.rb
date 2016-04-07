@@ -4,11 +4,10 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
   end
 
   def general_fields
-    @general_fields ||= @model_class.columns.inject({}) do |fields, column|
+    @model_class.columns.inject({}) do |fields, column|
       fields[column.name] = {
         name:   column.name,
         type:   column.type.to_s,
-        origin: column.type.to_s, # used by form handler
         label:  @model_class.human_attribute_name(column.name)
       }
       fields
@@ -16,13 +15,12 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
   end
 
   def association_fields
-    @association_fields ||= @model_class.reflections.inject({}) do |fields, (field_name, reflection)|
+    @model_class.reflections.inject({}) do |fields, (field_name, reflection)|
       type = extract_type_from reflection
 
       fields[field_name] = {
         name:             field_name,
         type:             type,
-        origin:           type, # used by form handler
         label:            field_name.titleize,
         is_association:   true,
         is_polymorphic:   is_polymorphic?(reflection),
