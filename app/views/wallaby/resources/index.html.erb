@@ -11,7 +11,7 @@ decorated_collection = decorate collection
     <span class="icon"></span>
     <div class="keyword">
       <%= form_tag wallaby_engine.resources_path, method: :get do %>
-        <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search"  %>
+        <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search. Example: 'text_keyword1 text_keyword2 field_name:value'"  %>
       <% end %>
     </div>
   </div>
