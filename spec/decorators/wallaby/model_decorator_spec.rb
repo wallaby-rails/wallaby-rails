@@ -13,13 +13,9 @@ describe Wallaby::ModelDecorator do
     it 'implements the following methods' do
       described_class.subclasses.each do |klass|
         instance = klass.new nil
-        expect{ instance.collection }.not_to raise_error Wallaby::NotImplemented
-        expect{ instance.find_or_initialize nil }.not_to raise_error Wallaby::NotImplemented
         [ '', 'index_', 'show_', 'form_' ].each do |prefix|
           expect{ instance.send "#{ prefix }fields" }.not_to raise_error Wallaby::NotImplemented
         end
-        expect{ instance.param_key }.not_to raise_error Wallaby::NotImplemented
-        expect{ instance.form_strong_param_names }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.form_active_errors nil }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.primary_key }.not_to raise_error Wallaby::NotImplemented
         expect{ instance.guess_title nil }.not_to raise_error Wallaby::NotImplemented

@@ -5,14 +5,6 @@ class Wallaby::ModelDecorator
     @model_class = model_class
   end
 
-  def collection(params = {})
-    fail Wallaby::NotImplemented
-  end
-
-  def find_or_initialize(id = nil)
-    fail Wallaby::NotImplemented
-  end
-
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|
     class_eval <<-RUBY
       def #{ prefix }fields
@@ -46,14 +38,6 @@ class Wallaby::ModelDecorator
         #{ prefix }metadata_of(field_name)[:type]
       end
     RUBY
-  end
-
-  def param_key
-    fail Wallaby::NotImplemented
-  end
-
-  def form_strong_param_names
-    fail Wallaby::NotImplemented
   end
 
   def form_active_errors(resource)
