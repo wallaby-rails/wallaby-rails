@@ -100,32 +100,6 @@ describe Wallaby::ResourcesController do
     end
   end
 
-  describe 'actions' do
-    describe '#index' do
-      xit 'renders products'
-    end
-
-    describe '#show' do
-      xit 'renders product'
-    end
-
-    describe '#new' do
-      xit 'renders new form'
-    end
-
-    describe '#create' do
-      xit 'creates the product'
-    end
-
-    describe '#edit' do
-      xit 'renders edit form'
-    end
-
-    describe '#update' do
-      xit 'updates the product'
-    end
-  end
-
   describe 'subclasses of Wallaby::ResourcesController' do
     CampervansController = Class.new(Wallaby::ResourcesController) do
       def current_resources_name; 'categories'; end
