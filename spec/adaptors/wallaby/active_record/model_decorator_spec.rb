@@ -2,161 +2,307 @@ require 'rails_helper'
 
 describe Wallaby::ActiveRecord::ModelDecorator do
   subject { described_class.new model_class }
-  let(:model_class) do
-    Class.new ActiveRecord::Base do
-      def self.name
-        'Product'
+  let(:model_class) { AllPostgresType }
+
+  describe 'General fields' do
+    describe '#fields' do
+      it 'returns a hash of all keys' do
+        expect(subject.fields).to eq({
+          "id" => {
+            :name=>"id", :type=>"integer", :label=>"Id"
+          },
+          "string" => {
+            :name=>"string", :type=>"string", :label=>"String"
+          },
+          "text" => {
+            :name=>"text", :type=>"text", :label=>"Text"
+          },
+          "integer" => {
+            :name=>"integer", :type=>"integer", :label=>"Integer"
+          },
+          "float" => {
+            :name=>"float", :type=>"float", :label=>"Float"
+          },
+          "decimal" => {
+            :name=>"decimal", :type=>"decimal", :label=>"Decimal"
+          },
+          "datetime" => {
+            :name=>"datetime", :type=>"datetime", :label=>"Datetime"
+          },
+          "time" => {
+            :name=>"time", :type=>"time", :label=>"Time"
+          },
+          "date" => {
+            :name=>"date", :type=>"date", :label=>"Date"
+          },
+          "daterange" => {
+            :name=>"daterange", :type=>"daterange", :label=>"Daterange"
+          },
+          "numrange" => {
+            :name=>"numrange", :type=>"numrange", :label=>"Numrange"
+          },
+          "tsrange" => {
+            :name=>"tsrange", :type=>"tsrange", :label=>"Tsrange"
+          },
+          "tstzrange" => {
+            :name=>"tstzrange", :type=>"tstzrange", :label=>"Tstzrange"
+          },
+          "int4range" => {
+            :name=>"int4range", :type=>"int4range", :label=>"Int4range"
+          },
+          "int8range" => {
+            :name=>"int8range", :type=>"int8range", :label=>"Int8range"
+          },
+          "binary" => {
+            :name=>"binary", :type=>"binary", :label=>"Binary"
+          },
+          "boolean" => {
+            :name=>"boolean", :type=>"boolean", :label=>"Boolean"
+          },
+          "bigint" => {
+            :name=>"bigint", :type=>"integer", :label=>"Bigint"
+          },
+          "xml" => {
+            :name=>"xml", :type=>"xml", :label=>"Xml"
+          },
+          "tsvector" => {
+            :name=>"tsvector", :type=>"tsvector", :label=>"Tsvector"
+          },
+          "hstore" => {
+            :name=>"hstore", :type=>"hstore", :label=>"Hstore"
+          },
+          "inet" => {
+            :name=>"inet", :type=>"inet", :label=>"Inet"
+          },
+          "cidr" => {
+            :name=>"cidr", :type=>"cidr", :label=>"Cidr"
+          },
+          "macaddr" => {
+            :name=>"macaddr", :type=>"macaddr", :label=>"Macaddr"
+          },
+          "uuid" => {
+            :name=>"uuid", :type=>"uuid", :label=>"Uuid"
+          },
+          "json" => {
+            :name=>"json", :type=>"json", :label=>"Json"
+          },
+          "jsonb" => {
+            :name=>"jsonb", :type=>"jsonb", :label=>"Jsonb"
+          },
+          "ltree" => {
+            :name=>"ltree", :type=>"ltree", :label=>"Ltree"
+          },
+          "citext" => {
+            :name=>"citext", :type=>"citext", :label=>"Citext"
+          },
+          "point" => {
+            :name=>"point", :type=>"point", :label=>"Point"
+          },
+          "bit" => {
+            :name=>"bit", :type=>"bit", :label=>"Bit"
+          },
+          "bit_varying" => {
+            :name=>"bit_varying", :type=>"bit_varying", :label=>"Bit varying"
+          },
+          "money" => {
+            :name=>"money", :type=>"money", :label=>"Money"
+          }
+        })
       end
     end
-  end
 
-  describe '#collection' do
-    it 'returns a query' do
-      expect(subject.collection).to be_a ActiveRecord::Relation
-      expect(subject.collection.where_values).to eq []
-    end
-  end
-
-  describe '#find_or_initialize' do
-    it 'finds the record by id' do
-      resource = model_class.new
-      allow(model_class).to receive_message_chain(:where, :first).and_return resource
-      expect(resource).to receive :assign_attributes
-      expect{ subject.find_or_initialize 1 }.not_to raise_error
-
-      allow(model_class).to receive_message_chain(:where, :first).and_return(nil)
-      expect{ subject.find_or_initialize 1 }.to raise_error Wallaby::ResourceNotFound
-    end
-
-    it 'builds a new record' do
-      expect_any_instance_of(model_class).to receive :assign_attributes
-      new_record = subject.find_or_initialize nil
-      expect(new_record).to be_a model_class
-      expect(new_record).to be_new_record
-    end
-  end
-
-  describe '#fields' do
-    it 'returns a hash of all keys' do
-      expect(subject.fields).to eq({
-        "id" => {
-          :name=>"id", :type=>"integer", :origin=>"integer", :label=>"Id"
-        },
-        "category_id" => {
-          :name=>"category_id", :type=>"integer", :origin=>"integer", :label=>"Category"
-        },
-        "sku" => {
-          :name=>"sku", :type=>"string", :origin=>"string", :label=>"Sku"
-        },
-        "name" => {
-          :name=>"name", :type=>"string", :origin=>"string", :label=>"Name"
-        },
-        "description" => {
-          :name=>"description", :type=>"text", :origin=>"text", :label=>"Description"
-        },
-        "stock" => {
-          :name=>"stock", :type=>"integer", :origin=>"integer", :label=>"Stock"
-        },
-        "price" => {
-          :name=>"price", :type=>"float", :origin=>"float", :label=>"Price"
-        },
-        "featured" => {
-          :name=>"featured", :type=>"boolean", :origin=>"boolean", :label=>"Featured"
-        },
-        "available_to_date" => {
-          :name=>"available_to_date", :type=>"date", :origin=>"date", :label=>"Available to date"
-        },
-        "available_to_time" => {
-          :name=>"available_to_time", :type=>"time", :origin=>"time", :label=>"Available to time"
-        },
-        "published_at" => {
-          :name=>"published_at", :type=>"datetime", :origin=>"datetime", :label=>"Published at"
-        }
-      })
-    end
-  end
-
-  describe '#index_fields' do
-    it 'has same value as fields' do
-      expect(subject.index_fields).to eq subject.fields
-    end
-
-    context 'changing index_fields' do
-      it 'doesnt modify fields' do
-        expect{ subject.index_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+    describe '#index_fields' do
+      it 'has same value as fields' do
+        expect(subject.index_fields).to eq subject.fields
       end
-    end
-  end
 
-  describe '#show_fields' do
-    it 'has same value as fields' do
-      expect(subject.show_fields).to eq subject.fields
-    end
-
-    context 'changing show_fields' do
-      it 'doesnt modify fields' do
-        expect{ subject.show_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
-      end
-    end
-  end
-
-  describe '#form_fields' do
-    it 'has same value as fields' do
-      expect(subject.form_fields).to eq subject.fields
-    end
-
-    context 'changing form_fields' do
-      it 'doesnt modify fields' do
-        expect{ subject.form_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
-      end
-    end
-  end
-
-  describe '#index_field_names' do
-    it 'excludes associations, text, and binary fields' do
-      associations = {
-        'has_many' => { is_association: true },
-        'description' => { type: 'text' },
-        'sku' => { type: 'string' },
-        'file' => { type: 'binary' }
-      }
-      allow(subject).to receive(:index_fields).and_return(associations)
-      expect(subject.index_field_names).to eq %w( sku )
-    end
-  end
-
-  describe '#form_field_names' do
-    it 'excludes associations, text, and binary fields' do
-      associations = {
-        'id' => { type: 'integer' },
-        'sku' => { type: 'string' },
-        'has_many' => { type: 'has_many', has_scope: true },
-        'has_and_belongs_to_many' => { type: 'has_and_belongs_to_many', is_through: true },
-        'updated_at' => { type: 'datetime' },
-        'created_at' => { type: 'datetime' }
-      }
-      allow(subject).to receive(:form_fields).and_return(associations)
-      expect(subject.form_field_names).to eq %w( sku )
-    end
-  end
-
-  describe '#param_key' do
-    let(:model_class) do
-      Class.new ActiveRecord::Base do
-        def self.name
-          'Order::Item'
+      context 'changing index_fields' do
+        it 'doesnt modify fields' do
+          expect{ subject.index_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
         end
       end
     end
 
-    it 'returns the require name for form' do
-      expect(subject.param_key).to eq 'order_item'
+    describe '#show_fields' do
+      it 'has same value as fields' do
+        expect(subject.show_fields).to eq subject.fields
+      end
+
+      context 'changing show_fields' do
+        it 'doesnt modify fields' do
+          expect{ subject.show_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+        end
+      end
+    end
+
+    describe '#form_fields' do
+      it 'has same value as fields' do
+        expect(subject.form_fields).to eq subject.fields
+      end
+
+      context 'changing form_fields' do
+        it 'doesnt modify fields' do
+          expect{ subject.form_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+        end
+      end
+    end
+
+    describe '#index_field_names' do
+      it 'excludes fields that have long value' do
+        expect(subject.index_field_names).to eq [ "id", "string", "integer", "float", "decimal", "datetime", "time", "date", "daterange", "numrange", "tsrange", "tstzrange", "int4range", "int8range", "boolean", "bigint", "hstore", "inet", "cidr", "macaddr", "uuid", "ltree", "point", "bit", "bit_varying", "money" ]
+      end
+    end
+
+    describe '#form_field_names' do
+      it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
+        expect(subject.form_field_names).to eq [ "string", "text", "integer", "float", "decimal", "datetime", "time", "date", "daterange", "numrange", "tsrange", "tstzrange", "int4range", "int8range", "binary", "boolean", "bigint", "xml", "tsvector", "hstore", "inet", "cidr", "macaddr", "uuid", "json", "jsonb", "ltree", "citext", "point", "bit", "bit_varying", "money" ]
+      end
     end
   end
 
-  describe '#form_strong_param_names' do
-    it 'returns the form strong param names' do
-      expect(subject.form_strong_param_names).to eq ["category_id", "sku", "name", "description", "stock", "price", "featured", "available_to_date", "available_to_time", "published_at", {}]
+  describe 'Association fields' do
+    let(:model_class) { Product }
+    describe '#fields' do
+      it 'returns a hash of all keys' do
+        expect(subject.fields).to eq({
+          "id" => {
+            :name=>"id", :type=>"integer", :label=>"Id"
+          },
+          "sku" => {
+            :name=>"sku", :type=>"string", :label=>"Sku"
+          },
+          "name" => {
+            :name=>"name", :type=>"string", :label=>"Name"
+          },
+          "description" => {
+            :name=>"description", :type=>"text", :label=>"Description"
+          },
+          "stock" => {
+            :name=>"stock", :type=>"integer", :label=>"Stock"
+          },
+          "price" => {
+            :name=>"price", :type=>"float", :label=>"Price"
+          },
+          "featured" => {
+            :name=>"featured", :type=>"boolean", :label=>"Featured"
+          },
+          "available_to_date" => {
+            :name=>"available_to_date", :type=>"date", :label=>"Available to date"
+          },
+          "available_to_time" => {
+            :name=>"available_to_time", :type=>"time", :label=>"Available to time"
+          },
+          "published_at" => {
+            :name=>"published_at", :type=>"datetime", :label=>"Published at"
+          },
+          "product_detail" => {
+            :name=>"product_detail", :type=>"has_one", :label=>"Product Detail", :is_association=>true, :is_polymorphic=>false, :is_through=>false, :has_scope=>false, :foreign_key=>"product_detail_id", :polymorphic_type=>nil, :polymorphic_list=>[], :class=>ProductDetail
+          },
+          "picture" => {
+            :name=>"picture", :type=>"has_one", :label=>"Picture", :is_association=>true, :is_polymorphic=>false, :is_through=>false, :has_scope=>true, :foreign_key=>"picture_id", :polymorphic_type=>nil, :polymorphic_list=>[], :class=>Picture
+          },
+          "order_items" => {
+            :name=>"order_items", :type=>"has_many", :label=>"Order Items", :is_association=>true, :is_polymorphic=>false, :is_through=>false, :has_scope=>false, :foreign_key=>"item_ids", :polymorphic_type=>nil, :polymorphic_list=>[], :class=>Order::Item
+          },
+          "orders" => {
+            :name=>"orders", :type=>"has_many", :label=>"Orders", :is_association=>true, :is_polymorphic=>false, :is_through=>true, :has_scope=>false, :foreign_key=>"order_ids", :polymorphic_type=>nil, :polymorphic_list=>[], :class=>Order
+          },
+          "category" => {
+            :name=>"category", :type=>"belongs_to", :label=>"Category", :is_association=>true, :is_polymorphic=>false, :is_through=>false, :has_scope=>false, :foreign_key=>"category_id", :polymorphic_type=>nil, :polymorphic_list=>[], :class=>Category
+          },
+          "tags" => {
+            :name=>"tags", :type=>"has_and_belongs_to_many", :label=>"Tags", :is_association=>true, :is_polymorphic=>false, :is_through=>false, :has_scope=>false, :foreign_key=>"tag_ids", :polymorphic_type=>nil, :polymorphic_list=>[], :class=>Tag
+          }
+        })
+      end
+    end
+
+    describe '#index_field_names' do
+      it 'excludes fields that have long value' do
+        expect(subject.index_field_names).to eq [ "id", "sku", "name", "stock", "price", "featured", "available_to_date", "available_to_time", "published_at" ]
+      end
+    end
+
+    describe '#form_field_names' do
+      it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
+        expect(subject.form_field_names).to eq [ "sku", "name", "description", "stock", "price", "featured", "available_to_date", "available_to_time", "published_at", "product_detail", "order_items", "category", "tags" ]
+      end
+    end
+
+    describe '#foreign_keys_from_associations' do
+      it 'returns foreign keys for associations' do
+        expect(subject.send :foreign_keys_from_associations).to eq [ "product_detail_id", "picture_id", "item_ids", "order_ids", "category_id", "tag_ids" ]
+      end
+    end
+
+    describe '#many_associations' do
+      it 'returns associations' do
+        expect(subject.send(:many_associations).keys).to eq [ "order_items", "tags" ]
+      end
+    end
+
+    describe '#belongs_to_associations' do
+      it 'returns associations' do
+        expect(subject.send(:belongs_to_associations).keys).to eq [ "category" ]
+      end
+    end
+  end
+
+  describe 'Polymorphic fields' do
+    let(:model_class) { Picture }
+    describe '#fields' do
+      it 'returns a hash of all keys' do
+        expect(subject.fields).to eq({
+          "id" => {
+            :name=>"id", :type=>"integer", :label=>"Id"
+          },
+          "name" => {
+            :name=>"name", :type=>"string", :label=>"Name"
+          },
+          "file" => {
+            :name=>"file", :type=>"binary", :label=>"File"
+          },
+          "created_at" => {
+            :name=>"created_at", :type=>"datetime", :label=>"Created at"
+          },
+          "updated_at" => {
+            :name=>"updated_at", :type=>"datetime", :label=>"Updated at"
+          },
+          "imageable" => {
+            :name=>"imageable", :type=>"belongs_to", :label=>"Imageable", :is_association=>true, :is_polymorphic=>true, :is_through=>false, :has_scope=>false, :foreign_key=>"imageable_id", :polymorphic_type=>"imageable_type", :polymorphic_list=>[ Product ], :class=>nil
+          }
+        })
+      end
+    end
+
+    describe '#index_field_names' do
+      it 'excludes fields that have long value' do
+        expect(subject.index_field_names).to eq [ "id", "name", "created_at", "updated_at" ]
+      end
+    end
+
+    describe '#form_field_names' do
+      it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
+        expect(subject.form_field_names).to eq [ "name", "file", "imageable" ]
+      end
+    end
+
+    describe '#foreign_keys_from_associations' do
+      it 'returns ploymorphic foreign keys for associations' do
+        expect(subject.send :foreign_keys_from_associations).to eq [ "imageable_id", "imageable_type" ]
+      end
+    end
+
+    describe '#many_associations' do
+      it 'returns associations' do
+        expect(subject.send(:many_associations).keys).to eq []
+      end
+    end
+
+    describe '#belongs_to_associations' do
+      it 'returns associations' do
+        expect(subject.send(:belongs_to_associations).keys).to eq [ "imageable" ]
+      end
     end
   end
 
@@ -175,114 +321,15 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
   describe '#primary_key' do
     it 'returns model primary_key' do
-      allow(model_class).to receive(:primary_key).and_return('product_id')
-      expect(subject.primary_key).to eq 'product_id'
+      allow(model_class).to receive(:primary_key).and_return('all_postgres_type_id')
+      expect(subject.primary_key).to eq 'all_postgres_type_id'
     end
   end
 
   describe '#guess_title' do
     it 'returns a label for the model' do
-      resource = double title: 'guessing'
-      allow(subject).to receive(:title_field_finder).and_return(double find: 'title')
-      expect(resource).to receive(:title)
-      expect(subject.guess_title resource).to eq 'guessing'
-    end
-  end
-
-  describe '#foreign_keys_from_associations' do
-    context 'for general association fields' do
-      it 'returns foreign keys for associations' do
-        associations = {
-          'general' => { foreign_key: 'category_id', polymorphic_type: nil }
-        }
-        expect(subject.send :foreign_keys_from_associations, associations).to eq %w( category_id )
-      end
-    end
-
-    context 'for polymorphic association fields' do
-      it 'returns foreign keys for associations' do
-        associations = {
-          'polymorphic' => { foreign_key: 'comment_id', polymorphic_type: 'comment_type' }
-        }
-        expect(subject.send :foreign_keys_from_associations, associations).to eq %w( comment_id comment_type )
-      end
-    end
-  end
-
-  describe '#many_associations' do
-    context 'for non many associations' do
-      it 'returns empty hash' do
-        associations = {
-          'belongs_to' => { type: 'belongs_to' },
-          'has_one' => { type: 'has_one' }
-        }
-        expect(subject.send :many_associations, associations).to be_blank
-      end
-    end
-
-    context 'for many associations' do
-      it 'returns the many associations' do
-        associations = {
-          'has_many' => { type: 'has_many', is_through: false },
-          'has_and_belongs_to_many' => { type: 'has_and_belongs_to_many', is_through: false },
-          'has_many_through' => { type: 'has_many', is_through: true },
-        }
-        expect(subject.send(:many_associations, associations).keys).to eq %w( has_many has_and_belongs_to_many )
-      end
-    end
-  end
-
-  describe '#belongs_to_associations' do
-    context 'for non belongs_to associations' do
-      it 'returns empty hash' do
-        associations = {
-          'has_many' => { type: 'has_many' },
-          'has_and_belongs_to_many' => { type: 'has_and_belongs_to_many' },
-          'has_one' => { type: 'has_one' }
-        }
-        expect(subject.send :belongs_to_associations, associations).to be_blank
-      end
-    end
-
-    context 'for belongs_to associations' do
-      it 'returns the belongs_to associations' do
-        associations = {
-          'belongs_to' => { type: 'belongs_to' }
-        }
-        expect(subject.send(:belongs_to_associations, associations).keys).to eq %w( belongs_to )
-      end
-    end
-  end
-
-  describe '#general_form_field_names' do
-    it 'includes belongs_to association foreign_key but excludes other association foreign keys' do
-      associations = {
-        'has_many' => { type: 'has_many', foreign_key: 'has_many_id' },
-        'has_and_belongs_to_many' => { type: 'has_and_belongs_to_many', foreign_key: 'has_and_belongs_to_many_id' },
-        'has_one' => { type: 'has_one', foreign_key: 'has_one_id' },
-        'belongs_to' => { type: 'belongs_to', foreign_key: 'belongs_to_id' }
-      }
-      allow(subject).to receive(:association_fields).and_return(associations)
-      expect(subject.send :general_form_field_names).to include 'belongs_to_id'
-      expect(subject.send :general_form_field_names).not_to include 'has_many_id'
-      expect(subject.send :general_form_field_names).not_to include 'has_and_belongs_to_many_id'
-      expect(subject.send :general_form_field_names).not_to include 'has_one_id'
-    end
-
-    it 'excludes primary_key' do
-      expect(subject.send :general_form_field_names).not_to include subject.primary_key
-    end
-  end
-
-  describe '#many_association_form_params' do
-    it 'returns a general params hash for many associations' do
-      associations = {
-        'has_many' => { type: 'has_many', foreign_key: 'has_many_id' },
-        'has_and_belongs_to_many' => { type: 'has_and_belongs_to_many', foreign_key: 'has_and_belongs_to_many_id' }
-      }
-      expect(subject.send :many_association_form_params, associations, %w( has_many has_and_belongs_to_many )).to eq({
-        "has_many_id" => [],
-        "has_and_belongs_to_many_id" => []})
+      resource = model_class.new string: "Fisherman's Friend"
+      expect(subject.guess_title resource).to eq "Fisherman's Friend"
     end
   end
 end
