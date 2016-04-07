@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ModelServicer do
+describe Wallaby::ModelServicer, clear: :object_space do
   describe 'class methods' do
     describe '.model_class' do
       it 'returns nil' do
@@ -9,14 +9,14 @@ describe Wallaby::ModelServicer do
 
       describe 'subclasses' do
         it 'returns a default model class' do
-          class JacketServicer < Wallaby::ModelServicer; end
-          class Jacket; end
+          stub_const 'JacketServicer', Class.new(Wallaby::ModelServicer)
+          stub_const 'Jacket', Class.new
           expect(JacketServicer.model_class).to eq Jacket
         end
 
         context 'when model class is not found' do
           it 'raises not found' do
-            class NotFoundServicer < Wallaby::ModelServicer; end
+            stub_const 'NotFoundServicer', Class.new(Wallaby::ModelServicer)
             expect{ NotFoundServicer.model_class }.to raise_error Wallaby::ModelNotFound, 'NotFound'
           end
         end
