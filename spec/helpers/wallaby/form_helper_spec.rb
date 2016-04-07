@@ -42,12 +42,10 @@ describe Wallaby::FormHelper do
 
   describe '#model_choices', :current_user do
     it 'returns a list of choise for select' do
-      collection = [
-        Product.new(id: 1, name: 'Coconut'),
-        Product.new(id: 2, name: 'Banana')
-      ]
-      model_decorator = double collection: collection
-      expect(helper.model_choices model_decorator).to eq [["Coconut", 1], ["Banana", 2]]
+      Product.create! name: 'Coconut'
+      Product.create! name: 'Banana'
+      model_decorator = Wallaby.adaptor.model_decorator.new Product
+      expect(helper.model_choices(model_decorator).map &:first).to eq [ "Coconut", "Banana"]
     end
   end
 end

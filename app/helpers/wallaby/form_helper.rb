@@ -29,7 +29,8 @@ module Wallaby::FormHelper
   end
 
   def model_choices(model_decorator)
-    decorate(model_decorator.collection).map do |decorated|
+    collection = model_servicer(model_decorator).collection Hash.new, current_ability
+    decorate(collection).map do |decorated|
       [ decorated.to_label, decorated.primary_key_value ]
     end
   end
