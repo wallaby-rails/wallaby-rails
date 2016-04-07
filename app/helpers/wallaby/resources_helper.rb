@@ -17,6 +17,11 @@ module Wallaby::ResourcesHelper
     Wallaby::DecoratorFinder.find_model model_class
   end
 
+  def model_servicer(model_decorator)
+    model_class = model_decorator.model_class
+    Wallaby::ServicerFinder.find(model_class).new model_class, model_decorator
+  end
+
   def type_partial_render(options = {}, locals = {}, &block)
     decorated   = locals[:object]
     field_name  = locals[:field_name].to_s
