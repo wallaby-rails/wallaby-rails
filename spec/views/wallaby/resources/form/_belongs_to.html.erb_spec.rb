@@ -3,18 +3,15 @@ require 'rails_helper'
 describe 'partial', :current_user do
   let(:partial)     { 'wallaby/resources/form/belongs_to.html.erb' }
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
-  let(:object)      { Product.new field_name => value }
+  let!(:object)      { Product.create! field_name => value }
   let(:field_name)  { metadata[:name] }
-  let(:value)       { Category.new id: 1, name: 'Mens' }
+  let!(:value)       { Category.create! id: 1, name: 'Mens' }
   let(:metadata)    do
     Hash name: "category", type: "belongs_to", label: "Category",
       is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "category_id", polymorphic_type: nil, polymorphic_list: [], class: Category
   end
 
-  before do
-    allow(view).to receive(:model_choices) { [ [ value.name, value.id ] ] }
-    render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
-  end
+  before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the belongs_to form' do
     expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_category_id\">Category</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-3\">\n        <select class=\"form-control\" name=\"product[category_id]\" id=\"product_category_id\"><option value=\"\"></option>\n<option selected=\"selected\" value=\"1\">Mens</option></select>\n        <p class=\"help-block\">\n          Or <a class=\"text-success\" href=\"/admin/categories/new\">Create Category</a>\n        </p>\n      </div>\n  </div>\n  \n</div>\n"

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe 'Resources pages' do
   let(:string) { 'Vincent van Gogh' }
+  let(:model_class) { AllPostgresType }
 
   describe '#index' do
-    let!(:record) { AllPostgresType.create({ string: string }) }
+    let!(:record) { model_class.create!({ string: string }) }
     it 'renders collections' do
       get '/admin/all_postgres_types'
       expect(response).to be_successful
@@ -14,7 +15,7 @@ describe 'Resources pages' do
   end
 
   describe '#show' do
-    let!(:record) { AllPostgresType.create({ string: string }) }
+    let!(:record) { model_class.create!({ string: string }) }
     it 'renders show' do
       get "/admin/all_postgres_types/#{ record.id }"
       expect(response).to be_successful
@@ -34,16 +35,16 @@ describe 'Resources pages' do
 
   describe '#create' do
     it 'creates the record' do
-      expect(AllPostgresType.count).to eq 0
+      expect(model_class.count).to eq 0
       post '/admin/all_postgres_types', all_postgres_type: { string: string }
       expect(response).to redirect_to '/admin/all_postgres_types'
-      expect(AllPostgresType.count).to eq 1
-      expect(AllPostgresType.first.string).to eq string
+      expect(model_class.count).to eq 1
+      expect(model_class.first.string).to eq string
     end
   end
 
   describe '#edit' do
-    let!(:record) { AllPostgresType.create({ string: string }) }
+    let!(:record) { model_class.create!({ string: string }) }
     it 'renders edit' do
       get "/admin/all_postgres_types/#{ record.id }/edit"
       expect(response).to be_successful
@@ -53,7 +54,7 @@ describe 'Resources pages' do
   end
 
   describe '#update' do
-    let!(:record) { AllPostgresType.create({ string: string }) }
+    let!(:record) { model_class.create!({ string: string }) }
     it 'updates the record' do
       a_string = 'Claude Monet'
       put "/admin/all_postgres_types/#{ record.id }", all_postgres_type: { string: a_string }
@@ -63,12 +64,12 @@ describe 'Resources pages' do
   end
 
   describe '#destroy' do
-    let!(:record) { AllPostgresType.create({ string: string }) }
+    let!(:record) { model_class.create!({ string: string }) }
     it 'destroys the record' do
-      expect(AllPostgresType.count).to eq 1
+      expect(model_class.count).to eq 1
       delete "/admin/all_postgres_types/#{ record.id }"
       expect(response).to redirect_to "/admin/all_postgres_types"
-      expect(AllPostgresType.count).to eq 0
+      expect(model_class.count).to eq 0
     end
   end
 end

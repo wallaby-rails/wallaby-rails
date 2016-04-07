@@ -10,7 +10,7 @@ describe Wallaby::ActiveRecord::ModelServicer do
     describe '#collection' do
       it 'returns the collection' do
         condition = { boolean: true }
-        record = model_class.create(condition)
+        record = model_class.create!(condition)
         false_ability = Ability.new nil
         false_ability.cannot :manage, model_class, condition
         expect(subject.collection parameters({}), ability).to include record
@@ -37,7 +37,7 @@ describe Wallaby::ActiveRecord::ModelServicer do
 
     describe '#find' do
       it 'returns a resource' do
-        existing = model_class.create({})
+        existing = model_class.create!({})
         resource = nil
         expect{ resource = subject.find existing.id, parameters({}) }.not_to raise_error
         expect(resource).to be_a model_class
@@ -82,7 +82,7 @@ describe Wallaby::ActiveRecord::ModelServicer do
     end
 
     describe '#update' do
-      let!(:existing) { model_class.create string: 'title' }
+      let!(:existing) { model_class.create! string: 'title' }
       it 'returns the resource and is_success' do
         resource, is_success = subject.update existing, parameters(all_postgres_type: { string: 'string' }), ability
         expect(resource).to be_a model_class
@@ -113,7 +113,7 @@ describe Wallaby::ActiveRecord::ModelServicer do
 
     describe '#destroy' do
       it 'returns is_success regardless whether the record exists' do
-        existing = model_class.create({})
+        existing = model_class.create!({})
         expect(subject.destroy existing, {}).to be_truthy
       end
     end
