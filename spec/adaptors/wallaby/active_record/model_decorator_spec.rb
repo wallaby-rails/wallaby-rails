@@ -149,7 +149,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq [ "id", "string", "integer", "float", "decimal", "datetime", "time", "date", "daterange", "numrange", "tsrange", "tstzrange", "int4range", "int8range", "boolean", "bigint", "hstore", "inet", "cidr", "macaddr", "uuid", "ltree", "point", "bit", "bit_varying", "money" ]
+        expect(subject.index_field_names).to eq [ "id", "string", "integer", "float", "decimal", "datetime", "time", "date", "daterange", "numrange", "tsrange", "tstzrange", "int4range", "int8range", "boolean", "bigint", "inet", "cidr", "macaddr", "uuid", "ltree", "point", "bit", "bit_varying", "money" ]
       end
     end
 

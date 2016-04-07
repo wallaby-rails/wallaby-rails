@@ -18,7 +18,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   def index_field_names
     @index_field_names ||= index_fields.reject do |field_name, metadata|
       metadata[:is_association] ||
-      %w( binary citext json jsonb text tsvector xml ).include?(metadata[:type])
+      %w( binary citext hstore json jsonb text tsvector xml ).include?(metadata[:type])
     end.keys
   end
 
