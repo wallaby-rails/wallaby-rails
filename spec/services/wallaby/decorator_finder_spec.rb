@@ -1,10 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::DecoratorFinder do
-  before do
-    Rails.cache.delete 'wallaby/decorator_finder'
-  end
-
+describe Wallaby::DecoratorFinder, clear: :object_space do
   describe '.find_model' do
     let(:model_class) { Category }
 
@@ -30,9 +26,9 @@ describe Wallaby::DecoratorFinder do
 
     context 'when there is a sub class' do
       let!(:decorator_class) do
-        class CategoryDecorator < Wallaby::ResourceDecorator; end
-        CategoryDecorator
+        stub_const 'CategoryDecorator', Class.new(Wallaby::ResourceDecorator)
       end
+
       it 'returns sub classes' do
         expect(Wallaby::ResourceDecorator.subclasses).to include decorator_class
         model_decorator = described_class.find_model model_class
@@ -65,9 +61,9 @@ describe Wallaby::DecoratorFinder do
 
     context 'when there is a sub class' do
       let!(:decorator_class) do
-        class OrderDecorator < Wallaby::ResourceDecorator; end
-        OrderDecorator
+        stub_const 'OrderDecorator', Class.new(Wallaby::ResourceDecorator)
       end
+
       it 'returns sub classes' do
         expect(Wallaby::ResourceDecorator.subclasses).to include decorator_class
         model_decorator = described_class.find_resource model_class

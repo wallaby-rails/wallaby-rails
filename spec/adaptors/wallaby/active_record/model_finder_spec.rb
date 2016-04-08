@@ -1,14 +1,13 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecord::ModelFinder do
+describe Wallaby::ActiveRecord::ModelFinder, clear: :object_space do
   describe '#all' do
     before do
-      class Airport; def self.abstract_class?; false; end; end
-      class Airline; def self.abstract_class?; false; end; end
-      class Airplane; def self.abstract_class?; false; end; end
-      class Airplane::HABTM_Airports; def self.abstract_class?; false; end; end
-      class AbstractAirport; def self.abstract_class?; true; end; end
-      Rails.cache.delete 'wallaby/model_finder'
+      stub_const 'Airport', (Class.new do; def self.abstract_class?; false; end; end)
+      stub_const 'Airline', (Class.new do; def self.abstract_class?; false; end; end)
+      stub_const 'Airplane', (Class.new do; def self.abstract_class?; false; end; end)
+      stub_const 'Airplane::HABTM_Airports', (Class.new do; def self.abstract_class?; false; end; end)
+      stub_const 'AbstractAirport', (Class.new do; def self.abstract_class?; true; end; end)
     end
 
     it 'returns valid model classes in alphabetic order' do

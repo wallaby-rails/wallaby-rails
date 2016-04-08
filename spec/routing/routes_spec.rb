@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'routing', type: :request do
+describe 'routing', type: :request, clear: :object_space do
   let(:mocked_response) { double 'Response', call: [ 200, {}, ["Coming soon"] ] }
   let(:script_name) { '/admin' }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::Utils do
+describe Wallaby::Utils, clear: :object_space do
   describe '.to_resources_name' do
     it 'handles the namespace and returns resources name for a class name' do
       expect(described_class.to_resources_name 'Post').to eq 'posts'
@@ -60,7 +60,7 @@ describe Wallaby::Utils do
 
   describe '.to_model_class' do
     it 'returns model class' do
-      class ActiveProduct; end
+      stub_const 'ActiveProduct', Class.new
       expect(described_class.to_model_class 'active_products').to eq ActiveProduct
     end
 

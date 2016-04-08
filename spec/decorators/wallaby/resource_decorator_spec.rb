@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'wallaby/active_record'
 
-describe Wallaby::ResourceDecorator do
+describe Wallaby::ResourceDecorator, clear: :object_space do
   describe 'class methods' do
     describe '.model_class' do
       it 'returns nil' do

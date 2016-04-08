@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::SecureHelper do
+describe Wallaby::SecureHelper, clear: :object_space do
   describe '#user_portrait' do
     it 'returns a general user portrait image' do
       expect(helper.user_portrait nil).to match %r(<i )

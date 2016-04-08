@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ServicerFinder do
+describe Wallaby::ServicerFinder, clear: :object_space do
   describe '#find' do
     it 'finds the servicer' do
       stub_const 'ProductServicer', Class.new(Wallaby::ModelServicer)

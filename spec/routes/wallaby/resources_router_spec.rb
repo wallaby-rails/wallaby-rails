@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ResourcesRouter do
+describe Wallaby::ResourcesRouter, clear: :object_space do
   describe '#call' do
     let(:mocked_env) do
       {
