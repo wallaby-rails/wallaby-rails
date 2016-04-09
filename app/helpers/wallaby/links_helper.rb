@@ -30,6 +30,7 @@ module Wallaby::LinksHelper
   def new_link(model_class = nil, html_options = {}, &block)
     model_class ||= current_model_class
     return if cannot? :new, model_class
+
     block ||= -> { "#{ ct 'link.new' } #{ to_model_label model_class }" }
     html_options[:class] = 'text-success' unless html_options.has_key? :class
 
@@ -38,7 +39,8 @@ module Wallaby::LinksHelper
   end
 
   def show_link(resource, html_options = {}, &block)
-    return if cannot? :show, resource
+    return if cannot? :show, extract(resource)
+
     # NOTE: to_s is a must
     # if a block is returning integer (e.g. `{ 1 }`)
     # `link_to` will render blank text note inside hyper link
@@ -48,7 +50,8 @@ module Wallaby::LinksHelper
   end
 
   def edit_link(resource, html_options = {}, &block)
-    return if cannot? :edit, resource
+    return if cannot? :edit, extract(resource)
+
     block ||= -> { "#{ ct 'link.edit' } #{ decorate(resource).to_label }" }
     html_options[:class] = 'text-warning' unless html_options.has_key? :class
 
@@ -56,7 +59,8 @@ module Wallaby::LinksHelper
   end
 
   def delete_link(resource, html_options = {}, &block)
-    return if cannot? :destroy, resource
+    return if cannot? :destroy, extract(resource)
+
     block ||= -> { ct 'link.delete' }
     html_options[:class]  = 'text-danger' unless html_options.has_key? :class
     html_options[:method] ||= :delete

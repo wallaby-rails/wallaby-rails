@@ -35,7 +35,8 @@ describe Wallaby::LinksHelper, :current_user do
 
     context 'when cannot index' do
       it 'returns nil' do
-        expect(helper).to receive(:cannot?) { true }
+        ability = helper.current_ability
+        ability.cannot :index, Product
         expect(helper.index_link Product).to be_nil
       end
     end
@@ -50,7 +51,8 @@ describe Wallaby::LinksHelper, :current_user do
 
     context 'when cannot new' do
       it 'returns nil' do
-        expect(helper).to receive(:cannot?) { true }
+        ability = helper.current_ability
+        ability.cannot :new, Product
         expect(helper.new_link Product).to be_nil
       end
     end
@@ -66,8 +68,19 @@ describe Wallaby::LinksHelper, :current_user do
 
     context 'when cannot show' do
       it 'returns nil' do
-        expect(helper).to receive(:cannot?) { true }
+        ability = helper.current_ability
+        ability.cannot :show, Product
         expect(helper.show_link resource ).to be_nil
+      end
+
+      context 'when resource is decorated' do
+        let(:resource) { helper.decorate Product.new id: 1 }
+
+        it 'returns nil' do
+          ability = helper.current_ability
+          ability.cannot :show, Product
+          expect(helper.show_link resource ).to be_nil
+        end
       end
     end
   end
@@ -83,8 +96,19 @@ describe Wallaby::LinksHelper, :current_user do
 
     context 'when cannot edit' do
       it 'returns nil' do
-        expect(helper).to receive(:cannot?) { true }
+        ability = helper.current_ability
+        ability.cannot :edit, Product
         expect(helper.edit_link resource ).to be_nil
+      end
+
+      context 'when resource is decorated' do
+        let(:resource) { helper.decorate Product.new id: 1 }
+
+        it 'returns nil' do
+          ability = helper.current_ability
+          ability.cannot :edit, Product
+          expect(helper.edit_link resource ).to be_nil
+        end
       end
     end
   end
@@ -102,8 +126,19 @@ describe Wallaby::LinksHelper, :current_user do
 
     context 'when cannot delete' do
       it 'returns nil' do
-        expect(helper).to receive(:cannot?) { true }
+        ability = helper.current_ability
+        ability.cannot :destroy, Product
         expect(helper.delete_link resource ).to be_nil
+      end
+
+      context 'when resource is decorated' do
+        let(:resource) { helper.decorate Product.new id: 1 }
+
+        it 'returns nil' do
+          ability = helper.current_ability
+          ability.cannot :destroy, Product
+          expect(helper.delete_link resource ).to be_nil
+        end
       end
     end
   end
@@ -125,4 +160,4 @@ describe Wallaby::LinksHelper, :current_user do
       expect(html_options).not_to have_key :prepend
     end
   end
-end  
+end

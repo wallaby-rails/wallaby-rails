@@ -14,6 +14,14 @@ module Wallaby::ResourcesHelper
     end
   end
 
+  def extract(resource)
+    if resource.is_a? Wallaby::ResourceDecorator
+      resource.resource
+    else
+      resource
+    end
+  end
+
   def model_decorator(model_class)
     Wallaby::DecoratorFinder.find_model model_class
   end

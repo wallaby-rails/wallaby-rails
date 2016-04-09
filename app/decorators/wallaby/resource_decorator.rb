@@ -47,6 +47,10 @@ class Wallaby::ResourceDecorator
     @resource.class
   end
 
+  def resource
+    @resource
+  end
+
   def to_label
     @model_decorator.guess_title(@resource) || primary_key_value
   end

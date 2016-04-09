@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesHelper do
+  describe '#extract' do
+    let(:resource) { Product.new }
+
+    it 'returns origin resource' do
+      new_resource = Wallaby::ResourceDecorator.new resource
+      expect(helper.extract new_resource).to eq resource
+      expect(helper.extract resource).to eq resource
+    end
+  end
   describe '#decorate' do
     it 'returns a decorator' do
       expect(decorate Product.new).to be_a Wallaby::ResourceDecorator
