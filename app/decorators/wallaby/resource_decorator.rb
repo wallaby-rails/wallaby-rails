@@ -39,7 +39,9 @@ class Wallaby::ResourceDecorator
 
   delegate :to_s, :to_param, :to_params, to: :@resource
   delegate *begin
-    Wallaby::ModelDecorator.instance_methods.reject{ |m| %r((index_|show_|form_)?(fields|field_names)) =~ m.to_s } - Object.instance_methods
+    Wallaby::ModelDecorator.instance_methods \
+      - %i( index_fields index_field_names show_fields show_field_names form_fields form_field_names ) \
+      - Object.instance_methods
   end, to: :@model_decorator
   attr_reader :model_decorator
 
