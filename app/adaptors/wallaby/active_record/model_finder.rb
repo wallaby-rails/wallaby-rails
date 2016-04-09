@@ -4,8 +4,9 @@ class Wallaby::ActiveRecord::ModelFinder < Wallaby::ModelFinder
     Rails.cache.fetch 'wallaby/model_finder' do
       ActiveRecord::Base.subclasses.reject do |model_class|
         model_class.abstract_class? ||
-        (/ActiveRecord::SchemaMigration|HABTM/ =~ model_class.name) ||
-        (/\A#<Class/ =~ model_class.to_s) # anonymouse class
+        model_class.to_s.start_with?('#<') ||
+        model_class.name == 'ActiveRecord::SchemaMigration' ||
+        model_class.name.index('HABTM')
       end.sort_by &:to_s
     end
   end
