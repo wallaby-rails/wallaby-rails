@@ -16,8 +16,12 @@ require 'codemirror-rails'
 
 module Wallaby
   class Engine < ::Rails::Engine
+    initializer 'wallaby.initialize_cache' do |app|
+      Rails.cache.delete_matched %r(\Awallaby/)
+    end
+
     # isolate_namespace Wallaby
-    initializer "wallaby.assets.precompile" do |app|
+    initializer 'wallaby.assets.precompile' do |app|
       app.config.assets.precompile += %w( wallaby/form.js wallaby/form.css )
       app.config.assets.precompile += %w( codemirror* codemirror/**/* )
     end
