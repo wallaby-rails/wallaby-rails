@@ -1,5 +1,6 @@
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
+  Rails.logger.debug '--> [ Wallaby ] Ready to preload and clear cache on reload. <--'
   Rails.cache.clear
 
   # NOTE: we search for subclasses of Wallaby::ResourcesController and Wallaby::ResourceDecorator.
