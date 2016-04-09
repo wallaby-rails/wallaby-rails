@@ -1,7 +1,7 @@
 module Wallaby::LinksHelper
-  def index_path(model_class = nil)
+  def index_path(model_class = nil, extra_params = {})
     model_class ||= current_model_class
-    wallaby_engine.resources_path to_resources_name model_class
+    wallaby_engine.resources_path to_resources_name(model_class), extra_params
   end
 
   def new_path(model_class = nil)

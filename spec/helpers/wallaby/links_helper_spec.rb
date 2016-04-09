@@ -7,6 +7,12 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns index path' do
       expect(helper.index_path Product).to match '/products'
     end
+
+    context 'when extra params are given' do
+      it 'returns index path with queries' do
+        expect(helper.index_path Product, sort: 'name asc').to eq '/admin/products?sort=name+asc'
+      end
+    end
   end
 
   describe '#new_path' do
