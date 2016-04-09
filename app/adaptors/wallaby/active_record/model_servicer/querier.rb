@@ -14,7 +14,7 @@ class Wallaby::ActiveRecord::ModelServicer::Querier
 
   protected
   def extract(params)
-    all_keywords = (params[:q] || '').split %r(\s+)
+    all_keywords = (params[:q] || '').split(' ').compact
     field_keywords = all_keywords.select{ |v| v.split(':').length == 2 }
     [ all_keywords - field_keywords, field_keywords ]
   end
