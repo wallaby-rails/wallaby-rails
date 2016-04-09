@@ -44,10 +44,14 @@ module Wallaby::StylingHelper
   end
 
   def null
-    content_tag :i, '<null>', class: 'text-muted'
+    muted 'null'
   end
 
   def na
-    content_tag :i, '<n/a>', class: 'text-muted'
+    muted 'n/a'
+  end
+
+  def muted(content)
+    content_tag :i, "<#{ content }>", class: 'text-muted'
   end
 end

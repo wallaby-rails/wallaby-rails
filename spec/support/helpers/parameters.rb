@@ -1,5 +1,5 @@
 module Parameters
-  def parameters(hash)
+  def parameters(hash = {})
     ActionController::Parameters.new hash
   end
 end

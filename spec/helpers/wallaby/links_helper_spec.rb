@@ -1,9 +1,7 @@
 require 'rails_helper'
 
-describe Wallaby::LinksHelper do
+describe Wallaby::LinksHelper, :current_user do
   extend Wallaby::ApplicationHelper
-
-  before { allow(controller).to receive :current_user }
 
   describe '#index_path' do
     it 'returns index path' do
@@ -127,4 +125,4 @@ describe Wallaby::LinksHelper do
       expect(html_options).not_to have_key :prepend
     end
   end
-end
+end  

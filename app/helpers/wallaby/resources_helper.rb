@@ -1,5 +1,6 @@
 module Wallaby::ResourcesHelper
   include Wallaby::FormHelper
+  include Wallaby::SortingHelper
 
   def decorate(resource)
     if resource.respond_to? :map # collection
