@@ -6,6 +6,30 @@ table.data-table {
   thead tr th {
     color: $gray-light;
     text-transform: uppercase;
+    &.asc, &.desc {
+      a {
+        display: block;
+        position: relative;
+        padding-right: 22px;
+      }
+      a:after {
+        position: absolute;
+        top: 50%;
+        margin-top: -7px;
+        right: 4px;
+        @extend .glyphicon;
+      }
+    }
+    &.asc {
+      a:after {
+        @extend .glyphicon-sort-by-attributes:before;
+      }
+    }
+    &.desc {
+      a:after {
+        @extend .glyphicon-sort-by-attributes-alt:before;
+      }
+    }
   }
   tbody tr td {
     padding: 8px 12px;
@@ -52,4 +76,3 @@ table.detail-table {
     }
   }
 }
-
