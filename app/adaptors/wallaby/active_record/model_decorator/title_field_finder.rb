@@ -9,7 +9,7 @@ class Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder
       %w( string ).include? metadata[:type]
     end
     target_field = possible_title_fields.values.find do |metadata|
-      %r(title|name|string|text) =~ metadata[:name]
+      %w( name title string text ).any?{ |v| metadata[:name].index v }
     end
     target_field ||= possible_title_fields.values.first
     target_field ||= { name: @model_class.primary_key }
