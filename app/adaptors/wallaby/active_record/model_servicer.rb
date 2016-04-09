@@ -7,6 +7,7 @@ class Wallaby::ActiveRecord::ModelServicer
 
   def collection(params, ability)
     query = querier.search params
+    query = query.order params[:sort] if params[:sort].present?
     query.accessible_by ability
   end
 

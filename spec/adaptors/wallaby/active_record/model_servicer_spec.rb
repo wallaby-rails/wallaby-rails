@@ -16,6 +16,11 @@ describe Wallaby::ActiveRecord::ModelServicer do
         expect(subject.collection parameters({}), ability).to include record
         expect(subject.collection parameters({}), false_ability).not_to include record
       end
+
+      it 'orders the collection' do
+        order = 'boolean asc'
+        expect(subject.collection(parameters(sort: order), ability).to_sql).to match order
+      end
     end
 
     describe '#new' do
