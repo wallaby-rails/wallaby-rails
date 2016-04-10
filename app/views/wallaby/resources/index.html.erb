@@ -22,7 +22,7 @@ decorated_collection = decorate collection
         <% current_model_decorator.index_field_names.each do |field_name| %>
           <th class="<%= sort_class field_name %>">
             <% label  = current_model_decorator.index_label_of field_name %>
-            <% path   = index_path current_model_class, sort_param(field_name) %>
+            <% path   = index_path current_model_class, params.merge(sort_param field_name) %>
             <%= link_to label, path %>
           </th>
         <% end %>
