@@ -3,4 +3,9 @@ rvm:
   - "2.0.0"
   - "2.1.0"
   - "2.2.0"
-script: "bundle exec rake"
+env:
+  - DB=postgresql
+script:
+  - RAILS_ENV=test bundle exec rake --trace db:migrate test
+before_script:
+  - psql -c 'create database wallaby_test' -U postgres
