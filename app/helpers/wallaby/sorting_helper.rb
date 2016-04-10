@@ -3,7 +3,7 @@ module Wallaby::SortingHelper
     key     = param_key.to_s
     orders  = [ 'asc', 'desc', nil ]
     {}.tap do |hash|
-      sortings  = params[:sort].to_s.split(',').map{ |v| v.split ' ' }.to_h
+      sortings  = Hash[ *params[:sort].to_s.split(',').map{ |v| v.split ' ' }.flatten(1) ]
       nex_index = (orders.index(sortings[key]) + 1) % orders.length
       if orders[nex_index].nil?
         sortings.delete key
@@ -18,7 +18,7 @@ module Wallaby::SortingHelper
 
   def sort_class(param_key)
     key = param_key.to_s
-    sortings = params[:sort].to_s.split(',').map{ |v| v.split ' ' }.to_h
+    sortings = Hash[ *params[:sort].to_s.split(',').map{ |v| v.split ' ' }.flatten(1) ]
     sortings[key]
   end
 end

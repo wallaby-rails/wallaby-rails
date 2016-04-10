@@ -34,7 +34,7 @@ class Wallaby::ActiveRecord::ModelServicer::Querier
   def field_search(keywords, query)
     return query if keywords.blank?
 
-    hashed_queries = keywords.map{ |v| v.split ':' }.to_h
+    hashed_queries = Hash[ *keywords.map{ |v| v.split ':' }.flatten(1) ]
     query.where hashed_queries
   end
 
