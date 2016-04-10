@@ -13,7 +13,7 @@ describe Wallaby::FormHelper do
     it 'renders a type partial' do
       object = Wallaby::ResourceDecorator.new Product.new(name: 'product_name')
       form = double object: object
-      expect(helper).to receive(:render).with('form/integer', field_name: 'name', form: form, object: object, metadata: object.metadata_of('name'), value: 'product_name') { true }
+      expect(helper).to receive(:render).with('integer', field_name: 'name', form: form, object: object, metadata: object.metadata_of('name'), value: 'product_name') { true }
       helper.form_type_partial_render 'integer', field_name: 'name', form: form
     end
   end

@@ -5,8 +5,6 @@ module Wallaby::FormHelper
 
     fail ArgumentError unless form.present? && field_name.present? && form.object.is_a?(Wallaby::ResourceDecorator)
 
-    options = "form/#{ options }" if options.is_a? String
-
     locals[:object]   = object = form.object
     locals[:metadata] = object.metadata_of locals[:field_name]
     locals[:value]    = object.send locals[:field_name]

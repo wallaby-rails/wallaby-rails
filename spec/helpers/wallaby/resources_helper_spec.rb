@@ -40,7 +40,7 @@ describe Wallaby::ResourcesHelper do
     it 'renders a type partial' do
       object = Wallaby::ResourceDecorator.new Product.new(name: 'product_name')
       allow(helper).to receive(:action_name) { 'index' }
-      expect(helper).to receive(:render).with('index/integer', object: object, field_name: 'name', metadata: object.metadata_of('name'), value: 'product_name')
+      expect(helper).to receive(:render).with('integer', object: object, field_name: 'name', metadata: object.metadata_of('name'), value: 'product_name')
       helper.type_partial_render 'integer', object: object, field_name: 'name'
     end
   end

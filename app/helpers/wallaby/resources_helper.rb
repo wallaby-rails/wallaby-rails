@@ -37,8 +37,6 @@ module Wallaby::ResourcesHelper
 
     fail ArgumentError unless field_name.present? && decorated.is_a?(Wallaby::ResourceDecorator)
 
-    options   = "#{ action_name }/#{ options }" if options.is_a? String
-
     locals[:metadata] = decorated.metadata_of field_name
     locals[:value]    = decorated.send field_name
 
