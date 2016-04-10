@@ -2,35 +2,52 @@
 // Forms
 // --------------------------------------------------
 .search-form {
-  @extend .clearfix;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 15px;
+  position: relative;
   border-bottom: 1px solid $hr-border;
+  margin-top: -15px;
   margin-left: -15px;
   margin-right: -15px;
   margin-bottom: 10px;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 
-  .icon {
-    @extend .glyphicon, .glyphicon-search, .pull-left;
-    padding-left: 5px;
-    font-size: $font-size-large;
-    line-height: 34px;
+  .right {
+    position: absolute;
+    z-index: 10;
+    right: 15px;
+    top: 50%;
+    margin-top: -17px;
   }
 
-  .keyword {
-    margin-left: 26px;
-    margin-right: 100px;
-    input {
-      padding-left: 5px;
+  form {
+    padding: 15px 97px 15px 40px;
+    &:before {
+      position: absolute;
+      @extend .glyphicon, .glyphicon-search:before;
+      z-index: 10;
+      left: 15px;
+      top: 50%;
+      margin-top: -9px;
       font-size: $font-size-large;
-      line-height: 32px;
+      color: $gray-lighter;
+    }
+    input {
+      font-size: $font-size-large;
       width: 100%;
       border: none;
       &:focus {
-        border: none;
-        @include box-shadow(none);
+        outline: unset;
       }
+    }
+  }
+  &.focus {
+    form:before {
+      color: $btn-primary-bg;
+    }
+  }
+
+  &.sort {
+    form {
+      padding-right: 197px;
     }
   }
 }

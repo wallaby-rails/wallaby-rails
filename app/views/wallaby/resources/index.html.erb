@@ -4,16 +4,14 @@ decorated_collection = decorate collection
 %>
 <section>
   <% # Search form %>
-  <div class="search-form">
-    <div class="pull-right">
+  <div class="search-form <%= params[:sort].present? && 'sort' || '' %>">
+    <div class="right">
       <%= new_link(current_model_class, class: 'btn btn-primary') { ct 'link.new' } %>
+      <%= index_link(current_model_class, class: 'btn btn-default') { ct 'link.clear_sort' } if params[:sort].present? %>
     </div>
-    <span class="icon"></span>
-    <div class="keyword">
-      <%= form_tag wallaby_engine.resources_path, method: :get do %>
-        <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search. Example: 'text_keyword1 text_keyword2 field_name:value'"  %>
-      <% end %>
-    </div>
+    <%= form_tag wallaby_engine.resources_path, method: :get do %>
+      <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search. Example: 'text_keyword1 text_keyword2 field_name:value'"  %>
+    <% end %>
   </div>
   <% # /Search form %>
   <%= render 'wallaby/shared/flash_messages' %>
