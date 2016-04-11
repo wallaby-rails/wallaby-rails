@@ -12,7 +12,7 @@ class Wallaby::ActiveRecord::ModelServicer
   end
 
   def new(params)
-    permitted = permit(params) rescue {}
+    permitted = permit params rescue {}
     @model_class.new permitted
   end
 
