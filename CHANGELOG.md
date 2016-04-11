@@ -1,20 +1,27 @@
-# v0.0.6
+# v4.0.0.rc
 
-1. Resolved Autoload issue
+1. Used Rails cache for caching subclasses
+2. Added support for CanCanCan (authorization)
+3. Added support for all Postgres types
+4. Added support for sorting
+5. Added model servicer to take away the responsibilities (collection/find/initialize) for model decorator and extract all actions for resource controller
 
 # WIP Feature list
 
-- Abstract all resources controller action
-- Page rendering performance improvement
-- Sorting for collection (maybe)
-- Authorization (use cancan/cancancan)
-- Data Audit (use papertrail)
+- Ensure to support mysql and sqlite
+- Support for Single Table Inheritance (STI)
+- Improve colon search (use papertrail) (maybe..)
+- Data Audit (use papertrail) (maybe..)
+- Data export (maybe..)
 
-# Knonw issues
+# Known issues
 
 - Missing assets for kaminari and bootstrap-sass if kaminari and bootstrap-sass are not in the `Gemfile`
 
 # History:
+## v0.0.6
+
+1. Resolved Autoload issue
 
 ## v0.0.5
 
@@ -41,5 +48,5 @@
 
 1. Moved and refactored core methods from resources controller to core controller.
 2. Moved prefix builder to core controller.
-2. Created general tempaltes for resources index action.
+2. Created general templates for resources index action.
 3. Created a wrapper to speed up view rendering by caching the `find_template` result.

@@ -4,30 +4,41 @@
 
 Wallaby is a Rails engine to manage your data. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
 
+## Features
+
+- It supports Devise and CanCanCan, and provides configurations for your own authentication.
+- Ready to use, neat looking. And you won't miss any of these features (search/pagination/sorting/form validation/flash messages).
+- No DSL, pure Rails and minimum learning curve required. So it's easy to customize things by extending controllers and partials, and it applies best practices such as Decorator and Service Object. (see [Customization](CUSTOMIZATION.md))
+
+### Support
+
+- Ruby 2.0.\*, 2.1.\*, 2.2.\*
+- Rails 4.\*
+- ActiveRecord 4.\*
+- Devise
+- CanCanCan
+- All Postgres data types that ActiveRecord supports, including string, text, integer, float, decimal, datetime, time, date, daterange, numrange, tsrange, tstzrange, int4range, int8range, binary, boolean, bigint, xml, tsvector, hstore, inet, cidr, macaddr, uuid, json, jsonb, ltree, citext, point, bit, bit_varying and money
+- Handles ActiveRecord associations (including belongs-to polymorphic association)
+- Handles name spaces
+
 ## What's new
 
-### v0.0.6
+### v4.0.0.rc
 
-1. Resolved Autoload issue
+1. Used model class converted from resources name to match up controller
+2. Used Rails cache for caching subclasses
+3. Added support for CanCanCan (authorization)
+4. Added support for all Postgres types
+5. Added support for sorting
+6. Added model servicer to take away the responsibilities (collection/find/initialize) for model decorator and extract all actions for resource controller
 
 For more, see [Changlog](CHANGELOG.md)
 
-## Yet another Rails admin engine? Why?
-
-Because this engine is built in Rails way! You could do further development like what you normally do for a Rails app (see [Customization](CUSTOMIZATION.md)).
-
-## Support
-
-Rails 4.*, ActiveRecord, Devise
-
 ## Installation
 
-1. Add the following lines to `Gemfile`:
+1. Add the following line to `Gemfile`:
 
     ```ruby
-    gem 'bootstrap-sass'
-    gem 'jquery-rails'
-    gem 'kaminari'
     gem 'wallaby'
     ```
 
@@ -40,7 +51,7 @@ Rails 4.*, ActiveRecord, Devise
     end
     ```
 
-Then you are all set to visit wallaby on your local machine at `/the_path_you_like`, unless you need to do the following configuration.
+Then you are all set to visit Wallaby on your local machine at `/the_path_you_like`. If you are not using Devise for authentication, you will need to do the following configurations.
 
 ## Configuration
 
@@ -48,16 +59,16 @@ Then you are all set to visit wallaby on your local machine at `/the_path_you_li
 
 You could set up authentication via:
 
-1. Easily tell wallaby which controller to inherit from:
+1. Easily tell Wallaby which controller (that has `authenticate_user!` and `current_user` methods) to inherit from:
 
     ```ruby
     # config/initializers/wallaby.rb
     Wallaby.config do |config|
-      config.base_controller = OurSecurityController
+      config.base_controller = MySecurityController
     end
     ```
 
-    Once this is set, wallaby will immediately be able to use `authenticate_user!` and `current_user` methods to do authentication (which is compatible with Devise), not to mention all functionalities including helper, before_action and etc (which will be benefitial for further development upon wallaby, see [Customization](CUSTOMIZATION.md)).
+    Once this is set, Wallaby will automatically pick up the above mentioned authentication methods (which is compatible with Devise), not to mention all functionalities including application helpers, before_action and etc (which will be beneficial for further development upon Wallaby, see [Customization](CUSTOMIZATION.md)).
 
 2. You could still use custom authentication by configuring the `authenticate` and `current_user` options as below:
 
@@ -65,16 +76,16 @@ You could set up authentication via:
     # config/initializers/wallaby.rb
     Wallaby.config do |config|
       config.security.authenticate do
-        # you could use any controller methods here
+        # you could use any controller methods inside this block
         authenticate_or_request_with_http_basic do |username, password|
           username == 'too_simple' && password == 'too_naive'
         end
       end
 
       config.security.current_user do
-        # you could use any controller methods here
+        # you could use any controller methods inside this block
         Class.new do
-          # email here is for gravator profile image
+          # email field is for gravator profile image
           def email
             'user@example.com'
           end
@@ -83,7 +94,7 @@ You could set up authentication via:
     end
     ```
 
-For more configurations and how to do further development upon wallaby, see [Customization](CUSTOMIZATION.md).
+For more configurations and How-Toes for Wallaby, see [Customization](CUSTOMIZATION.md).
 
 ## License
 This project rocks and uses MIT-LICENSE.
