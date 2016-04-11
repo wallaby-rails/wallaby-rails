@@ -100,72 +100,38 @@ describe Wallaby::ResourcesController do
         end
       end
 
-      context 'action is new' do
-        before { controller.params[:action] = 'new' }
+      %w( new create edit update ).each do |action_name|
+        context 'action is new' do
+          before { controller.params[:action] = action_name }
 
-        it 'returns prefixes' do
-          allow(controller).to receive(:current_resources_name) { 'wallaby/resources' }
-          expect(controller.send :_prefixes).to eq [ 'wallaby/resources/form', 'wallaby/resources' ]
-        end
-
-        context 'when current_resources_name is different' do
           it 'returns prefixes' do
-            allow(controller).to receive(:current_resources_name) { 'products' }
-            expect(controller.send :_prefixes).to eq [ 'products/form', 'products', 'wallaby/resources/form', 'wallaby/resources' ]
-          end
-        end
-
-        context 'for subclasses' do
-          module Space
-            class PlanetsController < Wallaby::ResourcesController; end
+            allow(controller).to receive(:current_resources_name) { 'wallaby/resources' }
+            expect(controller.send :_prefixes).to eq [ 'wallaby/resources/form', 'wallaby/resources' ]
           end
 
-          describe Space::PlanetsController do
+          context 'when current_resources_name is different' do
             it 'returns prefixes' do
-              allow(controller).to receive(:current_resources_name) { 'space/planets' }
-              expect(controller.send :_prefixes).to eq [ 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
+              allow(controller).to receive(:current_resources_name) { 'products' }
+              expect(controller.send :_prefixes).to eq [ 'products/form', 'products', 'wallaby/resources/form', 'wallaby/resources' ]
+            end
+          end
+
+          context 'for subclasses' do
+            module Space
+              class PlanetsController < Wallaby::ResourcesController; end
             end
 
-            context 'when current_resources_name is different' do
+            describe Space::PlanetsController do
               it 'returns prefixes' do
-                allow(controller).to receive(:current_resources_name) { 'mars' }
-                expect(controller.send :_prefixes).to eq [ 'mars/form', 'mars', 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
+                allow(controller).to receive(:current_resources_name) { 'space/planets' }
+                expect(controller.send :_prefixes).to eq [ 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
               end
-            end
-          end
-        end
-      end
 
-      context 'action is edit' do
-        before { controller.params[:action] = 'edit' }
-
-        it 'returns prefixes' do
-          allow(controller).to receive(:current_resources_name) { 'wallaby/resources' }
-          expect(controller.send :_prefixes).to eq [ 'wallaby/resources/form', 'wallaby/resources' ]
-        end
-
-        context 'when current_resources_name is different' do
-          it 'returns prefixes' do
-            allow(controller).to receive(:current_resources_name) { 'products' }
-            expect(controller.send :_prefixes).to eq [ 'products/form', 'products', 'wallaby/resources/form', 'wallaby/resources' ]
-          end
-        end
-
-        context 'for subclasses' do
-          module Space
-            class PlanetsController < Wallaby::ResourcesController; end
-          end
-
-          describe Space::PlanetsController do
-            it 'returns prefixes' do
-              allow(controller).to receive(:current_resources_name) { 'space/planets' }
-              expect(controller.send :_prefixes).to eq [ 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
-            end
-
-            context 'when current_resources_name is different' do
-              it 'returns prefixes' do
-                allow(controller).to receive(:current_resources_name) { 'mars' }
-                expect(controller.send :_prefixes).to eq [ 'mars/form', 'mars', 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
+              context 'when current_resources_name is different' do
+                it 'returns prefixes' do
+                  allow(controller).to receive(:current_resources_name) { 'mars' }
+                  expect(controller.send :_prefixes).to eq [ 'mars/form', 'mars', 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
+                end
               end
             end
           end

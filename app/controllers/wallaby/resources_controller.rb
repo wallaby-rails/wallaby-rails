@@ -65,7 +65,7 @@ module Wallaby
       @_prefixes ||= begin
         resources_prefix  = current_resources_name.gsub '::', '/'
         wallaby_path      = Wallaby::ResourcesController.controller_path
-        suffix            = { 'new' => 'form', 'edit' => 'form' }[params[:action]] || params[:action]
+        suffix            = %w( new create edit update ).include?(params[:action]) ? 'form' : params[:action]
 
         minimal_prefixes  = super[0..super.index(wallaby_path)]
         unless minimal_prefixes.index resources_prefix
