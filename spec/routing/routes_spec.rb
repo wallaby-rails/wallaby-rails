@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe 'routing', type: :request, clear: :object_space do
+describe 'routing', type: :request do
   let(:mocked_response) { double 'Response', call: [ 200, {}, ["Coming soon"] ] }
   let(:script_name) { '/admin' }
 
   it 'routes to the general resourceful routes' do
-    controller = Wallaby::ResourcesController
-    resources = 'posts'
+    controller  = Wallaby::ResourcesController
+    resources   = 'products'
 
     expect(controller).to receive(:action).with('index') { mocked_response }
     get "#{ script_name }/#{ resources }"
@@ -41,8 +41,10 @@ describe 'routing', type: :request, clear: :object_space do
 
   context 'when target resources controller exists' do
     it 'routes to the general resourceful routes' do
-      controller = stub_const 'AliensController', Class.new(Wallaby::ResourcesController)
-      resources = 'aliens'
+      class Alien; end
+      class AliensController < Wallaby::ResourcesController; end
+      controller  = AliensController
+      resources   = 'aliens'
 
       expect(controller).to receive(:action).with('index') { mocked_response }
       get "#{ script_name }/#{ resources }"

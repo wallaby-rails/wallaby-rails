@@ -1,7 +1,7 @@
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
   Rails.logger.debug '--> [ Wallaby ] Ready to preload and clear cache on reload. <--'
-  Rails.cache.clear
+  Rails.cache.delete_matched %r(\Awallaby/)
 
   # NOTE: we search for subclasses of Wallaby::ResourcesController and Wallaby::ResourceDecorator.
   # therefore, under development environment, we need to preload all classes under /app folder in main_app
@@ -18,12 +18,10 @@ class Wallaby::ResourcesRouter
   DEFAULT_CONTROLLER = Wallaby::ResourcesController
 
   def call(env)
-    params            = env['action_dispatch.request.path_parameters']
-    target_controller = find_controller_by params[:resources]
-    target_action     = params[:action]
-    target_controller.action(target_action).call env
-  rescue AbstractController::ActionNotFound
-    target_controller.action(:not_found).call env
+    params = env['action_dispatch.request.path_parameters']
+    find_controller_by(params[:resources]).action(params[:action]).call env
+  rescue AbstractController::ActionNotFound, Wallaby::ModelNotFound
+    DEFAULT_CONTROLLER.action(:not_found).call env
   end
 
   protected
@@ -36,8 +34,9 @@ class Wallaby::ResourcesRouter
   end
 
   def find_controller_by(resources_name)
+    model_class = Wallaby::Utils.to_model_class resources_name
     cached_subclasses.find do |klass|
-      klass.resources_name == resources_name
+      klass.model_class == model_class
     end or DEFAULT_CONTROLLER
   end
 end

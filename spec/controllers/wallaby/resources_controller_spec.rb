@@ -33,7 +33,7 @@ describe Wallaby::ResourcesController do
 
     describe '#collection' do
       it 'expects call from current_model_decorator' do
-        allow(controller).to receive(:params) { ActionController::Parameters.new per: 10, page: 2 }
+        allow(controller).to receive(:params) { parameters per: 10, page: 2 }
 
         collection = controller.send :collection
         expect(assigns :collection).to eq collection
@@ -52,7 +52,7 @@ describe Wallaby::ResourcesController do
 
     describe '#resource_id' do
       it 'equals params[:id]' do
-        allow(controller).to receive(:params) { ActionController::Parameters.new id: 'abc123' }
+        allow(controller).to receive(:params) { parameters id: 'abc123' }
         expect(controller.send :resource_id).to eq 'abc123'
       end
     end
@@ -66,6 +66,11 @@ describe Wallaby::ResourcesController do
     end
 
     describe '_prefixes' do
+      module Space
+        class PlanetsController < Wallaby::ResourcesController; end
+        class Planet; end
+      end
+
       before { controller.params[:action] = 'index' }
 
       it 'returns prefixes' do
@@ -81,10 +86,6 @@ describe Wallaby::ResourcesController do
       end
 
       context 'for subclasses' do
-        module Space
-          class PlanetsController < Wallaby::ResourcesController; end
-        end
-
         describe Space::PlanetsController do
           it 'returns prefixes' do
             allow(controller).to receive(:current_resources_name) { 'space/planets' }
@@ -117,10 +118,6 @@ describe Wallaby::ResourcesController do
           end
 
           context 'for subclasses' do
-            module Space
-              class PlanetsController < Wallaby::ResourcesController; end
-            end
-
             describe Space::PlanetsController do
               it 'returns prefixes' do
                 allow(controller).to receive(:current_resources_name) { 'space/planets' }
@@ -141,13 +138,8 @@ describe Wallaby::ResourcesController do
   end
 
   describe 'subclasses of Wallaby::ResourcesController' do
-    CampervansController = Class.new(Wallaby::ResourcesController) do
-      def current_resources_name; 'categories'; end
-    end
-
-    Campervan = Class.new(ActiveRecord::Base) do
-      self.table_name = 'all_postgres_types'
-    end
+    class CampervansController < Wallaby::ResourcesController; end
+    class Campervan; end
 
     describe CampervansController do
       describe 'class methods ' do
