@@ -27,7 +27,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
   describe 'instance methods' do
     subject { described_class.new AllPostgresType }
     let(:servicer)  { subject.instance_variable_get '@servicer' }
-    let(:params)    { ActionController::Parameters.new({}) }
+    let(:params)    { parameters }
     let(:ability)   { Ability.new nil }
     let(:resource)  { AllPostgresType.new }
 
