@@ -4,9 +4,7 @@ Wallaby::Engine.routes.draw do
   get 'status', to: 'wallaby/core#status'
 
   scope path: ':resources' do
-    resources_router = Wallaby::ResourcesRouter.new
-
-    with_options to: resources_router do |route|
+    with_options to: Wallaby::ResourcesRouter.new do |route|
       begin # resourceful routes
         route.get '',
           defaults: { action: 'index' },
