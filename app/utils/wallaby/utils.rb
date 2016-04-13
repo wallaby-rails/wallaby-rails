@@ -20,4 +20,8 @@ module Wallaby::Utils
     class_name.constantize rescue
       fail Wallaby::ModelNotFound.new class_name
   end
+
+  def self.to_hash(array)
+    Hash[ *array.flatten(1) ]
+  end
 end
