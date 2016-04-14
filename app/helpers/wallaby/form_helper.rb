@@ -9,21 +9,7 @@ module Wallaby::FormHelper
     locals[:metadata] = object.metadata_of locals[:field_name]
     locals[:value]    = object.send locals[:field_name]
 
-    render(options, locals, &block) or render('form/string', locals, &block)
-  end
-
-  def form_group_classes(decorated, field_name)
-    styles = []
-    styles << 'has-error' if decorated.errors[field_name].present?
-    styles.join ' '
-  end
-
-  def form_field_error_messages(decorated, field_name)
-    content_tag :ul, class: 'text-danger' do
-      Array(decorated.errors[field_name]).each do |message|
-        concat content_tag :li, content_tag(:small, raw(message))
-      end
-    end
+    render(options, locals, &block) or render('string', locals, &block)
   end
 
   def model_choices(model_decorator)

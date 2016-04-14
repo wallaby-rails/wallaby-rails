@@ -2,41 +2,29 @@ require 'rails_helper'
 
 describe Wallaby::FormHelper do
   describe '#form_type_partial_render' do
+    let(:form) { Wallaby::FormBuilder.new object_name, object, helper, {} }
+    let(:object_name) { object.model_name.param_key }
+    let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
+
     it 'checks the arguments' do
       expect{ helper.form_type_partial_render }.to raise_error ArgumentError
       expect{ helper.form_type_partial_render 'integer', field_name: 'name' }.to raise_error ArgumentError
       expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
 
-      expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: double(object: Wallaby::ResourceDecorator.new(Product.new)) }.not_to raise_error ArgumentError
+      expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: form }.not_to raise_error ArgumentError
     end
 
-    it 'renders a type partial' do
-      object = Wallaby::ResourceDecorator.new Product.new(name: 'product_name')
-      form = double object: object
-      expect(helper).to receive(:render).with('integer', field_name: 'name', form: form, object: object, metadata: object.metadata_of('name'), value: 'product_name') { true }
-      helper.form_type_partial_render 'integer', field_name: 'name', form: form
-    end
-  end
+    describe 'partials', prefixes: [ 'wallaby/resources/form' ] do
+      it 'renders a type partial' do
+        expect(helper.form_type_partial_render 'integer', field_name: 'name', form: form).to match 'type="number"'
+      end
 
-  describe '#form_group_classes' do
-    it 'returns form group classes' do
-      product = Product.new
-      decorated = helper.decorate product
-      expect(helper.form_group_classes decorated, 'name').to be_blank
-
-      product.errors.add 'name', 'must have error'
-      expect(helper.form_group_classes decorated, 'name').to eq "has-error"
-    end
-  end
-
-  describe '#form_field_error_messages' do
-    it 'returns error messages' do
-      product = Product.new
-      decorated = helper.decorate product
-      expect(helper.form_field_error_messages decorated, 'name').to eq "<ul class=\"text-danger\"></ul>"
-
-      product.errors.add 'name', 'must have error'
-      expect(helper.form_field_error_messages decorated, 'name').to eq "<ul class=\"text-danger\"><li><small>must have error</small></li></ul>"
+      context 'when partial does not exists' do
+        it 'renders string partial' do
+          expect(helper.form_type_partial_render 'unknown', field_name: 'name', form: form).to eq "<div class=\"form-group \">\n  <label for=\"product_name\">Name</label>\n  <input class=\"form-control\" type=\"text\" value=\"product_name\" name=\"product[name]\" id=\"product_name\" />\n  \n</div>\n"
+          expect(helper.form_type_partial_render 'unknown', field_name: 'name', form: form).to match 'type="text"'
+        end
+      end
     end
   end
 
