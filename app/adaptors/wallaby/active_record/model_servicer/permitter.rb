@@ -14,7 +14,7 @@ class Wallaby::ActiveRecord::ModelServicer::Permitter
 
   def compound_hashed_fields
     field_names = range_fields.keys + many_association_fields.map{ |_, metadata| metadata[:foreign_key] }
-    Hash[ *field_names.map{ |field_name| [ field_name, [] ] }.flatten(1) ]
+    Wallaby::Utils.to_hash(field_names.map{ |field_name| [ field_name, [] ] })
   end
 
   protected
