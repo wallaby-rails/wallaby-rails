@@ -1,4 +1,16 @@
 module Wallaby::SortingHelper
+  def sort_link(field_name, model_decorator = current_model_decorator)
+    metadata = model_decorator.index_metadata_of field_name
+
+    if metadata[:is_origin] && !metadata[:is_association] || metadata[:sort_field_name]
+      sort_field_name = metadata[:sort_field_name] || field_name
+      extra_params = next_sort_param sort_field_name
+      index_link(model_decorator.model_class, extra_params: extra_params) { metadata[:label] }
+    else
+      metadata[:label]
+    end
+  end
+
   def sort_hash
     @sort_hash ||= begin
       array = params[:sort].to_s.split(%r(\s*,\s*)).map{ |v| v.split %r(\s+) }
@@ -6,10 +18,10 @@ module Wallaby::SortingHelper
     end
   end
 
-  def new_sort_param(field_name)
+  def next_sort_param(field_name)
     field_name  = field_name.to_s
     orders      = [ 'asc', 'desc', nil ]
-    params.dup.tap do |hash|
+    clean_params.tap do |hash|
       sortings = sort_hash.dup
       next_index = (orders.index(sortings[field_name]) + 1) % orders.length
       if orders[next_index].nil?
