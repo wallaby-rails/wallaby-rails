@@ -6,11 +6,22 @@ describe 'Resources pages' do
 
   describe '#index' do
     let!(:record) { model_class.create!({ string: string }) }
+
     it 'renders collections' do
       get '/admin/all_postgres_types'
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.body).to include string
+
+      get '/admin/all_postgres_types?q=van&sort=string%20desc'
+      expect(response).to be_successful
+      expect(response).to render_template :index
+      expect(response.body).to include string
+
+      get '/admin/all_postgres_types?q=unknown'
+      expect(response).to be_successful
+      expect(response).to render_template :index
+      expect(response.body).not_to include string
     end
   end
 
@@ -41,6 +52,17 @@ describe 'Resources pages' do
       expect(model_class.count).to eq 1
       expect(model_class.first.string).to eq string
     end
+
+    context 'when form error exists' do
+      let(:string) { 'Vincent van Gogh' }
+      let(:model_class) { Picture }
+
+      it 'renders form and show error' do
+        post '/admin/pictures', picture: { string: string }
+        expect(response).to render_template :new
+        expect(response.body).to match "can't be blank"
+      end
+    end
   end
 
   describe '#edit' do
@@ -60,6 +82,18 @@ describe 'Resources pages' do
       put "/admin/all_postgres_types/#{ record.id }", all_postgres_type: { string: a_string }
       expect(response).to redirect_to "/admin/all_postgres_types/#{ record.id }"
       expect(record.reload.string).to eq a_string
+    end
+
+    context 'when form error exists' do
+      let(:string) { 'Vincent van Gogh' }
+      let(:model_class) { Picture }
+      let!(:record) { model_class.create!({ name: string }) }
+
+      it 'renders form and show error' do
+        put "/admin/pictures/#{ record.id }", picture: { name: '' }
+        expect(response).to render_template :edit
+        expect(response.body).to match "can't be blank"
+      end
     end
   end
 
