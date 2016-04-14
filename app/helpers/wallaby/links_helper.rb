@@ -1,6 +1,7 @@
 module Wallaby::LinksHelper
-  def index_path(model_class = nil, extra_params = {})
-    model_class ||= current_model_class
+  def index_path(model_class = nil, extra_params = nil)
+    model_class   ||= current_model_class
+    extra_params  ||= {}
     wallaby_engine.resources_path to_resources_name(model_class), extra_params
   end
 
@@ -24,7 +25,7 @@ module Wallaby::LinksHelper
     return if cannot? :index, model_class
     block ||= -> { to_model_label model_class }
 
-    link_to index_path(model_class), html_options, &block
+    link_to index_path(model_class, html_options.delete(:extra_params)), html_options, &block
   end
 
   def new_link(model_class = nil, html_options = {}, &block)

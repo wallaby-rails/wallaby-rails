@@ -37,6 +37,7 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns index link' do
       expect(helper.index_link(Product)).to eq "<a href=\"/admin/products\">Product</a>"
       expect(helper.index_link(Product) { 'List' }).to eq "<a href=\"/admin/products\">List</a>"
+      expect(helper.index_link(Product, extra_params: { sort: 'name asc' }) { 'List' }).to eq "<a href=\"/admin/products?sort=name+asc\">List</a>"
     end
 
     context 'when cannot index' do
