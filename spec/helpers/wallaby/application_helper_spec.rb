@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 describe Wallaby::ApplicationHelper do
+  describe '#clean_params' do
+    it 'removes resources and action' do
+      helper.params[:resources] = 'all_postgres_type'
+      helper.params[:action] = 'index'
+      expect(helper.clean_params).to eq Hash.new
+    end
+  end
+
   describe '#url_for' do
     context 'when options is hash and has keys of action and resources' do
       it 'calls wallaby_resourceful_url_for' do
