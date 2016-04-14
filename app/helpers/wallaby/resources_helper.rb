@@ -40,7 +40,7 @@ module Wallaby::ResourcesHelper
     locals[:metadata] = decorated.metadata_of field_name
     locals[:value]    = decorated.send field_name
 
-    render options, locals, &block or locals[:value]
+    render(options, locals, &block) or render('string', locals, &block)
   end
 
   def show_title(decorated)
