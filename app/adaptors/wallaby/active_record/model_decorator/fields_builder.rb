@@ -6,9 +6,10 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
   def general_fields
     @model_class.columns.inject({}) do |fields, column|
       fields[column.name] = {
-        name:   column.name,
-        type:   column.type.to_s,
-        label:  @model_class.human_attribute_name(column.name)
+        name:       column.name,
+        type:       column.type.to_s,
+        label:      @model_class.human_attribute_name(column.name),
+        is_origin:  true
       }
       fields
     end
@@ -22,6 +23,7 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
         name:             field_name,
         type:             type,
         label:            field_name.titleize,
+        is_origin:        true,
         is_association:   true,
         is_polymorphic:   is_polymorphic?(reflection),
         is_through:       is_through?(reflection),
