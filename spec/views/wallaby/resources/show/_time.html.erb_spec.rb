@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/show/time.html.erb' }
+partial_name = 'show/time'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { Time.new(2014, 2, 11, 23, 59, 59, '+00:00') }
   let(:metadata)  { Hash.new }
 

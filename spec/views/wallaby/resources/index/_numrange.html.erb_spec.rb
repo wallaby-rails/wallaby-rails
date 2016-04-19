@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/index/numrange.html.erb' }
+partial_name = 'index/numrange'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { 1..100 }
   let(:metadata)  { Hash.new }
 

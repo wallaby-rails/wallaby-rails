@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/show/text.html.erb' }
+partial_name = 'show/text'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { '<b>this is a text for more than 20 characters</b>' }
   let(:metadata)  { Hash.new }
 

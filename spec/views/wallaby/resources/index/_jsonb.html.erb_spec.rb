@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/index/jsonb.html.erb' }
+partial_name = 'index/jsonb'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     do
     {
       "kind" => "user_renamed",

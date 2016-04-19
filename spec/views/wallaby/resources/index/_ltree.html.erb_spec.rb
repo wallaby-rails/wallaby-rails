@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/index/ltree.html.erb' }
+partial_name = 'index/ltree'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { 'Top.Science.Astronomy.Cosmology' }
   let(:metadata)  { Hash.new }
 

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/index/decimal.html.erb' }
+partial_name = 'index/decimal'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { BigDecimal.new(42)**13 / 10**20 }
   let(:metadata)  { Hash.new }
 

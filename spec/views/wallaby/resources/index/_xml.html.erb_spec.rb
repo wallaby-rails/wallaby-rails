@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/index/xml.html.erb' }
+partial_name = 'index/xml'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     do
 <<-XML
 <?xml version="1.0" encoding="UTF-8"?>

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/show/cidr.html.erb' }
+partial_name = 'show/cidr'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { IPAddr.new '192.168.2.0/24' }
   let(:metadata)  { Hash.new }
 

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-describe 'partial', :current_user do
+partial_name = 'form/has_many'
+describe partial_name, :current_user do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:partial)     { 'wallaby/resources/form/has_many.html.erb' }
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
   let!(:object)      { Product.create! field_name => value }

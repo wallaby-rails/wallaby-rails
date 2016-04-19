@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
-  let(:partial)   { 'wallaby/resources/show/point.html.erb' }
+partial_name = 'show/point'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { [ 3, 4 ] }
   let(:metadata)  { Hash.new }
 

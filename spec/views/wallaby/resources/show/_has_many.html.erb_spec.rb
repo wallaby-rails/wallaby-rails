@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-describe 'partial', :current_user do
-  let(:partial)   { 'wallaby/resources/show/has_many.html.erb' }
+partial_name = 'show/has_many'
+describe partial_name, :current_user do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value) do
     [
       Product.new(id: 1, name: 'Hiking shoes'),

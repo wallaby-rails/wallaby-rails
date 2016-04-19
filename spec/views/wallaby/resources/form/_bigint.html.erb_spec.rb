@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-describe 'partial' do
+partial_name = 'form/bigint'
+describe partial_name do
+  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:partial)     { "wallaby/resources/form/#{ field_name }.html.erb" }
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
   let(:object)      { AllPostgresType.new field_name => value }
