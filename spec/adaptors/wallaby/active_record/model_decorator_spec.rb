@@ -7,105 +7,106 @@ describe Wallaby::ActiveRecord::ModelDecorator do
   describe 'General fields' do
     describe '#fields' do
       it 'returns a hash of all keys' do
+        expect(subject.fields).to be_a HashWithIndifferentAccess
         expect(subject.fields).to eq({
           "id" => {
-            name: "id", type: "integer", label: "Id", is_origin: true
+            "name" => "id", "type" => "integer", "label" => "Id", "is_origin" => true
           },
           "string" => {
-            name: "string", type: "string", label: "String", is_origin: true
+            "name" => "string", "type" => "string", "label" => "String", "is_origin" => true
           },
           "text" => {
-            name: "text", type: "text", label: "Text", is_origin: true
+            "name" => "text", "type" => "text", "label" => "Text", "is_origin" => true
           },
           "integer" => {
-            name: "integer", type: "integer", label: "Integer", is_origin: true
+            "name" => "integer", "type" => "integer", "label" => "Integer", "is_origin" => true
           },
           "float" => {
-            name: "float", type: "float", label: "Float", is_origin: true
+            "name" => "float", "type" => "float", "label" => "Float", "is_origin" => true
           },
           "decimal" => {
-            name: "decimal", type: "decimal", label: "Decimal", is_origin: true
+            "name" => "decimal", "type" => "decimal", "label" => "Decimal", "is_origin" => true
           },
           "datetime" => {
-            name: "datetime", type: "datetime", label: "Datetime", is_origin: true
+            "name" => "datetime", "type" => "datetime", "label" => "Datetime", "is_origin" => true
           },
           "time" => {
-            name: "time", type: "time", label: "Time", is_origin: true
+            "name" => "time", "type" => "time", "label" => "Time", "is_origin" => true
           },
           "date" => {
-            name: "date", type: "date", label: "Date", is_origin: true
+            "name" => "date", "type" => "date", "label" => "Date", "is_origin" => true
           },
           "daterange" => {
-            name: "daterange", type: "daterange", label: "Daterange", is_origin: true
+            "name" => "daterange", "type" => "daterange", "label" => "Daterange", "is_origin" => true
           },
           "numrange" => {
-            name: "numrange", type: "numrange", label: "Numrange", is_origin: true
+            "name" => "numrange", "type" => "numrange", "label" => "Numrange", "is_origin" => true
           },
           "tsrange" => {
-            name: "tsrange", type: "tsrange", label: "Tsrange", is_origin: true
+            "name" => "tsrange", "type" => "tsrange", "label" => "Tsrange", "is_origin" => true
           },
           "tstzrange" => {
-            name: "tstzrange", type: "tstzrange", label: "Tstzrange", is_origin: true
+            "name" => "tstzrange", "type" => "tstzrange", "label" => "Tstzrange", "is_origin" => true
           },
           "int4range" => {
-            name: "int4range", type: "int4range", label: "Int4range", is_origin: true
+            "name" => "int4range", "type" => "int4range", "label" => "Int4range", "is_origin" => true
           },
           "int8range" => {
-            name: "int8range", type: "int8range", label: "Int8range", is_origin: true
+            "name" => "int8range", "type" => "int8range", "label" => "Int8range", "is_origin" => true
           },
           "binary" => {
-            name: "binary", type: "binary", label: "Binary", is_origin: true
+            "name" => "binary", "type" => "binary", "label" => "Binary", "is_origin" => true
           },
           "boolean" => {
-            name: "boolean", type: "boolean", label: "Boolean", is_origin: true
+            "name" => "boolean", "type" => "boolean", "label" => "Boolean", "is_origin" => true
           },
           "bigint" => {
-            name: "bigint", type: "integer", label: "Bigint", is_origin: true
+            "name" => "bigint", "type" => "integer", "label" => "Bigint", "is_origin" => true
           },
           "xml" => {
-            name: "xml", type: "xml", label: "Xml", is_origin: true
+            "name" => "xml", "type" => "xml", "label" => "Xml", "is_origin" => true
           },
           "tsvector" => {
-            name: "tsvector", type: "tsvector", label: "Tsvector", is_origin: true
+            "name" => "tsvector", "type" => "tsvector", "label" => "Tsvector", "is_origin" => true
           },
           "hstore" => {
-            name: "hstore", type: "hstore", label: "Hstore", is_origin: true
+            "name" => "hstore", "type" => "hstore", "label" => "Hstore", "is_origin" => true
           },
           "inet" => {
-            name: "inet", type: "inet", label: "Inet", is_origin: true
+            "name" => "inet", "type" => "inet", "label" => "Inet", "is_origin" => true
           },
           "cidr" => {
-            name: "cidr", type: "cidr", label: "Cidr", is_origin: true
+            "name" => "cidr", "type" => "cidr", "label" => "Cidr", "is_origin" => true
           },
           "macaddr" => {
-            name: "macaddr", type: "macaddr", label: "Macaddr", is_origin: true
+            "name" => "macaddr", "type" => "macaddr", "label" => "Macaddr", "is_origin" => true
           },
           "uuid" => {
-            name: "uuid", type: "uuid", label: "Uuid", is_origin: true
+            "name" => "uuid", "type" => "uuid", "label" => "Uuid", "is_origin" => true
           },
           "json" => {
-            name: "json", type: "json", label: "Json", is_origin: true
+            "name" => "json", "type" => "json", "label" => "Json", "is_origin" => true
           },
           "jsonb" => {
-            name: "jsonb", type: "jsonb", label: "Jsonb", is_origin: true
+            "name" => "jsonb", "type" => "jsonb", "label" => "Jsonb", "is_origin" => true
           },
           "ltree" => {
-            name: "ltree", type: "ltree", label: "Ltree", is_origin: true
+            "name" => "ltree", "type" => "ltree", "label" => "Ltree", "is_origin" => true
           },
           "citext" => {
-            name: "citext", type: "citext", label: "Citext", is_origin: true
+            "name" => "citext", "type" => "citext", "label" => "Citext", "is_origin" => true
           },
           "point" => {
-            name: "point", type: "point", label: "Point", is_origin: true
+            "name" => "point", "type" => "point", "label" => "Point", "is_origin" => true
           },
           "bit" => {
-            name: "bit", type: "bit", label: "Bit", is_origin: true
+            "name" => "bit", "type" => "bit", "label" => "Bit", "is_origin" => true
           },
           "bit_varying" => {
-            name: "bit_varying", type: "bit_varying", label: "Bit varying", is_origin: true
+            "name" => "bit_varying", "type" => "bit_varying", "label" => "Bit varying", "is_origin" => true
           },
           "money" => {
-            name: "money", type: "money", label: "Money", is_origin: true
+            "name" => "money", "type" => "money", "label" => "Money", "is_origin" => true
           }
         })
       end
@@ -113,6 +114,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_fields' do
       it 'has same value as fields' do
+        expect(subject.index_fields).to be_a HashWithIndifferentAccess
         expect(subject.index_fields).to eq subject.fields
       end
 
@@ -125,6 +127,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#show_fields' do
       it 'has same value as fields' do
+        expect(subject.show_fields).to be_a HashWithIndifferentAccess
         expect(subject.show_fields).to eq subject.fields
       end
 
@@ -137,6 +140,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#form_fields' do
       it 'has same value as fields' do
+        expect(subject.form_fields).to be_a HashWithIndifferentAccess
         expect(subject.form_fields).to eq subject.fields
       end
 
@@ -166,52 +170,52 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       it 'returns a hash of all keys' do
         expect(subject.fields).to eq({
           "id" => {
-            name: "id", type: "integer", label: "Id", is_origin: true
+            "name" => "id", "type" => "integer", "label" => "Id", "is_origin" => true
           },
           "sku" => {
-            name: "sku", type: "string", label: "Sku", is_origin: true
+            "name" => "sku", "type" => "string", "label" => "Sku", "is_origin" => true
           },
           "name" => {
-            name: "name", type: "string", label: "Name", is_origin: true
+            "name" => "name", "type" => "string", "label" => "Name", "is_origin" => true
           },
           "description" => {
-            name: "description", type: "text", label: "Description", is_origin: true
+            "name" => "description", "type" => "text", "label" => "Description", "is_origin" => true
           },
           "stock" => {
-            name: "stock", type: "integer", label: "Stock", is_origin: true
+            "name" => "stock", "type" => "integer", "label" => "Stock", "is_origin" => true
           },
           "price" => {
-            name: "price", type: "float", label: "Price", is_origin: true
+            "name" => "price", "type" => "float", "label" => "Price", "is_origin" => true
           },
           "featured" => {
-            name: "featured", type: "boolean", label: "Featured", is_origin: true
+            "name" => "featured", "type" => "boolean", "label" => "Featured", "is_origin" => true
           },
           "available_to_date" => {
-            name: "available_to_date", type: "date", label: "Available to date", is_origin: true
+            "name" => "available_to_date", "type" => "date", "label" => "Available to date", "is_origin" => true
           },
           "available_to_time" => {
-            name: "available_to_time", type: "time", label: "Available to time", is_origin: true
+            "name" => "available_to_time", "type" => "time", "label" => "Available to time", "is_origin" => true
           },
           "published_at" => {
-            name: "published_at", type: "datetime", label: "Published at", is_origin: true
+            "name" => "published_at", "type" => "datetime", "label" => "Published at", "is_origin" => true
           },
           "product_detail" => {
-            name: "product_detail", type: "has_one", label: "Product Detail", is_origin: true, is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "product_detail_id", polymorphic_type: nil, polymorphic_list: [], class: ProductDetail
+            "name" => "product_detail", "type" => "has_one", "label" => "Product Detail", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "product_detail_id", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => ProductDetail
           },
           "picture" => {
-            name: "picture", type: "has_one", label: "Picture", is_origin: true, is_association: true, is_polymorphic: false, is_through: false, has_scope: true, foreign_key: "picture_id", polymorphic_type: nil, polymorphic_list: [], class: Picture
+            "name" => "picture", "type" => "has_one", "label" => "Picture", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => true, "foreign_key" => "picture_id", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Picture
           },
           "order_items" => {
-            name: "order_items", type: "has_many", label: "Order Items", is_origin: true, is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "item_ids", polymorphic_type: nil, polymorphic_list: [], class: Order::Item
+            "name" => "order_items", "type" => "has_many", "label" => "Order Items", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "item_ids", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Order::Item
           },
           "orders" => {
-            name: "orders", type: "has_many", label: "Orders", is_origin: true, is_association: true, is_polymorphic: false, is_through: true, has_scope: false, foreign_key: "order_ids", polymorphic_type: nil, polymorphic_list: [], class: Order
+            "name" => "orders", "type" => "has_many", "label" => "Orders", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => true, "has_scope" => false, "foreign_key" => "order_ids", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Order
           },
           "category" => {
-            name: "category", type: "belongs_to", label: "Category", is_origin: true, is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "category_id", polymorphic_type: nil, polymorphic_list: [], class: Category
+            "name" => "category", "type" => "belongs_to", "label" => "Category", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "category_id", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Category
           },
           "tags" => {
-            name: "tags", type: "has_and_belongs_to_many", label: "Tags", is_origin: true, is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "tag_ids", polymorphic_type: nil, polymorphic_list: [], class: Tag
+            "name" => "tags", "type" => "has_and_belongs_to_many", "label" => "Tags", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "tag_ids", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Tag
           }
         })
       end
@@ -254,22 +258,22 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       it 'returns a hash of all keys' do
         expect(subject.fields).to eq({
           "id" => {
-            name: "id", type: "integer", label: "Id", is_origin: true
+            "name" => "id", "type" => "integer", "label" => "Id", "is_origin" => true
           },
           "name" => {
-            name: "name", type: "string", label: "Name", is_origin: true
+            "name" => "name", "type" => "string", "label" => "Name", "is_origin" => true
           },
           "file" => {
-            name: "file", type: "binary", label: "File", is_origin: true
+            "name" => "file", "type" => "binary", "label" => "File", "is_origin" => true
           },
           "created_at" => {
-            name: "created_at", type: "datetime", label: "Created at", is_origin: true
+            "name" => "created_at", "type" => "datetime", "label" => "Created at", "is_origin" => true
           },
           "updated_at" => {
-            name: "updated_at", type: "datetime", label: "Updated at", is_origin: true
+            "name" => "updated_at", "type" => "datetime", "label" => "Updated at", "is_origin" => true
           },
           "imageable" => {
-            name: "imageable", type: "belongs_to", label: "Imageable", is_origin: true, is_association: true, is_polymorphic: true, is_through: false, has_scope: false, foreign_key: "imageable_id", polymorphic_type: "imageable_type", :polymorphic_list=>[ Product ], class: nil
+            "name" => "imageable", "type" => "belongs_to", "label" => "Imageable", "is_origin" => true, "is_association" => true, "is_polymorphic" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "imageable_id", "polymorphic_type" => "imageable_type", "polymorphic_list" =>[ Product ], "class" => nil
           }
         })
       end
