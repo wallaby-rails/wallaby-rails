@@ -12,7 +12,7 @@ class Wallaby::ModelDecorator
       end
 
       def #{ prefix }fields=(#{ prefix }fields)
-        @#{ prefix }fields = #{ prefix }fields
+        @#{ prefix }fields = #{ prefix }fields.with_indifferent_access
       end
 
       def #{ prefix }field_names
