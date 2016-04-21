@@ -4,15 +4,15 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def index_fields
-    @index_fields ||= general_fields.merge(association_fields).except *foreign_keys_from_associations
+    @index_fields ||= fields.deep_dup
   end
 
   def show_fields
-    @show_fields  ||= general_fields.merge(association_fields).except *foreign_keys_from_associations
+    @show_fields  ||= fields.deep_dup
   end
 
   def form_fields
-    @form_fields  ||= general_fields.merge(association_fields).except *foreign_keys_from_associations
+    @form_fields  ||= fields.deep_dup
   end
 
   def index_field_names
