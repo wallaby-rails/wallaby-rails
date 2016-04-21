@@ -1,0 +1,20 @@
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label field_name, metadata[:label] %>
+  <div class="row">
+    <div class="col-xs-6 col-sm-3">
+      <%= form.text_field field_name, class: 'form-control', data: { init: 'colorpicker' } %>
+    </div>
+  </div>
+  <%= form.error_messages field_name %>
+</div>
+
+<% unless @colorpicker_init %>
+  <% @colorpicker_init = true %>
+  <% content_for :custom_javascript do %>
+    <% javascript_tag do %>
+      jQuery(function($) {
+        $('[data-init="colorpicker"]').minicolors({ theme: 'bootstrap' })
+      })
+    <% end %>
+  <% end %>
+<% end %>

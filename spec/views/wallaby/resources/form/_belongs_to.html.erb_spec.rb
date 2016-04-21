@@ -2,11 +2,11 @@ require 'rails_helper'
 
 partial_name = 'form/belongs_to'
 describe partial_name, :current_user do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
-  let!(:object)      { Product.create! field_name => value }
+  let!(:object)     { Product.create! field_name => value }
   let(:field_name)  { metadata[:name] }
-  let!(:value)       { Category.create! id: 1, name: 'Mens' }
+  let!(:value)      { Category.create! id: 1, name: 'Mens' }
   let(:metadata)    do
     Hash name: "category", type: "belongs_to", label: "Category",
       is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "category_id", polymorphic_type: nil, polymorphic_list: [], class: Category

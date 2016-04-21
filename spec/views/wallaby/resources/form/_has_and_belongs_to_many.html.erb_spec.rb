@@ -2,11 +2,11 @@ require 'rails_helper'
 
 partial_name = 'form/has_and_belongs_to_many'
 describe partial_name, :current_user do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
-  let!(:object)      { Product.create! field_name => value }
+  let!(:object)     { Product.create! field_name => value }
   let(:field_name)  { metadata[:name] }
-  let!(:value)       { [ Tag.create!(id: 1, name: 'Toy') ] }
+  let!(:value)      { [ Tag.create!(id: 1, name: 'Toy') ] }
   let(:metadata)    do
     Hash name: "tags", type: "has_and_belongs_to_many", label: "Tags",
       is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "tag_ids", polymorphic_type: nil, polymorphic_list: [], class: Tag

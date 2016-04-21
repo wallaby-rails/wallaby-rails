@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'form/date'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :date }

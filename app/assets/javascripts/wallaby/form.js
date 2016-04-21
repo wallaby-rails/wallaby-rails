@@ -5,3 +5,4 @@
 //= require codemirror/modes/xml
 //= require codemirror/modes/ruby
 //= require codemirror/modes/javascript
+//= require jquery.minicolors
