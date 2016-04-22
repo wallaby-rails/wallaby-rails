@@ -1,4 +1,27 @@
-# v4.0.0.rc
+# v4.0.0
+
+1. Used model class to dispatch requests to controllers
+2. Fixed sorting / remove link for custom fields on index page table headers
+3. Added types email and color for index/show/form
+4. Ensure all hashes used for fields is instance of HashWithIndifferentAccess
+
+# WIP Wish list
+
+- Add lint check
+- Change to use a mode so that multiple mode (active_record/mongoid/etc.) can be used at the same time
+- Ensure to support mysql and sqlite
+- Support for Single Table Inheritance (STI)
+- Improve colon search (maybe..)
+- Data audit (use papertrail) (maybe..)
+- Data export (maybe..)
+- Batch data action (maybe..)
+
+# Known issues
+
+N/A
+
+# History:
+## v4.0.0.rc
 
 1. Used Rails cache for caching subclasses
 2. Added support for CanCanCan (authorization)
@@ -6,19 +29,6 @@
 4. Added support for sorting
 5. Added model servicer to take away the responsibilities (collection/find/initialize) for model decorator and extract all actions for resource controller
 
-# WIP Feature list
-
-- Ensure to support mysql and sqlite
-- Support for Single Table Inheritance (STI)
-- Improve colon search (use papertrail) (maybe..)
-- Data Audit (use papertrail) (maybe..)
-- Data export (maybe..)
-
-# Known issues
-
-- Missing assets for kaminari and bootstrap-sass if kaminari and bootstrap-sass are not in the `Gemfile`
-
-# History:
 ## v0.0.6
 
 1. Resolved Autoload issue

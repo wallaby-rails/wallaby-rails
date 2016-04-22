@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.version     = Wallaby::VERSION
   s.authors     = [ 'Tianwen Chen' ]
   s.email       = [ 'me@tian.im' ]
-  s.homepage    = "http://rubygems.org/gems/#{ namespace }"
-  s.summary     = 'Rails way database administration'
+  s.homepage    = "https://github.com/reinteractive/#{ namespace }"
+  s.summary     = 'Rails way database admin interface'
   s.description = s.summary
   s.license     = 'MIT'
 
@@ -22,11 +22,10 @@ Gem::Specification.new do |s|
                         'README.rdoc' ]
   s.test_files  = Dir[ 'test/**/*' ]
 
-  s.add_dependency 'rails', '>= 4.0'
-  s.add_dependency 'devise'
+  s.add_dependency 'rails', '>= 4.0', '< 5.0'
+  s.add_dependency 'devise', '>= 3.5', '< 4.0'
   s.add_dependency 'kaminari'
   s.add_dependency 'cancancan'
-  s.add_dependency 'redcarpet'
 
   s.add_dependency 'sprockets-rails'
   s.add_dependency 'sass-rails'

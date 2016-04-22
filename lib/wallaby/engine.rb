@@ -3,7 +3,6 @@
 require 'devise'
 require 'cancancan'
 require 'kaminari'
-require 'redcarpet'
 
 require 'sass-rails'
 require 'bootstrap-sass'
