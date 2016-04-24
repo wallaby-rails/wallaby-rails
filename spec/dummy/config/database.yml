@@ -24,14 +24,29 @@
 #   <<: *default
 #   database: db/production.sqlite3
 
-default: &default
+sqlite: &sqlite
+  adapter: sqlite3
+  database: db/<%= Rails.env %>.sqlite3
+
+mysql: &mysql
+  adapter: mysql2
+  username: root
+  password:
+  database: <%= Rails.root.basename.to_s %>_<%= Rails.env %>
+
+postgresql: &postgresql
   adapter: postgresql
+  database: <%= Rails.root.basename.to_s %>_<%= Rails.env %>
+  min_messages: ERROR
+
+defaults: &defaults
+  pool: 5
+  timeout: 5000
   host: localhost
+  <<: *<%= ENV['DB'] || "postgresql" %>
 
 development:
-  <<: *default
-  database: wallaby_development
+  <<: *defaults
 
 test:
-  <<: *default
-  database: wallaby_test
+  <<: *defaults

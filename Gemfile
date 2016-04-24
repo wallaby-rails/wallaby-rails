@@ -16,6 +16,7 @@ gemspec
 group :development, :test do
   gem 'sqlite3'
   gem 'pg'
+  gem 'mysql2'
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'better_errors'

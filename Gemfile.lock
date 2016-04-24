@@ -115,6 +115,7 @@ GEM
     minitest (5.8.4)
     momentjs-rails (2.11.1)
       railties (>= 3.1)
+    mysql2 (0.3.17)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
@@ -207,6 +208,7 @@ DEPENDENCIES
   binding_of_caller
   database_cleaner
   ffaker
+  mysql2
   pg
   pry-rails
   rspec-rails
