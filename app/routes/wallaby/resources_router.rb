@@ -5,12 +5,12 @@ if Rails.env.development?
 
   # NOTE: we search for subclasses of Wallaby::ResourcesController and Wallaby::ResourceDecorator.
   # therefore, under development environment, we need to preload all classes under /app folder in main_app
-  # using `require` is not working for preloading, we need to classify the class names to make Rails reload classes properly
+  # using `require` is not working for preloading, we need to constantize the class names to make Rails reload classes properly
   Wallaby::ApplicationController
 
   Dir[ 'app/**/*.rb' ].each do |file_path|
     name = file_path[ %r(app/[^/]+/(.+)\.rb), 1 ]
-    name.classify.constantize
+    name.classify.constantize rescue nil
   end
 end
 
