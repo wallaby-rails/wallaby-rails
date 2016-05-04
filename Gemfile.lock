@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wallaby (4.0.0)
+    wallaby (4.0.1)
       bootstrap-sass
       bootstrap3-datetimepicker-rails
       cancancan
@@ -75,7 +75,7 @@ GEM
     codemirror-rails (5.11)
       railties (>= 3.0, < 5)
     coderay (1.1.1)
-    concurrent-ruby (1.0.1)
+    concurrent-ruby (1.0.2)
     database_cleaner (1.4.0)
     debug_inspector (0.0.2)
     devise (3.5.6)

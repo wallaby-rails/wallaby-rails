@@ -25,12 +25,10 @@ Wallaby is a Rails engine to manage your data. You could have a play with the [d
 
 ## What's new
 
-# v4.0.0
+# v4.0.1
 
-1. Used model class to dispatch requests to controllers
-2. Fixed sorting / remove link for custom fields on index page table headers
-3. Added types email and color for index/show/form
-4. Ensure all hashes used for fields is instance of HashWithIndifferentAccess
+1. Fixed an issue for loading irregular classes/files under /app folder
+2. Ensure to support mysql and sqlite
 
 For more, see [Changlog](CHANGELOG.md)
 

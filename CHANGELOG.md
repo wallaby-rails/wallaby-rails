@@ -1,15 +1,12 @@
-# v4.0.0
+# v4.0.1
 
-1. Used model class to dispatch requests to controllers
-2. Fixed sorting / remove link for custom fields on index page table headers
-3. Added types email and color for index/show/form
-4. Ensure all hashes used for fields is instance of HashWithIndifferentAccess
+1. Fixed an issue for loading irregular classes/files under /app folder
+2. Ensure to support mysql and sqlite
 
 # WIP Wish list
 
 - Add lint check
 - Change to use a mode so that multiple mode (active_record/mongoid/etc.) can be used at the same time
-- Ensure to support mysql and sqlite
 - Support for Single Table Inheritance (STI)
 - Improve colon search (maybe..)
 - Data audit (use papertrail) (maybe..)
@@ -21,6 +18,14 @@
 N/A
 
 # History:
+
+## v4.0.0
+
+1. Used model class to dispatch requests to controllers
+2. Fixed sorting / remove link for custom fields on index page table headers
+3. Added types email and color for index/show/form
+4. Ensure all hashes used for fields is instance of HashWithIndifferentAccess
+
 ## v4.0.0.rc
 
 1. Used Rails cache for caching subclasses
