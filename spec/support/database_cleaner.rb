@@ -28,10 +28,16 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
+    [ AllMysqlType, AllSqliteType ].each do |model_klass|
+      DatabaseCleaner[ :active_record, model: model_klass ].clean_with :truncation
+    end
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    [ AllMysqlType, AllSqliteType ].each do |model_klass|
+      DatabaseCleaner[ :active_record, model: model_klass ].strategy = :transaction
+    end
   end
 
   # config.before(:each, type: :feature) do
@@ -51,10 +57,16 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    [ AllMysqlType, AllSqliteType ].each do |model_klass|
+      DatabaseCleaner[ :active_record, model: model_klass ].start
+    end
   end
 
   config.after(:each) do
     DatabaseCleaner.clean
+    [ AllMysqlType, AllSqliteType ].each do |model_klass|
+      DatabaseCleaner[ :active_record, model: model_klass ].clean
+    end
   end
 
 end
