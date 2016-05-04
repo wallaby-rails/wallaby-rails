@@ -10,4 +10,5 @@ addons:
 script:
   - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
 before_script:
-  - psql -c 'create database wallaby_test' -U postgres
+  - mysql -e 'CREATE DATABASE wallaby_test;' -uroot
+  - psql -c 'CREATE DATABASE wallaby_test;' -U postgres
