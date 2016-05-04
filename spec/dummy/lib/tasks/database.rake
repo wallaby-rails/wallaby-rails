@@ -3,11 +3,12 @@ require 'active_record'
 # override database.rake
 Rake::Task["db:test:purge"].clear
 Rake::Task["db:test:load_schema"].clear
+Rake::Task["db:schema:load"].clear
 
-namespace :db do
+db_namespace = namespace :db do
   namespace :schema do
     desc 'Dump all database schema'
-    task :dump => %w(environment load_config) do
+    task dump: %w(environment load_config) do
       require 'active_record/schema_dumper'
       %w( postgresql mysql sqlite ).each do |type|
         schema_file = File.join ActiveRecord::Tasks::DatabaseTasks.db_dir, "#{ type }_schema.rb"
@@ -18,16 +19,20 @@ namespace :db do
       end
       db_namespace['schema:dump'].reenable
     end
+
+    desc "Recreate the test database from an existent schema.rb file"
+    task load: %w(db:test:load_schema) do
+    end
   end
 
   namespace :test do
     desc "Empty the test database"
-    task :purge => %w(environment load_config) do
+    task purge: %w(environment load_config) do
       ActiveRecord::Tasks::DatabaseTasks.purge_all
     end
 
     desc "Recreate the test database from an existent schema.rb file"
-    task :load_schema => %w(db:test:purge) do
+    task load_schema: %w(db:test:purge) do
       %w( postgresql mysql sqlite ).each do |type|
         begin
           ActiveRecord::Base.establish_connection type.to_sym
