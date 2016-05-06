@@ -18,25 +18,33 @@ class Wallaby::ResourcesRouter
   DEFAULT_CONTROLLER = Wallaby::ResourcesController
 
   def call(env)
-    params = env['action_dispatch.request.path_parameters']
-    find_controller_by(params[:resources]).action(params[:action]).call env
+    params          = env['action_dispatch.request.path_parameters']
+    controller      = find_controller_by params[:resources]
+    params[:action] = check_action_name_by controller, params
+
+    controller.action(params[:action]).call env
   rescue AbstractController::ActionNotFound, Wallaby::ModelNotFound
     DEFAULT_CONTROLLER.action(:not_found).call env
   end
 
   protected
-  def cached_subclasses
+  def cached_subclasses_map
     Rails.cache.fetch 'wallaby/resources_router' do
-      DEFAULT_CONTROLLER.subclasses.reject do |klass|
-        klass.name.blank?
-      end
+      map = DEFAULT_CONTROLLER.subclasses
+        .reject{ |klass| klass.name.blank? }
+        .map{ |klass| [ klass.model_class, klass ] }
+      Wallaby::Utils.to_hash map
     end
   end
 
   def find_controller_by(resources_name)
     model_class = Wallaby::Utils.to_model_class resources_name
-    cached_subclasses.find do |klass|
-      klass.model_class == model_class
-    end or DEFAULT_CONTROLLER
+    cached_subclasses_map[model_class] || DEFAULT_CONTROLLER
+  end
+
+  def check_action_name_by(controller, params)
+    params[:id].try do |id_action|
+      id_action if controller.public_method_defined? id_action
+    end || params[:action]
   end
 end
