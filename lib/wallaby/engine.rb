@@ -22,7 +22,7 @@ module Wallaby
     end
 
     initializer 'wallaby.initialize_cache' do |app|
-      Rails.cache.delete_matched %r(\Awallaby/)
+      Rails.cache.delete_matched 'wallaby/*'
     end
 
     initializer 'wallaby.assets.precompile' do |app|

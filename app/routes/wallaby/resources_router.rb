@@ -1,7 +1,7 @@
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
   Rails.logger.debug '--> [ Wallaby ] Ready to preload and clear cache on reload. <--'
-  Rails.cache.delete_matched %r(\Awallaby/)
+  Rails.cache.delete_matched 'wallaby/*'
 
   # NOTE: we search for subclasses of Wallaby::ResourcesController and Wallaby::ResourceDecorator.
   # therefore, under development environment, we need to preload all classes under /app folder in main_app
