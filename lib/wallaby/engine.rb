@@ -23,6 +23,10 @@ module Wallaby
 
     initializer 'wallaby.initialize_cache' do |app|
       Rails.cache.delete_matched 'wallaby/*'
+
+      ActionView::Template.class_eval do
+        register_template_handler :erb, Wallaby::CachedCompiledErb.new
+      end
     end
 
     initializer 'wallaby.assets.precompile' do |app|
