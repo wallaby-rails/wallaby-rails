@@ -1,10 +1,4 @@
-class Wallaby::ActiveRecord::ModelServicer
-  def initialize(model_class, model_decorator = nil)
-    fail ArgumentError, 'model class required' unless model_class
-    @model_class      = model_class
-    @model_decorator  = model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
-  end
-
+class Wallaby::ActiveRecord::ModelOperator < Wallaby::ModelOperator
   def collection(params, ability)
     query = querier.search params
     query = query.order params[:sort] if params[:sort].present?
@@ -71,18 +65,18 @@ class Wallaby::ActiveRecord::ModelServicer
   end
 
   def permitter
-    @permitter ||= Wallaby::ActiveRecord::ModelServicer::Permitter.new @model_decorator
+    @permitter ||= Wallaby::ActiveRecord::ModelOperator::Permitter.new @model_decorator
   end
 
   def querier
-    @querier ||= Wallaby::ActiveRecord::ModelServicer::Querier.new @model_decorator
+    @querier ||= Wallaby::ActiveRecord::ModelOperator::Querier.new @model_decorator
   end
 
   def normalizer
-    @normalizer ||= Wallaby::ActiveRecord::ModelServicer::Normalizer.new @model_decorator
+    @normalizer ||= Wallaby::ActiveRecord::ModelOperator::Normalizer.new @model_decorator
   end
 
   def validator
-    @validator ||= Wallaby::ActiveRecord::ModelServicer::Validator.new @model_decorator
+    @validator ||= Wallaby::ActiveRecord::ModelOperator::Validator.new @model_decorator
   end
 end

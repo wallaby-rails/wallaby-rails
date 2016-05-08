@@ -1,4 +1,4 @@
-class Wallaby::ActiveRecord::ModelServicer::Normalizer
+class Wallaby::ActiveRecord::ModelOperator::Normalizer
   def initialize(model_decorator)
     @model_decorator = model_decorator
   end

@@ -26,7 +26,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
 
   describe 'instance methods' do
     subject { described_class.new AllPostgresType }
-    let(:servicer)  { subject.instance_variable_get '@servicer' }
+    let(:delegator)  { subject.instance_variable_get '@delegator' }
     let(:params)    { parameters }
     let(:ability)   { Ability.new nil }
     let(:resource)  { AllPostgresType.new }
@@ -37,43 +37,43 @@ describe Wallaby::ModelServicer, clear: :object_space do
     end
 
     describe '#collection' do
-      it 'deletgates collection method to servicer' do
-        expect(servicer).to receive(:collection).with params, ability
+      it 'deletgates collection method to delegator' do
+        expect(delegator).to receive(:collection).with params, ability
         subject.collection params, ability
       end
     end
 
     describe '#new' do
-      it 'deletgates new method to servicer' do
-        expect(servicer).to receive(:new).with params
+      it 'deletgates new method to delegator' do
+        expect(delegator).to receive(:new).with params
         subject.new params
       end
     end
 
     describe '#find' do
-      it 'deletgates find method to servicer' do
-        expect(servicer).to receive(:find).with 1, params
+      it 'deletgates find method to delegator' do
+        expect(delegator).to receive(:find).with 1, params
         subject.find 1, params
       end
     end
 
     describe '#create' do
-      it 'deletgates create method to servicer' do
-        expect(servicer).to receive(:create).with params, ability
+      it 'deletgates create method to delegator' do
+        expect(delegator).to receive(:create).with params, ability
         subject.create params, ability
       end
     end
 
     describe '#update' do
-      it 'deletgates update method to servicer' do
-        expect(servicer).to receive(:update).with resource, params, ability
+      it 'deletgates update method to delegator' do
+        expect(delegator).to receive(:update).with resource, params, ability
         subject.update resource, params, ability
       end
     end
 
     describe '#destroy' do
-      it 'deletgates destroy method to servicer' do
-        expect(servicer).to receive(:destroy).with resource, params
+      it 'deletgates destroy method to delegator' do
+        expect(delegator).to receive(:destroy).with resource, params
         subject.destroy resource, params
       end
     end

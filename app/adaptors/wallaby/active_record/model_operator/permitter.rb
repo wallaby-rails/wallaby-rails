@@ -1,4 +1,4 @@
-class Wallaby::ActiveRecord::ModelServicer::Permitter
+class Wallaby::ActiveRecord::ModelOperator::Permitter
   def initialize(model_decorator)
     @model_decorator = model_decorator
   end

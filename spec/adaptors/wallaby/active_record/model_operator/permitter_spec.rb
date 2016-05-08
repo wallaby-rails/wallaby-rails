@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecord::ModelServicer::Permitter do
+describe Wallaby::ActiveRecord::ModelOperator::Permitter do
   subject { described_class.new model_decorator }
   let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new AllPostgresType }
 

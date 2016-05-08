@@ -4,7 +4,7 @@ describe Wallaby::ServicerFinder, clear: :object_space do
   describe '#find' do
     it 'finds the servicer' do
       stub_const 'ProductServicer', Class.new(Wallaby::ModelServicer)
-      allow(Wallaby).to receive_message_chain(:configuration, :adaptor, :model_servicer) { Wallaby::ModelServicer }
+      allow(Wallaby).to receive_message_chain(:configuration, :adaptor, :model_operator) { Wallaby::ModelServicer }
       allow(Wallaby::ServicerFinder).to receive(:cached_subclasses) { [ ProductServicer ] }
 
       expect(Wallaby::ServicerFinder.find Product).to eq ProductServicer

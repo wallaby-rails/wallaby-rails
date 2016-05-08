@@ -1,4 +1,4 @@
-class Wallaby::ActiveRecord::ModelServicer::Querier
+class Wallaby::ActiveRecord::ModelOperator::Querier
   def initialize(model_decorator)
     @model_decorator  = model_decorator
     @model_class      = @model_decorator.model_class

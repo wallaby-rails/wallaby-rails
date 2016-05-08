@@ -1,4 +1,4 @@
-class Wallaby::ActiveRecord::ModelServicer::Validator
+class Wallaby::ActiveRecord::ModelOperator::Validator
   def initialize(model_decorator)
     @model_decorator = model_decorator
   end

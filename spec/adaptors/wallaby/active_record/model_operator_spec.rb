@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecord::ModelServicer do
+describe Wallaby::ActiveRecord::ModelOperator do
   describe 'actions' do
     subject { described_class.new model_class, model_decorator }
     let(:model_class) { AllPostgresType }

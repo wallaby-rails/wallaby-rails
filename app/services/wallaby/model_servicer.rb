@@ -10,30 +10,30 @@ class Wallaby::ModelServicer
     @model_class      = model_class || self.class.model_class
     fail ArgumentError, 'model class required' unless @model_class
     @model_decorator  = model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
-    @servicer         = Wallaby.adaptor.model_servicer.new @model_class, @model_decorator
+    @delegator        = Wallaby.adaptor.model_operator.new @model_class, @model_decorator
   end
 
   def collection(params, ability)
-    @servicer.collection params, ability
+    @delegator.collection params, ability
   end
 
   def new(params)
-    @servicer.new params
+    @delegator.new params
   end
 
   def find(id, params)
-    @servicer.find id, params
+    @delegator.find id, params
   end
 
   def create(params, ability)
-    @servicer.create params, ability
+    @delegator.create params, ability
   end
 
   def update(resource, params, ability)
-    @servicer.update resource, params, ability
+    @delegator.update resource, params, ability
   end
 
   def destroy(resource, params)
-    @servicer.destroy resource, params
+    @delegator.destroy resource, params
   end
 end

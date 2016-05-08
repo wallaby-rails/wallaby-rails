@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecord::ModelServicer::Validator do
+describe Wallaby::ActiveRecord::ModelOperator::Validator do
   subject { described_class.new model_decorator }
   let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new AllPostgresType }
   let(:resource) { AllPostgresType.new }
