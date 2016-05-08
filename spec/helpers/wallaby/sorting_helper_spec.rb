@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::SortingHelper, :current_user do
   describe '#sort_link' do
-    let(:model_decorator) { Wallaby.adaptor.model_decorator.new Product }
+    let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new Product }
 
     it 'returns a sort link when field is origin and not associations' do
       expect(helper.sort_link 'tags', model_decorator).to eq "Tags"

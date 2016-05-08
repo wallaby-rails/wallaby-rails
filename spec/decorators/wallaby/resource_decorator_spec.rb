@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'wallaby/active_record'
 
 describe Wallaby::ResourceDecorator, clear: :object_space do
   describe 'class methods' do

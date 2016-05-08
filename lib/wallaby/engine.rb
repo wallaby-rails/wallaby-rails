@@ -37,3 +37,42 @@ module Wallaby
 end
 
 require 'wallaby/configuration'
+
+require 'interfaces/wallaby/mode'
+require 'interfaces/wallaby/model_decorator'
+require 'interfaces/wallaby/model_finder'
+require 'interfaces/wallaby/model_operator'
+
+require 'errors/wallaby/general_error'
+require 'errors/wallaby/deprecated'
+require 'errors/wallaby/invalid_error'
+require 'errors/wallaby/model_not_found'
+require 'errors/wallaby/not_authenticated'
+require 'errors/wallaby/not_implemented'
+require 'errors/wallaby/operation_not_found'
+require 'errors/wallaby/resource_not_found'
+
+require 'adaptors/wallaby/active_record'
+require 'adaptors/wallaby/active_record/model_decorator'
+require 'adaptors/wallaby/active_record/model_decorator/fields_builder'
+require 'adaptors/wallaby/active_record/model_decorator/title_field_finder'
+require 'adaptors/wallaby/active_record/model_finder'
+require 'adaptors/wallaby/active_record/model_operator'
+require 'adaptors/wallaby/active_record/model_operator/normalizer'
+require 'adaptors/wallaby/active_record/model_operator/permitter'
+require 'adaptors/wallaby/active_record/model_operator/querier'
+require 'adaptors/wallaby/active_record/model_operator/validator'
+
+require 'decorators/wallaby/resource_decorator'
+
+require 'forms/wallaby/form_builder'
+
+require 'handlers/wallaby/cached_compiled_erb'
+
+require 'services/wallaby/map'
+require 'services/wallaby/decorator_finder'
+require 'services/wallaby/lookup_context_wrapper'
+require 'services/wallaby/model_servicer'
+require 'services/wallaby/servicer_finder'
+
+require 'utils/wallaby/utils'

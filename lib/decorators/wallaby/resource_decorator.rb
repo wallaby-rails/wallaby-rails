@@ -8,7 +8,7 @@ class Wallaby::ResourceDecorator
 
     def model_decorator
       if self < Wallaby::ResourceDecorator
-        @model_decorator ||= Wallaby.adaptor.model_decorator.new model_class
+        @model_decorator ||= Wallaby::Map.model_decorator_map[model_class]
       end
     end
 
@@ -25,8 +25,7 @@ class Wallaby::ResourceDecorator
 
   def initialize(resource)
     @resource         = resource
-    @model_decorator  = self.class.model_decorator ||
-                        Wallaby.adaptor.model_decorator.new(model_class)
+    @model_decorator  = Wallaby::Map.model_decorator_map[model_class]
   end
 
   def method_missing(method_id, *args)

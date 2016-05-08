@@ -32,7 +32,7 @@ describe Wallaby::FormHelper do
     it 'returns a list of choise for select' do
       Product.create! name: 'Coconut'
       Product.create! name: 'Banana'
-      model_decorator = Wallaby.adaptor.model_decorator.new Product
+      model_decorator = Wallaby::ActiveRecord.model_decorator.new Product
       expect(helper.model_choices(model_decorator).map &:first).to eq [ "Coconut", "Banana"]
     end
   end

@@ -2,7 +2,7 @@ class Wallaby::DecoratorFinder
   DEFAULT_DECORATOR = Wallaby::ResourceDecorator
 
   def self.find_model(model_class)
-    find_class(model_class) || Wallaby.adaptor.model_decorator.new(model_class)
+    find_class(model_class) || Wallaby::Map.model_decorator_map[model_class]
   end
 
   def self.find_resource(model_class)
