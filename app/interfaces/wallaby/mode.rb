@@ -7,9 +7,9 @@ class Wallaby::Mode
         method_class  = __callee__.to_s.classify
         class_name    = "#{ name }::#{ method_class }"
         parent_class  = "Wallaby::#{ method_class }".constantize
-        klass         = class_name.constantize
-
-        fail Wallaby::InvalidError, "#{ klass } must inherit #{ parent_class }" unless klass < parent_class
+        class_name.constantize.tap do |klass|
+          fail Wallaby::InvalidError, "#{ klass } must inherit #{ parent_class }" unless klass < parent_class
+        end
       rescue NameError
         fail Wallaby::NotImplemented, class_name
       end

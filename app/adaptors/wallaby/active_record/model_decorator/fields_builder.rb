@@ -90,7 +90,9 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
   end
 
   def available_model_class
-    Wallaby.adaptor.model_finder.new.available
+    Wallaby::Map.mode_map.select do |_, mode|
+      mode == Wallaby::ActiveRecord
+    end.keys
   end
 
   def class_for(reflection)

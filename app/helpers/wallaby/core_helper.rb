@@ -45,8 +45,6 @@ module Wallaby::CoreHelper
   end
 
   def model_classes
-    Rails.cache.fetch 'wallaby/model_classes' do
-      Wallaby.adaptor.model_finder.new.available
-    end
+    Wallaby::Map.model_classes
   end
 end
