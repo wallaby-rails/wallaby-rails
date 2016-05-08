@@ -27,7 +27,8 @@ Wallaby::Engine.routes.draw do
         route.delete ':id',
           defaults: { action: 'destroy' }
       end
-      route.match ':id/:action', via: :all
+      route.match ':id/:action', via: :all, as: :member
+      route.match ':action', via: :all, as: :collection
     end
   end
 end

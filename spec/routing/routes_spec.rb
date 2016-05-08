@@ -89,4 +89,14 @@ describe 'routing', type: :request do
       get "#{ script_name }/status"
     end
   end
+
+  describe 'resource route helper' do
+    it 'has the following helpers' do
+      %w( resources new_resource edit_resource resource member collection ).map do |route_name|
+        "#{ route_name }_path"
+      end.each do |path|
+        expect(wallaby_engine).to respond_to path
+      end
+    end
+  end
 end
