@@ -15,6 +15,10 @@ module Wallaby
       @models ||= Models.new
     end
 
+    def models=(models)
+      self.models.set models
+    end
+
     def security
       @security ||= Security.new
     end

@@ -1,6 +1,21 @@
 require 'rails_helper'
 
 describe Wallaby::Configuration::Models do
+  describe '#set' do
+    it 'sets the models' do
+      expect(subject.set AllPostgresType).to eq [ AllPostgresType ]
+      expect(subject.set [ AllPostgresType ]).to eq [ AllPostgresType ]
+    end
+  end
+
+  describe '#presence' do
+    it 'returns presence of models' do
+      expect(subject.presence).to be_nil
+      subject.set AllPostgresType
+      expect(subject.presence).to eq [ AllPostgresType ]
+    end
+  end
+
   describe 'excludes' do
     it 'returns blank array by default' do
       expect(subject.excludes).to be_blank
