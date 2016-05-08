@@ -45,6 +45,6 @@ module Wallaby::CoreHelper
   end
 
   def model_classes
-    Wallaby::Map.model_classes
+    Wallaby::Map.model_classes.sort_by &:name
   end
 end
