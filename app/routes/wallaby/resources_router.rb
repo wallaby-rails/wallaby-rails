@@ -1,6 +1,7 @@
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
   Rails.logger.debug '--> [ Wallaby ] Ready to preload and clear cache on reload. <--'
+  GC.start
   Rails.cache.delete_matched 'wallaby/*'
 
   # NOTE: we search for subclasses of Wallaby::ResourcesController and Wallaby::ResourceDecorator.
@@ -8,10 +9,15 @@ if Rails.env.development?
   # using `require` is not working for preloading, we need to constantize the class names to make Rails reload classes properly
   Wallaby::ApplicationController
 
-  Dir[ 'app/**/*.rb' ].each do |file_path|
-    name = file_path[ %r(app/[^/]+/(.+)\.rb), 1 ]
-    name.classify.constantize rescue nil
+  def preload(file_pattern)
+    Dir[ file_pattern ].each do |file_path|
+      name = file_path[ %r(app/[^/]+/(.+)\.rb), 1 ]
+      name.classify.constantize rescue nil
+    end
   end
+
+  preload 'app/models/**.rb'
+  preload 'app/**/*.rb'
 end
 
 class Wallaby::ResourcesRouter
