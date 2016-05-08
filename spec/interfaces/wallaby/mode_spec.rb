@@ -9,6 +9,14 @@ describe Wallaby::Mode do
       it 'raises not implemented for class' do
         expect{ described_class.send method_id }.to raise_error Wallaby::NotImplemented, klass_name
       end
+
+      context 'when not inheriting the correct parent' do
+        it 'railse invalid error for inheritance' do
+          stub_const "#{ described_class }::#{ method_class }", Class.new
+
+          expect{ described_class.send method_id }.to raise_error Wallaby::InvalidError, "#{ described_class }::#{ method_class } must inherit Wallaby::#{ method_class }"
+        end
+      end
     end
   end
 end
