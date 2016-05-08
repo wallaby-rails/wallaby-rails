@@ -27,8 +27,8 @@ class Wallaby::Map
     end
   end
 
-  def self.decorator_map
-    Rails.cache.fetch 'wallaby/decorator_map' do
+  def self.model_decorator_map
+    Rails.cache.fetch 'wallaby/model_decorator_map' do
       mode_map.dup.tap do |map|
         map.each do |model_class, mode|
           map[model_class] = mode.model_decorator.new model_class
