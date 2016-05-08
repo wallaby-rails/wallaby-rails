@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Wallaby::Map do
   before do
     expect(Wallaby::Mode).to receive(:subclasses) { Array Wallaby::ActiveRecord }
-    allow_any_instance_of(Wallaby::ActiveRecord::ModelFinder).to receive(:available) { [ AllPostgresType, AllMysqlType, AllSqliteType ] }
+    allow_any_instance_of(Wallaby::ActiveRecord::ModelFinder).to receive(:all) { [ AllPostgresType, AllMysqlType, AllSqliteType ] }
   end
 
   describe '.mode_map' do

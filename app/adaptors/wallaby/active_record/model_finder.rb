@@ -1,5 +1,4 @@
 class Wallaby::ActiveRecord::ModelFinder < Wallaby::ModelFinder
-  protected
   def all
     Rails.cache.fetch 'wallaby/model_finder' do
       ActiveRecord::Base.subclasses.reject do |model_class|

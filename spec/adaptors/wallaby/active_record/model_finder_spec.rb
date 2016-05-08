@@ -12,20 +12,20 @@ describe Wallaby::ActiveRecord::ModelFinder, clear: :object_space do
 
     it 'returns valid model classes in alphabetic order' do
       allow(ActiveRecord::Base).to receive(:subclasses).and_return [ Airport, Airplane, Airline ]
-      expect(subject.send :all).to eq [ Airline, Airplane, Airport ]
+      expect(subject.all).to eq [ Airline, Airplane, Airport ]
     end
 
     context 'when there is abstract class' do
       it 'filters out abstract class' do
         allow(ActiveRecord::Base).to receive(:subclasses).and_return [ AbstractAirport ]
-        expect(subject.send :all).to be_blank
+        expect(subject.all).to be_blank
       end
     end
 
     context 'when there is HABTM class' do
       it 'filters out HABTM class' do
         allow(ActiveRecord::Base).to receive(:subclasses).and_return [ Airplane::HABTM_Airports ]
-        expect(subject.send :all).to be_blank
+        expect(subject.all).to be_blank
       end
     end
 
@@ -37,7 +37,7 @@ describe Wallaby::ActiveRecord::ModelFinder, clear: :object_space do
           end
         end
         allow(ActiveRecord::Base).to receive(:subclasses).and_return [ anonymous_class ]
-        expect(subject.send :all).to be_blank
+        expect(subject.all).to be_blank
       end
     end
   end
