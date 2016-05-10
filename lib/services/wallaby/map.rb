@@ -1,6 +1,6 @@
 class Wallaby::Map
   def self.mode_map(modes = nil)
-    Rails.cache.fetch 'wallaby/mode_map' do
+    Rails.cache.fetch 'wallaby/map/mode_map' do
       {}.tap do |map|
         (modes || Wallaby::Mode.subclasses).each do |mode_class|
           mode_class.model_finder.new.all.each do |model_class|
@@ -12,7 +12,7 @@ class Wallaby::Map
   end
 
   def self.model_classes(configuration = nil)
-    Rails.cache.fetch 'wallaby/model_classes' do
+    Rails.cache.fetch 'wallaby/map/model_classes' do
       models          = (configuration || Wallaby.configuration).models
       full_list       = mode_map.keys
       configed_models = models.presence
@@ -28,9 +28,17 @@ class Wallaby::Map
   end
 
   def self.controller_map
-    Rails.cache.fetch 'wallaby/controller_map' do
+    model_class_map Wallaby::ResourcesController, __callee__
+  end
+
+  def self.decorator_map
+    model_class_map Wallaby::ResourceDecorator, __callee__
+  end
+
+  def self.model_class_map(base_class, method_id)
+    Rails.cache.fetch "wallaby/map/#{ method_id }" do
       {}.tap do |map|
-        Wallaby::ResourcesController.subclasses
+        base_class.subclasses
         .reject{ |klass| klass.name.blank? }
         .each do |klass|
           map[klass.model_class] = klass
