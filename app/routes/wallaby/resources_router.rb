@@ -33,19 +33,10 @@ class Wallaby::ResourcesRouter
     DEFAULT_CONTROLLER.action(:not_found).call env
   end
 
-  protected
-  def cached_subclasses_map
-    Rails.cache.fetch 'wallaby/resources_router' do
-      map = DEFAULT_CONTROLLER.subclasses
-        .reject{ |klass| klass.name.blank? }
-        .map{ |klass| [ klass.model_class, klass ] }
-      Wallaby::Utils.to_hash map
-    end
-  end
-
+  private
   def find_controller_by(resources_name)
     model_class = Wallaby::Utils.to_model_class resources_name
-    cached_subclasses_map[model_class] || DEFAULT_CONTROLLER
+    Wallaby::Map.controller_map[model_class] || DEFAULT_CONTROLLER
   end
 
   def check_action_name_by(controller, params)

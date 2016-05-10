@@ -44,9 +44,9 @@ describe Wallaby::Map do
     end
   end
 
-  describe '.model_decorator_map' do
+  describe '.controller_map' do
     it 'returns model decorators' do
-      expect(described_class.model_decorator_map.values).to all be_a Wallaby::ModelDecorator
+      expect(described_class.controller_map.values).to all be_a Wallaby::ResourcesController
     end
   end
 end

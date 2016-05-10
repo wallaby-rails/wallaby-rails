@@ -27,11 +27,13 @@ class Wallaby::Map
     end
   end
 
-  def self.model_decorator_map
-    Rails.cache.fetch 'wallaby/model_decorator_map' do
-      mode_map.dup.tap do |map|
-        map.each do |model_class, mode|
-          map[model_class] = mode.model_decorator.new model_class
+  def self.controller_map
+    Rails.cache.fetch 'wallaby/controller_map' do
+      {}.tap do |map|
+        Wallaby::ResourcesController.subclasses
+        .reject{ |klass| klass.name.blank? }
+        .each do |klass|
+          map[klass.model_class] = klass
         end
       end
     end

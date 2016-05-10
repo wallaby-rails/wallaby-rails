@@ -42,7 +42,7 @@ describe 'routing', type: :request do
   context 'when target resources controller exists' do
     it 'routes to the general resourceful routes' do
       class Alien; end
-      class AliensController < Wallaby::ResourcesController; end
+      class AliensController < Wallaby::ResourcesController; def history; end; end
       controller  = AliensController
       resources   = 'aliens'
 
@@ -75,6 +75,9 @@ describe 'routing', type: :request do
 
       expect(controller).to receive(:action).with('history') { mocked_response }
       get "#{ script_name }/#{ resources }/1/history"
+
+      expect(controller).to receive(:action).with('history') { mocked_response }
+      get "#{ script_name }/#{ resources }/history"
     end
   end
 
