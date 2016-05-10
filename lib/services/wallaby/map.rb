@@ -35,6 +35,10 @@ class Wallaby::Map
     model_class_map Wallaby::ResourceDecorator, __callee__
   end
 
+  def self.servicer_map
+    model_class_map Wallaby::ModelServicer, __callee__
+  end
+
   def self.model_class_map(base_class, method_id)
     Rails.cache.fetch "wallaby/map/#{ method_id }" do
       {}.tap do |map|
