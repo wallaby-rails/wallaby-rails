@@ -1,6 +1,6 @@
 class Wallaby::ActiveRecord::ModelFinder < Wallaby::ModelFinder
   def all
-    Rails.cache.fetch 'wallaby/model_finder' do
+    Rails.cache.fetch 'wallaby/active_record/model_finder' do
       ActiveRecord::Base.subclasses.reject do |model_class|
         model_class.abstract_class? ||
         model_class.to_s.start_with?('#<') ||
