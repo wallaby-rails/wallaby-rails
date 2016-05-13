@@ -2,12 +2,12 @@
 
 ![Travis CI](https://travis-ci.org/reinteractive/wallaby.svg)
 
-Wallaby is a Rails engine to manage your data. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
+Wallaby is a Rails engine to manage data, and it can be easily customized in Rails way using controllers and views. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
 
 ## Features
 
 - It supports Devise and CanCanCan, and provides configurations for your own authentication.
-- Ready to use, neat looking. And you won't miss any of these features (search/pagination/sorting/form validation/flash messages).
+- Easy setup, ready for use, neat looking. And you won't miss any of these features (search/pagination/sorting/form validation/flash messages).
 - No DSL, pure Rails and minimum learning curve required. So it's easy to customize things by extending controllers and partials, and it applies best practices such as Decorator and Service Object. (see [Customization](CUSTOMIZATION.md))
 
 ### Support
@@ -25,12 +25,16 @@ Wallaby is a Rails engine to manage your data. You could have a play with the [d
 
 ## What's new
 
-# v4.0.1
+# v4.1.0
 
-1. Fixed an issue for loading irregular classes/files under /app folder
-2. Ensure to support mysql and sqlite
+1. Added concept Mode to allow Wallaby to pick up multiple ORM adaptors apart from ActiveRecord
+2. Caching improvements:
+  - Cached compiled ERB template (not for development)
+  - Most Rails cache implementation for delete_match takes string instead of regex
+  - Cached Calculations for finding a subclass
+3. Resolve an issue when a file under `/app` folder is not following Rails convention (e.g. class `CSV` in `csv.rb`) or if it is a module declaration under `concerns` folder, it raises load error on booting up Rails server
 
-For more, see [Changlog](CHANGELOG.md)
+For more, see [Changelog](CHANGELOG.md)
 
 ## Installation
 
