@@ -6,7 +6,7 @@ class Wallaby::ApplicationController < ::Wallaby.configuration.base_controller
   rescue_from ActionController::ParameterMissing, with: :unprocessable_entity
 
   def not_found(exception = nil)
-    @exception = exception || Wallaby::OperationNotFound.new(params[:action])
+    @exception = exception
     render 'wallaby/errors/not_found', status: 404
   end
 
