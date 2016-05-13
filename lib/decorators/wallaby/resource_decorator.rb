@@ -2,7 +2,7 @@ class Wallaby::ResourceDecorator
   class << self
     def model_class
       if self < Wallaby::ResourceDecorator
-        @model_class ||= name.gsub('Decorator', '').constantize
+        @model_class ||= Wallaby::Utils.to_model_class name.gsub('Decorator', ''), name
       end
     end
 

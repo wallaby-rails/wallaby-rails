@@ -1,8 +1,7 @@
 class Wallaby::ModelServicer
   def self.model_class
     if self < Wallaby::ModelServicer
-      class_name = name.gsub('Servicer', '')
-      class_name.constantize rescue fail Wallaby::ModelNotFound, class_name
+      Wallaby::Utils.to_model_class name.gsub('Servicer', ''), name
     end
   end
 

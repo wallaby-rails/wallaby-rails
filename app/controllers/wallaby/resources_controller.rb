@@ -8,7 +8,7 @@ module Wallaby
 
     def self.model_class
       if self < Wallaby::ResourcesController
-        Wallaby::Utils.to_model_class name.gsub('Controller', '')
+        Wallaby::Utils.to_model_class name.gsub('Controller', ''), name
       end
     end
 

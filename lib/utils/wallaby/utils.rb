@@ -14,11 +14,15 @@ module Wallaby::Utils
     resources_name.to_s.singularize.gsub('::', '/').camelize
   end
 
-  def self.to_model_class(resources_name)
+  def self.to_model_class(resources_name, source = nil)
     return if resources_name.blank?
-    class_name = to_model_name resources_name
-    class_name.constantize rescue
-      fail Wallaby::ModelNotFound.new class_name
+    begin
+      class_name = to_model_name resources_name
+      class_name.constantize
+    rescue
+      message = [ class_name, source ].compact.join(' from ')
+      fail Wallaby::ModelNotFound, message
+    end
   end
 
   def self.to_hash(array)
