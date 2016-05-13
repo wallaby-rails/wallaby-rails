@@ -11,8 +11,12 @@ if Rails.env.development?
 
   def preload(file_pattern)
     Dir[ file_pattern ].each do |file_path|
-      name = file_path[ %r(app/[^/]+/(.+)\.rb), 1 ]
-      name.classify.constantize rescue nil
+      begin
+        name = file_path[ %r(app/[^/]+/(.+)\.rb), 1 ].gsub('concerns/', '')
+        name.classify.constantize
+      rescue LoadError => e
+        Rails.logger.debug "PRELOAD ERROR: #{ e.message }"
+      end
     end
   end
 
@@ -29,7 +33,8 @@ class Wallaby::ResourcesRouter
     params[:action] = check_action_name_by controller, params
 
     controller.action(params[:action]).call env
-  rescue AbstractController::ActionNotFound, Wallaby::ModelNotFound
+  rescue AbstractController::ActionNotFound, Wallaby::ModelNotFound => e
+    params[:error] = e
     DEFAULT_CONTROLLER.action(:not_found).call env
   end
 
