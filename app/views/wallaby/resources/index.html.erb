@@ -54,13 +54,13 @@ decorated_collection = decorate collection
   </table>
   <% # /Data table %>
   <% # Kaminari pagination %>
-  <% if defined?(Kaminari) && collection.present? && collection.respond_to?(:total_pages) %>
+  <% if paginatable? collection %>
     <div class="kaminari clearfix">
       <div class="pull-left pagination-info">
-        <%= page_entries_info collection %>
+        <%= page_entries_info collection rescue custom_pagination_stats collection %>
       </div>
       <% _with_routes wallaby_engine do %>
-        <%= paginate collection %>
+        <%= paginate collection rescue nil %>
       <% end %>
     </div>
   <% end %>
