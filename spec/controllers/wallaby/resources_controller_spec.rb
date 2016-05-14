@@ -71,7 +71,10 @@ describe Wallaby::ResourcesController do
         class Planet; end
       end
 
-      before { controller.params[:action] = 'index' }
+      before do
+        controller.env['SCRIPT_NAME'] = '/admin'
+        controller.params[:action] = 'index'
+      end
 
       it 'returns prefixes' do
         allow(controller).to receive(:current_resources_name) { 'wallaby/resources' }
@@ -81,7 +84,7 @@ describe Wallaby::ResourcesController do
       context 'when current_resources_name is different' do
         it 'returns prefixes' do
           allow(controller).to receive(:current_resources_name) { 'products' }
-          expect(controller.send :_prefixes).to eq [ 'products/index', 'products', 'wallaby/resources/index', 'wallaby/resources' ]
+          expect(controller.send :_prefixes).to eq [ 'admin/products/index', 'admin/products', 'wallaby/resources/index', 'wallaby/resources' ]
         end
       end
 
@@ -95,7 +98,7 @@ describe Wallaby::ResourcesController do
           context 'when current_resources_name is different' do
             it 'returns prefixes' do
               allow(controller).to receive(:current_resources_name) { 'mars' }
-              expect(controller.send :_prefixes).to eq [ 'mars/index', 'mars', 'space/planets/index', 'space/planets', 'wallaby/resources/index', 'wallaby/resources' ]
+              expect(controller.send :_prefixes).to eq [ 'admin/mars/index', 'admin/mars', 'space/planets/index', 'space/planets', 'wallaby/resources/index', 'wallaby/resources' ]
             end
           end
         end
@@ -113,7 +116,7 @@ describe Wallaby::ResourcesController do
           context 'when current_resources_name is different' do
             it 'returns prefixes' do
               allow(controller).to receive(:current_resources_name) { 'products' }
-              expect(controller.send :_prefixes).to eq [ 'products/form', 'products', 'wallaby/resources/form', 'wallaby/resources' ]
+              expect(controller.send :_prefixes).to eq [ 'admin/products/form', 'admin/products', 'wallaby/resources/form', 'wallaby/resources' ]
             end
           end
 
@@ -127,7 +130,7 @@ describe Wallaby::ResourcesController do
               context 'when current_resources_name is different' do
                 it 'returns prefixes' do
                   allow(controller).to receive(:current_resources_name) { 'mars' }
-                  expect(controller.send :_prefixes).to eq [ 'mars/form', 'mars', 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
+                  expect(controller.send :_prefixes).to eq [ 'admin/mars/form', 'admin/mars', 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources' ]
                 end
               end
             end

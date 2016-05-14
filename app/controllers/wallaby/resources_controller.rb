@@ -63,13 +63,16 @@ module Wallaby
     protected
     def _prefixes
       @_prefixes ||= begin
-        resources_prefix  = current_resources_name.gsub '::', '/'
+        current_script    = env['SCRIPT_NAME'].try(:[], 1..-1).presence
+        resource_path     = current_resources_name.gsub '::', '/'
+        script_prefix     = [ current_script, resource_path ].compact.join '/'
+
         wallaby_path      = Wallaby::ResourcesController.controller_path
         suffix            = %w( new create edit update ).include?(params[:action]) ? 'form' : params[:action]
 
         minimal_prefixes  = super[0..super.index(wallaby_path)]
-        unless minimal_prefixes.index resources_prefix
-          minimal_prefixes.unshift resources_prefix
+        if resource_path != controller_path
+          minimal_prefixes.unshift script_prefix
         end
 
         minimal_prefixes.map do |prefix|
