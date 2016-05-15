@@ -1,12 +1,6 @@
-# v4.0.1
-
-1. Fixed an issue for loading irregular classes/files under /app folder
-2. Ensure to support mysql and sqlite
-
 # WIP Wish list
 
 - Add lint check
-- Change to use a mode so that multiple mode (active_record/mongoid/etc.) can be used at the same time
 - Support for Single Table Inheritance (STI)
 - Improve colon search (maybe..)
 - Data audit (use papertrail) (maybe..)
@@ -18,6 +12,20 @@
 N/A
 
 # History:
+
+## 4.1.0
+
+1. Added concept Mode to allow Wallaby to pick up multiple ORM adaptors apart from ActiveRecord
+2. Caching improvements:
+- Cached compiled ERB template (not for development)
+- Most Rails cache implementation for delete_match takes string instead of regex
+- Cached Calculations for finding a subclass
+3. Resolve an issue when a file under `/app` folder is not following Rails convention (e.g. class `CSV` in `csv.rb`) or if it is a module declaration under `concerns` folder, it raises load error on booting up Rails server
+
+## v4.0.1
+
+1. Fixed an issue for loading irregular classes/files under /app folder
+2. Ensure to support mysql and sqlite
 
 ## v4.0.0
 

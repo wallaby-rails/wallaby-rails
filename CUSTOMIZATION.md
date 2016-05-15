@@ -148,21 +148,18 @@ class ProductDecorator < Wallaby::ResourceDecorator
 end
 ```
 
-Then we need to add a partial for it. The partial can be either created under
-
-```
-#!app/views/products/index/_markdown.html.erb
-```
-
-If it's product specific. Or
-
-```
-#!app/views/wallaby/resources/index/_markdown.html.erb
-```
-
-If it applies to all markdown fields.
+Then we need to add a partial for it. The partial can be created as one of the following paths:
 
 ```erb
+<% # If no custom controller is created %>
+<% #!app/views/admin/products/index/_markdown.html.erb %>
+
+<% # If custom controller is created %>
+<% #!app/views/products/index/_markdown.html.erb %>
+
+<% # Otherwise, fall back to %>
+<% #!app/views/wallaby/resources/index/_markdown.html.erb %>
+
 <%= markdown.render value  %>
 ```
 

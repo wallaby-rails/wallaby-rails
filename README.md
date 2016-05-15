@@ -1,6 +1,6 @@
 # Wallaby
 
-![Travis CI](https://travis-ci.org/reinteractive/wallaby.svg)
+![Travis CI](https://travis-ci.org/reinteractive/wallaby.svg) ![Code Climate](https://codeclimate.com/github/reinteractive/wallaby/badges/gpa.svg)
 
 Wallaby is a Rails engine to manage data, and it can be easily customized in Rails way using controllers and views. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
 
@@ -25,14 +25,22 @@ Wallaby is a Rails engine to manage data, and it can be easily customized in Rai
 
 ## What's new
 
-# v4.1.0
+# v4.1.1
 
-1. Added concept Mode to allow Wallaby to pick up multiple ORM adaptors apart from ActiveRecord
-2. Caching improvements:
-  - Cached compiled ERB template (not for development)
-  - Most Rails cache implementation for delete_match takes string instead of regex
-  - Cached Calculations for finding a subclass
-3. Resolve an issue when a file under `/app` folder is not following Rails convention (e.g. class `CSV` in `csv.rb`) or if it is a module declaration under `concerns` folder, it raises load error on booting up Rails server
+1. Update view paths precedence from high to low:
+
+    - app/views/WALLABY_ENGINE_MOUNT_PATH/RESOURCES_NAME/*
+    - app/views/CUSTOM_CONTROLLER_PATH/*
+    - app/view/wallaby/resources/*
+
+    > **WALLABY_ENGINE_MOUNT_PATH** is the path where wallaby engine is mounted to. e.g. admin
+    > **RESOURCES_NAME** is the path formed by model class's plural noun. e.g. order/items
+    > **CUSTOM_CONTROLLER_PATH** is the controller path of the controller that inherits from *Wallaby::ResourcesController*
+
+
+2. Bugfix: replace \@import with require for summernote to avoid error `invalid byte sequence in UTF-8`
+3. Enforce wallaby application controller to use designated layout `wallaby/application` especially when it inherits from main app's application controller.
+4. Rescue pagination entry from throwing error when Kaminari is not used.
 
 For more, see [Changelog](CHANGELOG.md)
 
