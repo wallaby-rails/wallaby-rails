@@ -60,9 +60,13 @@ class Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder
   end
 
   def foreign_key_for(reflection, type)
-    foreign_key = reflection.association_foreign_key
-    foreign_key = "#{ foreign_key }s" if /many/ =~ type
-    foreign_key
+    if 'belongs_to' == type
+      reflection.foreign_key
+    else
+      reflection.association_foreign_key.try do |foreign_key|
+        /many/ =~ type ? "#{ foreign_key }s" : foreign_key
+      end
+    end
   end
 
   def polymorphic_type_for(reflection, type)
