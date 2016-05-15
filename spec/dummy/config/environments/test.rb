@@ -40,10 +40,4 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.cache_store = :null_store
-
-  # Assets config for test
-  config.assets.compile = false
-  config.assets.compress = false
-  config.assets.debug = false
-  config.assets.digest = false
 end
