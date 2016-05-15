@@ -13,6 +13,23 @@ N/A
 
 # History:
 
+## 4.1.1
+
+1. Update view paths precedence from high to low:
+
+    - app/views/WALLABY_ENGINE_MOUNT_PATH/RESOURCES_NAME/*
+    - app/views/CUSTOM_CONTROLLER_PATH/*
+    - app/view/wallaby/resources/*
+
+    > **WALLABY_ENGINE_MOUNT_PATH** is the path where wallaby engine is mounted to. e.g. admin
+    > **RESOURCES_NAME** is the path formed by model class's plural noun. e.g. order/items
+    > **CUSTOM_CONTROLLER_PATH** is the controller path of the controller that inherits from *Wallaby::ResourcesController*
+
+
+2. Bugfix: replace @import with require for summernote to avoid error `invalid byte sequence in UTF-8`
+3. Enforce wallaby application controller to use designated layout `wallaby/application` especially when it inherits from main app's application controller.
+4. Rescue pagination entry from throwing error when Kaminari is not used.
+
 ## 4.1.0
 
 1. Added concept Mode to allow Wallaby to pick up multiple ORM adaptors apart from ActiveRecord
