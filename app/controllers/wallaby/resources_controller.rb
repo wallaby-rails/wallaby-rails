@@ -1,5 +1,7 @@
 module Wallaby
   class ResourcesController < CoreController
+    helper Wallaby::ResourcesHelper
+
     def self.resources_name
       if self < Wallaby::ResourcesController
         Wallaby::Utils.to_resources_name name.gsub('Controller', '')

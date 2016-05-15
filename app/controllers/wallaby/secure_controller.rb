@@ -1,5 +1,7 @@
 module Wallaby
   class SecureController < ApplicationController
+    helper Wallaby::SecureHelper
+
     rescue_from Wallaby::NotAuthenticated, with: :not_authenticated
     rescue_from CanCan::AccessDenied, with: :access_denied
     helper_method :current_user

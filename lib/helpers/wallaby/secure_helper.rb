@@ -8,14 +8,14 @@ module Wallaby::SecureHelper
     end
   end
 
-  def logout_path(user = current_user)
+  def logout_path(user = current_user, app = main_app)
     path = if defined? Devise
       scope = Devise::Mapping.find_scope! user
       "destroy_#{ scope }_session_path"
     else
       'logout_path'
     end
-    main_app.send path if main_app.respond_to? path
+    app.send path if app.respond_to? path
   end
 
   def logout_method

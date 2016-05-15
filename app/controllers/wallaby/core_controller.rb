@@ -1,5 +1,7 @@
 module Wallaby
   class CoreController < SecureController
+    helper Wallaby::CoreHelper
+
     before_action :authenticate_user!, except: [ :status ]
 
     def status

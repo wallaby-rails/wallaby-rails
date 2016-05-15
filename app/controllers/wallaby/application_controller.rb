@@ -1,4 +1,6 @@
 class Wallaby::ApplicationController < ::Wallaby.configuration.base_controller
+  helper Wallaby::ApplicationHelper
+
   rescue_from \
     Wallaby::ResourceNotFound,
     Wallaby::ModelNotFound,

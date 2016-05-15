@@ -76,3 +76,14 @@ require 'services/wallaby/model_servicer'
 require 'services/wallaby/servicer_finder'
 
 require 'utils/wallaby/utils'
+
+require 'helpers//wallaby/form_helper'
+require 'helpers//wallaby/links_helper'
+require 'helpers//wallaby/paginatable_helper'
+require 'helpers//wallaby/sorting_helper'
+require 'helpers//wallaby/styling_helper'
+
+require 'helpers//wallaby/resources_helper'
+require 'helpers//wallaby/core_helper'
+require 'helpers//wallaby/secure_helper'
+require 'helpers//wallaby/application_helper'
