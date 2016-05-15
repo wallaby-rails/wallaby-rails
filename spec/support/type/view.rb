@@ -8,4 +8,11 @@ RSpec.configure do |config|
       mocks.verify_partial_doubles = true
     end
   end
+
+  config.before :each, type: :view do
+    view.extend Wallaby::ApplicationHelper
+    view.extend Wallaby::SecureHelper
+    view.extend Wallaby::CoreHelper
+    view.extend Wallaby::ResourcesHelper
+  end
 end

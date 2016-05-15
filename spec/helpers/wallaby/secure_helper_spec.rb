@@ -16,25 +16,19 @@ describe Wallaby::SecureHelper, clear: :object_space do
   end
 
   describe '#logout_path' do
-    before do
-      allow(main_app).to receive(:logout_path).and_return('/logout_path')
-    end
-
     it 'returns main app logout_path' do
+      main_app = double logout_path: '/logout_path'
       hide_const 'Devise'
-      expect(helper.logout_path nil).to eq '/logout_path'
+      expect(helper.logout_path nil, main_app).to eq '/logout_path'
     end
 
     context 'when it has devise scope' do
-      before do
-        allow(main_app).to receive(:destroy_user_session_path).and_return('/destroy_user_session_path')
-      end
-
       it 'returns devise path' do
+        main_app = double destroy_user_session_path: '/destroy_user_session_path'
         stub_const('Devise::Mapping', Class.new do
           def self.find_scope!(user); 'user'; end
         end)
-        expect(helper.logout_path nil).to eq '/destroy_user_session_path'
+        expect(helper.logout_path nil, main_app).to eq '/destroy_user_session_path'
       end
     end
   end
