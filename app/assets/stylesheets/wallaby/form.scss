@@ -1,21 +1,11 @@
 //= require codemirror
 //= require jquery.minicolors
-//= require summernote
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 @import 'bootstrap-datetimepicker';
+@import 'wallaby/summernote';
 
 .CodeMirror {
   height: 168px;
   border: 1px solid #eeeeee;
-}
-
-// overwrite the font-face for summernote
-@font-face
-{
-  font-family: "summernote";
-  font-style: normal;
-  font-weight: normal;
-  src: font-url("summernote.eot");
-  src: font-url("summernote.eot?#iefix") format("embedded-opentype"),font-url("summernote.woff") format("woff"),font-url("summernote.ttf") format("truetype");
 }
