@@ -25,10 +25,9 @@ Wallaby is a Rails engine to manage data, and it can be easily customized in Rai
 
 ## What's new
 
-# v4.1.2
+# 4.1.3
 
-1. Moved all helpers into lib folder and included these helpers explicitly in controllers so that they won't be shared with the main_app
-2. Resolved an assets issue for summernote by dynamically converting summernote.css into wallaby/summernote.scss
+1. Bugfix: when it's belongs-to relationship, it should take foreign_key instead of association_foreign_key as foreign key.
 
 For more, see [Changelog](CHANGELOG.md)
 
