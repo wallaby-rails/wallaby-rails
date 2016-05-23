@@ -15,7 +15,7 @@ module Wallaby::SecureHelper
     else
       'logout_path'
     end
-    app.send path if app.respond_to? path
+    app.public_send path if app.respond_to? path
   end
 
   def logout_method

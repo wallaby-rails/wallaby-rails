@@ -39,7 +39,7 @@ module Wallaby::ResourcesHelper
     fail ArgumentError unless field_name.present? && decorated.is_a?(Wallaby::ResourceDecorator)
 
     locals[:metadata] = decorated.metadata_of field_name
-    locals[:value]    = decorated.send field_name
+    locals[:value]    = decorated.public_send field_name
 
     render(options, locals, &block) or render('string', locals, &block)
   end

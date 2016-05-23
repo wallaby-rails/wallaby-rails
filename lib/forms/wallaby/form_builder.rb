@@ -18,7 +18,7 @@ class Wallaby::FormBuilder < ActionView::Helpers::FormBuilder
   def method_missing(method, *args, &block)
     if @template.respond_to? method
       self.class.delegate method, to: :@template
-      @template.send method, *args, &block
+      @template.public_send method, *args, &block
     else
       super
     end

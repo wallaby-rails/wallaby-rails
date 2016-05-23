@@ -30,7 +30,7 @@ class Wallaby::ResourceDecorator
 
   def method_missing(method_id, *args)
     if @resource.respond_to? method_id
-      @resource.send method_id, *args
+      @resource.public_send method_id, *args
     else
       super
     end
@@ -61,7 +61,7 @@ class Wallaby::ResourceDecorator
   end
 
   def primary_key_value
-    @resource.send primary_key
+    @resource.public_send primary_key
   end
 
   [ '', 'index_', 'show_', 'form_' ].each do |prefix|

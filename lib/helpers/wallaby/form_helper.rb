@@ -7,7 +7,7 @@ module Wallaby::FormHelper
 
     locals[:object]   = object = form.object
     locals[:metadata] = object.metadata_of locals[:field_name]
-    locals[:value]    = object.send locals[:field_name]
+    locals[:value]    = object.public_send locals[:field_name]
 
     render(options, locals, &block) or render('string', locals, &block)
   end

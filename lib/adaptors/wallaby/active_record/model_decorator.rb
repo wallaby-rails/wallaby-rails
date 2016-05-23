@@ -42,7 +42,7 @@ class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   end
 
   def guess_title(resource)
-    resource.send title_field_finder.find
+    resource.public_send title_field_finder.find
   end
 
   protected
