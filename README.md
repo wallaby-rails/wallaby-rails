@@ -25,9 +25,10 @@ Wallaby is a Rails engine to manage data, and it can be easily customized in Rai
 
 ## What's new
 
-# 4.1.3
+# 4.1.4
 
-1. Bugfix: when it's belongs-to relationship, it should take foreign_key instead of association_foreign_key as foreign key.
+1. Bugfix: rescue NameError for Rails reload
+2. Bugfix: replace send to public_send
 
 For more, see [Changelog](CHANGELOG.md)
 

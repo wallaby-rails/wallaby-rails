@@ -13,6 +13,10 @@ N/A
 
 # History:
 
+## 4.1.3
+
+1. Bugfix: when it's belongs-to relationship, it should take foreign_key instead of association_foreign_key as foreign key.
+
 ## 4.1.2
 
 1. Moved all helpers into lib folder and included these helpers explicitly in controllers so that they won't be shared with the main_app
