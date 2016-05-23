@@ -14,7 +14,7 @@ if Rails.env.development?
       begin
         name = file_path[ %r(app/[^/]+/(.+)\.rb), 1 ].gsub('concerns/', '')
         name.classify.constantize
-      rescue LoadError => e
+      rescue NameError, LoadError => e
         Rails.logger.debug "PRELOAD ERROR: #{ e.message }"
       end
     end
