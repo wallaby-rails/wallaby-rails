@@ -6,8 +6,8 @@ decorated_collection = decorate collection
   <% # Search form %>
   <div class="search-form <%= params[:sort].present? && 'sort' || '' %>">
     <div class="right">
-      <%= new_link(current_model_class, class: 'btn btn-primary') { ct 'link.new' } %>
       <%= index_link(current_model_class, class: 'btn btn-default') { ct 'link.clear_sort' } if params[:sort].present? %>
+      <%= render 'index_actions' %>
     </div>
     <%= form_tag wallaby_engine.resources_path, method: :get do %>
       <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search. Example: 'text_keyword1 text_keyword2 field_name:value'"  %>
@@ -37,9 +37,7 @@ decorated_collection = decorate collection
               </td>
             <% end %>
             <td>
-              <%= show_link(decorated, class: 'text-info') { itooltip ct('link.show'), 'link' } %>
-              <%= edit_link(decorated) { itooltip ct('link.edit'), 'pencil' } %>
-              <%= delete_link(decorated) { itooltip ct('link.delete'), 'trash' } %>
+              <%= render 'resource_actions', decorated: decorated %>
             </td>
           </tr>
         <% end %>
