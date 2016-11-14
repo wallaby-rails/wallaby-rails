@@ -11,7 +11,7 @@ describe Wallaby::FormHelper do
       expect{ helper.form_type_partial_render 'integer', field_name: 'name' }.to raise_error ArgumentError
       expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
 
-      expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: form }.not_to raise_error ArgumentError
+      expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: form }.not_to raise_error
     end
 
     describe 'partials', prefixes: [ 'wallaby/resources/form' ] do

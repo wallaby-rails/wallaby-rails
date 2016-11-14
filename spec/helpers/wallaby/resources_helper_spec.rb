@@ -36,7 +36,7 @@ describe Wallaby::ResourcesHelper do
       expect{ helper.type_partial_render 'integer', field_name: 'name' }.to raise_error ArgumentError
       expect{ helper.type_partial_render 'integer', field_name: 'name', object: Product.new }.to raise_error ArgumentError
 
-      expect{ helper.type_partial_render 'integer', field_name: 'name', object: object }.not_to raise_error ArgumentError
+      expect{ helper.type_partial_render 'integer', field_name: 'name', object: object }.not_to raise_error
     end
 
     describe 'partials', prefixes: [ 'wallaby/resources/index' ] do

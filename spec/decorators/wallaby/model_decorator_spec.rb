@@ -27,11 +27,11 @@ describe Wallaby::ModelDecorator do
       described_class.subclasses.each do |klass|
         instance = klass.new nil
         [ '', 'index_', 'show_', 'form_' ].each do |prefix|
-          expect{ instance.send "#{ prefix }fields" }.not_to raise_error Wallaby::NotImplemented
+          expect{ instance.send "#{ prefix }fields" }.not_to raise_error
         end
-        expect{ instance.form_active_errors nil }.not_to raise_error Wallaby::NotImplemented
-        expect{ instance.primary_key }.not_to raise_error Wallaby::NotImplemented
-        expect{ instance.guess_title nil }.not_to raise_error Wallaby::NotImplemented
+        expect{ instance.form_active_errors nil }.not_to raise_error
+        expect{ instance.primary_key }.not_to raise_error
+        expect{ instance.guess_title nil }.not_to raise_error
       end
     end
   end
