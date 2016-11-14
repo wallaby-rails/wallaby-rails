@@ -5,7 +5,7 @@ describe Wallaby::ApplicationHelper do
     it 'removes resources and action' do
       helper.params[:resources] = 'all_postgres_type'
       helper.params[:action] = 'index'
-      expect(helper.clean_params).to eq Hash.new
+      expect(helper.clean_params).to eq parameters
     end
   end
 
