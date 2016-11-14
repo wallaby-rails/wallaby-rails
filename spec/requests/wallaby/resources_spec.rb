@@ -47,7 +47,7 @@ describe 'Resources pages using postgresql table' do
   describe '#create' do
     it 'creates the record' do
       expect(model_class.count).to eq 0
-      post '/admin/all_postgres_types', all_postgres_type: { string: string }
+      post '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }
       expect(response).to redirect_to '/admin/all_postgres_types'
       expect(model_class.count).to eq 1
       expect(model_class.first.string).to eq string
@@ -58,7 +58,7 @@ describe 'Resources pages using postgresql table' do
       let(:model_class) { Picture }
 
       it 'renders form and show error' do
-        post '/admin/pictures', picture: { string: string }
+        post '/admin/pictures', params: { picture: { string: string } }
         expect(response).to render_template :new
         expect(response.body).to match "can't be blank"
       end
@@ -79,7 +79,7 @@ describe 'Resources pages using postgresql table' do
     let!(:record) { model_class.create!({ string: string }) }
     it 'updates the record' do
       a_string = 'Claude Monet'
-      put "/admin/all_postgres_types/#{ record.id }", all_postgres_type: { string: a_string }
+      put "/admin/all_postgres_types/#{ record.id }", params: { all_postgres_type: { string: a_string } }
       expect(response).to redirect_to "/admin/all_postgres_types/#{ record.id }"
       expect(record.reload.string).to eq a_string
     end
@@ -90,7 +90,7 @@ describe 'Resources pages using postgresql table' do
       let!(:record) { model_class.create!({ name: string }) }
 
       it 'renders form and show error' do
-        put "/admin/pictures/#{ record.id }", picture: { name: '' }
+        put "/admin/pictures/#{ record.id }", params: { picture: { name: '' } }
         expect(response).to render_template :edit
         expect(response.body).to match "can't be blank"
       end
