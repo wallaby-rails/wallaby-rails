@@ -25,13 +25,13 @@ describe Wallaby::ModelDecorator do
   describe 'subclasses' do
     it 'implements the following methods' do
       described_class.subclasses.each do |klass|
-        instance = klass.new nil
+        instance = klass.new Product
         [ '', 'index_', 'show_', 'form_' ].each do |prefix|
           expect{ instance.send "#{ prefix }fields" }.not_to raise_error
         end
-        expect{ instance.form_active_errors nil }.not_to raise_error
+        expect{ instance.form_active_errors Product.new }.not_to raise_error
         expect{ instance.primary_key }.not_to raise_error
-        expect{ instance.guess_title nil }.not_to raise_error
+        expect{ instance.guess_title Product.new name: 'abc' }.not_to raise_error
       end
     end
   end
