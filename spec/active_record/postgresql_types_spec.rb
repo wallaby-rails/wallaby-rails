@@ -8,11 +8,38 @@ describe 'PostgreSQL Types' do
     expect(native_types.sort).to eq [ "bigint", "bigserial", "binary", "bit", "bit_varying", "boolean", "cidr", "citext", "date", "daterange", "datetime", "decimal", "float", "hstore", "inet", "int4range", "int8range", "integer", "json", "jsonb", "ltree", "macaddr", "money", "numrange", "point", "primary_key", "string", "text", "time", "tsrange", "tstzrange", "tsvector", "uuid", "xml" ]
   end
 
-  it 'fails if point value is invalid' do
-    expect{ AllPostgresType.new point: [ '', '4.0' ] }.to raise_error ArgumentError
-    expect{ AllPostgresType.create point: [ '', '4.0' ] }.to raise_error ArgumentError
-    expect{ AllPostgresType.create point: [ '3.0', '' ] }.to raise_error ActiveRecord::StatementInvalid
-    expect{ AllPostgresType.create point: [ '3.0', '4.0' ] }.not_to raise_error
+  describe 'point' do
+    after { AllPostgresType.attribute :point, :point }
+    it 'fails if point value is invalid' do
+      record = nil
+
+      expect{ record = AllPostgresType.new point: [ '', '4.0' ] }.not_to raise_error
+      expect{ record.point }.to raise_error ArgumentError
+
+      expect{ record = AllPostgresType.new point: [ '3.0', '' ] }.not_to raise_error
+      expect{ record.point }.to raise_error ArgumentError
+
+      expect{ AllPostgresType.create point: [ '', '4.0' ] }.to raise_error ArgumentError
+      expect{ AllPostgresType.create point: [ '3.0', '' ] }.to raise_error ArgumentError
+      expect{ AllPostgresType.create point: [ '3.0', '4.0' ] }.not_to raise_error
+    end
+
+    context 'legacy point' do
+      before { AllPostgresType.attribute :point, :legacy_point }
+      it 'fails if legacy point value is invalid' do
+        record = nil
+
+        expect{ record = AllPostgresType.new point: [ '', '4.0' ] }.not_to raise_error
+        expect{ record.point }.to raise_error ArgumentError
+
+        expect{ record = AllPostgresType.new point: [ '3.0', '' ] }.not_to raise_error
+        expect{ record.point }.to raise_error ArgumentError
+
+        expect{ AllPostgresType.create point: [ '', '4.0' ] }.to raise_error ArgumentError
+        expect{ AllPostgresType.create point: [ '3.0', '' ] }.to raise_error ArgumentError
+        expect{ AllPostgresType.create point: [ '3.0', '4.0' ] }.not_to raise_error
+      end
+    end
   end
 
   it 'fails if date/time range value is invalid' do
