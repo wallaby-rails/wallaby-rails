@@ -28,7 +28,7 @@ describe Wallaby::ResourcesHelper do
     end
   end
 
-  describe '#type_partial_render' do
+  describe '#type_partial_render', prefixes: [ 'wallaby/resources/index' ] do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
 
     it 'checks the arguments' do
@@ -39,7 +39,7 @@ describe Wallaby::ResourcesHelper do
       expect{ helper.type_partial_render 'integer', field_name: 'name', object: object }.not_to raise_error
     end
 
-    describe 'partials', prefixes: [ 'wallaby/resources/index' ] do
+    describe 'partials' do
       it 'renders a type partial' do
         expect(helper.type_partial_render 'integer', object: object, field_name: 'name').to eq "0\n"
       end

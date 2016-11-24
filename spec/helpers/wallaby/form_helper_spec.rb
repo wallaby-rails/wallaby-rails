@@ -6,7 +6,7 @@ describe Wallaby::FormHelper do
     let(:object_name) { object.model_name.param_key }
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
 
-    it 'checks the arguments' do
+    it 'checks the arguments', prefixes: [ 'wallaby/resources/form' ] do
       expect{ helper.form_type_partial_render }.to raise_error ArgumentError
       expect{ helper.form_type_partial_render 'integer', field_name: 'name' }.to raise_error ArgumentError
       expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
