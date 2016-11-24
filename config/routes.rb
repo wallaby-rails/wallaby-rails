@@ -22,7 +22,7 @@ Wallaby::Engine.routes.draw do
         route.post '',
           defaults: { action: 'create' }
         route.match ':id',
-          via: %i(  patch put ),
+          via: %i( patch put ),
           defaults: { action: 'update' }
         route.delete ':id',
           defaults: { action: 'destroy' }

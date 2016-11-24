@@ -30,7 +30,7 @@ class Wallaby::ResourcesRouter
   def call(env)
     params          = env['action_dispatch.request.path_parameters']
     controller      = find_controller_by params[:resources]
-    params[:action] = check_action_name_by controller, params
+    params[:action] = find_action_by params
 
     controller.action(params[:action]).call env
   rescue AbstractController::ActionNotFound, Wallaby::ModelNotFound => e
@@ -44,9 +44,7 @@ class Wallaby::ResourcesRouter
     Wallaby::Map.controller_map[model_class] || DEFAULT_CONTROLLER
   end
 
-  def check_action_name_by(controller, params)
-    params[:id].try do |id_action|
-      id_action if controller.public_method_defined? id_action
-    end || params[:action]
+  def find_action_by(params)
+    (params.delete(:defaults) || params)[:action]
   end
 end

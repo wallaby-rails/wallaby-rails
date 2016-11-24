@@ -68,10 +68,10 @@ describe Wallaby::ResourcesRouter do
             class QueensController < default_controller; def history; end; end
           end
 
-          it 'calls history' do
-            expect(QueensController).to receive(:action).with(action_id) { mocked_action }
+          it 'calls show' do
+            expect(QueensController).to receive(:action).with(action_name) { mocked_action }
             subject.call mocked_env
-            expect(mocked_env['action_dispatch.request.path_parameters'][:action]).to eq action_id
+            expect(mocked_env['action_dispatch.request.path_parameters'][:action]).to eq action_name
           end
         end
       end
