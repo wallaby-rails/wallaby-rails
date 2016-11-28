@@ -73,13 +73,18 @@ GEM
     bootstrap3-datetimepicker-rails (4.17.43)
       momentjs-rails (>= 2.8.1)
     builder (3.2.2)
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
     cancancan (1.15.0)
     codemirror-rails (5.16.0)
       railties (>= 3.0, < 6.0)
     coderay (1.1.1)
+    columnize (0.9.0)
     concurrent-ruby (1.0.2)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -213,6 +218,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  byebug
   database_cleaner
   ffaker
   mysql2
