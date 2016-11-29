@@ -65,7 +65,7 @@ module Wallaby
     protected
     def _prefixes
       @_prefixes ||= begin
-        current_script    = env['SCRIPT_NAME'].try(:[], 1..-1).presence
+        current_script    = request.env['SCRIPT_NAME'].try(:[], 1..-1).presence
         resource_path     = current_resources_name.gsub '::', '/'
         script_prefix     = [ current_script, resource_path ].compact.join '/'
 

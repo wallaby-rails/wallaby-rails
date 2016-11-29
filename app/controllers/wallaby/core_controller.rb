@@ -5,7 +5,7 @@ module Wallaby
     before_action :authenticate_user!, except: [ :status ]
 
     def status
-      render text: 'healthy'
+      render plain: 'healthy'
     end
 
     protected

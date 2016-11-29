@@ -4,13 +4,13 @@
     <div class="col-xs-6 col-sm-3">
       <div class="input-group">
         <span class="input-group-addon">X</span>
-        <%= form.number_field field_name, value: value.try(:first), multiple: true, class: 'form-control' %>
+        <%= form.number_field field_name, value: value.try(:[], 0), multiple: true, class: 'form-control' %>
       </div>
     </div>
     <div class="col-xs-6 col-sm-3">
       <div class="input-group">
         <span class="input-group-addon">Y</span>
-        <%= form.number_field field_name, value: value.try(:last), multiple: true, class: 'form-control' %>
+        <%= form.number_field field_name, value: value.try(:[], 1), multiple: true, class: 'form-control' %>
       </div>
     </div>
   </div>

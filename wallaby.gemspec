@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
                         'README.rdoc' ]
   s.test_files  = Dir[ 'test/**/*' ]
 
-  s.add_dependency 'rails', '>= 4.0', '< 5.0'
-  s.add_dependency 'devise', '>= 3.5', '< 5.0'
+  s.add_dependency 'rails', '>= 5.0'
+  s.add_dependency 'devise', '>= 4.0'
   s.add_dependency 'kaminari'
   s.add_dependency 'cancancan'
 

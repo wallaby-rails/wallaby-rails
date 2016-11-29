@@ -4,7 +4,7 @@ module Wallaby::SortingHelper
 
     if metadata[:is_origin] && !metadata[:is_association] || metadata[:sort_field_name]
       sort_field_name = metadata[:sort_field_name] || field_name
-      extra_params = next_sort_param sort_field_name
+      extra_params = next_sort_param(sort_field_name).permit!.to_h
       index_link(model_decorator.model_class, extra_params: extra_params) { metadata[:label] }
     else
       metadata[:label]
