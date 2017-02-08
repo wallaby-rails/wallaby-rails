@@ -110,6 +110,15 @@ describe Wallaby::ActiveRecord::ModelDecorator do
           }
         })
       end
+
+      context 'when model table does not exist' do
+        let(:model_class) { UnknowLand = Class.new ActiveRecord::Base }
+
+        it 'renders blank hash and throw no error' do
+          expect{ subject.fields }.not_to raise_error
+          expect(subject.fields).to be_blank
+        end
+      end
     end
 
     describe '#index_fields' do

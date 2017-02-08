@@ -72,7 +72,7 @@ describe Wallaby::ResourcesController do
       end
 
       before do
-        controller.env['SCRIPT_NAME'] = '/admin'
+        controller.request.env['SCRIPT_NAME'] = '/admin'
         controller.params[:action] = 'index'
       end
 

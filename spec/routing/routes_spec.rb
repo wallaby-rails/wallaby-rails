@@ -1,50 +1,21 @@
 require 'rails_helper'
 
-describe 'routing', type: :request do
-  let(:mocked_response) { double 'Response', call: [ 200, {}, ["Coming soon"] ] }
-  let(:script_name) { '/admin' }
-
-  it 'routes to the general resourceful routes' do
-    controller  = Wallaby::ResourcesController
-    resources   = 'products'
-
-    expect(controller).to receive(:action).with('index') { mocked_response }
-    get "#{ script_name }/#{ resources }"
-
-    expect(controller).to receive(:action).with('create') { mocked_response }
-    post "#{ script_name }/#{ resources }"
-
-    expect(controller).to receive(:action).with('new') { mocked_response }
-    get "#{ script_name }/#{ resources }/new"
-
-    expect(controller).to receive(:action).with('edit') { mocked_response }
-    get "#{ script_name }/#{ resources }/1/edit"
-
-    expect(controller).to receive(:action).with('show') { mocked_response }
-    get "#{ script_name }/#{ resources }/1"
-
-    expect(controller).to receive(:action).with('show') { mocked_response }
-    get "#{ script_name }/#{ resources }/1-d"
-
-    expect(controller).to receive(:action).with('update') { mocked_response }
-    put "#{ script_name }/#{ resources }/1"
-
-    expect(controller).to receive(:action).with('update') { mocked_response }
-    patch "#{ script_name }/#{ resources }/1"
-
-    expect(controller).to receive(:action).with('destroy') { mocked_response }
-    delete "#{ script_name }/#{ resources }/1"
-
-    expect(controller).to receive(:action).with('history') { mocked_response }
-    get "#{ script_name }/#{ resources }/1/history"
+describe 'routing' do
+  describe 'general routes', type: :routing do
+    routes { Wallaby::Engine.routes }
+    it 'routes for general routes' do
+      expect(get: "/").to route_to controller: 'wallaby/core', action: 'home'
+      expect(get: "/status").to route_to controller: 'wallaby/core', action: 'status'
+    end
   end
 
-  context 'when target resources controller exists' do
+  describe 'resources routes', type: :request do
+    let(:mocked_response) { double 'Response', call: [ 200, {}, ["Coming soon"] ] }
+    let(:script_name) { '/admin' }
+
     it 'routes to the general resourceful routes' do
-      class Alien; end
-      class AliensController < Wallaby::ResourcesController; def history; end; end
-      controller  = AliensController
-      resources   = 'aliens'
+      controller  = Wallaby::ResourcesController
+      resources   = 'products'
 
       expect(controller).to receive(:action).with('index') { mocked_response }
       get "#{ script_name }/#{ resources }"
@@ -73,29 +44,58 @@ describe 'routing', type: :request do
       expect(controller).to receive(:action).with('destroy') { mocked_response }
       delete "#{ script_name }/#{ resources }/1"
 
-      expect(controller).to receive(:action).with('history') { mocked_response }
-      get "#{ script_name }/#{ resources }/1/history"
+      expect{ get "#{ script_name }/#{ resources }/1/history" }.to raise_error ActionController::RoutingError
 
-      expect(controller).to receive(:action).with('history') { mocked_response }
+      expect(controller).to receive(:action).with('show') { mocked_response }
       get "#{ script_name }/#{ resources }/history"
     end
-  end
 
-  describe 'general routes' do
-    it 'routes for general routes' do
-      controller = Wallaby::CoreController
+    context 'when target resources controller exists' do
+      it 'routes to its resourceful routes' do
+        class Alien; end
+        class AliensController < Wallaby::ResourcesController; def history; end; end
 
-      expect(controller).to receive(:action).with('home') { mocked_response }
-      get "#{ script_name }"
+        controller  = AliensController
+        resources   = 'aliens'
 
-      expect(controller).to receive(:action).with('status') { mocked_response }
-      get "#{ script_name }/status"
+        expect(controller).to receive(:action).with('index') { mocked_response }
+        get "#{ script_name }/#{ resources }"
+
+        expect(controller).to receive(:action).with('create') { mocked_response }
+        post "#{ script_name }/#{ resources }"
+
+        expect(controller).to receive(:action).with('new') { mocked_response }
+        get "#{ script_name }/#{ resources }/new"
+
+        expect(controller).to receive(:action).with('edit') { mocked_response }
+        get "#{ script_name }/#{ resources }/1/edit"
+
+        expect(controller).to receive(:action).with('show') { mocked_response }
+        get "#{ script_name }/#{ resources }/1"
+
+        expect(controller).to receive(:action).with('show') { mocked_response }
+        get "#{ script_name }/#{ resources }/1-d"
+
+        expect(controller).to receive(:action).with('update') { mocked_response }
+        put "#{ script_name }/#{ resources }/1"
+
+        expect(controller).to receive(:action).with('update') { mocked_response }
+        patch "#{ script_name }/#{ resources }/1"
+
+        expect(controller).to receive(:action).with('destroy') { mocked_response }
+        delete "#{ script_name }/#{ resources }/1"
+
+        expect{ get "#{ script_name }/#{ resources }/1/history" }.to raise_error ActionController::RoutingError
+
+        expect(controller).to receive(:action).with('show') { mocked_response }
+        get "#{ script_name }/#{ resources }/history"
+      end
     end
   end
 
-  describe 'resource route helper' do
+  describe 'resource route helper', type: :request do
     it 'has the following helpers' do
-      %w( resources new_resource edit_resource resource member collection ).map do |route_name|
+      %w( resources new_resource edit_resource resource ).map do |route_name|
         "#{ route_name }_path"
       end.each do |path|
         expect(wallaby_engine).to respond_to path

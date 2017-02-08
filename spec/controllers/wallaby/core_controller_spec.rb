@@ -31,6 +31,7 @@ describe Wallaby::CoreController do
 
       Campervan = Class.new(ActiveRecord::Base) do
         self.table_name = 'all_postgres_types'
+        attribute :point, :point
       end
 
       describe CampervansController do

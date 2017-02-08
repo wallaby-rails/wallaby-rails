@@ -35,37 +35,37 @@ describe Wallaby::SortingHelper, :current_user do
   describe '#next_sort_param' do
     it 'does not change either params or sort_hash' do
       expect(helper.sort_hash).to eq({})
-      expect(helper.next_sort_param :name).to eq sort: 'name asc'
+      expect(helper.next_sort_param :name).to eq parameters sort: 'name asc'
       expect(helper.sort_hash).to eq({})
-      expect(helper.params).to eq({})
+      expect(helper.params).to eq(parameters)
     end
 
     it 'includes other params' do
       helper.params[:q] = 'search keyword'
-      expect(helper.next_sort_param :name).to eq q: 'search keyword', sort: 'name asc'
+      expect(helper.next_sort_param :name).to eq parameters q: 'search keyword', sort: 'name asc'
     end
 
     it 'returns a sorting hash' do
-      expect(helper.params).to eq({})
-      expect(helper.next_sort_param :name).to eq sort: 'name asc'
+      expect(helper.params).to eq(parameters)
+      expect(helper.next_sort_param :name).to eq parameters sort: 'name asc'
       helper.instance_variable_set '@sort_hash', nil
 
       helper.params[:sort] = 'name asc'
-      expect(helper.next_sort_param :name).to eq sort: 'name desc'
+      expect(helper.next_sort_param :name).to eq parameters sort: 'name desc'
       helper.instance_variable_set '@sort_hash', nil
 
       helper.params[:sort] = 'name desc'
-      expect(helper.next_sort_param :name).to eq({})
+      expect(helper.next_sort_param :name).to eq(parameters)
       helper.instance_variable_set '@sort_hash', nil
 
       helper.params[:sort] = 'name desc,updated_at asc'
-      expect(helper.next_sort_param :name).to eq sort: 'updated_at asc'
-      expect(helper.next_sort_param :updated_at).to eq sort: 'name desc,updated_at desc'
+      expect(helper.next_sort_param :name).to eq parameters sort: 'updated_at asc'
+      expect(helper.next_sort_param :updated_at).to eq parameters sort: 'name desc,updated_at desc'
       helper.instance_variable_set '@sort_hash', nil
 
       helper.params[:sort] = 'name desc,updated_at desc'
-      expect(helper.next_sort_param :name).to eq sort: 'updated_at desc'
-      expect(helper.next_sort_param :updated_at).to eq sort: 'name desc'
+      expect(helper.next_sort_param :name).to eq parameters sort: 'updated_at desc'
+      expect(helper.next_sort_param :updated_at).to eq parameters sort: 'name desc'
     end
   end
 
