@@ -1,9 +1,12 @@
 class Wallaby::ActiveRecord::ModelDecorator < Wallaby::ModelDecorator
   def fields
-    @fields ||= begin
-      hash = general_fields.merge(association_fields)
-      hash.except(*foreign_keys_from_associations).with_indifferent_access
-    end
+    @fields ||= {}.tap do |hash|
+      if model_class.table_exists?
+        hash.merge! general_fields
+        hash.merge! association_fields
+        hash.except! *foreign_keys_from_associations
+      end
+    end.with_indifferent_access
   end
 
   def index_fields
