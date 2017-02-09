@@ -25,6 +25,29 @@ describe Wallaby::FormHelper do
           expect(helper.form_type_partial_render 'unknown', field_name: 'name', form: form).to match 'type="text"'
         end
       end
+
+      context 'for custom fields' do
+        let(:decorator_class) do
+          class FormProductDecorator < Wallaby::ResourceDecorator
+            def self.model_class; Product; end
+
+            self.form_fields[:custom] = { type: 'string', name: 'Custom Field' }
+
+            def custom
+              name
+            end
+          end
+          FormProductDecorator
+        end
+
+        let(:object) do
+          decorator_class.new Product.new(name: 'custom_value')
+        end
+
+        it 'renders the custom field' do
+          expect(helper.form_type_partial_render 'string', field_name: 'custom', form: form).to eq "<div class=\"form-group \">\n  <label for=\"product_custom\">Custom</label>\n  <input class=\"form-control\" type=\"text\" value=\"custom_value\" name=\"product[custom]\" id=\"product_custom\" />\n  \n</div>\n"
+        end
+      end
     end
   end
 
