@@ -32,16 +32,20 @@ module Wallaby::ResourcesHelper
     Wallaby::ServicerFinder.find(model_class).new model_class, model_decorator
   end
 
-  def type_partial_render(options = {}, locals = {}, &block)
+  def type_partial_render(options = {}, locals = {}, metadata_method = :show_metadata_of, &block)
     decorated   = locals[:object]
     field_name  = locals[:field_name].to_s
 
     fail ArgumentError unless field_name.present? && decorated.is_a?(Wallaby::ResourceDecorator)
 
-    locals[:metadata] = decorated.metadata_of field_name
+    locals[:metadata] = decorated.send metadata_method, field_name
     locals[:value]    = decorated.public_send field_name
 
     render(options, locals, &block) or render('string', locals, &block)
+  end
+
+  def index_type_partial_render(options = {}, locals = {}, &block)
+    type_partial_render options, locals, :index_metadata_of
   end
 
   def show_title(decorated)

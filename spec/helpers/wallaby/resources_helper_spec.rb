@@ -49,6 +49,54 @@ describe Wallaby::ResourcesHelper do
           expect(helper.type_partial_render 'unknown', object: object, field_name: 'name').to eq "    product_name\n"
         end
       end
+
+      context 'for custom show fields' do
+        let(:decorator_class) do
+          class FormProductDecorator < Wallaby::ResourceDecorator
+            def self.model_class; Product; end
+
+            self.show_fields[:custom] = { type: 'string', name: 'Custom Field' }
+
+            def custom
+              name
+            end
+          end
+          FormProductDecorator
+        end
+
+        let(:object) do
+          decorator_class.new Product.new(name: 'custom_value')
+        end
+
+        it 'renders the custom field' do
+          expect(helper.type_partial_render 'string', object: object, field_name: 'custom').to eq "    custom_value\n"
+          expect(helper.type_partial_render 'string', { object: object, field_name: 'custom' }, :show_metadata_of).to eq "    custom_value\n"
+        end
+      end
+
+      context 'for custom index fields' do
+        let(:decorator_class) do
+          class FormProductDecorator < Wallaby::ResourceDecorator
+            def self.model_class; Product; end
+
+            self.index_fields[:custom] = { type: 'string', name: 'Custom Field' }
+
+            def custom
+              name
+            end
+          end
+          FormProductDecorator
+        end
+
+        let(:object) do
+          decorator_class.new Product.new(name: 'custom_value')
+        end
+
+        it 'renders the custom field' do
+          expect(helper.type_partial_render 'string', { object: object, field_name: 'custom' }, :index_metadata_of).to eq "    custom_value\n"
+          expect(helper.index_type_partial_render 'string', object: object, field_name: 'custom').to eq "    custom_value\n"
+        end
+      end
     end
   end
 

@@ -33,7 +33,7 @@ decorated_collection = decorate collection
           <tr>
             <% current_model_decorator.index_field_names.each do |field_name| %>
               <td>
-                <%= type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
+                <%= index_type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
               </td>
             <% end %>
             <td>
