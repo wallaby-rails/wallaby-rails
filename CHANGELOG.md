@@ -13,6 +13,21 @@ N/A
 
 # History:
 
+## 4.1.6
+
+1. Bugfix: database migrations fail when decorator invokes form_fields and table does not exist ([issue 4](#4))
+2. Feature: Add partial to support password field ([issue 9](#9))
+2. Bugfix: Using the right metadata for index/show/form partials respectively ([issue 12](#12))
+
+## 4.1.5
+
+1. Support for Devise 4
+
+## 4.1.4
+
+1. Bugfix: rescue NameError for Rails reload
+2. Bugfix: replace send to public_send
+
 ## 4.1.3
 
 1. Bugfix: when it's belongs-to relationship, it should take foreign_key instead of association_foreign_key as foreign key.
