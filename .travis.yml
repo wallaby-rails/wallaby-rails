@@ -1,6 +1,8 @@
 language: ruby
 rvm:
-  - "2.2.2"
+  - "2.2.6"
+  - "2.3.2"
+  - "2.4.0"
 env:
   - DB=postgresql
 addons:
