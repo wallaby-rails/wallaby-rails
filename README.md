@@ -2,46 +2,55 @@
 
 ![Travis CI](https://travis-ci.org/reinteractive/wallaby.svg) ![Code Climate](https://codeclimate.com/github/reinteractive/wallaby/badges/gpa.svg)
 
-Wallaby is a Rails engine to manage data, and it can be easily customized in Rails way using controllers and views. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
+Wallaby is a Rails engine to manage data. It can be easily customized in a Rails way using controllers and views. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
 
 ## Features
 
-- It supports Devise and CanCanCan, and provides configurations for your own authentication.
+- It supports Devise and provides configuration to use your own authentication. For authorization, it supports CanCanCan.
 - Easy setup, ready for use, neat looking. And you won't miss any of these features (search/pagination/sorting/form validation/flash messages).
-- No DSL, pure Rails and minimum learning curve required. So it's easy to customize things by extending controllers and partials, and it applies best practices such as Decorator and Service Object. (see [Customization](CUSTOMIZATION.md))
+- No DSL, pure Rails and minimum learning curve required. It's easy to customize things just by extending controllers and partials as you do for a normal Rails app, and it applies best practices such as Decorator and Service Object. (see [Customization](docs/CUSTOMIZATION.md))
+- Possible to extend Wallaby to support not only ActiveRecord, but also other ORMs
 
 ### Support
 
+`master` branch is for Rails 5:
 - Use Bootstrap
-- Ruby 2.0.\*, 2.1.\*, 2.2.\*
+- Ruby 2.2.\*, 2.3.\*
+- Rails 5.\*
+- ActiveRecord 5.\*
+- Devise > 4.\*
+- CanCanCan
+- Postgres data types that ActiveRecord supports, including string, text, integer, float, decimal, datetime, time, date, daterange, numrange, tsrange, tstzrange, int4range, int8range, binary, boolean, bigint, xml, tsvector, hstore, inet, cidr, macaddr, uuid, json, jsonb, ltree, citext, point, bit, bit_varying and money
+- Additional support for types including password, email and color
+- Handle all kinds of ActiveRecord associations, including polymorphic associations
+- Handle namespaced models, e.g. `Order::Item`
+
+`rails4` branch is for Rails 4:
+- Ruby 2.1.\*, 2.2.\*
+- Use Bootstrap
 - Rails 4.\*
 - ActiveRecord 4.\*
-- Devise
+- Devise 3.\* to 5.\*
 - CanCanCan
 - All Postgres data types that ActiveRecord supports, including string, text, integer, float, decimal, datetime, time, date, daterange, numrange, tsrange, tstzrange, int4range, int8range, binary, boolean, bigint, xml, tsvector, hstore, inet, cidr, macaddr, uuid, json, jsonb, ltree, citext, point, bit, bit_varying and money
-- Additional support for types including email and color
-- Handle ActiveRecord associations, including belongs-to and its polymorphic form, has-one, has-many and has-and-belongs-to-many
-- Handle namespaces models, e.g. `Order::Item`
+- Additional support for types including password, email and color
+- Handle all kinds of ActiveRecord associations, including polymorphic associations
+- Handle namespaced models, e.g. `Order::Item`
 
 ## What's new
 
-# 4.1.4
-
-1. Bugfix: rescue NameError for Rails reload
-2. Bugfix: replace send to public_send
-
-For more, see [Changelog](CHANGELOG.md)
+See [Changelog](CHANGELOG.md)
 
 ## Installation
 
-1. Add the following line to `Gemfile`:
+1. Add wallaby gem to `Gemfile`:
 
     ```ruby
     #!Gemfile
     gem 'wallaby'
     ```
 
-2. Add engine routes to `routes.rb`:
+2. Mount engine in `routes.rb`:
 
     ```ruby
     #!config/routes.rb
@@ -51,15 +60,17 @@ For more, see [Changelog](CHANGELOG.md)
     end
     ```
 
-Then you are all set to visit Wallaby on your local machine at `/the_path_you_like`. If you are not using Devise for authentication, you will need to do the following configurations.
+Then you are all set to open Wallaby on your local machine at `/the_path_you_like` once you have the Rails server up.
+
+If you are using authentication rather than Devise, you might need to continue with the following section to do authentication configuration.
 
 ## Configuration
 
 ### Authentication
 
-You could set up authentication via:
+There are two ways to set up authentication:
 
-1. Easily tell Wallaby which controller (that has `authenticate_user!` and `current_user` methods) to inherit from:
+1. Easily tell Wallaby which controller to inherit from. The controller should have `authenticate_user!` and `current_user` implemented:
 
     ```ruby
     #!config/initializers/wallaby.rb
@@ -68,9 +79,9 @@ You could set up authentication via:
     end
     ```
 
-    Once this is set, Wallaby will automatically pick up the above mentioned authentication methods (which is compatible with Devise), not to mention all functionalities including application helpers, before_action and etc (which will be beneficial for further development upon Wallaby, see [Customization](CUSTOMIZATION.md)).
+    Once this is set, Wallaby will automatically pick up the above mentioned authentication methods (which is compatible with Devise), not to mention all functionalities including application helpers, before_action and etc.
 
-2. You could still use custom authentication by configuring the `authenticate` and `current_user` options as below:
+2. You are able to custom authentication by configuring the `authenticate` and `current_user` options as below example:
 
     ```ruby
     #!config/initializers/wallaby.rb
@@ -94,7 +105,7 @@ You could set up authentication via:
     end
     ```
 
-For more configurations and How-Toes for Wallaby, see [Customization](CUSTOMIZATION.md).
+For more configurations and How-Toes, see [Customization](docs/CUSTOMIZATION.md).
 
 ## License
 This project rocks and uses MIT-LICENSE.
