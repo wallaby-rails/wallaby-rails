@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wallaby (5.0.0)
+    wallaby (5.0.1)
       bootstrap-sass
       bootstrap3-datetimepicker-rails
       cancancan
@@ -226,4 +226,4 @@ DEPENDENCIES
   wallaby!
 
 BUNDLED WITH
-   1.13.3
+   1.14.6
