@@ -13,6 +13,16 @@ N/A
 
 # History:
 
+## 5.0.1
+
+1. Bugfix: database migrations fail when decorator invokes form_fields and table does not exist ([issue 4](#4))
+2. Feature: Add partial to support password field ([issue 9](#9))
+2. Bugfix: Using the right metadata for index/show/form partials respectively ([issue 12](#12))
+
+## 5.0.0
+
+1. Feature: Support for Rails 5
+
 ## 4.1.6
 
 1. Bugfix: database migrations fail when decorator invokes form_fields and table does not exist ([issue 4](#4))
