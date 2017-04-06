@@ -25,4 +25,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'ffaker'
   gem 'byebug'
+  gem 'massa'
+  gem 'rubocop'
+  gem 'brakeman'
+  gem 'rails_best_practices'
 end
