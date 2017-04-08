@@ -1,0 +1,9 @@
+inherit_from:
+  - '.rubocop/default.yml'
+
+Metrics/BlockLength:
+  CountComments: false  # count full line comments?
+  Max: 25
+  ExcludedMethods: []
+  Exclude:
+    - '*.gemspec'
