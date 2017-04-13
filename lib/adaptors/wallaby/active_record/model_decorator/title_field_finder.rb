@@ -1,6 +1,6 @@
 module Wallaby
-  module ActiveRecord
-    module ModelDecorator
+  class ActiveRecord
+    class ModelDecorator
       # Try to find the field that can be used as title
       class TitleFieldFinder
         TITLE_FIELD_TYPES = %w[string].freeze
