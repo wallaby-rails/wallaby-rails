@@ -12,6 +12,7 @@ module Wallaby
             metadata = @model_decorator.fields[field_name]
             next unless metadata
             type = metadata[:type][/range|point|binary/]
+            next unless type
             send "normalize_#{type}_values", params, field_name, values
           end
         end
