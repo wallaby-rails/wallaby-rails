@@ -7,7 +7,7 @@ describe partial_name do
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :daterange }
   let(:value)       { Date.new(2014, 2, 11)..Date.new(2014, 3, 14) }
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before do
     expect(view).to receive :content_for

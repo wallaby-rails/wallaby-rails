@@ -7,7 +7,7 @@ describe partial_name do
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :cidr }
   let(:value)       { IPAddr.new '192.168.2.0/24' }
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 

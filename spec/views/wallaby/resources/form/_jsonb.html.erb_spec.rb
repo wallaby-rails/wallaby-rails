@@ -12,7 +12,7 @@ describe partial_name do
       "change" => ["jack", "john"]
     }
   end
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before do
     expect(view).to receive :content_for
@@ -26,7 +26,7 @@ describe partial_name do
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_jsonb\">Jsonb</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"javascript\" name=\"all_postgres_type[jsonb]\" id=\"all_postgres_type_jsonb\">\n</textarea>\n  \n</div>\n\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_jsonb\">Jsonb</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"javascript\" name=\"all_postgres_type[jsonb]\" id=\"all_postgres_type_jsonb\">\nnull</textarea>\n  \n</div>\n\n"
     end
   end
 end

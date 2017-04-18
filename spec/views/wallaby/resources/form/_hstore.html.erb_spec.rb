@@ -7,7 +7,7 @@ describe partial_name do
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :hstore }
   let(:value)       { { 'key' => 'very long text' } }
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before do
     expect(view).to receive :content_for

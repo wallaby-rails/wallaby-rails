@@ -7,7 +7,7 @@ describe partial_name do
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :boolean }
   let(:value)       { true }
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 

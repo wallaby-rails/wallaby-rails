@@ -17,7 +17,7 @@ describe partial_name do
     </note>
     XML
   end
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before do
     expect(view).to receive :content_for

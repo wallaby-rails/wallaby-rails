@@ -14,7 +14,7 @@ describe partial_name do
 </note>
 XML
   end
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 

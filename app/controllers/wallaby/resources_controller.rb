@@ -68,7 +68,7 @@ module Wallaby
     def _prefixes
       @_prefixes ||= Wallaby::PrefixesBuilder.new(
         super, controller_path, current_resources_name, params
-      )
+      ).build
     end
 
     def lookup_context

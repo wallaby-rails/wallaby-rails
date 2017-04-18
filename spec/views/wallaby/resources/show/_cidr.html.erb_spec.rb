@@ -4,7 +4,7 @@ partial_name = 'show/cidr'
 describe partial_name do
   let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { IPAddr.new '192.168.2.0/24' }
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 

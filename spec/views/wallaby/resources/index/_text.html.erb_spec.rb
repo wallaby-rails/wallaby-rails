@@ -4,7 +4,7 @@ partial_name = 'index/text'
 describe partial_name do
   let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
   let(:value)     { '<b>this is a text for more than 20 characters</b>' }
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before do
     allow(view).to receive(:random_uuid) { '9877d72f-26fa-426b-8a1b-6ef012f9112b' }

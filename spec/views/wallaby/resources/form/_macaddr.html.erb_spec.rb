@@ -7,7 +7,7 @@ describe partial_name do
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :macaddr }
   let(:value)       { '32:01:16:6d:05:ef' }
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 

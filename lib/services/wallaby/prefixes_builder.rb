@@ -11,6 +11,7 @@ module Wallaby
     def build
       prefixes = minimal_prefixes
       prefixes.unshift mounted_prefix if resource_path != @controller_path
+      suffix = build_suffix(@params)
       prefixes.inject([]) do |result, prefix|
         result << "#{prefix}/#{suffix}" << prefix
       end
@@ -28,6 +29,11 @@ module Wallaby
       prefix = mounted_path.slice(1..-1) || ''
       prefix << '/' unless prefix.empty?
       prefix << resource_path
+    end
+
+    def build_suffix(params)
+      form_actions = %w[new create edit update]
+      form_actions.include?(params[:action]) ? 'form' : params[:action]
     end
 
     def wallaby_path

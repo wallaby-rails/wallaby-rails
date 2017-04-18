@@ -8,7 +8,7 @@ describe partial_name do
       'key' => 'very long long text'
     }
   end
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 
