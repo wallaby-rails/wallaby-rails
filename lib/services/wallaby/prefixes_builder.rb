@@ -1,4 +1,5 @@
 module Wallaby
+  # Prefix builder
   class PrefixesBuilder
     def initialize(origin_prefixes, controller_path, resources_name, params)
       @origin_prefixes = origin_prefixes
@@ -9,9 +10,7 @@ module Wallaby
 
     def build
       prefixes = minimal_prefixes
-      if resource_path != @controller_path
-        prefixes.unshift mounted_prefix
-      end
+      prefixes.unshift mounted_prefix if resource_path != @controller_path
       prefixes.inject([]) do |result, prefix|
         result << "#{prefix}/#{suffix}" << prefix
       end
