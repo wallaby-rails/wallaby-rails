@@ -20,6 +20,8 @@ group :development, :test do
   gem 'byebug'
   gem 'database_cleaner'
   gem 'ffaker'
+  gem 'haml_lint'
+  gem 'i18n-tasks'
   gem 'massa'
   gem 'mysql2'
   gem 'pg'

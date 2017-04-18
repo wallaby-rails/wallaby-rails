@@ -25,6 +25,7 @@ Metrics/LineLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
+    - 'wallaby.gemspec'
 
 Style/WordArray:
   Exclude:

@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Weak Hash",
+      "warning_code": 90,
+      "fingerprint": "5d66c37f6ad3a0646972a4cc758231c4c0f97dfb156eb73ed07792e19c592b13",
+      "check_name": "WeakHash",
+      "message": "Weak hashing algorithm (MD5) used",
+      "file": "lib/helpers/wallaby/secure_helper.rb",
+      "line": 7,
+      "link": "http://brakemanscanner.org/docs/warning_types/weak_hash/",
+      "code": "Digest::MD5.hexdigest(user.email.downcase)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Wallaby::SecureHelper",
+        "method": "user_portrait"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    }
+  ],
+  "updated": "2017-04-18 13:49:44 +0000",
+  "brakeman_version": "3.6.1"
+}
