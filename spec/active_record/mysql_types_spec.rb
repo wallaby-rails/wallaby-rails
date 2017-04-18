@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Mysql Types' do
   it 'returns the expected native types' do
-    native_types = ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter::NATIVE_DATABASE_TYPES.keys.map &:to_s
+    native_types = ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
 
     expect(native_types.length).to eq 12
     expect(native_types.sort).to eq [ "binary", "boolean", "date", "datetime", "decimal", "float", "integer", "json", "primary_key", "string", "text", "time" ]
@@ -11,7 +11,7 @@ describe 'Mysql Types' do
   it 'supports the following types' do
     supporting_types = AllMysqlType.connection.type_map.try do |type_map|
       type_map.instance_variable_get('@mapping').keys.map do |key|
-        key.source.gsub %r(\^|(\\.*\Z)), ''
+        key.source.gsub(/\^|(\\.*\Z)/, '')
       end.compact.uniq
     end
 

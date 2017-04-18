@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'index/uuid'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { "814865cd-5a1d-4771-9306-4268f188fe9e" }
   let(:metadata)  { {} }
 

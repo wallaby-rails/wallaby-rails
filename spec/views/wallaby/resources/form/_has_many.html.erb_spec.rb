@@ -2,15 +2,17 @@ require 'rails_helper'
 
 partial_name = 'form/has_many'
 describe partial_name, :current_user do
-  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
   let(:partial)     { 'wallaby/resources/form/has_many.html.erb' }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
+  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let!(:object)     { Product.create! field_name => value }
   let(:field_name)  { metadata[:name] }
   let!(:value)      { [ Order::Item.create!(id: 1) ] }
   let(:metadata)    do
-    Hash name: "order_items", type: "has_many", label: "Order / Items",
+    {
+      name: "order_items", type: "has_many", label: "Order / Items",
       is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: "order_item_ids", polymorphic_type: nil, polymorphic_list: [], class: Order::Item
+    }
   end
 
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }

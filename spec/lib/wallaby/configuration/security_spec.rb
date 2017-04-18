@@ -4,7 +4,7 @@ describe Wallaby::Configuration::Security do
   describe 'current_user' do
     it 'assigns current_user if block is given' do
       block = -> { 'doing nothing' }
-      subject.current_user &block
+      subject.current_user(&block)
       expect(subject.current_user).to eq block
     end
 
@@ -29,7 +29,7 @@ describe Wallaby::Configuration::Security do
   describe 'authenticate' do
     it 'assigns authenticate if block is given' do
       block = -> { 'doing nothing' }
-      subject.authenticate &block
+      subject.authenticate(&block)
       expect(subject.authenticate).to eq block
     end
 

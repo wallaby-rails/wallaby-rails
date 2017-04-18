@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'show/citext'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { '<b>this is a text for more than 20 characters</b>' }
   let(:metadata)  { {} }
 

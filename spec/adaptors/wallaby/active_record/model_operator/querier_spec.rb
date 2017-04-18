@@ -21,7 +21,7 @@ describe Wallaby::ActiveRecord::ModelOperator::Querier do
 
       context 'when text_fields include text and citext' do
         before do
-          allow(subject).to receive(:text_fields) { %w( string text ) }
+          allow(subject).to receive(:text_fields) { %w[string text] }
         end
 
         it 'returns text search' do

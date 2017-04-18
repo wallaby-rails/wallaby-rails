@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'index/bigint'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { BigDecimal.new(42)**20 }
   let(:metadata)  { {} }
 

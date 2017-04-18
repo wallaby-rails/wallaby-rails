@@ -44,13 +44,13 @@ describe Wallaby::ActiveRecord::ModelOperator do
       it 'returns a resource' do
         existing = model_class.create!({})
         resource = nil
-        expect{ resource = subject.find existing.id, parameters({}) }.not_to raise_error
+        expect { resource = subject.find existing.id, parameters({}) }.not_to raise_error
         expect(resource).to be_a model_class
       end
 
       context 'when it is not found' do
         it 'raises error' do
-          expect{ subject.find 0, parameters({}) }.to raise_error Wallaby::ResourceNotFound
+          expect { subject.find 0, parameters({}) }.to raise_error Wallaby::ResourceNotFound
         end
       end
     end
@@ -64,7 +64,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
       end
 
       context 'when params are not valid' do
-        it 'returns the resource and is_failed' do
+        it 'returns the resource and is_raiseed' do
           resource, is_success = subject.create parameters(all_postgres_type: { daterange: [ '', '2016-12-13' ] }), ability
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
@@ -74,7 +74,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
       end
 
       context 'when database throws error' do
-        it 'returns the resource and is_failed' do
+        it 'returns the resource and is_raiseed' do
           expect_any_instance_of(model_class).to receive(:save) { raise ActiveRecord::StatementInvalid, 'StatementInvalid' }
           resource, is_success = subject.create parameters(all_postgres_type: { string: 'string' }), ability
           expect(resource).to be_a model_class
@@ -96,7 +96,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
       end
 
       context 'when params are not valid' do
-        it 'returns the resource and is_failed' do
+        it 'returns the resource and is_raiseed' do
           resource, is_success = subject.update existing, parameters(all_postgres_type: { daterange: [ '', '2016-12-13' ] }), ability
           expect(resource).to be_a model_class
           expect(resource.errors).not_to be_blank
@@ -105,7 +105,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
       end
 
       context 'when database throws error' do
-        it 'returns the resource and is_failed' do
+        it 'returns the resource and is_raiseed' do
           expect_any_instance_of(model_class).to receive(:save) { raise ActiveRecord::StatementInvalid, 'StatementInvalid' }
           resource, is_success = subject.update existing, parameters(all_postgres_type: { string: 'string' }), ability
           expect(resource).to be_a model_class

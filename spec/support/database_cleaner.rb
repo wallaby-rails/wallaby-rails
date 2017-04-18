@@ -68,5 +68,4 @@ RSpec.configure do |config|
       DatabaseCleaner[ :active_record, model: model_klass ].clean
     end
   end
-
 end

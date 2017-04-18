@@ -3,11 +3,11 @@ require 'rails_helper'
 describe Wallaby::ActiveRecord::ModelFinder, clear: :object_space do
   describe '#all' do
     before do
-      stub_const 'Airport', (Class.new do; def self.abstract_class?; false; end; end)
-      stub_const 'Airline', (Class.new do; def self.abstract_class?; false; end; end)
-      stub_const 'Airplane', (Class.new do; def self.abstract_class?; false; end; end)
-      stub_const 'Airplane::HABTM_Airports', (Class.new do; def self.abstract_class?; false; end; end)
-      stub_const 'AbstractAirport', (Class.new do; def self.abstract_class?; true; end; end)
+      stub_const 'Airport', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'Airline', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'Airplane', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'Airplane::HABTM_Airports', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'AbstractAirport', (Class.new { def self.abstract_class?; true; end })
     end
 
     it 'returns valid model classes in alphabetic order' do

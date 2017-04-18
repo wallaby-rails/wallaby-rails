@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'show/inet'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { IPAddr.new '192.168.1.12' }
   let(:metadata)  { {} }
 

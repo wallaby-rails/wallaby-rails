@@ -5,12 +5,12 @@ describe Wallaby::SecureController do
     describe 'Wallaby::NotAuthenticated' do
       controller do
         def index
-          fail Wallaby::NotAuthenticated
+          raise Wallaby::NotAuthenticated
         end
       end
 
       it 'rescues the exception and renders 401' do
-        expect{ get :index }.not_to raise_error
+        expect { get :index }.not_to raise_error
         expect(response.status).to eq 401
         expect(response).to render_template 'wallaby/errors/not_authenticated'
       end
@@ -19,12 +19,12 @@ describe Wallaby::SecureController do
     describe 'CanCan::AccessDenied' do
       controller do
         def index
-          fail CanCan::AccessDenied
+          raise CanCan::AccessDenied
         end
       end
 
       it 'rescues the exception and renders 401' do
-        expect{ get :index }.not_to raise_error
+        expect { get :index }.not_to raise_error
         expect(response.status).to eq 403
         expect(response).to render_template 'wallaby/errors/access_denied'
       end
@@ -78,7 +78,7 @@ describe Wallaby::SecureController do
         security_config = Wallaby::Configuration::Security.new
         security_config.authenticate { false }
         allow(controller).to receive(:security_config).and_return(security_config)
-        expect{ controller.send :authenticate_user! }.to raise_error Wallaby::NotAuthenticated
+        expect { controller.send :authenticate_user! }.to raise_error Wallaby::NotAuthenticated
       end
     end
 
@@ -86,7 +86,7 @@ describe Wallaby::SecureController do
       around do |example|
         module SuperAuthenticateUser
           def authenticate_user!
-            fail 'custom authentication error'
+            raise 'custom authentication error'
           end
         end
         described_class.send :include, SuperAuthenticateUser
@@ -97,7 +97,7 @@ describe Wallaby::SecureController do
       it 'returns a cacheing authenticate_user' do
         security_config = Wallaby::Configuration::Security.new
         allow(controller).to receive(:security_config).and_return(security_config)
-        expect{ controller.send :authenticate_user! }.to raise_error 'custom authentication error'
+        expect { controller.send :authenticate_user! }.to raise_error 'custom authentication error'
       end
     end
   end

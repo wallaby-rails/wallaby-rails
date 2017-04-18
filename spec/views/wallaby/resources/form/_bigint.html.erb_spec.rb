@@ -2,9 +2,9 @@ require 'rails_helper'
 
 partial_name = 'form/bigint'
 describe partial_name do
-  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
-  let(:partial)     { "wallaby/resources/form/#{ field_name }.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
+  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)     { "wallaby/resources/form/#{field_name}.html.erb" }
+  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :bigint }
   let(:value)       { BigDecimal.new(42)**20 }

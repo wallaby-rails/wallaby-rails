@@ -7,7 +7,7 @@ include FileUtils
 APP_ROOT = Pathname.new File.expand_path('../../', __FILE__)
 
 def system!(*args)
-  system(*args) || abort("\n== Command #{args} failed ==")
+  system(*args) || abort("\n== Command #{args} raiseed ==")
 end
 
 chdir APP_ROOT do

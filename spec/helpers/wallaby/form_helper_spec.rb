@@ -7,11 +7,11 @@ describe Wallaby::FormHelper do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
 
     it 'checks the arguments', prefixes: [ 'wallaby/resources/form' ] do
-      expect{ helper.form_type_partial_render }.to raise_error ArgumentError
-      expect{ helper.form_type_partial_render 'integer', field_name: 'name' }.to raise_error ArgumentError
-      expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
+      expect { helper.form_type_partial_render }.to raise_error ArgumentError
+      expect { helper.form_type_partial_render 'integer', field_name: 'name' }.to raise_error ArgumentError
+      expect { helper.form_type_partial_render 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
 
-      expect{ helper.form_type_partial_render 'integer', field_name: 'name', form: form }.not_to raise_error
+      expect { helper.form_type_partial_render 'integer', field_name: 'name', form: form }.not_to raise_error
     end
 
     describe 'partials', prefixes: [ 'wallaby/resources/form' ] do
@@ -56,7 +56,7 @@ describe Wallaby::FormHelper do
       Product.create! name: 'Coconut'
       Product.create! name: 'Banana'
       model_decorator = Wallaby::ActiveRecord.model_decorator.new Product
-      expect(helper.model_choices(model_decorator).map &:first).to eq [ "Coconut", "Banana"]
+      expect(helper.model_choices(model_decorator).map(&:first)).to eq [ "Coconut", "Banana"]
     end
   end
 end

@@ -2,8 +2,8 @@ require 'rails_helper'
 
 partial_name = 'form/money'
 describe partial_name do
-  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
+  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :money }
   let(:value)       { 100.88 }

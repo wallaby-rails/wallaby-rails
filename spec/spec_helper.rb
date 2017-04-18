@@ -22,7 +22,7 @@ RSpec.configure do |config|
   # assertions if you prefer.
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
-    # and `failure_message` of custom matchers include text for helper methods
+    # and `raiseure_message` of custom matchers include text for helper methods
     # defined using `chain`, e.g.:
     #     be_bigger_than(2).and_smaller_than(4).description
     #     # => "be bigger than 2 and smaller than 4"
@@ -51,7 +51,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
 
   # Allows RSpec to persist some state between runs in order to support
-  # the `--only-failures` and `--next-failure` CLI options. We recommend
+  # the `--only-raiseures` and `--next-raiseure` CLI options. We recommend
   # you configure your source control system to ignore this file.
   config.example_status_persistence_file_path = "spec/examples.txt"
 
@@ -85,8 +85,8 @@ RSpec.configure do |config|
 
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
-  # test failures related to randomization by passing the same `--seed` value
-  # as the one that triggered the failure.
+  # test raiseures related to randomization by passing the same `--seed` value
+  # as the one that triggered the raiseure.
   Kernel.srand config.seed
 =end
 end

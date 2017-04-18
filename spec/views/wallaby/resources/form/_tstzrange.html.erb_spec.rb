@@ -2,8 +2,8 @@ require 'rails_helper'
 
 partial_name = 'form/tstzrange'
 describe partial_name do
-  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
+  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :tstzrange }
   let(:value)       { Time.zone.parse('2016-03-16 14:55:10 UTC')..Time.zone.parse('2016-03-18 14:55:10 UTC') }

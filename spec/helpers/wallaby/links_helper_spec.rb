@@ -77,7 +77,7 @@ describe Wallaby::LinksHelper, :current_user do
       it 'returns nil' do
         ability = helper.current_ability
         ability.cannot :show, Product
-        expect(helper.show_link resource ).to be_nil
+        expect(helper.show_link resource).to be_nil
       end
 
       context 'when resource is decorated' do
@@ -86,7 +86,7 @@ describe Wallaby::LinksHelper, :current_user do
         it 'returns nil' do
           ability = helper.current_ability
           ability.cannot :show, Product
-          expect(helper.show_link resource ).to be_nil
+          expect(helper.show_link resource).to be_nil
         end
       end
     end
@@ -105,7 +105,7 @@ describe Wallaby::LinksHelper, :current_user do
       it 'returns nil' do
         ability = helper.current_ability
         ability.cannot :edit, Product
-        expect(helper.edit_link resource ).to be_nil
+        expect(helper.edit_link resource).to be_nil
       end
 
       context 'when resource is decorated' do
@@ -114,7 +114,7 @@ describe Wallaby::LinksHelper, :current_user do
         it 'returns nil' do
           ability = helper.current_ability
           ability.cannot :edit, Product
-          expect(helper.edit_link resource ).to be_nil
+          expect(helper.edit_link resource).to be_nil
         end
       end
     end
@@ -135,7 +135,7 @@ describe Wallaby::LinksHelper, :current_user do
       it 'returns nil' do
         ability = helper.current_ability
         ability.cannot :destroy, Product
-        expect(helper.delete_link resource ).to be_nil
+        expect(helper.delete_link resource).to be_nil
       end
 
       context 'when resource is decorated' do
@@ -144,7 +144,7 @@ describe Wallaby::LinksHelper, :current_user do
         it 'returns nil' do
           ability = helper.current_ability
           ability.cannot :destroy, Product
-          expect(helper.delete_link resource ).to be_nil
+          expect(helper.delete_link resource).to be_nil
         end
       end
     end

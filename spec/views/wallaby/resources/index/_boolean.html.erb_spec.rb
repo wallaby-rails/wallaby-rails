@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'index/boolean'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { true }
   let(:metadata)  { {} }
 

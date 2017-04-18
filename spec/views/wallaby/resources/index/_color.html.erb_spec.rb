@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'index/color'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { '#000000' }
   let(:metadata)  { {} }
 

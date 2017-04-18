@@ -39,7 +39,6 @@ describe Wallaby::CoreController do
           expect(controller.send :current_model_class).to eq Campervan
         end
       end
-
     end
   end
 end

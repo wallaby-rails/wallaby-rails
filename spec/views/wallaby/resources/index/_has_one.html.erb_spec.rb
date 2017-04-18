@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'index/has_one'
 describe partial_name, :current_user do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { Product.new id: 1, name: 'Hiking shoes' }
   let(:metadata)  { {} }
 

@@ -4,7 +4,7 @@ describe Wallaby::Configuration do
   describe 'adaptor' do
     it 'alerts when adaptor has been initialized' do
       subject.adaptor
-      expect{ subject.adaptor = 'test' }.to raise_error RuntimeError
+      expect { subject.adaptor = 'test' }.to raise_error RuntimeError
     end
 
     it 'returns Wallaby::ActiveRecord by default' do

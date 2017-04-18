@@ -24,7 +24,7 @@ describe Wallaby::Configuration::Models do
 
     it 'returns whatever has been assigned' do
       models = [ 'Model1', 'Model2' ]
-      subject.exclude *models
+      subject.exclude(*models)
       expect(subject.excludes).to eq models
     end
   end

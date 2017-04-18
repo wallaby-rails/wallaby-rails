@@ -15,9 +15,9 @@ describe Wallaby::ModelDecorator do
   describe '#index/show/form_fields=' do
     [ 'index_', 'show_', 'form_' ].each do |prefix|
       it 'ensures assigned hash becomes HashWithIndifferentAccess' do
-        subject.send "#{ prefix }fields=", name: { type: 'string' }
-        expect(subject.instance_variable_get "@#{ prefix }fields").to be_a HashWithIndifferentAccess
-        expect(subject.instance_variable_get "@#{ prefix }fields").to eq 'name' => { 'type' => 'string' }
+        subject.send "#{prefix}fields=", name: { type: 'string' }
+        expect(subject.instance_variable_get "@#{prefix}fields").to be_a HashWithIndifferentAccess
+        expect(subject.instance_variable_get "@#{prefix}fields").to eq 'name' => { 'type' => 'string' }
       end
     end
   end
@@ -27,11 +27,11 @@ describe Wallaby::ModelDecorator do
       described_class.subclasses.each do |klass|
         instance = klass.new Product
         [ '', 'index_', 'show_', 'form_' ].each do |prefix|
-          expect{ instance.send "#{ prefix }fields" }.not_to raise_error
+          expect { instance.send "#{prefix}fields" }.not_to raise_error
         end
-        expect{ instance.form_active_errors Product.new }.not_to raise_error
-        expect{ instance.primary_key }.not_to raise_error
-        expect{ instance.guess_title Product.new name: 'abc' }.not_to raise_error
+        expect { instance.form_active_errors Product.new }.not_to raise_error
+        expect { instance.primary_key }.not_to raise_error
+        expect { instance.guess_title Product.new name: 'abc' }.not_to raise_error
       end
     end
   end

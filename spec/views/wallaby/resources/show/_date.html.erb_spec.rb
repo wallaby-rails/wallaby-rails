@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'show/date'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { Date.new(2014, 2, 11) }
   let(:metadata)  { {} }
 
