@@ -1,12 +1,19 @@
+# Wallaby
 module Wallaby
+  # Global configuration
   class Configuration
+    attr_writer :base_controller
+
     def adaptor
       @adaptor ||= Wallaby::ActiveRecord
     end
 
     def adaptor=(adaptor)
       if @adaptor
-        fail 'Adaptor has been initialized. Please place adaptor assignment at the top of configuration.'
+        raise <<-ERROR
+          [Wallaby] Adaptor has been initialized.
+          Please place adaptor assignment at the top of configuration.
+        ERROR
       end
       @adaptor = adaptor
     end
@@ -25,10 +32,6 @@ module Wallaby
 
     def base_controller
       @base_controller ||= ::ApplicationController
-    end
-
-    def base_controller=(base_controller)
-      @base_controller = base_controller
     end
   end
 

@@ -1,17 +1,16 @@
 module Wallaby
+  # Generic CRUD controller
   class ResourcesController < CoreController
     helper Wallaby::ResourcesHelper
 
     def self.resources_name
-      if self < Wallaby::ResourcesController
-        Wallaby::Utils.to_resources_name name.gsub('Controller', '')
-      end
+      return unless self < Wallaby::ResourcesController
+      Wallaby::Utils.to_resources_name name.gsub('Controller', '')
     end
 
     def self.model_class
-      if self < Wallaby::ResourcesController
-        Wallaby::Utils.to_model_class name.gsub('Controller', ''), name
-      end
+      return unless self < Wallaby::ResourcesController
+      Wallaby::Utils.to_model_class name.gsub('Controller', ''), name
     end
 
     def index
@@ -25,7 +24,8 @@ module Wallaby
 
     def create
       authorize! :create, current_model_class
-      @resource, is_success = current_model_service.create params, current_ability
+      @resource, is_success =
+        current_model_service.create params, current_ability
       if is_success
         redirect_to resources_index_path, notice: 'successfully created'
       else
@@ -44,7 +44,8 @@ module Wallaby
 
     def update
       authorize! :update, resource
-      @resource, is_success = current_model_service.update resource, params, current_ability
+      @resource, is_success =
+        current_model_service.update resource, params, current_ability
       if is_success
         redirect_to resources_show_path, notice: 'successfully updated'
       else
@@ -63,24 +64,11 @@ module Wallaby
     end
 
     protected
+
     def _prefixes
-      @_prefixes ||= begin
-        current_script    = request.env['SCRIPT_NAME'].try(:[], 1..-1).presence
-        resource_path     = current_resources_name.gsub '::', '/'
-        script_prefix     = [ current_script, resource_path ].compact.join '/'
-
-        wallaby_path      = Wallaby::ResourcesController.controller_path
-        suffix            = %w( new create edit update ).include?(params[:action]) ? 'form' : params[:action]
-
-        minimal_prefixes  = super[0..super.index(wallaby_path)]
-        if resource_path != controller_path
-          minimal_prefixes.unshift script_prefix
-        end
-
-        minimal_prefixes.map do |prefix|
-          [ "#{ prefix }/#{ suffix }", prefix ]
-        end.flatten
-      end
+      @_prefixes ||= Wallaby::PrefixesBuilder.new(
+        super, controller_path, current_resources_name, params
+      ).build
     end
 
     def lookup_context
@@ -96,7 +84,10 @@ module Wallaby
     end
 
     def current_model_service
-      @current_model_service ||= Wallaby::ServicerFinder.find(current_model_class).new current_model_class, current_model_decorator
+      @current_model_service ||= begin
+        service_class = Wallaby::ServicerFinder.find(current_model_class)
+        service_class.new(current_model_class, current_model_decorator)
+      end
     end
 
     def new_resource
@@ -104,7 +95,8 @@ module Wallaby
     end
 
     begin # helper methods
-      helper_method :resource_id, :resource, :collection, :current_model_decorator
+      helper_method \
+        :resource_id, :resource, :collection, :current_model_decorator
 
       def resource_id
         params[:id]
@@ -127,7 +119,8 @@ module Wallaby
       end
 
       def current_model_decorator
-        @current_model_decorator ||= Wallaby::DecoratorFinder.find_model current_model_class
+        @current_model_decorator ||=
+          Wallaby::DecoratorFinder.find_model current_model_class
       end
     end
   end

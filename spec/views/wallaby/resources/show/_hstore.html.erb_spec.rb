@@ -2,13 +2,13 @@ require 'rails_helper'
 
 partial_name = 'show/hstore'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     do
     {
       'key' => 'very long long text'
     }
   end
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 

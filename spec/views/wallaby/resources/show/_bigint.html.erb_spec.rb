@@ -2,9 +2,9 @@ require 'rails_helper'
 
 partial_name = 'show/bigint'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { BigDecimal.new(42)**20 }
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 

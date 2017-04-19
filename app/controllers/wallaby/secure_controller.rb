@@ -1,4 +1,5 @@
 module Wallaby
+  # Responsible for authentications
   class SecureController < ApplicationController
     helper Wallaby::SecureHelper
 
@@ -7,9 +8,11 @@ module Wallaby
     helper_method :current_user
 
     protected
+
     def not_authenticated(exception)
       @exception = exception
-      render 'wallaby/errors/not_authenticated', status: 401, layout: 'wallaby/error'
+      render 'wallaby/errors/not_authenticated',
+             status: 401, layout: 'wallaby/error'
     end
 
     def access_denied(exception)
@@ -18,20 +21,22 @@ module Wallaby
     end
 
     def current_user
-      @current_user ||= if security_config.current_user? || !defined? super
-        instance_exec &security_config.current_user
-      else
-        super
-      end
+      @current_user ||=
+        if security_config.current_user? || !defined? super
+          instance_exec(&security_config.current_user)
+        else
+          super
+        end
     end
 
     def authenticate_user!
-      authenticated = if security_config.authenticate? || !defined? super
-        instance_exec &security_config.authenticate
-      else
-        super
-      end
-      fail Wallaby::NotAuthenticated if !authenticated
+      authenticated =
+        if security_config.authenticate? || !defined? super
+          instance_exec(&security_config.authenticate)
+        else
+          super
+        end
+      raise Wallaby::NotAuthenticated unless authenticated
       true
     end
 

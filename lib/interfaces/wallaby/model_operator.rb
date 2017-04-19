@@ -1,31 +1,35 @@
-class Wallaby::ModelOperator
-  def initialize(model_class, model_decorator = nil)
-    fail ArgumentError, 'model class required' unless model_class
-    @model_class      = model_class
-    @model_decorator  = model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
-  end
+module Wallaby
+  # Model operator interface
+  class ModelOperator
+    def initialize(model_class, model_decorator = nil)
+      raise ArgumentError, 'model class required' unless model_class
+      @model_class = model_class
+      @model_decorator =
+        model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
+    end
 
-  def collection(params, ability)
-    fail Wallaby::NotImplemented
-  end
+    def collection(_params, _ability)
+      raise Wallaby::NotImplemented
+    end
 
-  def new(params)
-    fail Wallaby::NotImplemented
-  end
+    def new(_params)
+      raise Wallaby::NotImplemented
+    end
 
-  def find(id, params)
-    fail Wallaby::NotImplemented
-  end
+    def find(_id, _params)
+      raise Wallaby::NotImplemented
+    end
 
-  def create(params, ability)
-    fail Wallaby::NotImplemented
-  end
+    def create(_params, _ability)
+      raise Wallaby::NotImplemented
+    end
 
-  def update(resource, params, ability)
-    fail Wallaby::NotImplemented
-  end
+    def update(_resource, _params, _ability)
+      raise Wallaby::NotImplemented
+    end
 
-  def destroy(resource, params)
-    fail Wallaby::NotImplemented
+    def destroy(_resource, _params)
+      raise Wallaby::NotImplemented
+    end
   end
 end

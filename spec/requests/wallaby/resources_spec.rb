@@ -28,7 +28,7 @@ describe 'Resources pages using postgresql table' do
   describe '#show' do
     let!(:record) { model_class.create!({ string: string }) }
     it 'renders show' do
-      get "/admin/all_postgres_types/#{ record.id }"
+      get "/admin/all_postgres_types/#{record.id}"
       expect(response).to be_successful
       expect(response).to render_template :show
       expect(response.body).to include string
@@ -68,10 +68,10 @@ describe 'Resources pages using postgresql table' do
   describe '#edit' do
     let!(:record) { model_class.create!({ string: string }) }
     it 'renders edit' do
-      get "/admin/all_postgres_types/#{ record.id }/edit"
+      get "/admin/all_postgres_types/#{record.id}/edit"
       expect(response).to be_successful
       expect(response).to render_template :edit
-      expect(response.body).to include "value=\"#{ string }\""
+      expect(response.body).to include "value=\"#{string}\""
     end
   end
 
@@ -79,8 +79,8 @@ describe 'Resources pages using postgresql table' do
     let!(:record) { model_class.create!({ string: string }) }
     it 'updates the record' do
       a_string = 'Claude Monet'
-      put "/admin/all_postgres_types/#{ record.id }", params: { all_postgres_type: { string: a_string } }
-      expect(response).to redirect_to "/admin/all_postgres_types/#{ record.id }"
+      put "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }
+      expect(response).to redirect_to "/admin/all_postgres_types/#{record.id}"
       expect(record.reload.string).to eq a_string
     end
 
@@ -90,7 +90,7 @@ describe 'Resources pages using postgresql table' do
       let!(:record) { model_class.create!({ name: string }) }
 
       it 'renders form and show error' do
-        put "/admin/pictures/#{ record.id }", params: { picture: { name: '' } }
+        put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
         expect(response).to render_template :edit
         expect(response.body).to match "can't be blank"
       end
@@ -101,7 +101,7 @@ describe 'Resources pages using postgresql table' do
     let!(:record) { model_class.create!({ string: string }) }
     it 'destroys the record' do
       expect(model_class.count).to eq 1
-      delete "/admin/all_postgres_types/#{ record.id }"
+      delete "/admin/all_postgres_types/#{record.id}"
       expect(response).to redirect_to "/admin/all_postgres_types"
       expect(model_class.count).to eq 0
     end

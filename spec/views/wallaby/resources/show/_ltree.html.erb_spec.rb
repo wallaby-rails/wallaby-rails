@@ -2,9 +2,9 @@ require 'rails_helper'
 
 partial_name = 'show/ltree'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { 'Top.Science.Astronomy.Cosmology' }
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 

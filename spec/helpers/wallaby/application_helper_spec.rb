@@ -32,42 +32,42 @@ describe Wallaby::ApplicationHelper do
   describe '#render' do
     it 'adds caller path to view_paths' do
       helper.render '/wallaby/shared/flash_messages'
-      expect(helper.view_paths.map(&:to_path).last).to match %r(/app/views)
+      expect(helper.view_paths.map(&:to_path).last).to match(/\/app\/views/)
     end
   end
 
   describe '#wallaby_resourceful_url_for' do
     context 'when action is index/create' do
       it 'returns resources_path' do
-        %w( index create ).each do |action|
-          expect(helper.wallaby_resourceful_url_for resources: 'products', action: action).to match %r(/[^/]+/products)
+        %w[index create].each do |action|
+          expect(helper.wallaby_resourceful_url_for resources: 'products', action: action).to match(/\/[^\/]+\/products/)
         end
       end
     end
 
     context 'when action is new' do
       it 'returns new_resource_path' do
-        expect(helper.wallaby_resourceful_url_for resources: 'products', action: 'new').to match %r(/[^/]+/products/new)
+        expect(helper.wallaby_resourceful_url_for resources: 'products', action: 'new').to match(/\/[^\/]+\/products\/new/)
       end
     end
 
     context 'when action is edit' do
       it 'returns edit_resource_path' do
-        expect(helper.wallaby_resourceful_url_for resources: 'products', action: 'edit', id: 1).to match %r(/[^/]+/products/1/edit)
+        expect(helper.wallaby_resourceful_url_for resources: 'products', action: 'edit', id: 1).to match(/\/[^\/]+\/products\/1\/edit/)
       end
     end
 
     context 'when action is show/update/destroy' do
       it 'returns resource_path' do
-        %w( show update destroy ).each do |action|
-          expect(helper.wallaby_resourceful_url_for resources: 'products', action: action, id: 1).to match %r(/[^/]+/products/1)
+        %w[show update destroy].each do |action|
+          expect(helper.wallaby_resourceful_url_for resources: 'products', action: action, id: 1).to match(/\/[^\/]+\/products\/1/)
         end
       end
     end
 
     context 'when options contains only_path' do
       it 'excludes only_path' do
-        %w( index create new edit show update destroy ).each do |action|
+        %w[index create new edit show update destroy].each do |action|
           uri = URI(helper.wallaby_resourceful_url_for resources: 'products', id: 1, action: action, only_path: false)
           expect(uri.host).to be_blank
         end

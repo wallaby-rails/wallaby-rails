@@ -1,44 +1,43 @@
-class Wallaby::ActiveRecord::ModelOperator::Normalizer
-  def initialize(model_decorator)
-    @model_decorator = model_decorator
-  end
+module Wallaby
+  class ActiveRecord
+    class ModelOperator
+      # Normalizer
+      class Normalizer
+        def initialize(model_decorator)
+          @model_decorator = model_decorator
+        end
 
-  def normalize(params)
-    params.each do |field_name, values|
-      next unless metadata = @model_decorator.fields[field_name]
+        def normalize(params)
+          params.each do |field_name, values|
+            metadata = @model_decorator.fields[field_name]
+            next unless metadata
+            type = metadata[:type][/range|point|binary/]
+            next unless type
+            send "normalize_#{type}_values", params, field_name, values
+          end
+        end
 
-      case metadata[:type]
-      when /range/
-        normalize_range_values params, field_name, values
-      when /point/
-        normalize_point_values params, field_name, values
-      when /binary/
-        normalize_binary_values params, field_name, values
+        def normalize_range_values(params, field_name, values)
+          normalized = Array(values).map(&:presence).compact
+          params[field_name] =
+            if normalized.present? && values.length == 2
+              values.first...values.last
+            end
+        end
+
+        def normalize_point_values(params, field_name, values)
+          normalized = Array(values).map(&:presence).compact
+          params[field_name] =
+            normalized.present? &&
+            values.map(&:to_f) || nil
+        end
+
+        def normalize_binary_values(params, field_name, values)
+          params[field_name] =
+            values.is_a?(ActionDispatch::Http::UploadedFile) &&
+            values.read || nil
+        end
       end
-    end
-  end
-
-  def normalize_range_values(params, field_name, values)
-    normalized = Array(values).map(&:presence).compact
-    if normalized.length > 0 && values.length == 2
-      params[field_name] = values.first...values.last
-    else
-      params[field_name] = nil
-    end
-  end
-
-  def normalize_point_values(params, field_name, values)
-    normalized = Array(values).map(&:presence).compact
-    if normalized.length > 0
-      params[field_name] = values.map &:to_f
-    else
-      params[field_name] = nil
-    end
-  end
-
-  def normalize_binary_values(params, field_name, values)
-    if values.is_a?(ActionDispatch::Http::UploadedFile)
-      params[field_name] = values.read
     end
   end
 end

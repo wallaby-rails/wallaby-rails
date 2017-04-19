@@ -35,7 +35,7 @@ describe Wallaby::Map do
           it 'raises invalid error' do
             stub_const 'InvalidModel', Class.new
             configuration.models = [ InvalidModel ]
-            expect{ described_class.model_classes configuration }.to raise_error Wallaby::InvalidError, "InvalidModel are invalid models."
+            expect { described_class.model_classes configuration }.to raise_error Wallaby::InvalidError, "InvalidModel are invalid models."
           end
         end
       end

@@ -22,11 +22,11 @@ describe 'Wallaby::FormBuilder', type: :helper do
     end
   end
 
-  describe '#has_error?' do
+  describe '#error?' do
     it 'returns true if error' do
-      expect(subject.send :has_error?, :name).to be_falsy
+      expect(subject.send :error?, :name).to be_falsy
       object.errors.add :name, 'not valid'
-      expect(subject.send :has_error?, :name).to be_truthy
+      expect(subject.send :error?, :name).to be_truthy
     end
   end
 end

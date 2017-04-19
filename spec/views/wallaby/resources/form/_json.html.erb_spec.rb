@@ -2,8 +2,8 @@ require 'rails_helper'
 
 partial_name = 'form/json'
 describe partial_name do
-  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
+  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :json }
   let(:value) do
@@ -12,7 +12,7 @@ describe partial_name do
       "change" => ["jack", "john"]
     }
   end
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before do
     expect(view).to receive :content_for
@@ -26,7 +26,7 @@ describe partial_name do
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_json\">Json</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"javascript\" name=\"all_postgres_type[json]\" id=\"all_postgres_type_json\">\n</textarea>\n  \n</div>\n\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_json\">Json</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"javascript\" name=\"all_postgres_type[json]\" id=\"all_postgres_type_json\">\nnull</textarea>\n  \n</div>\n\n"
     end
   end
 end

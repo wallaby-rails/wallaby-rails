@@ -1,13 +1,16 @@
 require 'erubis'
 
-# TODO: move this kind of logic into a gem called faster rails :)
-class Wallaby::CachedCompiledErb < ActionView::Template::Handlers::ERB
-  def call(template)
-    if Rails.env.development?
-      super
-    else
-      Rails.cache.fetch "wallaby/views/erb/#{ template.inspect }" do
+# TODO: more performance investigation for this
+module Wallaby
+  # Cache compiled ERB file
+  class CachedCompiledErb < ActionView::Template::Handlers::ERB
+    def call(template)
+      if Rails.env.development?
         super
+      else
+        Rails.cache.fetch "wallaby/views/erb/#{template.inspect}" do
+          super
+        end
       end
     end
   end

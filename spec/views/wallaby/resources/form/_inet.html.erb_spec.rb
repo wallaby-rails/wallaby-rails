@@ -2,12 +2,12 @@ require 'rails_helper'
 
 partial_name = 'form/inet'
 describe partial_name do
-  let(:partial)     { "wallaby/resources/#{ partial_name }.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, { } }
+  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :inet }
   let(:value)       { IPAddr.new '192.168.1.12' }
-  let(:metadata)    { Hash.new }
+  let(:metadata)    { {} }
 
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 

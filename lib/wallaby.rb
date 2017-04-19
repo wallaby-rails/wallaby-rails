@@ -1,5 +1,4 @@
-require "wallaby/engine"
-
 module Wallaby
-  NAMESPACE = 'wallaby'
+  EMPTY_STRING = ''.freeze
 end
+require 'wallaby/engine'

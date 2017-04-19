@@ -27,3 +27,6 @@ en:
     delete: Delete
     confirm:
       delete: Please confirm to delete
+
+  collection:
+    not_found: 'Records not found'

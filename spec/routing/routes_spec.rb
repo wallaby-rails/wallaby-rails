@@ -18,36 +18,36 @@ describe 'routing' do
       resources   = 'products'
 
       expect(controller).to receive(:action).with('index') { mocked_response }
-      get "#{ script_name }/#{ resources }"
+      get "#{script_name}/#{resources}"
 
       expect(controller).to receive(:action).with('create') { mocked_response }
-      post "#{ script_name }/#{ resources }"
+      post "#{script_name}/#{resources}"
 
       expect(controller).to receive(:action).with('new') { mocked_response }
-      get "#{ script_name }/#{ resources }/new"
+      get "#{script_name}/#{resources}/new"
 
       expect(controller).to receive(:action).with('edit') { mocked_response }
-      get "#{ script_name }/#{ resources }/1/edit"
+      get "#{script_name}/#{resources}/1/edit"
 
       expect(controller).to receive(:action).with('show') { mocked_response }
-      get "#{ script_name }/#{ resources }/1"
+      get "#{script_name}/#{resources}/1"
 
       expect(controller).to receive(:action).with('show') { mocked_response }
-      get "#{ script_name }/#{ resources }/1-d"
+      get "#{script_name}/#{resources}/1-d"
 
       expect(controller).to receive(:action).with('update') { mocked_response }
-      put "#{ script_name }/#{ resources }/1"
+      put "#{script_name}/#{resources}/1"
 
       expect(controller).to receive(:action).with('update') { mocked_response }
-      patch "#{ script_name }/#{ resources }/1"
+      patch "#{script_name}/#{resources}/1"
 
       expect(controller).to receive(:action).with('destroy') { mocked_response }
-      delete "#{ script_name }/#{ resources }/1"
+      delete "#{script_name}/#{resources}/1"
 
-      expect{ get "#{ script_name }/#{ resources }/1/history" }.to raise_error ActionController::RoutingError
+      expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
 
       expect(controller).to receive(:action).with('show') { mocked_response }
-      get "#{ script_name }/#{ resources }/history"
+      get "#{script_name}/#{resources}/history"
     end
 
     context 'when target resources controller exists' do
@@ -59,45 +59,46 @@ describe 'routing' do
         resources   = 'aliens'
 
         expect(controller).to receive(:action).with('index') { mocked_response }
-        get "#{ script_name }/#{ resources }"
+        get "#{script_name}/#{resources}"
 
         expect(controller).to receive(:action).with('create') { mocked_response }
-        post "#{ script_name }/#{ resources }"
+        post "#{script_name}/#{resources}"
 
         expect(controller).to receive(:action).with('new') { mocked_response }
-        get "#{ script_name }/#{ resources }/new"
+        get "#{script_name}/#{resources}/new"
 
         expect(controller).to receive(:action).with('edit') { mocked_response }
-        get "#{ script_name }/#{ resources }/1/edit"
+        get "#{script_name}/#{resources}/1/edit"
 
         expect(controller).to receive(:action).with('show') { mocked_response }
-        get "#{ script_name }/#{ resources }/1"
+        get "#{script_name}/#{resources}/1"
 
         expect(controller).to receive(:action).with('show') { mocked_response }
-        get "#{ script_name }/#{ resources }/1-d"
+        get "#{script_name}/#{resources}/1-d"
 
         expect(controller).to receive(:action).with('update') { mocked_response }
-        put "#{ script_name }/#{ resources }/1"
+        put "#{script_name}/#{resources}/1"
 
         expect(controller).to receive(:action).with('update') { mocked_response }
-        patch "#{ script_name }/#{ resources }/1"
+        patch "#{script_name}/#{resources}/1"
 
         expect(controller).to receive(:action).with('destroy') { mocked_response }
-        delete "#{ script_name }/#{ resources }/1"
+        delete "#{script_name}/#{resources}/1"
 
-        expect{ get "#{ script_name }/#{ resources }/1/history" }.to raise_error ActionController::RoutingError
+        expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
 
         expect(controller).to receive(:action).with('show') { mocked_response }
-        get "#{ script_name }/#{ resources }/history"
+        get "#{script_name}/#{resources}/history"
       end
     end
   end
 
   describe 'resource route helper', type: :request do
     it 'has the following helpers' do
-      %w( resources new_resource edit_resource resource ).map do |route_name|
-        "#{ route_name }_path"
-      end.each do |path|
+      helpers = %w[resources new_resource edit_resource resource].map do |route_name|
+        "#{route_name}_path"
+      end
+      helpers.each do |path|
         expect(wallaby_engine).to respond_to path
       end
     end

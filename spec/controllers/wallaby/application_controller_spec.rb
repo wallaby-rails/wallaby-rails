@@ -5,12 +5,12 @@ describe Wallaby::ApplicationController do
     describe 'Wallaby::ResourceNotFound' do
       controller do
         def index
-          fail Wallaby::ResourceNotFound, 'Product'
+          raise Wallaby::ResourceNotFound, 'Product'
         end
       end
 
       it 'rescues the exception and renders 404' do
-        expect{ get :index }.not_to raise_error
+        expect { get :index }.not_to raise_error
         expect(response.status).to eq 404
         expect(response).to render_template 'wallaby/errors/not_found'
       end
@@ -19,12 +19,12 @@ describe Wallaby::ApplicationController do
     describe 'Wallaby::ModelNotFound' do
       controller do
         def index
-          fail Wallaby::ModelNotFound, 'Product'
+          raise Wallaby::ModelNotFound, 'Product'
         end
       end
 
       it 'rescues the exception and renders 404' do
-        expect{ get :index }.not_to raise_error
+        expect { get :index }.not_to raise_error
         expect(response.status).to eq 404
         expect(response).to render_template 'wallaby/errors/not_found'
       end
@@ -38,7 +38,7 @@ describe Wallaby::ApplicationController do
       end
 
       it 'rescues the exception and renders 404' do
-        expect{ get :index }.not_to raise_error
+        expect { get :index }.not_to raise_error
         expect(response.status).to eq 422
         expect(response).to render_template 'wallaby/errors/unprocessable_entity'
       end

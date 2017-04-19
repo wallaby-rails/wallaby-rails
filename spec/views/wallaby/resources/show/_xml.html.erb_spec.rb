@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'show/xml'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     do
 <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -14,7 +14,7 @@ describe partial_name do
 </note>
 XML
   end
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 

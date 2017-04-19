@@ -2,9 +2,9 @@ require 'rails_helper'
 
 partial_name = 'index/daterange'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{ partial_name }.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { Date.new(2014, 2, 11)..Date.new(2014, 2, 12) }
-  let(:metadata)  { Hash.new }
+  let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 

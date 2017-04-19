@@ -115,7 +115,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
         let(:model_class) { UnknowLand = Class.new ActiveRecord::Base }
 
         it 'renders blank hash and throw no error' do
-          expect{ subject.fields }.not_to raise_error
+          expect { subject.fields }.not_to raise_error
           expect(subject.fields).to be_blank
         end
       end
@@ -129,7 +129,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
       context 'changing index_fields' do
         it 'doesnt modify fields' do
-          expect{ subject.index_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+          expect { subject.index_fields['id'][:label] = 'ID' }.not_to change { subject.fields['id'][:label] }
         end
       end
     end
@@ -142,7 +142,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
       context 'changing show_fields' do
         it 'doesnt modify fields' do
-          expect{ subject.show_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+          expect { subject.show_fields['id'][:label] = 'ID' }.not_to change { subject.fields['id'][:label] }
         end
       end
     end
@@ -155,7 +155,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
       context 'changing form_fields' do
         it 'doesnt modify fields' do
-          expect{ subject.form_fields['id'][:label] = 'ID' }.not_to change{ subject.fields['id'][:label] }
+          expect { subject.form_fields['id'][:label] = 'ID' }.not_to change { subject.fields['id'][:label] }
         end
       end
     end
@@ -282,7 +282,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
             "name" => "updated_at", "type" => "datetime", "label" => "Updated at", "is_origin" => true
           },
           "imageable" => {
-            "name" => "imageable", "type" => "belongs_to", "label" => "Imageable", "is_origin" => true, "is_association" => true, "is_polymorphic" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "imageable_id", "polymorphic_type" => "imageable_type", "polymorphic_list" =>[ Product ], "class" => nil
+            "name" => "imageable", "type" => "belongs_to", "label" => "Imageable", "is_origin" => true, "is_association" => true, "is_polymorphic" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "imageable_id", "polymorphic_type" => "imageable_type", "polymorphic_list" => [ Product ], "class" => nil
           }
         })
       end

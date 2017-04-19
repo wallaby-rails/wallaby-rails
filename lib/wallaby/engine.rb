@@ -1,5 +1,6 @@
 # NOTE: We need to require the following rails engines
-# so that the main app could pick up the assets from these engines even they don't appear in the `Gemfile`
+# so that the main app could pick up the assets from these engines
+# even if they don't appear in the `Gemfile`
 require 'devise'
 require 'cancancan'
 require 'kaminari'
@@ -15,13 +16,15 @@ require 'rails-bootstrap-markdown'
 require 'summernote-rails'
 
 module Wallaby
+  # Rails engine
   class Engine < ::Rails::Engine
     # isolate_namespace Wallaby
     initializer 'wallaby.deflate' do |app|
       app.config.middleware.use Rack::Deflater
     end
 
-    initializer 'wallaby.initialize_cache' do |app|
+    initializer 'wallaby.initialize_cache' do |_app|
+      # TODO: optimize performance here
       Rails.cache.delete_matched 'wallaby/*'
 
       ActionView::Template.class_eval do
@@ -30,8 +33,8 @@ module Wallaby
     end
 
     initializer 'wallaby.assets.precompile' do |app|
-      app.config.assets.precompile += %w( wallaby/form.js wallaby/form.css )
-      app.config.assets.precompile += %w( codemirror* codemirror/**/* )
+      app.config.assets.precompile += %w[wallaby/form.js wallaby/form.css]
+      app.config.assets.precompile += %w[codemirror* codemirror/**/*]
     end
   end
 end
@@ -74,16 +77,17 @@ require 'services/wallaby/decorator_finder'
 require 'services/wallaby/lookup_context_wrapper'
 require 'services/wallaby/model_servicer'
 require 'services/wallaby/servicer_finder'
+require 'services/wallaby/prefixes_builder'
 
 require 'utils/wallaby/utils'
 
-require 'helpers//wallaby/form_helper'
-require 'helpers//wallaby/links_helper'
-require 'helpers//wallaby/paginatable_helper'
-require 'helpers//wallaby/sorting_helper'
-require 'helpers//wallaby/styling_helper'
+require 'helpers/wallaby/form_helper'
+require 'helpers/wallaby/links_helper'
+require 'helpers/wallaby/paginatable_helper'
+require 'helpers/wallaby/sorting_helper'
+require 'helpers/wallaby/styling_helper'
 
-require 'helpers//wallaby/resources_helper'
-require 'helpers//wallaby/core_helper'
-require 'helpers//wallaby/secure_helper'
-require 'helpers//wallaby/application_helper'
+require 'helpers/wallaby/resources_helper'
+require 'helpers/wallaby/core_helper'
+require 'helpers/wallaby/secure_helper'
+require 'helpers/wallaby/application_helper'

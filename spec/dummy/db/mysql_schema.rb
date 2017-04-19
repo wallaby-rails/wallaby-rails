@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -13,15 +12,15 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
-  create_table "all_mysql_types", force: :cascade do |t|
+  create_table "all_mysql_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.binary   "binary",   limit: 65535
     t.boolean  "boolean"
     t.date     "date"
     t.datetime "datetime"
     t.decimal  "decimal",                precision: 10
     t.float    "float",    limit: 24
-    t.integer  "integer",  limit: 4
-    t.string   "string",   limit: 255
+    t.integer  "integer"
+    t.string   "string"
     t.text     "text",     limit: 65535
     t.time     "time"
   end
