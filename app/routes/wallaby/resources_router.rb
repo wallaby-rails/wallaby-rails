@@ -1,9 +1,14 @@
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
   Rails.logger.debug <<-DEBUG
-  --> [ Wallaby ] Ready to preload and clear cache on reload. <--
+  [ WALLABY ] Ready to preload and clear cache on reload.
+    1. Start GC
+    2. Clear all the maps
+    3. Remove related Rails cache
+    4. Re-preload all constants
   DEBUG
   GC.start
+  Wallaby::Map.clear
   Rails.cache.delete_matched 'wallaby/*'
 
   # NOTE: we search for subclasses of

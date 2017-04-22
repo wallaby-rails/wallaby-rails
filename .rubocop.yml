@@ -7,6 +7,12 @@ Metrics/BlockLength:
   ExcludedMethods: []
   Exclude:
     - '*.gemspec'
+    - 'spec/**/*.rb'
+    - 'wallaby.gemspec'
+
+Style/SingleLineMethods:
+  Exclude:
+    - 'spec/**/*_spec.rb'
 
 AllCops:
   Exclude:
@@ -21,11 +27,6 @@ AllCops:
 Metrics/LineLength:
   Exclude:
     - 'spec/**/*'
-
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*.rb'
-    - 'wallaby.gemspec'
 
 Style/WordArray:
   Exclude:
@@ -49,10 +50,6 @@ Style/NestedParenthesizedCalls:
     - 'spec/**/*_spec.rb'
 
 Style/IndentHash:
-  Exclude:
-    - 'spec/**/*_spec.rb'
-
-Style/SingleLineMethods:
   Exclude:
     - 'spec/**/*_spec.rb'
 

@@ -16,8 +16,13 @@ describe Wallaby::LookupContextWrapper do
 
     context 'when template does not exist' do
       it 'returns blank template' do
-        allow(original_lookup_context).to receive(:find_template).and_raise(ActionView::MissingTemplate.new ['paths'], 'path', ['prefixes'], 'partial', 'details')
-        expect(subject.find_template 'target').to be_kind_of Wallaby::LookupContextWrapper::BlankTemplate
+        missing_template =
+          ActionView::MissingTemplate.new \
+            ['paths'], 'path', ['prefixes'], 'partial', 'details'
+        allow(original_lookup_context).to receive(:find_template) \
+          .and_raise(missing_template)
+        expect(subject.find_template('target')).to \
+          be_kind_of Wallaby::LookupContextWrapper::BlankTemplate
       end
     end
   end
