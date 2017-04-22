@@ -17,7 +17,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
         context 'when model class is not found' do
           it 'raises not found' do
             stub_const 'NotFoundServicer', Class.new(Wallaby::ModelServicer)
-            expect { NotFoundServicer.model_class }.to raise_error Wallaby::ModelNotFound, 'NotFound from NotFoundServicer'
+            expect { NotFoundServicer.model_class }.to raise_error \
+              Wallaby::ModelNotFound, 'NotFound from NotFoundServicer'
           end
         end
       end
@@ -26,14 +27,16 @@ describe Wallaby::ModelServicer, clear: :object_space do
 
   describe 'instance methods' do
     subject { described_class.new AllPostgresType }
-    let(:delegator)  { subject.instance_variable_get '@delegator' }
-    let(:params)    { parameters }
-    let(:ability)   { Ability.new nil }
-    let(:resource)  { AllPostgresType.new }
+    let(:delegator) { subject.instance_variable_get '@delegator' }
+    let(:params) { parameters }
+    let(:ability) { Ability.new nil }
+    let(:resource) { AllPostgresType.new }
 
     it 'has model_class and model_decorator' do
-      expect(subject.instance_variable_get '@model_class').to eq AllPostgresType
-      expect(subject.instance_variable_get '@model_decorator').to be_a Wallaby::ModelDecorator
+      expect(subject.instance_variable_get('@model_class')).to \
+        eq AllPostgresType
+      expect(subject.instance_variable_get('@model_decorator')).to \
+        be_a Wallaby::ModelDecorator
     end
 
     describe '#collection' do

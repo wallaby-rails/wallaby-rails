@@ -17,6 +17,7 @@ describe Wallaby::Utils, clear: :object_space do
       it 'returns blank string' do
         expect(described_class.to_resources_name(nil)).to eq ''
         expect(described_class.to_resources_name('')).to eq ''
+        expect(described_class.to_resources_name(' ')).to eq ''
 
         expect(described_class.to_resources_name(false)).to eq ''
         expect(described_class.to_resources_name([])).to eq ''
@@ -44,6 +45,7 @@ describe Wallaby::Utils, clear: :object_space do
       it 'returns blank string' do
         expect(described_class.to_model_label(nil)).to eq ''
         expect(described_class.to_model_label('')).to eq ''
+        expect(described_class.to_model_label(' ')).to eq ''
 
         expect(described_class.to_model_label(false)).to eq ''
         expect(described_class.to_model_label([])).to eq ''
@@ -67,6 +69,7 @@ describe Wallaby::Utils, clear: :object_space do
       it 'returns blank string' do
         expect(described_class.to_model_name(nil)).to eq ''
         expect(described_class.to_model_name('')).to eq ''
+        expect(described_class.to_model_name(' ')).to eq ''
 
         expect(described_class.to_model_name(false)).to eq ''
         expect(described_class.to_model_name([])).to eq ''
@@ -79,6 +82,7 @@ describe Wallaby::Utils, clear: :object_space do
     it 'returns model class' do
       stub_const 'ActiveProduct', Class.new
       expect(described_class.to_model_class('active_products')).to eq ActiveProduct
+      expect(described_class.to_model_class('ActiveProduct')).to eq ActiveProduct
     end
 
     context 'when resources_name is unknown' do
@@ -92,6 +96,7 @@ describe Wallaby::Utils, clear: :object_space do
       it 'returns nil' do
         expect(described_class.to_model_class(nil)).to be_nil
         expect(described_class.to_model_class('')).to be_nil
+        expect(described_class.to_model_class(' ')).to be_nil
 
         expect(described_class.to_model_class(false)).to be_nil
         expect(described_class.to_model_class([])).to be_nil
