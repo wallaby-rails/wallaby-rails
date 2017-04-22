@@ -7,7 +7,7 @@ module Wallaby
       @model_class = model_class
     end
 
-    ['', 'index_', 'show_', 'form_'].each do |prefix|
+    [EMPTY_STRING, 'index_', 'show_', 'form_'].each do |prefix|
       class_eval <<-RUBY
         def #{prefix}fields
           raise Wallaby::NotImplemented

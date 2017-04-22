@@ -19,7 +19,7 @@ module Wallaby
         protected
 
         def extract(params)
-          all_keywords = (params[:q] || '').split(' ').compact
+          all_keywords = (params[:q] || EMPTY_STRING).split(SPACE).compact
           field_keywords = all_keywords.select { |v| v.split(':').length == 2 }
           [all_keywords - field_keywords, field_keywords]
         end

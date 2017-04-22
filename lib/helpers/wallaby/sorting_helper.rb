@@ -45,7 +45,7 @@ module Wallaby
 
     def build_sort(hash, sortings)
       if sortings.present?
-        hash[:sort] = sortings.to_a.map { |v| v.join ' ' }.join ','
+        hash[:sort] = sortings.to_a.map { |v| v.join SPACE }.join COMMA
       else
         hash.delete :sort
       end

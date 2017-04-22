@@ -3,7 +3,7 @@ module Wallaby
   class ModelServicer
     def self.model_class
       return unless self < Wallaby::ModelServicer
-      Wallaby::Utils.to_model_class name.gsub('Servicer', ''), name
+      Wallaby::Utils.to_model_class name.gsub('Servicer', EMPTY_STRING), name
     end
 
     def initialize(model_class = nil, model_decorator = nil)
