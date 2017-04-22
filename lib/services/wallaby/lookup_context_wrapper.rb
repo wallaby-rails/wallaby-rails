@@ -10,7 +10,7 @@ module Wallaby
     end
 
     def find_template(*args)
-      key = args.join '/'
+      key = args.join SLASH
       caching key do
         @lookup_context.find_template(*args)
       end

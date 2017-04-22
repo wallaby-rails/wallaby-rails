@@ -26,8 +26,8 @@ module Wallaby
     end
 
     def mounted_prefix
-      prefix = mounted_path.slice(1..-1) || ''
-      prefix << '/' unless prefix.empty?
+      prefix = mounted_path.slice(1..-1) || EMPTY_STRING
+      prefix << SLASH unless prefix.empty?
       prefix << resource_path
     end
 
@@ -45,7 +45,7 @@ module Wallaby
     end
 
     def resource_path
-      @resource_path ||= @resources_name.tr '::', '/'
+      @resource_path ||= @resources_name.gsub COLONS, SLASH
     end
   end
 end

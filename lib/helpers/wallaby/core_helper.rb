@@ -25,9 +25,9 @@ module Wallaby
     def body_class
       [
         params[:action],
-        current_resources_name.try(:gsub, '::', '__'),
+        current_resources_name.try(:gsub, COLONS, '__'),
         content_for(:custom_body_class)
-      ].compact.join ' '
+      ].compact.join SPACE
     end
 
     def page_title

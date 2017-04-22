@@ -4,8 +4,10 @@ module Wallaby
     class << self
       def model_class
         return unless self < Wallaby::ResourceDecorator
-        @model_class ||=
-          Wallaby::Utils.to_model_class name.gsub('Decorator', ''), name
+        @model_class ||= begin
+          model_name = name.gsub('Decorator', EMPTY_STRING)
+          Wallaby::Utils.to_model_class model_name, name
+        end
       end
 
       def model_decorator
@@ -72,7 +74,7 @@ module Wallaby
       @resource.public_send primary_key
     end
 
-    ['', 'index_', 'show_', 'form_'].each do |prefix|
+    [EMPTY_STRING, 'index_', 'show_', 'form_'].each do |prefix|
       class_eval <<-RUBY
         def #{prefix}fields
           @#{prefix}fields ||= @model_decorator.#{prefix}fields.dup.freeze

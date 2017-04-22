@@ -3,7 +3,7 @@ module Wallaby
   module SecureHelper
     def user_portrait(user = current_user)
       if user.respond_to? :email
-        https = "http#{request.ssl? ? 's' : ''}"
+        https = "http#{request.ssl? ? 's' : EMPTY_STRING}"
         email_md5 = Digest::MD5.hexdigest user.email.downcase
         image_source = "#{https}://www.gravatar.com/avatar/#{email_md5}"
         image_tag image_source, class: 'hidden-xs user-portrait'

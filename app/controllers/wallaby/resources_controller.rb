@@ -5,12 +5,12 @@ module Wallaby
 
     def self.resources_name
       return unless self < Wallaby::ResourcesController
-      Wallaby::Utils.to_resources_name name.gsub('Controller', '')
+      Wallaby::Utils.to_resources_name name.gsub('Controller', EMPTY_STRING)
     end
 
     def self.model_class
       return unless self < Wallaby::ResourcesController
-      Wallaby::Utils.to_model_class name.gsub('Controller', ''), name
+      Wallaby::Utils.to_model_class name.gsub('Controller', EMPTY_STRING), name
     end
 
     def index
