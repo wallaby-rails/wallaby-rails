@@ -2,8 +2,8 @@ module Wallaby
   class Configuration
     # Models configuration
     class Models
-      def set(models)
-        @models = Array models
+      def set(*models)
+        @models = Array(models).flatten
       end
 
       def presence
@@ -15,7 +15,7 @@ module Wallaby
       end
 
       def exclude(*models)
-        @excludes = models
+        @excludes = Array(models).flatten
       end
     end
   end
