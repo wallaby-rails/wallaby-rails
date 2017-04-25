@@ -9,7 +9,7 @@ module Wallaby
       Wallaby::ResourceNotFound,
       Wallaby::ModelNotFound,
       with: :not_found
-    rescue_from ActionController::ParameterMissing, with: :unprocessable_entity
+    rescue_from ActionController::ParameterMissing, with: :bad_request
 
     layout 'wallaby/application'
 
@@ -18,9 +18,9 @@ module Wallaby
       render 'wallaby/errors/not_found', status: 404
     end
 
-    def unprocessable_entity(exception)
+    def bad_request(exception)
       @exception = exception
-      render 'wallaby/errors/unprocessable_entity', status: 422
+      render 'wallaby/errors/bad_request', status: 400
     end
   end
 end
