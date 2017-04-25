@@ -6,29 +6,29 @@ describe Wallaby::ResourcesHelper do
 
     it 'returns origin resource' do
       new_resource = Wallaby::ResourceDecorator.new resource
-      expect(helper.extract new_resource).to eq resource
-      expect(helper.extract resource).to eq resource
+      expect(helper.extract(new_resource)).to eq resource
+      expect(helper.extract(resource)).to eq resource
     end
   end
   describe '#decorate' do
     it 'returns a decorator' do
-      expect(decorate Product.new).to be_a Wallaby::ResourceDecorator
+      expect(decorate(Product.new)).to be_a Wallaby::ResourceDecorator
       decorated = Wallaby::ResourceDecorator.new Product.new
-      expect(decorate decorated).to be_a Wallaby::ResourceDecorator
-      expect(decorate decorated).to eq decorated
+      expect(decorate(decorated)).to be_a Wallaby::ResourceDecorator
+      expect(decorate(decorated)).to eq decorated
     end
 
     context 'when resources is enumerable' do
       it 'returns decorators' do
-        expect(decorate [ Product.new ]).to all be_a Wallaby::ResourceDecorator
+        expect(decorate([Product.new])).to all be_a Wallaby::ResourceDecorator
         decorated = Wallaby::ResourceDecorator.new Product.new
-        expect(decorate [ decorated ]).to all be_a Wallaby::ResourceDecorator
-        expect(decorate [ decorated ]).to eq [ decorated ]
+        expect(decorate([decorated])).to all be_a Wallaby::ResourceDecorator
+        expect(decorate([decorated])).to eq [decorated]
       end
     end
   end
 
-  describe '#type_partial_render', prefixes: [ 'wallaby/resources/index' ] do
+  describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
 
     it 'checks the arguments' do
@@ -41,12 +41,12 @@ describe Wallaby::ResourcesHelper do
 
     describe 'partials' do
       it 'renders a type partial' do
-        expect(helper.type_partial_render 'integer', object: object, field_name: 'name').to eq "0\n"
+        expect(helper.type_partial_render('integer', object: object, field_name: 'name')).to eq "0\n"
       end
 
       context 'when partial does not exists' do
         it 'renders string partial' do
-          expect(helper.type_partial_render 'unknown', object: object, field_name: 'name').to eq "    product_name\n"
+          expect(helper.type_partial_render('unknown', object: object, field_name: 'name')).to eq "    product_name\n"
         end
       end
 
@@ -55,7 +55,7 @@ describe Wallaby::ResourcesHelper do
           class FormProductDecorator < Wallaby::ResourceDecorator
             def self.model_class; Product; end
 
-            self.show_fields[:custom] = { type: 'string', name: 'Custom Field' }
+            show_fields[:custom] = { type: 'string', name: 'Custom Field' }
 
             def custom
               name
@@ -69,8 +69,8 @@ describe Wallaby::ResourcesHelper do
         end
 
         it 'renders the custom field' do
-          expect(helper.type_partial_render 'string', object: object, field_name: 'custom').to eq "    custom_value\n"
-          expect(helper.type_partial_render 'string', { object: object, field_name: 'custom' }, :show_metadata_of).to eq "    custom_value\n"
+          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq "    custom_value\n"
+          expect(helper.type_partial_render('string', { object: object, field_name: 'custom' }, :show_metadata_of)).to eq "    custom_value\n"
         end
       end
 
@@ -79,7 +79,7 @@ describe Wallaby::ResourcesHelper do
           class FormProductDecorator < Wallaby::ResourceDecorator
             def self.model_class; Product; end
 
-            self.index_fields[:custom] = { type: 'string', name: 'Custom Field' }
+            index_fields[:custom] = { type: 'string', name: 'Custom Field' }
 
             def custom
               name
@@ -93,8 +93,8 @@ describe Wallaby::ResourcesHelper do
         end
 
         it 'renders the custom field' do
-          expect(helper.type_partial_render 'string', { object: object, field_name: 'custom' }, :index_metadata_of).to eq "    custom_value\n"
-          expect(helper.index_type_partial_render 'string', object: object, field_name: 'custom').to eq "    custom_value\n"
+          expect(helper.type_partial_render('string', { object: object, field_name: 'custom' }, :index_metadata_of)).to eq "    custom_value\n"
+          expect(helper.index_type_partial_render('string', object: object, field_name: 'custom')).to eq "    custom_value\n"
         end
       end
     end
