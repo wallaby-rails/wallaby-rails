@@ -1,10 +1,6 @@
 module Wallaby
   # Application helper
   module ApplicationHelper
-    def clean_params
-      params.except :resources, :action
-    end
-
     # override `actionview/lib/action_view/routing_url_for.rb#url_for`
     def url_for(options = nil)
       if options.is_a?(Hash) && options.slice(:action, :resources).length == 2

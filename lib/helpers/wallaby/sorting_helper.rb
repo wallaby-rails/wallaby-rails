@@ -10,45 +10,19 @@ module Wallaby
       index_link(model_class, extra_params: extra_params) { metadata[:label] }
     end
 
-    def sort_hash
-      @sort_hash ||= begin
-        array =
-          params[:sort].to_s.split(/\s*,\s*/).map { |v| v.split(/\s+/) }
-        Wallaby::Utils.to_hash array
-      end
-    end
-
-    def next_sort_param(field_name)
-      field_name  = field_name.to_s
-      orders      = ['asc', 'desc', nil]
-      clean_params.tap do |hash|
-        sortings = sort_hash.dup
-        next_index = (orders.index(sortings[field_name]) + 1) % orders.length
-        restruct_sortings(sortings, orders, field_name, next_index)
-        build_sort(hash, sortings)
-      end
-    end
-
     def sort_class(field_name)
-      sort_hash[field_name.to_s]
+      current_sort[field_name]
     end
 
     protected
 
-    def restruct_sortings(sortings, orders, field_name, next_index)
-      if orders[next_index].nil?
-        sortings.delete field_name
-      else
-        sortings[field_name] = orders[next_index]
-      end
+    def current_sort
+      @current_sort ||= Sorting::HashBuilder.build params[:sort]
     end
 
-    def build_sort(hash, sortings)
-      if sortings.present?
-        hash[:sort] = sortings.to_a.map { |v| v.join SPACE }.join COMMA
-      else
-        hash.delete :sort
-      end
+    def next_sort_param(field_name)
+      @next_builder ||= Sorting::NextBuilder.new params, current_sort
+      @next_builder.next_params field_name
     end
 
     def sortable?(metadata)
