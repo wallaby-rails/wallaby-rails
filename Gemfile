@@ -23,6 +23,7 @@ group :development, :test do
   gem 'haml_lint'
   gem 'i18n-tasks'
   gem 'massa'
+  gem 'memory_profiler'
   gem 'mysql2'
   gem 'pg'
   gem 'pry-rails'

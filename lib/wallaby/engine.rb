@@ -81,6 +81,8 @@ require 'services/wallaby/lookup_context_wrapper'
 require 'services/wallaby/model_servicer'
 require 'services/wallaby/servicer_finder'
 require 'services/wallaby/prefixes_builder'
+require 'services/wallaby/sorting/hash_builder'
+require 'services/wallaby/sorting/next_builder'
 
 require 'utils/wallaby/utils'
 

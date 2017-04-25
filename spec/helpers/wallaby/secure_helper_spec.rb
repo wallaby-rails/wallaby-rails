@@ -3,14 +3,14 @@ require 'rails_helper'
 describe Wallaby::SecureHelper, clear: :object_space do
   describe '#user_portrait' do
     it 'returns a general user portrait image' do
-      expect(helper.user_portrait nil).to match(/<i /)
+      expect(helper.user_portrait(nil)).to match(/<i /)
     end
 
     context 'user object respond_to email' do
       it 'returns user gravatar ' do
         user = double email: 'tian@example.com'
-        expect(helper.user_portrait user).to match(/<img /)
-        expect(helper.user_portrait user).to match(/www.gravatar.com\/avatar\//)
+        expect(helper.user_portrait(user)).to match(/<img /)
+        expect(helper.user_portrait(user)).to match(%r{www.gravatar.com/avatar/})
       end
     end
   end
@@ -19,7 +19,7 @@ describe Wallaby::SecureHelper, clear: :object_space do
     it 'returns main app logout_path' do
       main_app = double logout_path: '/logout_path'
       hide_const 'Devise'
-      expect(helper.logout_path nil, main_app).to eq '/logout_path'
+      expect(helper.logout_path(nil, main_app)).to eq '/logout_path'
     end
 
     context 'when it has devise scope' do
@@ -28,7 +28,7 @@ describe Wallaby::SecureHelper, clear: :object_space do
         stub_const('Devise::Mapping', Class.new do
           def self.find_scope!(_user); 'user'; end
         end)
-        expect(helper.logout_path nil, main_app).to eq '/destroy_user_session_path'
+        expect(helper.logout_path(nil, main_app)).to eq '/destroy_user_session_path'
       end
     end
   end
