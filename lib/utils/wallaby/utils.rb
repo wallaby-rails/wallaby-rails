@@ -28,5 +28,10 @@ module Wallaby
     def self.to_hash(array)
       Hash[*array.flatten(1)]
     end
+
+    # @see http://stackoverflow.com/a/8710663/1326499
+    def self.clone(object)
+      Marshal.load(Marshal.dump(object))
+    end
   end
 end
