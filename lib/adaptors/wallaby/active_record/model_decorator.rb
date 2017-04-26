@@ -3,25 +3,25 @@ module Wallaby
     # Modal decorator
     class ModelDecorator < Wallaby::ModelDecorator
       def fields
-        @fields ||= {}.tap do |hash|
+        @fields ||= HashWithIndifferentAccess.new.tap do |hash|
           if model_class.table_exists?
             hash.merge! general_fields
             hash.merge! association_fields
             hash.except!(*foreign_keys_from_associations)
           end
-        end.with_indifferent_access
+        end
       end
 
       def index_fields
-        @index_fields ||= fields.deep_dup
+        @index_fields ||= Utils.clone(fields)
       end
 
       def show_fields
-        @show_fields  ||= fields.deep_dup
+        @show_fields  ||= Utils.clone(fields)
       end
 
       def form_fields
-        @form_fields  ||= fields.deep_dup
+        @form_fields  ||= Utils.clone(fields)
       end
 
       def index_field_names
@@ -58,14 +58,12 @@ module Wallaby
       protected
 
       def field_builder
-        @field_builder ||=
-          Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder.new @model_class
+        @field_builder ||= FieldsBuilder.new @model_class
       end
 
       def title_field_finder
         @title_field_finder ||=
-          Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder.new \
-            @model_class, general_fields
+          TitleFieldFinder.new @model_class, general_fields
       end
 
       delegate :general_fields, :association_fields, to: :field_builder
