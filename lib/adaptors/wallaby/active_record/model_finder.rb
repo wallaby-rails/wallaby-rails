@@ -2,25 +2,34 @@ module Wallaby
   class ActiveRecord
     # Model finder
     class ModelFinder < Wallaby::ModelFinder
-      def base
-        Rails.cache.fetch 'wallaby/active_record/model_finder/base' do
-          if defined? ::ApplicationRecord
-            ::ApplicationRecord
-          else
-            ::ActiveRecord::Base
-          end
-        end
+      def all
+        base.subclasses.reject do |model_class|
+          abstract?(model_class) || anonymous?(model_class) \
+            || schema?(model_class) || habtm?(model_class)
+        end.sort_by(&:to_s)
       end
 
-      def all
-        Rails.cache.fetch 'wallaby/active_record/model_finder' do
-          base.subclasses.reject do |model_class|
-            model_class.abstract_class? ||
-              model_class.to_s.start_with?('#<') ||
-              model_class.name == 'ActiveRecord::SchemaMigration' ||
-              model_class.name.index('HABTM')
-          end.sort_by(&:to_s)
-        end
+      protected
+
+      def base
+        return ::ApplicationRecord if defined? ::ApplicationRecord
+        ::ActiveRecord::Base
+      end
+
+      def abstract?(model_class)
+        model_class.abstract_class?
+      end
+
+      def anonymous?(model_class)
+        model_class.to_s.start_with? '#<Class'
+      end
+
+      def schema?(model_class)
+        model_class.name == 'ActiveRecord::SchemaMigration'
+      end
+
+      def habtm?(model_class)
+        model_class.name.index('HABTM')
       end
     end
   end

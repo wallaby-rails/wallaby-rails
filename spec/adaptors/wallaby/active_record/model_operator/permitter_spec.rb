@@ -64,7 +64,7 @@ describe Wallaby::ActiveRecord::ModelOperator::Permitter do
 
     describe '#compound_hashed_fields' do
       it 'returns range fields' do
-        expect(subject.compound_hashed_fields).to eq "item_ids" => [], "tag_ids" => []
+        expect(subject.compound_hashed_fields).to eq "order_item_ids" => [], "tag_ids" => []
       end
     end
 

@@ -74,12 +74,9 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             label: "Category",
             is_origin: true,
             is_association: true,
-            is_polymorphic: false,
             is_through: false,
             has_scope: false,
             foreign_key: "category_id",
-            polymorphic_type: nil,
-            polymorphic_list: [],
             class: Category
           })
         end
@@ -94,12 +91,9 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             label: "Product Detail",
             is_origin: true,
             is_association: true,
-            is_polymorphic: false,
             is_through: false,
             has_scope: false,
             foreign_key: "product_detail_id",
-            polymorphic_type: nil,
-            polymorphic_list: [],
             class: ProductDetail
           })
         end
@@ -113,12 +107,9 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
               label: "Picture",
               is_origin: true,
               is_association: true,
-              is_polymorphic: false,
               is_through: false,
               has_scope: false,
               foreign_key: "picture_id",
-              polymorphic_type: nil,
-              polymorphic_list: [],
               class: Picture
             })
           end
@@ -134,12 +125,22 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             label: "Items",
             is_origin: true,
             is_association: true,
-            is_polymorphic: false,
             is_through: false,
             has_scope: false,
             foreign_key: "item_ids",
-            polymorphic_type: nil,
-            polymorphic_list: [],
+            class: Order::Item
+          })
+
+          model_class.has_many :order_items, class_name: 'Order::Item'
+          expect(subject.association_fields['order_items']).to eq({
+            name: "order_items",
+            type: "has_many",
+            label: "Order Items",
+            is_origin: true,
+            is_association: true,
+            is_through: false,
+            has_scope: false,
+            foreign_key: "order_item_ids",
             class: Order::Item
           })
         end
@@ -154,12 +155,9 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
               label: "Orders",
               is_origin: true,
               is_association: true,
-              is_polymorphic: false,
               is_through: true,
               has_scope: false,
               foreign_key: "order_ids",
-              polymorphic_type: nil,
-              polymorphic_list: [],
               class: Order
             })
           end
@@ -174,12 +172,9 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
               label: "Pictures",
               is_origin: true,
               is_association: true,
-              is_polymorphic: false,
               is_through: false,
               has_scope: false,
               foreign_key: "picture_ids",
-              polymorphic_type: nil,
-              polymorphic_list: [],
               class: Picture
             })
           end
@@ -195,12 +190,9 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             label: "Tags",
             is_origin: true,
             is_association: true,
-            is_polymorphic: false,
             is_through: false,
             has_scope: false,
             foreign_key: "tag_ids",
-            polymorphic_type: nil,
-            polymorphic_list: [],
             class: Tag
           })
         end
@@ -231,7 +223,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           expect(imageable[:foreign_key]).to eq "imageable_id"
           expect(imageable[:polymorphic_type]).to eq "imageable_type"
           expect(imageable[:polymorphic_list]).to include Product
-          expect(imageable[:class]).to be_nil
+          expect(imageable).not_to have_key :class
         end
       end
     end

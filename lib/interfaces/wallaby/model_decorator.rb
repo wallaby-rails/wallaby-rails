@@ -14,7 +14,7 @@ module Wallaby
         end
 
         def #{prefix}fields=(#{prefix}fields)
-          @#{prefix}fields = #{prefix}fields.with_indifferent_access
+          @#{prefix}fields = HashWithIndifferentAccess.new #{prefix}fields
         end
 
         def #{prefix}field_names

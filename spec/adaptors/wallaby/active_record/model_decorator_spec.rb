@@ -209,22 +209,22 @@ describe Wallaby::ActiveRecord::ModelDecorator do
             "name" => "published_at", "type" => "datetime", "label" => "Published at", "is_origin" => true
           },
           "product_detail" => {
-            "name" => "product_detail", "type" => "has_one", "label" => "Product Detail", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "product_detail_id", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => ProductDetail
+            "name" => "product_detail", "type" => "has_one", "label" => "Product Detail", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "product_detail_id", "class" => ProductDetail
           },
           "picture" => {
-            "name" => "picture", "type" => "has_one", "label" => "Picture", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => true, "foreign_key" => "picture_id", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Picture
+            "name" => "picture", "type" => "has_one", "label" => "Picture", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => true, "foreign_key" => "picture_id", "class" => Picture
           },
           "order_items" => {
-            "name" => "order_items", "type" => "has_many", "label" => "Order Items", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "item_ids", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Order::Item
+            "name" => "order_items", "type" => "has_many", "label" => "Order Items", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "order_item_ids", "class" => Order::Item
           },
           "orders" => {
-            "name" => "orders", "type" => "has_many", "label" => "Orders", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => true, "has_scope" => false, "foreign_key" => "order_ids", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Order
+            "name" => "orders", "type" => "has_many", "label" => "Orders", "is_origin" => true, "is_association" => true, "is_through" => true, "has_scope" => false, "foreign_key" => "order_ids", "class" => Order
           },
           "category" => {
-            "name" => "category", "type" => "belongs_to", "label" => "Category", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "category_id", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Category
+            "name" => "category", "type" => "belongs_to", "label" => "Category", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "category_id", "class" => Category
           },
           "tags" => {
-            "name" => "tags", "type" => "has_and_belongs_to_many", "label" => "Tags", "is_origin" => true, "is_association" => true, "is_polymorphic" => false, "is_through" => false, "has_scope" => false, "foreign_key" => "tag_ids", "polymorphic_type" => nil, "polymorphic_list" => [], "class" => Tag
+            "name" => "tags", "type" => "has_and_belongs_to_many", "label" => "Tags", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "tag_ids", "class" => Tag
           }
         })
       end
@@ -244,7 +244,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#foreign_keys_from_associations' do
       it 'returns foreign keys for associations' do
-        expect(subject.send :foreign_keys_from_associations).to eq [ "product_detail_id", "picture_id", "item_ids", "order_ids", "category_id", "tag_ids" ]
+        expect(subject.send :foreign_keys_from_associations).to eq [ "product_detail_id", "picture_id", "order_item_ids", "order_ids", "category_id", "tag_ids" ]
       end
     end
 
@@ -282,7 +282,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
             "name" => "updated_at", "type" => "datetime", "label" => "Updated at", "is_origin" => true
           },
           "imageable" => {
-            "name" => "imageable", "type" => "belongs_to", "label" => "Imageable", "is_origin" => true, "is_association" => true, "is_polymorphic" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "imageable_id", "polymorphic_type" => "imageable_type", "polymorphic_list" => [ Product ], "class" => nil
+            "name" => "imageable", "type" => "belongs_to", "label" => "Imageable", "is_origin" => true, "is_association" => true, "is_polymorphic" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "imageable_id", "polymorphic_type" => "imageable_type", "polymorphic_list" => [ Product ]
           }
         })
       end
