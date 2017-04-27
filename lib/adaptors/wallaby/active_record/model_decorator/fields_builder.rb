@@ -31,54 +31,37 @@ module Wallaby
 
         protected
 
-        def scope?(reflection)
-          reflection.scope.present?
-        end
-
         def through?(reflection)
-          reflection.respond_to? :delegate_reflection
+          reflection.is_a? ::ActiveRecord::Reflection::ThroughReflection
         end
 
-        def polymorphic?(reflection)
-          reflection.options[:polymorphic].present?
-        end
-
-        def extract_type_from(reflection)
-          target =
-            if through?(reflection)
-              reflection.delegate_reflection
-            else
-              reflection
-            end
-          target.class.name.match(/([^:]+)Reflection/)[1].underscore
+        def type_for(reflection)
+          reflection.macro
         end
 
         def foreign_key_for(reflection, type)
-          return reflection.foreign_key if 'belongs_to' == type
-          reflection.association_foreign_key.try do |foreign_key|
-            /many/ =~ type ? "#{foreign_key}s" : foreign_key
+          if :belongs_to == type || reflection.polymorphic?
+            reflection.foreign_key
+          elsif reflection.collection?
+            # @see https://github.com/rails/rails/blob/92703a9ea5d8b96f30e0b706b801c9185ef14f0e/activerecord/lib/active_record/associations/builder/collection_association.rb#L50
+            reflection.name.to_s.singularize << '_ids'
+          else
+            reflection.association_foreign_key
           end
         end
 
-        def polymorphic_type_for(reflection, type)
-          return unless polymorphic? reflection
-          foreign_key = foreign_key_for reflection, type
-          foreign_key.gsub(/_ids?$/, '_type')
-        end
-
         def polymorphic_list_for(reflection)
-          return [] unless polymorphic? reflection
           available_model_class.each_with_object([]) do |model_class, list|
             if model_defined_polymorphic_name? model_class, reflection.name
               list << model_class
             end
-            list
           end
         end
 
         def model_defined_polymorphic_name?(model_class, polymorphic_name)
+          polymorphic_name_sym = polymorphic_name.try(:to_sym)
           model_class.reflections.any? do |_field_name, reflection|
-            reflection.options[:as].to_s == polymorphic_name.to_s
+            reflection.options[:as].try(:to_sym) == polymorphic_name_sym
           end
         end
 
@@ -88,33 +71,31 @@ module Wallaby
           end.keys
         end
 
-        def class_for(reflection)
-          reflection.class_name.constantize unless polymorphic? reflection
-        end
-
         def required_association_metadata_for(metadata, reflection)
-          type = extract_type_from reflection
+          type = type_for reflection
           field_name = reflection.name.to_s
           metadata[:name] = field_name
-          metadata[:type] = type
+          metadata[:type] = type.to_s
           metadata[:label] = field_name.titleize
           metadata[:is_origin] = true
-          metadata[:class] = class_for(reflection)
         end
 
         def association_metadata_for(metadata, reflection)
-          type = extract_type_from reflection
+          type = type_for reflection
           metadata[:is_association] = true
           metadata[:is_through] = through?(reflection)
-          metadata[:has_scope] = scope?(reflection)
+          metadata[:has_scope] = reflection.scope.present?
           metadata[:foreign_key] = foreign_key_for(reflection, type)
         end
 
         def polymorphic_metadata_for(metadata, reflection)
-          type = extract_type_from reflection
-          metadata[:is_polymorphic] = polymorphic?(reflection)
-          metadata[:polymorphic_type] = polymorphic_type_for(reflection, type)
-          metadata[:polymorphic_list] = polymorphic_list_for(reflection)
+          if reflection.polymorphic?
+            metadata[:is_polymorphic] = reflection.polymorphic?
+            metadata[:polymorphic_type] = reflection.foreign_type
+            metadata[:polymorphic_list] = polymorphic_list_for(reflection)
+          else
+            metadata[:class] = reflection.klass
+          end
         end
       end
     end
