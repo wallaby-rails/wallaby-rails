@@ -23,7 +23,7 @@ module Wallaby
       @model_decorator_map ||= {}
       @model_decorator_map[model_class] ||= begin
         mode = mode_map[model_class]
-        mode.model_decorator.new model_class
+        mode.model_decorator.new model_class if mode
       end
     end
 

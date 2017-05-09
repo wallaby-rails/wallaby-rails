@@ -3,7 +3,7 @@ module Wallaby
     # Model finder
     class ModelFinder < Wallaby::ModelFinder
       def all
-        base.subclasses.reject do |model_class|
+        base.descendants.reject do |model_class|
           abstract?(model_class) || anonymous?(model_class) \
             || schema?(model_class) || habtm?(model_class)
         end.sort_by(&:to_s)

@@ -41,6 +41,8 @@ end
 
 require 'wallaby/configuration'
 
+require 'utils/wallaby/utils'
+
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'
 require 'interfaces/wallaby/model_finder'
@@ -81,8 +83,6 @@ require 'services/wallaby/model_servicer'
 require 'services/wallaby/prefixes_builder'
 require 'services/wallaby/sorting/hash_builder'
 require 'services/wallaby/sorting/next_builder'
-
-require 'utils/wallaby/utils'
 
 require 'helpers/wallaby/form_helper'
 require 'helpers/wallaby/links_helper'

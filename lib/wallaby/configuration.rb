@@ -33,6 +33,12 @@ module Wallaby
     def base_controller
       @base_controller ||= ::ApplicationController
     end
+
+    def clear
+      @models = nil
+      @security = nil
+      @base_controller = nil
+    end
   end
 
   def self.configuration
