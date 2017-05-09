@@ -31,7 +31,8 @@ module Wallaby
 
     def model_servicer(model_decorator)
       model_class = model_decorator.model_class
-      Wallaby::ServicerFinder.find(model_class).new model_class, model_decorator
+      servicer = Wallaby::Map.servicer_map model_class
+      servicer.new model_class, model_decorator
     end
 
     def type_partial_render(options = {},

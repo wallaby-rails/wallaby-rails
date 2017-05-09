@@ -85,7 +85,7 @@ module Wallaby
 
     def current_model_service
       @current_model_service ||= begin
-        service_class = Wallaby::ServicerFinder.find(current_model_class)
+        service_class = Wallaby::Map.servicer_map current_model_class
         service_class.new(current_model_class, current_model_decorator)
       end
     end
