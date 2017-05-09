@@ -20,7 +20,7 @@ module Wallaby
 
     # { model => model decorator }
     def self.model_decorator_map(model_class)
-      @model_decorator_map ||= ModelClassMapper.new(ResourceDecorator).map
+      @model_decorator_map ||= {}
       @model_decorator_map[model_class] ||= begin
         mode = mode_map[model_class]
         mode.model_decorator.new model_class
@@ -31,11 +31,6 @@ module Wallaby
     def self.resource_decorator_map(model_class)
       @resource_decorator_map ||= ModelClassMapper.new(ResourceDecorator).map
       @resource_decorator_map[model_class] ||= ResourceDecorator
-    end
-
-    def self.decorator_map
-      @decorator_map ||=
-        ModelClassMapper.new(Wallaby::ResourceDecorator).map
     end
 
     # { model => servicer }
@@ -61,7 +56,6 @@ module Wallaby
       @mode_map = nil
       @model_classes = nil
       @controller_map = nil
-      @decorator_map = nil
       @model_decorator_map = nil
       @resource_decorator_map = nil
       @servicer_map = nil

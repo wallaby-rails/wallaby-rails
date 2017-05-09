@@ -7,12 +7,12 @@ module Wallaby
 
     def decorate(resource)
       if resource.respond_to? :map # collection
-        decorator = Wallaby::DecoratorFinder.find_resource resource.first.class
+        decorator = Map.resource_decorator_map resource.first.class
         resource.map do |item|
           decorator.decorate item
         end
       else
-        decorator = Wallaby::DecoratorFinder.find_resource resource.class
+        decorator = Map.resource_decorator_map resource.class
         decorator.decorate resource
       end
     end
@@ -26,7 +26,7 @@ module Wallaby
     end
 
     def model_decorator(model_class)
-      Wallaby::DecoratorFinder.find_model model_class
+      Map.model_decorator_map model_class
     end
 
     def model_servicer(model_decorator)

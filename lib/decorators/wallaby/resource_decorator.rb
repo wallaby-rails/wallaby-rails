@@ -12,7 +12,7 @@ module Wallaby
 
       def model_decorator
         return unless self < Wallaby::ResourceDecorator
-        @model_decorator ||= Wallaby::DecoratorFinder.new_model model_class
+        @model_decorator ||= Map.model_decorator_map model_class
       end
 
       def decorate(resource)
@@ -26,13 +26,11 @@ module Wallaby
       delegate(*class_methods, to: :model_decorator, allow_nil: true)
     end
 
-    attr_reader :resource
+    attr_reader :resource, :model_decorator
 
     def initialize(resource)
       @resource = resource
-      @model_decorator =
-        self.class.model_decorator ||
-        Wallaby::DecoratorFinder.new_model(model_class)
+      @model_decorator = Map.model_decorator_map model_class
     end
 
     def method_missing(method_id, *args)
@@ -44,7 +42,7 @@ module Wallaby
       @resource.respond_to?(method_id) || super
     end
 
-    delegate :to_s, :to_param, :to_params, to: :@resource
+    delegate :to_s, :to_param, :to_params, to: :resource
     implemented_methods =
       %i[
         index_fields index_field_names
@@ -55,8 +53,7 @@ module Wallaby
       Wallaby::ModelDecorator.instance_methods \
         - implemented_methods \
         - Object.instance_methods
-    delegate(*instance_methods, to: :@model_decorator)
-    attr_reader :model_decorator
+    delegate(*instance_methods, to: :model_decorator)
 
     def model_class
       @resource.class

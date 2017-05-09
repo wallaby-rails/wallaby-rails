@@ -10,7 +10,7 @@ module Wallaby
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'model class required' unless @model_class
       @model_decorator =
-        model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
+        model_decorator || Map.model_decorator_map(@model_class)
       @delegator =
         Wallaby.adaptor.model_operator.new @model_class, @model_decorator
     end
