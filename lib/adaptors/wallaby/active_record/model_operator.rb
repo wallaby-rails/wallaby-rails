@@ -72,23 +72,19 @@ module Wallaby
       end
 
       def permitter
-        @permitter ||=
-          Wallaby::ActiveRecord::ModelOperator::Permitter.new @model_decorator
+        @permitter ||= Permitter.new @model_decorator
       end
 
       def querier
-        @querier ||=
-          Wallaby::ActiveRecord::ModelOperator::Querier.new @model_decorator
+        @querier ||= Querier.new @model_decorator
       end
 
       def normalizer
-        @normalizer ||=
-          Wallaby::ActiveRecord::ModelOperator::Normalizer.new @model_decorator
+        @normalizer ||= Normalizer.new @model_decorator
       end
 
       def validator
-        @validator ||=
-          Wallaby::ActiveRecord::ModelOperator::Validator.new @model_decorator
+        @validator ||= Validator.new @model_decorator
       end
     end
   end
