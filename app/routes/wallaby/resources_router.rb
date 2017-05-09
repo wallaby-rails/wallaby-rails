@@ -37,8 +37,7 @@ end
 module Wallaby
   # Responsible to dispatch requests to controller and action
   class ResourcesRouter
-    DEFAULT_CONTROLLER = Wallaby::ResourcesController
-
+    # TODO: change to not to use rescue
     def call(env)
       params          = env['action_dispatch.request.path_parameters']
       controller      = find_controller_by params[:resources]
@@ -47,14 +46,14 @@ module Wallaby
       controller.action(params[:action]).call env
     rescue AbstractController::ActionNotFound, Wallaby::ModelNotFound => e
       params[:error] = e
-      DEFAULT_CONTROLLER.action(:not_found).call env
+      ResourcesController.action(:not_found).call env
     end
 
     private
 
     def find_controller_by(resources_name)
       model_class = Wallaby::Utils.to_model_class resources_name
-      Wallaby::Map.controller_map[model_class] || DEFAULT_CONTROLLER
+      Wallaby::Map.controller_map model_class
     end
 
     def find_action_by(params)
