@@ -44,7 +44,7 @@ module Wallaby
       @handler_map ||= {}
       @handler_map[model_class] ||= begin
         mode = mode_map[model_class]
-        mode.model_operator.new model_class if mode
+        mode.model_handler.new model_class if mode
       end
     end
 

@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     # Model operator
-    class ModelOperator < Wallaby::ModelOperator
+    class ModelHandler < Wallaby::ModelHandler
       def collection(params, ability)
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?

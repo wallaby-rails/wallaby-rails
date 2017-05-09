@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecord::ModelOperator do
+describe Wallaby::ActiveRecord::ModelHandler do
   describe 'actions' do
     subject { described_class.new model_class, model_decorator }
     let(:model_class) { AllPostgresType }
@@ -13,8 +13,8 @@ describe Wallaby::ActiveRecord::ModelOperator do
         record = model_class.create!(condition)
         false_ability = Ability.new nil
         false_ability.cannot :manage, model_class, condition
-        expect(subject.collection parameters({}), ability).to include record
-        expect(subject.collection parameters({}), false_ability).not_to include record
+        expect(subject.collection(parameters({}), ability)).to include record
+        expect(subject.collection(parameters({}), false_ability)).not_to include record
       end
 
       it 'orders the collection' do
@@ -65,7 +65,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
 
       context 'when params are not valid' do
         it 'returns the resource and is_raiseed' do
-          resource, is_success = subject.create parameters(all_postgres_type: { daterange: [ '', '2016-12-13' ] }), ability
+          resource, is_success = subject.create parameters(all_postgres_type: { daterange: ['', '2016-12-13'] }), ability
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
           expect(resource.errors).not_to be_blank
@@ -80,7 +80,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
           expect(resource.errors).not_to be_blank
-          expect(resource.errors[:base]).to eq [ 'StatementInvalid' ]
+          expect(resource.errors[:base]).to eq ['StatementInvalid']
           expect(is_success).to be_falsy
         end
       end
@@ -97,7 +97,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
 
       context 'when params are not valid' do
         it 'returns the resource and is_raiseed' do
-          resource, is_success = subject.update existing, parameters(all_postgres_type: { daterange: [ '', '2016-12-13' ] }), ability
+          resource, is_success = subject.update existing, parameters(all_postgres_type: { daterange: ['', '2016-12-13'] }), ability
           expect(resource).to be_a model_class
           expect(resource.errors).not_to be_blank
           expect(is_success).to be_falsy
@@ -110,7 +110,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
           resource, is_success = subject.update existing, parameters(all_postgres_type: { string: 'string' }), ability
           expect(resource).to be_a model_class
           expect(resource.errors).not_to be_blank
-          expect(resource.errors[:base]).to eq [ 'StatementInvalid' ]
+          expect(resource.errors[:base]).to eq ['StatementInvalid']
           expect(is_success).to be_falsy
         end
       end
@@ -119,7 +119,7 @@ describe Wallaby::ActiveRecord::ModelOperator do
     describe '#destroy' do
       it 'returns is_success regardless whether the record exists' do
         existing = model_class.create!({})
-        expect(subject.destroy existing, {}).to be_truthy
+        expect(subject.destroy(existing, {})).to be_truthy
       end
     end
   end

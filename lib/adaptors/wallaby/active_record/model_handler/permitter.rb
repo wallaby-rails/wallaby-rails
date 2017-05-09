@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    class ModelOperator
+    class ModelHandler
       # Filter the params
       class Permitter
         def initialize(model_decorator)

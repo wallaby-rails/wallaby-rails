@@ -1,6 +1,6 @@
 module Wallaby
-  # Model operator interface
-  class ModelOperator
+  # Model handler interface
+  class ModelHandler
     def initialize(model_class, model_decorator = nil)
       raise ArgumentError, 'model class required' unless model_class
       @model_class = model_class
