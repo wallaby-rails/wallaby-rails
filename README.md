@@ -8,7 +8,7 @@ Wallaby is a Rails engine to manage data. It can be easily customized in a Rails
 
 - It supports Devise and provides configuration to use your own authentication. For authorization, it supports CanCanCan.
 - Easy setup, ready for use, neat looking. And you won't miss any of these features (search/pagination/sorting/form validation/flash messages).
-- No DSL, pure Rails and minimum learning curve required. It's easy to customize things just by extending controllers and partials as you do for a normal Rails app, and it applies best practices such as Decorator and Service Object. (see [Customization](docs/CUSTOMIZATION.md))
+- No DSL, pure Rails and minimum learning curve required. It's easy to customize things just by extending controllers and partials as you do for a normal Rails app, and it applies best practices such as Decorator and Service Object. (see [Customization](docs/customization.md))
 - Possible to extend Wallaby to support not only ActiveRecord, but also other ORMs
 
 ### Support
@@ -105,7 +105,7 @@ There are two ways to set up authentication:
     end
     ```
 
-For more configurations and How-Toes, see [Customization](docs/CUSTOMIZATION.md).
+For more configurations and How-Toes, see [Customization](docs/customization.md).
 
 ## License
 This project rocks and uses MIT-LICENSE.
