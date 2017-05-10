@@ -3,10 +3,10 @@ module Wallaby
   class ModelServicer
     def self.model_class
       return unless self < Wallaby::ModelServicer
-      Wallaby::Utils.to_model_class name.gsub('Servicer', EMPTY_STRING), name
+      Map.model_class_map name.gsub('Servicer', EMPTY_STRING)
     end
 
-    def initialize(model_class = nil, model_decorator = nil)
+    def initialize(model_class = nil)
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'model class required' unless @model_class
       @handler = Map.handler_map @model_class

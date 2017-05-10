@@ -18,7 +18,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
           it 'raises not found' do
             stub_const 'NotFoundServicer', Class.new(Wallaby::ModelServicer)
             expect { NotFoundServicer.model_class }.to raise_error \
-              Wallaby::ModelNotFound, 'NotFound from NotFoundServicer'
+              Wallaby::ModelNotFound, 'NotFound'
           end
         end
       end

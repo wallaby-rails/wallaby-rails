@@ -5,12 +5,12 @@ module Wallaby
 
     def self.resources_name
       return unless self < Wallaby::ResourcesController
-      Wallaby::Utils.to_resources_name name.gsub('Controller', EMPTY_STRING)
+      Map.resources_name_map name.gsub('Controller', EMPTY_STRING)
     end
 
     def self.model_class
       return unless self < Wallaby::ResourcesController
-      Wallaby::Utils.to_model_class name.gsub('Controller', EMPTY_STRING), name
+      Map.model_class_map name.gsub('Controller', EMPTY_STRING)
     end
 
     def index
@@ -86,7 +86,7 @@ module Wallaby
     def current_model_service
       @current_model_service ||= begin
         service_class = Wallaby::Map.servicer_map current_model_class
-        service_class.new(current_model_class, current_model_decorator)
+        service_class.new(current_model_class)
       end
     end
 

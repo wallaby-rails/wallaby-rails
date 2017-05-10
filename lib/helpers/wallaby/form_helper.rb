@@ -14,9 +14,8 @@ module Wallaby
       render(options, locals, &block) || render('string', locals, &block)
     end
 
-    def model_choices(model_decorator)
-      collection =
-        model_servicer(model_decorator).collection({}, current_ability)
+    def model_choices(model_class)
+      collection = model_servicer(model_class).collection({}, current_ability)
       decorate(collection).map do |decorated|
         [decorated.to_label, decorated.primary_key_value]
       end

@@ -52,8 +52,8 @@ module Wallaby
     private
 
     def find_controller_by(resources_name)
-      model_class = Wallaby::Utils.to_model_class resources_name
-      Wallaby::Map.controller_map model_class
+      model_class = Map.model_class_map resources_name
+      Map.controller_map model_class
     end
 
     def find_action_by(params)

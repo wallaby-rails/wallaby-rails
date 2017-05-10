@@ -6,7 +6,7 @@ module Wallaby
         return unless self < Wallaby::ResourceDecorator
         @model_class ||= begin
           model_name = name.gsub('Decorator', EMPTY_STRING)
-          Wallaby::Utils.to_model_class model_name, name
+          Map.model_class_map model_name
         end
       end
 
@@ -21,8 +21,8 @@ module Wallaby
       end
 
       class_methods =
-        Wallaby::ModelDecorator.instance_methods \
-          - Object.instance_methods - %i[model_class]
+        ModelDecorator.instance_methods \
+          - ::Object.instance_methods - %i[model_class]
       delegate(*class_methods, to: :model_decorator, allow_nil: true)
     end
 
@@ -50,9 +50,9 @@ module Wallaby
         form_fields form_field_names
       ]
     instance_methods =
-      Wallaby::ModelDecorator.instance_methods \
+      ModelDecorator.instance_methods \
         - implemented_methods \
-        - Object.instance_methods
+        - ::Object.instance_methods
     delegate(*instance_methods, to: :model_decorator)
 
     def model_class

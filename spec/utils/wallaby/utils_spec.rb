@@ -88,7 +88,6 @@ describe Wallaby::Utils, clear: :object_space do
     context 'when resources_name is unknown' do
       it 'raises ModelNotFound error' do
         expect { described_class.to_model_class('unknown_future') }.to raise_error Wallaby::ModelNotFound, 'UnknownFuture'
-        expect { described_class.to_model_class('unknown_future', 'Caller') }.to raise_error Wallaby::ModelNotFound, 'UnknownFuture from Caller'
       end
     end
 

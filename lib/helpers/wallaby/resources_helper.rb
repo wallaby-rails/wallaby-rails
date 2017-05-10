@@ -29,10 +29,9 @@ module Wallaby
       Map.model_decorator_map model_class
     end
 
-    def model_servicer(model_decorator)
-      model_class = model_decorator.model_class
+    def model_servicer(model_class)
       servicer = Wallaby::Map.servicer_map model_class
-      servicer.new model_class, model_decorator
+      servicer.new model_class
     end
 
     def type_partial_render(options = {},
