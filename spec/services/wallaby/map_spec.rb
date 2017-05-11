@@ -2,6 +2,7 @@ require 'rails_helper'
 
 class SuperMode
   def self.model_finder; Finder; end
+
   class Finder
     def all; [AllPostgresType, AllMysqlType, AllSqliteType]; end
   end
@@ -76,22 +77,20 @@ describe Wallaby::Map do
 
   describe '.controller_map' do
     before do
-      class FashionController1
-        def self.model_class; AllPostgresType; end
-      end
-      class FashionController2
+      class AllPostgresTypeController < Wallaby::ResourcesController; end
+      class MysqlTypeController < Wallaby::ResourcesController
         def self.model_class; AllMysqlType; end
       end
       expect(Wallaby::ResourcesController).to receive(:subclasses) {
-        [FashionController1, FashionController2]
+        [AllPostgresTypeController, MysqlTypeController]
       }
     end
 
     it 'returns a controller' do
-      expect(described_class.controller_map(AllPostgresType)).to eq FashionController1
+      expect(described_class.controller_map(AllPostgresType)).to eq AllPostgresTypeController
       expect(described_class.instance_variable_get(:@controller_map)).to eq \
-        AllPostgresType => FashionController1,
-        AllMysqlType => FashionController2
+        AllPostgresType => AllPostgresTypeController,
+        AllMysqlType => MysqlTypeController
       expect(described_class.controller_map(Object)).to eq Wallaby::ResourcesController
     end
   end
@@ -105,22 +104,20 @@ describe Wallaby::Map do
 
   describe '.resource_decorator_map' do
     before do
-      class FashionDecorator1
-        def self.model_class; AllPostgresType; end
-      end
-      class FashionDecorator2
+      class AllPostgresTypeDecorator < Wallaby::ResourceDecorator; end
+      class MysqlTypeDecorator < Wallaby::ResourceDecorator
         def self.model_class; AllMysqlType; end
       end
       expect(Wallaby::ResourceDecorator).to receive(:subclasses) {
-        [FashionDecorator1, FashionDecorator2]
+        [AllPostgresTypeDecorator, MysqlTypeDecorator]
       }
     end
 
     it 'returns a model decorator' do
-      expect(described_class.resource_decorator_map(AllPostgresType)).to eq FashionDecorator1
+      expect(described_class.resource_decorator_map(AllPostgresType)).to eq AllPostgresTypeDecorator
       expect(described_class.instance_variable_get(:@resource_decorator_map)).to eq \
-        AllPostgresType => FashionDecorator1,
-        AllMysqlType => FashionDecorator2
+        AllPostgresType => AllPostgresTypeDecorator,
+        AllMysqlType => MysqlTypeDecorator
     end
 
     context 'when a model is not in the map' do
@@ -132,22 +129,20 @@ describe Wallaby::Map do
 
   describe '.servicer_map' do
     before do
-      class FashionServicer1
-        def self.model_class; AllPostgresType; end
-      end
-      class FashionServicer2
+      class AllPostgresTypeServicer < Wallaby::ModelServicer; end
+      class MysqlTypeServicer < Wallaby::ModelServicer
         def self.model_class; AllMysqlType; end
       end
       expect(Wallaby::ModelServicer).to receive(:subclasses) {
-        [FashionServicer1, FashionServicer2]
+        [AllPostgresTypeServicer, MysqlTypeServicer]
       }
     end
 
     it 'returns a map of model -> servicer' do
-      expect(described_class.servicer_map(AllPostgresType)).to eq FashionServicer1
-      expect(described_class.instance_variable_get(:@servicer_map)).to eq \
-        AllPostgresType => FashionServicer1,
-        AllMysqlType => FashionServicer2
+      expect(described_class.servicer_map(AllPostgresType)).to be_a AllPostgresTypeServicer
+      map = described_class.instance_variable_get(:@servicer_map)
+      expect(map[AllPostgresType]).to be_a AllPostgresTypeServicer
+      expect(map[AllMysqlType]).to be_a MysqlTypeServicer
     end
   end
 

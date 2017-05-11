@@ -1,15 +1,15 @@
 module Wallaby
   # Generic CRUD controller
   class ResourcesController < CoreController
-    helper Wallaby::ResourcesHelper
+    helper ResourcesHelper
 
     def self.resources_name
-      return unless self < Wallaby::ResourcesController
+      return unless self < ::Wallaby::ResourcesController
       Map.resources_name_map name.gsub('Controller', EMPTY_STRING)
     end
 
     def self.model_class
-      return unless self < Wallaby::ResourcesController
+      return unless self < ::Wallaby::ResourcesController
       Map.model_class_map name.gsub('Controller', EMPTY_STRING)
     end
 
@@ -66,13 +66,13 @@ module Wallaby
     protected
 
     def _prefixes
-      @_prefixes ||= Wallaby::PrefixesBuilder.new(
+      @_prefixes ||= PrefixesBuilder.new(
         super, controller_path, current_resources_name, params
       ).build
     end
 
     def lookup_context
-      @_lookup_context ||= Wallaby::LookupContextWrapper.new super
+      @_lookup_context ||= LookupContextWrapper.new super
     end
 
     def resources_index_path(name = current_resources_name)
@@ -84,10 +84,7 @@ module Wallaby
     end
 
     def current_model_service
-      @current_model_service ||= begin
-        service_class = Wallaby::Map.servicer_map current_model_class
-        service_class.new(current_model_class)
-      end
+      @current_model_service ||= Map.servicer_map current_model_class
     end
 
     def new_resource

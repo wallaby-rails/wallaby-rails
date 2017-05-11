@@ -9,7 +9,7 @@ module Wallaby
     # [ model classes ]
     def self.model_classes
       @model_classes ||=
-        ModelClassCollector.new(Wallaby.configuration).collect.freeze
+        ModelClassCollector.new(::Wallaby.configuration).collect.freeze
     end
 
     # { model => controller }
@@ -35,8 +35,11 @@ module Wallaby
 
     # { model => servicer }
     def self.servicer_map(model_class)
-      @servicer_map ||= ModelClassMapper.new(ModelServicer).map
-      @servicer_map[model_class] ||= ModelServicer
+      @servicer_map ||=
+        ModelClassMapper.new(ModelServicer).map do |klass|
+          klass.new(klass.model_class)
+        end
+      @servicer_map[model_class] ||= ModelServicer.new(model_class)
     end
 
     # { model => handler }

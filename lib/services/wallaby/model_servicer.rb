@@ -2,7 +2,7 @@ module Wallaby
   # Model servicer
   class ModelServicer
     def self.model_class
-      return unless self < Wallaby::ModelServicer
+      return unless self < ::Wallaby::ModelServicer
       Map.model_class_map name.gsub('Servicer', EMPTY_STRING)
     end
 
