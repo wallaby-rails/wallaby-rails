@@ -8,10 +8,10 @@ module Wallaby
 
       def map(&block)
         return {} if @base_class.blank?
-        block = proc { |v| v } unless block_given?
         @base_class.subclasses.each_with_object({}) do |klass, map|
           unless anonymous? klass
-            map[klass.model_class] = block.call(klass)
+            map[klass.model_class] =
+              block_given? ? block.call(klass) : klass
           end
         end
       end
