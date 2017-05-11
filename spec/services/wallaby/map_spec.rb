@@ -1,14 +1,16 @@
 require 'rails_helper'
 
+class SuperMode
+  def self.model_finder; Finder; end
+
+  class Finder
+    def all; [AllPostgresType, AllMysqlType, AllSqliteType]; end
+  end
+end
+
 describe Wallaby::Map do
   describe '.mode_map' do
     before do
-      class SuperMode
-        def self.model_finder; Finder; end
-        class Finder
-          def all; [AllPostgresType, AllMysqlType, AllSqliteType]; end
-        end
-      end
       expect(Wallaby::Mode).to receive(:subclasses) { [SuperMode] }
     end
 
@@ -19,119 +21,36 @@ describe Wallaby::Map do
         AllSqliteType => SuperMode
     end
 
-    it 'memorizes the map' do
-      expect(described_class::ModeMapper) \
-        .to receive(:new).once.and_return(double(map: []))
-      described_class.mode_map
-      described_class.mode_map
-      described_class.mode_map
-    end
-  end
-
-  describe '.controller_map' do
-    before do
-      class FashionController1
-        def self.model_class; AllPostgresType; end
-      end
-      class FashionController2
-        def self.model_class; AllMysqlType; end
-      end
-      expect(Wallaby::ResourcesController).to receive(:subclasses) {
-        [FashionController1, FashionController2]
-      }
-    end
-
-    it 'returns a map of model -> controller' do
-      expect(described_class.controller_map).to eq \
-        AllPostgresType => FashionController1,
-        AllMysqlType => FashionController2
-    end
-
-    it 'memorizes the map' do
-      described_class.controller_map
-      described_class.controller_map
-      described_class.controller_map
-    end
-  end
-
-  describe '.decorator_map' do
-    before do
-      class FashionDecorator1
-        def self.model_class; AllPostgresType; end
-      end
-      class FashionDecorator2
-        def self.model_class; AllMysqlType; end
-      end
-      expect(Wallaby::ResourceDecorator).to receive(:subclasses) {
-        [FashionDecorator1, FashionDecorator2]
-      }
-    end
-
-    it 'returns a map of model -> decorator' do
-      expect(described_class.decorator_map).to eq \
-        AllPostgresType => FashionDecorator1,
-        AllMysqlType => FashionDecorator2
-    end
-
-    it 'memorizes the map' do
-      described_class.decorator_map
-      described_class.decorator_map
-      described_class.decorator_map
-    end
-  end
-
-  describe '.servicer_map' do
-    before do
-      class FashionServicer1
-        def self.model_class; AllPostgresType; end
-      end
-      class FashionServicer2
-        def self.model_class; AllMysqlType; end
-      end
-      expect(Wallaby::ModelServicer).to receive(:subclasses) {
-        [FashionServicer1, FashionServicer2]
-      }
-    end
-
-    it 'returns a map of model -> servicer' do
-      expect(described_class.servicer_map).to eq \
-        AllPostgresType => FashionServicer1,
-        AllMysqlType => FashionServicer2
-    end
-
-    it 'memorizes the map' do
-      described_class.servicer_map
-      described_class.servicer_map
-      described_class.servicer_map
+    it 'is frozen' do
+      expect { described_class.mode_map[Object] = SuperMode }.to raise_error RuntimeError, "can't modify frozen Hash"
     end
   end
 
   describe '.model_classes' do
-    let(:configuration) { Wallaby::Configuration.new }
-
     before do
       expect(Wallaby::Mode).to receive(:subclasses) { [SuperMode] }
-      expect(Wallaby).to receive(:configuration) { configuration }
+    end
+
+    after do
+      Wallaby.configuration.clear
     end
 
     it 'returns all models' do
-      expect(described_class.model_classes).to eq \
-        [AllPostgresType, AllMysqlType, AllSqliteType]
+      expect(described_class.model_classes).to eq [AllPostgresType, AllMysqlType, AllSqliteType]
     end
 
     context 'there are excludes' do
       before do
-        configuration.models.exclude AllPostgresType
+        Wallaby.configuration.models.exclude AllPostgresType
       end
 
       it 'excludes AllPostgresType' do
-        expect(described_class.model_classes).to \
-          eq [AllMysqlType, AllSqliteType]
+        expect(described_class.model_classes).to eq [AllMysqlType, AllSqliteType]
       end
 
       context 'models are set' do
         before do
-          configuration.models.set AllSqliteType
+          Wallaby.configuration.models.set AllSqliteType
         end
 
         it 'returns the models being set' do
@@ -140,7 +59,7 @@ describe Wallaby::Map do
 
         context 'some of the models being set are invalid' do
           before do
-            configuration.models.set SuperMode, AllSqliteType
+            Wallaby.configuration.models.set SuperMode, AllSqliteType
           end
 
           it 'raises error' do
@@ -151,10 +70,91 @@ describe Wallaby::Map do
       end
     end
 
-    it 'memorizes the map' do
-      described_class.model_classes
-      described_class.model_classes
-      described_class.model_classes
+    it 'is frozen' do
+      expect { described_class.model_classes << Object }.to raise_error RuntimeError, "can't modify frozen Array"
+    end
+  end
+
+  describe '.controller_map' do
+    before do
+      class AllPostgresTypeController < Wallaby::ResourcesController; end
+      class MysqlTypeController < Wallaby::ResourcesController
+        def self.model_class; AllMysqlType; end
+      end
+      expect(Wallaby::ResourcesController).to receive(:subclasses) {
+        [AllPostgresTypeController, MysqlTypeController]
+      }
+    end
+
+    it 'returns a controller' do
+      expect(described_class.controller_map(AllPostgresType)).to eq AllPostgresTypeController
+      expect(described_class.instance_variable_get(:@controller_map)).to eq \
+        AllPostgresType => AllPostgresTypeController,
+        AllMysqlType => MysqlTypeController
+      expect(described_class.controller_map(Object)).to eq Wallaby::ResourcesController
+    end
+  end
+
+  describe '.model_decorator_map' do
+    it 'returns a model decorator' do
+      expect(described_class.model_decorator_map(AllPostgresType)).to be_a Wallaby::ActiveRecord::ModelDecorator
+      expect(described_class.model_decorator_map(Array)).to be_blank
+    end
+  end
+
+  describe '.resource_decorator_map' do
+    before do
+      class AllPostgresTypeDecorator < Wallaby::ResourceDecorator; end
+      class MysqlTypeDecorator < Wallaby::ResourceDecorator
+        def self.model_class; AllMysqlType; end
+      end
+      expect(Wallaby::ResourceDecorator).to receive(:subclasses) {
+        [AllPostgresTypeDecorator, MysqlTypeDecorator]
+      }
+    end
+
+    it 'returns a model decorator' do
+      expect(described_class.resource_decorator_map(AllPostgresType)).to eq AllPostgresTypeDecorator
+      expect(described_class.instance_variable_get(:@resource_decorator_map)).to eq \
+        AllPostgresType => AllPostgresTypeDecorator,
+        AllMysqlType => MysqlTypeDecorator
+    end
+
+    context 'when a model is not in the map' do
+      it 'returns a general resource decorator' do
+        expect(described_class.resource_decorator_map(Picture)).to eq Wallaby::ResourceDecorator
+      end
+    end
+  end
+
+  describe '.servicer_map' do
+    before do
+      class AllPostgresTypeServicer < Wallaby::ModelServicer; end
+      class MysqlTypeServicer < Wallaby::ModelServicer
+        def self.model_class; AllMysqlType; end
+      end
+      expect(Wallaby::ModelServicer).to receive(:subclasses) {
+        [AllPostgresTypeServicer, MysqlTypeServicer]
+      }
+    end
+
+    it 'returns a map of model -> servicer' do
+      expect(described_class.servicer_map(AllPostgresType)).to be_a AllPostgresTypeServicer
+      map = described_class.instance_variable_get(:@servicer_map)
+      expect(map[AllPostgresType]).to be_a AllPostgresTypeServicer
+      expect(map[AllMysqlType]).to be_a MysqlTypeServicer
+    end
+  end
+
+  describe '.model_class_map' do
+    it 'returns a model_class that convert from a resources_name' do
+      expect(described_class.model_class_map('products')).to eq Product
+    end
+  end
+
+  describe '.resources_name_map' do
+    it 'returns a model_class that convert from a resources_name' do
+      expect(described_class.resources_name_map(Product)).to eq 'products'
     end
   end
 end

@@ -1,24 +1,24 @@
 module Wallaby
   # Resources helper
   module ResourcesHelper
-    include Wallaby::FormHelper
-    include Wallaby::SortingHelper
-    include Wallaby::PaginatableHelper
+    include FormHelper
+    include SortingHelper
+    include PaginatableHelper
 
     def decorate(resource)
       if resource.respond_to? :map # collection
-        decorator = Wallaby::DecoratorFinder.find_resource resource.first.class
+        decorator = Map.resource_decorator_map resource.first.class
         resource.map do |item|
           decorator.decorate item
         end
       else
-        decorator = Wallaby::DecoratorFinder.find_resource resource.class
+        decorator = Map.resource_decorator_map resource.class
         decorator.decorate resource
       end
     end
 
     def extract(resource)
-      if resource.is_a? Wallaby::ResourceDecorator
+      if resource.is_a? ResourceDecorator
         resource.resource
       else
         resource
@@ -26,12 +26,11 @@ module Wallaby
     end
 
     def model_decorator(model_class)
-      Wallaby::DecoratorFinder.find_model model_class
+      Map.model_decorator_map model_class
     end
 
-    def model_servicer(model_decorator)
-      model_class = model_decorator.model_class
-      Wallaby::ServicerFinder.find(model_class).new model_class, model_decorator
+    def model_servicer(model_class)
+      Map.servicer_map model_class
     end
 
     def type_partial_render(options = {},
@@ -40,7 +39,7 @@ module Wallaby
       decorated   = locals[:object]
       field_name  = locals[:field_name].to_s
 
-      unless field_name.present? && decorated.is_a?(Wallaby::ResourceDecorator)
+      unless field_name.present? && decorated.is_a?(ResourceDecorator)
         raise ArgumentError
       end
 
@@ -55,7 +54,7 @@ module Wallaby
     end
 
     def show_title(decorated)
-      raise ArgumentError unless decorated.is_a? Wallaby::ResourceDecorator
+      raise ArgumentError unless decorated.is_a? ResourceDecorator
       [to_model_label(decorated.model_class), decorated.to_label] \
         .compact.join ': '
     end

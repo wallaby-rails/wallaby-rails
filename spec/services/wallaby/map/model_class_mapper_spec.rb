@@ -25,6 +25,14 @@ describe Wallaby::Map::ModelClassMapper do
           AModelClass: PretendToBeABaseClass::SubClass1,
           BModelClass: PretendToBeABaseClass::SubClass2
       end
+
+      context 'when block is given' do
+        it 'returns a map' do
+          expect(described_class.new(PretendToBeABaseClass).map(&:model_class)).to eq \
+            AModelClass: :AModelClass,
+            BModelClass: :BModelClass
+        end
+      end
     end
   end
 end

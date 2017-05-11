@@ -11,7 +11,7 @@ module Wallaby
     end
 
     def to_resources_name(model_class)
-      Wallaby::Utils.to_resources_name model_class
+      Map.resources_name_map model_class
     end
 
     def current_model_label

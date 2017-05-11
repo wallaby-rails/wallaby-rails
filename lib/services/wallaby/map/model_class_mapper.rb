@@ -6,10 +6,13 @@ module Wallaby
         @base_class = base_class
       end
 
-      def map
+      def map(&block)
         return {} if @base_class.blank?
         @base_class.subclasses.each_with_object({}) do |klass, map|
-          map[klass.model_class] = klass unless anonymous? klass
+          unless anonymous? klass
+            map[klass.model_class] =
+              block_given? ? block.call(klass) : klass
+          end
         end
       end
 

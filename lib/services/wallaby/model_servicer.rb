@@ -2,41 +2,38 @@ module Wallaby
   # Model servicer
   class ModelServicer
     def self.model_class
-      return unless self < Wallaby::ModelServicer
-      Wallaby::Utils.to_model_class name.gsub('Servicer', EMPTY_STRING), name
+      return unless self < ::Wallaby::ModelServicer
+      Map.model_class_map name.gsub('Servicer', EMPTY_STRING)
     end
 
-    def initialize(model_class = nil, model_decorator = nil)
+    def initialize(model_class = nil)
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'model class required' unless @model_class
-      @model_decorator =
-        model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
-      @delegator =
-        Wallaby.adaptor.model_operator.new @model_class, @model_decorator
+      @handler = Map.handler_map @model_class
     end
 
     def collection(params, ability)
-      @delegator.collection params, ability
+      @handler.collection params, ability
     end
 
     def new(params)
-      @delegator.new params
+      @handler.new params
     end
 
     def find(id, params)
-      @delegator.find id, params
+      @handler.find id, params
     end
 
     def create(params, ability)
-      @delegator.create params, ability
+      @handler.create params, ability
     end
 
     def update(resource, params, ability)
-      @delegator.update resource, params, ability
+      @handler.update resource, params, ability
     end
 
     def destroy(resource, params)
-      @delegator.destroy resource, params
+      @handler.destroy resource, params
     end
   end
 end

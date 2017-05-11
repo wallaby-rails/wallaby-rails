@@ -23,7 +23,7 @@ module Wallaby
       def current_model_class
         @current_model_class ||=
           self.class.respond_to?(:model_class) && self.class.model_class \
-          || Wallaby::Utils.to_model_class(current_resources_name)
+          || Map.model_class_map(current_resources_name)
       end
     end
   end

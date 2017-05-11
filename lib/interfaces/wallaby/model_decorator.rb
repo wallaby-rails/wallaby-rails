@@ -55,7 +55,7 @@ module Wallaby
     end
 
     def resources_name
-      Wallaby::Utils.to_resources_name @model_class
+      Map.resources_name_map @model_class
     end
   end
 end

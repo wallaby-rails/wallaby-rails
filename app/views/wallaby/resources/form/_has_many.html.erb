@@ -2,7 +2,7 @@
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
     <div class="col-xs-6 col-sm-3">
-      <%= form.select metadata[:foreign_key], model_choices(model_decorator metadata[:class]), { }, { class: 'form-control', multiple: true } %>
+      <%= form.select metadata[:foreign_key], model_choices(metadata[:class]), { }, { class: 'form-control', multiple: true } %>
       <p class="help-block">
         Press CTRL to select/deselect multiple items.
         <%= new_link metadata[:class], prepend: 'Or' %>

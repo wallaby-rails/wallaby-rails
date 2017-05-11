@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    class ModelOperator
+    class ModelHandler
       # Normalizer
       class Normalizer
         def initialize(model_decorator)

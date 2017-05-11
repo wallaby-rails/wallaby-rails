@@ -41,10 +41,12 @@ end
 
 require 'wallaby/configuration'
 
+require 'utils/wallaby/utils'
+
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'
 require 'interfaces/wallaby/model_finder'
-require 'interfaces/wallaby/model_operator'
+require 'interfaces/wallaby/model_handler'
 
 require 'errors/wallaby/general_error'
 require 'errors/wallaby/deprecated'
@@ -60,11 +62,11 @@ require 'adaptors/wallaby/active_record/model_decorator'
 require 'adaptors/wallaby/active_record/model_decorator/fields_builder'
 require 'adaptors/wallaby/active_record/model_decorator/title_field_finder'
 require 'adaptors/wallaby/active_record/model_finder'
-require 'adaptors/wallaby/active_record/model_operator'
-require 'adaptors/wallaby/active_record/model_operator/normalizer'
-require 'adaptors/wallaby/active_record/model_operator/permitter'
-require 'adaptors/wallaby/active_record/model_operator/querier'
-require 'adaptors/wallaby/active_record/model_operator/validator'
+require 'adaptors/wallaby/active_record/model_handler'
+require 'adaptors/wallaby/active_record/model_handler/normalizer'
+require 'adaptors/wallaby/active_record/model_handler/permitter'
+require 'adaptors/wallaby/active_record/model_handler/querier'
+require 'adaptors/wallaby/active_record/model_handler/validator'
 
 require 'decorators/wallaby/resource_decorator'
 
@@ -76,15 +78,11 @@ require 'services/wallaby/map'
 require 'services/wallaby/map/mode_mapper'
 require 'services/wallaby/map/model_class_collector'
 require 'services/wallaby/map/model_class_mapper'
-require 'services/wallaby/decorator_finder'
 require 'services/wallaby/lookup_context_wrapper'
 require 'services/wallaby/model_servicer'
-require 'services/wallaby/servicer_finder'
 require 'services/wallaby/prefixes_builder'
 require 'services/wallaby/sorting/hash_builder'
 require 'services/wallaby/sorting/next_builder'
-
-require 'utils/wallaby/utils'
 
 require 'helpers/wallaby/form_helper'
 require 'helpers/wallaby/links_helper'

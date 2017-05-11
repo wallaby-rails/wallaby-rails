@@ -1,11 +1,10 @@
 module Wallaby
-  # Model operator interface
-  class ModelOperator
+  # Model handler interface
+  class ModelHandler
     def initialize(model_class, model_decorator = nil)
       raise ArgumentError, 'model class required' unless model_class
       @model_class = model_class
-      @model_decorator =
-        model_decorator || Wallaby::DecoratorFinder.find_model(@model_class)
+      @model_decorator = model_decorator || Map.model_decorator_map(model_class)
     end
 
     def collection(_params, _ability)

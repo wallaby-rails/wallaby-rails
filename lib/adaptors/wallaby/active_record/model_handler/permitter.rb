@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    class ModelOperator
+    class ModelHandler
       # Filter the params
       class Permitter
         def initialize(model_decorator)
@@ -21,7 +21,7 @@ module Wallaby
           field_names =
             range_fields.keys +
             many_association_fields.map { |_, metadata| metadata[:foreign_key] }
-          Wallaby::Utils.to_hash(field_names.map { |name| [name, []] })
+          field_names.each_with_object({}) { |name, hash| hash[name] = [] }
         end
 
         protected
