@@ -3,11 +3,11 @@ require 'securerandom'
 module Wallaby
   # NOTE: Global helper methods should go in here
   module CoreHelper
-    include Wallaby::StylingHelper
-    include Wallaby::LinksHelper
+    include StylingHelper
+    include LinksHelper
 
     def to_model_label(model_class)
-      Wallaby::Utils.to_model_label model_class
+      Utils.to_model_label model_class
     end
 
     def to_resources_name(model_class)
@@ -36,8 +36,8 @@ module Wallaby
 
     def ct(key, options = {})
       t key, { raise: true }.merge(options)
-    rescue I18n::MissingTranslationData => e
-      keys = I18n.normalize_keys(e.locale, e.key, e.options[:scope])
+    rescue ::I18n::MissingTranslationData => e
+      keys = ::I18n.normalize_keys(e.locale, e.key, e.options[:scope])
       keys.last.to_s.titleize
     end
 
@@ -46,7 +46,7 @@ module Wallaby
     end
 
     def model_classes
-      Wallaby::Map.model_classes.sort_by(&:name)
+      Map.model_classes.sort_by(&:name)
     end
   end
 end

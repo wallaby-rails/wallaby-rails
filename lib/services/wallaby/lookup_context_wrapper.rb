@@ -1,8 +1,8 @@
 module Wallaby
   # Lookup context wrapper
   class LookupContextWrapper
-    origin_methods = ActionView::LookupContext.instance_methods \
-        - Object.instance_methods - %i[find_template]
+    origin_methods = ::ActionView::LookupContext.instance_methods \
+        - ::Object.instance_methods - %i[find_template]
     delegate(*origin_methods, to: :@lookup_context)
 
     def initialize(lookup_context)
@@ -23,7 +23,7 @@ module Wallaby
       unless @templates.key? key
         @templates[key] = begin
           yield
-        rescue ActionView::MissingTemplate
+        rescue ::ActionView::MissingTemplate
           raise if Rails.env.development?
           BlankTemplate.new
         end
@@ -32,7 +32,7 @@ module Wallaby
     end
 
     # Blank template
-    class BlankTemplate < ActionView::Template::HTML
+    class BlankTemplate < ::ActionView::Template::HTML
       def initialize
         super nil
       end

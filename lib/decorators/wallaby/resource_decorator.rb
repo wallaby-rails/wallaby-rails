@@ -3,7 +3,7 @@ module Wallaby
   class ResourceDecorator
     class << self
       def model_class
-        return unless self < Wallaby::ResourceDecorator
+        return unless self < ::Wallaby::ResourceDecorator
         @model_class ||= begin
           model_name = name.gsub('Decorator', EMPTY_STRING)
           Map.model_class_map model_name
@@ -11,12 +11,12 @@ module Wallaby
       end
 
       def model_decorator
-        return unless self < Wallaby::ResourceDecorator
+        return unless self < ::Wallaby::ResourceDecorator
         @model_decorator ||= Map.model_decorator_map model_class
       end
 
       def decorate(resource)
-        return resource if resource.is_a? Wallaby::ResourceDecorator
+        return resource if resource.is_a? ResourceDecorator
         new resource
       end
 

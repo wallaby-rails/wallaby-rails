@@ -18,7 +18,7 @@ module Wallaby
         invalid_models = configured_models - all_models
         return if invalid_models.blank?
         message = "#{invalid_models.to_sentence} are invalid models."
-        raise Wallaby::InvalidError, message
+        raise InvalidError, message
       end
 
       def models
@@ -26,7 +26,7 @@ module Wallaby
       end
 
       def all_models
-        Wallaby::Map.mode_map.keys
+        Map.mode_map.keys
       end
 
       def excluded_models

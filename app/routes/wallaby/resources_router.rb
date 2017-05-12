@@ -9,7 +9,6 @@ if Rails.env.development?
   DEBUG
   GC.start
   Wallaby::Map.clear
-  Rails.cache.delete_matched 'wallaby/*'
 
   # NOTE: we search for subclasses of
   # Wallaby::ResourcesController and Wallaby::ResourceDecorator.
@@ -44,7 +43,7 @@ module Wallaby
       params[:action] = find_action_by params
 
       controller.action(params[:action]).call env
-    rescue AbstractController::ActionNotFound, Wallaby::ModelNotFound => e
+    rescue ::AbstractController::ActionNotFound, ModelNotFound => e
       params[:error] = e
       ResourcesController.action(:not_found).call env
     end

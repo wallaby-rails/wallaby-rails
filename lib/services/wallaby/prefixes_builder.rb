@@ -37,7 +37,7 @@ module Wallaby
     end
 
     def wallaby_path
-      Wallaby::ResourcesController.controller_path
+      ResourcesController.controller_path
     end
 
     def mounted_path

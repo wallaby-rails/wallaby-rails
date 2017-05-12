@@ -10,11 +10,11 @@ module Wallaby
     [EMPTY_STRING, 'index_', 'show_', 'form_'].each do |prefix|
       class_eval <<-RUBY
         def #{prefix}fields
-          raise Wallaby::NotImplemented
+          raise NotImplemented
         end
 
         def #{prefix}fields=(#{prefix}fields)
-          @#{prefix}fields = HashWithIndifferentAccess.new #{prefix}fields
+          @#{prefix}fields = ::HashWithIndifferentAccess.new #{prefix}fields
         end
 
         def #{prefix}field_names
@@ -43,15 +43,15 @@ module Wallaby
     end
 
     def form_active_errors(_resource)
-      raise Wallaby::NotImplemented
+      raise NotImplemented
     end
 
     def primary_key
-      raise Wallaby::NotImplemented
+      raise NotImplemented
     end
 
     def guess_title(_resource)
-      raise Wallaby::NotImplemented
+      raise NotImplemented
     end
 
     def resources_name

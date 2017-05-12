@@ -1,9 +1,9 @@
 module Wallaby
   class ActiveRecord
     # Modal decorator
-    class ModelDecorator < Wallaby::ModelDecorator
+    class ModelDecorator < ::Wallaby::ModelDecorator
       def fields
-        @fields ||= HashWithIndifferentAccess.new.tap do |hash|
+        @fields ||= ::HashWithIndifferentAccess.new.tap do |hash|
           if model_class.table_exists?
             hash.merge! general_fields
             hash.merge! association_fields

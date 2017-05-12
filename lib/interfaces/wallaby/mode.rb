@@ -11,10 +11,10 @@ module Wallaby
           parent_class  = "Wallaby::#{method_class}".constantize
           class_name.constantize.tap do |klass|
             next if klass < parent_class
-            raise Wallaby::InvalidError, "#{klass} must inherit #{parent_class}"
+            raise InvalidError, "#{klass} must inherit #{parent_class}"
           end
         rescue NameError
-          raise Wallaby::NotImplemented, class_name
+          raise NotImplemented, class_name
         end
       end
     end

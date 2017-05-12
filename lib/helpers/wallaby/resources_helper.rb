@@ -40,7 +40,7 @@ module Wallaby
       field_name  = locals[:field_name].to_s
 
       unless field_name.present? && decorated.is_a?(ResourceDecorator)
-        raise ArgumentError
+        raise ::ArgumentError
       end
 
       locals[:metadata] = decorated.send metadata_method, field_name
@@ -54,7 +54,7 @@ module Wallaby
     end
 
     def show_title(decorated)
-      raise ArgumentError unless decorated.is_a? ResourceDecorator
+      raise ::ArgumentError unless decorated.is_a? ResourceDecorator
       [to_model_label(decorated.model_class), decorated.to_label] \
         .compact.join ': '
     end

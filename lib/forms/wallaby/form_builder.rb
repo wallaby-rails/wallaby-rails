@@ -1,6 +1,6 @@
 module Wallaby
   # Form builder
-  class FormBuilder < ActionView::Helpers::FormBuilder
+  class FormBuilder < ::ActionView::Helpers::FormBuilder
     def error_class(field_name)
       'has-error' if error? field_name
     end

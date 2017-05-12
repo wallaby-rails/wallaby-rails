@@ -66,8 +66,8 @@ module Wallaby
         end
 
         def available_model_class
-          Wallaby::Map.mode_map.select do |_, mode|
-            mode == Wallaby::ActiveRecord
+          Map.mode_map.select do |_, mode|
+            mode == ::Wallaby::ActiveRecord
           end.keys
         end
 

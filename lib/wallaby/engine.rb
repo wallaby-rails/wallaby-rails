@@ -19,17 +19,14 @@ module Wallaby
   # Rails engine
   class Engine < ::Rails::Engine
     # isolate_namespace Wallaby
+
     initializer 'wallaby.deflate' do |app|
+      # default to Gzip HTML
       app.config.middleware.use Rack::Deflater
     end
 
     initializer 'wallaby.initialize_cache' do |_app|
-      # TODO: optimize performance here
-      Rails.cache.delete_matched 'wallaby/*'
-
-      ActionView::Template.class_eval do
-        register_template_handler :erb, Wallaby::CachedCompiledErb.new
-      end
+      Map.clear
     end
 
     initializer 'wallaby.assets.precompile' do |app|
@@ -71,8 +68,6 @@ require 'adaptors/wallaby/active_record/model_handler/validator'
 require 'decorators/wallaby/resource_decorator'
 
 require 'forms/wallaby/form_builder'
-
-require 'handlers/wallaby/cached_compiled_erb'
 
 require 'services/wallaby/map'
 require 'services/wallaby/map/mode_mapper'

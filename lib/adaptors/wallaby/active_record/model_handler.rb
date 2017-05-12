@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     # Model operator
-    class ModelHandler < Wallaby::ModelHandler
+    class ModelHandler < ::Wallaby::ModelHandler
       def collection(params, ability)
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?
@@ -17,7 +17,7 @@ module Wallaby
       def find(id, _params)
         @model_class.find id
       rescue ::ActiveRecord::RecordNotFound
-        raise ::Wallaby::ResourceNotFound
+        raise ResourceNotFound
       end
 
       def create(params, ability)

@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     # Model finder
-    class ModelFinder < Wallaby::ModelFinder
+    class ModelFinder < ::Wallaby::ModelFinder
       def all
         base.descendants.reject do |model_class|
           abstract?(model_class) || anonymous?(model_class) \
