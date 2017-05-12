@@ -34,7 +34,7 @@ module Wallaby
 
         def normalize_binary_values(params, field_name, values)
           params[field_name] =
-            values.is_a?(ActionDispatch::Http::UploadedFile) &&
+            values.is_a?(::ActionDispatch::Http::UploadedFile) &&
             values.read || nil
         end
       end

@@ -1,7 +1,7 @@
 module Wallaby
   # Core controller to provide basic helper methods for sub classes
   class CoreController < SecureController
-    helper Wallaby::CoreHelper
+    helper CoreHelper
 
     before_action :authenticate_user!, except: [:status]
 

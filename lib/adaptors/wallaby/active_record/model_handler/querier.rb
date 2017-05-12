@@ -41,7 +41,7 @@ module Wallaby
         def field_search(keywords, query)
           return query if keywords.blank?
           hashed_queries =
-            Wallaby::Utils.to_hash(keywords.map { |v| v.split ':' })
+            Utils.to_hash(keywords.map { |v| v.split ':' })
           query.where hashed_queries
         end
 

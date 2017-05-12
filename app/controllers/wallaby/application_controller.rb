@@ -3,13 +3,10 @@ module Wallaby
   # Default to inherit from ::ApplicationController
   # It is responsible for handling exceptions
   class ApplicationController < configuration.base_controller
-    helper Wallaby::ApplicationHelper
+    helper ApplicationHelper
 
-    rescue_from \
-      Wallaby::ResourceNotFound,
-      Wallaby::ModelNotFound,
-      with: :not_found
-    rescue_from ActionController::ParameterMissing, with: :bad_request
+    rescue_from ResourceNotFound, ModelNotFound, with: :not_found
+    rescue_from ::ActionController::ParameterMissing, with: :bad_request
 
     layout 'wallaby/application'
 

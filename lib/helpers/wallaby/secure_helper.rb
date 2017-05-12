@@ -14,8 +14,8 @@ module Wallaby
 
     def logout_path(user = current_user, app = main_app)
       path =
-        if defined? Devise
-          scope = Devise::Mapping.find_scope! user
+        if defined? ::Devise
+          scope = ::Devise::Mapping.find_scope! user
           "destroy_#{scope}_session_path"
         else
           'logout_path'

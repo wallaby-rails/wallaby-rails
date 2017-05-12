@@ -1,6 +1,6 @@
 # defualt ability for cancan
 class Ability
-  include CanCan::Ability
+  include ::CanCan::Ability
 
   def initialize(_user)
     # Define abilities for the passed in user here. For example:
