@@ -9,7 +9,6 @@ if Rails.env.development?
   DEBUG
   GC.start
   Wallaby::Map.clear
-  Rails.cache.delete_matched 'wallaby/*'
 
   # NOTE: we search for subclasses of
   # Wallaby::ResourcesController and Wallaby::ResourceDecorator.
