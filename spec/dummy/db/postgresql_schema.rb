@@ -72,6 +72,14 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "ordered_at"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string "type"
+  end
+
+  create_table "things", force: :cascade do |t|
+    t.string "sti_type"
+  end
+
   create_table "pictures", force: :cascade do |t|
     t.string   "name"
     t.integer  "imageable_id"

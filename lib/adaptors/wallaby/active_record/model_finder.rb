@@ -3,18 +3,18 @@ module Wallaby
     # Model finder
     class ModelFinder < ::Wallaby::ModelFinder
       def all
-        base.descendants.reject do |model_class|
+        self.class.base.descendants.reject do |model_class|
           abstract?(model_class) || anonymous?(model_class) \
             || schema?(model_class) || habtm?(model_class)
         end.sort_by(&:to_s)
       end
 
-      protected
-
-      def base
+      def self.base
         return ::ApplicationRecord if defined? ::ApplicationRecord
         ::ActiveRecord::Base
       end
+
+      private
 
       def abstract?(model_class)
         model_class.abstract_class?

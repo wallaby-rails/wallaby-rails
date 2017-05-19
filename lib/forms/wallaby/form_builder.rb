@@ -16,6 +16,11 @@ module Wallaby
       end
     end
 
+    def label(method, text = nil, options = {}, &block)
+      text = text.yield if text.respond_to? :yield
+      super
+    end
+
     protected
 
     def method_missing(method, *args, &block)

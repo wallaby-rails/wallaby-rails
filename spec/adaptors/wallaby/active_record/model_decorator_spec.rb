@@ -209,13 +209,13 @@ describe Wallaby::ActiveRecord::ModelDecorator do
             "name" => "published_at", "type" => "datetime", "label" => "Published at", "is_origin" => true
           },
           "product_detail" => {
-            "name" => "product_detail", "type" => "has_one", "label" => "Product Detail", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "product_detail_id", "class" => ProductDetail
+            "name" => "product_detail", "type" => "has_one", "label" => "Product detail", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "product_detail_id", "class" => ProductDetail
           },
           "picture" => {
             "name" => "picture", "type" => "has_one", "label" => "Picture", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => true, "foreign_key" => "picture_id", "class" => Picture
           },
           "order_items" => {
-            "name" => "order_items", "type" => "has_many", "label" => "Order Items", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "order_item_ids", "class" => Order::Item
+            "name" => "order_items", "type" => "has_many", "label" => "Order items", "is_origin" => true, "is_association" => true, "is_through" => false, "has_scope" => false, "foreign_key" => "order_item_ids", "class" => Order::Item
           },
           "orders" => {
             "name" => "orders", "type" => "has_many", "label" => "Orders", "is_origin" => true, "is_association" => true, "is_through" => true, "has_scope" => false, "foreign_key" => "order_ids", "class" => Order
