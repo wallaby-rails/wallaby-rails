@@ -4,6 +4,7 @@
 require 'devise'
 require 'cancancan'
 require 'kaminari'
+require 'parslet'
 
 require 'sass-rails'
 require 'bootstrap-sass'
@@ -53,6 +54,8 @@ require 'errors/wallaby/not_authenticated'
 require 'errors/wallaby/not_implemented'
 require 'errors/wallaby/operation_not_found'
 require 'errors/wallaby/resource_not_found'
+
+require 'parsers/wallaby/parser'
 
 require 'adaptors/wallaby/active_record'
 require 'adaptors/wallaby/active_record/model_decorator'
