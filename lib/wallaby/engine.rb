@@ -70,6 +70,7 @@ require 'adaptors/wallaby/active_record/model_handler'
 require 'adaptors/wallaby/active_record/model_handler/normalizer'
 require 'adaptors/wallaby/active_record/model_handler/permitter'
 require 'adaptors/wallaby/active_record/model_handler/querier'
+require 'adaptors/wallaby/active_record/model_handler/querier/transformer'
 require 'adaptors/wallaby/active_record/model_handler/validator'
 
 require 'decorators/wallaby/resource_decorator'

@@ -42,7 +42,7 @@ describe Wallaby::Parser do
       expect(subject.operator).to parse(':')
       expect(subject.operator).to parse(':!')
       expect(subject.operator).to parse(':<>')
-      expect(subject.operator).to parse(':<: ')
+      expect(subject.operator).not_to parse(':<: ')
       expect(subject.operator).not_to parse(':"')
       expect(subject.operator).not_to parse(': ')
       expect(subject.operator).not_to parse(':0')

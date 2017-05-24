@@ -10,13 +10,16 @@ module Wallaby
 
         def search(params)
           text_keywords, field_keywords = extract params
-          query = @model_class.where nil
-          query = text_search text_keywords, query
+          query = text_search text_keywords
           query = field_search field_keywords, query
-          query
+          @model_class.where(query)
         end
 
         protected
+
+        def table
+          @model_class.arel_table
+        end
 
         def extract(params)
           all_keywords = (params[:q] || EMPTY_STRING).split(SPACE).compact
@@ -24,25 +27,21 @@ module Wallaby
           [all_keywords - field_keywords, field_keywords]
         end
 
-        # TODO: use arel
-        def text_search(keywords, query)
-          return query if keywords.blank?
-          queries = text_fields.inject([]) do |q, field_name|
-            likes = keywords.map do |keyword|
-              ["UPPER(#{field_name}) LIKE ?", "%#{keyword.upcase}%"]
+        def text_search(keywords, query = nil)
+          return if keywords.blank?
+          text_fields.each_with_object(query) do |query, field_name|
+            sub_query = nil
+            keywords.each do |keyword|
+              q = table[field_name].matches("%#{keyword}%")
+              sub_query = sub_query.try(:or, q) || q
             end
-            q << ["(#{likes.map(&:first).join ' AND '})", likes.map(&:last)]
+            query = query.try(:and, sub_query) || sub_query
           end
-          query.where \
-            queries.map(&:first).join(' OR '),
-            *queries.map(&:last).flatten
         end
 
-        def field_search(keywords, query)
-          return query if keywords.blank?
-          hashed_queries =
-            Utils.to_hash(keywords.map { |v| v.split ':' })
-          query.where hashed_queries
+        def field_search(colon_queries, query)
+          return query if colon_queries.blank?
+          colon_queries.each
         end
 
         def text_fields
