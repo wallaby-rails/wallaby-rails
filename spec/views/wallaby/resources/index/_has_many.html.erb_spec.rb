@@ -3,6 +3,7 @@ require 'rails_helper'
 partial_name = 'index/has_many'
 describe partial_name, :current_user do
   let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:metadata)  { Hash label: 'Products' }
   let(:value) do
     [
       Product.new(id: 1, name: 'Hiking shoes'),
@@ -10,7 +11,6 @@ describe partial_name, :current_user do
       Product.new(id: 3, name: 'Hiking jacket')
     ]
   end
-  let(:metadata)  { Hash label: 'Products' }
 
   before do
     allow(view).to receive(:random_uuid) { '9877d72f-26fa-426b-8a1b-6ef012f9112b' }

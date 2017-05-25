@@ -6,6 +6,7 @@ describe partial_name do
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :xml }
+  let(:metadata)    { {} }
   let(:value) do
     <<-XML
     <?xml version="1.0" encoding="UTF-8"?>
@@ -17,7 +18,6 @@ describe partial_name do
     </note>
     XML
   end
-  let(:metadata)    { {} }
 
   before do
     expect(view).to receive :content_for

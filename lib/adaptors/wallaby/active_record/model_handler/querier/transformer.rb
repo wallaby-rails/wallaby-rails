@@ -32,29 +32,35 @@ module Wallaby
           }.freeze
 
           rule keyword: simple(:value) do
-            value
+            value.try :to_str
           end
 
           rule keyword: sequence(:value) do
-            value.presence
+            value.presence.try :map, :to_str
           end
 
           rule left: simple(:left), op: simple(:op), right: simple(:right) do
-            next unless operator = SIMPLE_OPERATORS[op]
-            convert = case op
+            oped = op.try :to_str
+            operator = SIMPLE_OPERATORS[oped]
+            next unless operator
+            lefted = left.try :to_str
+            convert = case oped
                       when ':~', ':!~' then "%#{right}%"
                       when ':^', ':!^' then "#{right}%"
                       when ':$', ':!$' then "%#{right}"
                       end
-            { left: left, op: operator || :eq, right: convert || right }
+            { left: lefted, op: operator, right: convert || right }
           end
 
           rule left: simple(:left), op: simple(:op), right: sequence(:right) do
-            next unless operator = SEQUENCE_OPERATORS[op]
-            convert = if %w[:() :!()].include? op
-              Range.new right.try(:first), right.try(:last)
-            end
-            { left: left, op: operator || :in, right: convert || right }
+            oped = op.try :to_str
+            operator = SEQUENCE_OPERATORS[oped]
+            next unless operator
+            lefted = left.try :to_str
+            convert = if %w[:() :!()].include?(oped)
+                        Range.new right.try(:first), right.try(:last)
+                      end
+            { left: lefted, op: operator, right: convert || right }
           end
         end
       end

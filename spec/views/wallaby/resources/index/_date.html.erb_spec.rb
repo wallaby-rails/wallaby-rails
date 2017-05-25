@@ -13,7 +13,7 @@ describe partial_name do
   end
 
   context 'when value is a string' do
-    let(:value) { "Tue, 11 Feb 2014 23:59:59 +0000" }
+    let(:value) { 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
     it 'renders the date' do
       expect(rendered).to eq "  2014-02-11\n"
@@ -21,7 +21,7 @@ describe partial_name do
   end
 
   context 'when value is a time' do
-    let(:value) { Time.parse "Tue, 11 Feb 2014 23:59:59 +0000" }
+    let(:value) { Time.parse 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
     it 'renders the date' do
       expect(rendered).to eq "  2014-02-11\n"

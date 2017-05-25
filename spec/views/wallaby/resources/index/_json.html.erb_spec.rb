@@ -3,13 +3,13 @@ require 'rails_helper'
 partial_name = 'index/json'
 describe partial_name do
   let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:metadata)  { {} }
   let(:value)     do
     {
-      "kind" => "user_renamed",
-      "change" => ["jack", "john"]
+      'kind' => 'user_renamed',
+      'change' => %w[jack john]
     }
   end
-  let(:metadata)  { {} }
 
   before do
     allow(view).to receive(:random_uuid) { '9877d72f-26fa-426b-8a1b-6ef012f9112b' }

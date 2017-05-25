@@ -4,44 +4,61 @@ module Wallaby
       # Query builder
       class Querier
         def initialize(model_decorator)
-          @model_decorator  = model_decorator
-          @model_class      = @model_decorator.model_class
+          @model_decorator = model_decorator
+          @model_class = @model_decorator.model_class
         end
 
         def search(params)
-          text_keywords, field_keywords = extract params
-          query = text_search text_keywords
-          query = field_search field_keywords, query
-          @model_class.where(query)
+          keywords, field_queries = extract params
+          query = text_search keywords
+          query = field_search field_queries, query
+          @model_class.where query
         end
 
-        protected
+        private
+
+        def parser
+          @parser ||= Parser.new
+        end
+
+        def transformer
+          @transformer ||= Transformer.new
+        end
 
         def table
           @model_class.arel_table
         end
 
         def extract(params)
-          all_keywords = (params[:q] || EMPTY_STRING).split(SPACE).compact
-          field_keywords = all_keywords.select { |v| v.split(':').length == 2 }
-          [all_keywords - field_keywords, field_keywords]
+          parsed = parser.parse(params[:q] || EMPTY_STRING)
+          converted = transformer.apply parsed
+          expressions = converted.is_a?(Array) ? converted : [converted]
+          keywords = expressions.select { |v| v.is_a? String }
+          field_queries = expressions.select { |v| v.is_a? Hash }
+          [keywords, field_queries]
         end
 
         def text_search(keywords, query = nil)
           return if keywords.blank?
-          text_fields.each_with_object(query) do |query, field_name|
+          text_fields.each do |field_name|
             sub_query = nil
             keywords.each do |keyword|
-              q = table[field_name].matches("%#{keyword}%")
-              sub_query = sub_query.try(:or, q) || q
+              exp = table[field_name].matches("%#{keyword}%")
+              sub_query = sub_query.try(:and, exp) || exp
             end
-            query = query.try(:and, sub_query) || sub_query
+            query = query.try(:or, sub_query) || sub_query
           end
+          query
         end
 
-        def field_search(colon_queries, query)
-          return query if colon_queries.blank?
-          colon_queries.each
+        def field_search(field_queries, query)
+          return query if field_queries.blank?
+          field_queries.each do |exp|
+            next unless @model_decorator.fields[exp[:left]]
+            exp = table[exp[:left]].public_send(exp[:op], exp[:right])
+            query = query.try(:and, exp) || exp
+          end
+          query
         end
 
         def text_fields

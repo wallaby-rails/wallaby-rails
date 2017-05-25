@@ -13,23 +13,23 @@ describe Wallaby::ActiveRecord::ModelHandler::Querier do
     describe 'text search' do
       it 'returns text search' do
         keyword = 'keyword'
-        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((UPPER(string) LIKE '%KEYWORD%'))"
+        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%')"
 
         keyword = 'keyword keyword1'
-        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((UPPER(string) LIKE '%KEYWORD%' AND UPPER(string) LIKE '%KEYWORD1%'))"
+        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword1%')"
       end
 
       context 'when text_fields include text and citext' do
         before do
-          allow(subject).to receive(:text_fields) { %w[string text] }
+          model_decorator.index_field_names << 'text'
         end
 
         it 'returns text search' do
           keyword = 'keyword'
-          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((UPPER(string) LIKE '%KEYWORD%') OR (UPPER(text) LIKE '%KEYWORD%'))"
+          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%' OR \"all_postgres_types\".\"text\" ILIKE '%keyword%')"
 
           keyword = 'keyword keyword1'
-          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((UPPER(string) LIKE '%KEYWORD%' AND UPPER(string) LIKE '%KEYWORD1%') OR (UPPER(text) LIKE '%KEYWORD%' AND UPPER(text) LIKE '%KEYWORD1%'))"
+          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword1%' OR \"all_postgres_types\".\"text\" ILIKE '%keyword%' AND \"all_postgres_types\".\"text\" ILIKE '%keyword1%')"
         end
       end
     end
@@ -39,18 +39,29 @@ describe Wallaby::ActiveRecord::ModelHandler::Querier do
         keyword = 'integer:1'
         expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" = 1'
 
-        keyword = 'date:2016-04-30'
-        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" = '2016-04-30'"
+        keyword = 'date:>2016-04-30'
+        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" > '2016-04-30')"
       end
     end
 
     describe 'combine search' do
       it 'returns text and field search' do
         keyword = 'keyword integer:1 date:2016-04-30'
-        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((UPPER(string) LIKE '%KEYWORD%')) AND \"all_postgres_types\".\"integer\" = 1 AND \"all_postgres_types\".\"date\" = '2016-04-30'"
+        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"integer\" = 1 AND \"all_postgres_types\".\"date\" = '2016-04-30')"
 
         keyword = 'keyword1 keyword2 integer:1 date:2016-04-30'
-        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((UPPER(string) LIKE '%KEYWORD1%' AND UPPER(string) LIKE '%KEYWORD2%')) AND \"all_postgres_types\".\"integer\" = 1 AND \"all_postgres_types\".\"date\" = '2016-04-30'"
+        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword1%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword2%' AND \"all_postgres_types\".\"integer\" = 1 AND \"all_postgres_types\".\"date\" = '2016-04-30')"
+      end
+
+      context 'when text_fields include text and citext' do
+        before do
+          model_decorator.index_field_names << 'text'
+        end
+
+        it 'returns text and field search' do
+          keyword = 'keyword1 keyword2 integer:1 date:2016-04-30'
+          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((\"all_postgres_types\".\"string\" ILIKE '%keyword1%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword2%' OR \"all_postgres_types\".\"text\" ILIKE '%keyword1%' AND \"all_postgres_types\".\"text\" ILIKE '%keyword2%') AND \"all_postgres_types\".\"integer\" = 1 AND \"all_postgres_types\".\"date\" = '2016-04-30')"
+        end
       end
     end
   end
