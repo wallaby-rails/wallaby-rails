@@ -5,7 +5,7 @@ describe 'Sqlite Types' do
     native_types = ActiveRecord::ConnectionAdapters::SQLite3Adapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
 
     expect(native_types.length).to eq 11
-    expect(native_types.sort).to eq [ "binary", "boolean", "date", "datetime", "decimal", "float", "integer", "primary_key", "string", "text", "time" ]
+    expect(native_types.sort).to eq %w[binary boolean date datetime decimal float integer primary_key string text time]
   end
 
   it 'supports the following types' do
@@ -16,6 +16,6 @@ describe 'Sqlite Types' do
     end
 
     expect(supporting_types.length).to eq 16
-    expect(supporting_types.sort).to eq [ "binary", "blob", "boolean", "char", "clob", "date", "datetime", "decimal", "double", "float", "int", "number", "numeric", "text", "time", "timestamp" ]
+    expect(supporting_types.sort).to eq %w[binary blob boolean char clob date datetime decimal double float int number numeric text time timestamp]
   end
 end

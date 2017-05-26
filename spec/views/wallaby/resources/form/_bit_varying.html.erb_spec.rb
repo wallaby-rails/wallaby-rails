@@ -6,7 +6,7 @@ describe partial_name do
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :bit_varying }
-  let(:value)       { "11010100" }
+  let(:value)       { '11010100' }
   let(:metadata)    { {} }
 
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }

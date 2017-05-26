@@ -4,45 +4,61 @@ module Wallaby
       # Query builder
       class Querier
         def initialize(model_decorator)
-          @model_decorator  = model_decorator
-          @model_class      = @model_decorator.model_class
+          @model_decorator = model_decorator
+          @model_class = @model_decorator.model_class
         end
 
         def search(params)
-          text_keywords, field_keywords = extract params
-          query = @model_class.where nil
-          query = text_search text_keywords, query
-          query = field_search field_keywords, query
+          keywords, field_queries = extract params
+          query = text_search keywords
+          query = field_search field_queries, query
+          @model_class.where query
+        end
+
+        private
+
+        def parser
+          @parser ||= Parser.new
+        end
+
+        def transformer
+          @transformer ||= Transformer.new
+        end
+
+        def table
+          @model_class.arel_table
+        end
+
+        def extract(params)
+          parsed = parser.parse(params[:q] || EMPTY_STRING)
+          converted = transformer.apply parsed
+          expressions = converted.is_a?(Array) ? converted : [converted]
+          keywords = expressions.select { |v| v.is_a? String }
+          field_queries = expressions.select { |v| v.is_a? Hash }
+          [keywords, field_queries]
+        end
+
+        def text_search(keywords, query = nil)
+          return if keywords.blank?
+          text_fields.each do |field_name|
+            sub_query = nil
+            keywords.each do |keyword|
+              exp = table[field_name].matches("%#{keyword}%")
+              sub_query = sub_query.try(:and, exp) || exp
+            end
+            query = query.try(:or, sub_query) || sub_query
+          end
           query
         end
 
-        protected
-
-        def extract(params)
-          all_keywords = (params[:q] || EMPTY_STRING).split(SPACE).compact
-          field_keywords = all_keywords.select { |v| v.split(':').length == 2 }
-          [all_keywords - field_keywords, field_keywords]
-        end
-
-        # TODO: use arel
-        def text_search(keywords, query)
-          return query if keywords.blank?
-          queries = text_fields.inject([]) do |q, field_name|
-            likes = keywords.map do |keyword|
-              ["UPPER(#{field_name}) LIKE ?", "%#{keyword.upcase}%"]
-            end
-            q << ["(#{likes.map(&:first).join ' AND '})", likes.map(&:last)]
+        def field_search(field_queries, query)
+          return query if field_queries.blank?
+          field_queries.each do |exp|
+            next unless @model_decorator.fields[exp[:left]]
+            exp = table[exp[:left]].public_send(exp[:op], exp[:right])
+            query = query.try(:and, exp) || exp
           end
-          query.where \
-            queries.map(&:first).join(' OR '),
-            *queries.map(&:last).flatten
-        end
-
-        def field_search(keywords, query)
-          return query if keywords.blank?
-          hashed_queries =
-            Utils.to_hash(keywords.map { |v| v.split ':' })
-          query.where hashed_queries
+          query
         end
 
         def text_fields

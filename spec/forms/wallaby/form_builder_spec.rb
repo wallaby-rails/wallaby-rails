@@ -18,7 +18,7 @@ describe 'Wallaby::FormBuilder', type: :helper do
       expect(subject.error_messages(:name)).to be_nil
       object.errors.add :name, 'not valid'
       object.errors.add :name, 'not unique'
-      expect(subject.error_messages(:name)).to eq "<ul class=\"text-danger\"><li><small>not valid</small></li><li><small>not unique</small></li></ul>"
+      expect(subject.error_messages(:name)).to eq '<ul class="text-danger"><li><small>not valid</small></li><li><small>not unique</small></li></ul>'
     end
   end
 
@@ -32,7 +32,7 @@ describe 'Wallaby::FormBuilder', type: :helper do
 
   describe '#label' do
     it 'returns the label' do
-      expect(subject.label(:name, -> { 'some text' })).to eq "<label for=\"product_name\">some text</label>"
+      expect(subject.label(:name, -> { 'some text' })).to eq '<label for="product_name">some text</label>'
     end
   end
 end

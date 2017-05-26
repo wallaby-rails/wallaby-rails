@@ -3,8 +3,8 @@ require 'rails_helper'
 describe Wallaby::Configuration::Models do
   describe '#set' do
     it 'sets the models' do
-      expect(subject.set AllPostgresType).to eq [ AllPostgresType ]
-      expect(subject.set [ AllPostgresType ]).to eq [ AllPostgresType ]
+      expect(subject.set(AllPostgresType)).to eq [AllPostgresType]
+      expect(subject.set([AllPostgresType])).to eq [AllPostgresType]
     end
   end
 
@@ -12,7 +12,7 @@ describe Wallaby::Configuration::Models do
     it 'returns presence of models' do
       expect(subject.presence).to be_nil
       subject.set AllPostgresType
-      expect(subject.presence).to eq [ AllPostgresType ]
+      expect(subject.presence).to eq [AllPostgresType]
     end
   end
 
@@ -23,7 +23,7 @@ describe Wallaby::Configuration::Models do
     end
 
     it 'returns whatever has been assigned' do
-      models = [ 'Model1', 'Model2' ]
+      models = %w[Model1 Model2]
       subject.exclude(*models)
       expect(subject.excludes).to eq models
     end

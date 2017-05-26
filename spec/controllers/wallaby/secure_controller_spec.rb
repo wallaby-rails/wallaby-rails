@@ -33,7 +33,7 @@ describe Wallaby::SecureController do
 
   describe '#current_user' do
     it 'returns nil by default' do
-      expect(controller.send :current_user).to be_nil
+      expect(controller.send(:current_user)).to be_nil
     end
 
     context 'when current_user setting exists' do
@@ -43,7 +43,7 @@ describe Wallaby::SecureController do
         security_config.current_user { user }
         allow(controller).to receive(:security_config).and_return(security_config)
         controller.send :current_user
-        expect(assigns :current_user).to eq user
+        expect(assigns(:current_user)).to eq user
       end
     end
 
@@ -63,14 +63,14 @@ describe Wallaby::SecureController do
         security_config = Wallaby::Configuration::Security.new
         allow(controller).to receive(:security_config).and_return(security_config)
         controller.send :current_user
-        expect(assigns :current_user).to eq({ email: 'admin@wallaby.org.au' })
+        expect(assigns(:current_user)).to eq(email: 'admin@wallaby.org.au')
       end
     end
   end
 
   describe '#authenticate_user!' do
     it 'returns true by default' do
-      expect(controller.send :authenticate_user!).to be_truthy
+      expect(controller.send(:authenticate_user!)).to be_truthy
     end
 
     context 'when authenticate_user setting exists' do

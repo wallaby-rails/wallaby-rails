@@ -5,7 +5,7 @@ describe 'Resources pages using mysql table' do
   let(:model_class) { AllMysqlType }
 
   describe '#index' do
-    let!(:record) { model_class.create!({ string: string }) }
+    let!(:record) { model_class.create!(string: string) }
 
     it 'renders collections' do
       get '/admin/all_mysql_types'
@@ -26,7 +26,7 @@ describe 'Resources pages using mysql table' do
   end
 
   describe '#show' do
-    let!(:record) { model_class.create!({ string: string }) }
+    let!(:record) { model_class.create!(string: string) }
     it 'renders show' do
       get "/admin/all_mysql_types/#{record.id}"
       expect(response).to be_successful
@@ -40,7 +40,7 @@ describe 'Resources pages using mysql table' do
       get '/admin/all_mysql_types/new'
       expect(response).to be_successful
       expect(response).to render_template :new
-      expect(response.body).to include "name=\"all_mysql_type[string]\""
+      expect(response.body).to include 'name="all_mysql_type[string]"'
     end
   end
 
@@ -66,7 +66,7 @@ describe 'Resources pages using mysql table' do
   end
 
   describe '#edit' do
-    let!(:record) { model_class.create!({ string: string }) }
+    let!(:record) { model_class.create!(string: string) }
     it 'renders edit' do
       get "/admin/all_mysql_types/#{record.id}/edit"
       expect(response).to be_successful
@@ -76,7 +76,7 @@ describe 'Resources pages using mysql table' do
   end
 
   describe '#update' do
-    let!(:record) { model_class.create!({ string: string }) }
+    let!(:record) { model_class.create!(string: string) }
     it 'updates the record' do
       a_string = 'Claude Monet'
       put "/admin/all_mysql_types/#{record.id}", params: { all_mysql_type: { string: a_string } }
@@ -87,7 +87,7 @@ describe 'Resources pages using mysql table' do
     context 'when form error exists' do
       let(:string) { 'Vincent van Gogh' }
       let(:model_class) { Picture }
-      let!(:record) { model_class.create!({ name: string }) }
+      let!(:record) { model_class.create!(name: string) }
 
       it 'renders form and show error' do
         put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
@@ -98,11 +98,11 @@ describe 'Resources pages using mysql table' do
   end
 
   describe '#destroy' do
-    let!(:record) { model_class.create!({ string: string }) }
+    let!(:record) { model_class.create!(string: string) }
     it 'destroys the record' do
       expect(model_class.count).to eq 1
       delete "/admin/all_mysql_types/#{record.id}"
-      expect(response).to redirect_to "/admin/all_mysql_types"
+      expect(response).to redirect_to '/admin/all_mysql_types'
       expect(model_class.count).to eq 0
     end
   end

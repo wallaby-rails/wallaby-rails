@@ -6,13 +6,13 @@ describe partial_name do
   let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object)      { AllPostgresType.new field_name => value }
   let(:field_name)  { :json }
+  let(:metadata)    { {} }
   let(:value) do
     {
-      "kind" => "user_renamed",
-      "change" => ["jack", "john"]
+      'kind' => 'user_renamed',
+      'change' => %w[jack john]
     }
   end
-  let(:metadata)    { {} }
 
   before do
     expect(view).to receive :content_for

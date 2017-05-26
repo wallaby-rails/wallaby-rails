@@ -4,13 +4,13 @@ describe 'routing' do
   describe 'general routes', type: :routing do
     routes { Wallaby::Engine.routes }
     it 'routes for general routes' do
-      expect(get: "/").to route_to controller: 'wallaby/core', action: 'home'
-      expect(get: "/status").to route_to controller: 'wallaby/core', action: 'status'
+      expect(get: '/').to route_to controller: 'wallaby/core', action: 'home'
+      expect(get: '/status').to route_to controller: 'wallaby/core', action: 'status'
     end
   end
 
   describe 'resources routes', type: :request do
-    let(:mocked_response) { double 'Response', call: [ 200, {}, ["Coming soon"] ] }
+    let(:mocked_response) { double 'Response', call: [200, {}, ['Coming soon']] }
     let(:script_name) { '/admin' }
 
     it 'routes to the general resourceful routes' do

@@ -4,6 +4,7 @@
 require 'devise'
 require 'cancancan'
 require 'kaminari'
+require 'parslet'
 
 require 'sass-rails'
 require 'bootstrap-sass'
@@ -54,6 +55,8 @@ require 'errors/wallaby/not_implemented'
 require 'errors/wallaby/operation_not_found'
 require 'errors/wallaby/resource_not_found'
 
+require 'parsers/wallaby/parser'
+
 require 'adaptors/wallaby/active_record'
 require 'adaptors/wallaby/active_record/model_decorator'
 fields_builder = 'adaptors/wallaby/active_record/model_decorator/fields_builder'
@@ -67,6 +70,7 @@ require 'adaptors/wallaby/active_record/model_handler'
 require 'adaptors/wallaby/active_record/model_handler/normalizer'
 require 'adaptors/wallaby/active_record/model_handler/permitter'
 require 'adaptors/wallaby/active_record/model_handler/querier'
+require 'adaptors/wallaby/active_record/model_handler/querier/transformer'
 require 'adaptors/wallaby/active_record/model_handler/validator'
 
 require 'decorators/wallaby/resource_decorator'

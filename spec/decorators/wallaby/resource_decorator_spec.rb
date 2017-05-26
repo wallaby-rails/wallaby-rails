@@ -18,40 +18,40 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
       it 'returns a resource decorator instance' do
         subject = Wallaby::ResourceDecorator.decorate Product.new
         expect(subject).to be_a Wallaby::ResourceDecorator
-        expect(Wallaby::ResourceDecorator.decorate subject).to eq subject
+        expect(Wallaby::ResourceDecorator.decorate(subject)).to eq subject
       end
     end
 
-    [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+    ['', 'index_', 'show_', 'form_'].each do |prefix|
       title = prefix.delete '_'
       describe "for #{title}" do
         describe ".#{prefix}fields" do
           it 'returns nil' do
-            expect(described_class.send "#{prefix}fields").to be_nil
+            expect(described_class.send("#{prefix}fields")).to be_nil
           end
         end
 
         describe ".#{prefix}field_names" do
           it 'returns nil' do
-            expect(described_class.send "#{prefix}field_names").to be_nil
+            expect(described_class.send("#{prefix}field_names")).to be_nil
           end
         end
 
         describe ".#{prefix}metadata_of" do
           it 'returns nil' do
-            expect(described_class.send "#{prefix}metadata_of").to be_nil
+            expect(described_class.send("#{prefix}metadata_of")).to be_nil
           end
         end
 
         describe ".#{prefix}label_of" do
           it 'returns nil' do
-            expect(described_class.send "#{prefix}label_of", '').to be_nil
+            expect(described_class.send("#{prefix}label_of", '')).to be_nil
           end
         end
 
         describe ".#{prefix}type_of" do
           it 'returns nil' do
-            expect(described_class.send "#{prefix}type_of", '').to be_nil
+            expect(described_class.send("#{prefix}type_of", '')).to be_nil
           end
         end
       end
@@ -72,7 +72,7 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
       }
     end
     before do
-      [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+      ['', 'index_', 'show_', 'form_'].each do |prefix|
         allow(subject.model_decorator).to receive("#{prefix}fields").and_return model_fields
       end
     end
@@ -88,10 +88,10 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
         resource.errors.add :name, 'can not be nil'
         resource.errors.add :base, 'has error'
         expect(subject.errors).to be_a ActiveModel::Errors
-        expect(subject.errors.messages).to eq({
+        expect(subject.errors.messages).to eq(
           name: ['can not be nil'],
           base: ['has error']
-        })
+        )
       end
     end
 
@@ -102,12 +102,12 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
     end
 
     describe 'fields' do
-      [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+      ['', 'index_', 'show_', 'form_'].each do |prefix|
         title = prefix.delete '_'
         describe "for #{title}" do
           describe "##{prefix}fields" do
             it 'returns fields hash' do
-              expect(subject.send "#{prefix}fields").to eq model_fields
+              expect(subject.send("#{prefix}fields")).to eq model_fields
             end
 
             it 'is not allowed to modify the fields array' do
@@ -118,9 +118,9 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
           describe "##{prefix}field_names" do
             it 'returns field names array' do
               if prefix == 'form_'
-                expect(subject.send "#{prefix}field_names").to eq(["title", "published_at"])
+                expect(subject.send("#{prefix}field_names")).to eq(%w[title published_at])
               else
-                expect(subject.send "#{prefix}field_names").to eq(["id", "title", "published_at", "updated_at"])
+                expect(subject.send("#{prefix}field_names")).to eq(%w[id title published_at updated_at])
               end
             end
 
@@ -131,22 +131,22 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
 
           describe "##{prefix}metadata_of" do
             it 'returns metadata' do
-              expect(subject.send "#{prefix}metadata_of", 'id').to eq({
+              expect(subject.send("#{prefix}metadata_of", 'id')).to eq(
                 type:   'integer',
                 label:  'fake title'
-              })
+              )
             end
           end
 
           describe "##{prefix}label_of" do
             it 'returns label' do
-              expect(subject.send "#{prefix}label_of", 'id').to eq 'fake title'
+              expect(subject.send("#{prefix}label_of", 'id')).to eq 'fake title'
             end
           end
 
           describe "##{prefix}type_of" do
             it 'returns type' do
-              expect(subject.send "#{prefix}type_of", 'id').to eq 'integer'
+              expect(subject.send("#{prefix}type_of", 'id')).to eq 'integer'
             end
           end
         end
@@ -182,7 +182,7 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
       }
     end
     before do
-      [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+      ['', 'index_', 'show_', 'form_'].each do |prefix|
         allow(klass.model_decorator).to receive("#{prefix}fields").and_return model_fields
         klass.model_decorator.instance_variable_set "@#{prefix}field_names", nil
       end
@@ -204,7 +204,7 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
       end
 
       describe 'fields' do
-        [ '', 'index_', 'show_', 'form_' ].each do |prefix|
+        ['', 'index_', 'show_', 'form_'].each do |prefix|
           title = prefix.delete '_'
           describe "for #{title}" do
             describe ".#{prefix}fields" do
@@ -213,25 +213,25 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
               end
 
               it 'returns fields hash' do
-                expect(klass.send "#{prefix}fields").to eq({
+                expect(klass.send("#{prefix}fields")).to eq(
                   'title'         => { type: 'string', label: 'fake title' },
                   'published_at'  => { type: 'datetime', label: 'fake title' },
                   'updated_at'    => { type: 'datetime', label: 'fake title' },
                   'id'            => { type: 'integer', label: 'fake title' }
-                })
+                )
               end
 
               it 'caches the fields hash' do
-                expect { klass.send("#{prefix}fields").delete 'title' }.to change { klass.send "#{prefix}fields" }.from({
+                expect { klass.send("#{prefix}fields").delete 'title' }.to change { klass.send "#{prefix}fields" }.from(
                   'title'         => { type: 'string', label: 'fake title' },
                   'published_at'  => { type: 'datetime', label: 'fake title' },
                   'updated_at'    => { type: 'datetime', label: 'fake title' },
                   'id'            => { type: 'integer', label: 'fake title' }
-                }).to({
+                ).to(
                   'published_at'  => { type: 'datetime', label: 'fake title' },
                   'updated_at'    => { type: 'datetime', label: 'fake title' },
                   'id'            => { type: 'integer', label: 'fake title' }
-                })
+                )
               end
             end
 
@@ -242,39 +242,39 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
 
               it 'returns field names array' do
                 if prefix == 'form_'
-                  expect(klass.send "#{prefix}field_names").to eq(["title", "published_at"])
+                  expect(klass.send("#{prefix}field_names")).to eq(%w[title published_at])
                 else
-                  expect(klass.send "#{prefix}field_names").to eq(["id", "title", "published_at", "updated_at"])
+                  expect(klass.send("#{prefix}field_names")).to eq(%w[id title published_at updated_at])
                 end
               end
 
               it 'caches the field names array' do
                 if prefix == 'form_'
-                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(["title", "published_at"]).to(["published_at"])
+                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w[title published_at]).to(['published_at'])
                 else
-                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(["id", "title", "published_at", "updated_at"]).to(["id", "published_at", "updated_at"])
+                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w[id title published_at updated_at]).to(%w[id published_at updated_at])
                 end
               end
             end
 
             describe ".#{prefix}metadata_of" do
               it 'returns metadata' do
-                expect(klass.send "#{prefix}metadata_of", 'id').to eq({
+                expect(klass.send("#{prefix}metadata_of", 'id')).to eq(
                   type:   'integer',
                   label:  'fake title'
-                })
+                )
               end
             end
 
             describe ".#{prefix}label_of" do
               it 'returns label' do
-                expect(klass.send "#{prefix}label_of", 'id').to eq 'fake title'
+                expect(klass.send("#{prefix}label_of", 'id')).to eq 'fake title'
               end
             end
 
             describe ".#{prefix}type_of" do
               it 'returns type' do
-                expect(klass.send "#{prefix}type_of", 'id').to eq 'integer'
+                expect(klass.send("#{prefix}type_of", 'id')).to eq 'integer'
               end
             end
           end
