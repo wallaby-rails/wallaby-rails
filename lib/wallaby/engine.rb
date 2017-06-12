@@ -7,7 +7,11 @@ require 'kaminari'
 require 'parslet'
 
 require 'sass-rails'
+
+require 'turbolinks'
+require 'jquery-turbolinks'
 require 'bootstrap-sass'
+require 'font-awesome-rails'
 require 'bootstrap3-datetimepicker-rails'
 require 'codemirror-rails'
 require 'jquery-minicolors-rails'
@@ -31,7 +35,6 @@ module Wallaby
     end
 
     initializer 'wallaby.assets.precompile' do |app|
-      app.config.assets.precompile += %w[wallaby/form.js wallaby/form.css]
       app.config.assets.precompile += %w[codemirror* codemirror/**/*]
     end
   end
