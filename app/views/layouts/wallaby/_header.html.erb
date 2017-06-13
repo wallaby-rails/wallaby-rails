@@ -1,17 +1,14 @@
 <header>
-  <nav class="top-nav navbar navbar-default">
+  <nav class="top-nav navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <%# Brand %>
       <div class="navbar-header">
         <%# Mobile Menu Toggler %>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-menu" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="fa fa-bars"></span>
         </button>
         <%# //Mobile Menu Toggler %>
-        <a class="navbar-brand" href="<%= wallaby_engine.root_path %>">Wallaby Admin</a>
+        <a class="navbar-brand" href="<%= wallaby_engine.root_path %>"><span>Wallaby</span> Admin</a>
       </div>
       <%# //Brand %>
 
@@ -20,8 +17,7 @@
         <ul class="nav navbar-nav">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <%= current_model_label %>
-              <span class="caret"></span>
+              Data <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
               <% model_classes.each do |model_class| %>
@@ -33,8 +29,9 @@
         <%= render 'layouts/wallaby/navs' %>
         <%# //Resources navigation %>
         <%# User account %>
-        <% if current_user.present? %>
-          <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+          <li><span class=""></span></li>
+          <% if current_user.present? %>
             <li role="separator" class="divider"></li>
             <li>
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -48,8 +45,8 @@
                 </ul>
               <% end %>
             </li>
-          </ul>
-        <% end %>
+          <% end %>
+        </ul>
         <%# //User account %>
       </div>
     </div>

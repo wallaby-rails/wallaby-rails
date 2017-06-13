@@ -3,18 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title><%= page_title %></title>
-
-    <%= stylesheet_link_tag 'wallaby/application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= yield :custom_stylesheet %>
+    <meta name="turbolinks-cache-control" content="no-cache">
     <%= csrf_meta_tags %>
+
+    <title>Wallaby</title>
+
+    <%= stylesheet_link_tag 'wallaby/application', media: 'all' %>
+    <%= yield :custom_stylesheet %>
+    <%= javascript_include_tag 'wallaby/application' %>
   </head>
   <body class="error <%= body_class %>">
+    <%= render 'layouts/wallaby/header' %>
     <main>
       <%= yield %>
     </main>
-    <%= javascript_include_tag 'wallaby/application', 'data-turbolinks-track' => true %>
+    <%= render 'layouts/wallaby/footer' %>
     <%= yield :custom_javascript %>
   </body>
 </html>
