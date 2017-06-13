@@ -1,0 +1,116 @@
+$danger-color: #f44336;
+
+.show {
+  article {
+    .page-header {
+      .pull-right {
+        float: none !important;
+        position: absolute;
+        z-index: 10;
+        right: 20px;
+        bottom: 15px;
+        left: 20px;
+
+        ul {
+          li {
+            float: none;
+            display: inline-block;
+            a {
+              padding: 5px 8px;
+              width: 30px;
+              text-align: center;
+              border-radius: 2px;
+              background-color: lighten($default-primary-color, 25%);
+              color: white;
+
+              &:hover {
+                background-color: $default-primary-color;
+              }
+              &.text-warning {
+                background-color: lighten($accent-color, 25%);
+                &:hover {
+                  background-color: $accent-color;
+                }
+              }
+              &.text-danger {
+                background-color: lighten($danger-color, 25%);
+                &:hover {
+                  background-color: $danger-color;
+                }
+              }
+            }
+          }
+        }
+
+        @media (min-width: $screen-sm-min) {
+          top: 50%;
+          right: 30px;
+          bottom: unset;
+          left: unset;
+          margin-top: -15px;
+          transition: 0.5s;
+        }
+      }
+
+    }
+  }
+
+  section {
+    position: relative;
+    margin-bottom: 30px;
+
+    .inner {
+      overflow: auto;
+      background-color: white;
+    }
+
+    table.details-table {
+      margin-bottom: 0;
+
+      thead tr th {
+        display: none;
+      }
+
+      tbody tr {
+        th, td {
+          display: block;
+        }
+
+        th {
+          position: relative;
+          padding: 15px 20px 8px;
+          color: $default-primary-color;
+          font-size: $font-size-small;
+          font-weight: bold;
+          font-style: italic;
+          text-transform: uppercase;
+
+          &:after {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            content: '';
+            margin: 0px 20px;
+            width: auto;
+            height: 1px;
+            background-color: $background-color;
+            border-bottom: 1px solid $background-color;
+          }
+        }
+        td {
+          padding: 8px 20px 15px;
+
+          pre {
+            white-space: normal;
+          }
+
+          a, a:hover {
+            font-size: $font-size-small;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}

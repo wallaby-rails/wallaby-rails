@@ -1,23 +1,27 @@
+//= require codemirror
+//= require codemirror/themes/base16-dark
+//= require jquery.minicolors
 /*
  * "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 */
+@import 'base/_vars';
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import 'base/_vars';
+@import 'bootstrap-datetimepicker';
+@import "font-awesome";
+@import 'wallaby/summernote';
 @import 'base/_mixins';
 @import 'base/_functions';
 @import 'base/_normalize';
 @import 'base/_reset';
 @import 'base/_layout';
 @import 'components/_text';
-@import 'components/_nav';
-@import 'components/_tables';
-@import 'components/_forms';
+@import 'components/_links';
 @import 'components/_pagination';
+@import 'pages/_index';
+@import 'pages/_show';
+@import 'pages/_form';
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-}
 
 nav.top-nav {
   margin-bottom: 0px;
@@ -25,14 +29,6 @@ nav.top-nav {
 
 section.fields {
   padding: 10px;
-}
-
-div.page-header {
-  margin-top: 0px;
-}
-
-h1 {
-  margin-top: 5px;
 }
 
 ul.text-danger {
