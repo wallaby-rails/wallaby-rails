@@ -3,8 +3,14 @@ module Wallaby
   module ApplicationHelper
     # override `actionview/lib/action_view/routing_url_for.rb#url_for`
     def url_for(options = nil)
-      if options.is_a?(Hash) && options.slice(:action, :resources).length == 2
-        return wallaby_resourceful_url_for options
+      if options.respond_to? :to_h
+        if options.is_a? ActionController::Parameters
+          options = options.permit :action, :resources
+        end
+        options = options.to_h # convert to hash
+        if options[:action].present? && options[:resources].present?
+          return wallaby_resourceful_url_for options
+        end
       end
       super
     end
@@ -27,14 +33,14 @@ module Wallaby
     def stylesheet_link_tag(*sources)
       default_options = { 'data-turbolinks-track' => true }
       options = default_options.merge!(sources.extract_options!.stringify_keys)
-      super *sources, options
+      super(*sources, options)
     end
 
     def javascript_include_tag(*sources)
       default_options =
         { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false }
       options = default_options.merge!(sources.extract_options!.stringify_keys)
-      super *sources, options
+      super(*sources, options)
     end
   end
 end
