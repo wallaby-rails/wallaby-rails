@@ -1,0 +1,57 @@
+<%# The container tag
+  - available local variables
+    current_page:  a page object for the currently displayed page
+    total_pages:   total number of pages
+    per_page:      number of items to fetch per page
+    remote:        data-remote
+    paginator:     the paginator that renders the pagination tags inside
+-%>
+<% # Kaminari pagination %>
+<% if paginatable? collection %>
+  <%
+  first = collection.offset_value + 1
+  last = [collection.offset_value + collection.limit_value, collection.total_count].min
+  total = collection.total_count
+  previous_text = t('views.pagination.previous').html_safe
+  next_text = t('views.pagination.next').html_safe
+  %>
+  <span class="filters dropdown">
+    <span>Filter: </span>
+    <a id="filter_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All</a>
+    <ul class="dropdown-menu" aria-labelledby="filter_list">
+      <li><a href="#">Coming soon...</a></li>
+    </ul>
+  </span>
+  <div class="kaminari">
+    <% _with_routes wallaby_engine do %>
+      <% if path_to_prev_page(collection) %>
+        <nav class="pagination">
+          <span class="prev">
+            <%= link_to_previous_page(collection, previous_text) %>
+          </span>
+        </nav>
+      <% end %>
+    <% end %>
+    <div class="pagination-info">
+      <span class="dropdown">
+        <a id="per_page_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= first %> - <%= last %></a>
+        <ul class="dropdown-menu" aria-labelledby="per_page_list">
+          <% Wallaby::PERS.each do |per| %>
+            <li><%= index_link nil, { class: per, extra_params: index_params.merge(per: per) } { per.to_s } %></li>
+          <% end %>
+        </ul>
+      </span>
+      of <%= total %>
+    </div>
+    <% _with_routes wallaby_engine do %>
+      <% if path_to_next_page(collection) %>
+        <nav class="pagination">
+          <span class="next">
+            <%= link_to_next_page(collection, next_text) %>
+          </span>
+        </nav>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+<% # /Kaminari pagination %>

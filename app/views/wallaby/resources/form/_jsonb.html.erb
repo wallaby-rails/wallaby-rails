@@ -1,6 +1,7 @@
+<% form_value = value.is_a?(String) ? value : (JSON.pretty_generate(value) rescue nil) %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
-  <%= form.text_area field_name, value: (JSON.pretty_generate(value) rescue nil), class: 'form-control', data: { init: 'codemirror', mode: 'javascript' } %>
+  <%= form.text_area field_name, value: form_value, class: 'form-control', data: { init: 'codemirror', mode: 'javascript' } %>
   <%= form.error_messages field_name %>
 </div>
 
@@ -8,14 +9,13 @@
   <% @codemirror_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(function($) {
+      jQuery(document).off('turbolinks:load.jsonb').on('turbolinks:load.jsonb', function () {
         $('textarea[data-init="codemirror"]').each(function (index, element) {
           CodeMirror.fromTextArea(element, {
             mode: $(element).data('mode'),
-            theme: "default",
+            theme: "base16-dark",
             lineNumbers: true
           });
-
         })
       })
     <% end %>

@@ -8,11 +8,11 @@
   <% @summernote_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(function($) {
+      jQuery(document).off('turbolinks:load.citext').on('turbolinks:load.citext', function () {
         $('textarea[data-init="summernote"]').summernote({
           height: 150,
           codemirror: { // codemirror options
-            theme: 'monokai'
+            theme: 'base16-dark'
           }
         })
       })

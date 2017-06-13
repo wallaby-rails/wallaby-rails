@@ -3,5 +3,5 @@
 <% else %>
   <% value  = Time.zone.parse value if value.is_a? String %>
   <span><%= I18n.l value, format: :short %></span>
-  <%= itooltip I18n.l(value), 'time' %>
+  <%= itooltip I18n.l(value), 'clock-o' %>
 <% end %>

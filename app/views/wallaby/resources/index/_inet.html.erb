@@ -2,5 +2,5 @@
   <%= null %>
 <% else %>
   <code><%= value %></code>
-  <%= link_to icon('new-window'), "http://ip-api.com/##{ value }", target: :_blank, class: 'text-info' %>
+  <%= link_to fa_icon('external-link-square'), "http://ip-api.com/##{ value }", target: :_blank, class: 'text-info' %>
 <% end %>

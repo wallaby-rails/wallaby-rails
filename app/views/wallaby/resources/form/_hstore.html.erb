@@ -11,11 +11,11 @@
   <% @codemirror_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(function($) {
+      jQuery(document).off('turbolinks:load.hstore').on('turbolinks:load.hstore', function () {
         $('textarea[data-init="codemirror"]').each(function (index, element) {
           CodeMirror.fromTextArea(element, {
             mode: $(element).data('mode'),
-            theme: "default",
+            theme: "base16-dark",
             lineNumbers: true
           });
         })

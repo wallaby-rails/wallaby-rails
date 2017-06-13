@@ -23,7 +23,7 @@
   <% @datetimepicker_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(function($) {
+      jQuery(document).off('turbolinks:load.tstzrange').on('turbolinks:load.tstzrange', function () {
         $('[data-init="datetimepicker"]').each(function() {
           var $input = $('input', this)
           $input.val(moment($input.attr('value')).format('YYYY-MM-DD HH:mm'))

@@ -3,29 +3,31 @@
 decorated = decorate resource
 %>
 <article>
-  <%= render 'wallaby/resources/shared/resource_nav' %>
   <div class="page-header">
+    <%= render 'wallaby/resources/shared/resource_nav' %>
     <h1>
       <%= show_title decorated %>
     </h1>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
-  <section class="fields">
-    <table class="detail-table">
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% decorated.show_field_names.each do |field_name| %>
+  <section>
+    <div class="inner">
+      <table class="details-table">
+        <thead>
           <tr>
-            <th><%= decorated.show_label_of field_name %></th>
-            <td><%= type_partial_render decorated.show_type_of(field_name).to_s, object: decorated, field_name: field_name %></td>
+            <th>Field</th>
+            <th>Value</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% decorated.show_field_names.each do |field_name| %>
+            <tr>
+              <th><%= decorated.show_label_of field_name %></th>
+              <td><%= type_partial_render decorated.show_type_of(field_name).to_s, object: decorated, field_name: field_name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </section>
 </article>
