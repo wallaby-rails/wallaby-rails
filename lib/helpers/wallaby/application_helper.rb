@@ -23,5 +23,18 @@ module Wallaby
       else wallaby_engine.url_for options
       end
     end
+
+    def stylesheet_link_tag(*sources)
+      default_options = { 'data-turbolinks-track' => true }
+      options = default_options.merge!(sources.extract_options!.stringify_keys)
+      super *sources, options
+    end
+
+    def javascript_include_tag(*sources)
+      default_options =
+        { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false }
+      options = default_options.merge!(sources.extract_options!.stringify_keys)
+      super *sources, options
+    end
   end
 end

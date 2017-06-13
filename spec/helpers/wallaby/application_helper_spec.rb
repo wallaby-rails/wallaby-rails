@@ -21,13 +21,6 @@ describe Wallaby::ApplicationHelper do
     end
   end
 
-  describe '#render' do
-    it 'adds caller path to view_paths' do
-      helper.render '/wallaby/shared/flash_messages'
-      expect(helper.view_paths.map(&:to_path).last).to match(%r{/app/views})
-    end
-  end
-
   describe '#wallaby_resourceful_url_for' do
     context 'when action is index/create' do
       it 'returns resources_path' do
@@ -64,6 +57,22 @@ describe Wallaby::ApplicationHelper do
           expect(uri.host).to be_blank
         end
       end
+    end
+  end
+
+  describe '#stylesheet_link_tag' do
+    it 'inclues data-turbolinks attribute' do
+      expect(stylesheet_link_tag('application')).to include "data-turbolinks-track=\"true\""
+      expect(stylesheet_link_tag('application', 'data-turbolinks-track' => nil)).not_to include 'data-turbolinks-track'
+    end
+  end
+
+  describe '#javascript_include_tag' do
+    it 'inclues data-turbolinks attribute' do
+      expect(javascript_include_tag('application')).to include "data-turbolinks-track=\"true\""
+      expect(javascript_include_tag('application')).to include "data-turbolinks-eval=\"false\""
+      expect(javascript_include_tag('application', 'data-turbolinks-track' => nil)).not_to include 'data-turbolinks-track'
+      expect(javascript_include_tag('application', 'data-turbolinks-eval' => nil)).not_to include 'data-turbolinks-eval'
     end
   end
 end
