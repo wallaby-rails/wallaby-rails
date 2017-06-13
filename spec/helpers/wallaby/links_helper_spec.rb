@@ -3,33 +3,44 @@ require 'rails_helper'
 describe Wallaby::LinksHelper, :current_user do
   extend Wallaby::ApplicationHelper
 
+  describe '#index_params' do
+    it 'permits the following keywords' do
+      hash = { 'q' => 'keywords', 'page' => 2, 'per' => 20, 'sort' => 'name asc' }
+      hash.each { |key, value| helper.params[key] = value }
+      expect(helper.index_params.to_h).to eq hash
+      helper.params[:something] = 'else'
+      expect(helper.index_params.to_h).to eq hash
+    end
+  end
+
   describe '#index_path' do
     it 'returns index path' do
-      expect(helper.index_path(Product)).to match '/products'
+      expect(helper.index_path(Product)).to eq '/admin/products'
+      expect(helper.index_path(Product, parameters(sort: 'name asc'))).to eq '/admin/products'
     end
 
     context 'when extra params are given' do
       it 'returns index path with queries' do
-        expect(helper.index_path(Product, sort: 'name asc')).to eq '/admin/products?sort=name+asc'
+        expect(helper.index_path(Product, parameters(sort: 'name asc').permit!)).to eq '/admin/products?sort=name+asc'
       end
     end
   end
 
   describe '#new_path' do
     it 'returns new path' do
-      expect(helper.new_path(Product)).to match '/products/new'
+      expect(helper.new_path(Product)).to eq '/admin/products/new'
     end
   end
 
   describe '#show_path' do
     it 'returns show path' do
-      expect(helper.show_path(Product.new(id: 1))).to match '/products/1'
+      expect(helper.show_path(Product.new(id: 1))).to eq '/admin/products/1'
     end
   end
 
   describe '#edit_path' do
     it 'returns edit path' do
-      expect(helper.edit_path(Product.new(id: 1))).to match '/products/1/edit'
+      expect(helper.edit_path(Product.new(id: 1))).to eq '/admin/products/1/edit'
     end
   end
 
@@ -37,7 +48,7 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns index link' do
       expect(helper.index_link(Product)).to eq '<a href="/admin/products">Product</a>'
       expect(helper.index_link(Product) { 'List' }).to eq '<a href="/admin/products">List</a>'
-      expect(helper.index_link(Product, extra_params: { sort: 'name asc' }) { 'List' }).to eq '<a href="/admin/products?sort=name+asc">List</a>'
+      expect(helper.index_link(Product, extra_params: parameters(sort: 'name asc').permit!) { 'List' }).to eq '<a href="/admin/products?sort=name+asc">List</a>'
     end
 
     context 'when cannot index' do
@@ -54,6 +65,7 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.new_link(Product)).to eq '<a class="text-success" href="/admin/products/new">Create Product</a>'
       expect(helper.new_link(Product) { 'New' }).to eq '<a class="text-success" href="/admin/products/new">New</a>'
       expect(helper.new_link(Product, class: 'test')).to eq '<a class="test" href="/admin/products/new">Create Product</a>'
+      expect(helper.new_link(Product, class: 'test', prepend: 'Or')).to eq 'Or <a class="test" href="/admin/products/new">Create Product</a>'
     end
 
     context 'when cannot new' do
@@ -159,8 +171,7 @@ describe Wallaby::LinksHelper, :current_user do
 
   describe '#prepend_if' do
     it 'returns the prepended text' do
-      expect(helper.prepend_if).to be_nil
-      expect(helper).to receive(:concat).with('Or ') { 'Or ' }
+      expect(helper.prepend_if).to eq ''
 
       html_options = { prepend: 'Or' }
       expect(helper.prepend_if(html_options)).to eq 'Or '

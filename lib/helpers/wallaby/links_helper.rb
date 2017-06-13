@@ -1,15 +1,20 @@
 module Wallaby
   # Links helper
   module LinksHelper
+    def index_params
+      params.permit(:q, :page, :per, :sort)
+    end
+
     def index_path(model_class = nil, extra_params = nil)
       model_class ||= current_model_class
       extra_params ||= {}
-      wallaby_engine.resources_path to_resources_name(model_class), extra_params
+      wallaby_engine.resources_path \
+        to_resources_name(model_class), extra_params.to_h
     end
 
     def new_path(model_class = nil)
       model_class ||= current_model_class
-      wallaby_engine.new_resource_path to_resources_name model_class
+      wallaby_engine.new_resource_path to_resources_name(model_class)
     end
 
     def show_path(resource)
@@ -28,7 +33,7 @@ module Wallaby
       model_class ||= current_model_class
       return if cannot? :index, model_class
       block ||= -> { to_model_label model_class }
-      path = index_path(model_class, html_options.delete(:extra_params))
+      path = index_path model_class, html_options.delete(:extra_params)
       link_to path, html_options, &block
     end
 
@@ -39,8 +44,8 @@ module Wallaby
       block ||= -> { "#{ct 'link.new'} #{to_model_label model_class}" }
       html_options[:class] = 'text-success' unless html_options.key? :class
 
-      prepend_if html_options
-      link_to new_path(model_class), html_options, &block
+      prepend_if(html_options) \
+        + link_to(new_path(model_class), html_options, &block)
     end
 
     def show_link(resource, html_options = {}, &block)
@@ -82,7 +87,7 @@ module Wallaby
 
     def prepend_if(html_options = {})
       prepend = html_options.delete :prepend
-      concat "#{prepend} " if prepend.present?
+      prepend.present? ? "#{prepend} " : EMPTY_STRING
     end
   end
 end
