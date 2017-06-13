@@ -30,3 +30,23 @@ en:
 
   collection:
     not_found: 'Records not found'
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "Prev"
+      next: "Next"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      entry:
+        zero: "entries"
+        one: "entry"
+        other: "entries"
+      one_page:
+        display_entries:
+          zero: "No found"
+          one: "<strong>1</strong>"
+          other: "<strong>1&nbsp;-&nbsp;%{count}</strong> of <strong>%{count}</strong>"
+      more_pages:
+        display_entries: "<strong>%{first}&nbsp;-&nbsp;%{last}</strong> of <strong>%{total}</strong>"
