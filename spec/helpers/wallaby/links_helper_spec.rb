@@ -172,9 +172,11 @@ describe Wallaby::LinksHelper, :current_user do
   describe '#prepend_if' do
     it 'returns the prepended text' do
       expect(helper.prepend_if).to eq ''
+      expect(helper.prepend_if).to be_html_safe
 
       html_options = { prepend: 'Or' }
       expect(helper.prepend_if(html_options)).to eq 'Or '
+      expect(helper.prepend_if(html_options)).to be_html_safe
       expect(html_options).not_to have_key :prepend
     end
   end

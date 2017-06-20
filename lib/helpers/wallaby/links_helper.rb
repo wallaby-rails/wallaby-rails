@@ -87,7 +87,7 @@ module Wallaby
 
     def prepend_if(html_options = {})
       prepend = html_options.delete :prepend
-      prepend.present? ? "#{prepend} " : EMPTY_STRING
+      (prepend.present? ? "#{prepend} " : EMPTY_STRING).html_safe
     end
   end
 end
