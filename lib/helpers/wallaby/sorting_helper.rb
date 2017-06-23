@@ -3,9 +3,9 @@ module Wallaby
   module SortingHelper
     def sort_link(field_name, model_decorator = current_model_decorator)
       metadata = model_decorator.index_metadata_of field_name
-      return metadata[:label] unless sortable?(metadata)
+      return metadata[:label] unless sortable? metadata
       sort_field_name = metadata[:sort_field_name] || field_name
-      extra_params = next_sort_param(sort_field_name).permit!.to_h
+      extra_params = next_sort_param sort_field_name
       model_class = model_decorator.model_class
       index_link(model_class, extra_params: extra_params) { metadata[:label] }
     end
@@ -21,7 +21,7 @@ module Wallaby
     end
 
     def next_sort_param(field_name)
-      @next_builder ||= Sorting::NextBuilder.new params, current_sort
+      @next_builder ||= Sorting::NextBuilder.new index_params, current_sort
       @next_builder.next_params field_name
     end
 
