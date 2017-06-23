@@ -22,6 +22,7 @@ describe Wallaby::ApplicationHelper do
       it 'returns resources_path' do
         %w[index create].each do |action|
           expect(helper.wallaby_resourceful_url_for(resources: 'products', action: action)).to eq '/admin/products'
+          expect(helper.wallaby_resourceful_url_for(parameters(resources: 'products', action: action))).to eq '/admin/products'
         end
       end
     end
@@ -29,12 +30,14 @@ describe Wallaby::ApplicationHelper do
     context 'when action is new' do
       it 'returns new_resource_path' do
         expect(helper.wallaby_resourceful_url_for(resources: 'products', action: 'new')).to eq '/admin/products/new'
+        expect(helper.wallaby_resourceful_url_for(parameters(resources: 'products', action: 'new'))).to eq '/admin/products/new'
       end
     end
 
     context 'when action is edit' do
       it 'returns edit_resource_path' do
         expect(helper.wallaby_resourceful_url_for(resources: 'products', action: 'edit', id: 1)).to eq '/admin/products/1/edit'
+        expect(helper.wallaby_resourceful_url_for(parameters!(resources: 'products', action: 'edit', id: 1))).to eq '/admin/products/1/edit'
       end
     end
 
@@ -42,6 +45,7 @@ describe Wallaby::ApplicationHelper do
       it 'returns resource_path' do
         %w[show update destroy].each do |action|
           expect(helper.wallaby_resourceful_url_for(resources: 'products', action: action, id: 1)).to eq '/admin/products/1'
+          expect(helper.wallaby_resourceful_url_for(parameters!(resources: 'products', action: action, id: 1))).to eq '/admin/products/1'
         end
       end
     end
@@ -50,6 +54,9 @@ describe Wallaby::ApplicationHelper do
       it 'excludes only_path' do
         %w[index create new edit show update destroy].each do |action|
           uri = URI(helper.wallaby_resourceful_url_for(resources: 'products', id: 1, action: action, only_path: false))
+          expect(uri.host).to be_blank
+
+          uri = URI(helper.wallaby_resourceful_url_for(parameters!(resources: 'products', id: 1, action: action, only_path: false)))
           expect(uri.host).to be_blank
         end
       end
