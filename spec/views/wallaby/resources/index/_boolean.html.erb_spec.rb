@@ -9,13 +9,13 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the boolean' do
-    expect(rendered).to eq "  <i class=\"glyphicon glyphicon-check\"></i>\n"
+    expect(rendered).to eq "  <i class=\"fa fa-check-square\"></i>\n"
   end
 
   context 'when value is false' do
     let(:value) { false }
     it 'renders the boolean' do
-      expect(rendered).to eq "  <i class=\"glyphicon glyphicon-unchecked\"></i>\n"
+      expect(rendered).to eq "  <i class=\"fa fa-square\"></i>\n"
     end
   end
 
