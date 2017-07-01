@@ -2,27 +2,27 @@
   <ul class="nav nav-pills">
     <%# list %>
     <li role="presentation">
-      <%= index_link { ct 'link.list' } %>
+      <%= index_link { fa_icon('list') } %>
     </li>
 
     <%# show %>
     <% if action_name == 'edit' %>
       <li role="presentation">
-        <%= show_link(resource) { ct 'link.show' } %>
+        <%= show_link(resource) { fa_icon('info') } %>
       </li>
     <% end %>
 
     <%# edit %>
     <% if action_name == 'show' %>
       <li role="presentation">
-        <%= edit_link(resource) { ct 'link.edit' } %>
+        <%= edit_link(resource) { fa_icon('pencil') } %>
       </li>
     <% end %>
 
     <%# delete %>
     <% if action_name == 'show' %>
       <li role="presentation">
-        <%= delete_link resource %>
+        <%= delete_link(resource) { fa_icon('remove') } %>
       </li>
     <% end %>
   </ul>

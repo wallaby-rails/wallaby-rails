@@ -1,5 +1,67 @@
+// --- Screen ---
+$screen-sm: 768px !default;
+$screen-sm-min: $screen-sm !default;
+
 // --- Fonts ---
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
+$font-family-base:        $font-family-sans-serif !default;
+
+$font-size-base:          14px !default;
+$font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
+
+$font-size-h1:            floor(($font-size-base * 2.6)) !default; // ~36px
+$font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
+$font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px
+$font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h5:            $font-size-base !default;
+$font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base:        1.428571429 !default; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
+
+//** By default, this inherits from the `<body>`.
+$headings-font-family:    inherit !default;
+$headings-font-weight:    500 !default;
+$headings-line-height:    1.1 !default;
+$headings-color:          inherit !default;
+
+$font-color: #404041;
 
 // --- Colors ---
-$gray-lightest: $gray-lighter;
-$gray-lighter:  #bbbbbb;
+// color scheme: http://paletton.com/palette.php?uid=73F1%2B0kmmsJcRHti9wDrepGt-kd
+$dark-blue-color: #11356A;
+$default-blue-color: #375E97;
+$light-blue-color: #809ECA;
+
+$dark-yellow-color: #A16A0C;
+$default-yellow-color: #E5AA45;
+$light-yellow-color: #FFD999;
+
+$dark-red-color: #A1100C;
+$default-red-color: #E54945;
+$light-red-color: #FF9C99;
+
+$dark-green-color: #0A7F12;
+$default-green-color: #36B43E;
+$light-green-color: #85DE8B;
+
+$dark-primary-color: $dark-blue-color;
+$default-primary-color: $default-blue-color;
+$light-primary-color: $light-blue-color;
+
+$primary-text-color: $font-color;
+$secondary-text-color: #6d6e71;
+
+$background-color: #f2f2f2;
+
+$navbar-inverse-bg: #292c2e !default;

@@ -1,0 +1,33 @@
+.error {
+  .bad_request, .not_found, .unprocessable_entity, .internal_server_error {
+    position: relative;
+    padding-left: 150px;
+    max-width: 767px;
+    margin: 0 auto;
+
+    &:before {
+      display: block;
+      position: absolute;
+      height: 120px;
+      width: 120px;
+      content: '';
+      left: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+
+  .not_found {
+    &:before {
+      background-image: asset-url('wallaby/404.png');
+    }
+  }
+
+  .bad_request, .unprocessable_entity {
+    &:before {
+      height: 170px;
+      background-image: asset-url('wallaby/422.png');
+    }
+  }
+}

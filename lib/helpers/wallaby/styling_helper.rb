@@ -8,18 +8,18 @@ module Wallaby
       content_tag :i, nil, html_options, &block
     end
 
-    def itooltip(title, icon_suffix = 'info-sign', html_options = {})
+    def fa_icon(icon_suffix, html_options = {}, &block)
+      html_options[:class] = Array html_options[:class]
+      html_options[:class] << "fa fa-#{icon_suffix}"
+
+      content_tag :i, nil, html_options, &block
+    end
+
+    def itooltip(title, icon_suffix = 'info-circle', html_options = {})
       html_options[:title] = title
       (html_options[:data] ||= {}).merge! toggle: 'tooltip', placement: 'top'
 
-      icon icon_suffix, html_options
-    end
-
-    def ilink_to(options = nil, html_options = {})
-      icon_suffix = html_options.delete(:icon) || 'info-sign'
-      link_to options, html_options do
-        icon icon_suffix
-      end
+      fa_icon icon_suffix, html_options
     end
 
     def imodal(title, body, html_options = {})
@@ -47,7 +47,7 @@ module Wallaby
     def imodal_label(html_options)
       html_options.delete(:label) ||
         html_options.delete(:icon) ||
-        icon('circle-arrow-up')
+        fa_icon('clone')
     end
 
     def imodal_html(uuid, title, body)

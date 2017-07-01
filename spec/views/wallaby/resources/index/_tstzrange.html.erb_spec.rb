@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the tstzrange' do
-    expect(rendered).to eq "  <span class=\"from\">16 Mar 14:55</span>\n  ...\n  <span class=\"to\">18 Mar 14:55</span>\n  <i title=\"Wed, 16 Mar 2016 14:55:10 +0000 ... Fri, 18 Mar 2016 14:55:10 +0000\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"glyphicon glyphicon-time\"></i>\n"
+    expect(rendered).to eq "  <span class=\"from\">16 Mar 14:55</span>\n  ...\n  <span class=\"to\">18 Mar 14:55</span>\n  <i title=\"Wed, 16 Mar 2016 14:55:10 +0000 ... Fri, 18 Mar 2016 14:55:10 +0000\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"fa fa-clock-o\"></i>\n"
   end
 
   context 'when value is nil' do

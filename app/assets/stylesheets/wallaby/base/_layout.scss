@@ -1,14 +1,122 @@
-main {
-  padding: 15px;
+body {
+  padding-top: 166px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  background-color: $background-color;
+  color: $font-color;
+
+  @media (min-width: $screen-sm-min) {
+    padding-top: 131px;
+  }
+
+  header {
+    .top-nav.navbar-inverse {
+      .navbar-header {
+        position: relative;
+
+        a.navbar-brand {
+          color: $light-red-color;
+          &:hover {
+            color: $default-red-color;
+          }
+        }
+
+        .navbar-toggle {
+          position: absolute;
+          top: 50%;
+          right: 15px;
+          float: none;
+          margin-top: -20px;
+          padding: 9px 11px;
+          line-height:16px;
+
+          &:hover {
+            background-color: #444;
+          }
+
+          .fa-bars {
+            color: white;
+            font-size: 20px;
+          }
+        }
+      }
+
+      img.user-portrait {
+        margin: -5px 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 3px;
+      }
+
+      i.user-portrait {
+        font-size: 20px;
+        vertical-align: bottom;
+      }
+    }
+  }
+
+  a {
+    color: $default-primary-color;
+    &:hover {
+      color: $dark-primary-color;
+    }
+  }
+
+  main {
+    margin: 0 20px;
+    @media (min-width: $screen-sm-min) {
+      margin: 0 30px;
+    }
+
+    article {
+      .page-header {
+        position: fixed;
+        z-index: 10;
+        top: 51px;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 11px 20px 0;
+        background-color: $background-color;
+        border-bottom: none;
+        height: 115px;
+        @media (min-width: $screen-sm-min) {
+          height: 80px;
+          padding: 11px 30px 0;
+        }
+
+        &.has-collection {
+          h1 {
+            margin-top: 0;
+          }
+        }
+
+        h1 {
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          color: $default-primary-color;
+          margin: 16px 0 0;
+          font-size: 24px;
+          margin-bottom: 5px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        span > a {
+          position: relative;
+          display: inline-block;
+          font-size: $font-size-small;
+          color: $light-primary-color;
+          text-decoration: none;
+          transition: 0.2s;
+          border-bottom: 1px solid $light-primary-color;
+
+          &:hover {
+            color: $default-primary-color;
+            border-color: $default-primary-color;
+          }
+        }
+      }
+    }
+  }
 }
 
-img.user-portrait {
-  margin: -5px 0;
-  width: 30px;
-  height: 30px;
-}
-
-i.user-portrait {
-  font-size: 20px;
-  vertical-align: bottom;
-}

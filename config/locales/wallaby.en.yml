@@ -1,0 +1,65 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  link:
+    new: Create
+    show: Show
+    edit: Edit
+    delete: Delete
+    confirm:
+      delete: Please confirm to delete
+
+  http_errors:
+    internal_server_error: "Look at the cute wallaby, and you will forget that we are having an error!"
+    bad_request: "Your request is not supported."
+    not_found: "Not found."
+    unprocessable_entity: "Your request could not be done."
+    not_authenticated: "You need to sign in to access this page."
+
+
+  errors:
+    not_found:
+      collection: 'Records could not be found.'
+      model: 'Model %{model} could not be found.'
+      resource: 'Record %{resource} could not be found.'
+
+  # pagination
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "Prev"
+      next: "Next"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      entry:
+        zero: "entries"
+        one: "entry"
+        other: "entries"
+      one_page:
+        display_entries:
+          zero: "No found"
+          one: "<strong>1</strong>"
+          other: "<strong>1&nbsp;-&nbsp;%{count}</strong> of <strong>%{count}</strong>"
+      more_pages:
+        display_entries: "<strong>%{first}&nbsp;-&nbsp;%{last}</strong> of <strong>%{total}</strong>"

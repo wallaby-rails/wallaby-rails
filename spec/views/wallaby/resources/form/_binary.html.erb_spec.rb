@@ -12,13 +12,13 @@ describe partial_name do
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the binary form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_binary\">Binary</label>\n  <div class=\"row\">\n    <div class=\"col-xs-3\">\n      <label class=\"btn btn-default\" for=\"all_postgres_type_binary\">\n        <input class=\"hidden\" type=\"file\" name=\"all_postgres_type[binary]\" id=\"all_postgres_type_binary\" />\n        <i class=\"glyphicon glyphicon-upload\"></i> Upload\n</label>    </div>\n  </div>\n  \n</div>\n"
+    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_binary\">Binary</label>\n  <div class=\"row\">\n    <div class=\"col-xs-3\">\n      <label class=\"btn btn-default\" for=\"all_postgres_type_binary\">\n        <input class=\"hidden\" type=\"file\" name=\"all_postgres_type[binary]\" id=\"all_postgres_type_binary\" />\n        <i class=\"fa fa-upload\"></i> Upload\n</label>    </div>\n  </div>\n  \n</div>\n"
   end
 
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_binary\">Binary</label>\n  <div class=\"row\">\n    <div class=\"col-xs-3\">\n      <label class=\"btn btn-default\" for=\"all_postgres_type_binary\">\n        <input class=\"hidden\" type=\"file\" name=\"all_postgres_type[binary]\" id=\"all_postgres_type_binary\" />\n        <i class=\"glyphicon glyphicon-upload\"></i> Upload\n</label>    </div>\n  </div>\n  \n</div>\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_binary\">Binary</label>\n  <div class=\"row\">\n    <div class=\"col-xs-3\">\n      <label class=\"btn btn-default\" for=\"all_postgres_type_binary\">\n        <input class=\"hidden\" type=\"file\" name=\"all_postgres_type[binary]\" id=\"all_postgres_type_binary\" />\n        <i class=\"fa fa-upload\"></i> Upload\n</label>    </div>\n  </div>\n  \n</div>\n"
     end
   end
 end

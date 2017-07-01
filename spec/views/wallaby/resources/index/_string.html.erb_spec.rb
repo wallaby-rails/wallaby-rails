@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the string' do
-    expect(rendered).to eq "    <span>this is a text fo...</span>\n    <i title=\"this is a text for more than 20 characters\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"glyphicon glyphicon-info-sign\"></i>\n"
+    expect(rendered).to eq "    <span>this is a text fo...</span>\n    <i title=\"this is a text for more than 20 characters\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"fa fa-info-circle\"></i>\n"
   end
 
   context 'when value is less than 20 characters' do

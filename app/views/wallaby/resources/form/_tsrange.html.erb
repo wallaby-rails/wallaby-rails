@@ -5,14 +5,14 @@
       <div class="input-group date" data-init='datetimepicker'>
         <span class="input-group-addon">F</span>
         <%= form.text_field field_name, value: value.try(:first), multiple: true, class: 'form-control' %>
-        <span class="input-group-addon"><%= icon 'calendar' %></span>
+        <span class="input-group-addon"><%= fa_icon 'calendar' %></span>
       </div>
     </div>
     <div class="col-xs-6 col-sm-3">
       <div class="input-group date" data-init='datetimepicker'>
         <span class="input-group-addon">T</span>
         <%= form.text_field field_name, value: value.try(:last), multiple: true, class: 'form-control' %>
-        <span class="input-group-addon"><%= icon 'calendar' %></span>
+        <span class="input-group-addon"><%= fa_icon 'calendar' %></span>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@
   <% @datetimepicker_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(function($) {
+      jQuery(document).off('turbolinks:load.tsrange').on('turbolinks:load.tsrange', function () {
         $('[data-init="datetimepicker"]').each(function() {
           var $input = $('input', this)
           $input.val(moment($input.attr('value')).format('YYYY-MM-DD HH:mm'))

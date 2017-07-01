@@ -31,7 +31,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'sprockets-rails'
   s.add_dependency 'sass-rails'
 
+  s.add_dependency 'turbolinks'
+  s.add_dependency 'jquery-turbolinks'
   s.add_dependency 'bootstrap-sass'
+  s.add_dependency 'font-awesome-rails'
   s.add_dependency 'bootstrap3-datetimepicker-rails'
   s.add_dependency 'codemirror-rails'
   s.add_dependency 'jquery-minicolors-rails'

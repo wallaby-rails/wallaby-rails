@@ -1,0 +1,13 @@
+<div class="<%= @symbol %>">
+  <% if @code >= 500 %>
+    <h1><%= ct("http_errors.#{ @symbol }") %></h1>
+  <% else %>
+    <h1>
+      <em><%= @code %></em>
+      <span><%= ct("http_errors.#{ @symbol }") %></span>
+    </h1>
+    <p>
+      <%= @exception.message %>
+    </p>
+  <% end %>
+</div>

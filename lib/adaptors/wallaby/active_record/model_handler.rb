@@ -17,7 +17,7 @@ module Wallaby
       def find(id, _params)
         @model_class.find id
       rescue ::ActiveRecord::RecordNotFound
-        raise ResourceNotFound
+        raise ResourceNotFound, id
       end
 
       def create(params, ability)

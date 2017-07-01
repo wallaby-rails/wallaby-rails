@@ -4,7 +4,7 @@
     <div class="col-xs-6 col-sm-3">
       <div class="input-group date" data-init='timepicker'>
         <%= form.time_field field_name, value: value, class: 'form-control' %>
-        <span class="input-group-addon"><%= icon 'time' %></span>
+        <span class="input-group-addon"><%= fa_icon 'clock-o' %></span>
       </div>
     </div>
   </div>
@@ -15,7 +15,7 @@
   <% @timepicker_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(function($) {
+      jQuery(document).off('turbolinks:load.time').on('turbolinks:load.time', function () {
         $('[data-init="timepicker"]').each(function() {
           var $input = $('input', this)
           $input.val(moment($input.attr('value')).format('HH:mm'))

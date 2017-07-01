@@ -1,0 +1,73 @@
+.edit, .new {
+  article {
+    .page-header {
+      .pull-right {
+        float: none !important;
+        position: absolute;
+        z-index: 10;
+        right: 20px;
+        bottom: 15px;
+        left: 20px;
+
+        ul {
+          li {
+            float: none;
+            display: inline-block;
+            a {
+              padding: 5px 8px;
+              width: 30px;
+              text-align: center;
+              border-radius: 2px;
+              background-color: $light-primary-color;
+              color: white;
+
+              &:hover {
+                background-color: $default-primary-color;
+              }
+              &.text-warning {
+                background-color: $light-yellow-color;
+                &:hover {
+                  background-color: $default-yellow-color;
+                }
+              }
+            }
+          }
+        }
+
+        @media (min-width: $screen-sm-min) {
+          top: 50%;
+          right: 30px;
+          bottom: unset;
+          left: unset;
+          margin-top: -15px;
+          transition: 0.5s;
+        }
+      }
+
+    }
+  }
+
+  section {
+    position: relative;
+    margin-bottom: 30px;
+
+    .inner {
+      overflow: auto;
+      background-color: white;
+      padding: 20px;
+
+      form {
+        label {
+          color: $default-primary-color;
+          font-size: $font-size-small;
+          font-style: italic;
+          text-transform: uppercase;
+        }
+        .CodeMirror {
+          height: 168px;
+          border: 1px solid #eeeeee;
+        }
+      }
+    }
+  }
+}

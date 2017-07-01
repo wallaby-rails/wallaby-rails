@@ -14,24 +14,12 @@ module Wallaby
       Map.resources_name_map model_class
     end
 
-    def current_model_label
-      if current_resources_name.present?
-        label = to_model_label current_resources_name
-        return "Resource: #{label}" if label.present?
-      end
-      'Resources'
-    end
-
     def body_class
       [
         params[:action],
         current_resources_name.try(:gsub, COLONS, '__'),
         content_for(:custom_body_class)
       ].compact.join SPACE
-    end
-
-    def page_title
-      'Wallaby::Admin'
     end
 
     def ct(key, options = {})

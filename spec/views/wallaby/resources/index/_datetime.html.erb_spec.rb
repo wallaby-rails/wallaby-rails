@@ -9,14 +9,14 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the datetime' do
-    expect(rendered).to eq "  <span>11 Feb 23:59</span>\n  <i title=\"Tue, 11 Feb 2014 23:59:59 +0000\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"glyphicon glyphicon-time\"></i>\n"
+    expect(rendered).to eq "  <span>11 Feb 23:59</span>\n  <i title=\"Tue, 11 Feb 2014 23:59:59 +0000\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"fa fa-clock-o\"></i>\n"
   end
 
   context 'when value is a string' do
     let(:value) { 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
     it 'renders the datetime' do
-      expect(rendered).to eq "  <span>11 Feb 23:59</span>\n  <i title=\"Tue, 11 Feb 2014 23:59:59 +0000\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"glyphicon glyphicon-time\"></i>\n"
+      expect(rendered).to eq "  <span>11 Feb 23:59</span>\n  <i title=\"Tue, 11 Feb 2014 23:59:59 +0000\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"fa fa-clock-o\"></i>\n"
     end
   end
 

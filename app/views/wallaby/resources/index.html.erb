@@ -2,65 +2,76 @@
 # decorate first on every page or partial
 decorated_collection = decorate collection
 %>
-<section>
+<article>
   <% # Search form %>
-  <div class="search-form <%= params[:sort].present? && 'sort' || '' %>">
-    <div class="right">
-      <%= index_link(current_model_class, class: 'btn btn-default') { ct 'link.clear_sort' } if params[:sort].present? %>
-      <%= render 'index_actions' %>
-    </div>
-    <%= form_tag wallaby_engine.resources_path, method: :get do %>
-      <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search. Example: 'text_keyword1 text_keyword2 field_name:value'"  %>
-    <% end %>
-  </div>
-  <% # /Search form %>
-  <%= render 'wallaby/shared/flash_messages' %>
-  <% # Data table %>
-  <table class="data-table">
-    <thead>
-      <tr>
-        <% current_model_decorator.index_field_names.each do |field_name| %>
-          <th class="<%= sort_class field_name %>">
-            <%= sort_link field_name %>
-          </th>
-        <% end %>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if decorated_collection.present? %>
-        <% decorated_collection.each do |decorated| %>
-          <tr>
-            <% current_model_decorator.index_field_names.each do |field_name| %>
-              <td>
-                <%= index_type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
-              </td>
-            <% end %>
-            <td>
-              <%= render 'resource_actions', decorated: decorated %>
-            </td>
-          </tr>
-        <% end %>
-      <% else %>
-        <tr>
-          <td colspan="<%= current_model_decorator.index_field_names.length + 1 %>">
-            <%= t 'collection.not_found' %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <% # /Data table %>
-  <% # Kaminari pagination %>
-  <% if paginatable? collection %>
-    <div class="kaminari clearfix">
-      <div class="pull-left pagination-info">
-        <%= page_entries_info collection rescue custom_pagination_stats collection %>
+  <div class="page-header <%= decorated_collection.presence && 'has-collection' %>">
+    <h1><%= to_model_label(current_model_class) %></h1>
+    <div class="pull-right">
+      <div class="actions">
+        <%= render 'index_actions' %>
       </div>
-      <% _with_routes wallaby_engine do %>
-        <%= paginate collection rescue nil %>
+      <%= form_tag wallaby_engine.resources_path, method: :get do %>
+        <label class="search">
+          <%= text_field_tag :q, request.query_parameters[:q], placeholder: "Press enter to search.", class: 'form-control input-sm' %>
+        </label>
       <% end %>
     </div>
-  <% end %>
-  <% # /Kaminari pagination %>
-</section>
+    <%= render 'index_pagination' %>
+  </div>
+
+  <section>
+    <% # /Search form %>
+    <%= render 'wallaby/shared/flash_messages' %>
+    <% # Data table %>
+    <% if decorated_collection.present? %>
+      <div class="inner">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <% current_model_decorator.index_field_names.each do |field_name| %>
+                <th class="<%= sort_class field_name %>">
+                  <%= sort_link field_name %>
+                </th>
+              <% end %>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% decorated_collection.each do |decorated| %>
+              <tr>
+                <% current_model_decorator.index_field_names.each do |field_name| %>
+                  <td>
+                    <%= index_type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
+                  </td>
+                <% end %>
+                <td class="actions">&nbsp;</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <table class="actions-table">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% decorated_collection.each do |decorated| %>
+            <tr>
+              <td class="actions">
+                <%= render 'resource_actions', decorated: decorated %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="centre">
+        <%= image_tag 'wallaby/sign' %>
+        <%= t 'collection.not_found' %>
+      </div>
+    <% end %>
+    <% # /Data table %>
+  </section>
+</article>

@@ -101,8 +101,8 @@ module Wallaby
 
       def collection
         @collection ||= begin
-          page_number = params.delete :page
-          per_number  = params.delete(:per) || 50
+          page_number = params[:page]
+          per_number  = params[:per] || 20
 
           query = current_model_service.collection params, current_ability
           query = query.page page_number if query.respond_to? :page

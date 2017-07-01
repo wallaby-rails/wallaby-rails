@@ -12,7 +12,7 @@ describe Wallaby::SecureController do
       it 'rescues the exception and renders 401' do
         expect { get :index }.not_to raise_error
         expect(response.status).to eq 401
-        expect(response).to render_template 'wallaby/errors/not_authenticated'
+        expect(response).to render_template 'wallaby/error'
       end
     end
 
@@ -26,7 +26,7 @@ describe Wallaby::SecureController do
       it 'rescues the exception and renders 401' do
         expect { get :index }.not_to raise_error
         expect(response.status).to eq 403
-        expect(response).to render_template 'wallaby/errors/access_denied'
+        expect(response).to render_template 'wallaby/error'
       end
     end
   end

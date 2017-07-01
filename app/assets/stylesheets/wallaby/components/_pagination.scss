@@ -1,105 +1,67 @@
-.pagination {
-  @extend .pull-right;
+.kaminari {
   display: inline-block;
-  padding-left: 0;
-  margin: 0 auto;
-  border-radius: $border-radius-base;
+  font-size: 12px;
 
-  > span {
-    display: inline; // Remove list-style and block-level defaults
+  .pagination, .pagination-info {
     position: relative;
-    float: left; // Collapse white-space
-    line-height: $line-height-base;
-    text-decoration: none;
-    background-color: $pagination-bg;
-    border: 1px solid $pagination-border;
-    margin-left: -1px;
-    &.first > a {
-      content: '&laquo;';
+    display: inline-block;
+    margin: 0;
+    margin-left: 10px;
+    padding-left: 10px;
+    line-height: auto;
+    color: $light-primary-color;
+
+    &:before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 10px;
+      width: 1px;
+      margin-top: -5px;
+      content: '';
+      background-color: $light-primary-color;
     }
-    &.last > a {
-      content: '&raquo;';
-    }
-    &.previous > a {
-      content: '&lsaquo;';
-    }
-    &.next > a {
-      content: '&rsaquo;';
-    }
-    > a {
-      display: inline-block;
-      color: $pagination-color;
-      padding: $padding-base-vertical $padding-base-horizontal;
-    }
-    &:first-child {
-      margin-left: 0;
-      @include border-left-radius($border-radius-base);
-    }
-    &:last-child {
-      @include border-right-radius($border-radius-base);
-    }
-    &.page, &.first, &.prev, &.next, &.last {
-      &.gap, &.current {
-        padding: $padding-base-vertical $padding-base-horizontal;
+
+    .prev {
+      & > a:hover {
+        border-color: $default-primary-color;
+        padding-left: 11px;
+        &:before {
+          color: $default-primary-color;
+        }
+      }
+
+      & > a:before {
+        @extend .fa, .fa-angle-left:before;
+        line-height: 20px;
+        color: transparent;
+        top: -1px;
+        left: 0;
+        transition: 0.1s;
+        position: absolute;
+        font-size: 12px;
       }
     }
-  }
 
-  > span > a {
-    &:hover,
-    &:focus {
-      z-index: 2;
-      color: $pagination-hover-color;
-      background-color: $pagination-hover-bg;
-      border-color: $pagination-hover-border;
-      text-decoration: none;
+    .next {
+      & > a:hover {
+        border-color: $default-primary-color;
+        padding-right: 11px;
+        &:after {
+          color: $default-primary-color;
+        }
+      }
+
+      & > a:after {
+        @extend .fa, .fa-angle-right:before;
+        line-height: 20px;
+        color: transparent;
+        top: -1px;
+        right: 0;
+        transition: 0.1s;
+        position: absolute;
+        font-size: 12px;
+      }
     }
-  }
-
-  > .current {
-    &,
-    &:hover,
-    &:focus {
-      z-index: 3;
-      color: $pagination-active-color;
-      background-color: $pagination-active-bg;
-      border-color: $pagination-active-border;
-      cursor: default;
-    }
-  }
-
-  > .disabled {
-    > span,
-    > span:hover,
-    > span:focus,
-    > a,
-    > a:hover,
-    > a:focus {
-      color: $pagination-disabled-color;
-      background-color: $pagination-disabled-bg;
-      border-color: $pagination-disabled-border;
-      cursor: $cursor-disabled;
-    }
-  }
-}
-
-// Sizing
-// --------------------------------------------------
-
-// Large
-.pagination-lg {
-  @include pagination-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $border-radius-large);
-}
-
-// Small
-.pagination-sm {
-  @include pagination-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
-}
-
-.pagination-info {
-  line-height: 34px;
-  color: $breadcrumb-color;
-  b {
-    color: $gray-light;
   }
 }

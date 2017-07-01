@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the uuid' do
-    expect(rendered).to eq "    <span>814865cd-5a1d-...</span>\n    <i title=\"814865cd-5a1d-4771-9306-4268f188fe9e\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"glyphicon glyphicon-info-sign\"></i>\n"
+    expect(rendered).to eq "    <span>814865cd-5a1d-...</span>\n    <i title=\"814865cd-5a1d-4771-9306-4268f188fe9e\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"fa fa-info-circle\"></i>\n"
   end
 
   context 'when value is nil' do
