@@ -1,4 +1,4 @@
-$danger-color: #f44336;
+$default-red-color: #f44336;
 
 .show {
   article {
@@ -20,22 +20,22 @@ $danger-color: #f44336;
               width: 30px;
               text-align: center;
               border-radius: 2px;
-              background-color: lighten($default-primary-color, 25%);
+              background-color: $light-primary-color;
               color: white;
 
               &:hover {
                 background-color: $default-primary-color;
               }
               &.text-warning {
-                background-color: lighten($accent-color, 25%);
+                background-color: $light-yellow-color;
                 &:hover {
-                  background-color: $accent-color;
+                  background-color: $default-yellow-color;
                 }
               }
               &.text-danger {
-                background-color: lighten($danger-color, 25%);
+                background-color: $light-red-color;
                 &:hover {
-                  background-color: $danger-color;
+                  background-color: $default-red-color;
                 }
               }
             }

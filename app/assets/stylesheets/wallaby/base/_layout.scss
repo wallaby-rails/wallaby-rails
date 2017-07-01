@@ -14,9 +14,9 @@ body {
         position: relative;
 
         a.navbar-brand {
-          color: lighten($navbar-brand-color, 30%);
+          color: $light-red-color;
           &:hover {
-            color: $navbar-brand-color;
+            color: $default-red-color;
           }
         }
 
@@ -44,6 +44,7 @@ body {
         margin: -5px 0;
         width: 30px;
         height: 30px;
+        border-radius: 3px;
       }
 
       i.user-portrait {
@@ -95,6 +96,9 @@ body {
           margin: 16px 0 0;
           font-size: 24px;
           margin-bottom: 5px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
 
         span > a {

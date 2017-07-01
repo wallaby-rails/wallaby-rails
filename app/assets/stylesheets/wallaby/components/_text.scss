@@ -1,11 +1,11 @@
-@include text-emphasis-variant('.text-primary', #205081);
+@include text-emphasis-variant('.text-primary', $primary-text-color);
 
-@include text-emphasis-variant('.text-success', #8eb021);
+@include text-emphasis-variant('.text-success', $default-green-color);
 
-@include text-emphasis-variant('.text-info', #59afe1);
+@include text-emphasis-variant('.text-info', $default-blue-color);
 
-@include text-emphasis-variant('.text-warning', #f6c342);
+@include text-emphasis-variant('.text-warning', $default-yellow-color);
 
-@include text-emphasis-variant('.text-danger', #d04437);
+@include text-emphasis-variant('.text-danger', $default-red-color);
 
-@include text-emphasis-variant('.text-muted', #dddddd);
+@include text-emphasis-variant('.text-muted', $secondary-text-color);

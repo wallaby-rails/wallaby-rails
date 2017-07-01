@@ -28,8 +28,21 @@ en:
     confirm:
       delete: Please confirm to delete
 
-  collection:
-    not_found: 'Records not found'
+  http_errors:
+    internal_server_error: "Look at the cute wallaby, and you will forget that we are having an error!"
+    bad_request: "Your request is not supported."
+    not_found: "Not found."
+    unprocessable_entity: "Your request could not be done."
+    not_authenticated: "You need to sign in to access this page."
+
+
+  errors:
+    not_found:
+      collection: 'Records could not be found.'
+      model: 'Model %{model} could not be found.'
+      resource: 'Record %{resource} could not be found.'
+
+  # pagination
   views:
     pagination:
       first: "&laquo; First"

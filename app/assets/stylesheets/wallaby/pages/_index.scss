@@ -86,7 +86,7 @@
           position: absolute;
           right: 0;
           a.create {
-            background-color: lighten($accent-color, 20%);
+            background-color: $light-yellow-color;
             color: white;
             padding: 9px 9px;
             border-radius: 2px;
@@ -95,7 +95,7 @@
             height: 30px;
             text-align: center;
             &:hover {
-              background-color: $accent-color;
+              background-color: $default-yellow-color;
             }
           }
         }
@@ -107,6 +107,17 @@
   section {
     position: relative;
     margin-bottom: 30px;
+
+    .centre {
+      text-align: center;
+      font-size: 24px;
+      line-height: 300px;
+
+      img {
+        height: 50px;
+        margin-right: 10px;
+      }
+    }
 
     .inner {
       overflow: auto;
@@ -142,6 +153,26 @@
           text-align: center;
           margin-right: 3px;
 
+          &:hover {
+            background-color: $default-primary-color;
+          }
+
+          &.text-warning {
+            background-color: $light-yellow-color;
+
+            &:hover {
+              background-color: $default-yellow-color;
+            }
+          }
+
+          &.text-danger {
+            background-color: $light-red-color;
+
+            &:hover {
+              background-color: $default-red-color;
+            }
+          }
+
           &:last-child {
             margin-right: 0px;
           }
@@ -161,7 +192,7 @@
       thead tr th {
         text-transform: uppercase;
         font-weight: bold;
-        color: $light-primary-color;
+        color: $secondary-text-color;
         line-height: 20px;
         position: relative;
         border: none;
@@ -169,13 +200,13 @@
         a {
           display: block;
           padding-right: 11px;
-          color: $default-primary-color;
+          color: $light-primary-color;
           text-decoration: none;
           transition: 0.5s;
           position: relative;
           &:before {
             @extend .fa;
-            color: $default-primary-color;
+            color: $light-primary-color;
             transition: 0.5s;
             position: absolute;
             top: 50%;
@@ -183,9 +214,9 @@
             margin-top: -6px;
           }
           &:hover {
-            color: $dark-primary-color;
+            color: $default-primary-color;
             &:before {
-              color: $dark-primary-color;
+              color: $default-primary-color;
               @extend .fa-sort-asc:before;
             }
           }

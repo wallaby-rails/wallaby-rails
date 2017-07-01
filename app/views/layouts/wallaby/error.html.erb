@@ -13,7 +13,23 @@
     <%= javascript_include_tag 'wallaby/application' %>
   </head>
   <body class="error <%= body_class %>">
-    <%= render 'layouts/wallaby/header' %>
+    <header>
+      <nav class="top-nav navbar navbar-default navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+          <%# Brand %>
+          <div class="navbar-header">
+            <%# Mobile Menu Toggler %>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-menu" aria-expanded="false">
+              <span class="fa fa-bars"></span>
+            </button>
+            <%# //Mobile Menu Toggler %>
+            <a class="navbar-brand" href="<%= wallaby_engine.root_path %>"><span>Wallaby</span> Admin</a>
+          </div>
+          <%# //Brand %>
+        </div>
+      </nav>
+    </header>
+
     <main>
       <%= yield %>
     </main>

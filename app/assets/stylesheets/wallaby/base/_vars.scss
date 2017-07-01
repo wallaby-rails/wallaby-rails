@@ -35,21 +35,33 @@ $headings-font-weight:    500 !default;
 $headings-line-height:    1.1 !default;
 $headings-color:          inherit !default;
 
-$font-color: #212121;
+$font-color: #404041;
 
 // --- Colors ---
-$dark-primary-color: #0288d1;
-$default-primary-color: #03a9f4;
-$light-primary-color: darken(#b3e5fc, 5%);
-$text-primary-color: #ffffff;
-$accent-color: #ffc107;
-$primary-text-color: #212121;
-$secondary-text-color: #757575;
-$divider-color: #bdbdbd;
-$danger-color: #f44336;
+// color scheme: http://paletton.com/palette.php?uid=73F1%2B0kmmsJcRHti9wDrepGt-kd
+$dark-blue-color: #11356A;
+$default-blue-color: #375E97;
+$light-blue-color: #809ECA;
 
-$background-color: #f3f3f3;
+$dark-yellow-color: #A16A0C;
+$default-yellow-color: #E5AA45;
+$light-yellow-color: #FFD999;
+
+$dark-red-color: #A1100C;
+$default-red-color: #E54945;
+$light-red-color: #FF9C99;
+
+$dark-green-color: #0A7F12;
+$default-green-color: #36B43E;
+$light-green-color: #85DE8B;
+
+$dark-primary-color: $dark-blue-color;
+$default-primary-color: $default-blue-color;
+$light-primary-color: $light-blue-color;
+
+$primary-text-color: $font-color;
+$secondary-text-color: #6d6e71;
+
+$background-color: #f2f2f2;
 
 $navbar-inverse-bg: #292c2e !default;
-
-$navbar-brand-color: #f44336;

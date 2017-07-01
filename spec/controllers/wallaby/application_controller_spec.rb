@@ -12,7 +12,7 @@ describe Wallaby::ApplicationController do
       it 'rescues the exception and renders 404' do
         expect { get :index }.not_to raise_error
         expect(response.status).to eq 404
-        expect(response).to render_template 'wallaby/errors/not_found'
+        expect(response).to render_template 'wallaby/error'
       end
     end
 
@@ -26,7 +26,7 @@ describe Wallaby::ApplicationController do
       it 'rescues the exception and renders 404' do
         expect { get :index }.not_to raise_error
         expect(response.status).to eq 404
-        expect(response).to render_template 'wallaby/errors/not_found'
+        expect(response).to render_template 'wallaby/error'
       end
     end
 
@@ -40,7 +40,7 @@ describe Wallaby::ApplicationController do
       it 'rescues the exception and renders 400' do
         expect { get :index }.not_to raise_error
         expect(response.status).to eq 400
-        expect(response).to render_template 'wallaby/errors/bad_request'
+        expect(response).to render_template 'wallaby/error'
       end
     end
   end

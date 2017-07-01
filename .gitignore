@@ -6,3 +6,4 @@ spec/dummy/tmp/
 spec/dummy/.sass-cache
 .byebug_history
 *.log
+.DS_Store

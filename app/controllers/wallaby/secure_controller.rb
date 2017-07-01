@@ -3,21 +3,18 @@ module Wallaby
   class SecureController < ApplicationController
     helper SecureHelper
 
-    rescue_from NotAuthenticated, with: :not_authenticated
-    rescue_from ::CanCan::AccessDenied, with: :access_denied
+    rescue_from NotAuthenticated, with: :unauthorized
+    rescue_from ::CanCan::AccessDenied, with: :forbidden
     helper_method :current_user
 
     protected
 
-    def not_authenticated(exception)
-      @exception = exception
-      render 'wallaby/errors/not_authenticated',
-             status: 401, layout: 'wallaby/error'
+    def unauthorized(exception)
+      error_rendering(exception, __callee__)
     end
 
-    def access_denied(exception)
-      @exception = exception
-      render 'wallaby/errors/access_denied', status: 403
+    def forbidden(exception)
+      error_rendering(exception, __callee__)
     end
 
     def current_user
