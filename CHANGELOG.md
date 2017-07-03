@@ -1,6 +1,9 @@
 # WIP Wish list
 
 - Add lint check
+- Forget to add custom log out XD
+- Optimise flash messages
+- I18n
 - Support for Single Table Inheritance (STI)
 - Improve colon search (maybe..)
 - Data audit (use papertrail) (maybe..)

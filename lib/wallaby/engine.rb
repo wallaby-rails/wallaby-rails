@@ -30,12 +30,12 @@ module Wallaby
       app.config.middleware.use Rack::Deflater
     end
 
-    initializer 'wallaby.initialize_cache' do |_app|
-      Map.clear
-    end
-
     initializer 'wallaby.assets.precompile' do |app|
       app.config.assets.precompile += %w[codemirror* codemirror/**/* wallaby/sign.png]
+    end
+
+    config.after_initialize do
+      Map.clear
     end
   end
 end

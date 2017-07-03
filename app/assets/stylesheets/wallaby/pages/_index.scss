@@ -109,13 +109,17 @@
     margin-bottom: 30px;
 
     .centre {
+      position: relative;
+      padding-top: 150px;
+      padding-left: 80px;
       text-align: center;
       font-size: 24px;
-      line-height: 300px;
 
       img {
-        height: 50px;
-        margin-right: 10px;
+        position: absolute;
+        margin-left: -90px;
+        margin-top: -20px;
+        height: 80px;
       }
     }
 

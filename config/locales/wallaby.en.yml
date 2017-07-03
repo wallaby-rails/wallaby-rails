@@ -38,7 +38,7 @@ en:
 
   errors:
     not_found:
-      collection: 'Records could not be found.'
+      collection: 'Records could not be found. Click + button to add one.'
       model: 'Model %{model} could not be found.'
       resource: 'Record %{resource} could not be found.'
 
