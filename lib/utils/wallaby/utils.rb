@@ -20,7 +20,10 @@ module Wallaby
     def self.to_model_class(resources_name)
       return if resources_name.blank?
       class_name = to_model_name resources_name
-      return class_name.constantize if ::Object.const_defined? class_name
+      # NOTE: do not use if statement instead of rescue here
+      # we want the class_name to be eagerly loaded
+      class_name.constantize
+    rescue NameError => _error
       raise ModelNotFound, class_name
     end
 
