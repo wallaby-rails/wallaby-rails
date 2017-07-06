@@ -9,7 +9,38 @@ body {
   }
 
   header {
-    .top-nav.navbar-inverse {
+    .top-nav {
+      #top-menu {
+        ul.navbar-nav {
+          ul.dropdown-menu {
+            ul.dropdown-menu {
+              display: block;
+              position: inherit;
+              margin-top: 0;
+              padding-left: 0;
+              padding-top: 0;
+              border: none;
+              box-shadow: none;
+
+              li {
+                position: relative;
+
+                &:before {
+                  @extend .fa, .fa-caret-right;
+                  position: absolute;
+                  left: 30px;
+                  top: 50%;
+                  margin-top: -7px;
+                }
+
+                a {
+                  padding-left: 43px;
+                }
+              }
+            }
+          }
+        }
+      }
       .navbar-header {
         position: relative;
 

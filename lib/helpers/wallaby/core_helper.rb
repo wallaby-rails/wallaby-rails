@@ -33,8 +33,25 @@ module Wallaby
       SecureRandom.uuid
     end
 
-    def model_classes
-      Map.model_classes.sort_by(&:name)
+    def model_classes(classes = Map.model_classes)
+      nested_hash = classes.each_with_object({}) do |klass, hash|
+        hash[klass] = Node.new(klass)
+      end
+      nested_hash.each do |klass, node|
+        node.parent = parent = nested_hash[klass.superclass]
+        parent.children << node if parent
+      end
+      nested_hash.values.select { |v| v.parent.nil? }
+    end
+
+    def model_tree(arr)
+      return EMPTY_STRING.html_safe if arr.blank?
+      content_tag :ul, class: 'dropdown-menu' do
+        arr.sort_by(&:name).each do |node|
+          content = index_link(node.klass) << model_tree(node.children)
+          concat content_tag(:li, content)
+        end
+      end
     end
   end
 end

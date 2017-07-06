@@ -34,4 +34,38 @@ describe Wallaby::CoreHelper do
       end
     end
   end
+
+  describe '#model_classes' do
+    context 'when root only' do
+      it 'returns an array' do
+        classes = [Product, Order]
+        expect(helper.model_classes(classes).map(&:klass)).to eq [Product, Order]
+        expect(helper.model_classes(classes).map(&:children).flatten).to be_blank
+      end
+    end
+
+    context 'when tree structure' do
+      it 'returns a tree' do
+        classes = [Order, Category, Staff, Customer, Person]
+        expect(helper.model_classes(classes).map(&:klass)).to eq [Order, Category, Person]
+        expect(helper.model_classes(classes).last.children.map(&:klass)).to eq [Staff, Customer]
+      end
+    end
+  end
+
+  describe '#model_tree', :current_user do
+    context 'when root only' do
+      it 'returns html' do
+        classes = [Product, Order]
+        expect(helper.model_tree(model_classes(classes))).to eq '<ul class="dropdown-menu"><li><a href="/admin/orders">Order</a></li><li><a href="/admin/products">Product</a></li></ul>'
+      end
+    end
+
+    context 'when tree structure' do
+      it 'returns html' do
+        classes = [Product, Order, Person, Staff, Customer]
+        expect(helper.model_tree(model_classes(classes))).to eq '<ul class="dropdown-menu"><li><a href="/admin/orders">Order</a></li><li><a href="/admin/people">Person</a><ul class="dropdown-menu"><li><a href="/admin/customers">Customer</a></li><li><a href="/admin/staffs">Staff</a></li></ul></li><li><a href="/admin/products">Product</a></li></ul>'
+      end
+    end
+  end
 end

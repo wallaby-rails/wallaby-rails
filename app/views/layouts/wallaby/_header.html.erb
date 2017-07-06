@@ -19,11 +19,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               Data <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-              <% model_classes.each do |model_class| %>
-                <li><%= index_link model_class %> </li>
-              <% end %>
-            </ul>
+            <%= model_tree model_classes %>
           </li>
         </ul>
         <%= render 'layouts/wallaby/navs' %>
