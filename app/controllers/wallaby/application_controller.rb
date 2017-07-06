@@ -13,7 +13,6 @@ module Wallaby
 
     layout 'wallaby/application'
 
-
     def not_found(exception = nil)
       error_rendering(exception, __callee__)
     end
@@ -32,6 +31,7 @@ module Wallaby
       @exception = exception
       @symbol = symbol
       @code = Rack::Utils::SYMBOL_TO_STATUS_CODE[@symbol].to_i
+
       Rails.logger.error @exception
       render ERROR_PATH, layout: ERROR_PATH, status: symbol
     end

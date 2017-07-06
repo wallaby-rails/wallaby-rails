@@ -31,7 +31,8 @@ module Wallaby
     end
 
     initializer 'wallaby.assets.precompile' do |app|
-      app.config.assets.precompile += %w[codemirror* codemirror/**/* wallaby/sign.png]
+      app.config.assets.precompile +=
+        %w[codemirror* codemirror/**/* wallaby/sign.png]
     end
 
     config.after_initialize do
@@ -43,6 +44,7 @@ end
 require 'wallaby/configuration'
 
 require 'utils/wallaby/utils'
+require 'tree/wallaby/node'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'

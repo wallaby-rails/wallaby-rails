@@ -1,0 +1,2 @@
+class Customer < Person
+end
