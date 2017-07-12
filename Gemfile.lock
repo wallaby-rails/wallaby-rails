@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wallaby (5.0.1)
+    wallaby (5.0.2)
       bootstrap-sass
       bootstrap3-datetimepicker-rails
       cancancan
@@ -63,7 +63,7 @@ GEM
       tzinfo (~> 1.1)
     arel (7.1.4)
     ast (2.3.0)
-    autoprefixer-rails (7.1.1)
+    autoprefixer-rails (7.1.1.3)
       execjs
     bcrypt (3.1.11)
     better_errors (2.1.1)
@@ -152,7 +152,7 @@ GEM
     kaminari-core (1.0.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.5)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     massa (0.5.0)
     memory_profiler (0.9.8)

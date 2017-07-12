@@ -1,11 +1,9 @@
 # WIP Wish list
 
-- Add lint check
-- Forget to add custom log out XD
-- Optimise flash messages
+- Refactor service object
+- Add lint check for stylesheet
+- Filters
 - I18n
-- Support for Single Table Inheritance (STI)
-- Improve colon search (maybe..)
 - Data audit (use papertrail) (maybe..)
 - Data export (maybe..)
 - Batch data action (maybe..)
@@ -15,6 +13,14 @@
 N/A
 
 # History:
+
+## 5.0.2
+1. Chore: rubocop is added to ensure source code is up with some sort of standard
+2. Chore: refactor map service
+3. Feature: added support for Active Record Single Table Inheritance (STI)
+5. Feature: colon search is complete with advanced querying
+6. UI Re-design
+7. Bugfix: fix how object is clone
 
 ## 5.0.1
 
