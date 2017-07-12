@@ -19,6 +19,7 @@ group :development, :test do
   gem 'brakeman'
   gem 'byebug'
   gem 'database_cleaner'
+  gem 'devise'
   gem 'ffaker'
   gem 'haml_lint'
   gem 'i18n-tasks'

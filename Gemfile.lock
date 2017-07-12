@@ -6,7 +6,6 @@ PATH
       bootstrap3-datetimepicker-rails
       cancancan
       codemirror-rails
-      devise (>= 4.0)
       font-awesome-rails
       jquery-minicolors-rails
       jquery-rails
@@ -296,6 +295,7 @@ DEPENDENCIES
   brakeman
   byebug
   database_cleaner
+  devise
   ffaker
   haml_lint
   i18n-tasks

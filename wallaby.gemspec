@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir['test/**/*']
 
   s.add_dependency 'rails', '>= 5.0'
-  s.add_dependency 'devise', '>= 4.0'
   s.add_dependency 'kaminari'
   s.add_dependency 'cancancan'
   s.add_dependency 'parslet'
