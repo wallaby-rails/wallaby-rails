@@ -4,8 +4,8 @@ describe 'routing' do
   describe 'general routes', type: :routing do
     routes { Wallaby::Engine.routes }
     it 'routes for general routes' do
-      expect(get: '/').to route_to controller: 'wallaby/core', action: 'home'
-      expect(get: '/status').to route_to controller: 'wallaby/core', action: 'status'
+      expect(get: '/').to route_to controller: 'wallaby/home', action: 'index'
+      expect(get: '/status').to route_to controller: 'wallaby/home', action: 'healthy'
     end
   end
 

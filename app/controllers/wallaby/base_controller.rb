@@ -1,11 +1,11 @@
 module Wallaby
-  # Core controller to provide basic helper methods for sub classes
-  class CoreController < SecureController
-    helper CoreHelper
+  # Base controller to provide basic helper methods for sub classes
+  class BaseController < SecureController
+    helper BaseHelper
 
     before_action :authenticate_user!, except: [:status]
 
-    def status
+    def healthy
       render plain: 'healthy'
     end
 

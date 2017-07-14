@@ -27,8 +27,22 @@
           position: absolute;
           font-size: 12px;
         }
-        .dropdown-menu a {
-          font-size: $font-size-small;
+        .dropdown-menu {
+          .current a {
+            color: $light-blue-color;
+          }
+
+          em {
+            font-size: $font-size-small;
+            font-style: normal;
+            color: $light-font-color;
+            display: block;
+            padding: 3px 20px;
+          }
+
+          a {
+            font-size: $font-size-small;
+          }
         }
       }
 
@@ -50,6 +64,12 @@
 
           &.focus {
             left: 50%;
+          }
+        }
+
+        &.filtered {
+          form {
+            margin-right: 72px;
           }
         }
 
@@ -82,11 +102,15 @@
             }
           }
         }
+
         .actions {
           position: absolute;
           right: 0;
-          a.create {
-            background-color: $light-yellow-color;
+
+          a {
+            background-color: $light-blue-color;
+            float: left;
+            margin-left: 6px;
             color: white;
             padding: 9px 9px;
             border-radius: 2px;
@@ -95,8 +119,12 @@
             height: 30px;
             text-align: center;
             &:hover {
-              background-color: $default-yellow-color;
+              background-color: $default-blue-color;
             }
+          }
+
+          a.create {
+            background-color: $light-yellow-color;
           }
         }
       }
