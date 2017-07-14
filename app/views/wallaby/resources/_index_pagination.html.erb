@@ -12,6 +12,9 @@
   first = collection.offset_value + 1
   last = [collection.offset_value + collection.limit_value, collection.total_count].min
   total = collection.total_count
+  page = [ index_params[:page].to_i, 1 ].max
+  per_page = (params[:per] || 20).to_i
+  pages = (total / per_page.to_f).ceil
   previous_text = t('views.pagination.previous').html_safe
   next_text = t('views.pagination.next').html_safe
   %>
@@ -36,12 +39,26 @@
       <span class="dropdown">
         <a id="per_page_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= first %> - <%= last %></a>
         <ul class="dropdown-menu" aria-labelledby="per_page_list">
+          <li><em>Page Size</em></li>
           <% Wallaby::PERS.each do |per| %>
-            <li><%= index_link nil, { class: per, extra_params: index_params.merge(per: per) } { per.to_s } %></li>
+            <li class="<%= per_page == per && 'current' %>"><%= index_link nil, { class: per, extra_params: index_params.merge(per: per) } { per.to_s } %></li>
           <% end %>
         </ul>
       </span>
-      of <%= total %>
+      of
+      <% if pages > 1 %>
+        <span class="dropdown">
+          <a id="per_page_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= total %></a>
+          <ul class="dropdown-menu" aria-labelledby="per_page_list">
+            <li><em>Page Number</em></li>
+            <% (1..pages).each do |page_number| %>
+              <li class="<%= page_number == page && 'current' %>"><%= index_link nil, { class: page_number, extra_params: index_params.merge(page: page_number) } { page_number.to_s } %></li>
+            <% end %>
+          </ul>
+        </span>
+      <% else %>
+        <%= total %>
+      <% end %>
     </div>
     <% _with_routes wallaby_engine do %>
       <% if path_to_next_page(collection) %>

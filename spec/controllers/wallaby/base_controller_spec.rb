@@ -1,16 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::CoreController do
-  describe '#status' do
-    it 'returns healthy' do
-      get :status
-      expect(response.body).to eq 'healthy'
-
-      get :status, format: :json
-      expect(response.body).to eq 'healthy'
-    end
-  end
-
+describe Wallaby::BaseController do
   describe '#current_resources_name' do
     it 'returns resources_name from params' do
       allow(controller).to receive(:params).and_return(resources: 'on_sale_products')

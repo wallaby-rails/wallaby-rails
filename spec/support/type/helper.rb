@@ -12,7 +12,7 @@ RSpec.configure do |config|
   config.before :each, type: :helper do
     view.extend Wallaby::ApplicationHelper
     view.extend Wallaby::SecureHelper
-    view.extend Wallaby::CoreHelper
+    view.extend Wallaby::BaseHelper
     view.extend Wallaby::ResourcesHelper
   end
 end

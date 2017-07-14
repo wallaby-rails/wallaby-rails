@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe Wallaby::CoreHelper do
+describe Wallaby::BaseHelper do
   describe '#body_class' do
     before do
-      # @see Wallaby::CoreController#current_resources_name
+      # @see Wallaby::BaseController#current_resources_name
       def helper.current_resources_name
         params[:resources]
       end

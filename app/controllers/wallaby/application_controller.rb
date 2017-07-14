@@ -13,6 +13,8 @@ module Wallaby
 
     layout 'wallaby/application'
 
+    protected
+
     def not_found(exception = nil)
       error_rendering(exception, __callee__)
     end
@@ -24,8 +26,6 @@ module Wallaby
     def unprocessable_entity(exception)
       error_rendering(exception, __callee__)
     end
-
-    protected
 
     def error_rendering(exception, symbol)
       @exception = exception

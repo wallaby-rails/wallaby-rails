@@ -2,7 +2,7 @@ require 'securerandom'
 
 module Wallaby
   # NOTE: Global helper methods should go in here
-  module CoreHelper
+  module BaseHelper
     include StylingHelper
     include LinksHelper
 

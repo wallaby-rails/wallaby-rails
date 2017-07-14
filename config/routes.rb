@@ -1,7 +1,7 @@
 Wallaby::Engine.routes.draw do
-  root to: 'wallaby/core#home'
+  root to: 'wallaby/home#index'
 
-  get 'status', to: 'wallaby/core#status'
+  get 'status', to: 'wallaby/home#healthy'
 
   scope path: ':resources' do
     with_options to: Wallaby::ResourcesRouter.new do |route|
