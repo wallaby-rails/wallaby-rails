@@ -18,13 +18,19 @@
   previous_text = t('views.pagination.previous').html_safe
   next_text = t('views.pagination.next').html_safe
   %>
-  <span class="filters dropdown">
-    <span>Filter: </span>
-    <a id="filter_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All</a>
-    <ul class="dropdown-menu" aria-labelledby="filter_list">
-      <li><a href="#">Coming soon...</a></li>
-    </ul>
-  </span>
+  <% if current_model_decorator.filters.present? %>
+    <span class="filters dropdown">
+      <span>Filter: </span>
+      <a id="filter_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_model_decorator.filters[params[:filter]].try(:[], :label) || 'All' %></a>
+      <ul class="dropdown-menu" aria-labelledby="filter_list">
+        <li><em>Filter</em></li>
+        <li><%= index_link nil, { extra_params: index_params.except(:filter) } { 'All' } %></li>
+        <% current_model_decorator.filters.each do |filter_name, metadata| %>
+          <li><%= index_link nil, { extra_params: index_params.merge(filter: filter_name) } { metadata[:label] || filter_name } %></li>
+        <% end %>
+      </ul>
+    </span>
+  <% end %>
   <div class="kaminari">
     <% _with_routes wallaby_engine do %>
       <% if path_to_prev_page(collection) %>

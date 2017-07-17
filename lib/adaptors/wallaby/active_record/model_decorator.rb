@@ -3,25 +3,27 @@ module Wallaby
     # Modal decorator
     class ModelDecorator < ::Wallaby::ModelDecorator
       def fields
+        # origin metadata coming from data source
+        # should be frozen
         @fields ||= ::HashWithIndifferentAccess.new.tap do |hash|
           if model_class.table_exists?
             hash.merge! general_fields
             hash.merge! association_fields
             hash.except!(*foreign_keys_from_associations)
           end
-        end
+        end.freeze
       end
 
       def index_fields
-        @index_fields ||= Utils.clone(fields)
+        @index_fields ||= Utils.clone fields
       end
 
       def show_fields
-        @show_fields  ||= Utils.clone(fields)
+        @show_fields  ||= Utils.clone fields
       end
 
       def form_fields
-        @form_fields  ||= Utils.clone(fields)
+        @form_fields  ||= Utils.clone fields
       end
 
       def index_field_names
@@ -70,7 +72,7 @@ module Wallaby
 
       def foreign_keys_from_associations(associations = association_fields)
         associations.each_with_object([]) do |(_field_name, metadata), keys|
-          keys << metadata[:foreign_key]      if metadata[:foreign_key]
+          keys << metadata[:foreign_key] if metadata[:foreign_key]
           keys << metadata[:polymorphic_type] if metadata[:polymorphic_type]
           keys
         end

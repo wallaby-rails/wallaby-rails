@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::BaseHelper do
+describe Wallaby::BaseHelper, :current_user, type: :helper do
   describe '#body_class' do
     before do
       # @see Wallaby::BaseController#current_resources_name
@@ -53,7 +53,7 @@ describe Wallaby::BaseHelper do
     end
   end
 
-  describe '#model_tree', :current_user do
+  describe '#model_tree' do
     context 'when root only' do
       it 'returns html' do
         classes = [Product, Order]

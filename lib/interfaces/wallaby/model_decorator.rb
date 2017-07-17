@@ -42,6 +42,10 @@ module Wallaby
       RUBY
     end
 
+    def filters
+      @filters ||= HashWithIndifferentAccess.new
+    end
+
     def form_active_errors(_resource)
       raise NotImplemented
     end

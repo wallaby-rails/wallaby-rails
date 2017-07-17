@@ -9,6 +9,7 @@ module Wallaby
             ':=' => :eq,
             ':!' => :not_eq,
             ':!=' => :not_eq,
+            ':<>' => :not_eq,
             ':~' => :matches,
             ':^' => :matches,
             ':$' => :matches,

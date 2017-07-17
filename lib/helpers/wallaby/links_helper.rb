@@ -2,7 +2,7 @@ module Wallaby
   # Links helper
   module LinksHelper
     def index_params
-      params.permit(:q, :page, :per, :sort)
+      params.permit(:q, :page, :per, :sort, :filter)
     end
 
     def index_path(model_class = nil, extra_params = nil)

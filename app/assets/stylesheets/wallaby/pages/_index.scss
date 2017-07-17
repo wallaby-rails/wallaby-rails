@@ -124,7 +124,10 @@
           }
 
           a.create {
-            background-color: $light-yellow-color;
+            background-color: $light-green-color;
+            &:hover {
+              background-color: $default-green-color;
+            }
           }
         }
       }
@@ -164,6 +167,12 @@
 
     table.data-table {
       padding-right: 64px;
+      tbody td.actions {
+        width: 85px;
+        a {
+          display: none;
+        }
+      }
     }
 
     table.data-table, table.actions-table {
