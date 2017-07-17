@@ -9,7 +9,9 @@ body {
   }
 
   header {
-    .top-nav {
+    nav.top-nav {
+      background-color: white;
+
       #top-menu {
         ul.navbar-nav {
           ul.dropdown-menu {
@@ -62,10 +64,14 @@ body {
 
           &:hover {
             background-color: #444;
+            .fa-bars {
+              color: white;
+              font-size: 20px;
+            }
           }
 
           .fa-bars {
-            color: white;
+            color: $font-color;
             font-size: 20px;
           }
         }

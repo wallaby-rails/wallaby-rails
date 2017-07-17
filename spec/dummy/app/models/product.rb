@@ -5,4 +5,6 @@ class Product < ActiveRecord::Base
   has_many :orders, through: :order_items
   belongs_to :category
   has_and_belongs_to_many :tags
+
+  scope :featured, -> { where(featured: true) }
 end

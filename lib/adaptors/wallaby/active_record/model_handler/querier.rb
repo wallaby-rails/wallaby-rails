@@ -9,10 +9,11 @@ module Wallaby
         end
 
         def search(params)
-          keywords, field_queries = extract params
+          filter_name, keywords, field_queries = extract params
+          scope = filtered_by filter_name
           query = text_search keywords
           query = field_search field_queries, query
-          @model_class.where query
+          scope.where query
         end
 
         private
@@ -35,11 +36,27 @@ module Wallaby
           expressions = converted.is_a?(Array) ? converted : [converted]
           keywords = expressions.select { |v| v.is_a? String }
           field_queries = expressions.select { |v| v.is_a? Hash }
-          [keywords, field_queries]
+          filter_name = params[:filter]
+          [filter_name, keywords, field_queries]
+        end
+
+        def filtered_by(filter_name)
+          return unscoped if filter_name.blank?
+          filter = @model_decorator.filters[filter_name]
+          return unscoped if filter.blank?
+          scope = filter[:scope]
+          return unscoped if scope.blank?
+          return @model_class.instance_exec(&scope) if scope.respond_to? :call
+          return @model_class.send(scope) if @model_class.respond_to? scope
+          unscoped
+        end
+
+        def unscoped
+          @model_class.where nil
         end
 
         def text_search(keywords, query = nil)
-          return if keywords.blank?
+          return query if keywords.blank?
           text_fields.each do |field_name|
             sub_query = nil
             keywords.each do |keyword|
