@@ -11,13 +11,13 @@ describe Wallaby::ModelHandler do
 
   describe 'new' do
     it 'raises not implemented' do
-      expect { subject.new({}) }.to raise_error Wallaby::NotImplemented
+      expect { subject.new({}, nil) }.to raise_error Wallaby::NotImplemented
     end
   end
 
   describe 'find' do
     it 'raises not implemented' do
-      expect { subject.find(1, {}) }.to raise_error Wallaby::NotImplemented
+      expect { subject.find(1, {}, nil) }.to raise_error Wallaby::NotImplemented
     end
   end
 
@@ -35,7 +35,7 @@ describe Wallaby::ModelHandler do
 
   describe 'destroy' do
     it 'raises not implemented' do
-      expect { subject.destroy(nil, {}) }.to raise_error Wallaby::NotImplemented
+      expect { subject.destroy(nil, {}, nil) }.to raise_error Wallaby::NotImplemented
     end
   end
 end

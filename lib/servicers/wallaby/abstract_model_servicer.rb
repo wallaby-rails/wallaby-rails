@@ -6,34 +6,35 @@ module Wallaby
       Map.model_class_map name.gsub('Servicer', EMPTY_STRING)
     end
 
-    def initialize(model_class = nil)
+    def initialize(model_class = nil, authorizer = nil)
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'model class required' unless @model_class
+      @authorizer = authorizer
       @handler = Map.handler_map @model_class
     end
 
-    def collection(params, ability)
-      @handler.collection params, ability
+    def collection(params)
+      @handler.collection params, @authorizer
     end
 
     def new(params)
-      @handler.new params
+      @handler.new params, @authorizer
     end
 
     def find(id, params)
-      @handler.find id, params
+      @handler.find id, params, @authorizer
     end
 
-    def create(params, ability)
-      @handler.create params, ability
+    def create(params)
+      @handler.create params, @authorizer
     end
 
-    def update(resource, params, ability)
-      @handler.update resource, params, ability
+    def update(resource, params)
+      @handler.update resource, params, @authorizer
     end
 
     def destroy(resource, params)
-      @handler.destroy resource, params
+      @handler.destroy resource, params, @authorizer
     end
   end
 end

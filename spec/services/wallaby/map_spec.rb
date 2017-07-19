@@ -139,10 +139,10 @@ describe Wallaby::Map do
     end
 
     it 'returns a map of model -> servicer' do
-      expect(described_class.servicer_map(AllPostgresType)).to be_a AllPostgresTypeServicer
+      expect(described_class.servicer_map(AllPostgresType)).to eq AllPostgresTypeServicer
       map = described_class.instance_variable_get(:@servicer_map)
-      expect(map[AllPostgresType]).to be_a AllPostgresTypeServicer
-      expect(map[AllMysqlType]).to be_a MysqlTypeServicer
+      expect(map[AllPostgresType]).to eq AllPostgresTypeServicer
+      expect(map[AllMysqlType]).to eq MysqlTypeServicer
     end
   end
 

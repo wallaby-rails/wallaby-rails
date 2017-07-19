@@ -25,10 +25,10 @@ describe Wallaby::ModelServicer, clear: :object_space do
   end
 
   describe 'instance methods' do
-    subject { described_class.new AllPostgresType }
+    subject { described_class.new AllPostgresType, authorizer }
     let(:handler) { subject.instance_variable_get '@handler' }
     let(:params) { parameters }
-    let(:ability) { Ability.new nil }
+    let(:authorizer) { Ability.new nil }
     let(:resource) { AllPostgresType.new }
 
     it 'has model_class and model_decorator' do
@@ -39,12 +39,12 @@ describe Wallaby::ModelServicer, clear: :object_space do
     describe '#collection' do
       it 'returns collection' do
         record = AllPostgresType.create
-        expect(subject.collection(params, ability)).to contain_exactly record
+        expect(subject.collection(params)).to contain_exactly record
       end
 
       it 'deletgates collection method to handler' do
-        expect(handler).to receive(:collection).with params, ability
-        subject.collection params, ability
+        expect(handler).to receive(:collection).with params, authorizer
+        subject.collection params
       end
     end
 
@@ -56,7 +56,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
       end
 
       it 'deletgates new method to handler' do
-        expect(handler).to receive(:new).with params
+        expect(handler).to receive(:new).with params, authorizer
         subject.new params
       end
     end
@@ -68,7 +68,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
       end
 
       it 'deletgates find method to handler' do
-        expect(handler).to receive(:find).with 1, params
+        expect(handler).to receive(:find).with 1, params, authorizer
         subject.find 1, params
       end
     end
@@ -76,15 +76,15 @@ describe Wallaby::ModelServicer, clear: :object_space do
     describe '#create' do
       it 'creates a record' do
         params[:all_postgres_type] = { string: 'today' }
-        record, success = subject.create params, ability
+        record, success = subject.create params
         expect(success).to be_truthy
         expect(record).to be_a AllPostgresType
         expect(record.string).to eq 'today'
       end
 
       it 'deletgates create method to handler' do
-        expect(handler).to receive(:create).with params, ability
-        subject.create params, ability
+        expect(handler).to receive(:create).with params, authorizer
+        subject.create params
       end
     end
 
@@ -92,14 +92,14 @@ describe Wallaby::ModelServicer, clear: :object_space do
       it 'updates a record' do
         params[:all_postgres_type] = { string: 'tomorrow' }
         record = AllPostgresType.create string: 'today'
-        _, success = subject.update record, params, ability
+        _, success = subject.update record, params
         expect(success).to be_truthy
         expect(record.reload.string).to eq 'tomorrow'
       end
 
       it 'deletgates update method to handler' do
-        expect(handler).to receive(:update).with resource, params, ability
-        subject.update resource, params, ability
+        expect(handler).to receive(:update).with resource, params, authorizer
+        subject.update resource, params
       end
     end
 
@@ -110,7 +110,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
       end
 
       it 'deletgates destroy method to handler' do
-        expect(handler).to receive(:destroy).with resource, params
+        expect(handler).to receive(:destroy).with resource, params, authorizer
         subject.destroy resource, params
       end
     end

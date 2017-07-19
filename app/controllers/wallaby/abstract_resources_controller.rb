@@ -27,7 +27,7 @@ module Wallaby
     def create
       authorize! :create, current_model_class
       @resource, _is_success =
-        current_model_service.create params, current_ability
+        current_model_service.create params
       respond_with resource, location: resources_index_path
     end
 
@@ -42,7 +42,7 @@ module Wallaby
     def update
       authorize! :update, resource
       @resource, _is_success =
-        current_model_service.update resource, params, current_ability
+        current_model_service.update resource, params
       respond_with resource, location: resources_show_path
     end
 
@@ -75,7 +75,9 @@ module Wallaby
     end
 
     def current_model_service
-      @current_model_service ||= Map.servicer_map current_model_class
+      @current_model_service ||=
+        Map.servicer_map(current_model_class)
+          .new(current_model_class, current_ability)
     end
 
     def new_resource
@@ -91,15 +93,7 @@ module Wallaby
       end
 
       def collection
-        @collection ||= begin
-          page_number = params[:page]
-          per_number  = params[:per] || 20
-
-          query = current_model_service.collection params, current_ability
-          query = query.page page_number if query.respond_to? :page
-          query = query.per per_number if query.respond_to? :per
-          query
-        end
+        @collection ||= current_model_service.collection params
       end
 
       def resource

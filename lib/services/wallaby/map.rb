@@ -35,11 +35,8 @@ module Wallaby
 
     # { model => servicer }
     def self.servicer_map(model_class)
-      @servicer_map ||=
-        ModelClassMapper.new(ModelServicer).map do |klass|
-          klass.new(klass.model_class)
-        end
-      @servicer_map[model_class] ||= ModelServicer.new(model_class)
+      @servicer_map ||= ModelClassMapper.new(ModelServicer).map
+      @servicer_map[model_class] ||= ModelServicer
     end
 
     # { model => handler }

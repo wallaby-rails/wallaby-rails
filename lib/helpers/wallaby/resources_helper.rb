@@ -30,7 +30,7 @@ module Wallaby
     end
 
     def model_servicer(model_class)
-      Map.servicer_map model_class
+      Map.servicer_map(model_class).new(model_class, current_ability)
     end
 
     def type_partial_render(options = {},
