@@ -1,4 +1,4 @@
-.edit, .new {
+.edit, .new, .create, .update {
   article {
     .page-header {
       .pull-right {
@@ -54,6 +54,7 @@
     .inner {
       overflow: auto;
       background-color: white;
+      font-size: $font-size-small;
       padding: 20px;
 
       form {
@@ -63,11 +64,30 @@
           font-style: italic;
           text-transform: uppercase;
         }
+
+        .form-control {
+          font-size: $font-size-small;
+        }
+
         .CodeMirror {
           height: 168px;
           border: 1px solid #eeeeee;
         }
+
+        .btn {
+          font-size: $font-size-small;
+        }
+
+        .form-group {
+          a, a:hover {
+            display: inline-block;
+            font-size: $font-size-small;
+            text-decoration: none;
+            border-bottom: 1px solid;
+          }
+        }
       }
+
     }
   }
 }

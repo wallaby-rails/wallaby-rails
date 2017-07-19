@@ -7,10 +7,10 @@ $screen-sm-min: $screen-sm !default;
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
+$font-family-sans-serif:  'Helvetica Neue', Helvetica, Arial, sans-serif !default;
+$font-family-serif:       Georgia, 'Times New Roman', Times, serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
-$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
+$font-family-monospace:   Menlo, Monaco, Consolas, 'Courier New', monospace !default;
 $font-family-base:        $font-family-sans-serif !default;
 
 $font-size-base:          14px !default;
@@ -63,6 +63,8 @@ $light-primary-color: $light-blue-color;
 $primary-text-color: $font-color;
 $secondary-text-color: #6d6e71;
 
-$background-color: #efefef;
+$background-color: #f3f6fb;
 
 $navbar-inverse-bg: #292c2e !default;
+
+$white: #fff;
