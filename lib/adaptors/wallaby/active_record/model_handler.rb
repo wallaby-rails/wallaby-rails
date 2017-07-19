@@ -2,28 +2,31 @@ module Wallaby
   class ActiveRecord
     # Model operator
     class ModelHandler < ::Wallaby::ModelHandler
-      def collection(params, ability)
+      def collection(params, authorizer)
+        per = params[:per] || Wallaby.configuration.page_size
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?
-        query.accessible_by ability
+        query = query.page params[:page] if query.respond_to? :page
+        query = query.per per if query.respond_to? :per
+        query.accessible_by authorizer
       end
 
-      def new(params)
+      def new(params, _authorizer)
         @model_class.new permit params
       rescue ::ActionController::ParameterMissing
         @model_class.new {}
       end
 
-      def find(id, _params)
+      def find(id, _params, _authorizer)
         @model_class.find id
       rescue ::ActiveRecord::RecordNotFound
         raise ResourceNotFound, id
       end
 
-      def create(params, ability)
+      def create(params, authorizer)
         resource = @model_class.new
         resource.assign_attributes normalize permit(params)
-        ensure_attributes_for ability, :create, resource
+        ensure_attributes_for authorizer, :create, resource
         resource.save if valid? resource
         [resource, resource.errors.blank?]
       rescue ::ActiveRecord::StatementInvalid => e
@@ -31,9 +34,9 @@ module Wallaby
         [resource, false]
       end
 
-      def update(resource, params, ability)
+      def update(resource, params, authorizer)
         resource.assign_attributes normalize permit(params)
-        ensure_attributes_for ability, :update, resource
+        ensure_attributes_for authorizer, :update, resource
         resource.save if valid? resource
         [resource, resource.errors.blank?]
       rescue ::ActiveRecord::StatementInvalid => e
@@ -41,7 +44,7 @@ module Wallaby
         [resource, false]
       end
 
-      def destroy(resource, _params)
+      def destroy(resource, _params, _authorizer)
         resource.destroy
       end
 
@@ -61,9 +64,9 @@ module Wallaby
         validator.valid? resource
       end
 
-      def ensure_attributes_for(ability, action, resource)
-        return if ability.blank?
-        restricted_conditions = ability.attributes_for action, resource
+      def ensure_attributes_for(authorizer, action, resource)
+        return if authorizer.blank?
+        restricted_conditions = authorizer.attributes_for action, resource
         resource.assign_attributes restricted_conditions
       end
 

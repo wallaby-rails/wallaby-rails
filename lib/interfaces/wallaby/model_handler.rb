@@ -7,27 +7,27 @@ module Wallaby
       @model_decorator = model_decorator || Map.model_decorator_map(model_class)
     end
 
-    def collection(_params, _ability)
+    def collection(_params, _authorizer)
       raise NotImplemented
     end
 
-    def new(_params)
+    def new(_params, _authorizer)
       raise NotImplemented
     end
 
-    def find(_id, _params)
+    def find(_id, _params, _authorizer)
       raise NotImplemented
     end
 
-    def create(_params, _ability)
+    def create(_params, _authorizer)
       raise NotImplemented
     end
 
-    def update(_resource, _params, _ability)
+    def update(_resource, _params, _authorizer)
       raise NotImplemented
     end
 
-    def destroy(_resource, _params)
+    def destroy(_resource, _params, _authorizer)
       raise NotImplemented
     end
   end

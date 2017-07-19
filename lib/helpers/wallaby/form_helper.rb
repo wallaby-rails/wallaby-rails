@@ -15,7 +15,7 @@ module Wallaby
     end
 
     def model_choices(model_class)
-      collection = model_servicer(model_class).collection({}, current_ability)
+      collection = model_servicer(model_class).collection({})
       decorate(collection).map do |decorated|
         [decorated.to_label, decorated.primary_key_value]
       end
