@@ -1,6 +1,8 @@
 module Wallaby
   # Generic CRUD controller
   class AbstractResourcesController < BaseController
+    respond_to :html, :json
+    self.responder = ResourcesResponder
     helper ResourcesHelper
 
     def self.resources_name
@@ -24,14 +26,9 @@ module Wallaby
 
     def create
       authorize! :create, current_model_class
-      @resource, is_success =
+      @resource, _is_success =
         current_model_service.create params, current_ability
-      if is_success
-        redirect_to resources_index_path, notice: 'successfully created'
-      else
-        flash.now[:error] = 'failed to create'
-        render :new
-      end
+      respond_with resource, location: resources_index_path
     end
 
     def show
@@ -44,23 +41,17 @@ module Wallaby
 
     def update
       authorize! :update, resource
-      @resource, is_success =
+      @resource, _is_success =
         current_model_service.update resource, params, current_ability
-      if is_success
-        redirect_to resources_show_path, notice: 'successfully updated'
-      else
-        flash.now[:error] = 'failed to update'
-        render :edit
-      end
+      respond_with resource, location: resources_show_path
     end
 
     def destroy
       authorize! :destroy, resource
-      if current_model_service.destroy resource, params
-        redirect_to resources_index_path, notice: 'successfully destroyed'
-      else
-        redirect_to resources_show_path, error: 'failed to destroy'
-      end
+      is_success = current_model_service.destroy resource, params
+      respond_with \
+        resource,
+        location: -> { is_success ? resources_index_path : resources_show_path }
     end
 
     protected

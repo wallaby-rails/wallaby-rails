@@ -15,6 +15,7 @@ PATH
       parslet
       rails (>= 5.0)
       rails-bootstrap-markdown
+      responders
       sass-rails
       sprockets-rails
       summernote-rails

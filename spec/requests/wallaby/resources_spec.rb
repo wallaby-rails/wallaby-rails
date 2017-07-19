@@ -12,16 +12,61 @@ describe 'Resources pages using postgresql table' do
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.body).to include string
+    end
 
-      get '/admin/all_postgres_types?q=van&sort=string%20desc'
-      expect(response).to be_successful
-      expect(response).to render_template :index
-      expect(response.body).to include string
+    context 'sorting' do
+      it 'renders collections' do
+        get '/admin/all_postgres_types?sort=string%20desc'
+        expect(response).to be_successful
+        expect(response).to render_template :index
+        expect(response.body).to include string
+      end
+    end
 
-      get '/admin/all_postgres_types?q=unknown'
-      expect(response).to be_successful
-      expect(response).to render_template :index
-      expect(response.body).not_to include string
+    context 'keyword' do
+      it 'renders collections' do
+        get '/admin/all_postgres_types?q=van'
+        expect(response).to be_successful
+        expect(response).to render_template :index
+        expect(response.body).to include string
+
+        get '/admin/all_postgres_types?q=string:~van'
+        expect(response).to be_successful
+        expect(response).to render_template :index
+        expect(response.body).to include string
+      end
+
+      context 'when not found' do
+        it 'renders collections' do
+          get '/admin/all_postgres_types?q=unknown'
+          expect(response).to be_successful
+          expect(response).to render_template :index
+          expect(response.body).not_to include string
+        end
+      end
+    end
+
+    context 'pagination' do
+      it 'renders collections' do
+        get '/admin/all_postgres_types?per=100'
+        expect(response).to be_successful
+        expect(response).to render_template :index
+        expect(response.body).to include string
+
+        get '/admin/all_postgres_types?page=1'
+        expect(response).to be_successful
+        expect(response).to render_template :index
+        expect(response.body).to include string
+      end
+
+      context 'when not found' do
+        it 'renders collections' do
+          get '/admin/all_postgres_types?page=100'
+          expect(response).to be_successful
+          expect(response).to render_template :index
+          expect(response.body).not_to include string
+        end
+      end
     end
   end
 
@@ -49,6 +94,7 @@ describe 'Resources pages using postgresql table' do
       expect(model_class.count).to eq 0
       post '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }
       expect(response).to redirect_to '/admin/all_postgres_types'
+      expect(flash[:notice]).to eq 'All postgres type was successfully created.'
       expect(model_class.count).to eq 1
       expect(model_class.first.string).to eq string
     end
@@ -59,6 +105,7 @@ describe 'Resources pages using postgresql table' do
 
       it 'renders form and show error' do
         post '/admin/pictures', params: { picture: { string: string } }
+        expect(flash[:notice]).to be_nil
         expect(response).to render_template :new
         expect(response.body).to match "can't be blank"
       end
@@ -80,6 +127,7 @@ describe 'Resources pages using postgresql table' do
     it 'updates the record' do
       a_string = 'Claude Monet'
       put "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }
+      expect(flash[:notice]).to eq 'All postgres type was successfully updated.'
       expect(response).to redirect_to "/admin/all_postgres_types/#{record.id}"
       expect(record.reload.string).to eq a_string
     end
@@ -91,6 +139,7 @@ describe 'Resources pages using postgresql table' do
 
       it 'renders form and show error' do
         put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
+        expect(flash[:notice]).to be_nil
         expect(response).to render_template :edit
         expect(response.body).to match "can't be blank"
       end
@@ -102,6 +151,7 @@ describe 'Resources pages using postgresql table' do
     it 'destroys the record' do
       expect(model_class.count).to eq 1
       delete "/admin/all_postgres_types/#{record.id}"
+      expect(flash[:notice]).to eq 'All postgres type was successfully destroyed.'
       expect(response).to redirect_to '/admin/all_postgres_types'
       expect(model_class.count).to eq 0
     end

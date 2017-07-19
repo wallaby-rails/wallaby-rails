@@ -221,6 +221,7 @@
       }
 
       thead tr th, tbody tr td {
+        height: 40px;
         padding: 8px 12px;
         border: none;
         border-bottom: 6px solid $background-color !important;
@@ -306,9 +307,15 @@
 
         td {
           a {
+            display: inline-block;
             color: $default-primary-color;
             font-size: $font-size-small;
-            text-decoration: underline;
+            text-decoration: none;
+            border-bottom: 1px solid $white;
+
+            &:hover {
+              border-bottom: 1px solid;
+            }
           }
         }
       }

@@ -4,6 +4,7 @@
 require 'cancancan'
 require 'kaminari'
 require 'parslet'
+require 'responders'
 
 require 'sass-rails'
 
@@ -103,3 +104,6 @@ require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/base_helper'
 require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
+
+require 'responders/wallaby/abstract_responder'
+require 'responders/wallaby/resources_responder'

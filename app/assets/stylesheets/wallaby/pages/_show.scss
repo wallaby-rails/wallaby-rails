@@ -100,6 +100,7 @@ $default-red-color: #f44336;
           }
         }
         td {
+          font-size: $font-size-small;
           padding: 8px 20px 15px;
 
           pre {
@@ -107,8 +108,14 @@ $default-red-color: #f44336;
           }
 
           a, a:hover {
+            display: inline-block;
             font-size: $font-size-small;
             text-decoration: none;
+            border-bottom: 1px solid $white;
+
+            &:hover {
+              border-bottom: 1px solid;
+            }
           }
         }
       }
