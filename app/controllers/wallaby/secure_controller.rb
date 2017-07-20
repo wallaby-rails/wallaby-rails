@@ -38,7 +38,7 @@ module Wallaby
     end
 
     def security_config
-      Wallaby.configuration.security
+      configuration.security
     end
   end
 end

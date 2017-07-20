@@ -15,6 +15,10 @@ module Wallaby
 
     protected
 
+    def configuration
+      ::Wallaby.configuration
+    end
+
     def not_found(exception = nil)
       error_rendering(exception, __callee__)
     end

@@ -7,7 +7,7 @@ module Wallaby
 
     def decorate(resource)
       if resource.respond_to? :map # collection
-        decorator = Map.resource_decorator_map resource.first.class
+        decorator = Map.resource_decorator_map resource.to_a.first.class
         resource.map do |item|
           decorator.decorate item
         end

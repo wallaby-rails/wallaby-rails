@@ -1,8 +1,10 @@
 module Wallaby
   # Generic CRUD controller
   class AbstractResourcesController < BaseController
-    respond_to :html, :json
     self.responder = ResourcesResponder
+    respond_to :html, except: :export
+    respond_to :json, only: %i[index show]
+    respond_to :csv, only: :export
     helper ResourcesHelper
 
     def self.resources_name
@@ -17,7 +19,7 @@ module Wallaby
 
     def index
       authorize! :index, current_model_class
-      collection
+      respond_with collection
     end
 
     def new
@@ -26,13 +28,13 @@ module Wallaby
 
     def create
       authorize! :create, current_model_class
-      @resource, _is_success =
-        current_model_service.create params
+      @resource, _is_success = current_model_service.create params
       respond_with resource, location: resources_index_path
     end
 
     def show
       authorize! :show, resource
+      respond_with resource
     end
 
     def edit
@@ -41,17 +43,20 @@ module Wallaby
 
     def update
       authorize! :update, resource
-      @resource, _is_success =
-        current_model_service.update resource, params
+      @resource, _is_success = current_model_service.update resource, params
       respond_with resource, location: resources_show_path
     end
 
     def destroy
       authorize! :destroy, resource
       is_success = current_model_service.destroy resource, params
-      respond_with \
-        resource,
-        location: -> { is_success ? resources_index_path : resources_show_path }
+      location = -> { is_success ? resources_index_path : resources_show_path }
+      respond_with resource, location: location
+    end
+
+    def export
+      authorize! :index, current_model_class
+      respond_with collection
     end
 
     protected
@@ -77,11 +82,20 @@ module Wallaby
     def current_model_service
       @current_model_service ||=
         Map.servicer_map(current_model_class)
-          .new(current_model_class, current_ability)
+           .new(current_model_class, current_ability)
     end
 
     def new_resource
       @resource ||= current_model_service.new params
+    end
+
+    def paginate(query)
+      query = query.page params[:page] if query.respond_to? :page
+      if params[:per] || request.format.symbol == :html
+        per = params[:per] || configuration.page_size
+        query = query.per per if query.respond_to? :per
+      end
+      query
     end
 
     begin # helper methods
@@ -93,7 +107,7 @@ module Wallaby
       end
 
       def collection
-        @collection ||= current_model_service.collection params
+        @collection ||= paginate current_model_service.collection params
       end
 
       def resource

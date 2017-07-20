@@ -58,7 +58,7 @@
           top: 50%;
           right: 30px;
           bottom: unset;
-          left: 70%;
+          left: 65%;
           margin-top: -15px;
           transition: 0.5s;
 
@@ -69,17 +69,18 @@
 
         &.filtered {
           form {
-            margin-right: 72px;
+            margin-right: 108px;
           }
         }
 
         form {
           display: block;
-          margin-right: 36px;
+          margin-right: 72px;
 
           label.search {
             display: block;
             margin: 0;
+
             &:before {
               position: absolute;
               @extend .fa, .fa-search:before;
@@ -90,7 +91,7 @@
               color: $default-primary-color;
             }
 
-            input.input-sm {
+            input {
               color: $default-primary-color;
               border: none;
               border-radius: 2px;
@@ -107,17 +108,18 @@
           position: absolute;
           right: 0;
 
-          a {
+          a.fa {
             background-color: $light-blue-color;
             float: left;
             margin-left: 6px;
             color: white;
-            padding: 9px 9px;
             border-radius: 2px;
             border: none;
             width: 30px;
             height: 30px;
+            line-height: 30px;
             text-align: center;
+            text-decoration: none;
             &:hover {
               background-color: $default-blue-color;
             }
@@ -128,6 +130,18 @@
             &:hover {
               background-color: $default-green-color;
             }
+          }
+
+          a.more {
+            background-color: $light-grey-color;
+            &:hover {
+              background-color: $default-grey-color;
+            }
+          }
+
+          > .dropdown-menu {
+            left: unset;
+            right: 0;
           }
         }
       }

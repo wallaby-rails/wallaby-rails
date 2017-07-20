@@ -29,6 +29,15 @@ module Wallaby
         decorated.resources_name, decorated.primary_key_value
     end
 
+    def export_path(model_class = nil, format = nil)
+      model_class ||= current_model_class
+      format ||= CSV
+      extra_params = index_params.except(:page, :per).merge format: format
+      wallaby_engine.export_resources_path(
+        to_resources_name(model_class), extra_params.to_h
+      )
+    end
+
     def index_link(model_class = nil, html_options = {}, &block)
       model_class ||= current_model_class
       return if cannot? :index, model_class
@@ -83,6 +92,12 @@ module Wallaby
     def cancel_link(html_options = {}, &block)
       block ||= -> { ct 'link.cancel' }
       link_to :back, html_options, &block
+    end
+
+    def export_link(model_class = nil, html_options = {}, &block)
+      format = html_options.delete :format
+      block ||= -> { ct 'link.export', ext: format.upcase }
+      link_to export_path(model_class, format), html_options, &block
     end
 
     def prepend_if(html_options = {})
