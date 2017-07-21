@@ -25,6 +25,7 @@ en:
     show: Show
     edit: Edit
     delete: Delete
+    export: "Export as %{ext}"
     confirm:
       delete: Please confirm to delete
 

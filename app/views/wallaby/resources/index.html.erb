@@ -8,14 +8,18 @@ decorated_collection = decorate collection
     <h1><%= to_model_label(current_model_class) %></h1>
     <div class="pull-right <%= index_params.presence && 'filtered' %>">
       <div class="actions">
-        <%= index_link(current_model_class, class: 'btn btn-default btn-sm fa fa-ban') { } if index_params.present? %>
-        <%= new_link(current_model_class, class: 'create btn btn-default btn-sm fa fa-plus') { } %>
-        <%= render 'index_actions' %>
+        <%= index_link(current_model_class, class: 'fa fa-ban') { } if index_params.present? %>
+        <%= new_link(current_model_class, class: 'create fa fa-plus') { } %>
+        <a id="index_action_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="more dropdown-toggle fa fa-chevron-down"></a>
+        <ul class="dropdown-menu" aria-labelledby="index_action_list">
+          <li><%= export_link(nil, format: 'csv') %></li>
+          <%= render 'index_actions' %>
+        </ul>
       </div>
       <%= form_tag wallaby_engine.resources_path, method: :get do %>
         <%= hidden_field_tag :sort, index_params[:sort] %>
         <label class="search">
-          <%= text_field_tag :q, index_params[:q], placeholder: "Press enter to search.", class: 'form-control input-sm' %>
+          <%= text_field_tag :q, index_params[:q], placeholder: "Press enter to search.", class: 'form-control' %>
         </label>
       <% end %>
     </div>

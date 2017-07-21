@@ -20,6 +20,8 @@ require 'momentjs-rails'
 require 'rails-bootstrap-markdown'
 require 'summernote-rails'
 
+require 'csv'
+
 module Wallaby
   # Rails engine
   class Engine < ::Rails::Engine

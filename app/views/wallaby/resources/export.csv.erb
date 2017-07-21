@@ -1,0 +1,20 @@
+<%
+  headers = current_model_decorator.index_field_names.map do |field_name|
+    current_model_decorator.index_metadata_of(field_name)[:label]
+  end
+  decorated_collection = decorate collection
+%>
+<%= ::CSV.generate_line(headers).strip.html_safe %>
+<%
+  decorated_collection.each do |decorated|
+    data = current_model_decorator.index_field_names.map do |field_name|
+      value = decorated.send(field_name)
+      if value.respond_to? :map
+        value.map { |v| decorate(v).to_label }.to_sentence
+      else
+        value
+      end
+    end
+%>
+<%= ::CSV.generate_line(data).strip.html_safe %>
+<% end %>

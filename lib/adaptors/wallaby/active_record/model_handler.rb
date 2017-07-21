@@ -3,11 +3,10 @@ module Wallaby
     # Model operator
     class ModelHandler < ::Wallaby::ModelHandler
       def collection(params, authorizer)
-        per = params[:per] || Wallaby.configuration.page_size
+        # NOTE: pagination free here
+        # since somewhere might use it without pagination
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?
-        query = query.page params[:page] if query.respond_to? :page
-        query = query.per per if query.respond_to? :per
         query.accessible_by authorizer
       end
 
