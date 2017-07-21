@@ -71,12 +71,12 @@ module Wallaby
       @_lookup_context ||= LookupContextWrapper.new super
     end
 
-    def resources_index_path(name = current_resources_name)
-      wallaby_engine.resources_path name
+    def resources_index_path
+      wallaby_engine.resources_path current_resources_name
     end
 
-    def resources_show_path(name = current_resources_name, id = resource_id)
-      wallaby_engine.resource_path name, id
+    def resources_show_path
+      wallaby_engine.resource_path current_resources_name, resource_id
     end
 
     def current_model_service
@@ -90,12 +90,12 @@ module Wallaby
     end
 
     def paginate(query)
-      query = query.page params[:page] if query.respond_to? :page
-      if params[:per] || request.format.symbol == :html
-        per = params[:per] || configuration.page_size
-        query = query.per per if query.respond_to? :per
-      end
-      query
+      return query unless query.respond_to?(:page)
+      per = if request.format.symbol == :html || params[:page]
+              params[:per] || configuration.page_size
+            end
+      return query if per.blank?
+      query.page(params[:page]).per(per)
     end
 
     begin # helper methods

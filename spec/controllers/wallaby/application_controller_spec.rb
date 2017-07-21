@@ -43,5 +43,19 @@ describe Wallaby::ApplicationController do
         expect(response).to render_template 'wallaby/error'
       end
     end
+
+    describe 'ActiveRecord::StatementInvalid' do
+      controller do
+        def index
+          Product.where(unknown: false).to_a
+        end
+      end
+
+      it 'rescues the exception and renders 422' do
+        expect { get :index }.not_to raise_error
+        expect(response.status).to eq 422
+        expect(response).to render_template 'wallaby/error'
+      end
+    end
   end
 end

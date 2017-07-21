@@ -1,3 +1,31 @@
+module Wallaby
+  # Responsible to dispatch requests to controller and action
+  class ResourcesRouter
+    # TODO: change to not to use rescue
+    def call(env)
+      params = env['action_dispatch.request.path_parameters']
+      controller = find_controller_by params[:resources]
+      params[:action] = find_action_by params
+
+      controller.action(params[:action]).call env
+    rescue ::AbstractController::ActionNotFound, ModelNotFound => e
+      params[:error] = e
+      ResourcesController.action(:not_found).call env
+    end
+
+    private
+
+    def find_controller_by(resources_name)
+      model_class = Map.model_class_map resources_name
+      Map.controller_map model_class
+    end
+
+    def find_action_by(params)
+      (params.delete(:defaults) || params)[:action]
+    end
+  end
+end
+
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
   Rails.logger.debug <<-DEBUG
@@ -31,32 +59,4 @@ if Rails.env.development?
 
   preload 'app/models/**.rb'
   preload 'app/**/*.rb'
-end
-
-module Wallaby
-  # Responsible to dispatch requests to controller and action
-  class ResourcesRouter
-    # TODO: change to not to use rescue
-    def call(env)
-      params          = env['action_dispatch.request.path_parameters']
-      controller      = find_controller_by params[:resources]
-      params[:action] = find_action_by params
-
-      controller.action(params[:action]).call env
-    rescue ::AbstractController::ActionNotFound, ModelNotFound => e
-      params[:error] = e
-      ResourcesController.action(:not_found).call env
-    end
-
-    private
-
-    def find_controller_by(resources_name)
-      model_class = Map.model_class_map resources_name
-      Map.controller_map model_class
-    end
-
-    def find_action_by(params)
-      (params.delete(:defaults) || params)[:action]
-    end
-  end
 end

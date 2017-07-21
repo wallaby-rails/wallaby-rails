@@ -39,9 +39,8 @@ describe Wallaby::SecureController do
     context 'when current_user setting exists' do
       it 'returns a cacheing current_user' do
         user = { email: 'wallaby@wallaby.org.au' }
-        security_config = Wallaby::Configuration::Security.new
+        security_config = Wallaby.configuration.security
         security_config.current_user { user }
-        allow(controller).to receive(:security_config).and_return(security_config)
         controller.send :current_user
         expect(assigns(:current_user)).to eq user
       end
@@ -60,8 +59,8 @@ describe Wallaby::SecureController do
       end
 
       it 'returns a cacheing current_user' do
-        security_config = Wallaby::Configuration::Security.new
-        allow(controller).to receive(:security_config).and_return(security_config)
+        security_config = Wallaby.configuration.security
+        expect(security_config.current_user?).to be_falsy
         controller.send :current_user
         expect(assigns(:current_user)).to eq(email: 'admin@wallaby.org.au')
       end
@@ -75,9 +74,8 @@ describe Wallaby::SecureController do
 
     context 'when authenticate_user setting exists' do
       it 'returns a cacheing authenticate_user' do
-        security_config = Wallaby::Configuration::Security.new
+        security_config = Wallaby.configuration.security
         security_config.authenticate { false }
-        allow(controller).to receive(:security_config).and_return(security_config)
         expect { controller.send :authenticate_user! }.to raise_error Wallaby::NotAuthenticated
       end
     end
@@ -95,8 +93,8 @@ describe Wallaby::SecureController do
       end
 
       it 'returns a cacheing authenticate_user' do
-        security_config = Wallaby::Configuration::Security.new
-        allow(controller).to receive(:security_config).and_return(security_config)
+        security_config = Wallaby.configuration.security
+        expect(security_config.current_user?).to be_falsy
         expect { controller.send :authenticate_user! }.to raise_error 'custom authentication error'
       end
     end
