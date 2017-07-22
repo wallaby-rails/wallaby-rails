@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Wallaby::SecureHelper, clear: :object_space do
   describe '#user_portrait' do
     it 'returns a general user portrait image' do
-      expect(helper.user_portrait(nil)).to match(/<i /)
+      expect(helper.user_portrait(nil)).to eq '<i class="fa fa-user user-portrait"></i>'
+      expect(helper.user_portrait(double)).to eq '<i class="fa fa-user user-portrait"></i>'
     end
 
     context 'user object respond_to email' do
@@ -11,6 +12,7 @@ describe Wallaby::SecureHelper, clear: :object_space do
         user = double email: 'tian@example.com'
         expect(helper.user_portrait(user)).to match(/<img /)
         expect(helper.user_portrait(user)).to match(%r{www.gravatar.com/avatar/})
+        expect(helper.user_portrait(user)).to eq '<img class="hidden-xs user-portrait" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
       end
     end
   end
