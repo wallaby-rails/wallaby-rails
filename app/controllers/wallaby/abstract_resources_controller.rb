@@ -80,9 +80,7 @@ module Wallaby
     end
 
     def current_model_service
-      @current_model_service ||=
-        Map.servicer_map(current_model_class)
-           .new(current_model_class, current_ability)
+      @current_model_service ||= helpers.model_servicer current_model_class
     end
 
     def new_resource
@@ -115,7 +113,7 @@ module Wallaby
       end
 
       def current_model_decorator
-        @current_model_decorator ||= Map.model_decorator_map current_model_class
+        @current_model_decorator ||= helpers.model_decorator current_model_class
       end
     end
   end

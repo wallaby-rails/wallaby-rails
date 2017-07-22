@@ -5,12 +5,19 @@ module Wallaby
     include SortingHelper
     include PaginatableHelper
 
+    def model_decorator(model_class)
+      Map.model_decorator_map model_class
+    end
+
+    def model_servicer(model_class, authorizer = current_ability)
+      Map.servicer_map(model_class).new(model_class, authorizer)
+    end
+
     def decorate(resource)
       if resource.respond_to? :map # collection
-        decorator = Map.resource_decorator_map resource.to_a.first.class
-        resource.map do |item|
-          decorator.decorate item
-        end
+        all = resource.to_a
+        return all if all.first.is_a? ResourceDecorator
+        all.map { |item| decorate item }
       else
         decorator = Map.resource_decorator_map resource.class
         decorator.decorate resource
@@ -25,12 +32,15 @@ module Wallaby
       end
     end
 
-    def model_decorator(model_class)
-      Map.model_decorator_map model_class
+    def index_type_partial_render(options = {}, locals = {}, &block)
+      type_partial_render options, locals, :index_metadata_of, &block
     end
 
-    def model_servicer(model_class)
-      Map.servicer_map(model_class).new(model_class, current_ability)
+    def show_title(decorated)
+      raise ::ArgumentError unless decorated.is_a? ResourceDecorator
+      [
+        to_model_label(decorated.model_class), decorated.to_label
+      ].compact.join ': '
     end
 
     def type_partial_render(options = {},
@@ -46,17 +56,10 @@ module Wallaby
       locals[:metadata] = decorated.send metadata_method, field_name
       locals[:value]    = decorated.public_send field_name
 
+      # NOTE: what happen here is that
+      # if desired partial is not found, it won't throw an exception
+      # instead, it will render the string partial instead
       render(options, locals, &block) || render('string', locals, &block)
-    end
-
-    def index_type_partial_render(options = {}, locals = {}, &block)
-      type_partial_render options, locals, :index_metadata_of, &block
-    end
-
-    def show_title(decorated)
-      raise ::ArgumentError unless decorated.is_a? ResourceDecorator
-      [to_model_label(decorated.model_class), decorated.to_label] \
-        .compact.join ': '
     end
   end
 end

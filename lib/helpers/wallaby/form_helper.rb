@@ -15,6 +15,7 @@ module Wallaby
     end
 
     def model_choices(model_class)
+      # TODO: remove this in the future since we will use AJAX
       collection = model_servicer(model_class).collection({})
       decorate(collection).map do |decorated|
         [decorated.to_label, decorated.primary_key_value]
