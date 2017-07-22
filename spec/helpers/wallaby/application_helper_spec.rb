@@ -27,6 +27,13 @@ describe Wallaby::ApplicationHelper do
       end
     end
 
+    context 'when action is export' do
+      it 'returns export_resources_path' do
+        expect(helper.wallaby_resourceful_url_for(resources: 'products', action: 'export')).to eq '/admin/products/export'
+        expect(helper.wallaby_resourceful_url_for(parameters(resources: 'products', action: 'export'))).to eq '/admin/products/export'
+      end
+    end
+
     context 'when action is new' do
       it 'returns new_resource_path' do
         expect(helper.wallaby_resourceful_url_for(resources: 'products', action: 'new')).to eq '/admin/products/new'

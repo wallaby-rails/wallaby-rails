@@ -19,6 +19,7 @@ module Wallaby
       hash = normalize_params(options).except(:only_path)
       case hash[:action]
       when 'index', 'create' then wallaby_engine.resources_path hash
+      when 'export' then wallaby_engine.export_resources_path hash
       when 'new' then wallaby_engine.new_resource_path hash
       when 'edit' then wallaby_engine.edit_resource_path hash
       when 'show', 'update', 'destroy' then wallaby_engine.resource_path hash
