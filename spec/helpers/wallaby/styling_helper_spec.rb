@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe Wallaby::StylingHelper do
-  describe '#icon' do
+  describe '#fa_icon' do
     it 'returns icon html' do
-      expect(helper.icon('info')).to eq '<i class="glyphicon glyphicon-info"></i>'
+      expect(helper.fa_icon('info')).to eq '<i class="fa fa-info"></i>'
     end
   end
 
