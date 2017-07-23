@@ -5,59 +5,23 @@ module Wallaby
       params.permit(:q, :page, :per, :sort, :filter)
     end
 
-    def index_path(model_class = nil, extra_params = nil)
-      model_class ||= current_model_class
-      extra_params ||= {}
-      wallaby_engine.resources_path \
-        to_resources_name(model_class), extra_params.to_h
-    end
-
-    def new_path(model_class = nil)
-      model_class ||= current_model_class
-      wallaby_engine.new_resource_path to_resources_name(model_class)
-    end
-
-    def show_path(resource)
-      decorated = decorate resource
-      wallaby_engine.resource_path \
-        decorated.resources_name, decorated.primary_key_value
-    end
-
-    def edit_path(resource)
-      decorated = decorate resource
-      wallaby_engine.edit_resource_path \
-        decorated.resources_name, decorated.primary_key_value
-    end
-
-    def export_path(model_class = nil, format = nil)
-      model_class ||= current_model_class
-      format ||= CSV
-      extra_params = index_params.except(:page, :per).merge format: format
-      wallaby_engine.export_resources_path(
-        to_resources_name(model_class), extra_params.to_h
-      )
-    end
-
-    def index_link(model_class = nil, html_options = {}, &block)
-      model_class ||= current_model_class
+    def index_link(model_class, url_params: {}, html_options: {}, &block)
       return if cannot? :index, model_class
       block ||= -> { to_model_label model_class }
-      path = index_path model_class, html_options.delete(:extra_params)
+      path = index_path model_class: model_class, url_params: url_params
       link_to path, html_options, &block
     end
 
-    def new_link(model_class = nil, html_options = {}, &block)
-      model_class ||= current_model_class
+    def new_link(model_class, options: {}, html_options: {}, &block)
       return if cannot? :new, model_class
-
-      block ||= -> { "#{ct 'link.new'} #{to_model_label model_class}" }
+      block ||= -> { ct 'link.new', model: to_model_label(model_class) }
       html_options[:class] = 'text-success' unless html_options.key? :class
 
-      prepend_if(html_options) \
-        + link_to(new_path(model_class), html_options, &block)
+      prepend = options[:prepend] || EMPTY_STRING
+      prepend.html_safe + link_to(new_path(model_class), html_options, &block)
     end
 
-    def show_link(resource, html_options = {}, &block)
+    def show_link(resource, html_options: {}, &block)
       return if cannot? :show, extract(resource)
 
       # NOTE: to_s is a must
@@ -68,7 +32,7 @@ module Wallaby
       link_to show_path(resource), html_options, &block
     end
 
-    def edit_link(resource, html_options = {}, &block)
+    def edit_link(resource, html_options: {}, &block)
       return if cannot? :edit, extract(resource)
 
       block ||= -> { "#{ct 'link.edit'} #{decorate(resource).to_label}" }
@@ -77,7 +41,7 @@ module Wallaby
       link_to edit_path(resource), html_options, &block
     end
 
-    def delete_link(resource, html_options = {}, &block)
+    def delete_link(resource, html_options: {}, &block)
       return if cannot? :destroy, extract(resource)
 
       block ||= -> { ct 'link.delete' }
@@ -94,15 +58,25 @@ module Wallaby
       link_to :back, html_options, &block
     end
 
-    def export_link(model_class = nil, html_options = {}, &block)
-      format = html_options.delete :format
-      block ||= -> { ct 'link.export', ext: format.upcase }
-      link_to export_path(model_class, format), html_options, &block
+    def index_path(model_class: current_model_class, url_params: {})
+      wallaby_engine.resources_path \
+        to_resources_name(model_class), url_params.to_h
     end
 
-    def prepend_if(html_options = {})
-      prepend = html_options.delete :prepend
-      (prepend.present? ? "#{prepend} " : EMPTY_STRING).html_safe
+    def new_path(model_class = current_model_class)
+      wallaby_engine.new_resource_path to_resources_name(model_class)
+    end
+
+    def show_path(resource)
+      decorated = decorate resource
+      wallaby_engine.resource_path \
+        decorated.resources_name, decorated.primary_key_value
+    end
+
+    def edit_path(resource)
+      decorated = decorate resource
+      wallaby_engine.edit_resource_path \
+        decorated.resources_name, decorated.primary_key_value
     end
   end
 end

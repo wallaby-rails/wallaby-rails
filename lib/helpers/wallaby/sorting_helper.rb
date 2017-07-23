@@ -5,16 +5,14 @@ module Wallaby
       metadata = model_decorator.index_metadata_of field_name
       return metadata[:label] unless sortable? metadata
       sort_field_name = metadata[:sort_field_name] || field_name
-      extra_params = next_sort_param sort_field_name
       model_class = model_decorator.model_class
-      index_link(model_class, extra_params: extra_params) { metadata[:label] }
+      url_params = next_sort_param sort_field_name
+      index_link(model_class, url_params: url_params) { metadata[:label] }
     end
 
     def sort_class(field_name)
       current_sort[field_name]
     end
-
-    protected
 
     def current_sort
       @current_sort ||= Sorting::HashBuilder.build params[:sort]

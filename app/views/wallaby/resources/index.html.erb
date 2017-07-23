@@ -8,11 +8,11 @@ decorated_collection = decorate collection
     <h1><%= to_model_label(current_model_class) %></h1>
     <div class="pull-right <%= index_params.presence && 'filtered' %>">
       <div class="actions">
-        <%= index_link(current_model_class, class: 'fa fa-ban') { } if index_params.present? %>
-        <%= new_link(current_model_class, class: 'create fa fa-plus') { } %>
+        <%= index_link(current_model_class, html_options: { class: 'fa fa-ban' }) { } if index_params.present? %>
+        <%= new_link(current_model_class, html_options: { class: 'create fa fa-plus' }) { } %>
         <a id="index_action_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="more dropdown-toggle fa fa-chevron-down"></a>
         <ul class="dropdown-menu" aria-labelledby="index_action_list">
-          <li><%= export_link(nil, format: 'csv') %></li>
+          <li><%= index_link(current_model_class, url_params: index_params.except(:page, :per).merge(format: 'csv')) %></li>
           <%= render 'index_actions' %>
         </ul>
       </div>

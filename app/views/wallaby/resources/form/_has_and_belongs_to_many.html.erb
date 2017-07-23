@@ -5,7 +5,7 @@
       <%= form.select metadata[:foreign_key], model_choices(metadata[:class]), { }, { class: 'form-control', multiple: true } %>
       <p class="help-block">
         Press CTRL to select/deselect multiple items.
-        <%= new_link metadata[:class], prepend: 'Or' %>
+        <%= new_link metadata[:class], options: { prepend: 'Or ' } %>
       </p>
     </div>
   </div>

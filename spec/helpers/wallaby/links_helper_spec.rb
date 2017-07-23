@@ -15,13 +15,18 @@ describe Wallaby::LinksHelper, :current_user do
 
   describe '#index_path' do
     it 'returns index path' do
-      expect(helper.index_path(Product)).to eq '/admin/products'
-      expect(helper.index_path(Product, parameters(sort: 'name asc'))).to eq '/admin/products'
+      expect(helper.index_path(model_class: Product)).to eq '/admin/products'
     end
 
-    context 'when extra params are given' do
+    context 'when url_params are given' do
       it 'returns index path with queries' do
-        expect(helper.index_path(Product, parameters(sort: 'name asc').permit!)).to eq '/admin/products?sort=name+asc'
+        expect(helper.index_path(model_class: Product, url_params: parameters(sort: 'name asc').permit!)).to eq '/admin/products?sort=name+asc'
+      end
+
+      context 'when url_params are not permitted' do
+        it 'returns index path' do
+          expect(helper.index_path(model_class: Product, url_params: parameters(sort: 'name asc'))).to eq '/admin/products'
+        end
       end
     end
   end
@@ -48,7 +53,7 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns index link' do
       expect(helper.index_link(Product)).to eq '<a href="/admin/products">Product</a>'
       expect(helper.index_link(Product) { 'List' }).to eq '<a href="/admin/products">List</a>'
-      expect(helper.index_link(Product, extra_params: parameters(sort: 'name asc').permit!) { 'List' }).to eq '<a href="/admin/products?sort=name+asc">List</a>'
+      expect(helper.index_link(Product, url_params: parameters(sort: 'name asc').permit!) { 'List' }).to eq '<a href="/admin/products?sort=name+asc">List</a>'
     end
 
     context 'when cannot index' do
@@ -64,8 +69,8 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns new link' do
       expect(helper.new_link(Product)).to eq '<a class="text-success" href="/admin/products/new">Create Product</a>'
       expect(helper.new_link(Product) { 'New' }).to eq '<a class="text-success" href="/admin/products/new">New</a>'
-      expect(helper.new_link(Product, class: 'test')).to eq '<a class="test" href="/admin/products/new">Create Product</a>'
-      expect(helper.new_link(Product, class: 'test', prepend: 'Or')).to eq 'Or <a class="test" href="/admin/products/new">Create Product</a>'
+      expect(helper.new_link(Product, html_options: { class: 'test' })).to eq '<a class="test" href="/admin/products/new">Create Product</a>'
+      expect(helper.new_link(Product, html_options: { class: 'test' }, options: { prepend: 'Or ' })).to eq 'Or <a class="test" href="/admin/products/new">Create Product</a>'
     end
 
     context 'when cannot new' do
@@ -110,7 +115,7 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns edit link' do
       expect(helper.edit_link(resource)).to eq '<a class="text-warning" href="/admin/products/1/edit">Edit 1</a>'
       expect(helper.edit_link(resource) { 'Edit' }).to eq '<a class="text-warning" href="/admin/products/1/edit">Edit</a>'
-      expect(helper.edit_link(resource, class: 'test')).to eq '<a class="test" href="/admin/products/1/edit">Edit 1</a>'
+      expect(helper.edit_link(resource, html_options: { class: 'test' })).to eq '<a class="test" href="/admin/products/1/edit">Edit 1</a>'
     end
 
     context 'when cannot edit' do
@@ -138,9 +143,9 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns delete link' do
       expect(helper.delete_link(resource)).to eq '<a class="text-danger" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
       expect(helper.delete_link(resource) { 'Destroy' }).to eq '<a class="text-danger" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Destroy</a>'
-      expect(helper.delete_link(resource, class: 'test')).to eq '<a class="test" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
-      expect(helper.delete_link(resource, method: :put)).to eq '<a class="text-danger" data-confirm="Please confirm to delete" rel="nofollow" data-method="put" href="/admin/products/1">Delete</a>'
-      expect(helper.delete_link(resource, data: { confirm: 'Delete now!' })).to eq '<a data-confirm="Delete now!" class="text-danger" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource, html_options: { class: 'test' })).to eq '<a class="test" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource, html_options: { method: :put })).to eq '<a class="text-danger" data-confirm="Please confirm to delete" rel="nofollow" data-method="put" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource, html_options: { data: { confirm: 'Delete now!' } })).to eq '<a data-confirm="Delete now!" class="text-danger" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
     end
 
     context 'when cannot delete' do
@@ -166,18 +171,6 @@ describe Wallaby::LinksHelper, :current_user do
     it 'returns cancel link' do
       expect(helper.cancel_link).to eq '<a href="javascript:history.back()">Cancel</a>'
       expect(helper.cancel_link { 'Back' }).to eq '<a href="javascript:history.back()">Back</a>'
-    end
-  end
-
-  describe '#prepend_if' do
-    it 'returns the prepended text' do
-      expect(helper.prepend_if).to eq ''
-      expect(helper.prepend_if).to be_html_safe
-
-      html_options = { prepend: 'Or' }
-      expect(helper.prepend_if(html_options)).to eq 'Or '
-      expect(helper.prepend_if(html_options)).to be_html_safe
-      expect(html_options).not_to have_key :prepend
     end
   end
 end

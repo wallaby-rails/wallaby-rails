@@ -2,9 +2,9 @@ module Wallaby
   # Generic CRUD controller
   class AbstractResourcesController < BaseController
     self.responder = ResourcesResponder
-    respond_to :html, except: :export
-    respond_to :json, only: %i[index show]
-    respond_to :csv, only: :export
+    respond_to :html
+    respond_to :json
+    respond_to :csv, only: :index
     helper ResourcesHelper
 
     def self.resources_name
@@ -54,11 +54,6 @@ module Wallaby
       respond_with resource, location: location
     end
 
-    def export
-      authorize! :index, current_model_class
-      respond_with collection
-    end
-
     protected
 
     def _prefixes
@@ -72,11 +67,11 @@ module Wallaby
     end
 
     def resources_index_path
-      wallaby_engine.resources_path current_resources_name
+      helpers.index_path model_class: current_resources_name
     end
 
     def resources_show_path
-      wallaby_engine.resource_path current_resources_name, resource_id
+      helpers.show_path resource
     end
 
     def current_model_service

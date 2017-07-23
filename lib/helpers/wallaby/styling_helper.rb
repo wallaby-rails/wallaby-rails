@@ -35,8 +35,6 @@ module Wallaby
       content_tag :i, "<#{content}>", class: 'text-muted'
     end
 
-    protected
-
     def imodal_label(html_options)
       html_options.delete(:label) ||
         html_options.delete(:icon) ||

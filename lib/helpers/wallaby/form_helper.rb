@@ -22,8 +22,6 @@ module Wallaby
       end
     end
 
-    protected
-
     def form_type_partial_render_check(form, field_name)
       unless form.present? && field_name.present? \
         && form.object.is_a?(ResourceDecorator)
