@@ -17,8 +17,7 @@ module Wallaby
     end
 
     def to_csv
-      headers['Content-Disposition'] = "attachment; filename=\"#{file_name}\""
-      headers['Content-Type'] ||= 'text/csv'
+      headers['Content-Type'] = 'text/csv'
       default_render
     end
 

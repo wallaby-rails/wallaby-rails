@@ -12,9 +12,9 @@
     <a id="filter_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_model_decorator.filters[params[:filter]].try(:[], :label) || 'All' %></a>
     <ul class="dropdown-menu" aria-labelledby="filter_list">
       <li><em>Filter</em></li>
-      <li><%= index_link current_model_class, url_params: index_params.except(:filter) { 'All' } %></li>
+      <li><%= index_link(current_model_class, url_params: index_params.except(:filter)) { 'All' } %></li>
       <% current_model_decorator.filters.each do |filter_name, metadata| %>
-        <li><%= index_link current_model_class, url_params: index_params.merge(filter: filter_name) { metadata[:label] || filter_name } %></li>
+        <li><%= index_link(current_model_class, url_params: index_params.merge(filter: filter_name)) { metadata[:label] || filter_name } %></li>
       <% end %>
     </ul>
   <% else %>
@@ -49,7 +49,7 @@
         <ul class="dropdown-menu" aria-labelledby="per_page_list">
           <li><em>Page Size</em></li>
           <% Wallaby::PERS.each do |per| %>
-            <li class="<%= per_page == per && 'current' %>"><%= index_link current_model_class, url_params: index_params.merge(per: per) { per.to_s } %></li>
+            <li class="<%= per_page == per && 'current' %>"><%= index_link(current_model_class, url_params: index_params.merge(per: per)) { per.to_s } %></li>
           <% end %>
         </ul>
       </span>
@@ -60,7 +60,7 @@
           <ul class="dropdown-menu" aria-labelledby="per_page_list">
             <li><em>Page Number</em></li>
             <% (1..pages).each do |page_number| %>
-              <li class="<%= page_number == page && 'current' %>"><%= index_link current_model_class, url_params: index_params.merge(page: page_number) { page_number.to_s } %></li>
+              <li class="<%= page_number == page && 'current' %>"><%= index_link(current_model_class, url_params: index_params.merge(page: page_number)) { page_number.to_s } %></li>
             <% end %>
           </ul>
         </span>

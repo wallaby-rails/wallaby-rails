@@ -12,7 +12,7 @@ decorated_collection = decorate collection
         <%= new_link(current_model_class, html_options: { class: 'create fa fa-plus' }) { } %>
         <a id="index_action_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="more dropdown-toggle fa fa-chevron-down"></a>
         <ul class="dropdown-menu" aria-labelledby="index_action_list">
-          <li><%= index_link(current_model_class, url_params: index_params.except(:page, :per).merge(format: 'csv')) %></li>
+          <li><%= index_link(current_model_class, url_params: index_params.except(:page, :per).merge(format: 'csv')) { ct 'link.export', ext: 'CSV' } %></li>
           <%= render 'index_actions' %>
         </ul>
       </div>
