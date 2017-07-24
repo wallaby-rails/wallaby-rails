@@ -105,7 +105,7 @@ describe Wallaby::ResourcesController do
         end
       end
 
-      %w[new create edit update].each do |action_name|
+      %w(new create edit update).each do |action_name|
         context 'action is new' do
           before { controller.params[:action] = action_name }
 

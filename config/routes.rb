@@ -11,7 +11,7 @@ Wallaby::Engine.routes.draw do
       route.get ':id', defaults: { action: 'show' }, as: :resource
 
       route.post '', defaults: { action: 'create' }
-      route.match ':id', via: %i[patch put], defaults: { action: 'update' }
+      route.match ':id', via: %i(patch put), defaults: { action: 'update' }
       route.delete ':id', defaults: { action: 'destroy' }
     end
   end

@@ -3,8 +3,8 @@ module Wallaby
     class ModelDecorator
       # Try to find the field that can be used as title
       class TitleFieldFinder
-        TITLE_FIELD_TYPES = %w[string].freeze
-        TITLE_NAMES = %w[name title string text].freeze
+        TITLE_FIELD_TYPES = %w(string).freeze
+        TITLE_NAMES = %w(name title string text).freeze
 
         def initialize(model_class, fields)
           @model_class  = model_class

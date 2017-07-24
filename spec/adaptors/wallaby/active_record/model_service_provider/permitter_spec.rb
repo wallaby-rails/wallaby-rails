@@ -7,7 +7,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
   describe 'model that has all postgres types' do
     describe '#simple_field_names' do
       it 'returns non-range fields' do
-        expect(subject.simple_field_names).to eq %w[string text integer float decimal datetime time date binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext bit bit_varying money]
+        expect(subject.simple_field_names).to eq %w(string text integer float decimal datetime time date binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext bit bit_varying money)
       end
     end
 
@@ -19,19 +19,19 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
 
     describe '#non_association_fields' do
       it 'returns non-association fields' do
-        expect(subject.send(:non_association_fields).keys).to eq %w[id string text integer float decimal datetime time date daterange numrange tsrange tstzrange int4range int8range binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext point bit bit_varying money]
+        expect(subject.send(:non_association_fields).keys).to eq %w(id string text integer float decimal datetime time date daterange numrange tsrange tstzrange int4range int8range binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext point bit bit_varying money)
       end
     end
 
     describe '#non_range_fields' do
       it 'returns non-range fields' do
-        expect(subject.send(:non_range_fields).keys).to eq %w[id string text integer float decimal datetime time date binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext bit bit_varying money]
+        expect(subject.send(:non_range_fields).keys).to eq %w(id string text integer float decimal datetime time date binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext bit bit_varying money)
       end
     end
 
     describe '#range_fields' do
       it 'returns range fields' do
-        expect(subject.send(:range_fields).keys).to eq %w[daterange numrange tsrange tstzrange int4range int8range point]
+        expect(subject.send(:range_fields).keys).to eq %w(daterange numrange tsrange tstzrange int4range int8range point)
       end
     end
 
@@ -58,7 +58,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
     let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new Product }
     describe '#simple_field_names' do
       it 'returns non-range fields' do
-        expect(subject.simple_field_names).to eq %w[sku name description stock price featured available_to_date available_to_time published_at category_id]
+        expect(subject.simple_field_names).to eq %w(sku name description stock price featured available_to_date available_to_time published_at category_id)
       end
     end
 
@@ -70,13 +70,13 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
 
     describe '#non_association_fields' do
       it 'returns non-association fields' do
-        expect(subject.send(:non_association_fields).keys).to eq %w[id sku name description stock price featured available_to_date available_to_time published_at]
+        expect(subject.send(:non_association_fields).keys).to eq %w(id sku name description stock price featured available_to_date available_to_time published_at)
       end
     end
 
     describe '#non_range_fields' do
       it 'returns non-range fields' do
-        expect(subject.send(:non_range_fields).keys).to eq %w[id sku name description stock price featured available_to_date available_to_time published_at]
+        expect(subject.send(:non_range_fields).keys).to eq %w(id sku name description stock price featured available_to_date available_to_time published_at)
       end
     end
 
@@ -88,19 +88,19 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
 
     describe '#association_fields' do
       it 'returns association fields' do
-        expect(subject.send(:association_fields).keys).to eq %w[product_detail order_items category tags]
+        expect(subject.send(:association_fields).keys).to eq %w(product_detail order_items category tags)
       end
     end
 
     describe '#many_association_fields' do
       it 'returns many-association fields' do
-        expect(subject.send(:many_association_fields).keys).to eq %w[order_items tags]
+        expect(subject.send(:many_association_fields).keys).to eq %w(order_items tags)
       end
     end
 
     describe '#belongs_to_fields' do
       it 'returns belongs-to fields' do
-        expect(subject.send(:belongs_to_fields).keys).to eq %w[category]
+        expect(subject.send(:belongs_to_fields).keys).to eq %w(category)
       end
     end
   end
@@ -109,7 +109,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
     let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new Picture }
     describe '#simple_field_names' do
       it 'returns non-range fields' do
-        expect(subject.simple_field_names).to eq %w[name file imageable_id imageable_type]
+        expect(subject.simple_field_names).to eq %w(name file imageable_id imageable_type)
       end
     end
 

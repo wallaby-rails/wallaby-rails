@@ -5,7 +5,7 @@ describe 'Mysql Types' do
     native_types = ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
 
     expect(native_types.length).to eq 12
-    expect(native_types.sort).to eq %w[binary boolean date datetime decimal float integer json primary_key string text time]
+    expect(native_types.sort).to eq %w(binary boolean date datetime decimal float integer json primary_key string text time)
   end
 
   it 'supports the following types' do
@@ -16,6 +16,6 @@ describe 'Mysql Types' do
     end
 
     expect(supporting_types.length).to eq 31
-    expect(supporting_types.sort).to eq %w[bigint binary bit blob boolean char clob date datetime decimal double enum float int json longblob longtext mediumblob mediumint mediumtext number numeric set smallint text time timestamp tinyblob tinyint tinytext year]
+    expect(supporting_types.sort).to eq %w(bigint binary bit blob boolean char clob date datetime decimal double enum float int json longblob longtext mediumblob mediumint mediumtext number numeric set smallint text time timestamp tinyblob tinyint tinytext year)
   end
 end

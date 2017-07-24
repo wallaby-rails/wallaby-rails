@@ -28,7 +28,7 @@ module Wallaby
 
       def index_field_names
         @index_field_names ||= begin
-          types = %w[binary citext hstore json jsonb text tsvector xml]
+          types = %w(binary citext hstore json jsonb text tsvector xml)
           index_fields.reject do |_field_name, metadata|
             metadata[:is_association] || types.include?(metadata[:type])
           end.keys

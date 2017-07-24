@@ -7,7 +7,7 @@ describe partial_name do
   let(:value)     do
     {
       'kind' => 'user_renamed',
-      'change' => %w[jack john]
+      'change' => %w(jack john)
     }
   end
 

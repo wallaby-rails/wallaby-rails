@@ -13,7 +13,7 @@ describe Wallaby::ModelDecorator do
   end
 
   describe '#index/show/form_fields=' do
-    %w[index_ show_ form_].each do |prefix|
+    %w(index_ show_ form_).each do |prefix|
       it 'ensures assigned hash becomes HashWithIndifferentAccess' do
         subject.send "#{prefix}fields=", name: { type: 'string' }
         expect(subject.instance_variable_get("@#{prefix}fields")).to be_a HashWithIndifferentAccess

@@ -24,3 +24,9 @@ AllCops:
     - 'spec/dummy/**/*'
     - 'spec/dummy/*'
     - 'spec/views/wallaby/resources/*/_xml.html.erb_spec.rb'
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': ()
+    '%w': ()

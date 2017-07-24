@@ -11,7 +11,7 @@ describe Wallaby::Map::ModeMapper do
       before do
         class PretendToBeAMode
           class Finder
-            def all; %i[ModelClass1 Modelclass2]; end
+            def all; %i(ModelClass1 Modelclass2); end
           end
 
           def self.model_finder; Finder; end

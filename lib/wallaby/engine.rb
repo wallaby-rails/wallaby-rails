@@ -34,7 +34,7 @@ module Wallaby
 
     initializer 'wallaby.assets.precompile' do |app|
       app.config.assets.precompile +=
-        %w[codemirror* codemirror/**/* wallaby/sign.png]
+        %w(codemirror* codemirror/**/* wallaby/sign.png)
     end
 
     config.after_initialize do
@@ -73,12 +73,13 @@ require "#{fields_builder}/association_builder"
 require "#{fields_builder}/polymorphic_builder"
 require 'adaptors/wallaby/active_record/model_decorator/title_field_finder'
 require 'adaptors/wallaby/active_record/model_finder'
-require 'adaptors/wallaby/active_record/model_service_provider'
-require 'adaptors/wallaby/active_record/model_service_provider/normalizer'
-require 'adaptors/wallaby/active_record/model_service_provider/permitter'
-require 'adaptors/wallaby/active_record/model_service_provider/querier'
-require 'adaptors/wallaby/active_record/model_service_provider/querier/transformer'
-require 'adaptors/wallaby/active_record/model_service_provider/validator'
+service_provider = 'adaptors/wallaby/active_record/model_service_provider'
+require service_provider
+require "#{service_provider}/normalizer"
+require "#{service_provider}/permitter"
+require "#{service_provider}/querier"
+require "#{service_provider}/querier/transformer"
+require "#{service_provider}/validator"
 
 require 'decorators/wallaby/abstract_resource_decorator'
 require 'decorators/wallaby/resource_decorator'

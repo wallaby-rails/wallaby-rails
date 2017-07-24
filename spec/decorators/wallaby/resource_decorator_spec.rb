@@ -118,9 +118,9 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
           describe "##{prefix}field_names" do
             it 'returns field names array' do
               if prefix == 'form_'
-                expect(subject.send("#{prefix}field_names")).to eq(%w[title published_at])
+                expect(subject.send("#{prefix}field_names")).to eq(%w(title published_at))
               else
-                expect(subject.send("#{prefix}field_names")).to eq(%w[id title published_at updated_at])
+                expect(subject.send("#{prefix}field_names")).to eq(%w(id title published_at updated_at))
               end
             end
 
@@ -242,17 +242,17 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
 
               it 'returns field names array' do
                 if prefix == 'form_'
-                  expect(klass.send("#{prefix}field_names")).to eq(%w[title published_at])
+                  expect(klass.send("#{prefix}field_names")).to eq(%w(title published_at))
                 else
-                  expect(klass.send("#{prefix}field_names")).to eq(%w[id title published_at updated_at])
+                  expect(klass.send("#{prefix}field_names")).to eq(%w(id title published_at updated_at))
                 end
               end
 
               it 'caches the field names array' do
                 if prefix == 'form_'
-                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w[title published_at]).to(['published_at'])
+                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w(title published_at)).to(['published_at'])
                 else
-                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w[id title published_at updated_at]).to(%w[id published_at updated_at])
+                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w(id title published_at updated_at)).to(%w(id published_at updated_at))
                 end
               end
             end
