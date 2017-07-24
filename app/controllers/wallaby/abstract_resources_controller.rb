@@ -83,12 +83,11 @@ module Wallaby
     end
 
     def paginate(query)
-      return query unless query.respond_to?(:page)
-      per = if request.format.symbol == :html || params[:page]
-              params[:per] || configuration.page_size
-            end
-      return query if per.blank?
-      query.page(params[:page]).per(per)
+      if params[:page] || params[:per] || request.format.symbol == :html
+        current_model_service.paginate(query, params)
+      else
+        query
+      end
     end
 
     begin # helper methods

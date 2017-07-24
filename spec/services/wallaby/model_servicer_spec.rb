@@ -26,7 +26,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
 
   describe 'instance methods' do
     subject { described_class.new AllPostgresType, authorizer }
-    let(:handler) { subject.instance_variable_get '@handler' }
+    let(:provider) { subject.instance_variable_get '@provider' }
     let(:params) { parameters }
     let(:authorizer) { Ability.new nil }
     let(:resource) { AllPostgresType.new }
@@ -42,8 +42,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
         expect(subject.collection(params)).to contain_exactly record
       end
 
-      it 'deletgates collection method to handler' do
-        expect(handler).to receive(:collection).with params, authorizer
+      it 'deletgates collection method to provider' do
+        expect(provider).to receive(:collection).with params, authorizer
         subject.collection params
       end
     end
@@ -55,8 +55,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
         expect(new_record.persisted?).to be_falsy
       end
 
-      it 'deletgates new method to handler' do
-        expect(handler).to receive(:new).with params, authorizer
+      it 'deletgates new method to provider' do
+        expect(provider).to receive(:new).with params, authorizer
         subject.new params
       end
     end
@@ -67,8 +67,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
         expect(subject.find(record.id, params)).to eq record
       end
 
-      it 'deletgates find method to handler' do
-        expect(handler).to receive(:find).with 1, params, authorizer
+      it 'deletgates find method to provider' do
+        expect(provider).to receive(:find).with 1, params, authorizer
         subject.find 1, params
       end
     end
@@ -82,8 +82,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
         expect(record.string).to eq 'today'
       end
 
-      it 'deletgates create method to handler' do
-        expect(handler).to receive(:create).with params, authorizer
+      it 'deletgates create method to provider' do
+        expect(provider).to receive(:create).with params, authorizer
         subject.create params
       end
     end
@@ -97,8 +97,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
         expect(record.reload.string).to eq 'tomorrow'
       end
 
-      it 'deletgates update method to handler' do
-        expect(handler).to receive(:update).with resource, params, authorizer
+      it 'deletgates update method to provider' do
+        expect(provider).to receive(:update).with resource, params, authorizer
         subject.update resource, params
       end
     end
@@ -109,8 +109,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
         expect { subject.destroy record, params }.to change { AllPostgresType.count }.from(1).to(0)
       end
 
-      it 'deletgates destroy method to handler' do
-        expect(handler).to receive(:destroy).with resource, params, authorizer
+      it 'deletgates destroy method to provider' do
+        expect(provider).to receive(:destroy).with resource, params, authorizer
         subject.destroy resource, params
       end
     end

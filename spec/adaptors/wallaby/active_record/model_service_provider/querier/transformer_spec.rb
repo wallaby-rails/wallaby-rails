@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'parslet/rig/rspec'
 
-describe Wallaby::ActiveRecord::ModelHandler::Querier::Transformer do
+describe Wallaby::ActiveRecord::ModelServiceProvider::Querier::Transformer do
   describe 'simple keywords' do
     it 'transforms' do
       expect(subject.apply(keyword: 'something')).to eq('something')

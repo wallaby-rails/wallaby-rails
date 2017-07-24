@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    class ModelHandler
+    class ModelServiceProvider
       # Query builder
       class Querier
         def initialize(model_decorator)

@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    class ModelHandler
+    class ModelServiceProvider
       # Validator
       class Validator
         def initialize(model_decorator)

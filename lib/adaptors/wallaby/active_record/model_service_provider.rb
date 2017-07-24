@@ -1,13 +1,20 @@
 module Wallaby
   class ActiveRecord
     # Model operator
-    class ModelHandler < ::Wallaby::ModelHandler
+    class ModelServiceProvider < ::Wallaby::ModelServiceProvider
       def collection(params, authorizer)
         # NOTE: pagination free here
         # since somewhere might use it without pagination
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?
         query.accessible_by authorizer
+      end
+
+      def paginate(query, params)
+        per = params[:per] || Wallaby.configuration.page_size
+        query = query.page params[:page] if query.respond_to? :page
+        query = query.per per if query.respond_to? :per
+        query
       end
 
       def new(params, _authorizer)

@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    class ModelHandler
+    class ModelServiceProvider
       class Querier
         # Build up query using the results
         class Transformer < Parslet::Transform
