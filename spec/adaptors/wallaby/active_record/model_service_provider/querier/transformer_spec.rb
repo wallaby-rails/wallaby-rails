@@ -1,11 +1,11 @@
 require 'rails_helper'
 require 'parslet/rig/rspec'
 
-describe Wallaby::ActiveRecord::ModelHandler::Querier::Transformer do
+describe Wallaby::ActiveRecord::ModelServiceProvider::Querier::Transformer do
   describe 'simple keywords' do
     it 'transforms' do
       expect(subject.apply(keyword: 'something')).to eq('something')
-      expect(subject.apply([{ keyword: 'something' }, { keyword: 'else' }])).to eq(%w[something else])
+      expect(subject.apply([{ keyword: 'something' }, { keyword: 'else' }])).to eq(%w(something else))
     end
 
     context 'no rules found' do
@@ -19,7 +19,7 @@ describe Wallaby::ActiveRecord::ModelHandler::Querier::Transformer do
   describe 'simple colon_queries' do
     it 'transforms' do
       expect(subject.apply(left: 'field', op: ':', right: { keyword: 'key' })).to eq(left: 'field', op: :eq, right: 'key')
-      expect(subject.apply(left: 'field', op: ':', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :in, right: %w[key1 key2])
+      expect(subject.apply(left: 'field', op: ':', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :in, right: %w(key1 key2))
     end
 
     describe 'general colon_queries' do
@@ -38,11 +38,11 @@ describe Wallaby::ActiveRecord::ModelHandler::Querier::Transformer do
         expect(subject.apply(left: 'field', op: ':>=', right: { keyword: 'key' })).to eq(left: 'field', op: :gteq, right: 'key')
         expect(subject.apply(left: 'field', op: ':<', right: { keyword: 'key' })).to eq(left: 'field', op: :lt, right: 'key')
         expect(subject.apply(left: 'field', op: ':<=', right: { keyword: 'key' })).to eq(left: 'field', op: :lteq, right: 'key')
-        expect(subject.apply(left: 'field', op: ':', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :in, right: %w[key1 key2])
-        expect(subject.apply(left: 'field', op: ':=', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :in, right: %w[key1 key2])
-        expect(subject.apply(left: 'field', op: ':!', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :not_in, right: %w[key1 key2])
-        expect(subject.apply(left: 'field', op: ':!=', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :not_in, right: %w[key1 key2])
-        expect(subject.apply(left: 'field', op: ':<>', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :not_in, right: %w[key1 key2])
+        expect(subject.apply(left: 'field', op: ':', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :in, right: %w(key1 key2))
+        expect(subject.apply(left: 'field', op: ':=', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :in, right: %w(key1 key2))
+        expect(subject.apply(left: 'field', op: ':!', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :not_in, right: %w(key1 key2))
+        expect(subject.apply(left: 'field', op: ':!=', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :not_in, right: %w(key1 key2))
+        expect(subject.apply(left: 'field', op: ':<>', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :not_in, right: %w(key1 key2))
         expect(subject.apply(left: 'field', op: ':()', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :between, right: 'key1'..'key2')
         expect(subject.apply(left: 'field', op: ':!()', right: [{ keyword: 'key1' }, { keyword: 'key2' }])).to eq(left: 'field', op: :not_between, right: 'key1'..'key2')
       end

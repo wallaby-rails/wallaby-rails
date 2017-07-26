@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ModelHandler do
+describe Wallaby::ModelServiceProvider do
   subject { described_class.new AllPostgresType }
 
   describe 'collection' do

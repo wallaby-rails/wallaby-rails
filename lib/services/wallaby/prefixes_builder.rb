@@ -32,7 +32,7 @@ module Wallaby
     end
 
     def build_suffix(params)
-      form_actions = %w[new create edit update]
+      form_actions = %w(new create edit update)
       form_actions.include?(params[:action]) ? 'form' : params[:action]
     end
 

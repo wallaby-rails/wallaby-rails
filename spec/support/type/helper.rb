@@ -14,5 +14,6 @@ RSpec.configure do |config|
     view.extend Wallaby::SecureHelper
     view.extend Wallaby::BaseHelper
     view.extend Wallaby::ResourcesHelper
+    helper.output_buffer = ''
   end
 end

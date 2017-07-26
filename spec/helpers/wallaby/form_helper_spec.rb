@@ -55,7 +55,7 @@ describe Wallaby::FormHelper do
     it 'returns a list of choise for select' do
       Product.create! name: 'Coconut'
       Product.create! name: 'Banana'
-      expect(helper.model_choices(Product).map(&:first)).to eq %w[Coconut Banana]
+      expect(helper.model_choices(Product).map(&:first)).to eq %w(Coconut Banana)
     end
   end
 end

@@ -1,6 +1,6 @@
 module Wallaby
-  # Model handler interface
-  class ModelHandler
+  # Model service provider interface
+  class ModelServiceProvider
     def initialize(model_class, model_decorator = nil)
       raise ::ArgumentError, 'model class required' unless model_class
       @model_class = model_class
@@ -8,6 +8,10 @@ module Wallaby
     end
 
     def collection(_params, _authorizer)
+      raise NotImplemented
+    end
+
+    def paginate(_query, _params)
       raise NotImplemented
     end
 

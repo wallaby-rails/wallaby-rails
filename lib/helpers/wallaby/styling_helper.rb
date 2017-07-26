@@ -1,13 +1,6 @@
 module Wallaby
   # Styling helper
   module StylingHelper
-    def icon(icon_suffix, html_options = {}, &block)
-      html_options[:class] = Array html_options[:class]
-      html_options[:class] << "glyphicon glyphicon-#{icon_suffix}"
-
-      content_tag :i, nil, html_options, &block
-    end
-
     def fa_icon(icon_suffix, html_options = {}, &block)
       html_options[:class] = Array html_options[:class]
       html_options[:class] << "fa fa-#{icon_suffix}"
@@ -41,8 +34,6 @@ module Wallaby
     def muted(content)
       content_tag :i, "<#{content}>", class: 'text-muted'
     end
-
-    protected
 
     def imodal_label(html_options)
       html_options.delete(:label) ||

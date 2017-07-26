@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecord::ModelHandler::Normalizer do
+describe Wallaby::ActiveRecord::ModelServiceProvider::Normalizer do
   subject { described_class.new model_decorator }
   let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new AllPostgresType }
 
@@ -23,7 +23,7 @@ describe Wallaby::ActiveRecord::ModelHandler::Normalizer do
 
       describe 'numrange' do
         it 'turns array into range' do
-          expect(subject.normalize(parameters(numrange: %w[88 999]))[:numrange]).to eq '88'...'999'
+          expect(subject.normalize(parameters(numrange: %w(88 999)))[:numrange]).to eq '88'...'999'
           expect(subject.normalize(parameters(numrange: ['', '999']))[:numrange]).to eq ''...'999'
           expect(subject.normalize(parameters(numrange: ['88', '']))[:numrange]).to eq '88'...''
         end
@@ -38,7 +38,7 @@ describe Wallaby::ActiveRecord::ModelHandler::Normalizer do
 
       describe 'int4range' do
         it 'turns array into range' do
-          expect(subject.normalize(parameters(int4range: %w[88 999]))[:int4range]).to eq '88'...'999'
+          expect(subject.normalize(parameters(int4range: %w(88 999)))[:int4range]).to eq '88'...'999'
           expect(subject.normalize(parameters(int4range: ['', '999']))[:int4range]).to eq ''...'999'
           expect(subject.normalize(parameters(int4range: ['88', '']))[:int4range]).to eq '88'...''
         end
@@ -53,7 +53,7 @@ describe Wallaby::ActiveRecord::ModelHandler::Normalizer do
 
       describe 'int8range' do
         it 'turns array into range' do
-          expect(subject.normalize(parameters(int8range: %w[88 999]))[:int8range]).to eq '88'...'999'
+          expect(subject.normalize(parameters(int8range: %w(88 999)))[:int8range]).to eq '88'...'999'
           expect(subject.normalize(parameters(int8range: ['', '999']))[:int8range]).to eq ''...'999'
           expect(subject.normalize(parameters(int8range: ['88', '']))[:int8range]).to eq '88'...''
         end
@@ -99,7 +99,7 @@ describe Wallaby::ActiveRecord::ModelHandler::Normalizer do
 
     describe 'point types' do
       it 'turns array into range' do
-        expect(subject.normalize(parameters(point: %w[3 4]))[:point]).to eq [3.0, 4.0]
+        expect(subject.normalize(parameters(point: %w(3 4)))[:point]).to eq [3.0, 4.0]
         expect(subject.normalize(parameters(point: ['', '4']))[:point]).to eq [0.0, 4.0]
         expect(subject.normalize(parameters(point: ['3', '']))[:point]).to eq [3.0, 0.0]
       end

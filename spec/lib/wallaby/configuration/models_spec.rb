@@ -23,7 +23,7 @@ describe Wallaby::Configuration::Models do
     end
 
     it 'returns whatever has been assigned' do
-      models = %w[Model1 Model2]
+      models = %w(Model1 Model2)
       subject.exclude(*models)
       expect(subject.excludes).to eq models
     end

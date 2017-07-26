@@ -2,7 +2,7 @@ module Wallaby
   # Lookup context wrapper
   class LookupContextWrapper
     origin_methods = ::ActionView::LookupContext.instance_methods \
-        - ::Object.instance_methods - %i[find_template]
+        - ::Object.instance_methods - %i(find_template)
     delegate(*origin_methods, to: :@lookup_context)
 
     def initialize(lookup_context)

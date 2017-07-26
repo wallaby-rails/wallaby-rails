@@ -95,7 +95,7 @@ describe 'routing' do
 
   describe 'resource route helper', type: :request do
     it 'has the following helpers' do
-      helpers = %w[resources new_resource edit_resource resource].map do |route_name|
+      helpers = %w(resources new_resource edit_resource resource).map do |route_name|
         "#{route_name}_path"
       end
       helpers.each do |path|

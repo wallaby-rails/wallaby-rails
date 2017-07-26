@@ -162,13 +162,13 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w[id string integer float decimal datetime time date daterange numrange tsrange tstzrange int4range int8range boolean bigint inet cidr macaddr uuid ltree point bit bit_varying money]
+        expect(subject.index_field_names).to eq %w(id string integer float decimal datetime time date daterange numrange tsrange tstzrange int4range int8range boolean bigint inet cidr macaddr uuid ltree point bit bit_varying money)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w[string text integer float decimal datetime time date daterange numrange tsrange tstzrange int4range int8range binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext point bit bit_varying money]
+        expect(subject.form_field_names).to eq %w(string text integer float decimal datetime time date daterange numrange tsrange tstzrange int4range int8range binary boolean bigint xml tsvector hstore inet cidr macaddr uuid json jsonb ltree citext point bit bit_varying money)
       end
     end
   end
@@ -232,31 +232,31 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w[id sku name stock price featured available_to_date available_to_time published_at]
+        expect(subject.index_field_names).to eq %w(id sku name stock price featured available_to_date available_to_time published_at)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w[sku name description stock price featured available_to_date available_to_time published_at product_detail order_items category tags]
+        expect(subject.form_field_names).to eq %w(sku name description stock price featured available_to_date available_to_time published_at product_detail order_items category tags)
       end
     end
 
     describe '#foreign_keys_from_associations' do
       it 'returns foreign keys for associations' do
-        expect(subject.send(:foreign_keys_from_associations)).to eq %w[product_detail_id picture_id order_item_ids order_ids category_id tag_ids]
+        expect(subject.send(:foreign_keys_from_associations)).to eq %w(product_detail_id picture_id order_item_ids order_ids category_id tag_ids)
       end
     end
 
     describe '#many_associations' do
       it 'returns associations' do
-        expect(subject.send(:many_associations).keys).to eq %w[order_items tags]
+        expect(subject.send(:many_associations).keys).to eq %w(order_items tags)
       end
     end
 
     describe '#belongs_to_associations' do
       it 'returns associations' do
-        expect(subject.send(:belongs_to_associations).keys).to eq %w[category]
+        expect(subject.send(:belongs_to_associations).keys).to eq %w(category)
       end
     end
   end
@@ -290,19 +290,19 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w[id name created_at updated_at]
+        expect(subject.index_field_names).to eq %w(id name created_at updated_at)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w[name file imageable]
+        expect(subject.form_field_names).to eq %w(name file imageable)
       end
     end
 
     describe '#foreign_keys_from_associations' do
       it 'returns ploymorphic foreign keys for associations' do
-        expect(subject.send(:foreign_keys_from_associations)).to eq %w[imageable_id imageable_type]
+        expect(subject.send(:foreign_keys_from_associations)).to eq %w(imageable_id imageable_type)
       end
     end
 
@@ -314,7 +314,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#belongs_to_associations' do
       it 'returns associations' do
-        expect(subject.send(:belongs_to_associations).keys).to eq %w[imageable]
+        expect(subject.send(:belongs_to_associations).keys).to eq %w(imageable)
       end
     end
   end

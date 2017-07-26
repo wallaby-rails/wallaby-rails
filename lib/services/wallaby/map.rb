@@ -39,12 +39,12 @@ module Wallaby
       @servicer_map[model_class] ||= ModelServicer
     end
 
-    # { model => handler }
-    def self.handler_map(model_class)
-      @handler_map ||= {}
-      @handler_map[model_class] ||= begin
+    # { model => service_provider }
+    def self.service_provider_map(model_class)
+      @service_provider_map ||= {}
+      @service_provider_map[model_class] ||= begin
         mode = mode_map[model_class]
-        mode.model_handler.new model_class if mode
+        mode.model_service_provider.new model_class if mode
       end
     end
 
@@ -68,7 +68,7 @@ module Wallaby
       @model_decorator_map = nil
       @resource_decorator_map = nil
       @servicer_map = nil
-      @handler_map = nil
+      @service_provider_map = nil
       @model_class_map = nil
       @resources_name_map = nil
     end

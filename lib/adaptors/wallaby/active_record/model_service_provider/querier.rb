@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    class ModelHandler
+    class ModelServiceProvider
       # Query builder
       class Querier
         def initialize(model_decorator)
@@ -81,7 +81,7 @@ module Wallaby
         def text_fields
           @model_decorator.fields.select do |field_name, metadata|
             @model_decorator.index_field_names.include?(field_name) &&
-              %w[string text citext].include?(metadata[:type])
+              %w(string text citext).include?(metadata[:type])
           end.keys
         end
       end

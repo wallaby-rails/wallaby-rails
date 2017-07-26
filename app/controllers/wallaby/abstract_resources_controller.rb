@@ -2,9 +2,9 @@ module Wallaby
   # Generic CRUD controller
   class AbstractResourcesController < BaseController
     self.responder = ResourcesResponder
-    respond_to :html, except: :export
-    respond_to :json, only: %i[index show]
-    respond_to :csv, only: :export
+    respond_to :html
+    respond_to :json
+    respond_to :csv, only: :index
     helper ResourcesHelper
 
     def self.resources_name
@@ -54,11 +54,6 @@ module Wallaby
       respond_with resource, location: location
     end
 
-    def export
-      authorize! :index, current_model_class
-      respond_with collection
-    end
-
     protected
 
     def _prefixes
@@ -71,18 +66,16 @@ module Wallaby
       @_lookup_context ||= LookupContextWrapper.new super
     end
 
-    def resources_index_path(name = current_resources_name)
-      wallaby_engine.resources_path name
+    def resources_index_path
+      helpers.index_path model_class: current_resources_name
     end
 
-    def resources_show_path(name = current_resources_name, id = resource_id)
-      wallaby_engine.resource_path name, id
+    def resources_show_path
+      helpers.show_path resource
     end
 
     def current_model_service
-      @current_model_service ||=
-        Map.servicer_map(current_model_class)
-           .new(current_model_class, current_ability)
+      @current_model_service ||= helpers.model_servicer current_model_class
     end
 
     def new_resource
@@ -90,12 +83,11 @@ module Wallaby
     end
 
     def paginate(query)
-      query = query.page params[:page] if query.respond_to? :page
-      if params[:per] || request.format.symbol == :html
-        per = params[:per] || configuration.page_size
-        query = query.per per if query.respond_to? :per
+      if params[:page] || params[:per] || request.format.symbol == :html
+        current_model_service.paginate(query, params)
+      else
+        query
       end
-      query
     end
 
     begin # helper methods
@@ -115,7 +107,7 @@ module Wallaby
       end
 
       def current_model_decorator
-        @current_model_decorator ||= Map.model_decorator_map current_model_class
+        @current_model_decorator ||= helpers.model_decorator current_model_class
       end
     end
   end

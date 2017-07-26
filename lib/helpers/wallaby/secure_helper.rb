@@ -8,11 +8,12 @@ module Wallaby
         image_source = "#{https}://www.gravatar.com/avatar/#{email_md5}"
         image_tag image_source, class: 'hidden-xs user-portrait'
       else
-        content_tag :i, nil, class: 'glyphicon glyphicon-user user-portrait'
+        content_tag :i, nil, class: 'fa fa-user user-portrait'
       end
     end
 
     def logout_path(user = current_user, app = main_app)
+      # TODO: use authenticater
       path =
         if defined? ::Devise
           scope = ::Devise::Mapping.find_scope! user
@@ -24,6 +25,7 @@ module Wallaby
     end
 
     def logout_method
+      # TODO: use authenticater
       method = Array(Devise.sign_out_via).first if defined? Devise
       method || :delete
     end

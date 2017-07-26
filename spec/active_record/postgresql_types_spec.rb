@@ -5,7 +5,7 @@ describe 'PostgreSQL Types' do
     native_types = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
 
     expect(native_types.length).to eq 38
-    expect(native_types.sort).to eq %w[binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml]
+    expect(native_types.sort).to eq %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml)
   end
 
   describe 'point' do
@@ -80,6 +80,6 @@ describe 'PostgreSQL Types' do
     end
 
     expect(supporting_types.length).to eq 40
-    expect(supporting_types.sort).to eq %w[bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml]
+    expect(supporting_types.sort).to eq %w(bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml)
   end
 end

@@ -12,7 +12,7 @@
       <div class="col-xs-6 col-sm-3">
         <%= form.select metadata[:foreign_key], model_choices(metadata[:class]), { include_blank: true }, { class: 'form-control' } %>
         <p class="help-block">
-          <%= new_link metadata[:class], prepend: 'Or' %>
+          <%= new_link metadata[:class], options: { prepend: 'Or ' } %>
         </p>
       </div>
     <% end %>

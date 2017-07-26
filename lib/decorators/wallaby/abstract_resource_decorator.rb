@@ -22,7 +22,7 @@ module Wallaby
 
       class_methods =
         ModelDecorator.instance_methods \
-          - ::Object.instance_methods - %i[model_class]
+          - ::Object.instance_methods - %i(model_class)
       delegate(*class_methods, to: :model_decorator, allow_nil: true)
     end
 
@@ -44,11 +44,11 @@ module Wallaby
 
     delegate :to_s, :to_param, :to_params, to: :resource
     implemented_methods =
-      %i[
+      %i(
         index_fields index_field_names
         show_fields show_field_names
         form_fields form_field_names
-      ]
+      )
     instance_methods =
       ModelDecorator.instance_methods \
         - implemented_methods \

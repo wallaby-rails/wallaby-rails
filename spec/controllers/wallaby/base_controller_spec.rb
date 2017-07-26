@@ -3,26 +3,20 @@ require 'rails_helper'
 describe Wallaby::BaseController do
   describe '#current_resources_name' do
     it 'returns resources_name from params' do
-      allow(controller).to receive(:params).and_return(resources: 'on_sale_products')
+      controller.params[:resources] = 'on_sale_products'
       expect(controller.send(:current_resources_name)).to eq 'on_sale_products'
     end
   end
 
   describe '#current_model_class' do
     it 'returns model class from current_resources_name' do
-      allow(controller).to receive(:current_resources_name) { 'products' }
+      controller.params[:resources] = 'products'
       expect(controller.send(:current_model_class)).to eq Product
     end
 
     context 'when it responds to model_class' do
-      CampervansController = Class.new(Wallaby::ResourcesController) do
-        def current_resources_name; 'categories'; end
-      end
-
-      Campervan = Class.new(ActiveRecord::Base) do
-        self.table_name = 'all_postgres_types'
-        attribute :point, :point
-      end
+      CampervansController = Class.new Wallaby::ResourcesController
+      Campervan = Class.new ActiveRecord::Base
 
       describe CampervansController do
         it 'returns model_class from controller class' do
