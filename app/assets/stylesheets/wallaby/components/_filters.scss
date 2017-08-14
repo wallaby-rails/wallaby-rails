@@ -1,0 +1,15 @@
+.filters {
+  @include dropdown;
+  @include arrow;
+  color: $light-grey-color;
+  display: inline-block;
+  font-size: $font-size-small;
+
+  > a {
+    @include light_link;
+  }
+
+  > ul li.filters--current a {
+    color: $light-blue-color;
+  }
+}

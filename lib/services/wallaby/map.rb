@@ -48,6 +48,19 @@ module Wallaby
       end
     end
 
+    # { model => paginator }
+    def self.paginator_map(model_class)
+      @paginator_map ||= ModelClassMapper.new(ResourcePaginator).map
+      @paginator_map[model_class] ||= ResourcePaginator
+    end
+
+    # { model => pagination_provider }
+    def self.pagination_provider_map(model_class)
+      @pagination_provider_map ||= {}
+      @pagination_provider_map[model_class] ||=
+        mode_map[model_class].try(:model_pagination_provider)
+    end
+
     # { model => resources name }
     def self.resources_name_map(model_class)
       @resources_name_map ||= {}
@@ -62,15 +75,10 @@ module Wallaby
 
     # Clear all the class variables to nil
     def self.clear
-      @mode_map = nil
-      @model_classes = nil
-      @controller_map = nil
-      @model_decorator_map = nil
-      @resource_decorator_map = nil
-      @servicer_map = nil
-      @service_provider_map = nil
-      @model_class_map = nil
-      @resources_name_map = nil
+      @mode_map, @model_classes, @controller_map, @model_decorator_map,
+      @resource_decorator_map, @servicer_map, @service_provider_map,
+      @paginator_map, @pagination_provider_map, @model_class_map,
+      @resources_name_map = []
     end
   end
 end

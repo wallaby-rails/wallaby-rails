@@ -15,24 +15,41 @@ jQuery(document).on('turbolinks:load', function () {
   jQuery('[data-toggle="tooltip"]').tooltip({ html: true, container:'body' })
 
   jQuery('.index').each(function() {
-    jQuery('.page-header .pull-right').each(function () {
-      var $this = jQuery(this)
-      $this.find('input:visible').on('focus', function () {
-        $this.addClass('focus')
+    jQuery('.query__search', this).each(function () {
+      var $this = jQuery(this);
+      jQuery('input:visible', this).on('focus.modifier', function () {
+        $this.addClass('query--focus');
       }).on('blur', function () {
-        $this.removeClass('focus')
+        $this.removeClass('query--focus');
       })
     })
 
-    jQuery('.data-table tbody tr, .actions-table tbody tr').each(function () {
-      var $this = jQuery(this)
-      var index = $this.index() + 1
-      var $this_line = jQuery('.data-table tbody tr:nth-child(' + index + '), .data-table tbody tr:nth-child(' + index + ')')
-      $this.hover(function () {
-        $this_line.addClass('hover')
-      }, function () {
-        $this_line.removeClass('hover')
+    jQuery('.resources').each(function () {
+      var $this = jQuery(this);
+
+      // let's clone the actions, just for styling
+      jQuery('.resources__data', this).each(function () {
+        var $actions_table = jQuery('<table></table>').addClass('resources__actions');
+        var $thead = jQuery('<thead><tr><th>&nbsp;</th></tr></thead>');
+        var $tbody = jQuery('<tbody></tbody>');
+        var $tr = jQuery('<tr></tr>');
+
+        jQuery('.resource__actions', this).each(function () {
+          $tbody.append($tr.clone().append(jQuery(this).clone()));
+        })
+
+        $actions_table.append($thead, $tbody);
+        jQuery('> section', $this).append($actions_table);
       })
+
+      // to show double arrows
+      jQuery('.resources__container').on('scroll', function () {
+        var $container = jQuery(this);
+        $th = jQuery('.resources__actions thead th', $this);
+        $data_table = jQuery('.resources__data', $this);
+        $th.toggleClass('resources--backward', $container.scrollLeft() > 0);
+        $th.toggleClass('resources--forward', $container.scrollLeft() + $container.width() < $data_table.width());
+      }).trigger('scroll');
     })
   })
 })

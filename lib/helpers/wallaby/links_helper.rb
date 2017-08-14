@@ -8,6 +8,7 @@ module Wallaby
     def index_link(model_class, url_params: {}, html_options: {}, &block)
       return if cannot? :index, model_class
       block ||= -> { to_model_label model_class }
+      html_options[:class] = 'resources__index' unless html_options.key? :class
       path = index_path model_class: model_class, url_params: url_params
       link_to path, html_options, &block
     end
@@ -15,7 +16,7 @@ module Wallaby
     def new_link(model_class, options: {}, html_options: {}, &block)
       return if cannot? :new, model_class
       block ||= -> { ct 'link.new', model: to_model_label(model_class) }
-      html_options[:class] = 'text-success' unless html_options.key? :class
+      html_options[:class] = 'resource__create' unless html_options.key? :class
 
       prepend = options[:prepend] || EMPTY_STRING
       prepend.html_safe + link_to(new_path(model_class), html_options, &block)
@@ -28,6 +29,7 @@ module Wallaby
       # if a block is returning integer (e.g. `{ 1 }`)
       # `link_to` will render blank text note inside hyper link
       block ||= -> { decorate(resource).to_label.to_s }
+      html_options[:class] = 'resource__show' unless html_options.key? :class
 
       link_to show_path(resource), html_options, &block
     end
@@ -36,7 +38,7 @@ module Wallaby
       return if cannot? :edit, extract(resource)
 
       block ||= -> { "#{ct 'link.edit'} #{decorate(resource).to_label}" }
-      html_options[:class] = 'text-warning' unless html_options.key? :class
+      html_options[:class] = 'resource__update' unless html_options.key? :class
 
       link_to edit_path(resource), html_options, &block
     end
@@ -45,7 +47,7 @@ module Wallaby
       return if cannot? :destroy, extract(resource)
 
       block ||= -> { ct 'link.delete' }
-      html_options[:class] = 'text-danger' unless html_options.key? :class
+      html_options[:class] = 'resource__destroy' unless html_options.key? :class
       html_options[:method] ||= :delete
       html_options[:data] ||= {}
       html_options[:data][:confirm] ||= ct('link.confirm.delete')

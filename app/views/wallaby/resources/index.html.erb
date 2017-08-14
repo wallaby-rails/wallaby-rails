@@ -2,37 +2,22 @@
 # decorate first on every page or partial
 decorated_collection = decorate collection
 %>
-<article>
-  <% # Search form %>
-  <div class="page-header <%= decorated_collection.presence && 'has-collection' %>">
+<article class="resources">
+  <div class="resources__header">
     <h1><%= to_model_label(current_model_class) %></h1>
-    <div class="pull-right <%= index_params.presence && 'filtered' %>">
-      <div class="actions">
-        <%= index_link(current_model_class, html_options: { class: 'fa fa-ban' }) { } if index_params.present? %>
-        <%= new_link(current_model_class, html_options: { class: 'create fa fa-plus' }) { } %>
-        <a id="index_action_list" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="more dropdown-toggle fa fa-chevron-down"></a>
-        <ul class="dropdown-menu" aria-labelledby="index_action_list">
-          <li><%= index_link(current_model_class, url_params: index_params.except(:page, :per).merge(format: 'csv')) { ct 'link.export', ext: 'CSV' } %></li>
-          <%= render 'index_actions' %>
-        </ul>
-      </div>
-      <%= form_tag wallaby_engine.resources_path, method: :get do %>
-        <%= hidden_field_tag :sort, index_params[:sort] %>
-        <label class="search">
-          <%= text_field_tag :q, index_params[:q], placeholder: "Press enter to search.", class: 'form-control' %>
-        </label>
-      <% end %>
-    </div>
-    <%= render 'index_pagination' %>
+    <%= Wallaby::QueryComponent.new(current_model_class, self).build do
+      render 'index_actions'
+    end %>
+    <%= Wallaby::FiltersComponent.new(current_model_decorator.filters, current_model_class, self).build %>
+    <%= Wallaby::PaginationComponent.new(collection, current_model_class, self).build %>
   </div>
-  <% # //Search form %>
   <%= render 'wallaby/shared/flash_messages' %>
 
   <section>
     <% # Data table %>
     <% if decorated_collection.present? %>
-      <div class="inner">
-        <table class="data-table">
+      <div class="resources__container">
+        <table class="resources__data">
           <thead>
             <tr>
               <% current_model_decorator.index_field_names.each do |field_name| %>
@@ -51,7 +36,7 @@ decorated_collection = decorate collection
                     <%= index_type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
                   </td>
                 <% end %>
-                <td class="actions">
+                <td class="resource__actions">
                   <%= render 'resource_actions', decorated: decorated %>
                 </td>
               </tr>
@@ -59,24 +44,8 @@ decorated_collection = decorate collection
           </tbody>
         </table>
       </div>
-      <table class="actions-table">
-        <thead>
-          <tr>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% decorated_collection.each do |decorated| %>
-            <tr>
-              <td class="actions">
-                <%= render 'resource_actions', decorated: decorated %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
     <% else %>
-      <div class="centre">
+      <div class="resources__not-found">
         <%= image_tag 'wallaby/404.png' %>
         <%= t 'errors.not_found.collection' %>
       </div>

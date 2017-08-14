@@ -43,6 +43,22 @@ en:
       model: 'Model %{model} could not be found.'
       resource: 'Record %{resource} could not be found.'
 
+  pagination:
+    prev: 'Prev'
+    next: 'Next'
+    from_to: '%{from} to %{to}'
+    of: ' of '
+    total_count: '%{total}'
+    pers: 'Page Size'
+    pages: 'Page Number'
+
+  filters:
+    title: 'Filters'
+    all: 'All'
+
+  search:
+    hint: 'Press enter to search.'
+
   # pagination
   views:
     pagination:

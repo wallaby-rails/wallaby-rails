@@ -52,6 +52,9 @@ require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'
 require 'interfaces/wallaby/model_finder'
 require 'interfaces/wallaby/model_service_provider'
+require 'interfaces/wallaby/model_pagination_provider'
+
+require 'nils/wallaby/nil_model_decorator'
 
 require 'errors/wallaby/general_error'
 require 'errors/wallaby/deprecated'
@@ -73,6 +76,7 @@ require "#{fields_builder}/association_builder"
 require "#{fields_builder}/polymorphic_builder"
 require 'adaptors/wallaby/active_record/model_decorator/title_field_finder'
 require 'adaptors/wallaby/active_record/model_finder'
+require 'adaptors/wallaby/active_record/model_pagination_provider'
 service_provider = 'adaptors/wallaby/active_record/model_service_provider'
 require service_provider
 require "#{service_provider}/normalizer"
@@ -81,6 +85,8 @@ require "#{service_provider}/querier"
 require "#{service_provider}/querier/transformer"
 require "#{service_provider}/validator"
 
+require 'paginators/wallaby/abstract_resource_paginator'
+require 'paginators/wallaby/resource_paginator'
 require 'decorators/wallaby/abstract_resource_decorator'
 require 'decorators/wallaby/resource_decorator'
 require 'servicers/wallaby/abstract_model_servicer'
@@ -97,6 +103,11 @@ require 'services/wallaby/prefixes_builder'
 require 'services/wallaby/sorting/hash_builder'
 require 'services/wallaby/sorting/next_builder'
 
+require 'components/wallaby/base_component'
+require 'components/wallaby/pagination_metadata_component'
+require 'components/wallaby/pagination_component'
+require 'components/wallaby/filters_component'
+require 'components/wallaby/query_component'
 require 'helpers/wallaby/form_helper'
 require 'helpers/wallaby/links_helper'
 require 'helpers/wallaby/paginatable_helper'

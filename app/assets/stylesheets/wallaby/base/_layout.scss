@@ -1,159 +1,111 @@
 body {
-  padding-top: 166px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   background-color: $background-color;
   color: $font-color;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  padding-top: 142px;
 
-  @media (min-width: $screen-sm-min) {
-    padding-top: 131px;
+  &.index {
+    padding-top: 161px;
   }
 
   small {
     font-size: 95%;
   }
 
-  header {
-    nav.top-nav {
-      background-color: white;
-
-      #top-menu {
-        ul.navbar-nav {
-          ul.dropdown-menu {
-            ul.dropdown-menu {
-              display: block;
-              position: inherit;
-              margin-top: 0;
-              padding-left: 0;
-              padding-top: 0;
-              border: none;
-              box-shadow: none;
-
-              li {
-                position: relative;
-
-                &:before {
-                  @extend .fa, .fa-caret-right;
-                  position: absolute;
-                  left: 30px;
-                  top: 50%;
-                  margin-top: -7px;
-                }
-
-                a {
-                  padding-left: 43px;
-                }
-              }
-            }
-          }
-        }
-      }
-      .navbar-header {
-        position: relative;
-
-        a.navbar-brand {
-          color: $light-red-color;
-          &:hover {
-            color: $default-red-color;
-          }
-        }
-
-        .navbar-toggle {
-          position: absolute;
-          top: 50%;
-          right: 15px;
-          float: none;
-          margin-top: -20px;
-          padding: 9px 11px;
-          line-height:16px;
-
-          &:hover {
-            background-color: #444;
-            .fa-bars {
-              color: white;
-              font-size: 20px;
-            }
-          }
-
-          .fa-bars {
-            color: $font-color;
-            font-size: 20px;
-          }
-        }
-      }
-
-      img.user-portrait {
-        margin: -5px 0;
-        width: 30px;
-        height: 30px;
-        border-radius: 3px;
-      }
-
-      i.user-portrait {
-        font-size: 20px;
-        vertical-align: bottom;
-      }
-    }
-  }
-
   a {
     color: $default-primary-color;
+
     &:hover {
       color: $dark-primary-color;
     }
   }
+}
 
-  main {
-    margin: 0 20px;
-    @media (min-width: $screen-sm-min) {
-      margin: 0 30px;
+header {
+  .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  nav.navbar {
+    @extend .top-nav, .navbar-default, .navbar-fixed-top;
+    background-color: white;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
+
+    img.user-portrait {
+      border-radius: 3px;
+      height: 30px;
+      margin: -5px 0;
+      width: 30px;
     }
 
-    article {
-      .page-header {
-        position: fixed;
-        z-index: 10;
-        top: 51px;
-        left: 0;
-        right: 0;
-        margin: 0;
-        padding: 11px 20px 0;
-        background-color: $background-color;
-        border-bottom: none;
-        height: 115px;
-        @media (min-width: $screen-sm-min) {
-          height: 80px;
-          padding: 11px 30px 0;
+    i.user-portrait {
+      font-size: 20px;
+      vertical-align: bottom;
+    }
+  }
+
+  .navbar-header {
+    position: relative;
+
+    a.navbar-brand {
+      color: $light-red-color;
+      &:hover {
+        color: $default-red-color;
+      }
+    }
+
+    button.navbar-toggle {
+      border: none;
+      float: none;
+      line-height: 16px;
+      margin-top: -18px;
+      padding: 8px 9px;
+      position: absolute;
+      right: 0;
+      top: 50%;
+
+      &:hover, &:focus {
+        background-color: #444;
+        .fa-bars {
+          color: white;
+          font-size: 20px;
         }
+      }
 
-        &.has-collection {
-          h1 {
-            margin-top: 0;
-          }
-        }
+      .fa-bars {
+        color: $font-color;
+        font-size: 20px;
+      }
+    }
+  }
 
-        h1 {
-          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          color: $default-primary-color;
-          margin: 16px 0 0;
-          font-size: 24px;
-          margin-bottom: 5px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-        }
+  #top-menu {
+    ul.navbar-nav {
+      ul.dropdown-menu {
+        ul.dropdown-menu {
+          display: block;
+          position: inherit;
+          margin-top: 0;
+          padding-left: 0;
+          padding-top: 0;
+          border: none;
+          box-shadow: none;
 
-        span > a {
-          position: relative;
-          display: inline-block;
-          font-size: $font-size-small;
-          color: $light-primary-color;
-          text-decoration: none;
-          transition: 0.2s;
-          border-bottom: 1px solid $light-primary-color;
+          li {
+            position: relative;
 
-          &:hover {
-            color: $default-primary-color;
-            border-color: $default-primary-color;
+            &:before {
+              @extend .fa, .fa-caret-right;
+              position: absolute;
+              left: 30px;
+              top: 50%;
+              margin-top: -7px;
+            }
+
+            a {
+              padding-left: 43px;
+            }
           }
         }
       }
@@ -161,3 +113,140 @@ body {
   }
 }
 
+main {
+  margin: 0 10px;
+
+  section {
+    font-size: 12px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .alert {
+    margin-bottom: 10px;
+  }
+
+  .resources, .resource {
+    &__container {
+      overflow: auto;
+      background-color: $white;
+    }
+  }
+
+  .resources__header, .resource__header {
+    background-color: $background-color;
+    border-bottom: none;
+    left: 0;
+    margin: 0 10px;
+    padding: 11px 0 0;
+    position: fixed;
+    right: 0;
+    top: 51px;
+    z-index: 10;
+
+    h1 {
+      color: $default-primary-color;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 24px;
+      line-height: 30px;
+      margin: 0 0 1px -1px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    span > a {
+      position: relative;
+      display: inline-block;
+      font-size: $font-size-small;
+      color: $light-primary-color;
+      text-decoration: none;
+      transition: 0.2s;
+
+      &:hover {
+        color: $default-primary-color;
+      }
+    }
+  }
+
+  .resources__header {
+    height: 109px;
+  }
+
+  .resource__header {
+    height: 90px;
+
+    nav {
+      bottom: 10px;
+      left: 0;
+      position: absolute;
+    }
+
+    ul, li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      float: left;
+    }
+
+    a {
+      @extend .fa;
+
+      background-color: $light-blue-color;
+      display: inline-block;
+      padding: 5px 8px;
+      width: 30px;
+      line-height: 20px;
+      margin-right: 6px;
+      text-align: center;
+      border-radius: 2px;
+      color: $white;
+      text-decoration: none;
+
+      &:hover {
+        color: $white;
+        background-color: $default-blue-color;
+      }
+    }
+
+    .resources__index {
+      @extend .fa-list;
+    }
+
+    .resource {
+      &__show {
+        @extend .fa-info;
+      }
+
+      &__create {
+        @extend .fa-plus;
+        background-color: $light-green-color;
+
+        &:hover {
+          background-color: $default-green-color;
+        }
+      }
+
+      &__update {
+        @extend .fa-pencil;
+        background-color: $light-yellow-color;
+
+        &:hover {
+          background-color: $default-yellow-color;
+        }
+      }
+
+      &__destroy {
+        @extend .fa-remove;
+        background-color: $light-red-color;
+
+        &:hover {
+          background-color: $default-red-color;
+        }
+      }
+    }
+  }
+}
