@@ -15,7 +15,7 @@ describe partial_name, :current_user do
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders new_link' do
-      expect(rendered).to eq "  <a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
+      expect(rendered).to eq "  <a class=\"resource__create\" href=\"/admin/products/new\">Create Product</a>\n"
     end
 
     context 'when value is polymorphic' do
