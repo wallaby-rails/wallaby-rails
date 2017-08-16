@@ -1,7 +1,20 @@
 Wallaby::Engine.routes.draw do
-  root to: 'wallaby/home#index'
+  root to: 'wallaby/resources#home'
 
-  get 'status', to: 'wallaby/home#healthy'
+  get 'status', to: 'wallaby/resources#healthy'
+
+  %i[
+    bad_request
+    forbidden
+    internal_server_error
+    not_found
+    unauthorized
+    unprocessable_entity
+  ].each do |status|
+    code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+    get status, to: "wallaby/resources##{status}"
+    get code.to_s, to: "wallaby/resources##{status}"
+  end
 
   scope path: ':resources' do
     with_options to: Wallaby::ResourcesRouter.new do |route|

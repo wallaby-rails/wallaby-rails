@@ -28,6 +28,7 @@
 
     &__data, &__actions {
       @extend .table;
+      border-collapse: separate;
       margin-bottom: 0;
 
       tbody td.resource__actions {
@@ -81,8 +82,8 @@
 
       thead tr th, tbody tr td {
         background-color: white;
-        border-bottom: 6px solid $background-color !important;
         border: none;
+        border-bottom: 6px solid $background-color;
         font-size: $font-size-small;
         font-weight: normal;
         height: 40px;

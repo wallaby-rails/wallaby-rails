@@ -13,22 +13,26 @@ module Wallaby
 
     layout 'wallaby/application'
 
-    protected
-
-    def configuration
-      ::Wallaby.configuration
-    end
-
     def not_found(exception = nil)
       error_rendering(exception, __callee__)
     end
 
-    def bad_request(exception)
+    def bad_request(exception = nil)
       error_rendering(exception, __callee__)
     end
 
-    def unprocessable_entity(exception)
+    def unprocessable_entity(exception = nil)
       error_rendering(exception, __callee__)
+    end
+
+    def internal_server_error(exception = nil)
+      error_rendering(exception, __callee__)
+    end
+
+    protected
+
+    def configuration
+      ::Wallaby.configuration
     end
 
     def error_rendering(exception, symbol)

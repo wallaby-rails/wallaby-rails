@@ -28,8 +28,8 @@
         }
 
         nav {
-          bottom: unset;
-          left: unset;
+          bottom: auto;
+          left: auto;
           margin-top: -15px;
           right: -6px;
           top: 50%;
@@ -38,7 +38,7 @@
       }
 
       .query {
-        bottom: unset;
+        bottom: auto;
         left: 65%;
         margin-top: -15px;
         top: 50%;

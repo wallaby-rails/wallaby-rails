@@ -12,8 +12,8 @@ module Wallaby
       prefixes = minimal_prefixes
       prefixes.unshift mounted_prefix if resource_path != @controller_path
       suffix = build_suffix(@params)
-      prefixes.inject([]) do |result, prefix|
-        result << "#{prefix}/#{suffix}" << prefix
+      prefixes.each_with_object([]) do |prefix, result|
+        result << "#{prefix}/#{suffix}" << prefix if prefix
       end
     end
 
@@ -28,7 +28,7 @@ module Wallaby
     def mounted_prefix
       prefix = mounted_path.slice(1..-1) || EMPTY_STRING
       prefix << SLASH unless prefix.empty?
-      prefix << resource_path
+      prefix << resource_path if resource_path
     end
 
     def build_suffix(params)
@@ -45,7 +45,7 @@ module Wallaby
     end
 
     def resource_path
-      @resource_path ||= @resources_name.gsub COLONS, SLASH
+      @resource_path ||= @resources_name.try :gsub, COLONS, SLASH
     end
   end
 end

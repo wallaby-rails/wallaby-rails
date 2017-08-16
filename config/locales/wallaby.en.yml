@@ -33,11 +33,13 @@ en:
       delete: Please confirm to delete
 
   http_errors:
-    internal_server_error: "Look at the cute wallaby, and you will forget that we are having an error!"
+    report_error: "<p>And report the error <a href='https://github.com/reinteractive/wallaby/issues/new' target='_blank'>here</a>.</p>"
+    internal_server_error: "Hope you feel better."
     bad_request: "Your request is not supported."
     not_found: "Not found."
     unprocessable_entity: "Your request could not be done."
-    not_authenticated: "You need to sign in to access this page."
+    unauthorized: "You need to sign in to access this page."
+    forbidden: "You need permission to access this page."
 
 
   errors:
