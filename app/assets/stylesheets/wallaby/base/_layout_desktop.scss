@@ -4,10 +4,40 @@
 
     main {
       margin: 0 30px;
-      article {
-        .page-header, .resources__header {
-          height: 80px;
-          margin: 11px 30px 0;
+
+      .resources__header, .resource__header {
+        height: 80px;
+        margin: 0 30px;
+      }
+
+      .resource__header {
+        padding-top: 25px;
+
+        h1 {
+          margin-right: 122px;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        nav {
+          bottom: unset;
+          left: unset;
+          margin-top: -15px;
+          right: -6px;
+          top: 50%;
+          transition: 0.5s;
+        }
+      }
+
+      .query {
+        bottom: unset;
+        left: 65%;
+        margin-top: -15px;
+        top: 50%;
+        transition: 0.5s;
+
+        &.query--focus {
+          left: 50%;
         }
       }
     }

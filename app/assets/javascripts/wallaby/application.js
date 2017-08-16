@@ -15,7 +15,7 @@ jQuery(document).on('turbolinks:load', function () {
   jQuery('[data-toggle="tooltip"]').tooltip({ html: true, container:'body' })
 
   jQuery('.index').each(function() {
-    jQuery('.query__search', this).each(function () {
+    jQuery('.query', this).each(function () {
       var $this = jQuery(this);
       jQuery('input:visible', this).on('focus.modifier', function () {
         $this.addClass('query--focus');

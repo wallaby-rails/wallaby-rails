@@ -1,20 +1,9 @@
 @media (min-width: $screen-sm-min) {
-  .index {
-    article {
-      .page-header {
-        .query {
-          top: 50%;
-          right: 30px;
-          bottom: unset;
-          left: 65%;
-          margin-top: -15px;
-          transition: 0.5s;
+  body.index {
+    padding-top: 131px;
 
-          &.focus {
-            left: 50%;
-          }
-        }
-      }
+    .resources__header {
+      padding-top: 15px;
     }
   }
 }
