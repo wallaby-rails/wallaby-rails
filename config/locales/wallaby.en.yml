@@ -20,7 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  link:
+  buttons:
+    save: 'Save'
+
+  links:
     new: Create %{model}
     show: Show
     edit: Edit

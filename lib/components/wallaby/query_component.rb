@@ -69,7 +69,7 @@ module Wallaby
     end
 
     def export_title(format)
-      I18n.t 'link.export', ext: format
+      I18n.t 'links.export', ext: format
     end
 
     def search_hint

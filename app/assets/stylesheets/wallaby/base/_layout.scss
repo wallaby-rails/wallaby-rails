@@ -13,10 +13,12 @@ body {
   }
 
   a {
-    color: $default-primary-color;
+    color: $light-primary-color;
+    text-decoration: none;
 
     &:hover {
-      color: $dark-primary-color;
+      color: $default-primary-color;
+      text-decoration: none;
     }
   }
 }

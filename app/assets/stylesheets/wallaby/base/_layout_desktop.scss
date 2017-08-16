@@ -2,8 +2,16 @@
   body {
     padding-top: 131px;
 
+    header .container-fluid {
+      padding: 0 30px;
+    }
+
     main {
       margin: 0 30px;
+
+      section {
+        margin-bottom: 30px;
+      }
 
       .resources__header, .resource__header {
         height: 80px;

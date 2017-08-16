@@ -25,11 +25,18 @@
     }
 
     .form-group {
-      a, a:hover {
-        border-bottom: 1px solid;
-        display: inline-block;
-        font-size: $font-size-small;
-        text-decoration: none;
+      .resource {
+        &__create, &__update {
+          display: inline-block;
+          font-size: $font-size-small;
+        }
+      }
+
+      .help-block {
+        clear: both;
+        font-size: 11px;
+        margin: 0;
+        padding: 5px 15px 10px;
       }
     }
   }

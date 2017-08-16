@@ -12,17 +12,17 @@
     }
 
     &__not-found {
-      position: relative;
-      padding-top: 140px;
-      padding-left: 105px;
-      text-align: left;
       font-size: 24px;
+      padding-left: 105px;
+      padding-top: 140px;
+      position: relative;
+      text-align: left;
 
       img {
-        position: absolute;
+        height: 80px;
         margin-left: -90px;
         margin-top: 12px;
-        height: 80px;
+        position: absolute;
       }
     }
 
@@ -32,25 +32,31 @@
 
       tbody td.resource__actions {
         min-width: 85px;
+        text-align: right;
 
         a {
-          font-size: $font-size-small;
-          text-decoration: none;
+          @extend .fa, .fa-info;
+
+          background-color: $light-primary-color;
+          border-radius: 2px;
+          border: none;
+          color: $white;
           display: inline-block;
-          width: 16px;
+          font-size: $font-size-small;
           height: 16px;
           line-height: 16px;
-          background-color: $light-primary-color;
-          color: white;
-          border-radius: 2px;
-          text-align: center;
           margin-right: 3px;
+          text-align: center;
+          text-decoration: none;
+          width: 16px;
 
           &:hover {
             background-color: $default-primary-color;
+            color: $white;
           }
 
           &.resource__update {
+            @extend .fa-pencil;
             background-color: $light-yellow-color;
 
             &:hover {
@@ -59,6 +65,7 @@
           }
 
           &.resource__destroy {
+            @extend .fa-remove;
             background-color: $light-red-color;
 
             &:hover {
@@ -91,21 +98,22 @@
         text-transform: uppercase;
 
         a {
+          border-bottom: none;
           display: block;
           padding-right: 11px;
-          color: $light-primary-color;
-          text-decoration: none;
-          transition: 0.5s;
           position: relative;
+          transition: 0.5s;
+
           &:before {
             @extend .fa;
             color: $light-primary-color;
-            transition: 0.5s;
-            position: absolute;
-            top: 50%;
-            right: 0;
             margin-top: -6px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transition: 0.5s;
           }
+
           &:hover {
             color: $default-primary-color;
             &:before {
@@ -143,31 +151,10 @@
       }
 
       tbody tr {
-        .hover td {
-          background-color: $default-primary-color;
-          color: white;
-
-          a {
-            color: white;
-          }
-          .modal {
-            color: $font-color;
-            a {
-              color: $default-primary-color;
-            }
-          }
-        }
-
         td {
           a {
             display: inline-block;
-            color: $default-primary-color;
             font-size: $font-size-small;
-            text-decoration: none;
-
-            &:hover {
-              border-bottom: 1px solid;
-            }
           }
         }
       }
@@ -186,9 +173,9 @@
 
         &:before, &:after {
           display: inline-block;
+          margin-top: -10px;
           position: absolute;
           top: 50%;
-          margin-top: -10px;
         }
 
         &.resources--forward:after {
