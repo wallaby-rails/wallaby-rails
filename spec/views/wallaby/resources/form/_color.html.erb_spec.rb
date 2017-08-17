@@ -12,13 +12,13 @@ describe partial_name do
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the string form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_string\">String</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-3\">\n      <input class=\"form-control\" data-init=\"colorpicker\" type=\"text\" value=\"#000000\" name=\"all_postgres_type[string]\" id=\"all_postgres_type_string\" />\n    </div>\n  </div>\n  \n</div>\n\n"
+    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_string\">String</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input class=\"form-control\" data-init=\"colorpicker\" type=\"text\" value=\"#000000\" name=\"all_postgres_type[string]\" id=\"all_postgres_type_string\" />\n    </div>\n  </div>\n  \n</div>\n\n"
   end
 
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_string\">String</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-3\">\n      <input class=\"form-control\" data-init=\"colorpicker\" type=\"text\" name=\"all_postgres_type[string]\" id=\"all_postgres_type_string\" />\n    </div>\n  </div>\n  \n</div>\n\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_string\">String</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input class=\"form-control\" data-init=\"colorpicker\" type=\"text\" name=\"all_postgres_type[string]\" id=\"all_postgres_type_string\" />\n    </div>\n  </div>\n  \n</div>\n\n"
     end
   end
 end

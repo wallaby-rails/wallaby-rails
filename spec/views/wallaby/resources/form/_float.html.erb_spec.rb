@@ -12,13 +12,13 @@ describe partial_name do
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the float form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_float\">Float</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-3\">\n      <input class=\"form-control\" type=\"number\" value=\"88.8888\" name=\"all_postgres_type[float]\" id=\"all_postgres_type_float\" />\n    </div>\n  </div>\n  \n</div>\n"
+    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_float\">Float</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input class=\"form-control\" type=\"number\" value=\"88.8888\" name=\"all_postgres_type[float]\" id=\"all_postgres_type_float\" />\n    </div>\n  </div>\n  \n</div>\n"
   end
 
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_float\">Float</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-3\">\n      <input class=\"form-control\" type=\"number\" name=\"all_postgres_type[float]\" id=\"all_postgres_type_float\" />\n    </div>\n  </div>\n  \n</div>\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_float\">Float</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input class=\"form-control\" type=\"number\" name=\"all_postgres_type[float]\" id=\"all_postgres_type_float\" />\n    </div>\n  </div>\n  \n</div>\n"
     end
   end
 end

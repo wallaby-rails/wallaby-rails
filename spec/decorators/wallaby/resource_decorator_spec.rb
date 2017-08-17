@@ -164,7 +164,7 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
         it 'returns id' do
           resource.id = 1
           resource.name = nil
-          expect(subject.to_label).to eq 1
+          expect(subject.to_label).to eq '1'
         end
       end
     end

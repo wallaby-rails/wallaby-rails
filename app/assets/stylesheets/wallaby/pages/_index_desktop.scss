@@ -1,0 +1,22 @@
+@media (min-width: $screen-sm-min) {
+  body.index {
+    padding-top: 131px;
+
+    .resources__header {
+      padding-top: 15px;
+    }
+
+    .resources {
+      section {
+        margin-bottom: 24px;
+      }
+
+      &__not-found img {
+        margin-left: -95px;
+        margin-top: -21px;
+      }
+    }
+  }
+}
+
+

@@ -1,7 +1,7 @@
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
   <div class="row">
-    <div class="col-xs-3">
+    <div class="col-sm-12">
       <%= form.label field_name, class: 'btn btn-default' do %>
         <%= form.file_field field_name, class: 'hidden' %>
         <%= fa_icon 'upload' %> <%= ct 'lable.upload' %>

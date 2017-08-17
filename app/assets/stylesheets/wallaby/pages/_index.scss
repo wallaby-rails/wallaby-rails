@@ -1,218 +1,63 @@
 .index {
-  article {
-    .page-header {
-      .dropdown {
-        color: $light-primary-color;
-        font-size: $font-size-small;
-
-        &.open > a {
-          border-bottom: none;
-        }
-
-        > a:hover {
-          border-color: $default-primary-color;
-          padding-right: 11px;
-          &:after {
-            color: $default-primary-color;
-          }
-        }
-
-        > a:after {
-          @extend .fa, .fa-angle-down:before;
-          line-height: 20px;
-          color: transparent;
-          top: -1px;
-          right: 0;
-          transition: 0.1s;
-          position: absolute;
-          font-size: 12px;
-        }
-        .dropdown-menu {
-          .current a {
-            color: $light-blue-color;
-          }
-
-          em {
-            font-size: $font-size-small;
-            font-style: normal;
-            color: $light-font-color;
-            display: block;
-            padding: 3px 20px;
-          }
-
-          a {
-            font-size: $font-size-small;
-          }
-        }
-      }
-
-      .pull-right {
-        float: none !important;
-        position: absolute;
-        z-index: 10;
-        right: 20px;
-        bottom: 15px;
-        left: 20px;
-
-        @media (min-width: $screen-sm-min) {
-          top: 50%;
-          right: 30px;
-          bottom: unset;
-          left: 65%;
-          margin-top: -15px;
-          transition: 0.5s;
-
-          &.focus {
-            left: 50%;
-          }
-        }
-
-        &.filtered {
-          form {
-            margin-right: 108px;
-          }
-        }
-
-        form {
-          display: block;
-          margin-right: 72px;
-
-          label.search {
-            display: block;
-            margin: 0;
-
-            &:before {
-              position: absolute;
-              @extend .fa, .fa-search:before;
-              z-index: 10;
-              left: 8px;
-              top: 50%;
-              margin-top: -7px;
-              color: $default-primary-color;
-            }
-
-            input {
-              color: $default-primary-color;
-              border: none;
-              border-radius: 2px;
-              position: relative;
-              height: 30px;
-              padding: 4px 5px 4px 27px;
-              font-weight: normal;
-              width: 100%;
-            }
-          }
-        }
-
-        .actions {
-          position: absolute;
-          right: 0;
-
-          a.fa {
-            background-color: $light-blue-color;
-            float: left;
-            margin-left: 6px;
-            color: white;
-            border-radius: 2px;
-            border: none;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            text-decoration: none;
-            &:hover {
-              background-color: $default-blue-color;
-            }
-          }
-
-          a.create {
-            background-color: $light-green-color;
-            &:hover {
-              background-color: $default-green-color;
-            }
-          }
-
-          a.more {
-            background-color: $light-grey-color;
-            &:hover {
-              background-color: $default-grey-color;
-            }
-          }
-
-          > .dropdown-menu {
-            left: unset;
-            right: 0;
-          }
-        }
-      }
-
+  .resources__header {
+    > nav {
+      @include divider;
+      margin-left: 6px;
     }
   }
 
-  section {
-    position: relative;
-    margin-bottom: 30px;
+  .resources {
+    section {
+      margin-bottom: 4px;
+    }
 
-    .centre {
-      position: relative;
-      padding-top: 150px;
-      padding-left: 80px;
-      text-align: center;
+    &__not-found {
       font-size: 24px;
+      padding-left: 105px;
+      padding-top: 140px;
+      position: relative;
+      text-align: left;
 
       img {
-        position: absolute;
-        margin-left: -90px;
-        margin-top: -20px;
         height: 80px;
+        margin-left: -90px;
+        margin-top: 12px;
+        position: absolute;
       }
     }
 
-    .inner {
-      overflow: auto;
-    }
-
-    table.actions-table {
-      top: 0;
-      right: 0;
-      position: absolute;
-      width: inherit;
-    }
-
-    table.data-table {
-      padding-right: 64px;
-      tbody td.actions {
-        width: 85px;
-        a {
-          display: none;
-        }
-      }
-    }
-
-    table.data-table, table.actions-table {
+    &__data, &__actions {
       @extend .table;
+      border-collapse: separate;
       margin-bottom: 0;
 
-      tbody td.actions {
+      tbody td.resource__actions {
         min-width: 85px;
+        text-align: right;
+
         a {
-          font-size: $font-size-small;
-          text-decoration: none;
+          @extend .fa, .fa-info;
+
+          background-color: $light-primary-color;
+          border-radius: 2px;
+          border: none;
+          color: $white;
           display: inline-block;
-          width: 16px;
+          font-size: $font-size-small;
           height: 16px;
           line-height: 16px;
-          background-color: $light-primary-color;
-          color: white;
-          border-radius: 2px;
-          text-align: center;
           margin-right: 3px;
+          text-align: center;
+          text-decoration: none;
+          width: 16px;
 
           &:hover {
             background-color: $default-primary-color;
+            color: $white;
           }
 
-          &.text-warning {
+          &.resource__update {
+            @extend .fa-pencil;
             background-color: $light-yellow-color;
 
             &:hover {
@@ -220,7 +65,8 @@
             }
           }
 
-          &.text-danger {
+          &.resource__destroy {
+            @extend .fa-remove;
             background-color: $light-red-color;
 
             &:hover {
@@ -235,40 +81,40 @@
       }
 
       thead tr th, tbody tr td {
-        height: 40px;
-        padding: 8px 12px;
-        border: none;
-        border-bottom: 6px solid $background-color !important;
         background-color: white;
+        border: none;
+        border-bottom: 6px solid $background-color;
         font-size: $font-size-small;
         font-weight: normal;
+        height: 40px;
+        padding: 8px 12px;
         white-space: nowrap;
       }
 
       thead tr th {
-        text-transform: uppercase;
+        color: $light-grey-color;
         font-weight: bold;
-        color: $secondary-text-color;
         line-height: 20px;
         position: relative;
-        border: none;
+        text-transform: uppercase;
 
         a {
+          border-bottom: none;
           display: block;
           padding-right: 11px;
-          color: $light-primary-color;
-          text-decoration: none;
-          transition: 0.5s;
           position: relative;
+          transition: 0.5s;
+
           &:before {
             @extend .fa;
             color: $light-primary-color;
-            transition: 0.5s;
-            position: absolute;
-            top: 50%;
-            right: 0;
             margin-top: -6px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transition: 0.5s;
           }
+
           &:hover {
             color: $default-primary-color;
             &:before {
@@ -277,6 +123,7 @@
             }
           }
         }
+
         &.asc {
           a {
             &:before {
@@ -289,6 +136,7 @@
             }
           }
         }
+
         &.desc {
           a {
             &:before {
@@ -304,35 +152,45 @@
       }
 
       tbody tr {
-        .hover td {
-          background-color: $default-primary-color;
-          color: white;
-
-          a {
-            color: white;
-          }
-          .modal {
-            color: $font-color;
-            a {
-              color: $default-primary-color;
-            }
-          }
-        }
-
         td {
           a {
             display: inline-block;
-            color: $default-primary-color;
             font-size: $font-size-small;
-            text-decoration: none;
-            border-bottom: 1px solid $white;
-
-            &:hover {
-              border-bottom: 1px solid;
-            }
           }
+        }
+      }
+    }
+
+    &__actions {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: inherit;
+
+      thead tr th {
+        @extend .fa;
+        display: table-cell;
+        font-size: 14px;
+
+        &:before, &:after {
+          display: inline-block;
+          margin-top: -10px;
+          position: absolute;
+          top: 50%;
+        }
+
+        &.resources--forward:after {
+          @extend .fa-angle-double-right:before;
+          right: 16px;
+        }
+
+        &.resources--backward:before {
+          @extend .fa-angle-double-left:before;
+          left: 16px;
         }
       }
     }
   }
 }
+
+@import '_index_desktop';

@@ -1,93 +1,43 @@
 .edit, .new, .create, .update {
-  article {
-    .page-header {
-      .pull-right {
-        float: none !important;
-        position: absolute;
-        z-index: 10;
-        right: 20px;
-        bottom: 15px;
-        left: 20px;
-
-        ul {
-          li {
-            float: none;
-            display: inline-block;
-            a {
-              padding: 5px 8px;
-              width: 30px;
-              text-align: center;
-              border-radius: 2px;
-              background-color: $light-primary-color;
-              color: white;
-
-              &:hover {
-                background-color: $default-primary-color;
-              }
-              &.text-warning {
-                background-color: $light-yellow-color;
-                &:hover {
-                  background-color: $default-yellow-color;
-                }
-              }
-            }
-          }
-        }
-
-        @media (min-width: $screen-sm-min) {
-          top: 50%;
-          right: 30px;
-          bottom: unset;
-          left: unset;
-          margin-top: -15px;
-          transition: 0.5s;
-        }
-      }
-
-    }
-  }
-
   section {
-    position: relative;
-    margin-bottom: 30px;
-
-    .inner {
-      overflow: auto;
-      background-color: white;
-      font-size: $font-size-small;
+    .resource__container {
       padding: 20px;
+    }
 
-      form {
-        label {
-          color: $default-primary-color;
+    label {
+      color: $default-primary-color;
+      font-size: $font-size-small;
+      font-style: italic;
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      font-size: $font-size-small;
+    }
+
+    .CodeMirror {
+      border: 1px solid #eeeeee;
+      height: 168px;
+    }
+
+    .btn {
+      font-size: $font-size-small;
+    }
+
+    .form-group {
+      .resource {
+        &__create, &__update {
+          display: inline-block;
           font-size: $font-size-small;
-          font-style: italic;
-          text-transform: uppercase;
-        }
-
-        .form-control {
-          font-size: $font-size-small;
-        }
-
-        .CodeMirror {
-          height: 168px;
-          border: 1px solid #eeeeee;
-        }
-
-        .btn {
-          font-size: $font-size-small;
-        }
-
-        .form-group {
-          a, a:hover {
-            display: inline-block;
-            font-size: $font-size-small;
-            text-decoration: none;
-            border-bottom: 1px solid;
-          }
         }
       }
 
+      .help-block {
+        clear: both;
+        font-size: 11px;
+        margin: 0;
+        padding: 5px 15px 10px;
+      }
     }
   }
 }

@@ -14,14 +14,14 @@ describe partial_name, :current_user do
   end
 
   it 'renders edit link' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_product_detail\">Product Detail</label>\n  <div>\n    <a class=\"text-warning\" href=\"/admin/product_details/1/edit\">Edit 1</a>\n  </div>\n</div>\n"
+    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_product_detail\">Product Detail</label>\n  <div>\n    <a class=\"resource__update\" href=\"/admin/product_details/1/edit\">Edit 1</a>\n  </div>\n</div>\n"
   end
 
   context 'when value is nil' do
     let(:value) { nil }
 
     it 'renders create link' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_product_detail\">Product Detail</label>\n  <div>\n    <a class=\"text-success\" href=\"/admin/product_details/new\">Create Product Detail</a>\n  </div>\n</div>\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_product_detail\">Product Detail</label>\n  <div>\n    <a class=\"resource__create\" href=\"/admin/product_details/new\">Create Product Detail</a>\n  </div>\n</div>\n"
     end
   end
 end

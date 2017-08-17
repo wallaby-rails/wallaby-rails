@@ -20,7 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  link:
+  buttons:
+    save: 'Save'
+
+  links:
     new: Create %{model}
     show: Show
     edit: Edit
@@ -30,11 +33,13 @@ en:
       delete: Please confirm to delete
 
   http_errors:
-    internal_server_error: "Look at the cute wallaby, and you will forget that we are having an error!"
+    report_error: "<p>And report the error <a href='https://github.com/reinteractive/wallaby/issues/new' target='_blank'>here</a>.</p>"
+    internal_server_error: "Hope you feel better."
     bad_request: "Your request is not supported."
     not_found: "Not found."
     unprocessable_entity: "Your request could not be done."
-    not_authenticated: "You need to sign in to access this page."
+    unauthorized: "You need to sign in to access this page."
+    forbidden: "You need permission to access this page."
 
 
   errors:
@@ -42,6 +47,22 @@ en:
       collection: 'Records could not be found. Click + button to add one.'
       model: 'Model %{model} could not be found.'
       resource: 'Record %{resource} could not be found.'
+
+  pagination:
+    prev: 'Prev'
+    next: 'Next'
+    from_to: '%{from} to %{to}'
+    of: ' of '
+    total_count: '%{total}'
+    pers: 'Page Size'
+    pages: 'Page Number'
+
+  filters:
+    title: 'Filters'
+    all: 'All'
+
+  search:
+    hint: 'Press enter to search.'
 
   # pagination
   views:

@@ -2,32 +2,20 @@
 # decorate first on every page or partial
 decorated = decorate resource
 %>
-<article>
-  <div class="page-header">
+<article class="resource">
+  <div class="resource__header">
+    <h1><%= show_title decorated %></h1>
     <%= render 'wallaby/resources/shared/resource_nav' %>
-    <h1>
-      <%= show_title decorated %>
-    </h1>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
   <section>
-    <div class="inner">
-      <table class="details-table">
-        <thead>
-          <tr>
-            <th>Field</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% decorated.show_field_names.each do |field_name| %>
-            <tr>
-              <th><%= decorated.show_label_of field_name %></th>
-              <td><%= type_partial_render decorated.show_type_of(field_name).to_s, object: decorated, field_name: field_name %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+    <div class="resource__container">
+      <% decorated.show_field_names.each do |field_name| %>
+        <dl>
+          <dt><%= decorated.show_label_of field_name %></dt>
+          <dd><%= type_partial_render decorated.show_type_of(field_name).to_s, object: decorated, field_name: field_name %></dd>
+        </dl>
+      <% end %>
     </div>
   </section>
 </article>

@@ -15,7 +15,7 @@ describe partial_name, :current_user do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the has_and_belongs_to_many' do
-    expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a>, <a href=\"/admin/products/2\">Hiking pole</a>, and <a href=\"/admin/products/3\">Hiking jacket</a>\nor <a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
+    expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a>, <a href=\"/admin/products/2\">Hiking pole</a>, and <a href=\"/admin/products/3\">Hiking jacket</a>\nor <a class=\"resource__create\" href=\"/admin/products/new\">Create Product</a>\n"
   end
 
   context 'when value size is no more than 2' do
@@ -27,7 +27,7 @@ describe partial_name, :current_user do
     end
 
     it 'renders the has_and_belongs_to_many' do
-      expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a> and <a href=\"/admin/products/2\">Hiking pole</a>\nor <a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
+      expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a> and <a href=\"/admin/products/2\">Hiking pole</a>\nor <a class=\"resource__create\" href=\"/admin/products/new\">Create Product</a>\n"
     end
   end
 
@@ -35,7 +35,7 @@ describe partial_name, :current_user do
     let(:value) { [] }
 
     it 'renders null' do
-      expect(rendered).to eq "<a class=\"text-success\" href=\"/admin/products/new\">Create Product</a>\n"
+      expect(rendered).to eq "<a class=\"resource__create\" href=\"/admin/products/new\">Create Product</a>\n"
     end
   end
 end

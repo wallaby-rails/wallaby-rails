@@ -7,15 +7,15 @@ module Wallaby
     rescue_from ::CanCan::AccessDenied, with: :forbidden
     helper_method :current_user
 
+    def unauthorized(exception = nil)
+      error_rendering(exception, __callee__)
+    end
+
+    def forbidden(exception = nil)
+      error_rendering(exception, __callee__)
+    end
+
     protected
-
-    def unauthorized(exception)
-      error_rendering(exception, __callee__)
-    end
-
-    def forbidden(exception)
-      error_rendering(exception, __callee__)
-    end
 
     def current_user
       @current_user ||=

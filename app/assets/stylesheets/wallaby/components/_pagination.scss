@@ -1,67 +1,49 @@
-.kaminari {
-  display: inline-block;
-  font-size: 12px;
+.pagination {
+  margin-left: 6px;
+  margin-top: 0;
+  margin-bottom: 0;
 
-  .pagination, .pagination-info {
-    position: relative;
+  &__metadata, &__pers {
+    @include dropdown;
+  }
+
+  &__pages {
+    @include dropdown($left_or_right: "middle");
+  }
+
+  &__metadata, &__pers, &__pages {
+    @include arrow;
+    color: $light-grey-color;
     display: inline-block;
-    margin: 0;
-    margin-left: 6px;
-    padding-left: 10px;
-    line-height: auto;
-    color: $light-primary-color;
+    font-size: $font-size-small;
 
-    &:before {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      height: 10px;
-      width: 1px;
-      margin-top: -5px;
-      content: '';
-      background-color: $light-primary-color;
-    }
-
-    .prev {
-      & > a:hover {
-        border-color: $default-primary-color;
-        padding-left: 11px;
-        &:before {
-          color: $default-primary-color;
-        }
+    > ul, > form {
+      input {
+        background-color: $background-color;
+        border: 0;
+        border-top: 0;
+        color: $font-color;
+        display: block;
+        font-size: $font-size-small;
+        margin: 3px 20px;
+        padding: 3px 10px;
       }
 
-      & > a:before {
-        @extend .fa, .fa-angle-left:before;
-        line-height: 20px;
-        color: transparent;
-        top: -1px;
-        left: 0;
-        transition: 0.1s;
-        position: absolute;
-        font-size: 12px;
+      li.pagination__pers--current a {
+        color: $light-blue-color;
       }
     }
+  }
 
-    .next {
-      & > a:hover {
-        border-color: $default-primary-color;
-        padding-right: 11px;
-        &:after {
-          color: $default-primary-color;
-        }
-      }
+  &__prev {
+    @include arrow($icon_selector: '.fa-angle-left', $left_or_right: 'left', $padding_size: 9px);
+  }
 
-      & > a:after {
-        @extend .fa, .fa-angle-right:before;
-        line-height: 20px;
-        color: transparent;
-        top: -1px;
-        right: 0;
-        transition: 0.1s;
-        position: absolute;
-        font-size: 12px;
-      }
-    }
+  &__next {
+    @include arrow($icon_selector: '.fa-angle-right', $padding_size: 9px);
+  }
+
+  > span {
+    @include divider;
   }
 }

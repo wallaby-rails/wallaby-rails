@@ -30,7 +30,9 @@ module Wallaby
 
     def initialize(resource)
       @resource = resource
-      @model_decorator = Map.model_decorator_map model_class
+      @model_decorator =
+        Map.model_decorator_map(model_class) \
+          || NilModelDecorator.new(model_class)
     end
 
     def method_missing(method_id, *args)
@@ -60,7 +62,7 @@ module Wallaby
     end
 
     def to_label
-      @model_decorator.guess_title(@resource) || primary_key_value
+      (@model_decorator.guess_title(@resource) || primary_key_value).to_s
     end
 
     def errors

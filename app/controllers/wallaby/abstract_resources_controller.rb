@@ -17,6 +17,10 @@ module Wallaby
       Map.model_class_map name.gsub('Controller', EMPTY_STRING)
     end
 
+    def home
+      # leave blank
+    end
+
     def index
       authorize! :index, current_model_class
       respond_with collection

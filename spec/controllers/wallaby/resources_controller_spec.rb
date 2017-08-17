@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesController do
+  describe '#healthy' do
+    it 'returns healthy' do
+      get :healthy
+      expect(response.body).to eq 'healthy'
+
+      get :healthy, format: :json
+      expect(response.body).to eq 'healthy'
+    end
+  end
+
   describe 'class methods ' do
     describe '.resources_name' do
       it 'returns nil' do

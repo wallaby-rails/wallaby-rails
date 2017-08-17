@@ -1,12 +1,15 @@
-<% decorated = decorate resource %>
-<article>
-  <div class="page-header">
-    <%= render 'wallaby/resources/shared/resource_nav' %>
+<%
+# decorate first on every page or partial
+decorated = decorate resource
+%>
+<article class="resource">
+  <div class="resource__header">
     <h1>Edit # <%= decorated.id %></h1>
+    <%= render 'wallaby/resources/shared/resource_nav' %>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
   <section>
-    <div class="inner">
+    <div class="resource__container">
       <%= form_for decorated, url: wallaby_engine.resource_path, method: :put, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
         <%= render 'form', form: form, decorated: decorated %>
       <% end %>
