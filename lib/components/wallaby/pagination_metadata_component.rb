@@ -10,18 +10,20 @@ module Wallaby
     end
 
     def build
-      span class: 'pagination__metadata' do
-        if paginator.number_of_pages > 1
-          concat pers
-          concat of
-          concat pages
-        else
-          from_to + of + total_count
-        end
-      end
+      span(class: 'pagination__metadata') { metadata }
     end
 
     private
+
+    def metadata
+      if paginator.number_of_pages > 1
+        concat pers
+        concat of
+        concat pages
+      else
+        from_to + of + total_count
+      end
+    end
 
     def pers
       span class: 'pagination__pers' do
@@ -36,15 +38,28 @@ module Wallaby
     def pages
       span class: 'pagination__pages' do
         concat a total_count, **dropdown_options, id: 'all_pages'
-        concat(content_tag(:form, action: index_path, method: 'get', aria: { labelledby: 'all_pages' }) do
-          index_params.except(:page).each do |permitted, value|
-            concat hidden_field_tag permitted, value
-          end
+        concat(pages_form do
+          render_hidden_params
           concat content_tag :label, pages_title, for: 'page_number'
-          concat number_field_tag 'page',
-                                  paginator.page_number,
-                                  id: 'page_number'
+          concat page_param
         end)
+      end
+    end
+
+    def pages_form(&block)
+      content_tag :form,
+                  action: index_path,
+                  method: 'get',
+                  aria: { labelledby: 'all_pages' }, &block
+    end
+
+    def page_param
+      number_field_tag 'page', paginator.page_number, id: 'page_number'
+    end
+
+    def render_hidden_params
+      index_params.except(:page).each do |permitted, value|
+        concat hidden_field_tag permitted, value
       end
     end
 
@@ -59,7 +74,7 @@ module Wallaby
 
     def action_url
       index_path model_class: model_class,
-        url_params: index_params.except(:page)
+                 url_params: index_params.except(:page)
     end
 
     def active(per)

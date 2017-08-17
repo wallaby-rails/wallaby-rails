@@ -3,14 +3,7 @@ Wallaby::Engine.routes.draw do
 
   get 'status', to: 'wallaby/resources#healthy'
 
-  %i[
-    bad_request
-    forbidden
-    internal_server_error
-    not_found
-    unauthorized
-    unprocessable_entity
-  ].each do |status|
+  Wallaby::ERRORS.each do |status|
     code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
     get status, to: "wallaby/resources##{status}"
     get code.to_s, to: "wallaby/resources##{status}"

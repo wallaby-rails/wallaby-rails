@@ -4,8 +4,16 @@ describe 'routing' do
   describe 'general routes', type: :routing do
     routes { Wallaby::Engine.routes }
     it 'routes for general routes' do
-      expect(get: '/').to route_to controller: 'wallaby/home', action: 'index'
-      expect(get: '/status').to route_to controller: 'wallaby/home', action: 'healthy'
+      expect(get: '/').to route_to controller: 'wallaby/resources', action: 'home'
+      expect(get: '/status').to route_to controller: 'wallaby/resources', action: 'healthy'
+    end
+
+    it 'routes for errors routes as well' do
+      Wallaby::ERRORS.each do |status|
+        code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+        expect(get: code.to_s).to route_to action: status.to_s, controller: 'wallaby/resources'
+        expect(get: status.to_s).to route_to action: status.to_s, controller: 'wallaby/resources'
+      end
     end
   end
 
