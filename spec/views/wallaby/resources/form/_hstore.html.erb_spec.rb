@@ -15,13 +15,13 @@ describe partial_name do
   end
 
   it 'renders the hstore form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_hstore\">Hstore</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"ruby\" name=\"all_postgres_type[hstore]\" id=\"all_postgres_type_hstore\">\n&quot;key&quot;=&gt;&quot;very long text&quot;</textarea>\n  \n  <p class=\"help-block\">\n    Format: <code>\"KEY1\" => \"VALUE1\", \"KEY2\" => \"VALUE2\"</code>\n  </p>\n</div>\n\n"
+    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_hstore\">Hstore</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"ruby\" name=\"all_postgres_type[hstore]\" id=\"all_postgres_type_hstore\">\n&quot;key&quot;=&gt;&quot;very long text&quot;</textarea>\n  \n</div>\n<p class=\"help-block\">\n  Format: <code>\"KEY1\" => \"VALUE1\", \"KEY2\" => \"VALUE2\"</code>\n</p>\n\n"
   end
 
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_hstore\">Hstore</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"ruby\" name=\"all_postgres_type[hstore]\" id=\"all_postgres_type_hstore\">\n</textarea>\n  \n  <p class=\"help-block\">\n    Format: <code>\"KEY1\" => \"VALUE1\", \"KEY2\" => \"VALUE2\"</code>\n  </p>\n</div>\n\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_hstore\">Hstore</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"ruby\" name=\"all_postgres_type[hstore]\" id=\"all_postgres_type_hstore\">\n</textarea>\n  \n</div>\n<p class=\"help-block\">\n  Format: <code>\"KEY1\" => \"VALUE1\", \"KEY2\" => \"VALUE2\"</code>\n</p>\n\n"
     end
   end
 end

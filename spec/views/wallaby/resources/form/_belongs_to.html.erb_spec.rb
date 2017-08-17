@@ -17,7 +17,7 @@ describe partial_name, :current_user do
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the belongs_to form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_category_id\">Category</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"product[category_id]\" id=\"product_category_id\"><option value=\"\"></option>\n<option selected=\"selected\" value=\"1\">Mens</option></select>\n        <p class=\"help-block\">\n          Or <a class=\"resource__create\" href=\"/admin/categories/new\">Create Category</a>\n        </p>\n      </div>\n  </div>\n  \n</div>\n"
+    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_category_id\">Category</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"product[category_id]\" id=\"product_category_id\"><option value=\"\"></option>\n<option selected=\"selected\" value=\"1\">Mens</option></select>\n      </div>\n      <p class=\"help-block\">\n        Or <a class=\"resource__create\" href=\"/admin/categories/new\">Create Category</a>\n      </p>\n  </div>\n  \n</div>\n"
     expect(rendered).to match 'selected="selected"'
   end
 
@@ -25,7 +25,7 @@ describe partial_name, :current_user do
     let(:object) { Product.new }
 
     it 'renders the belongs_to form' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_category_id\">Category</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"product[category_id]\" id=\"product_category_id\"><option value=\"\"></option>\n<option value=\"1\">Mens</option></select>\n        <p class=\"help-block\">\n          Or <a class=\"resource__create\" href=\"/admin/categories/new\">Create Category</a>\n        </p>\n      </div>\n  </div>\n  \n</div>\n"
+      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_category_id\">Category</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"product[category_id]\" id=\"product_category_id\"><option value=\"\"></option>\n<option value=\"1\">Mens</option></select>\n      </div>\n      <p class=\"help-block\">\n        Or <a class=\"resource__create\" href=\"/admin/categories/new\">Create Category</a>\n      </p>\n  </div>\n  \n</div>\n"
       expect(rendered).not_to match 'selected="selected"'
     end
   end
