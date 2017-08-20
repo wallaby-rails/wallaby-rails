@@ -1,21 +1,52 @@
+<%
+wildcard = metadata[:wildcard] || Wallaby::WILDCARD
+decorated = decorate value if value.present?
+url = unless metadata[:is_polymorphic]
+  remote_url(metadata[:remote_url], metadata[:class], wildcard)
+end || 'url'
+%>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
-    <% if metadata[:is_polymorphic] %>
-      <div class="col-xs-6 col-sm-4">
-        <%= form.select metadata[:polymorphic_type], metadata[:polymorphic_list].try(:map, &:to_s), { include_blank: true }, { class: 'form-control' } %>
+    <span class="auto_select" data-init="belongs_to" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
+      <% if metadata[:is_polymorphic] %>
+        <div class="col-xs-6 col-sm-4 auto_select--spacing">
+          <%= form.select metadata[:polymorphic_type], polymorphic_options(metadata, wildcard, selected: object.public_send(metadata[:polymorphic_type])), { include_blank: true }, { class: 'form-control' } %>
+        </div>
+      <% end %>
+      <div class="col-xs-12 col-sm-6">
+        <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: I18n.t('label.auto_select_hint') %>
       </div>
-      <div class="col-xs-3">
-        <%= form.text_field metadata[:foreign_key], class: 'form-control' %>
-      </div>
-    <% else %>
-      <div class="col-xs-6 col-sm-4">
-        <%= form.select metadata[:foreign_key], model_choices(metadata[:class]), { include_blank: true }, { class: 'form-control' } %>
-      </div>
+      <ul>
+        <% if decorated.present? %>
+          <li>
+            <%= form.hidden_field metadata[:foreign_key], value: decorated.primary_key_value, id: nil %>
+            <a href="javascript:;"><%= decorated.to_label %></a>
+          </li>
+        <% end %>
+      </ul>
+    </span>
+    <% unless metadata[:is_polymorphic] %>
       <p class="help-block">
-        <%= new_link metadata[:class], options: { prepend: 'Or ' } %>
+        <%= t 'label.or_html', link: new_link(metadata[:class]) %>
       </p>
     <% end %>
   </div>
   <%= form.error_messages field_name %>
 </div>
+
+<% #load script for only once
+unless @belongs_to_init
+  @belongs_to_init = true
+  content_for :custom_javascript do
+    javascript_tag do %>
+      jQuery(document).off('turbolinks:load.belongs_to').on('turbolinks:load.belongs_to', function () {
+        jQuery('[data-init="belongs_to"]').on('change', 'select', function () {
+          var $option = jQuery(this.selectedOptions);
+          var $span = $(this).parents('span:first');
+          $span.data('url', $option.data('url')).trigger('reload');
+        }).trigger('change').auto_select();
+      });
+<%  end
+  end
+end %>

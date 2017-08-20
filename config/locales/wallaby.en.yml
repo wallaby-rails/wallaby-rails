@@ -20,27 +20,39 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  label:
+    count: 'Count: '
+    auto_select_hint: 'Type to select...'
+    or_html: 'Or %{link}'
+
   buttons:
     save: 'Save'
 
   links:
-    new: Create %{model}
-    show: Show
-    edit: Edit
-    delete: Delete
-    export: "Export as %{ext}"
+    new: 'Create %{model}'
+    show: 'Show'
+    edit: 'Edit'
+    delete: 'Delete'
+    export: 'Export as %{ext}'
     confirm:
-      delete: Please confirm to delete
+      delete: 'Please confirm to delete'
 
   http_errors:
-    report_error: "<p>And report the error <a href='https://github.com/reinteractive/wallaby/issues/new' target='_blank'>here</a>.</p>"
-    internal_server_error: "Hope you feel better."
-    bad_request: "Your request is not supported."
-    not_found: "Not found."
-    unprocessable_entity: "Your request could not be done."
-    unauthorized: "You need to sign in to access this page."
-    forbidden: "You need permission to access this page."
+    report_error_html: '<p>And report the error <a href="https://github.com/reinteractive/wallaby/issues/new" target="_blank">here</a>.</p>'
+    internal_server_error: 'Hope you feel better.'
+    bad_request: 'Your request is not supported.'
+    not_found: 'Not found.'
+    unprocessable_entity: 'Your request could not be processed.'
+    unauthorized: 'You need to sign in to access this page.'
+    forbidden: 'You need permission to access this page.'
 
+  json_errors:
+    internal_server_error: 'Service unavailable.'
+    bad_request: 'Your request is not supported.'
+    not_found: 'Not found.'
+    unprocessable_entity: 'Your request could not be processed.'
+    unauthorized: 'You need to sign in to access this page.'
+    forbidden: 'You need permission to access this page.'
 
   errors:
     not_found:
@@ -63,25 +75,3 @@ en:
 
   search:
     hint: 'Press enter to search.'
-
-  # pagination
-  views:
-    pagination:
-      first: "&laquo; First"
-      last: "Last &raquo;"
-      previous: "Prev"
-      next: "Next"
-      truncate: "&hellip;"
-  helpers:
-    page_entries_info:
-      entry:
-        zero: "entries"
-        one: "entry"
-        other: "entries"
-      one_page:
-        display_entries:
-          zero: "No found"
-          one: "<strong>1</strong>"
-          other: "<strong>1&nbsp;-&nbsp;%{count}</strong> of <strong>%{count}</strong>"
-      more_pages:
-        display_entries: "<strong>%{first}&nbsp;-&nbsp;%{last}</strong> of <strong>%{total}</strong>"

@@ -18,6 +18,7 @@ module Wallaby
 
           def polymorphic_list_for(reflection)
             all_model_class.each_with_object([]) do |model_class, list|
+              # TODO: need to check the class as well
               if polymorphic_defined? model_class, reflection.name
                 list << model_class
               end

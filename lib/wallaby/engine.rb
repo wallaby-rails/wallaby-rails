@@ -19,6 +19,7 @@ require 'jquery-rails'
 require 'momentjs-rails'
 require 'rails-bootstrap-markdown'
 require 'summernote-rails'
+require 'twitter-typeahead-rails'
 
 require 'csv'
 

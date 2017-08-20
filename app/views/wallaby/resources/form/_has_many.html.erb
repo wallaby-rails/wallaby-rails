@@ -1,13 +1,39 @@
+<%
+wildcard = 'QUERY'
+url = remote_url(metadata[:remote_url], metadata[:class], wildcard)
+%>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
-    <div class="col-xs-6 col-sm-4">
-      <%= form.select metadata[:foreign_key], model_choices(metadata[:class]), { }, { class: 'form-control', multiple: true } %>
-    </div>
+    <span class="auto_select" data-init="has_many" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
+      <div class="col-xs-12 col-sm-6">
+        <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', multiple: true, placeholder: I18n.t('label.auto_select_hint') %>
+      </div>
+      <strong class="auto_select__count"><%= I18n.t 'label.count' %><span></span></strong>
+      <ul>
+        <% decorate(value || []).each do |v| %>
+          <li>
+            <%= form.hidden_field metadata[:foreign_key], value: v.primary_key_value, multiple: true, id: nil %>
+            <a href="javascript:;"><%= v.to_label %></a>
+          </li>
+        <% end %>
+      </ul>
+    </span>
     <p class="help-block">
-      Press CTRL to select/deselect multiple items.
-      <%= new_link metadata[:class], options: { prepend: 'Or ' } %>
+      <%= t 'label.or_html', link: new_link(metadata[:class]) %>
     </p>
   </div>
   <%= form.error_messages field_name %>
 </div>
+
+<% #load script for only once
+unless @has_many_init
+  @has_many_init = true
+  content_for :custom_javascript do
+    javascript_tag do %>
+      jQuery(document).off('turbolinks:load.has_many').on('turbolinks:load.has_many', function () {
+        $('[data-init="has_many"]').auto_select();
+      });
+<%  end
+  end
+end %>
