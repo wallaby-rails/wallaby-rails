@@ -20,6 +20,7 @@ PATH
       sprockets-rails
       summernote-rails
       turbolinks
+      twitter-typeahead-rails
 
 GEM
   remote: https://rubygems.org/
@@ -63,7 +64,7 @@ GEM
       tzinfo (~> 1.1)
     arel (7.1.4)
     ast (2.3.0)
-    autoprefixer-rails (7.1.2.3)
+    autoprefixer-rails (7.1.2.6)
       execjs
     bcrypt (3.1.11)
     better_errors (2.1.1)
@@ -286,6 +287,10 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.3)
+    twitter-typeahead-rails (0.11.1)
+      actionpack (>= 3.1)
+      jquery-rails
+      railties (>= 3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     unicode-display_width (1.1.3)

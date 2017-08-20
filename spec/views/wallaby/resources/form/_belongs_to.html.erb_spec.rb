@@ -3,10 +3,12 @@ require 'rails_helper'
 partial_name = 'form/belongs_to'
 describe partial_name, :current_user do
   let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:page) { Nokogiri::HTML rendered }
   let(:form) { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let!(:object) { Product.create! field_name => value }
   let(:field_name) { metadata[:name] }
-  let!(:value) { Category.create! id: 1, name: 'Mens' }
+  let!(:value) { target }
+  let!(:target) { Category.create! id: 1, name: 'Mens' }
   let(:metadata) do
     {
       name: 'category', type: 'belongs_to', label: 'Category',
@@ -14,26 +16,38 @@ describe partial_name, :current_user do
     }
   end
 
+
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the belongs_to form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_category_id\">Category</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"product[category_id]\" id=\"product_category_id\"><option value=\"\"></option>\n<option selected=\"selected\" value=\"1\">Mens</option></select>\n      </div>\n      <p class=\"help-block\">\n        Or <a class=\"resource__create\" href=\"/admin/categories/new\">Create Category</a>\n      </p>\n  </div>\n  \n</div>\n"
-    expect(rendered).to match 'selected="selected"'
+    init = page.at_css('[data-init]')
+    expect(init['data-wildcard']).to eq 'QUERY'
+    expect(init['data-url']).to eq '/admin/categories?per=20&q=QUERY'
+
+    selected = page.css('[data-init] ul li input')
+    expect(selected.length).to eq 1
+
+    first = selected.first
+    expect(first['id']).to be_blank
+    expect(first['name']).to eq 'product[category_id]'
+    expect(first['multiple']).to be_blank
+    expect(first['value']).to eq target.id.to_s
   end
 
   context 'when value is nil' do
     let(:object) { Product.new }
+    let(:value) { nil }
 
     it 'renders the belongs_to form' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_category_id\">Category</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"product[category_id]\" id=\"product_category_id\"><option value=\"\"></option>\n<option value=\"1\">Mens</option></select>\n      </div>\n      <p class=\"help-block\">\n        Or <a class=\"resource__create\" href=\"/admin/categories/new\">Create Category</a>\n      </p>\n  </div>\n  \n</div>\n"
-      expect(rendered).not_to match 'selected="selected"'
+      selected = page.at_css('[data-init] ul li input')
+      expect(selected).to be_blank
     end
   end
 
   context 'when it is polymorphic' do
     let(:object) { Picture.new imageable: value }
     let(:field_name) { :imageable_id }
-    let(:value) { Product.new id: 1, name: 'Snowboard' }
+    let(:target) { Product.new id: 1, name: 'Snowboard' }
     let(:metadata) do
       {
         name: 'imageable', type: 'belongs_to', label: 'Imageable', is_association: true,
@@ -42,8 +56,11 @@ describe partial_name, :current_user do
     end
 
     it 'renders the polymorphic form' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"picture_imageable_id\">Imageable</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"picture[imageable_type]\" id=\"picture_imageable_type\"><option value=\"\"></option>\n<option selected=\"selected\" value=\"Product\">Product</option></select>\n      </div>\n      <div class=\"col-xs-3\">\n        <input class=\"form-control\" type=\"text\" value=\"1\" name=\"picture[imageable_id]\" id=\"picture_imageable_id\" />\n      </div>\n  </div>\n  \n</div>\n"
-      expect(rendered).to match 'selected="selected"'
+      selected_klass = page.at_css('[data-init] select option[selected]')
+      expect(selected_klass['value']).to eq target.class.name
+      selected = page.css('[data-init] ul li input')
+      expect(selected.length).to eq 1
+      expect(selected.first['value']).to eq target.id.to_s
     end
 
     context 'when value is nil' do
@@ -51,8 +68,10 @@ describe partial_name, :current_user do
       let(:value) { nil }
 
       it 'renders the polymorphic form' do
-        expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"picture_imageable_id\">Imageable</label>\n  <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-4\">\n        <select class=\"form-control\" name=\"picture[imageable_type]\" id=\"picture_imageable_type\"><option value=\"\"></option>\n<option value=\"Product\">Product</option></select>\n      </div>\n      <div class=\"col-xs-3\">\n        <input class=\"form-control\" type=\"text\" name=\"picture[imageable_id]\" id=\"picture_imageable_id\" />\n      </div>\n  </div>\n  \n</div>\n"
-        expect(rendered).not_to match 'selected="selected"'
+        selected_klass = page.at_css('[data-init] select option[selected]')
+        expect(selected_klass).to be_blank
+        selected = page.at_css('[data-init] ul li input')
+        expect(selected).to be_blank
       end
     end
   end

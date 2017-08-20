@@ -8,10 +8,14 @@
 //= require codemirror/modes/xml
 //= require codemirror/modes/ruby
 //= require codemirror/modes/javascript
+//= require twitter/typeahead
 //= require jquery.minicolors
 //= require turbolinks
+//= require wallaby/auto_select
 
-jQuery(document).on('turbolinks:load', function () {
+jQuery(document).off('turbolinks:load.wallaby').on('turbolinks:load.wallaby', function () {
+  'use strict';
+
   jQuery('[data-toggle="tooltip"]').tooltip({ html: true, container:'body' })
 
   jQuery('.index').each(function() {
@@ -29,10 +33,10 @@ jQuery(document).on('turbolinks:load', function () {
 
       // let's clone the actions, just for styling
       jQuery('.resources__data', this).each(function () {
-        var $actions_table = jQuery('<table></table>').addClass('resources__actions');
-        var $thead = jQuery('<thead><tr><th>&nbsp;</th></tr></thead>');
-        var $tbody = jQuery('<tbody></tbody>');
-        var $tr = jQuery('<tr></tr>');
+        var $actions_table = jQuery('<table></table>').addClass('resources__actions'),
+            $thead = jQuery('<thead><tr><th>&nbsp;</th></tr></thead>'),
+            $tbody = jQuery('<tbody></tbody>'),
+            $tr = jQuery('<tr></tr>');
 
         jQuery('.resource__actions', this).each(function () {
           $tbody.append($tr.clone().append(jQuery(this).clone()));
@@ -44,9 +48,10 @@ jQuery(document).on('turbolinks:load', function () {
 
       // to show double arrows
       jQuery('.resources__container').on('scroll', function () {
-        var $container = jQuery(this);
-        $th = jQuery('.resources__actions thead th', $this);
-        $data_table = jQuery('.resources__data', $this);
+        var $container = jQuery(this),
+            $th = jQuery('.resources__actions thead th', $this),
+            $data_table = jQuery('.resources__data', $this);
+
         $th.toggleClass('resources--backward', $container.scrollLeft() > 0);
         $th.toggleClass('resources--forward', $container.scrollLeft() + $container.width() < $data_table.width());
       }).trigger('scroll');

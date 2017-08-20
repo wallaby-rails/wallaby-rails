@@ -29,11 +29,10 @@ end
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
   Rails.logger.debug <<-DEBUG
-  [ WALLABY ] Ready to preload and clear cache on reload.
+  [ WALLABY ] reload! triggered
     1. Start GC
     2. Clear all the maps
-    3. Remove related Rails cache
-    4. Re-preload all constants
+    3. Re-preload all files under folder `app`
   DEBUG
   GC.start
   Wallaby::Map.clear

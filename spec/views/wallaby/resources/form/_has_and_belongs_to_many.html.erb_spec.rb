@@ -2,11 +2,13 @@ require 'rails_helper'
 
 partial_name = 'form/has_and_belongs_to_many'
 describe partial_name, :current_user do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let!(:object)     { Product.create! field_name => value }
-  let(:field_name)  { metadata[:name] }
-  let!(:value)      { [Tag.create!(id: 1, name: 'Toy')] }
+  let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:page) { Nokogiri::HTML rendered }
+  let(:form) { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
+  let!(:object) { Product.create! field_name => value }
+  let(:field_name) { metadata[:name] }
+  let!(:value) { targets }
+  let!(:targets) { [Tag.create!(id: 1, name: 'Toy')] }
   let(:metadata)    do
     {
       name: 'tags', type: 'has_and_belongs_to_many', label: 'Tags',
@@ -17,16 +19,34 @@ describe partial_name, :current_user do
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the has_many form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_tag_ids\">Tags</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input name=\"product[tag_ids][]\" type=\"hidden\" value=\"\" /><select class=\"form-control\" multiple=\"multiple\" name=\"product[tag_ids][]\" id=\"product_tag_ids\"><option selected=\"selected\" value=\"1\">Toy</option></select>\n    </div>\n    <p class=\"help-block\">\n      Press CTRL to select/deselect multiple items.\n      Or <a class=\"resource__create\" href=\"/admin/tags/new\">Create Tag</a>\n    </p>\n  </div>\n  \n</div>\n"
-    expect(rendered).to match 'selected="selected"'
+    init = page.at_css('[data-init]')
+    expect(init['data-wildcard']).to eq 'QUERY'
+    expect(init['data-url']).to eq '/admin/tags?per=20&q=QUERY'
+
+    selected = page.at_css('[data-init] ul li input')
+    expect(selected['id']).to be_blank
+    expect(selected['name']).to eq 'product[tag_ids][]'
+    expect(selected['multiple']).to eq 'multiple'
+    expect(selected['value']).to eq targets.first.id.to_s
+  end
+
+  context 'when value is empty array' do
+    let(:object) { Product.new }
+    let(:value) { [] }
+
+    it 'renders the has_many form' do
+      selected = page.at_css('[data-init] ul li input')
+      expect(selected).to be_blank
+    end
   end
 
   context 'when value is nil' do
     let(:object) { Product.new }
+    let(:value) { nil }
 
     it 'renders the has_many form' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"product_tag_ids\">Tags</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input name=\"product[tag_ids][]\" type=\"hidden\" value=\"\" /><select class=\"form-control\" multiple=\"multiple\" name=\"product[tag_ids][]\" id=\"product_tag_ids\"><option value=\"1\">Toy</option></select>\n    </div>\n    <p class=\"help-block\">\n      Press CTRL to select/deselect multiple items.\n      Or <a class=\"resource__create\" href=\"/admin/tags/new\">Create Tag</a>\n    </p>\n  </div>\n  \n</div>\n"
-      expect(rendered).not_to match 'selected="selected"'
+      selected = page.at_css('[data-init] ul li input')
+      expect(selected).to be_blank
     end
   end
 end

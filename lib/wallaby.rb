@@ -15,6 +15,7 @@ module Wallaby
     unauthorized
     unprocessable_entity
   ).freeze
+  WILDCARD = 'QUERY'.freeze
 end
 
 require 'wallaby/engine'

@@ -15,7 +15,7 @@ module Wallaby
     end
 
     def model_choices(model_class)
-      # TODO: remove this in the future since we will use AJAX
+      warn '[DEPRECATION] `model_choices` is deprecated, will be removed soon.'
       collection = model_servicer(model_class).collection({})
       decorate(collection).map do |decorated|
         [decorated.to_label, decorated.primary_key_value]
@@ -27,6 +27,24 @@ module Wallaby
         && form.object.is_a?(ResourceDecorator)
         raise ArgumentError
       end
+    end
+
+    def remote_url(url, model_class, wildcard = 'QUERY')
+      url || begin
+        url_params = { q: wildcard, per: Wallaby.configuration.page_size }
+        index_path(model_class: model_class, url_params: url_params)
+      end
+    end
+
+    def polymorphic_options(metadata, wildcard = 'QUERY', select_options = {})
+      urls = metadata[:remote_urls] || {}
+      options = metadata[:polymorphic_list].try :map do |klass|
+        [
+          klass, klass,
+          { data: { url: remote_url(urls[klass], klass, wildcard) } }
+        ]
+      end
+      options_for_select options, select_options
     end
   end
 end

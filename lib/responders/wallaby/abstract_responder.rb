@@ -21,6 +21,13 @@ module Wallaby
       default_render
     end
 
+    def to_json
+      return default_render unless post? || put? || patch? || delete?
+      if has_errors? then render :error, status: :bad_request
+      else head :no_content
+      end
+    end
+
     private
 
     def create_action
