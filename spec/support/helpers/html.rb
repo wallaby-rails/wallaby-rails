@@ -4,7 +4,7 @@ module Html
   end
 
   def escape(str)
-    ERB::Util.h(str).gsub('&quot;', '"').gsub('&#39;',"'")
+    ERB::Util.h(str).gsub('&quot;', '"').gsub('&#39;', "'")
   end
 end
 

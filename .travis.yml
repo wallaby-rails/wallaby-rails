@@ -7,7 +7,7 @@ env:
 addons:
   postgresql: "9.4"
 script:
-  - rubocop
+  - bundle exec rubocop -c ./.rubocop.yml
   - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
 before_script:
   - mysql -e 'CREATE DATABASE dummy_test;' -uroot
