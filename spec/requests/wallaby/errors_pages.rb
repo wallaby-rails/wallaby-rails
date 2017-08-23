@@ -7,13 +7,13 @@ describe 'Errors pages' do
     describe status do
       get "/admin/#{status}"
       expect(response.status).to eq code
-      expect(response.body).to include I18n.t("http_errors.#{status}")
+      expect(response.body).to include view.t("http_errors.#{status}")
     end
 
     describe code do
       get "/admin/#{code}"
       expect(response.status).to eq code
-      expect(response.body).to include I18n.t("http_errors.#{status}")
+      expect(response.body).to include view.t("http_errors.#{status}")
     end
   end
 end

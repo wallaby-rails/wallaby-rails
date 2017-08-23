@@ -62,11 +62,11 @@ module Wallaby
     end
 
     def filters_title
-      I18n.t 'filters.title'
+      t 'filters.title'
     end
 
     def all_label
-      I18n.t 'filters.all'
+      t 'filters.all'
     end
   end
 end
