@@ -1,9 +1,9 @@
 //= require codemirror
 //= require codemirror/themes/base16-dark
 //= require jquery.minicolors
-/*
- * "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
-*/
+
+// NOTE: "bootstrap-sprockets" must be imported
+// before "bootstrap" and "bootstrap/variables"
 @import 'base/_vars';
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -25,7 +25,6 @@
 @import 'pages/_show';
 @import 'pages/_form';
 @import 'pages/_error';
-
 
 nav.top-nav {
   margin-bottom: 0px;

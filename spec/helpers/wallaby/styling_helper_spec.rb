@@ -9,14 +9,22 @@ describe Wallaby::StylingHelper do
 
   describe '#itooltip' do
     it 'returns itooltip html' do
-      expect(helper.itooltip('this is a title')).to eq '<i title="this is a title" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+      expect(helper.itooltip('<this is a title>')).to eq '<i title="&lt;this is a title&gt;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+      expect(helper.itooltip('"this is a title"')).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+    end
+
+    context 'when html_safe' do
+      it 'escapes quotes' do
+        expect(helper.itooltip('<this is a title>'.html_safe)).to eq '<i title="<this is a title>" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+        expect(helper.itooltip('"this is a title"'.html_safe)).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+      end
     end
   end
 
   describe '#imodal' do
     it 'returns modal html' do
-      allow(helper).to receive(:random_uuid) { 'random_uuid' }
-      expect(helper.imodal('this is a title', 'this is the body')).to eq '<a data-toggle="modal" data-target="#random_uuid" href="javascript:;"><i class="fa fa-clone"></i></a><div id="random_uuid" class="modal fade" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button name="button" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">this is a title</h4></div><div class="modal-body">this is the body</div></div></div></div>'
+      expect(helper.imodal('<this is a title>', '<this is the body>')).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="fa fa-clone"></i></a><span class="modaler__title">&lt;this is a title&gt;</span><span class="modaler__body">&lt;this is the body&gt;</span></span>'
+      expect(helper.imodal('<this is a title>'.html_safe, '<this is the body>'.html_safe)).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="fa fa-clone"></i></a><span class="modaler__title"><this is a title></span><span class="modaler__body"><this is the body></span></span>'
     end
   end
 
@@ -29,6 +37,13 @@ describe Wallaby::StylingHelper do
   describe '#na' do
     it 'returns na html' do
       expect(helper.na).to eq '<i class="text-muted">&lt;n/a&gt;</i>'
+    end
+  end
+
+  describe '#muted' do
+    it 'returns muted html in html escape regardless html_safe' do
+      expect(helper.muted('<content>')).to eq '<i class="text-muted">&lt;&lt;content&gt;&gt;</i>'
+      expect(helper.muted('<content>'.html_safe)).to eq '<i class="text-muted">&lt;&lt;content&gt;&gt;</i>'
     end
   end
 end

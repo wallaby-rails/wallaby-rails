@@ -9,7 +9,7 @@ describe partial_name, :current_user do
   let(:field_name) { metadata[:name] }
   let!(:value) { targets }
   let!(:targets) { [Tag.create!(id: 1, name: 'Toy')] }
-  let(:metadata)    do
+  let(:metadata) do
     {
       name: 'tags', type: 'has_and_belongs_to_many', label: 'Tags',
       is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: 'tag_ids', polymorphic_type: nil, polymorphic_list: [], class: Tag

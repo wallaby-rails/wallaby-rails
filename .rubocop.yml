@@ -30,3 +30,4 @@ Style/PercentLiteralDelimiters:
     default: ()
     '%i': ()
     '%w': ()
+    '%W': ()

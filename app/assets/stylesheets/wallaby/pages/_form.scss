@@ -6,13 +6,8 @@
 
     label {
       color: $default-primary-color;
-      font-size: $font-size-small;
       font-style: italic;
       text-transform: uppercase;
-    }
-
-    .form-control {
-      font-size: $font-size-small;
     }
 
     .CodeMirror {
@@ -20,15 +15,10 @@
       height: 168px;
     }
 
-    .btn {
-      font-size: $font-size-small;
-    }
-
     .form-group {
       .resource {
         &__create, &__update {
           display: inline-block;
-          font-size: $font-size-small;
         }
       }
 

@@ -15,7 +15,7 @@ end || 'url'
         </div>
       <% end %>
       <div class="col-xs-12 col-sm-6">
-        <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: I18n.t('label.auto_select_hint') %>
+        <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: t('labels.auto_select_hint') %>
       </div>
       <ul>
         <% if decorated.present? %>
@@ -28,7 +28,7 @@ end || 'url'
     </span>
     <% unless metadata[:is_polymorphic] %>
       <p class="help-block">
-        <%= t 'label.or_html', link: new_link(metadata[:class]) %>
+        <%= t 'labels.or_html', link: new_link(metadata[:class]) %>
       </p>
     <% end %>
   </div>

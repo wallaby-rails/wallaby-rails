@@ -1,0 +1,45 @@
+# By leaving this file empty, massa will run all default tools. You can check them here:
+# https://github.com/lucascaton/massa/blob/master/config/default_tools.yml
+# Otherwise you can define your own tools like in the following examples:
+
+rubocop:
+  description: 'Rubocop'
+  command:     'bundle exec rubocop'
+  required:    true
+
+haml_lint:
+  description: 'HAML lint'
+  command:     'bundle exec haml-lint app/views'
+  required:    true
+
+brakeman:
+  description: 'Brakeman (security vulnerability scanner)'
+  command:     'bundle exec brakeman -Aqz4'
+  required:    true
+
+# rails_best_practices:
+#   description: 'Rails Best Practices'
+#   command:     'bundle exec rails_best_practices'
+#   required:    true
+#
+i18n-tasks:
+  description: 'I18n translations'
+  command:     'bundle exec i18n-tasks missing'
+  required:    false
+
+# es_lint:
+#   description: 'ES lint'
+#   command:     'npm run eslint --ext js .'
+#   gem:         false
+#   required:    true
+
+# karma:
+#   description: 'Karma (JS specs)'
+#   command:     'karma start --single-run --browsers PhantomJS'
+#   required:    true
+#   gem:         false
+#
+rspec-rails:
+  description: 'RSpec'
+  command:     'RAILS_ENV=test bundle exec rspec'
+  required:    true

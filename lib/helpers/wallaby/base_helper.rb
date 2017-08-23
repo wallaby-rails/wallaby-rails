@@ -23,6 +23,7 @@ module Wallaby
     end
 
     def ct(key, options = {})
+      warn '[DEPRECATION] `ct` will be removed in version 5.2.0.'
       t key, { raise: true }.merge(options)
     rescue ::I18n::MissingTranslationData => e
       keys = ::I18n.normalize_keys(e.locale, e.key, e.options[:scope])

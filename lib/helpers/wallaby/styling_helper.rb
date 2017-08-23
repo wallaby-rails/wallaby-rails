@@ -16,11 +16,13 @@ module Wallaby
     end
 
     def imodal(title, body, html_options = {})
-      uuid = random_uuid
-      label ||= imodal_label(html_options)
-      link = link_to \
-        label, 'javascript:;', data: { toggle: 'modal', target: "##{uuid}" }
-      link + imodal_html(uuid, title, body)
+      label ||= html_options.delete(:label) \
+                  || html_options.delete(:icon) || fa_icon('clone')
+      content_tag :span, class: 'modaler' do
+        concat link_to(label, '#', data: { target: '#imodal', toggle: 'modal' })
+        concat content_tag(:span, title, class: 'modaler__title')
+        concat content_tag(:span, body, class: 'modaler__body')
+      end
     end
 
     def null
@@ -31,20 +33,21 @@ module Wallaby
       muted 'n/a'
     end
 
-    def muted(content)
-      content_tag :i, "<#{content}>", class: 'text-muted'
+    def muted(text_content)
+      content_tag :i, "<#{text_content}>", class: 'text-muted'
     end
 
     def imodal_label(html_options)
+      warn '[DEPRECATION] `imodal_label` will be removed in version 5.2.0.'
       html_options.delete(:label) ||
         html_options.delete(:icon) ||
         fa_icon('clone')
     end
 
     def imodal_html(uuid, title, body)
-      container_options = {
-        id: uuid, class: 'modal fade', tabindex: -1, role: 'dialog'
-      }
+      warn '[DEPRECATION] `imodal_html` will be removed in version 5.2.0.'
+      container_options =
+        { id: uuid, class: 'modal fade', tabindex: -1, role: 'dialog' }
       content_tag(:div, container_options) do
         content_tag :div, class: 'modal-dialog modal-lg' do
           content_tag :div, class: 'modal-content' do
@@ -55,20 +58,27 @@ module Wallaby
     end
 
     def imodal_header(title)
+      warn '[DEPRECATION] `imodal_header` will be removed in version 5.2.0.'
       content_tag(:div, class: 'modal-header') do
-        button_options = {
-          type: 'button', class: 'close',
-          data: { dismiss: 'modal' }, aria: { label: 'Close' }
-        }
-        button_tag(button_options) do
-          content_tag :span, raw('&times;'), aria: { hidden: true }
-        end +
-          content_tag(:h4, title, class: 'modal-title')
+        concat imodal_button
+        concat content_tag(:h4, title, class: 'modal-title')
       end
     end
 
     def imodal_body(body)
+      warn '[DEPRECATION] `imodal_body` will be removed in version 5.2.0.'
       content_tag(:div, class: 'modal-body') { body }
+    end
+
+    def imodal_button
+      warn '[DEPRECATION] `imodal_button` will be removed in version 5.2.0.'
+      button_options = {
+        type: 'button', class: 'close',
+        data: { dismiss: 'modal' }, aria: { label: 'Close' }
+      }
+      button_tag(button_options) do
+        content_tag :span, raw('&times;'), aria: { hidden: true }
+      end
     end
   end
 end

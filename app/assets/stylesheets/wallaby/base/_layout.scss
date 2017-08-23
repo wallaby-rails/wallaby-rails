@@ -160,7 +160,6 @@ main {
     span > a {
       position: relative;
       display: inline-block;
-      font-size: $font-size-small;
       color: $light-primary-color;
       text-decoration: none;
       transition: 0.2s;
@@ -249,6 +248,13 @@ main {
           background-color: $default-red-color;
         }
       }
+    }
+  }
+
+  .modaler {
+    &__title,
+    &__body {
+      display: none;
     }
   }
 }

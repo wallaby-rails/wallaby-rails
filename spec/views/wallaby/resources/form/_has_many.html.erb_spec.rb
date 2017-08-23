@@ -9,7 +9,7 @@ describe partial_name, :current_user do
   let(:field_name) { metadata[:name] }
   let!(:value) { targets }
   let!(:targets) { [Order::Item.create!(id: 1)] }
-  let(:metadata)    do
+  let(:metadata) do
     {
       name: 'order_items', type: 'has_many', label: 'Order / Items',
       is_association: true, is_polymorphic: false, is_through: false, has_scope: false, foreign_key: 'order_item_ids', polymorphic_type: nil, polymorphic_list: [], class: Order::Item

@@ -25,7 +25,7 @@ XML
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders null' do
-      expect(rendered).to eq "  <i class=\"text-muted\">&lt;null&gt;</i>\n"
+      expect(rendered).to include view.null
     end
   end
 end

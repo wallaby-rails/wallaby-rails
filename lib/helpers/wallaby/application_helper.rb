@@ -1,6 +1,11 @@
 module Wallaby
   # Application helper
   module ApplicationHelper
+    def clean_params
+      warn '[DEPRECATION] `clean_params` will be removed in version 5.2.0.'
+      params.except :resources, :action
+    end
+
     # override `actionview/lib/action_view/routing_url_for.rb#url_for`
     def url_for(options = nil)
       # possible Hash or Parameters
@@ -12,7 +17,7 @@ module Wallaby
     end
 
     def wallaby_resourceful_url_for(options = {})
-      # TODO: DEPRECATION WARNING: You are calling a `*_path` helper with the
+      # NOTE: DEPRECATION WARNING: You are calling a `*_path` helper with the
       # `only_path` option explicitly set to `false`.
       # This option will stop working on path helpers in Rails 5.
       # Use the corresponding `*_url` helper instead.

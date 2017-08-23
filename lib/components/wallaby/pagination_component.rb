@@ -47,11 +47,11 @@ module Wallaby
     end
 
     def prev_text
-      I18n.t 'pagination.prev'
+      t 'pagination.prev'
     end
 
     def next_text
-      I18n.t 'pagination.next'
+      t 'pagination.next'
     end
   end
 end

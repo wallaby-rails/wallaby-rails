@@ -12,7 +12,6 @@ describe partial_name do
   end
 
   before do
-    allow(view).to receive(:random_uuid) { '9877d72f-26fa-426b-8a1b-6ef012f9112b' }
     render partial, value: value, metadata: metadata
   end
 
@@ -23,7 +22,7 @@ describe partial_name do
   context 'when value is nil' do
     let(:value) { nil }
     it 'renders null' do
-      expect(rendered).to eq "  <i class=\"text-muted\">&lt;null&gt;</i>\n"
+      expect(rendered).to include view.null
     end
   end
 end

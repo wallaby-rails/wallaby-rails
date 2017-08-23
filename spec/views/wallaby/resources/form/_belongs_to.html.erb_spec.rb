@@ -16,7 +16,6 @@ describe partial_name, :current_user do
     }
   end
 
-
   before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
 
   it 'renders the belongs_to form' do

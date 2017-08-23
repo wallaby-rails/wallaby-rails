@@ -82,23 +82,23 @@ module Wallaby
     end
 
     def from_to
-      I18n.t 'pagination.from_to', from: paginator.from, to: paginator.to
+      t 'pagination.from_to', from: paginator.from, to: paginator.to
     end
 
     def of
-      I18n.t 'pagination.of'
+      t 'pagination.of'
     end
 
     def total_count
-      I18n.t 'pagination.total_count', total: paginator.total
+      t 'pagination.total_count', total: paginator.total
     end
 
     def pers_title
-      I18n.t 'pagination.pers'
+      t 'pagination.pers'
     end
 
     def pages_title
-      I18n.t 'pagination.pages'
+      t 'pagination.pages'
     end
   end
 end

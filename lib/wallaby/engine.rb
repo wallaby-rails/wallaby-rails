@@ -35,7 +35,10 @@ module Wallaby
 
     initializer 'wallaby.assets.precompile' do |app|
       app.config.assets.precompile +=
-        %w(codemirror* codemirror/**/* wallaby/sign.png)
+        %w(
+          codemirror* codemirror/**/*
+          wallaby/404.png wallaby/422.png wallaby/500.png
+        )
     end
 
     config.after_initialize do

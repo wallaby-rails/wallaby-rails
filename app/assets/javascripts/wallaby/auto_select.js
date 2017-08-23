@@ -61,7 +61,7 @@ jQuery.fn.extend({
     };
     var ignore_tab_and_enter = function (e) {
       var k = e.keyCode || e.which;
-      if (k == 13) { return false; }
+      if (k === 13) { return false; }
     };
     $input.off('typeahead:select').off('typeahead:change')
       .on('typeahead:select typeahead:autocomplete', append_and_focus_on_selection)
