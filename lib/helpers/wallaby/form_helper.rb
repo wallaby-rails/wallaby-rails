@@ -15,7 +15,7 @@ module Wallaby
     end
 
     def model_choices(model_class)
-      warn '[DEPRECATION] `model_choices` is deprecated, will be removed soon.'
+      warn '[DEPRECATION] `model_choices` will be removed in version 5.2.0.'
       collection = model_servicer(model_class).collection({})
       decorate(collection).map do |decorated|
         [decorated.to_label, decorated.primary_key_value]

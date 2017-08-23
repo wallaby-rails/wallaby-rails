@@ -43,7 +43,6 @@
           border: none;
           color: $white;
           display: inline-block;
-          font-size: $font-size-small;
           height: 16px;
           line-height: 16px;
           margin-right: 3px;
@@ -84,7 +83,6 @@
         background-color: white;
         border: none;
         border-bottom: 6px solid $background-color;
-        font-size: $font-size-small;
         font-weight: normal;
         height: 40px;
         padding: 8px 12px;
@@ -155,7 +153,6 @@
         td {
           a {
             display: inline-block;
-            font-size: $font-size-small;
           }
         }
       }

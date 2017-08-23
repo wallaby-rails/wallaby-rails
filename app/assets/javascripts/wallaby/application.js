@@ -17,6 +17,12 @@ jQuery(document).off('turbolinks:load.wallaby').on('turbolinks:load.wallaby', fu
   'use strict';
 
   jQuery('[data-toggle="tooltip"]').tooltip({ html: true, container:'body' })
+  jQuery('#imodal').on('show.bs.modal', function (event) {
+    var $button = jQuery(event.relatedTarget),
+        $this = jQuery(this);
+    $this.find('.modal-title').html($button.siblings('.modaler__title').html());
+    $this.find('.modal-body').html($button.siblings('.modaler__body').html());
+  })
 
   jQuery('.index').each(function() {
     jQuery('.query', this).each(function () {

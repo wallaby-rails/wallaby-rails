@@ -53,7 +53,6 @@
 
   &__actions {
     @include dropdown($left_or_right: "right");
-    font-size: $font-size-small;
     position: absolute;
     right: 0;
 

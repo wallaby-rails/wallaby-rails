@@ -1,7 +1,6 @@
 module Wallaby
   # Responsible to dispatch requests to controller and action
   class ResourcesRouter
-    # TODO: change to not to use rescue
     def call(env)
       params = env['action_dispatch.request.path_parameters']
       controller = find_controller_by params[:resources]

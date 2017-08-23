@@ -3,6 +3,6 @@ json.error do
   if @code < 500 && @exception.present?
     json.message @exception.message
   else
-    json.message I18n.t("json_errors.#{@symbol}")
+    json.message t("json_errors.#{@symbol}")
   end
 end

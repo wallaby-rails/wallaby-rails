@@ -15,7 +15,6 @@
     @include arrow;
     color: $light-grey-color;
     display: inline-block;
-    font-size: $font-size-small;
 
     > ul, > form {
       input {
@@ -24,7 +23,6 @@
         border-top: 0;
         color: $font-color;
         display: block;
-        font-size: $font-size-small;
         margin: 3px 20px;
         padding: 3px 10px;
       }
