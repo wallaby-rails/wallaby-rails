@@ -19,11 +19,11 @@ url = remote_url(metadata[:remote_url], metadata[:class], wildcard)
         <% end %>
       </ul>
     </span>
-    <p class="help-block">
-      <%= t 'labels.or_html', link: new_link(metadata[:class]) %>
-    </p>
   </div>
   <%= form.error_messages field_name %>
+  <p class="help-block">
+    <%= t 'labels.or_html', link: new_link(metadata[:class]) %>
+  </p>
 </div>
 
 <% #load script for only once

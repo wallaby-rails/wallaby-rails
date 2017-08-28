@@ -86,7 +86,7 @@ module Wallaby
 
       def belongs_to_associations(associations = association_fields)
         associations.select do |_field_name, metadata|
-          'belongs_to' == metadata[:type]
+          metadata[:type] == 'belongs_to'
         end
       end
     end

@@ -2,4 +2,7 @@
   <%= form.label field_name, metadata[:label] %>
   <%= form.text_field field_name, class: 'form-control' %>
   <%= form.error_messages field_name %>
+  <p class="help-block">
+    <%= t 'hints.ltree_html' %>
+  </p>
 </div>

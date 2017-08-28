@@ -1,12 +1,8 @@
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
-  <div class="row">
-    <div class="col-xs-6 col-sm-4">
-      <%= form.text_field field_name, class: 'form-control' %>
-    </div>
-  </div>
+  <%= form.text_field field_name, class: 'form-control' %>
   <%= form.error_messages field_name %>
   <p class="help-block">
-    <%= t 'hints.cidr_html' %>
+    <%= t 'hints.path_html' %>
   </p>
 </div>

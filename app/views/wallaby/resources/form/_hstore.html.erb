@@ -2,10 +2,10 @@
   <%= form.label field_name, metadata[:label] %>
   <%= form.text_area field_name, value: value.to_s[%r(\A{(.*)}\Z), 1], class: 'form-control', data: { init: 'codemirror', mode: 'ruby' } %>
   <%= form.error_messages field_name %>
+  <p class="help-block">
+    <%= t 'hints.hstore_html' %>
+  </p>
 </div>
-<p class="help-block">
-  Format: <code>"KEY1" => "VALUE1", "KEY2" => "VALUE2"</code>
-</p>
 
 <% unless @codemirror_init %>
   <% @codemirror_init = true %>

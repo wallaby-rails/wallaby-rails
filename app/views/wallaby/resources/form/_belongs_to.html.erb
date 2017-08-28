@@ -26,13 +26,13 @@ end || 'url'
         <% end %>
       </ul>
     </span>
-    <% unless metadata[:is_polymorphic] %>
-      <p class="help-block">
-        <%= t 'labels.or_html', link: new_link(metadata[:class]) %>
-      </p>
-    <% end %>
   </div>
   <%= form.error_messages field_name %>
+  <% unless metadata[:is_polymorphic] %>
+    <p class="help-block">
+      <%= t 'labels.or_html', link: new_link(metadata[:class]) %>
+    </p>
+  <% end %>
 </div>
 
 <% #load script for only once

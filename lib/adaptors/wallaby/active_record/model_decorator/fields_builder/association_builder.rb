@@ -15,7 +15,7 @@ module Wallaby
           private
 
           def foreign_key_for(reflection, type)
-            if :belongs_to == type || reflection.polymorphic?
+            if type == :belongs_to || reflection.polymorphic?
               reflection.foreign_key
             elsif reflection.collection?
               # @see https://github.com/rails/rails/blob/92703a9ea5d8b96f30e0b706b801c9185ef14f0e/activerecord/lib/active_record/associations/builder/collection_association.rb#L50
