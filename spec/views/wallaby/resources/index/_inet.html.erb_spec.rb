@@ -9,7 +9,8 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the inet' do
-    expect(rendered).to eq "  <code>192.168.1.12</code>\n  <a target=\"_blank\" class=\"text-info\" href=\"http://ip-api.com/#192.168.1.12\"><i class=\"fa fa-external-link-square\"></i></a>\n"
+    expect(rendered).to include '<code>192.168.1.12</code>'
+    expect(rendered).to include 'http://ip-api.com/#192.168.1.12'
   end
 
   context 'when value is nil' do

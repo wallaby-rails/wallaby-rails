@@ -9,7 +9,9 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the daterange' do
-    expect(rendered).to eq "  <span class=\"from\">Feb 11</span>\n  ...\n  <span class=\"to\">Feb 12</span>\n  <i title=\"2014-02-11 ... 2014-02-12\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"fa fa-clock-o\"></i>\n"
+    expect(rendered).to include '<span class="from">Feb 11</span>'
+    expect(rendered).to include '<span class="to">Feb 12</span>'
+    expect(rendered).to include 'title="2014-02-11 ... 2014-02-12"'
   end
 
   context 'when value is nil' do

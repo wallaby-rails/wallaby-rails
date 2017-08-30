@@ -9,14 +9,14 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the date' do
-    expect(rendered).to eq "  2014-02-11\n"
+    expect(rendered).to include '2014-02-11'
   end
 
   context 'when value is a string' do
     let(:value) { 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
     it 'renders the date' do
-      expect(rendered).to eq "  2014-02-11\n"
+      expect(rendered).to include '2014-02-11'
     end
   end
 
@@ -24,7 +24,7 @@ describe partial_name do
     let(:value) { Time.parse 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
     it 'renders the date' do
-      expect(rendered).to eq "  2014-02-11\n"
+      expect(rendered).to include '2014-02-11'
     end
   end
 

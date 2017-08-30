@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the email' do
-    expect(rendered).to eq "<a href=\"mailto:tian@reinteractive.net\">tian@reinteractive.net</a>\n"
+    expect(rendered).to include 'mailto:tian@reinteractive.net'
   end
 
   context 'when value is nil' do

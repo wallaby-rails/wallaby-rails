@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-partial_name = 'index/bit_varying'
+partial_name = 'index/password'
 describe partial_name do
   let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { '1101' }
+  let(:value)     { 'this is a text for more than 20 characters' }
   let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
 
-  it 'renders bit_varying' do
-    expect(rendered).to include '<code>1101</code>'
+  it 'renders the password' do
+    expect(rendered).to include "<code>********</code>"
   end
 
   context 'when value is nil' do

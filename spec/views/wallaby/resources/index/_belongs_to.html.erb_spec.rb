@@ -9,7 +9,7 @@ describe partial_name, :current_user do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the belongs_to' do
-    expect(rendered).to eq "<a href=\"/admin/products/1\">Hiking shoes</a>\n"
+    expect(rendered).to include view.show_link(value)
   end
 
   context 'when value is nil' do
