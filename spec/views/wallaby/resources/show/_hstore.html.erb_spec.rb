@@ -13,7 +13,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the hstore' do
-    expect(rendered).to eq "  <pre>{&quot;key&quot;=&gt;&quot;very long long text&quot;}</pre>\n"
+    expect(rendered).to include "<pre>#{h value}</pre>"
   end
 
   context 'when value is nil' do

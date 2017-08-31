@@ -2,4 +2,4 @@
 <% if unique_collection.present? %>
   <%= raw unique_collection.map { |item| show_link item }.to_sentence %>
 <% end %>
-<%= new_link metadata[:class], options: { prepend: unique_collection.present? && 'or ' } %>
+<%= t 'labels.or_html', link: new_link(metadata[:class]) %>

@@ -1,22 +1,15 @@
 require 'rails_helper'
 
-partial_name = 'show/jsonb'
+partial_name = 'show/sti'
 describe partial_name do
   let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:value)     { 'Wallaby::ActiveRecord::ExampleClass' }
   let(:metadata)  { {} }
-  let(:value) do
-    {
-      'kind' => 'user_renamed',
-      'change' => %w(jack john)
-    }.to_json
-  end
 
-  before do
-    render partial, value: value, metadata: metadata
-  end
+  before { render partial, value: value, metadata: metadata }
 
-  it 'renders the jsonb' do
-    expect(rendered).to include h(value)
+  it 'renders the sti' do
+    expect(rendered).to include value
   end
 
   context 'when value is nil' do

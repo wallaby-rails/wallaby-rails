@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-partial_name = 'show/cidr'
+partial_name = 'show/polygon'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { IPAddr.new '192.168.2.0/24' }
-  let(:metadata)  { {} }
+  let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:value) { resource.polygon }
+  let(:resource) { AllPostgresType.new polygon: '((1,2),(3,4))' }
+  let(:metadata) { { label: 'Polygon' } }
 
   before { render partial, value: value, metadata: metadata }
 
-  it 'renders the cidr' do
+  it 'renders the polygon' do
     expect(rendered).to include "<code>#{value}</code>"
-    expect(rendered).to include "http://ip-api.com/##{value}"
   end
 
   context 'when value is nil' do

@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the uuid' do
-    expect(rendered).to eq "  <code>814865cd-5a1d-4771-9306-4268f188fe9e</code>\n"
+    expect(rendered).to include "<code>#{value}</code>"
   end
 
   context 'when value is nil' do

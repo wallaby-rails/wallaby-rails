@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders na' do
-    expect(rendered).to eq "<i class=\"text-muted\">&lt;n/a&gt;</i>\n"
+    expect(rendered).to include view.na
   end
 
   context 'when value is nil' do

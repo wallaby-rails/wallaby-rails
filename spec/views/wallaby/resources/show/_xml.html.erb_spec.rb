@@ -19,7 +19,7 @@ XML
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the text' do
-    expect(rendered).to eq "  <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\n&lt;note&gt;\n  &lt;to&gt;Tove&lt;/to&gt;\n  &lt;from&gt;Jani&lt;/from&gt;\n  &lt;heading&gt;Reminder&lt;/heading&gt;\n  &lt;body&gt;Don&#39;t forget me this weekend!&lt;/body&gt;\n&lt;/note&gt;\n</pre>\n"
+    expect(rendered).to include "<pre>#{h value}</pre>"
   end
 
   context 'when value is nil' do

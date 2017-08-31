@@ -9,18 +9,20 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the integer' do
-    expect(rendered).to eq "100\n"
+    expect(rendered).to include value.to_s
   end
 
   context 'when value is 0' do
     let(:value) { 0 }
+
     it 'renders the integer' do
-      expect(rendered).to eq "0\n"
+      expect(rendered).to include value.to_s
     end
   end
 
   context 'when value is nil' do
     let(:value) { nil }
+
     it 'renders null' do
       expect(rendered).to include view.null
     end
