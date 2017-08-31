@@ -10,7 +10,7 @@ describe partial_name do
 
   it 'renders the string' do
     expect(rendered).to include "background-color: #{value};"
-    expect(rendered).to include '<span class="text-uppercase">#000000</span>'
+    expect(rendered).to include "<span class=\"text-uppercase\">#{value}</span>"
   end
 
   context 'when value is nil' do

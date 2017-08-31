@@ -9,7 +9,7 @@ describe partial_name do
     {
       'kind' => 'user_renamed',
       'change' => %w(jack john)
-    }
+    }.to_json
   end
 
   before do
@@ -19,20 +19,20 @@ describe partial_name do
   it 'renders the jsonb' do
     expect(page.at_css('code').inner_html).to eq '{"kind":"user_ren...'
     expect(page.at_css('.modaler__title').inner_html).to eq escape(metadata[:label])
-    expect(page.at_css('.modaler__body').inner_html).to eq "<pre>#{escape(value.to_json)}</pre>"
+    expect(page.at_css('.modaler__body').inner_html).to eq "<pre>#{escape(value)}</pre>"
   end
 
   context 'when value is less than 20 characters' do
-    let(:value) { { 'a' => 1 } }
+    let(:value) { { 'a' => 1 }.to_json }
     it 'renders the jsonb' do
-      expect(rendered).to include h(value.to_json)
+      expect(rendered).to include h(value)
     end
   end
 
   context 'when max is set to 50' do
     let(:metadata) { Hash max: 50 }
     it 'renders the jsonb' do
-      expect(rendered).to include h(value.to_json)
+      expect(rendered).to include h(value)
     end
   end
 

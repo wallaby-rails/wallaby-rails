@@ -9,8 +9,8 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the inet' do
-    expect(rendered).to include '<code>192.168.1.12</code>'
-    expect(rendered).to include 'http://ip-api.com/#192.168.1.12'
+    expect(rendered).to include "<code>#{value}</code>"
+    expect(rendered).to include "http://ip-api.com/##{value}"
   end
 
   context 'when value is nil' do

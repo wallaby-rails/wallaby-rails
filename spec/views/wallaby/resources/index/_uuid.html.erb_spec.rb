@@ -10,7 +10,7 @@ describe partial_name do
 
   it 'renders the uuid' do
     expect(rendered).to include '<span>814865cd-5a1d-...</span>'
-    expect(rendered).to include 'title="814865cd-5a1d-4771-9306-4268f188fe9e"'
+    expect(rendered).to include "title=\"#{value}\""
   end
 
   context 'when value is nil' do

@@ -10,7 +10,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the box' do
-    expect(rendered).to include '<code>(1,2),(3,4)</code>'
+    expect(rendered).to include "<code>#{value}</code>"
   end
 
   context 'when value is larger than 20' do

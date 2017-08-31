@@ -16,16 +16,16 @@ describe partial_name do
   end
 
   it 'renders the hstore' do
-    expect(page.at_css('code').inner_html).to eq '{"key":"very long...'
+    expect(page.at_css('code').inner_html).to eq '{"key"=&gt;"very lon...'
     expect(page.at_css('.modaler__title').inner_html).to eq escape(metadata[:label])
-    expect(page.at_css('.modaler__body').inner_html).to eq "<pre>#{escape(value.to_json)}</pre>"
+    expect(page.at_css('.modaler__body').inner_html).to eq "<pre>#{escape(value)}</pre>"
   end
 
   context 'when value is less than 20 characters' do
     let(:value) { { 'a' => 1 } }
 
     it 'renders the hstore' do
-      expect(rendered).to include h(value.to_json)
+      expect(rendered).to include h(value)
     end
   end
 
@@ -33,7 +33,7 @@ describe partial_name do
     let(:metadata) { Hash max: 30 }
 
     it 'renders the hstore' do
-      expect(rendered).to include h(value.to_json)
+      expect(rendered).to include h(value)
     end
   end
 

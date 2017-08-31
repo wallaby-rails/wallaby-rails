@@ -10,7 +10,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the circle' do
-    expect(rendered).to include '<code>&lt;(1,2),5&gt;</code>'
+    expect(rendered).to include "<code>#{h value}</code>"
   end
 
   context 'when value is larger than 20' do
@@ -18,7 +18,7 @@ describe partial_name do
 
     it 'renders the circle' do
       expect(rendered).to include '<code>&lt;(1.0000008,2.000...</code>'
-      expect(rendered).to include 'title="&lt;(1.0000008,2.00000008),5.00000008&gt;"'
+      expect(rendered).to include "title=\"#{h value}\""
     end
   end
 

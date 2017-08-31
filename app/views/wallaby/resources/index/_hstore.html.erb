@@ -2,7 +2,7 @@
   <%= null %>
 <% else %>
   <% max    = metadata[:max] || 20 %>
-  <% value  = value.to_json %>
+  <% value  = value.to_s %>
   <% if value.length > max %>
     <code><%= value.truncate max %></code>
     <%= imodal metadata[:label], "<pre>#{ h value }</pre>".html_safe %>
