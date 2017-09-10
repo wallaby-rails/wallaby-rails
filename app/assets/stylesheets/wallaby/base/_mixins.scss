@@ -51,7 +51,7 @@
   }
 }
 
-@mixin arrow ($icon_selector: ".fa-angle-down", $light: $light-red-color, $dark: $dark-red-color, $left_or_right: "right", $padding_size: 11px) {
+@mixin arrow ($icon_selector: ".fa-angle-down", $icon_selector_open: ".fa-angle-up", $light: $light-red-color, $dark: $dark-red-color, $left_or_right: "right", $padding_size: 11px) {
   > a {
     @if $left_or_right == "left" { padding-left: $padding_size }
     @if $left_or_right == "right" { padding-right: $padding_size }
@@ -71,6 +71,12 @@
 
     &:hover:after {
       color: $dark;
+    }
+  }
+
+  &.open > a {
+    &:after {
+      @extend .fa, #{$icon_selector_open}:before;
     }
   }
 }

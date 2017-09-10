@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 0) do
   enable_extension "citext"
 
   create_table "all_postgres_types", force: :cascade do |t|
+    t.bigint        "bigint"
+    t.bigserial     "bigserial"
     t.binary        "binary"
     t.bit           "bit", limit: 1
     t.bit_varying   "bit_varying"
@@ -47,7 +49,9 @@ ActiveRecord::Schema.define(version: 0) do
     t.macaddr       "macaddr"
     t.money         "money", scale: 2
     t.numrange      "numrange"
+    t.serial        "serial"
     t.string        "password"
+    t.string        "string"
     t.path          "path"
     t.point         "point"
     t.polygon       "polygon"
@@ -59,39 +63,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.tsvector      "tsvector"
     t.uuid          "uuid"
     t.xml           "xml"
-
-  #   t.bigint      "bigint"
-  #   t.binary      "binary"
-  #   t.bit         "bit",         limit: 1
-  #   t.bit_varying "bit_varying"
-  #   t.boolean     "boolean"
-  #   t.cidr        "cidr"
-  #   t.citext      "citext"
-  #   t.date        "date"
-  #   t.daterange   "daterange"
-  #   t.datetime    "datetime"
-  #   t.decimal     "decimal"
-  #   t.float       "float"
-  #   t.hstore      "hstore"
-  #   t.inet        "inet"
-  #   t.int4range   "int4range"
-  #   t.int8range   "int8range"
-  #   t.integer     "integer"
-  #   t.json        "json"
-  #   t.jsonb       "jsonb"
-  #   t.ltree       "ltree"
-  #   t.macaddr     "macaddr"
-  #   t.money       "money",                 scale: 2
-  #   t.numrange    "numrange"
-  #   t.point       "point"
-  #   t.string      "string"
-  #   t.text        "text"
-  #   t.time        "time"
-  #   t.tsrange     "tsrange"
-  #   t.tstzrange   "tstzrange"
-  #   t.tsvector    "tsvector"
-  #   t.uuid        "uuid"
-  #   t.xml         "xml"
   end
 
   create_table "categories", force: :cascade do |t|

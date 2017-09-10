@@ -10,7 +10,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the password' do
-    expect(rendered).to include "<code>********</code>"
+    expect(rendered).to include '<code>********</code>'
   end
 
   context 'when value is nil' do

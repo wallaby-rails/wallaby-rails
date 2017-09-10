@@ -22,7 +22,7 @@ url = remote_url(metadata[:remote_url], metadata[:class], wildcard)
   </div>
   <%= form.error_messages field_name %>
   <p class="help-block">
-    <%= t 'labels.or_html', link: new_link(metadata[:class]) %>
+    <%= new_link metadata[:class] %>
   </p>
 </div>
 

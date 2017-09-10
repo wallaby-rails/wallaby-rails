@@ -4,46 +4,23 @@
 
 // NOTE: "bootstrap-sprockets" must be imported
 // before "bootstrap" and "bootstrap/variables"
-@import 'base/_vars';
+@import 'base/vars';
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import 'bootstrap-datetimepicker';
 @import "font-awesome";
 @import 'wallaby/summernote';
-@import 'base/_mixins';
-@import 'base/_layout';
-@import 'components/_text';
-@import 'components/_links';
-@import 'components/_filters';
-@import 'components/_query';
-@import 'components/_pagination';
-@import 'components/_auto_select';
-@import 'pages/_index';
-@import 'pages/_show';
-@import 'pages/_form';
-@import 'pages/_error';
-
-@import 'base/_override';
-
-nav.top-nav {
-  margin-bottom: 0px;
-}
-
-section.fields {
-  padding: 10px;
-}
-
-ul.text-danger {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding-left: 25px;
-}
-
-.color-square {
-  display: inline-block;
-  margin-right: 3px;
-  width: 17px;
-  height: 17px;
-  border: 1px solid #eeeeee;
-  vertical-align: text-top;
-}
+@import 'base/mixins';
+@import 'base/layout';
+@import 'components/text';
+@import 'components/links';
+@import 'components/filters';
+@import 'components/query';
+@import 'components/pagination';
+@import 'components/auto_select';
+@import 'components/color_square';
+@import 'pages/index';
+@import 'pages/show';
+@import 'pages/form';
+@import 'pages/error';
+@import 'base/override';

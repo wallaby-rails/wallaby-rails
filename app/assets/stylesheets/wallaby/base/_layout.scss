@@ -30,7 +30,7 @@ header {
   }
 
   nav.navbar {
-    @extend .top-nav, .navbar-default, .navbar-fixed-top;
+    @extend .navbar-default, .navbar-fixed-top;
     background-color: white;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
 

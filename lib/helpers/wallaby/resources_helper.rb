@@ -13,7 +13,9 @@ module Wallaby
       Map.servicer_map(model_class).new(model_class, authorizer)
     end
 
-    def decorate(resource)
+    def decorate(resource, _metadata = {})
+      return resource if resource.blank?
+
       if resource.respond_to? :map # collection
         all = resource.to_a
         return all if all.first.is_a? ResourceDecorator

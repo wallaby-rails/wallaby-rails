@@ -14,14 +14,6 @@ module Wallaby
       render(options, locals, &block) || render('string', locals, &block)
     end
 
-    def model_choices(model_class)
-      warn '[DEPRECATION] `model_choices` will be removed in version 5.2.0.'
-      collection = model_servicer(model_class).collection({})
-      decorate(collection).map do |decorated|
-        [decorated.to_label, decorated.primary_key_value]
-      end
-    end
-
     def form_type_partial_render_check(form, field_name)
       unless form.present? && field_name.present? \
         && form.object.is_a?(ResourceDecorator)
@@ -45,6 +37,14 @@ module Wallaby
         ]
       end
       options_for_select options, select_options
+    end
+
+    def model_choices(model_class)
+      warn '[DEPRECATION] `model_choices` will be removed in version 5.2.0.'
+      collection = model_servicer(model_class).collection({})
+      decorate(collection).map do |decorated|
+        [decorated.to_label, decorated.primary_key_value]
+      end
     end
   end
 end

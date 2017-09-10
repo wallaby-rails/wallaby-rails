@@ -43,5 +43,6 @@
 
   > span {
     @include divider;
+    display: inline-block;
   }
 }

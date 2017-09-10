@@ -9,7 +9,7 @@ module Wallaby
       errors = Array object.errors[field_name]
       return if errors.blank?
 
-      content_tag :ul, class: 'text-danger' do
+      content_tag :ul, class: 'errors' do
         errors.each do |message|
           concat content_tag :li, content_tag(:small, raw(message))
         end
