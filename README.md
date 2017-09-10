@@ -4,30 +4,38 @@
 [![Gem Version](https://badge.fury.io/rb/wallaby.svg)](https://badge.fury.io/rb/wallaby)
 [![Code Climate](https://codeclimate.com/github/reinteractive/wallaby/badges/gpa.svg)](https://codeclimate.com/github/reinteractive/wallaby)
 
-A powerful Rails engine to manage data based on existing ORM models. It can be easily customized in Rails way by using controllers, views, decorators and service objects. You could have a play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
+Wallaby is a Rails engine for managing data. It can be easily customized in a Rails way using controllers and views. You can play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
 
 ## Features
 
 - Easy setup, ready for use.
-- Advanced colon search, for example, `ordered_at:>2017-07-01 name_start_with:^tian`
 - It supports Devise and provides configuration to use your own authentication. For authorization, it supports CanCanCan.
+- Advanced colon search, for example, `ordered_at:>2017-07-01 name_start_with:^tian`
 - Possible to extend Wallaby to support not only ActiveRecord, but also other ORMs
 
 ### Support
 
-`master` branch is for Rails 5:
-- Use Bootstrap
+For Rails 5, use the `master` branch. It has the following features:
 - Ruby 2.2.\*, 2.3.\*
 - Rails 5.\*
 - ActiveRecord 5.\*
 - Devise > 4.\*
 - CanCanCan
-- Postgres data types that ActiveRecord supports, including string, text, integer, float, decimal, datetime, time, date, daterange, numrange, tsrange, tstzrange, int4range, int8range, binary, boolean, bigint, xml, tsvector, hstore, inet, cidr, macaddr, uuid, json, jsonb, ltree, citext, point, bit, bit_varying and money
-- Additional support for types including password, email and color
-- Handle all kinds of ActiveRecord associations, including polymorphic associations
-- Handle namespaced models, e.g. `Order::Item`
+- Bootstrap
 
-`rails4` branch is for Rails 4:
+For Rails 4, use the `rails4` branch. It has the following features:
+- Ruby 2.1.\*, 2.2.\*
+- Rails 4.\*
+- ActiveRecord 4.\*
+- Devise 3.\* to 5.\*
+- CanCanCan
+- Bootstrap
+
+Both branches provide support for the following:
+- all Postgres data types that ActiveRecord supports, including string, text, integer, float, decimal, datetime, time, date, daterange, numrange, tsrange, tstzrange, int4range, int8range, binary, boolean, bigint, xml, tsvector, hstore, inet, cidr, macaddr, uuid, json, jsonb, ltree, citext, point, bit, bit_varying and money
+- types such as password, email and color
+- ActiveRecord associations, including polymorphic associations
+- namespaced models, e.g. `Order::Item`
 
 ## What's new
 
@@ -52,7 +60,9 @@ See [Changelog](CHANGELOG.md)
     end
     ```
 
-Then you are all set to open Wallaby on your local machine at `/the_path_you_like` once you have the Rails server up.
+3. Start the Rails server
+
+4. Open Wallaby on your local machine at `/the_path_you_like`.
 
 If you are using authentication rather than Devise, you might need to continue with the following section to do authentication configuration.
 
@@ -62,7 +72,7 @@ If you are using authentication rather than Devise, you might need to continue w
 
 There are two ways to set up authentication:
 
-1. Easily tell Wallaby which controller to inherit from. The controller should have `authenticate_user!` and `current_user` implemented:
+1. Simply tell Wallaby which controller to inherit from. The controller should have `authenticate_user!` and `current_user` implemented:
 
     ```ruby
     #!config/initializers/wallaby.rb
@@ -71,9 +81,9 @@ There are two ways to set up authentication:
     end
     ```
 
-    Once this is set, Wallaby will automatically pick up the above mentioned authentication methods (which is compatible with Devise), not to mention all functionalities including application helpers, before_action and etc.
+    Once this is set up, Wallaby will automatically pick up the two authentication methods mentioned above (which are compatible with Devise), along with all functionalities including application helpers, before_action, etc.
 
-2. You are able to custom authentication by configuring the `authenticate` and `current_user` options as below example:
+2. You can customise authentication by configuring the `authenticate` and `current_user` options as per the example below:
 
     ```ruby
     #!config/initializers/wallaby.rb
@@ -97,7 +107,7 @@ There are two ways to set up authentication:
     end
     ```
 
-For more configurations and How-Toes, see [Customization](docs/README.md).
+For more configurations and How-Tos, see [Customization](docs/README.md).
 
 ## License
 This project rocks and uses MIT-LICENSE.
