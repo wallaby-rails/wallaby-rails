@@ -2,10 +2,18 @@ require 'rails_helper'
 
 describe 'Mysql Types' do
   it 'returns the expected native types' do
+    column_methods = ActiveRecord::ConnectionAdapters::MySQL::ColumnMethods.instance_methods.map(&:to_s)
+    expect(column_methods.length).to eq 13
+    expect(column_methods.sort).to eq %w(blob json longblob longtext mediumblob mediumtext primary_key tinyblob tinytext unsigned_bigint unsigned_decimal unsigned_float unsigned_integer)
+
     native_types = ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
 
     expect(native_types.length).to eq 12
     expect(native_types.sort).to eq %w(binary boolean date datetime decimal float integer json primary_key string text time)
+
+    all_types = column_methods | native_types
+    expect(all_types.length).to eq 23
+    expect(all_types.sort).to eq %w(binary blob boolean date datetime decimal float integer json longblob longtext mediumblob mediumtext primary_key string text time tinyblob tinytext unsigned_bigint unsigned_decimal unsigned_float unsigned_integer)
   end
 
   it 'supports the following types' do

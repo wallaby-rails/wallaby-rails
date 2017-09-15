@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe 'PostgreSQL Types' do
   it 'supports the following types' do
-    byebug
     column_methods = ActiveRecord::ConnectionAdapters::PostgreSQL::ColumnMethods.instance_methods.map(&:to_s)
     expect(column_methods.length).to eq 30
     expect(column_methods.sort).to eq %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial tsrange tstzrange tsvector uuid xml)

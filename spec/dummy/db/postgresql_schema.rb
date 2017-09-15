@@ -49,12 +49,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.macaddr       "macaddr"
     t.money         "money", scale: 2
     t.numrange      "numrange"
-    t.serial        "serial"
     t.string        "password"
-    t.string        "string"
     t.path          "path"
     t.point         "point"
     t.polygon       "polygon"
+    t.serial        "serial"
     t.string        "string"
     t.text          "text"
     t.time          "time"
