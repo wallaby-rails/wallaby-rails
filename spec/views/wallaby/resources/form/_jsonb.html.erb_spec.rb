@@ -1,32 +1,37 @@
 require 'rails_helper'
 
-partial_name = 'form/jsonb'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :jsonb }
-  let(:metadata)    { {} }
-  let(:value) do
-    {
+field_name = 'jsonb'
+describe field_name do
+  it_behaves_like 'form partial', field_name,
+    value: {
       'kind' => 'user_renamed',
       'change' => %w(jack john)
-    }
-  end
+    },
+    expected_value: "\n{\n  \"kind\": \"user_renamed\",\n  \"change\": [\n    \"jack\",\n    \"john\"\n  ]\n}",
+    input_selector: 'textarea',
+    content_for: true,
+    skip_general: true,
+    skip_nil: true do
 
-  before do
-    expect(view).to receive :content_for
-    render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
-  end
+    it 'initializes the codemirror' do
+      textarea = page.at_css('textarea.form-control')
+      expect(textarea['data-init']).to eq 'codemirror'
+    end
 
-  it 'renders the jsonb form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_jsonb\">Jsonb</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"javascript\" name=\"all_postgres_type[jsonb]\" id=\"all_postgres_type_jsonb\">\n{\n  &quot;kind&quot;: &quot;user_renamed&quot;,\n  &quot;change&quot;: [\n    &quot;jack&quot;,\n    &quot;john&quot;\n  ]\n}</textarea>\n  \n</div>\n\n"
-  end
+    it 'checks the value' do
+      textarea = page.at_css('textarea.form-control')
+      expect(textarea['name']).to eq "#{resources_name}[#{field_name}]"
+      expect(textarea.content).to eq expected_value
+    end
 
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_jsonb\">Jsonb</label>\n  <textarea class=\"form-control\" data-init=\"codemirror\" data-mode=\"javascript\" name=\"all_postgres_type[jsonb]\" id=\"all_postgres_type_jsonb\">\nnull</textarea>\n  \n</div>\n\n"
+    context 'when value is nil' do
+      let(:value) { nil }
+
+      it 'renders the belongs_to form' do
+        textarea = page.at_css('textarea.form-control')
+        expect(textarea['name']).to eq "#{resources_name}[#{field_name}]"
+        expect(textarea.content).to eq "\nnull"
+      end
     end
   end
 end

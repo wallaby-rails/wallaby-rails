@@ -1,24 +1,31 @@
 require 'rails_helper'
 
-partial_name = 'form/point'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :point }
-  let(:value)       { [3, 4] }
-  let(:metadata)    { {} }
-
-  before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
-
-  it 'renders the point form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_point\">Point</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">X</span>\n        <input value=\"3\" multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[point][]\" id=\"all_postgres_type_point\" />\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">Y</span>\n        <input value=\"4\" multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[point][]\" id=\"all_postgres_type_point\" />\n      </div>\n    </div>\n  </div>\n  \n</div>\n"
+field_name = 'point'
+describe field_name do
+  it_behaves_like 'form partial', field_name,
+    value: [3, 4],
+    skip_general: true,
+    skip_nil: true do
+    it 'checks the dates' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(first_input['type']).to eq 'number'
+      expect(first_input['value']).to eq value.first.to_s
+      expect(last_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(last_input['type']).to eq 'number'
+      expect(last_input['value']).to eq value.last.to_s
+    end
   end
 
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_point\">Point</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">X</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[point][]\" id=\"all_postgres_type_point\" />\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">Y</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[point][]\" id=\"all_postgres_type_point\" />\n      </div>\n    </div>\n  </div>\n  \n</div>\n"
+  it_behaves_like 'form partial', field_name,
+    value: [],
+    skip_all: true do
+    it 'renders empty range' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['value']).to be_nil
+      expect(last_input['value']).to be_nil
     end
   end
 end

@@ -1,3 +1,12 @@
+<%#
+The following params are the variables that can be used in this partial.
+
+@param form [Wallaby::FormBuilder] custom form object that adds a few helper methods and delegate missing methods to the view
+@param object [Wallaby::ResourceDecorator] decorator instance which wraps the resource (e.g. ActiveRecord) instance
+@param field_name [String] name of the field
+@param value [Object] value of the field
+@param metadata [Hash] metadata of the field
+%>
 <%
 wildcard = 'QUERY'
 url = remote_url(metadata[:remote_url], metadata[:class], wildcard)

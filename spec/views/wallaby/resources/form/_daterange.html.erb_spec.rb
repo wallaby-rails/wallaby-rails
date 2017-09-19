@@ -1,27 +1,32 @@
 require 'rails_helper'
 
-partial_name = 'form/daterange'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :daterange }
-  let(:value)       { Date.new(2014, 2, 11)..Date.new(2014, 3, 14) }
-  let(:metadata)    { {} }
-
-  before do
-    expect(view).to receive :content_for
-    render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
+field_name = 'daterange'
+describe field_name do
+  it_behaves_like 'form partial', field_name,
+    value: Date.new(2014, 2, 11)..Date.new(2014, 3, 14),
+    content_for: true,
+    skip_general: true,
+    skip_nil: true do
+    it 'checks the dates' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(first_input['type']).to eq 'text'
+      expect(first_input['value']).to eq '2014-02-11'
+      expect(last_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(last_input['type']).to eq 'text'
+      expect(last_input['value']).to eq '2014-03-14'
+    end
   end
 
-  it 'renders the daterange form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_daterange\">Daterange</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datepicker'>\n        <span class=\"input-group-addon\">F</span>\n        <input value=\"2014-02-11\" multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[daterange][]\" id=\"all_postgres_type_daterange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datepicker'>\n        <span class=\"input-group-addon\">T</span>\n        <input value=\"2014-03-14\" multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[daterange][]\" id=\"all_postgres_type_daterange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n  </div>\n  \n</div>\n\n"
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_daterange\">Daterange</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datepicker'>\n        <span class=\"input-group-addon\">F</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[daterange][]\" id=\"all_postgres_type_daterange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datepicker'>\n        <span class=\"input-group-addon\">T</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[daterange][]\" id=\"all_postgres_type_daterange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n  </div>\n  \n</div>\n\n"
+  it_behaves_like 'form partial', field_name,
+    value: [],
+    skip_all: true do
+    it 'renders empty range' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['value']).to be_nil
+      expect(last_input['value']).to be_nil
     end
   end
 end

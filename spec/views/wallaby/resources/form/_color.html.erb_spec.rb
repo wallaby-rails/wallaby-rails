@@ -1,24 +1,15 @@
 require 'rails_helper'
 
-partial_name = 'form/color'
+field_name = 'string'
+partial_name = 'color'
 describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :string }
-  let(:value)       { '#000000' }
-  let(:metadata)    { {} }
-
-  before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
-
-  it 'renders the string form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_string\">String</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input class=\"form-control\" data-init=\"colorpicker\" type=\"text\" value=\"#000000\" name=\"all_postgres_type[string]\" id=\"all_postgres_type_string\" />\n    </div>\n  </div>\n  \n</div>\n\n"
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_string\">String</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <input class=\"form-control\" data-init=\"colorpicker\" type=\"text\" name=\"all_postgres_type[string]\" id=\"all_postgres_type_string\" />\n    </div>\n  </div>\n  \n</div>\n\n"
+  it_behaves_like 'form partial', field_name,
+    value: '#000000',
+    partial_name: partial_name,
+    input_selector: 'input.form-control' do
+    it 'initializes the colorpicker' do
+      input = page.at_css('input.form-control')
+      expect(input['data-init']).to eq 'colorpicker'
     end
   end
 end
