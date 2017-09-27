@@ -1,3 +1,7 @@
+# What is Wallaby?
+
+Wallaby is a data admin app that allows the user to customise the parts of a Rails app following the MVC approach.
+
 # Customization
 
 Customization can be done in the following sections:
@@ -9,13 +13,13 @@ Customization can be done in the following sections:
 
 # How Wallaby Works
 
-Like general Rails apps, journey starts from routing. Take `GET /admin/order::items/1` as an example (assume `/admin` is the path that Wallaby is mounted to).
+Like most Rails apps, the journey begins with routing. We will use `GET /admin/order::items/1` as an example (assuming `/admin` is the path that Wallaby is mounted to).
 
 ## Routing
 
-`Wallaby::ResourcesRouter` is responsible for routing. It uses the following rules to find out the controller to dispatch to:
+`Wallaby::ResourcesRouter` is responsible for routing. It uses the following rules to decide which controller to dispatch to:
 
-1. see if any controller inheriting from `Wallaby::ResourcesController` has the `model_class` as `Order::Item` (converted from resources name `order::items`). For example, a controller as below will be matched:
+1. Look for a controller inheriting from `Wallaby::ResourcesController` that has the `model_class` as `Order::Item` (converted from resources name `order::items`). For example, the controller below will be matched:
 
     ```ruby
     class Management::OrderItemController < Wallaby::ResourcesController
@@ -23,25 +27,25 @@ Like general Rails apps, journey starts from routing. Take `GET /admin/order::it
     end
     ```
 
-2. otherwise, fall back to generic `Wallaby::ResourcesController`
+2. Otherwise, use the generic `Wallaby::ResourcesController`
 
-`Wallaby::ResourcesRouter` looks up action from the following places:
+`Wallaby::ResourcesRouter` looks up the action from the following places:
 - route option `defaults`
 - request parameter `action`
 
-In this example, action name is `show`, which has been defined in the route option `defaults`.
+In this example, the action name is `show`, which has been defined in the route option `defaults`.
 
-Since we have defined controller `Management::OrderItemController`, the request will then be dispatched to `Management::OrderItemController#show`.
+Since we have defined a controller `Management::OrderItemController`, the request will then be dispatched to `Management::OrderItemController#show`.
 
 ## Controller
 
-Once controller receives the request, it will go through authentication and authorization to ensure that user has access to the resource. If it passes, it will then continue to execute the action using service object.
+Once the controller receives the request, it checks both authentication and authorization to ensure that the user has access to the resource. If they do, it will execute the action using the service object.
 
 > NOTE: supported resourceful actions are `index`,`new`, `create`,`show`,`edit`,`update` and `destroy`.
 
-Once action is executed, it will then pass on variable `collection` for `index` or `resource` for `new`, `show` and `edit` respectively.
+Once the action is executed, it will then pass the variable `collection` to `index` or `resource` for `new`, `show` and `edit` respectively.
 
-One special thing that controller does is to set up the prefixes for `ViewPaths` so that later on Rails could look up partials using the following rules:
+One additional thing that controller does is set up the prefixes for `ViewPaths`. This allows Rails to look up partials, which it does using the following rules:
 
 1. check `/admin/order/items/index` first (pattern `:wallaby_mount_path/:resource_name/:action_name`)
 2. check `/admin/order/items` (pattern `:wallaby_mount_path/:resource_name`)
