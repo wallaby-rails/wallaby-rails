@@ -1,28 +1,16 @@
 require 'rails_helper'
 
-partial_name = 'index/unsigned_bigint'
-describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { BigDecimal.new(42)**20 }
-  let(:metadata)  { {} }
+field_name = 'unsigned_bigint'
+describe field_name do
+  it_behaves_like 'index partial', field_name,
+    model_class: AllMysqlType,
+    value: BigDecimal.new(42)**20 do
 
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the unsigned_bigint' do
-    expect(rendered).to include value.to_s
-  end
-
-  context 'when value is 0' do
-    let(:value) { 0 }
-    it 'renders the unsigned_bigint' do
-      expect(rendered).to include value.to_s
-    end
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
+    context 'when value is 0' do
+      let(:value) { BigDecimal.new 0 }
+      it 'renders the bigint' do
+        expect(rendered).to include value.to_s
+      end
     end
   end
 end

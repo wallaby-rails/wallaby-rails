@@ -1,31 +1,12 @@
 require 'rails_helper'
 
-partial_name = 'index/line'
-describe partial_name do
-  let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value) { resource.line }
-  let(:resource) { AllPostgresType.new line: '{1,2,5}' }
-  let(:metadata) { { label: 'Line' } }
-
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the line' do
-    expect(rendered).to include "<code>#{value}</code>"
-  end
-
-  context 'when value is larger than 20' do
-    let(:resource) { AllPostgresType.new line: '{1.0000008,2.0000008,5.0000008}' }
-
-    it 'renders the line' do
-      expect(rendered).to include '<code>{1.0000008,2.0000...</code>'
-      expect(rendered).to include "title=\"#{value}\""
-    end
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
-    end
-  end
+field_name = 'line'
+describe field_name do
+  it_behaves_like 'index partial', field_name,
+    value: '{1,2,5}',
+    skip_general: true,
+    code_value: true,
+    max_length: 20,
+    max_value: '{1.0000008,2.0000008,5.0000008}',
+    max_title: true
 end

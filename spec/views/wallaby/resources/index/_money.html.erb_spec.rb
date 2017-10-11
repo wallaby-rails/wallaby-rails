@@ -1,28 +1,15 @@
 require 'rails_helper'
 
-partial_name = 'index/money'
-describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { 100.88 }
-  let(:metadata)  { {} }
+field_name = 'money'
+describe field_name do
+  it_behaves_like 'index partial', field_name,
+    value: 100.88 do
 
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the money' do
-    expect(rendered).to eq "100.88\n"
-  end
-
-  context 'when value is 0' do
-    let(:value) { 0 }
-    it 'renders the money' do
-      expect(rendered).to eq "0\n"
-    end
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
+    context 'when value is 0' do
+      let(:value) { 0 }
+      it 'renders the money' do
+        expect(rendered).to include h(value)
+      end
     end
   end
 end

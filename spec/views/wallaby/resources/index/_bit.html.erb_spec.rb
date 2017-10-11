@@ -1,21 +1,9 @@
 require 'rails_helper'
 
-partial_name = 'index/bit'
-describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { '1' }
-  let(:metadata)  { {} }
-
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders bit' do
-    expect(rendered).to include "<code>#{value}</code>"
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
-    end
-  end
+field_name = 'bit'
+describe field_name do
+  it_behaves_like 'index partial', field_name,
+    value: '1',
+    code_value: true,
+    skip_general: true
 end

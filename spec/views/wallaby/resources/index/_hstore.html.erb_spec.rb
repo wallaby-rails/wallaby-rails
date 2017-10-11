@@ -1,47 +1,26 @@
 require 'rails_helper'
 
-partial_name = 'index/hstore'
-describe partial_name do
-  let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:page) { Nokogiri::HTML rendered }
-  let(:metadata) { { label: 'hstore' } }
-  let(:value) do
-    {
-      'key' => 'very long long text'
-    }
-  end
+field_name = 'hstore'
+describe field_name do
+  it_behaves_like 'index partial', field_name,
+    value: { 'key' => 'very long long text' },
+    skip_general: true,
+    modal_value: true do
 
-  before do
-    render partial, value: value, metadata: metadata
-  end
+    context 'when value is less than 20 characters' do
+      let(:value) { { 'a' => 1 } }
 
-  it 'renders the hstore' do
-    expect(page.at_css('code').inner_html).to eq '{"key"=&gt;"very lon...'
-    expect(page.at_css('.modaler__title').inner_html).to eq escape(metadata[:label])
-    expect(page.at_css('.modaler__body').inner_html).to eq "<pre>#{escape(value)}</pre>"
-  end
-
-  context 'when value is less than 20 characters' do
-    let(:value) { { 'a' => 1 } }
-
-    it 'renders the hstore' do
-      expect(rendered).to include h(value)
+      it 'renders the hstore' do
+        expect(rendered).to include h(value)
+      end
     end
-  end
 
-  context 'when max is set to 30' do
-    let(:metadata) { Hash max: 30 }
+    context 'when max is set to 30' do
+      let(:metadata) { Hash max: 30 }
 
-    it 'renders the hstore' do
-      expect(rendered).to include h(value)
-    end
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-
-    it 'renders null' do
-      expect(rendered).to include view.null
+      it 'renders the hstore' do
+        expect(rendered).to include h(value)
+      end
     end
   end
 end
