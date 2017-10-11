@@ -23,6 +23,7 @@ group :development, :test do
   gem 'ffaker'
   gem 'haml_lint'
   gem 'i18n-tasks'
+  gem 'inch'
   gem 'massa'
   gem 'memory_profiler'
   gem 'mysql2'
