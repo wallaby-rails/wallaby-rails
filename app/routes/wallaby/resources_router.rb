@@ -27,7 +27,7 @@ end
 
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
-  Rails.logger.debug <<-DEBUG
+  puts <<-DEBUG
   [ WALLABY ] reload! triggered
     1. Start GC
     2. Clear all the maps
@@ -44,17 +44,18 @@ if Rails.env.development?
   # the class names to make Rails reload classes properly
   Wallaby::ApplicationController.to_s
 
-  def preload(file_pattern)
+  preload = proc do |file_pattern|
     Dir[file_pattern].each do |file_path|
       begin
         name = file_path[%r{app/[^/]+/(.+)\.rb}, 1].gsub('concerns/', '')
         name.classify.constantize
       rescue NameError, LoadError => e
-        Rails.logger.debug "PRELOAD ERROR: #{e.message}"
+        puts ">>>>>>>>> PRELOAD ERROR: #{e.message}"
+        puts e.backtrace.slice(0, 5)
       end
     end
   end
 
-  preload 'app/models/**.rb'
-  preload 'app/**/*.rb'
+  preload.call 'app/models/**.rb'
+  preload.call 'app/**/*.rb'
 end
