@@ -7,6 +7,10 @@ module Wallaby
       @model_decorator = model_decorator || Map.model_decorator_map(model_class)
     end
 
+    def permit(_params)
+      raise NotImplemented
+    end
+
     def collection(_params, _authorizer)
       raise NotImplemented
     end

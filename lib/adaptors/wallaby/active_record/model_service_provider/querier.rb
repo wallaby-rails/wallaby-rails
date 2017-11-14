@@ -3,6 +3,8 @@ module Wallaby
     class ModelServiceProvider
       # Query builder
       class Querier
+        TEXT_FIELDS = %w(string text citext).freeze
+
         def initialize(model_decorator)
           @model_decorator = model_decorator
           @model_class = @model_decorator.model_class
@@ -31,24 +33,31 @@ module Wallaby
         end
 
         def extract(params)
-          parsed = parser.parse(params[:q] || EMPTY_STRING)
-          converted = transformer.apply parsed
-          expressions = converted.is_a?(Array) ? converted : [converted]
+          expressions = to_expressions params
           keywords = expressions.select { |v| v.is_a? String }
           field_queries = expressions.select { |v| v.is_a? Hash }
           filter_name = params[:filter]
           [filter_name, keywords, field_queries]
         end
 
+        def to_expressions(params)
+          parsed = parser.parse(params[:q] || EMPTY_STRING)
+          converted = transformer.apply parsed
+          converted.is_a?(Array) ? converted : [converted]
+        end
+
         def filtered_by(filter_name)
-          return unscoped if filter_name.blank?
-          filter = @model_decorator.filters[filter_name]
-          return unscoped if filter.blank?
-          scope = filter[:scope]
+          scope = find_scope filter_name
           return unscoped if scope.blank?
           return @model_class.instance_exec(&scope) if scope.respond_to? :call
           return @model_class.send(scope) if @model_class.respond_to? scope
           unscoped
+        end
+
+        def find_scope(filter_name)
+          return if filter_name.blank?
+          filter = @model_decorator.filters[filter_name] || {}
+          filter[:scope] || filter_name
         end
 
         def unscoped
@@ -79,9 +88,10 @@ module Wallaby
         end
 
         def text_fields
+          index_field_names = @model_decorator.index_field_names.map(&:to_s)
           @model_decorator.fields.select do |field_name, metadata|
-            @model_decorator.index_field_names.include?(field_name) &&
-              %w(string text citext).include?(metadata[:type])
+            index_field_names.include?(field_name) &&
+              TEXT_FIELDS.include?(metadata[:type].to_s)
           end.keys
         end
       end

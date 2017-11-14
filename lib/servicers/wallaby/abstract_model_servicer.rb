@@ -13,6 +13,10 @@ module Wallaby
       @provider = Map.service_provider_map @model_class
     end
 
+    def permit(params)
+      @provider.permit params
+    end
+
     def collection(params)
       @provider.collection params, @authorizer
     end
@@ -41,4 +45,7 @@ module Wallaby
       @provider.destroy resource, params, @authorizer
     end
   end
+
+  # NOTE: prevent people from overriding this class
+  AbstractModelServicer.freeze
 end
