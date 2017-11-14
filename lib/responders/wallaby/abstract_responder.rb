@@ -55,4 +55,7 @@ module Wallaby
       "#{params[:resources]}-exported-#{timestamp}.#{format}"
     end
   end
+
+  # NOTE: prevent people from overriding this class
+  AbstractResponder.freeze
 end

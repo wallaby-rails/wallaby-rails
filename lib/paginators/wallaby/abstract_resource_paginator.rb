@@ -19,4 +19,7 @@ module Wallaby
         Map.pagination_provider_map(@model_class).new(@collection, @params)
     end
   end
+
+  # NOTE: prevent people from overriding this class
+  AbstractResourcePaginator.freeze
 end
