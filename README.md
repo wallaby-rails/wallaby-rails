@@ -1,17 +1,23 @@
 # Wallaby
 
-[![Travis CI](https://travis-ci.org/reinteractive/wallaby.svg)](https://travis-ci.org/reinteractive/wallaby)
 [![Gem Version](https://badge.fury.io/rb/wallaby.svg)](https://badge.fury.io/rb/wallaby)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Travis CI](https://travis-ci.org/reinteractive/wallaby.svg)](https://travis-ci.org/reinteractive/wallaby)
 [![Code Climate](https://codeclimate.com/github/reinteractive/wallaby/badges/gpa.svg)](https://codeclimate.com/github/reinteractive/wallaby)
+[![Inch CI](https://inch-ci.org/github/reinteractive/wallaby.svg?branch=master)](https://inch-ci.org/github/reinteractive/wallaby)
 
 Wallaby is a Rails engine for managing data. It can be easily customized in a Rails way using controllers and views. You can play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
 
 ## Features
 
 - Easy setup, ready for use.
-- It supports Devise and provides configuration to use your own authentication. For authorization, it supports CanCanCan.
 - Advanced colon search, for example, `ordered_at:>2017-07-01 name_start_with:^tian`
-- Possible to extend Wallaby to support not only ActiveRecord, but also other ORMs
+- It allows to predefine filters.
+- It supports Devise and provides configuration to use your own authentication. For authorization, it supports CanCanCan.
+- It handles all kinds of ActiveRecord associations, even if they are polymorphic.
+- It handles Single Table Inheritance (STI).
+- It supports all 37 data types that ActiveRecord 5.0.* supports for PostgreSQL, MySql and Sqlite.
+- Data can be exported to CSV.
 
 ### Support
 
@@ -30,6 +36,8 @@ For Rails 4, use the `rails4` branch. It has the following features:
 - Devise 3.\* to 5.\*
 - CanCanCan
 - Bootstrap
+
+> NOTE: development for Rails 4 has been ceased.
 
 Both branches provide support for the following:
 - all Postgres data types that ActiveRecord supports, including string, text, integer, float, decimal, datetime, time, date, daterange, numrange, tsrange, tstzrange, int4range, int8range, binary, boolean, bigint, xml, tsvector, hstore, inet, cidr, macaddr, uuid, json, jsonb, ltree, citext, point, bit, bit_varying and money
