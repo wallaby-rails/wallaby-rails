@@ -1,11 +1,12 @@
-# WIP Wish list
+# TODOs
 
-- Refactor service object
+- Add dropdown partial
+- Setup Travis to test Wallaby under 2.2/2.3/2.4 and rails 5.0/5.1
+- Add support for pundit
+- Localization support: to be able to use localization for all the model labels
+- Add support for image, activestorage/paperclip/carrierwave/dragonfly
 - Add lint check for stylesheet
-- Filters
-- I18n
 - Data audit (use papertrail) (maybe..)
-- Data export (maybe..)
 - Batch data action (maybe..)
 
 # Known issues
@@ -14,19 +15,30 @@ N/A
 
 # History:
 
-## 5.0.2
-1. Chore: rubocop is added to ensure source code is up with some sort of standard
-2. Chore: refactor map service
-3. Feature: added support for Active Record Single Table Inheritance (STI)
-5. Feature: colon search is complete with advanced querying
-6. UI Re-design
-7. Bugfix: fix how object is clone
+## 5.1.0
+
+1. Feature: added support for Active Record Single Table Inheritance (STI) ([issue 27](#27)) and navigation for STI ([issue 30](#30))
+2. Feature: added filters metadata for provide quick access for predefined query ([issue 34](#34))
+3. Feature: added responder to handle different request formats ([issue 35](#35))
+5. Feature: export function ([issue 37](#37))
+6. Feature: UI Re-design, and mobile first ([issue 39](#39))
+7. Feature: used turbolinks to boost page load and used font-awesome to replace glyphicon ([issue 29](#29))
+4. Enhancement: colon search is enhanced using parselet ([issue 28](#28))
+9. Enhancement: typeahead for form partials (has\_many/has\_and\_belongs\_to\_many/belongs\_to) ([issue 40](#40))
+9. Chore: source code improvement ([issue 26](#26))
+9. Chore: remove the dependency of devise ([issue 31](#31))
+10. Chore: refactor map service ([issue 25](#25))
+10. Chore: refactor to extract/move the code into abstract classes ([issue 33](#33))
+10. Chore: added rubocop to enforce high coding standard ([issue 32](#32), [issue 38](#38))
+11. Chore: refactor service object to keep authorizer on initialization ([issue 36](#36))
+12. Chore: refactor imodal method ([issue 41](#41))
+14. Bugfix: fix how object is clone ([issue 23](#23))
 
 ## 5.0.1
 
 1. Bugfix: database migrations fail when decorator invokes form_fields and table does not exist ([issue 4](#4))
 2. Feature: Add partial to support password field ([issue 9](#9))
-2. Bugfix: Using the right metadata for index/show/form partials respectively ([issue 12](#12))
+3. Bugfix: Using the right metadata for index/show/form partials respectively ([issue 12](#12))
 
 ## 5.0.0
 
@@ -36,7 +48,7 @@ N/A
 
 1. Bugfix: database migrations fail when decorator invokes form_fields and table does not exist ([issue 4](#4))
 2. Feature: Add partial to support password field ([issue 9](#9))
-2. Bugfix: Using the right metadata for index/show/form partials respectively ([issue 12](#12))
+3. Bugfix: Using the right metadata for index/show/form partials respectively ([issue 12](#12))
 
 ## 4.1.5
 
