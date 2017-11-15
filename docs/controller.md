@@ -1,6 +1,6 @@
 ## Controller
 
-In order to customize an action, we need to inherit the controller from `Wallaby::ResourcesController`. Then we could override the general resourceful actions (index/show/new/create/edit/update/destroy) or add an action:
+In order to customize an action, we need to inherit the controller from `Wallaby::ResourcesController`. Then we can override the general resourceful actions (index/show/new/create/edit/update/destroy) or add an action:
 
 ```ruby
 #!app/controllers/products_controller.rb
@@ -26,7 +26,7 @@ class ProductsController < Wallaby::ResourcesController
 end
 ```
 
-In fact, `Wallaby::ResourcesController` inherits `ApplicationController`. Hence, all helper methods from `ApplicationController` will be available for any custom actions.
+`Wallaby::ResourcesController` inherits `ApplicationController`, which means that all helper methods from `ApplicationController` will be available for any custom actions.
 
 If `ProductsController` is already occupied for other purpose, we could use another name and specify the model class so that Wallaby could identify it:
 

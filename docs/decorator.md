@@ -1,6 +1,6 @@
 ## Decorator
 
-We consider to use a Wallaby decorator if we have the following scenario:
+The following scenarios are the perfect use cases for choosing a Wallaby decorator:
 
 - change what fields to show/list
 - update the metadata information of a field, e.g. title, type
@@ -40,7 +40,7 @@ class ProductDecorator < Wallaby::ResourceDecorator
 end
 ```
 
-Similarly, if ProductDecorator is taken, we could other name and specify the model class.
+Similarly, if the name ProductDecorator is taken, we could use another name and add a method to specify the model class.
 
 ```ruby
 #!app/decorators/admin/product_decorator.rb
