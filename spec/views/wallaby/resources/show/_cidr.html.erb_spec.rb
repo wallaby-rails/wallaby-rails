@@ -9,7 +9,8 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the cidr' do
-    expect(rendered).to eq "  <code>192.168.2.0</code>\n  <a target=\"_blank\" class=\"text-info\" href=\"http://ip-api.com/#192.168.2.0\"><i class=\"fa fa-external-link-square\"></i></a>\n"
+    expect(rendered).to include "<code>#{value}</code>"
+    expect(rendered).to include "http://ip-api.com/##{value}"
   end
 
   context 'when value is nil' do

@@ -1,5 +1,6 @@
 module Wallaby
-  # Responsible to dispatch requests to controller and action
+  # This is the core of wallaby that dynamically dispatches request to
+  # appropriate controller and action.
   class ResourcesRouter
     def call(env)
       params = env['action_dispatch.request.path_parameters']
@@ -25,9 +26,11 @@ module Wallaby
   end
 end
 
+# NOTE: please keep this block at the end.
+# otherwise, it might go into a endless reloading loop in dev environment
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
-  Rails.logger.debug <<-DEBUG
+  puts <<-DEBUG
   [ WALLABY ] reload! triggered
     1. Start GC
     2. Clear all the maps
@@ -40,21 +43,23 @@ if Rails.env.development?
   # Wallaby::ResourcesController and Wallaby::ResourceDecorator.
   # therefore, under development environment, we need to preload
   # all classes under /app folder in main_app
-  # using `require` is not working for preloading, we need to constantize
-  # the class names to make Rails reload classes properly
+  # using `require` is not the way how Rails loads a class,
+  # we need to constantize the class names instead
+  # @see http://guides.rubyonrails.org/autoloading_and_reloading_constants.html
   Wallaby::ApplicationController.to_s
 
-  def preload(file_pattern)
+  preload = proc do |file_pattern|
     Dir[file_pattern].each do |file_path|
       begin
         name = file_path[%r{app/[^/]+/(.+)\.rb}, 1].gsub('concerns/', '')
         name.classify.constantize
       rescue NameError, LoadError => e
-        Rails.logger.debug "PRELOAD ERROR: #{e.message}"
+        puts ">>>>>>>>> PRELOAD ERROR: #{e.message}"
+        puts e.backtrace.slice(0, 5)
       end
     end
   end
 
-  preload 'app/models/**.rb'
-  preload 'app/**/*.rb'
+  preload.call 'app/models/**.rb'
+  preload.call 'app/**/*.rb'
 end

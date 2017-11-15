@@ -1,37 +1,27 @@
 require 'rails_helper'
 
-partial_name = 'index/date'
-describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { Date.new(2014, 2, 11) }
-  let(:metadata)  { {} }
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: Date.new(2014, 2, 11),
+    expected_value: '2014-02-11' do
 
-  before { render partial, value: value, metadata: metadata }
+    context 'when value is a string' do
+      let(:value) { 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
-  it 'renders the date' do
-    expect(rendered).to eq "  2014-02-11\n"
-  end
-
-  context 'when value is a string' do
-    let(:value) { 'Tue, 11 Feb 2014 23:59:59 +0000' }
-
-    it 'renders the date' do
-      expect(rendered).to eq "  2014-02-11\n"
+      it 'renders the date' do
+        expect(rendered).to include '2014-02-11'
+      end
     end
-  end
 
-  context 'when value is a time' do
-    let(:value) { Time.parse 'Tue, 11 Feb 2014 23:59:59 +0000' }
+    context 'when value is a time' do
+      let(:value) { Time.parse 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
-    it 'renders the date' do
-      expect(rendered).to eq "  2014-02-11\n"
-    end
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
+      it 'renders the date' do
+        expect(rendered).to include '2014-02-11'
+      end
     end
   end
 end

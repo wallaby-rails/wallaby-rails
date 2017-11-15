@@ -1,27 +1,36 @@
 require 'rails_helper'
 
-partial_name = 'form/tsrange'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :tsrange }
-  let(:value)       { Time.zone.parse('2016-03-16 14:55:10 UTC')..Time.zone.parse('2016-03-18 14:55:10 UTC') }
-  let(:metadata)    { {} }
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: Time.zone.parse('2016-03-16 14:55:10 UTC')..Time.zone.parse('2016-03-18 14:55:10 UTC'),
+    skip_general: true,
+    skip_nil: true do
 
-  before do
-    expect(view).to receive :content_for
-    render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
+    it 'checks the numbers' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(first_input['type']).to eq 'text'
+      expect(first_input['value']).to eq '2016-03-16 14:55:10 UTC'
+      expect(last_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(last_input['type']).to eq 'text'
+      expect(last_input['value']).to eq '2016-03-18 14:55:10 UTC'
+    end
   end
 
-  it 'renders the tsrange form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_tsrange\">Tsrange</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datetimepicker'>\n        <span class=\"input-group-addon\">F</span>\n        <input value=\"2016-03-16 14:55:10 UTC\" multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[tsrange][]\" id=\"all_postgres_type_tsrange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datetimepicker'>\n        <span class=\"input-group-addon\">T</span>\n        <input value=\"2016-03-18 14:55:10 UTC\" multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[tsrange][]\" id=\"all_postgres_type_tsrange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n  </div>\n  \n</div>\n\n"
-  end
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: [],
+    skip_all: true do
 
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_tsrange\">Tsrange</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datetimepicker'>\n        <span class=\"input-group-addon\">F</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[tsrange][]\" id=\"all_postgres_type_tsrange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datetimepicker'>\n        <span class=\"input-group-addon\">T</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"text\" name=\"all_postgres_type[tsrange][]\" id=\"all_postgres_type_tsrange\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n  </div>\n  \n</div>\n\n"
+    it 'renders empty range' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['value']).to be_nil
+      expect(last_input['value']).to be_nil
     end
   end
 end

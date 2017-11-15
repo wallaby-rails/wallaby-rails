@@ -1,28 +1,17 @@
 require 'rails_helper'
 
-partial_name = 'index/bigint'
-describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { BigDecimal.new(42)**20 }
-  let(:metadata)  { {} }
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: BigDecimal.new(42)**20 do
 
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the bigint' do
-    expect(rendered).to eq "291733167875766667063796853374976.0\n"
-  end
-
-  context 'when value is 0' do
-    let(:value) { 0 }
-    it 'renders the bigint' do
-      expect(rendered).to eq "0\n"
-    end
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
+    context 'when value is 0' do
+      let(:value) { BigDecimal.new 0 }
+      it 'renders the bigint' do
+        expect(rendered).to include value.to_s
+      end
     end
   end
 end

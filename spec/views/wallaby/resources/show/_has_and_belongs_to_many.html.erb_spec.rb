@@ -15,27 +15,17 @@ describe partial_name, :current_user do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the has_and_belongs_to_many' do
-    expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a>, <a href=\"/admin/products/2\">Hiking pole</a>, and <a href=\"/admin/products/3\">Hiking jacket</a>\nor <a class=\"resource__create\" href=\"/admin/products/new\">Create Product</a>\n"
-  end
-
-  context 'when value size is no more than 2' do
-    let(:value) do
-      [
-        Product.new(id: 1, name: 'Hiking shoes'),
-        Product.new(id: 2, name: 'Hiking pole')
-      ]
-    end
-
-    it 'renders the has_and_belongs_to_many' do
-      expect(rendered).to eq "  <a href=\"/admin/products/1\">Hiking shoes</a> and <a href=\"/admin/products/2\">Hiking pole</a>\nor <a class=\"resource__create\" href=\"/admin/products/new\">Create Product</a>\n"
-    end
+    expect(rendered).to include view.show_link(value[0])
+    expect(rendered).to include view.show_link(value[1])
+    expect(rendered).to include view.show_link(value[2])
+    expect(rendered).to include view.new_link(metadata[:class])
   end
 
   context 'when value is []' do
     let(:value) { [] }
 
     it 'renders null' do
-      expect(rendered).to eq "<a class=\"resource__create\" href=\"/admin/products/new\">Create Product</a>\n"
+      expect(rendered).to include view.new_link(metadata[:class])
     end
   end
 end

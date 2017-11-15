@@ -1,21 +1,16 @@
 require 'rails_helper'
 
-partial_name = 'index/color'
-describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { '#000000' }
-  let(:metadata)  { {} }
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: '#000000',
+    skip_general: true do
 
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the string' do
-    expect(rendered).to eq "  <span style=\"background-color: #000000;\" class=\"color-square\"></span><span class=\"text-uppercase\">#000000</span>\n"
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
+    it 'renders the color' do
+      expect(rendered).to include "background-color: #{value};"
+      expect(rendered).to include "<span class=\"text-uppercase\">#{value}</span>"
     end
   end
 end

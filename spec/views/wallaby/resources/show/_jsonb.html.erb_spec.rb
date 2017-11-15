@@ -8,7 +8,7 @@ describe partial_name do
     {
       'kind' => 'user_renamed',
       'change' => %w(jack john)
-    }
+    }.to_json
   end
 
   before do
@@ -16,7 +16,7 @@ describe partial_name do
   end
 
   it 'renders the jsonb' do
-    expect(rendered).to eq "  <pre>{&quot;kind&quot;=&gt;&quot;user_renamed&quot;, &quot;change&quot;=&gt;[&quot;jack&quot;, &quot;john&quot;]}</pre>\n"
+    expect(rendered).to include h(value)
   end
 
   context 'when value is nil' do

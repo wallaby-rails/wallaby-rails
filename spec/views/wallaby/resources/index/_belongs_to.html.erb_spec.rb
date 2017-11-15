@@ -1,21 +1,16 @@
 require 'rails_helper'
 
-partial_name = 'index/belongs_to'
-describe partial_name, :current_user do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { Product.new id: 1, name: 'Hiking shoes' }
-  let(:metadata)  { {} }
+field_name = 'product'
+describe field_name, :current_user do
+  it_behaves_like \
+    'index partial', field_name,
+    value: Product.new(id: 1, name: 'Hiking shoes'),
+    model_class: ProductDetail,
+    partial_name: 'belongs_to',
+    skip_general: true do
 
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the belongs_to' do
-    expect(rendered).to eq "<a href=\"/admin/products/1\">Hiking shoes</a>\n"
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
+    it 'renders the belongs_to' do
+      expect(rendered).to include view.show_link(value)
     end
   end
 end

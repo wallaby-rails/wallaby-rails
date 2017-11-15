@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the string' do
-    expect(rendered).to eq "this is a text for more than 20 characters\n"
+    expect(rendered).to include value
   end
 
   context 'when value is nil' do

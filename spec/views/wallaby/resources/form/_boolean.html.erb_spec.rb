@@ -1,34 +1,48 @@
 require 'rails_helper'
 
-partial_name = 'form/boolean'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :boolean }
-  let(:value)       { true }
-  let(:metadata)    { {} }
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: true,
+    type: 'radio',
+    skip_value_check: true,
+    skip_nil: true do
 
-  before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
-
-  it 'renders the boolean form and ticks yes' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_boolean\">Boolean</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <label class=\"radio-inline\">\n        <input type=\"radio\" value=\"true\" checked=\"checked\" name=\"all_postgres_type[boolean]\" id=\"all_postgres_type_boolean_true\" /> Yes\n      </label>\n      <label class=\"radio-inline\">\n        <input type=\"radio\" value=\"false\" name=\"all_postgres_type[boolean]\" id=\"all_postgres_type_boolean_false\" /> No\n      </label>\n    </div>\n  </div>\n  \n</div>\n"
-    expect(rendered).to match 'checked="checked"'
-  end
-
-  context 'when value is false' do
-    let(:value) { false }
-    it 'renders the boolean form and ticks no' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_boolean\">Boolean</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <label class=\"radio-inline\">\n        <input type=\"radio\" value=\"true\" name=\"all_postgres_type[boolean]\" id=\"all_postgres_type_boolean_true\" /> Yes\n      </label>\n      <label class=\"radio-inline\">\n        <input type=\"radio\" value=\"false\" checked=\"checked\" name=\"all_postgres_type[boolean]\" id=\"all_postgres_type_boolean_false\" /> No\n      </label>\n    </div>\n  </div>\n  \n</div>\n"
-      expect(rendered).to match 'checked="checked"'
+    it 'checks the true radio' do
+      true_input = page.at_css('input[value=true]')
+      false_input = page.at_css('input[value=false]')
+      expect(true_input['checked']).to eq 'checked'
+      expect(false_input['checked']).to be_nil
     end
   end
 
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders the boolean form and ticks nothing' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_boolean\">Boolean</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <label class=\"radio-inline\">\n        <input type=\"radio\" value=\"true\" name=\"all_postgres_type[boolean]\" id=\"all_postgres_type_boolean_true\" /> Yes\n      </label>\n      <label class=\"radio-inline\">\n        <input type=\"radio\" value=\"false\" name=\"all_postgres_type[boolean]\" id=\"all_postgres_type_boolean_false\" /> No\n      </label>\n    </div>\n  </div>\n  \n</div>\n"
-      expect(rendered).not_to match 'checked="checked"'
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: false,
+    type: 'radio',
+    skip_all: true do
+
+    it 'checks the false radio' do
+      true_input = page.at_css('input[value=true]')
+      false_input = page.at_css('input[value=false]')
+      expect(true_input['checked']).to be_nil
+      expect(false_input['checked']).to eq 'checked'
+    end
+  end
+
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: nil,
+    type: 'radio',
+    skip_all: true do
+
+    it 'doesnt check any radio' do
+      true_input = page.at_css('input[value=true]')
+      false_input = page.at_css('input[value=false]')
+      expect(true_input['checked']).to be_nil
+      expect(false_input['checked']).to be_nil
     end
   end
 end

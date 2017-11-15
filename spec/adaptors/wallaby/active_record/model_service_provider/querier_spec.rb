@@ -65,10 +65,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
     describe 'text search' do
       it 'returns text search' do
         keyword = 'keyword'
-        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%')"
+        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (((\"all_postgres_types\".\"color\" ILIKE '%keyword%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%')"
 
         keyword = 'keyword keyword1'
-        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword1%')"
+        expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (((\"all_postgres_types\".\"color\" ILIKE '%keyword%' AND \"all_postgres_types\".\"color\" ILIKE '%keyword1%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%' AND \"all_postgres_types\".\"email\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%' AND \"all_postgres_types\".\"password\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword1%')"
       end
 
       context 'when text_fields include text and citext' do
@@ -78,10 +78,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         it 'returns text search' do
           keyword = 'keyword'
-          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%' OR \"all_postgres_types\".\"text\" ILIKE '%keyword%')"
+          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((((\"all_postgres_types\".\"color\" ILIKE '%keyword%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%') OR \"all_postgres_types\".\"text\" ILIKE '%keyword%')"
 
           keyword = 'keyword keyword1'
-          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword1%' OR \"all_postgres_types\".\"text\" ILIKE '%keyword%' AND \"all_postgres_types\".\"text\" ILIKE '%keyword1%')"
+          expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((((\"all_postgres_types\".\"color\" ILIKE '%keyword%' AND \"all_postgres_types\".\"color\" ILIKE '%keyword1%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%' AND \"all_postgres_types\".\"email\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%' AND \"all_postgres_types\".\"password\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"text\" ILIKE '%keyword%' AND \"all_postgres_types\".\"text\" ILIKE '%keyword1%')"
         end
       end
     end
@@ -361,7 +361,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
       it 'returns search result' do
         keyword = 'keyword integer:!=1 date:>2016-04-30'
-        expect(subject.search(parameters(filter: 'boolean', q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 't' AND (\"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"integer\" != 1 AND \"all_postgres_types\".\"date\" > '2016-04-30')"
+        expect(subject.search(parameters(filter: 'boolean', q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 't' AND ((((\"all_postgres_types\".\"color\" ILIKE '%keyword%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%') AND \"all_postgres_types\".\"integer\" != 1 AND \"all_postgres_types\".\"date\" > '2016-04-30')"
       end
     end
   end

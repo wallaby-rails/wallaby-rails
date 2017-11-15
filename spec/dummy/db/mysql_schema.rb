@@ -13,16 +13,27 @@
 ActiveRecord::Schema.define(version: 0) do
 
   create_table "all_mysql_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.binary   "binary",   limit: 65535
-    t.boolean  "boolean"
-    t.date     "date"
-    t.datetime "datetime"
-    t.decimal  "decimal",                precision: 10
-    t.float    "float",    limit: 24
-    t.integer  "integer"
-    t.string   "string"
-    t.text     "text",     limit: 65535
-    t.time     "time"
+    t.binary            "binary",       limit: 65535
+    t.blob              "blob"
+    t.boolean           "boolean"
+    t.date              "date"
+    t.datetime          "datetime"
+    t.decimal           "decimal",      precision: 10
+    t.float             "float",        limit: 24
+    t.integer           "integer"
+    t.longblob          "longblob"
+    t.longtext          "longtext",     limit: 65535
+    t.mediumblob        "mediumblob"
+    t.mediumtext        "mediumtext",   limit: 65535
+    t.string            "string"
+    t.text              "text",         limit: 65535
+    t.time              "time"
+    t.tinyblob          "tinyblob"
+    t.tinytext          "tinytext",     limit: 65535
+    t.unsigned_bigint   "unsigned_bigint"
+    t.unsigned_decimal  "unsigned_decimal"
+    t.unsigned_float    "unsigned_float"
+    t.unsigned_integer  "unsigned_integer"
   end
 
 end

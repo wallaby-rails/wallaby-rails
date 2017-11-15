@@ -50,7 +50,7 @@ module Wallaby
     end
 
     def filter_label(filter_name)
-      filters[filter_name].try(:[], :label)
+      filters[filter_name].try(:[], :label) || filter_name.to_s.humanize
     end
 
     def current_filter_name

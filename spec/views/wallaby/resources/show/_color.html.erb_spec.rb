@@ -9,7 +9,8 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the string' do
-    expect(rendered).to eq "  <span style=\"background-color: #000000;\" class=\"color-square\"></span><span class=\"text-uppercase\">#000000</span>\n"
+    expect(rendered).to include "background-color: #{value};"
+    expect(rendered).to include "<span class=\"text-uppercase\">#{value}</span>"
   end
 
   context 'when value is nil' do

@@ -1,3 +1,7 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
 <% unique_collection = value.uniq %>
 <%= raw unique_collection.first(2).map{ |item| show_link item }.join(', ') %>
 

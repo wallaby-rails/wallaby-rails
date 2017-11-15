@@ -1,24 +1,34 @@
 require 'rails_helper'
 
-partial_name = 'form/numrange'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :numrange }
-  let(:value)       { 1..100 }
-  let(:metadata)    { {} }
-
-  before { render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata }
-
-  it 'renders the numrange form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_numrange\">Numrange</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">F</span>\n        <input value=\"1\" multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[numrange][]\" id=\"all_postgres_type_numrange\" />\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">T</span>\n        <input value=\"100\" multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[numrange][]\" id=\"all_postgres_type_numrange\" />\n      </div>\n    </div>\n  </div>\n  \n</div>\n"
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: 0..100,
+    skip_general: true,
+    skip_nil: true do
+    it 'checks the numbers' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(first_input['type']).to eq 'number'
+      expect(first_input['value']).to eq '0'
+      expect(last_input['name']).to eq "#{resources_name}[#{field_name}][]"
+      expect(last_input['type']).to eq 'number'
+      expect(last_input['value']).to eq '100'
+    end
   end
 
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_numrange\">Numrange</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">F</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[numrange][]\" id=\"all_postgres_type_numrange\" />\n      </div>\n    </div>\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\">T</span>\n        <input multiple=\"multiple\" class=\"form-control\" type=\"number\" name=\"all_postgres_type[numrange][]\" id=\"all_postgres_type_numrange\" />\n      </div>\n    </div>\n  </div>\n  \n</div>\n"
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: [],
+    skip_all: true do
+    it 'renders empty range' do
+      first_input = page.at_css('.row > div:first .form-control')
+      last_input = page.at_css('.row > div:last .form-control')
+      expect(first_input['value']).to be_nil
+      expect(last_input['value']).to be_nil
     end
   end
 end

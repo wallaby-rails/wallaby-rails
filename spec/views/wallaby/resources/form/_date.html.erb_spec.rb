@@ -1,27 +1,11 @@
 require 'rails_helper'
 
-partial_name = 'form/date'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :date }
-  let(:value)       { Date.new 2014, 2, 11 }
-  let(:metadata)    { {} }
-
-  before do
-    expect(view).to receive :content_for
-    render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
-  end
-
-  it 'renders the date form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_date\">Date</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datepicker'>\n        <input class=\"form-control\" type=\"text\" value=\"2014-02-11\" name=\"all_postgres_type[date]\" id=\"all_postgres_type_date\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n  </div>\n  \n</div>\n\n"
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_date\">Date</label>\n  <div class=\"row\">\n    <div class=\"col-xs-6 col-sm-4\">\n      <div class=\"input-group date\" data-init='datepicker'>\n        <input class=\"form-control\" type=\"text\" name=\"all_postgres_type[date]\" id=\"all_postgres_type_date\" />\n        <span class=\"input-group-addon\"><i class=\"fa fa-calendar\"></i></span>\n      </div>\n    </div>\n  </div>\n  \n</div>\n\n"
-    end
-  end
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: Date.new(2014, 2, 11),
+    expected_value: '2014-02-11',
+    content_for: true
 end

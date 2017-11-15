@@ -9,13 +9,13 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the bigint' do
-    expect(rendered).to eq "291733167875766667063796853374976.0\n"
+    expect(rendered).to include value.to_s
   end
 
   context 'when value is 0' do
     let(:value) { 0 }
     it 'renders the bigint' do
-      expect(rendered).to eq "0\n"
+      expect(rendered).to include value.to_s
     end
   end
 

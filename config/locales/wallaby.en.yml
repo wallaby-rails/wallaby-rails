@@ -23,7 +23,6 @@ en:
   labels:
     count: 'Count: '
     auto_select_hint: 'Type to select...'
-    or_html: 'Or %{link}'
     upload: 'Upload'
 
   buttons:
@@ -77,3 +76,16 @@ en:
 
   search:
     hint: 'Press enter to search.'
+
+  hints:
+    box_html: 'Format: <code>(x1, y1), (x2, y2)</code> where <i>(x1,y1)</i> and <i>(x2,y2)</i> are any two opposite corners of the box.'
+    cidr_html: 'Example: <code>192.168.1.1/24</code> which holds an IPv4 or IPv6 network specification.'
+    circle_html: 'Format: <code><(x, y), r></code> where <i>(x,y)</i> is the center point and <i>r</i> is the radius of the circle.'
+    hstore_html: 'Format: <code>"Key1" => "Value1", "Key2" => "Value2"</code> is used for input and output, includes zero or more <i>key => value</i> pairs separated by commas.'
+    inet_html: 'Example: <code>192.168.1.1/24</code> which holds an IPv4 or IPv6 network specification.'
+    line_html: 'Format: <code>{ A, B, C }</code> which are represented by the linear equation <i>Ax + By + C = 0</i>.'
+    lseg_html: 'Format: <code>[(x1, y1), (x2, y2)]</code> where <i>(x1,y1)</i> and <i>(x2,y2)</i> are the end points of the line segment.'
+    ltree_html: 'Example: <code>Top.Countries.Europe.Russia</code> which is a sequence of zero or more labels separated by dots.'
+    macaddr_html: 'Example: <code>08:00:2b:01:02:03</code> which stores MAC addresses.'
+    path_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the path.'
+    polygon_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the boundary of the polygon.'

@@ -1,21 +1,17 @@
 require 'rails_helper'
 
-partial_name = 'index/daterange'
-describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { Date.new(2014, 2, 11)..Date.new(2014, 2, 12) }
-  let(:metadata)  { {} }
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: Date.new(2014, 2, 11)..Date.new(2014, 2, 12),
+    skip_general: true do
 
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the daterange' do
-    expect(rendered).to eq "  <span class=\"from\">Feb 11</span>\n  ...\n  <span class=\"to\">Feb 12</span>\n  <i title=\"2014-02-11 ... 2014-02-12\" data-toggle=\"tooltip\" data-placement=\"top\" class=\"fa fa-clock-o\"></i>\n"
-  end
-
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders null' do
-      expect(rendered).to include view.null
+    it 'renders the daterange' do
+      expect(rendered).to include '<span class="from">Feb 11</span>'
+      expect(rendered).to include '<span class="to">Feb 12</span>'
+      expect(rendered).to include 'title="2014-02-11 ... 2014-02-12"'
     end
   end
 end

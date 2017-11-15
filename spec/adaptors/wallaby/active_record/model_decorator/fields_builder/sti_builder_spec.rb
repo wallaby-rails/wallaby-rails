@@ -41,13 +41,13 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
       end
     end
 
-    before { allow(model_class).to receive(:descendants) { [Staff, Hr::Manager] } }
+    before { allow(model_class).to receive(:descendants) { [Staff, HumanResource::Manager] } }
 
     it 'does not change metadata' do
       metadata = {}
       sti_column = model_class.columns.find { |c| c.name == model_class.inheritance_column }
       subject.update(metadata, sti_column)
-      expect(metadata).to eq(type: 'sti', sti_class_list: [model_class, Staff, Hr::Manager])
+      expect(metadata).to eq(type: 'sti', sti_class_list: [model_class, Staff, HumanResource::Manager])
     end
 
     context 'sti column is different' do
@@ -73,12 +73,13 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
       let(:model_class) { Staff }
 
       it 'does not change metadata' do
+        Customer.name
         Person.name
-        Hr::Manager.name
+        HumanResource::Manager.name
         metadata = {}
         sti_column = model_class.columns.find { |c| c.name == model_class.inheritance_column }
         subject.update(metadata, sti_column)
-        expect(metadata).to eq(type: 'sti', sti_class_list: [Person, Staff, Hr::Manager])
+        expect(metadata).to eq(type: 'sti', sti_class_list: [Person, Staff, Customer, HumanResource::Manager])
       end
     end
   end

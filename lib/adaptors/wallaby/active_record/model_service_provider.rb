@@ -2,6 +2,12 @@ module Wallaby
   class ActiveRecord
     # Model operator
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
+      def permit(params)
+        fields =
+          permitter.simple_field_names << permitter.compound_hashed_fields
+        params.require(param_key).permit(fields)
+      end
+
       def collection(params, authorizer)
         # NOTE: pagination free here
         # since somewhere might use it without pagination
@@ -55,12 +61,6 @@ module Wallaby
       end
 
       protected
-
-      def permit(params)
-        fields =
-          permitter.simple_field_names << permitter.compound_hashed_fields
-        params.require(param_key).permit(fields)
-      end
 
       def normalize(params)
         normalizer.normalize params

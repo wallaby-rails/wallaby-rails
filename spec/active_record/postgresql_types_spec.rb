@@ -1,11 +1,18 @@
 require 'rails_helper'
 
 describe 'PostgreSQL Types' do
-  it 'returns the expected native types' do
-    native_types = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
+  it 'supports the following types' do
+    column_methods = ActiveRecord::ConnectionAdapters::PostgreSQL::ColumnMethods.instance_methods.map(&:to_s)
+    expect(column_methods.length).to eq 30
+    expect(column_methods.sort).to eq %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial tsrange tstzrange tsvector uuid xml)
 
+    native_types = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
     expect(native_types.length).to eq 38
     expect(native_types.sort).to eq %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml)
+
+    all_types = column_methods | native_types
+    expect(all_types.length).to eq 40
+    expect(all_types.sort).to eq %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml)
   end
 
   describe 'point' do

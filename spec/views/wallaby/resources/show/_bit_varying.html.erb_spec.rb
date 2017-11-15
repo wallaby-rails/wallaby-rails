@@ -9,7 +9,7 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders bit_varying' do
-    expect(rendered).to eq "  <code>1101</code>\n"
+    expect(rendered).to include "<code>#{value}</code>"
   end
 
   context 'when value is nil' do

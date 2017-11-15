@@ -1,27 +1,35 @@
 require 'rails_helper'
 
-partial_name = 'form/text'
-describe partial_name do
-  let(:partial)     { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:form)        { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
-  let(:object)      { AllPostgresType.new field_name => value }
-  let(:field_name)  { :text }
-  let(:value)       { '<b>this is a text for more than 20 characters</b>' }
-  let(:metadata)    { {} }
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    value: '<b>this is a text for more than 20 characters</b>',
+    input_selector: 'textarea',
+    content_for: true,
+    skip_general: true,
+    skip_nil: true do
 
-  before do
-    expect(view).to receive :content_for
-    render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
-  end
+    it 'initializes the summernote' do
+      textarea = page.at_css('textarea.form-control')
+      expect(textarea['data-init']).to eq 'summernote'
+    end
 
-  it 'renders the text form' do
-    expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_text\">Text</label>\n  <textarea class=\"form-control\" data-init=\"summernote\" name=\"all_postgres_type[text]\" id=\"all_postgres_type_text\">\n&lt;b&gt;this is a text for more than 20 characters&lt;/b&gt;</textarea>\n  \n</div>\n\n"
-  end
+    it 'checks the value' do
+      textarea = page.at_css('textarea.form-control')
+      expect(textarea['name']).to eq "#{resources_name}[#{field_name}]"
+      expect(textarea.content).to eq "\n#{expected_value}"
+    end
 
-  context 'when value is nil' do
-    let(:value) { nil }
-    it 'renders empty input' do
-      expect(rendered).to eq "<div class=\"form-group \">\n  <label for=\"all_postgres_type_text\">Text</label>\n  <textarea class=\"form-control\" data-init=\"summernote\" name=\"all_postgres_type[text]\" id=\"all_postgres_type_text\">\n</textarea>\n  \n</div>\n\n"
+    context 'when value is nil' do
+      let(:value) { nil }
+
+      it 'renders the belongs_to form' do
+        textarea = page.at_css('textarea.form-control')
+        expect(textarea['name']).to eq "#{resources_name}[#{field_name}]"
+        expect(textarea.content).to eq "\n"
+      end
     end
   end
 end
