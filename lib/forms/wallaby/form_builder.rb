@@ -17,7 +17,12 @@ module Wallaby
     end
 
     def label(method, text = nil, options = {}, &block)
-      text = text.yield if text.respond_to? :yield
+      text = instance_exec(&text) if text.respond_to? :call
+      super
+    end
+
+    def select(method, choices = nil, options = {}, html_options = {}, &block)
+      choices = instance_exec(&choices) if choices.respond_to? :call
       super
     end
 
