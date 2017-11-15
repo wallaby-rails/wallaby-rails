@@ -21,7 +21,7 @@ describe Wallaby::FormHelper do
 
       context 'when partial does not exists' do
         it 'renders string partial' do
-          expect(helper.form_type_partial_render('unknown', field_name: 'name', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_name\">Name</label>\n  <input class=\"form-control\" type=\"text\" value=\"product_name\" name=\"product[name]\" id=\"product_name\" />\n  \n</div>\n"
+          expect(helper.form_type_partial_render('unknown', field_name: 'name', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_name\">Name</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <input class=\"form-control\" type=\"text\" value=\"product_name\" name=\"product[name]\" id=\"product_name\" />\n    </div>\n  </div>\n  \n</div>\n"
           expect(helper.form_type_partial_render('unknown', field_name: 'name', form: form)).to match 'type="text"'
         end
       end
@@ -45,7 +45,7 @@ describe Wallaby::FormHelper do
         end
 
         it 'renders the custom field' do
-          expect(helper.form_type_partial_render('string', field_name: 'custom', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_custom\">Custom</label>\n  <input class=\"form-control\" type=\"text\" value=\"custom_value\" name=\"product[custom]\" id=\"product_custom\" />\n  \n</div>\n"
+          expect(helper.form_type_partial_render('string', field_name: 'custom', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_custom\">Custom</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <input class=\"form-control\" type=\"text\" value=\"custom_value\" name=\"product[custom]\" id=\"product_custom\" />\n    </div>\n  </div>\n  \n</div>\n"
         end
       end
     end

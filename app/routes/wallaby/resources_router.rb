@@ -1,5 +1,6 @@
 module Wallaby
-  # Responsible to dispatch requests to controller and action
+  # This is the core of wallaby that dynamically dispatches request to
+  # appropriate controller and action.
   class ResourcesRouter
     def call(env)
       params = env['action_dispatch.request.path_parameters']
@@ -25,6 +26,8 @@ module Wallaby
   end
 end
 
+# NOTE: please keep this block at the end.
+# otherwise, it might go into a endless reloading loop in dev environment
 if Rails.env.development?
   # NOTE: Rails reload! will hit here
   puts <<-DEBUG
@@ -40,8 +43,9 @@ if Rails.env.development?
   # Wallaby::ResourcesController and Wallaby::ResourceDecorator.
   # therefore, under development environment, we need to preload
   # all classes under /app folder in main_app
-  # using `require` is not working for preloading, we need to constantize
-  # the class names to make Rails reload classes properly
+  # using `require` is not the way how Rails loads a class,
+  # we need to constantize the class names instead
+  # @see http://guides.rubyonrails.org/autoloading_and_reloading_constants.html
   Wallaby::ApplicationController.to_s
 
   preload = proc do |file_pattern|

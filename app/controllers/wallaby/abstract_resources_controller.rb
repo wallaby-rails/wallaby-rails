@@ -28,32 +28,38 @@ module Wallaby
 
     def new
       authorize! :new, new_resource
+      yield if block_given? # after_new
     end
 
     def create
       authorize! :create, current_model_class
       @resource, _is_success = current_model_service.create params
+      yield if block_given? # after_create
       respond_with resource, location: resources_index_path
     end
 
     def show
       authorize! :show, resource
+      yield if block_given? # after_show
       respond_with resource
     end
 
     def edit
       authorize! :edit, resource
+      yield if block_given? # after_edit
     end
 
     def update
       authorize! :update, resource
       @resource, _is_success = current_model_service.update resource, params
+      yield if block_given? # after_update
       respond_with resource, location: resources_show_path
     end
 
     def destroy
       authorize! :destroy, resource
       is_success = current_model_service.destroy resource, params
+      yield if block_given? # after_destroy
       location = -> { is_success ? resources_index_path : resources_show_path }
       respond_with resource, location: location
     end

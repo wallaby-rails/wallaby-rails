@@ -5,6 +5,7 @@ require 'cancancan'
 require 'kaminari'
 require 'parslet'
 require 'responders'
+require 'jbuilder'
 
 require 'sass-rails'
 
