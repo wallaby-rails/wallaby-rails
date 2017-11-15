@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 field_name = 'type'
+type = __FILE__[%r{/([^/]+)/_}, 1]
 describe field_name do
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: Staff,
     metadata: {
-      sti_class_list: [ Customer, Staff ]
+      sti_class_list: [Customer, Staff]
     },
     model_class: Person,
     partial_name: 'sti',

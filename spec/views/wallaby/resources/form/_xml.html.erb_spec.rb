@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-field_name = 'xml'
 xml = <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
 <note>
@@ -10,8 +9,11 @@ xml = <<-XML
 <body>Don't forget me this weekend!</body>
 </note>
 XML
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
 describe field_name do
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: xml,
     input_selector: 'textarea',
     content_for: true,

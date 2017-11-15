@@ -2,7 +2,8 @@ require 'rails_helper'
 
 field_name = 'product_detail'
 describe field_name, :current_user do
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    'form partial', field_name,
     model_class: Product,
     partial_name: 'has_one',
     skip_general: true,

@@ -1,8 +1,10 @@
 require 'rails_helper'
 
-field_name = 'numrange'
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
 describe field_name do
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: 0..100,
     skip_general: true,
     skip_nil: true do
@@ -18,7 +20,8 @@ describe field_name do
     end
   end
 
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: [],
     skip_all: true do
     it 'renders empty range' do

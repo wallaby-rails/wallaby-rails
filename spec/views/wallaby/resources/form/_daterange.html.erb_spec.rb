@@ -1,8 +1,10 @@
 require 'rails_helper'
 
-field_name = 'daterange'
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
 describe field_name do
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: Date.new(2014, 2, 11)..Date.new(2014, 3, 14),
     content_for: true,
     skip_general: true,
@@ -19,7 +21,8 @@ describe field_name do
     end
   end
 
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: [],
     skip_all: true do
     it 'renders empty range' do

@@ -1,8 +1,10 @@
 require 'rails_helper'
 
-field_name = 'boolean'
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
 describe field_name do
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: true,
     type: 'radio',
     skip_value_check: true,
@@ -16,7 +18,8 @@ describe field_name do
     end
   end
 
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: false,
     type: 'radio',
     skip_all: true do
@@ -29,7 +32,8 @@ describe field_name do
     end
   end
 
-  it_behaves_like 'form partial', field_name,
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: nil,
     type: 'radio',
     skip_all: true do

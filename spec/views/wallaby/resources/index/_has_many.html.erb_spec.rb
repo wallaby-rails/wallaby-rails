@@ -2,7 +2,8 @@ require 'rails_helper'
 
 field_name = 'products'
 describe field_name, :current_user do
-  it_behaves_like 'index partial', field_name,
+  it_behaves_like \
+    'index partial', field_name,
     value: [
       Product.new(id: 1, name: 'Hiking shoes'),
       Product.new(id: 2, name: 'Hiking pole'),

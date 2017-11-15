@@ -1,9 +1,11 @@
 require 'rails_helper'
 
-field_name = 'string'
 partial_name = 'color'
-describe partial_name do
-  it_behaves_like 'form partial', field_name,
+field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
+type = __FILE__[%r{/([^/]+)/_}, 1]
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
     value: '#000000',
     partial_name: partial_name,
     input_selector: 'input.form-control' do
