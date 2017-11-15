@@ -85,7 +85,4 @@ module Wallaby
       RUBY
     end
   end
-
-  # NOTE: prevent people from overriding this class
-  AbstractResourceDecorator.freeze
 end

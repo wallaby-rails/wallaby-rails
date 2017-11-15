@@ -45,7 +45,4 @@ module Wallaby
       @provider.destroy resource, params, @authorizer
     end
   end
-
-  # NOTE: prevent people from overriding this class
-  AbstractModelServicer.freeze
 end
