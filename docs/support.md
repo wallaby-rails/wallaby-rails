@@ -45,4 +45,5 @@
     - email
     - sti
     - password
-    - raw
+    - raw (index/show)
+    - dropdown (form)

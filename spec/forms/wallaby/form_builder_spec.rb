@@ -32,7 +32,15 @@ describe 'Wallaby::FormBuilder', type: :helper do
 
   describe '#label' do
     it 'returns the label' do
+      expect(subject.label(:name, 'some text')).to eq '<label for="product_name">some text</label>'
       expect(subject.label(:name, -> { 'some text' })).to eq '<label for="product_name">some text</label>'
+    end
+  end
+
+  describe '#select' do
+    it 'returns the select' do
+      expect(subject.select(:name, [1, 2])).to eq "<select name=\"product[name]\" id=\"product_name\"><option value=\"1\">1</option>\n<option value=\"2\">2</option></select>"
+      expect(subject.select(:name, -> { [1, 2] })).to eq "<select name=\"product[name]\" id=\"product_name\"><option value=\"1\">1</option>\n<option value=\"2\">2</option></select>"
     end
   end
 end
