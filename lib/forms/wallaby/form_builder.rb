@@ -1,5 +1,5 @@
 module Wallaby
-  # Form builder
+  # Custom form builder to add more helper functions
   class FormBuilder < ::ActionView::Helpers::FormBuilder
     def error_class(field_name)
       'has-error' if error? field_name
@@ -16,11 +16,13 @@ module Wallaby
       end
     end
 
+    # Extend label to accept proc type `text` argument
     def label(method, text = nil, options = {}, &block)
       text = instance_exec(&text) if text.respond_to? :call
       super
     end
 
+    # Extend select to accept proc type `choices` argument
     def select(method, choices = nil, options = {}, html_options = {}, &block)
       choices = instance_exec(&choices) if choices.respond_to? :call
       super
