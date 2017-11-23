@@ -41,7 +41,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-minicolors-rails'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'momentjs-rails'
-  s.add_dependency 'rails-bootstrap-markdown'
   s.add_dependency 'summernote-rails'
   s.add_dependency 'twitter-typeahead-rails'
 end
