@@ -1,0 +1,11 @@
+//= require jquery
+//= require jquery_ujs
+//= require bootstrap-sprockets
+//= require moment
+//= require bootstrap-datetimepicker
+//= require summernote
+//= require twitter/typeahead
+//= require jquery.minicolors
+//= require turbolinks
+//= require wallaby/auto_select
+//= require wallaby/setup

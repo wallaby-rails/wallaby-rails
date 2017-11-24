@@ -48,3 +48,4 @@
     - raw (index/show)
     - dropdown (form)
     - markdown (form)
+    - file (form)
