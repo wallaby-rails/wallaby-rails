@@ -17,7 +17,7 @@ The following params are the variables that can be used in this partial.
   <% @codemirror_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(document).off('turbolinks:load.xml').on('turbolinks:load.xml', function () {
+      jQuery(document).off('turbolinks:load.codemirror_init').on('turbolinks:load.codemirror_init', function () {
         $('textarea[data-init="codemirror"]').each(function (index, element) {
           CodeMirror.fromTextArea(element, {
             mode: $(element).data('mode'),
