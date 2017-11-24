@@ -49,3 +49,4 @@
     - dropdown (form)
     - markdown (form)
     - file (form)
+    - image (show)
