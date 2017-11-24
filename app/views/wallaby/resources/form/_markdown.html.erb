@@ -9,11 +9,8 @@ The following params are the variables that can be used in this partial.
 %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
-  <%= form.text_area field_name, value: value.to_s[%r(\A{(.*)}\Z), 1], class: 'form-control', data: { init: 'codemirror', mode: 'ruby' } %>
+  <%= form.text_area field_name, class: 'form-control', data: { init: 'codemirror', mode: 'markdown' } %>
   <%= form.error_messages field_name %>
-  <p class="help-block">
-    <%= t 'hints.hstore_html' %>
-  </p>
 </div>
 
 <% unless @codemirror_init %>
