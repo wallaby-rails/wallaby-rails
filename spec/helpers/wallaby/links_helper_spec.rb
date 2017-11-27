@@ -16,7 +16,7 @@ describe Wallaby::LinksHelper, :current_user do
   describe '#index_path' do
     it 'returns index path' do
       expect(helper.index_path(Product)).to eq '/admin/products'
-      expect(helper.index_path(Product, url_params: {sort: 'name asc'})).to eq '/admin/products?sort=name+asc'
+      expect(helper.index_path(Product, url_params: { sort: 'name asc' })).to eq '/admin/products?sort=name+asc'
     end
 
     context 'when ActionController::Parameters are given' do
@@ -95,7 +95,7 @@ describe Wallaby::LinksHelper, :current_user do
         ability = helper.current_ability
         ability.cannot :show, Product
         expect(helper.show_link(resource)).to be_nil
-        expect(helper.show_link(resource, options: {readonly: true})).to eq 'iPhone'
+        expect(helper.show_link(resource, options: { readonly: true })).to eq 'iPhone'
       end
 
       context 'when resource is decorated' do
@@ -124,7 +124,7 @@ describe Wallaby::LinksHelper, :current_user do
         ability = helper.current_ability
         ability.cannot :edit, Product
         expect(helper.edit_link(resource)).to be_nil
-        expect(helper.edit_link(resource, options: {readonly: true})).to eq 'iPhone'
+        expect(helper.edit_link(resource, options: { readonly: true })).to eq 'iPhone'
       end
 
       context 'when resource is decorated' do

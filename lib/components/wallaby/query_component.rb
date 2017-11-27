@@ -33,7 +33,8 @@ module Wallaby
     end
 
     def query_search
-      form_tag index_path(current_model_class), method: :get, class: 'query__search' do
+      form_tag \
+        index_path(current_model_class), method: :get, class: 'query__search' do
         concat hidden_field_tag :sort, index_params[:sort]
         concat(label_tag(:q) do
           text_field_tag :q, index_params[:q], placeholder: search_hint
