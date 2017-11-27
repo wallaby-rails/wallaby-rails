@@ -10,6 +10,6 @@ The following params are the variables that can be used in this partial.
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
   <div>
-    <%= value.present? ? edit_link(value) : new_link(metadata[:class]) %>
+    <%= value.present? ? edit_link(value, options: { readonly: true }) : new_link(metadata[:class]) %>
   </div>
 </div>

@@ -1,3 +1,4 @@
+
 <%#
 The following params are the variables that can be used in this partial.
 
@@ -8,26 +9,36 @@ The following params are the variables that can be used in this partial.
 @param metadata [Hash] metadata of the field
 %>
 <%
-wildcard = 'QUERY'
-url = remote_url(metadata[:remote_url], metadata[:class], wildcard)
+decorated = decorate(value || [])
+readonly = cannot? :edit, metadata[:class]
 %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
-    <span class="auto_select" data-init="has_and_belongs_to_many" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
-      <div class="col-xs-12 col-sm-6">
-        <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', multiple: true, placeholder: t('labels.auto_select_hint') %>
+    <% if readonly %>
+      <div class="col-xs-12">
+        <%= decorated.map(&:to_label).to_sentence %>
       </div>
-      <strong class="auto_select__count"><%= t 'labels.count' %><span></span></strong>
-      <ul>
-        <% decorate(value || []).each do |v| %>
-          <li>
-            <%= form.hidden_field metadata[:foreign_key], value: v.primary_key_value, multiple: true, id: nil %>
-            <a href="javascript:;"><%= v.to_label %></a>
-          </li>
-        <% end %>
-      </ul>
-    </span>
+    <% else %>
+      <%
+      wildcard = 'QUERY'
+      url = remote_url(metadata[:remote_url], metadata[:class], wildcard)
+      %>
+      <span class="auto_select" data-init="has_and_belongs_to_many" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
+        <div class="col-xs-12 col-sm-6">
+          <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', multiple: true, placeholder: t('labels.auto_select_hint') %>
+        </div>
+        <strong class="auto_select__count"><%= t 'labels.count' %><span></span></strong>
+        <ul>
+          <% decorated.each do |v| %>
+            <li>
+              <%= form.hidden_field metadata[:foreign_key], value: v.primary_key_value, multiple: true, id: nil %>
+              <a href="javascript:;"><%= v.to_label %></a>
+            </li>
+          <% end %>
+        </ul>
+      </span>
+    <% end %>
   </div>
   <%= form.error_messages field_name %>
   <p class="help-block">
