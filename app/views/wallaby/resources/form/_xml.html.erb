@@ -20,9 +20,7 @@ The following params are the variables that can be used in this partial.
       jQuery(document).off('turbolinks:load.codemirror_init').on('turbolinks:load.codemirror_init', function () {
         $('textarea[data-init="codemirror"]').each(function (index, element) {
           CodeMirror.fromTextArea(element, {
-            mode: $(element).data('mode'),
-            theme: "base16-dark",
-            lineNumbers: true
+            mode: $(element).data('mode')
           });
         })
       })

@@ -8,35 +8,44 @@ The following params are the variables that can be used in this partial.
 @param metadata [Hash] metadata of the field
 %>
 <%
-wildcard = metadata[:wildcard] || Wallaby::WILDCARD
 decorated = decorate value
-url = unless metadata[:is_polymorphic]
-  remote_url(metadata[:remote_url], metadata[:class], wildcard)
-end || 'url'
+readonly = cannot? :edit, metadata[:class]
 %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
-    <span class="auto_select" data-init="belongs_to" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
-      <% # polymorphic class dropdown box
-      # with remote url for typeahead to use
-      if metadata[:is_polymorphic] %>
-        <div class="col-xs-6 col-sm-4 auto_select--spacing">
-          <%= form.select metadata[:polymorphic_type], polymorphic_options(metadata, wildcard, selected: object.public_send(metadata[:polymorphic_type])), { include_blank: true }, { class: 'form-control' } %>
-        </div>
-      <% end %>
-      <div class="col-xs-12 col-sm-6">
-        <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: t('labels.auto_select_hint') %>
+    <% if readonly %>
+      <div class="col-xs-12">
+        <%= decorated.try :to_label %>
       </div>
-      <ul>
-        <% if decorated.present? %>
-          <li>
-            <%= form.hidden_field metadata[:foreign_key], value: decorated.primary_key_value, id: nil %>
-            <a href="javascript:;"><%= decorated.to_label %></a>
-          </li>
+    <% else %>
+      <%
+        wildcard = metadata[:wildcard] || Wallaby::WILDCARD
+        url = unless metadata[:is_polymorphic]
+          remote_url(metadata[:remote_url], metadata[:class], wildcard)
+        end || 'url'
+      %>
+      <span class="auto_select" data-init="belongs_to" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
+        <% # polymorphic class dropdown box
+        # with remote url for typeahead to use
+        if metadata[:is_polymorphic] %>
+          <div class="col-xs-6 col-sm-4 auto_select--spacing">
+            <%= form.select metadata[:polymorphic_type], polymorphic_options(metadata, wildcard, selected: object.public_send(metadata[:polymorphic_type])), { include_blank: true }, { class: 'form-control' } %>
+          </div>
         <% end %>
-      </ul>
-    </span>
+        <div class="col-xs-12 col-sm-6">
+          <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: t('labels.auto_select_hint') %>
+        </div>
+        <ul>
+          <% if decorated.present? %>
+            <li>
+              <%= form.hidden_field metadata[:foreign_key], value: decorated.primary_key_value, id: nil %>
+              <a href="javascript:;"><%= decorated.to_label %></a>
+            </li>
+          <% end %>
+        </ul>
+      </span>
+    <% end %>
   </div>
   <%= form.error_messages field_name %>
   <% unless metadata[:is_polymorphic] %>

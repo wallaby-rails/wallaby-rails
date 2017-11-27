@@ -4,6 +4,13 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require summernote
+//= require codemirror
+//= require codemirror/addons/mode/overlay
+//= require codemirror/modes/ruby
+//= require codemirror/modes/javascript
+//= require codemirror/modes/markdown
+//= require codemirror/modes/gfm
+//= require codemirror/modes/xml
 //= require twitter/typeahead
 //= require jquery.minicolors
 //= require turbolinks

@@ -48,4 +48,9 @@ jQuery(document).off('turbolinks:load.wallaby').on('turbolinks:load.wallaby', fu
       }).trigger('scroll');
     })
   })
+
+  if (CodeMirror) {
+    CodeMirror.defaults.theme = "mdn-like";
+    CodeMirror.defaults.lineNumbers = true;
+  }
 })

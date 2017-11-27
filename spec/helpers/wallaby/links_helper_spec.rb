@@ -15,17 +15,18 @@ describe Wallaby::LinksHelper, :current_user do
 
   describe '#index_path' do
     it 'returns index path' do
-      expect(helper.index_path(model_class: Product)).to eq '/admin/products'
+      expect(helper.index_path(Product)).to eq '/admin/products'
+      expect(helper.index_path(Product, url_params: { sort: 'name asc' })).to eq '/admin/products?sort=name+asc'
     end
 
-    context 'when url_params are given' do
+    context 'when ActionController::Parameters are given' do
       it 'returns index path with queries' do
-        expect(helper.index_path(model_class: Product, url_params: parameters(sort: 'name asc').permit!)).to eq '/admin/products?sort=name+asc'
+        expect(helper.index_path(Product, url_params: parameters(sort: 'name asc').permit!)).to eq '/admin/products?sort=name+asc'
       end
 
       context 'when url_params are not permitted' do
         it 'returns index path' do
-          expect(helper.index_path(model_class: Product, url_params: parameters(sort: 'name asc'))).to eq '/admin/products'
+          expect(helper.index_path(Product, url_params: parameters(sort: 'name asc'))).to eq '/admin/products'
         end
       end
     end
@@ -70,7 +71,6 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.new_link(Product)).to eq '<a class="resource__create" href="/admin/products/new">Create Product</a>'
       expect(helper.new_link(Product) { 'New' }).to eq '<a class="resource__create" href="/admin/products/new">New</a>'
       expect(helper.new_link(Product, html_options: { class: 'test' })).to eq '<a class="test" href="/admin/products/new">Create Product</a>'
-      expect(helper.new_link(Product, html_options: { class: 'test' }, options: { prepend: 'Or ' })).to eq 'Or <a class="test" href="/admin/products/new">Create Product</a>'
     end
 
     context 'when cannot new' do
@@ -83,10 +83,10 @@ describe Wallaby::LinksHelper, :current_user do
   end
 
   describe '#show_link' do
-    let(:resource) { Product.new id: 1 }
+    let(:resource) { Product.new id: 1, name: 'iPhone' }
 
     it 'returns show link' do
-      expect(helper.show_link(resource)).to eq '<a href="/admin/products/1">1</a>'
+      expect(helper.show_link(resource)).to eq '<a href="/admin/products/1">iPhone</a>'
       expect(helper.show_link(resource) { 'Show' }).to eq '<a href="/admin/products/1">Show</a>'
     end
 
@@ -95,6 +95,7 @@ describe Wallaby::LinksHelper, :current_user do
         ability = helper.current_ability
         ability.cannot :show, Product
         expect(helper.show_link(resource)).to be_nil
+        expect(helper.show_link(resource, options: { readonly: true })).to eq 'iPhone'
       end
 
       context 'when resource is decorated' do
@@ -110,12 +111,12 @@ describe Wallaby::LinksHelper, :current_user do
   end
 
   describe '#edit_link' do
-    let(:resource) { Product.new id: 1 }
+    let(:resource) { Product.new id: 1, name: 'iPhone' }
 
     it 'returns edit link' do
-      expect(helper.edit_link(resource)).to eq '<a class="resource__update" href="/admin/products/1/edit">Edit 1</a>'
+      expect(helper.edit_link(resource)).to eq '<a class="resource__update" href="/admin/products/1/edit">Edit iPhone</a>'
       expect(helper.edit_link(resource) { 'Edit' }).to eq '<a class="resource__update" href="/admin/products/1/edit">Edit</a>'
-      expect(helper.edit_link(resource, html_options: { class: 'test' })).to eq '<a class="test" href="/admin/products/1/edit">Edit 1</a>'
+      expect(helper.edit_link(resource, html_options: { class: 'test' })).to eq '<a class="test" href="/admin/products/1/edit">Edit iPhone</a>'
     end
 
     context 'when cannot edit' do
@@ -123,6 +124,7 @@ describe Wallaby::LinksHelper, :current_user do
         ability = helper.current_ability
         ability.cannot :edit, Product
         expect(helper.edit_link(resource)).to be_nil
+        expect(helper.edit_link(resource, options: { readonly: true })).to eq 'iPhone'
       end
 
       context 'when resource is decorated' do

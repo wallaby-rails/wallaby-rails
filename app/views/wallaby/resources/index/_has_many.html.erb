@@ -3,11 +3,11 @@
 <%# @param value [Object] value of the field %>
 <%# @param metadata [Hash] metadata of the field %>
 <% unique_collection = value.uniq %>
-<%= raw unique_collection.first(2).map{ |item| show_link item }.join(', ') %>
+<%= raw unique_collection.first(2).map{ |item| show_link item, options: { readonly: true } }.join(', ') %>
 
 <% if unique_collection.length > 2 %>
   <% title  = metadata[:label] %>
-  <% body   = unique_collection.map{ |item| show_link item }.to_sentence.html_safe %>
+  <% body   = unique_collection.map{ |item| show_link item, options: { readonly: true } }.to_sentence.html_safe %>
   <% label  = "#{ unique_collection.length - 2 } more" %>
   and <%= imodal title, body, label: label %>
 <% elsif unique_collection.blank? %>

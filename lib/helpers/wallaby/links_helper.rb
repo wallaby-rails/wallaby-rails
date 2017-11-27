@@ -1,45 +1,77 @@
 module Wallaby
   # Links helper
   module LinksHelper
+    # Permit the params used by Wallaby
     def index_params
       params.permit(:q, :page, :per, :sort, :filter)
     end
 
+    # Return link to index page by a given model class
+    # If user's not authorized, nil will be returned
+    # @param model_class [Class] model class
+    # @param url_params [ActionController::Parameters, Hash]
+    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @return [String, nil] anchor element
     def index_link(model_class, url_params: {}, html_options: {}, &block)
       return if cannot? :index, model_class
       block ||= -> { to_model_label model_class }
-      path = index_path model_class: model_class, url_params: url_params
+      path = index_path model_class, url_params: url_params
       link_to path, html_options, &block
     end
 
-    def new_link(model_class, options: {}, html_options: {}, &block)
+    # Return link to create page by a given model class
+    # If user's not authorized, nil will be returned
+    # @param model_class [Class] model class
+    # @param options [Hash]
+    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @return [String, nil] anchor element
+    def new_link(model_class, html_options: {}, &block)
       return if cannot? :new, model_class
       block ||= -> { t 'links.new', model: to_model_label(model_class) }
       html_options[:class] = 'resource__create' unless html_options.key? :class
 
-      prepend = options[:prepend] || EMPTY_STRING
-      prepend.html_safe + link_to(new_path(model_class), html_options, &block)
+      link_to new_path(model_class), html_options, &block
     end
 
-    def show_link(resource, html_options: {}, &block)
-      return if cannot? :show, extract(resource)
-
+    # Return link to show page by a given model class
+    # If user's not authorized, resource label will be returned
+    # @param resource [Object, Wallaby::ResourceDecorator] model class
+    # @param options [Hash]
+    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @return [String] anchor element / text
+    def show_link(resource, options: {}, html_options: {}, &block)
       # NOTE: to_s is a must
       # if a block is returning integer (e.g. `{ 1 }`)
       # `link_to` will render blank text note inside hyper link
       block ||= -> { decorate(resource).to_label.to_s }
+
+      default = options[:readonly] && block.call || nil
+      return default if cannot? :show, extract(resource)
       link_to show_path(resource), html_options, &block
     end
 
-    def edit_link(resource, html_options: {}, &block)
-      return if cannot? :edit, extract(resource)
-
+    # Return link to edit page by a given model class
+    # If user's not authorized, resource label will be returned
+    # @param resource [Object, Wallaby::ResourceDecorator] model class
+    # @param options [Hash]
+    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @return [String] anchor element / text
+    def edit_link(resource, options: {}, html_options: {}, &block)
       block ||= -> { "#{t 'links.edit'} #{decorate(resource).to_label}" }
+      default = options[:readonly] && decorate(resource).to_label || nil
+      return default if cannot? :edit, extract(resource)
+
       html_options[:class] = 'resource__update' unless html_options.key? :class
 
       link_to edit_path(resource), html_options, &block
     end
 
+    # Return link to delete action by a given model class
+    # If user's not authorized, nil will be returned
+    # @param resource [Object, Wallaby::ResourceDecorator] model class
+    # @param options [Hash]
+    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @return [String, nil] anchor element
     def delete_link(resource, html_options: {}, &block)
       return if cannot? :destroy, extract(resource)
 
@@ -57,12 +89,12 @@ module Wallaby
       link_to :back, html_options, &block
     end
 
-    def index_path(model_class: current_model_class, url_params: {})
+    def index_path(model_class, url_params: {})
       wallaby_engine.resources_path \
         to_resources_name(model_class), url_params.to_h
     end
 
-    def new_path(model_class = current_model_class)
+    def new_path(model_class)
       wallaby_engine.new_resource_path to_resources_name(model_class)
     end
 

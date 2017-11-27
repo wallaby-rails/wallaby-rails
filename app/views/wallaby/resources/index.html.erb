@@ -16,11 +16,12 @@ decorated_collection = decorate collection
   <section>
     <% # Data table %>
     <% if decorated_collection.present? %>
+      <% field_names = current_model_decorator.index_field_names %>
       <div class="resources__container">
         <table class="resources__data">
           <thead>
             <tr>
-              <% current_model_decorator.index_field_names.each do |field_name| %>
+              <% field_names.each do |field_name| %>
                 <th class="<%= sort_class field_name %>">
                   <%= sort_link field_name %>
                 </th>
@@ -31,7 +32,7 @@ decorated_collection = decorate collection
           <tbody>
             <% decorated_collection.each do |decorated| %>
               <tr>
-                <% current_model_decorator.index_field_names.each do |field_name| %>
+                <% field_names.each do |field_name| %>
                   <td>
                     <%= index_type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
                   </td>
