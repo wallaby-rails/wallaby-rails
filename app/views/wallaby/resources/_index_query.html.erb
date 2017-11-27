@@ -1,4 +1,11 @@
-<%= content_tag :div, class: query_classes do %>
+<%
+query_classes = proc do
+  classes = %w(query)
+  classes.push 'query--filtered' if index_params.present?
+  classes
+end
+%>
+<%= content_tag :div, class: query_classes.call do %>
   <nav class="query__actions">
     <%= index_link(current_model_class, html_classes('query__clear')) {} if index_params.present? %>
     <%= new_link(current_model_class, html_classes('query__create')) {} %>

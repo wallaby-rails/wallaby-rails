@@ -6,7 +6,7 @@ decorated_collection = decorate collection
   <div class="resources__header">
     <h1><%= to_model_label(current_model_class) %></h1>
     <%= render 'index_query' %>
-    <%= Wallaby::FiltersComponent.new(current_model_decorator.filters, current_model_class, self).build %>
+    <%= render 'index_filters' %>
     <%= Wallaby::PaginationComponent.new(collection, current_model_class, self).build %>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
