@@ -24,7 +24,7 @@ module Wallaby
     def remote_url(url, model_class, wildcard = 'QUERY')
       url || begin
         url_params = { q: wildcard, per: Wallaby.configuration.page_size }
-        index_path(model_class: model_class, url_params: url_params)
+        index_path(model_class, url_params: url_params)
       end
     end
 

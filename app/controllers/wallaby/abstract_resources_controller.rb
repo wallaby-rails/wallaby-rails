@@ -77,7 +77,7 @@ module Wallaby
     end
 
     def resources_index_path
-      helpers.index_path model_class: current_resources_name
+      helpers.index_path current_resources_name
     end
 
     def resources_show_path

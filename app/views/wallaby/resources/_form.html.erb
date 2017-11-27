@@ -5,7 +5,7 @@
     </div>
   <% end %>
 <% end %>
-<% authorized_field_names(current_model_decorator, :form).each do |field_name| %>
+<% current_model_decorator.form_field_names.each do |field_name| %>
   <%= form_type_partial_render decorated.form_type_of(field_name).to_s, field_name: field_name, form: form %>
 <% end %>
 <%= form.button t('buttons.save'), class: 'btn btn-primary' %>

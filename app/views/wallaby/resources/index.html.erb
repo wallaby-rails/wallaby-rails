@@ -16,7 +16,7 @@ decorated_collection = decorate collection
   <section>
     <% # Data table %>
     <% if decorated_collection.present? %>
-      <% field_names = authorized_field_names current_model_decorator, :index %>
+      <% field_names = current_model_decorator.index_field_names %>
       <div class="resources__container">
         <table class="resources__data">
           <thead>

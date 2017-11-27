@@ -73,7 +73,7 @@ module Wallaby
     end
 
     def action_url
-      index_path model_class: model_class,
+      index_path model_class,
                  url_params: index_params.except(:page)
     end
 
