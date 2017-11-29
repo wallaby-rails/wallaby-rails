@@ -1,15 +1,15 @@
 <%
 filters = current_model_decorator.filters
-current_filter = index_params[:filter] || :all
+filter = current_filter_name(index_params[:filter], filters)
 html_options = proc do |filter_name|
-  { class: current_filter.to_s == filter_name.to_s ? 'filters--current' : '' }
+  { class: filter.to_s == filter_name.to_s ? 'filters--current' : '' }
 end
 %>
 <nav class="filters">
   <% if filters.present? %>
     <a role="button" data-target="#" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="true">
-      <%= filter_label(current_filter) || all_label %>
+      <%= filter_label(filter) || all_label %>
     </a>
     <ul>
       <li><em><%= t 'filters.title' %></em></li>

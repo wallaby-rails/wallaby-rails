@@ -7,7 +7,7 @@ decorated_collection = decorate collection
     <h1><%= to_model_label(current_model_class) %></h1>
     <%= render 'index_query' %>
     <%= render 'index_filters' %>
-    <%= Wallaby::PaginationComponent.new(collection, current_model_class, self).build %>
+    <%= render 'index_pagination' %>
   </div>
   <%= render 'wallaby/shared/flash_messages' %>
 
