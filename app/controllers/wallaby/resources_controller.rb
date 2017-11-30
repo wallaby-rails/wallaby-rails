@@ -1,6 +1,6 @@
 module Wallaby
   # Resources controller
   # @overwritable
-  class ResourcesController < AbstractResourcesController
+  class ResourcesController < Wallaby::AbstractResourcesController
   end
 end

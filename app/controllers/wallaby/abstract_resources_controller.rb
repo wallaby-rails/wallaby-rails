@@ -1,6 +1,6 @@
 module Wallaby
   # Generic CRUD controller
-  class AbstractResourcesController < BaseController
+  class AbstractResourcesController < ::Wallaby::BaseController
     self.responder = ResourcesResponder
     respond_to :html
     respond_to :json
