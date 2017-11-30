@@ -12,6 +12,15 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
     end
 
     describe 'filtering' do
+      context 'default scope' do
+        it 'queries default scope if no filter is specified' do
+          model_decorator.filters[:text] = { scope: proc { where text: text } }
+          model_decorator.filters[:boolean] = { scope: proc { where boolean: true }, default: true }
+          keyword = ''
+          expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = \'t\''
+        end
+      end
+
       context 'when scope is a block' do
         before do
           model_decorator.filters[:boolean] = { scope: -> { where boolean: true } }
