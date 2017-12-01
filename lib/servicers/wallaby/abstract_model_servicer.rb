@@ -33,8 +33,8 @@ module Wallaby
       @provider.find id, params, @authorizer
     end
 
-    def create(params)
-      @provider.create params, @authorizer
+    def create(resource, params)
+      @provider.create resource, params, @authorizer
     end
 
     def update(resource, params)

@@ -100,12 +100,14 @@ module Wallaby
 
     def show_path(resource)
       decorated = decorate resource
+      return unless decorated.primary_key_value
       wallaby_engine.resource_path \
         decorated.resources_name, decorated.primary_key_value
     end
 
     def edit_path(resource)
       decorated = decorate resource
+      return unless decorated.primary_key_value
       wallaby_engine.edit_resource_path \
         decorated.resources_name, decorated.primary_key_value
     end

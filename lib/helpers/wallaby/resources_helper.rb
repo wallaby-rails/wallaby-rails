@@ -11,6 +11,7 @@ module Wallaby
     end
 
     def model_servicer(model_class, authorizer = current_ability)
+      warn '[DEPRECATION] `model_servicer` will be removed in version 5.2.0.'
       Map.servicer_map(model_class).new(model_class, authorizer)
     end
 

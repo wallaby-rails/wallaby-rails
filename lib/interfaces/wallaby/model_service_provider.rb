@@ -27,7 +27,7 @@ module Wallaby
       raise NotImplemented
     end
 
-    def create(_params, _authorizer)
+    def create(_resource, _params, _authorizer)
       raise NotImplemented
     end
 
