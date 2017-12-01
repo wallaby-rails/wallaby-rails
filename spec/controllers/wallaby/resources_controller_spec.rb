@@ -41,6 +41,50 @@ describe Wallaby::ResourcesController do
       end
     end
 
+    describe '#current_model_service' do
+      it 'returns model servicer for default model_class' do
+        model_servicer = controller.send :current_model_service
+        expect(model_servicer).to be_a Wallaby::ModelServicer
+        expect(assigns(:current_model_service)).to eq model_servicer
+      end
+    end
+
+    describe '#paginate' do
+      let(:query) { Product.where(nil) }
+      before do
+        controller.request.format = :json
+      end
+
+      it 'returns the query' do
+        paginate = controller.send :paginate, query
+        expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products"'
+      end
+
+      context 'when page param is provided' do
+        it 'paginate the query' do
+          controller.params[:page] = 8
+          paginate = controller.send :paginate, query
+          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 140'
+        end
+      end
+
+      context 'when per param is provided' do
+        it 'paginate the query' do
+          controller.params[:per] = 8
+          paginate = controller.send :paginate, query
+          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 8 OFFSET 0'
+        end
+      end
+
+      context 'when page param is provided' do
+        it 'paginate the query' do
+          controller.request.format = :html
+          paginate = controller.send :paginate, query
+          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
+        end
+      end
+    end
+
     describe '#collection' do
       it 'expects call from current_model_decorator' do
         controller.params[:per] = 10
@@ -53,11 +97,16 @@ describe Wallaby::ResourcesController do
     end
 
     describe '#resource' do
-      it 'expects call from current_model_decorator' do
-        resource = double 'resource'
-        expect(controller.send(:current_model_service)).to receive(:find) { resource }
-        controller.send :resource
-        expect(assigns(:resource)).to eq resource
+      it 'returns new resource' do
+        expect(controller.send(:resource)).to be_new_record
+      end
+
+      context 'when resource id is provided' do
+        it 'returns the resource' do
+          resource = Product.create!(name: 'new Product')
+          controller.params[:id] = resource.id
+          expect(controller.send(:resource)).to eq resource
+        end
       end
     end
 
@@ -76,7 +125,7 @@ describe Wallaby::ResourcesController do
       end
     end
 
-    describe '_prefixes' do
+    describe '#_prefixes' do
       module Space
         class PlanetsController < Wallaby::ResourcesController; end
         class Planet; end

@@ -23,7 +23,7 @@ describe Wallaby::ModelServiceProvider do
 
   describe 'create' do
     it 'raises not implemented' do
-      expect { subject.create({}, nil) }.to raise_error Wallaby::NotImplemented
+      expect { subject.create(nil, {}, nil) }.to raise_error Wallaby::NotImplemented
     end
   end
 
