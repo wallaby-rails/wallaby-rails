@@ -3,8 +3,6 @@ module Wallaby
     class ModelServiceProvider
       # Query builder
       class Querier
-        include IndexHelper
-
         TEXT_FIELDS = %w(string text citext).freeze
 
         def initialize(model_decorator)
@@ -50,7 +48,7 @@ module Wallaby
 
         def filtered_by(filter_name)
           valid_filter_name =
-            current_filter_name(filter_name, @model_decorator.filters)
+            Utils.find_filter_name(filter_name, @model_decorator.filters)
           scope = find_scope(valid_filter_name)
           return unscoped if scope.blank?
           return @model_class.instance_exec(&scope) if scope.respond_to? :call

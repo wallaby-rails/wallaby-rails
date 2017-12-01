@@ -14,7 +14,7 @@ end
     <ul>
       <li><em><%= t 'filters.title' %></em></li>
       <% filters.keys.unshift(:all).each do |filter_name| %>
-        <%= content_tag :li, filter_link(filter_name), html_options.call(filter_name) %>
+        <%= content_tag :li, filter_link(current_model_class, filter_name), html_options.call(filter_name) %>
       <% end %>
     </ul>
   <% else %>

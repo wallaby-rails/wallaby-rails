@@ -29,7 +29,7 @@ module Wallaby
 
     def self.find_filter_name(filter_name, filters)
       filter_name || # from params
-        filters.find{ |k, v| v[:default] }.try(:first) || # from default value
+        filters.find { |_k, v| v[:default] }.try(:first) || # from default value
         :all # last resort
     end
 

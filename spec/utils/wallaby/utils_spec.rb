@@ -108,7 +108,7 @@ describe Wallaby::Utils, clear: :object_space do
     it 'returns filter name' do
       expect(described_class.find_filter_name(nil, {})).to eq :all
       expect(described_class.find_filter_name(:featured, {})).to eq :featured
-      expect(described_class.find_filter_name(nil, { featured: { default: true } })).to eq :featured
+      expect(described_class.find_filter_name(nil, featured: { default: true })).to eq :featured
     end
   end
 
