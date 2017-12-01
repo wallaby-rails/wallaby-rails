@@ -24,11 +24,16 @@ module Wallaby
       @page_size ||= DEFAULT_PAGE_SIZE
     end
 
+    def metadata
+      @metadata ||= Metadata.new
+    end
+
     def clear
       @models = nil
       @security = nil
       @base_controller = nil
       @page_size = nil
+      @metadata = nil
     end
   end
 
@@ -40,6 +45,3 @@ module Wallaby
     yield configuration
   end
 end
-
-require 'wallaby/configuration/models'
-require 'wallaby/configuration/security'
