@@ -93,10 +93,11 @@ describe 'Resources pages using mysql table' do
     it 'creates the record' do
       expect(model_class.count).to eq 0
       post '/admin/all_mysql_types', params: { all_mysql_type: { string: string } }
-      expect(response).to redirect_to '/admin/all_mysql_types'
+      created = model_class.first
+      expect(response).to redirect_to "/admin/all_mysql_types/#{created.id}"
       expect(flash[:notice]).to eq 'All mysql type was successfully created.'
       expect(model_class.count).to eq 1
-      expect(model_class.first.string).to eq string
+      expect(created.string).to eq string
     end
 
     context 'when form error exists' do

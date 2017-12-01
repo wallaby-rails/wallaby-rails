@@ -76,15 +76,16 @@ describe Wallaby::ModelServicer, clear: :object_space do
     describe '#create' do
       it 'creates a record' do
         params[:all_postgres_type] = { string: 'today' }
-        record, success = subject.create params
-        expect(success).to be_truthy
+        record = subject.new subject.permit(params)
+        subject.create record, params
         expect(record).to be_a AllPostgresType
         expect(record.string).to eq 'today'
+        expect(record.persisted?).to be_truthy
       end
 
       it 'deletgates create method to provider' do
-        expect(provider).to receive(:create).with params, authorizer
-        subject.create params
+        expect(provider).to receive(:create).with resource, params, authorizer
+        subject.create resource, params
       end
     end
 
@@ -92,8 +93,8 @@ describe Wallaby::ModelServicer, clear: :object_space do
       it 'updates a record' do
         params[:all_postgres_type] = { string: 'tomorrow' }
         record = AllPostgresType.create string: 'today'
-        _, success = subject.update record, params
-        expect(success).to be_truthy
+        record = subject.find(record.id, subject.permit(params))
+        subject.update record, params
         expect(record.reload.string).to eq 'tomorrow'
       end
 

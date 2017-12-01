@@ -27,15 +27,16 @@ module Wallaby
     end
 
     def new
-      authorize! :new, new_resource
+      authorize! :new, resource
       yield if block_given? # after_new
+      respond_with resource
     end
 
     def create
-      authorize! :create, current_model_class
-      @resource, _is_success = current_model_service.create params
+      authorize! :create, resource
+      current_model_service.create resource, params
       yield if block_given? # after_create
-      respond_with resource, location: resources_index_path
+      respond_with resource, location: helpers.show_path(resource)
     end
 
     def show
@@ -47,21 +48,21 @@ module Wallaby
     def edit
       authorize! :edit, resource
       yield if block_given? # after_edit
+      respond_with resource
     end
 
     def update
       authorize! :update, resource
-      @resource, _is_success = current_model_service.update resource, params
+      current_model_service.update resource, params
       yield if block_given? # after_update
-      respond_with resource, location: resources_show_path
+      respond_with resource, location: helpers.show_path(resource)
     end
 
     def destroy
       authorize! :destroy, resource
-      is_success = current_model_service.destroy resource, params
+      current_model_service.destroy resource, params
       yield if block_given? # after_destroy
-      location = -> { is_success ? resources_index_path : resources_show_path }
-      respond_with resource, location: location
+      respond_with resource, location: helpers.index_path(current_model_class)
     end
 
     protected
@@ -76,20 +77,11 @@ module Wallaby
       @_lookup_context ||= LookupContextWrapper.new super
     end
 
-    def resources_index_path
-      helpers.index_path current_resources_name
-    end
-
-    def resources_show_path
-      helpers.show_path resource
-    end
-
     def current_model_service
-      @current_model_service ||= helpers.model_servicer current_model_class
-    end
-
-    def new_resource
-      @resource ||= current_model_service.new params
+      @current_model_service ||= begin
+        model_class = current_model_class
+        Map.servicer_map(model_class).new model_class, authorizer
+      end
     end
 
     def paginate(query)
@@ -100,9 +92,13 @@ module Wallaby
       end
     end
 
+    def resource_params
+      @resource_params ||= current_model_service.permit params
+    end
+
     begin # helper methods
-      helper_method \
-        :resource_id, :resource, :collection, :current_model_decorator
+      helper_method :resource_id, :resource, :collection,
+                    :current_model_decorator, :authorizer
 
       def resource_id
         params[:id]
@@ -113,11 +109,20 @@ module Wallaby
       end
 
       def resource
-        @resource ||= current_model_service.find resource_id, params
+        @resource ||= if resource_id.present?
+                        current_model_service.find resource_id, resource_params
+                      else
+                        current_model_service.new resource_params
+                      end
       end
 
       def current_model_decorator
         @current_model_decorator ||= helpers.model_decorator current_model_class
+      end
+
+      def authorizer
+        # TODO: to add support to pundit in the future
+        current_ability
       end
     end
   end
