@@ -7,9 +7,11 @@ module Wallaby
 
     ERROR_PATH = 'wallaby/error'.freeze
 
-    rescue_from NotFound, with: :not_found
-    rescue_from ::ActionController::ParameterMissing, with: :bad_request
-    rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
+    unless Rails.env.development?
+      rescue_from NotFound, with: :not_found
+      rescue_from ::ActionController::ParameterMissing, with: :bad_request
+      rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
+    end
 
     layout 'wallaby/application'
 

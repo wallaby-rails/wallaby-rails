@@ -1,6 +1,6 @@
 module Wallaby
   # Responsible for authentications
-  class SecureController < ApplicationController
+  class SecureController < ::Wallaby::ApplicationController
     helper SecureHelper
 
     rescue_from NotAuthenticated, with: :unauthorized

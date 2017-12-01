@@ -44,5 +44,6 @@
   > span {
     @include divider;
     display: inline-block;
+    margin-left: 6px;
   }
 }

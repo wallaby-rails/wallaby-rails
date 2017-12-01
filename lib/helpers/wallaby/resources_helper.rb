@@ -4,6 +4,7 @@ module Wallaby
     include FormHelper
     include SortingHelper
     include PaginatableHelper
+    include IndexHelper
 
     def model_decorator(model_class)
       Map.model_decorator_map model_class

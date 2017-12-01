@@ -27,6 +27,12 @@ module Wallaby
       raise ModelNotFound, class_name
     end
 
+    def self.find_filter_name(filter_name, filters)
+      filter_name || # from params
+        filters.find { |_k, v| v[:default] }.try(:first) || # from default value
+        :all # last resort
+    end
+
     def self.to_hash(array)
       Hash[*array.flatten(1)]
     end

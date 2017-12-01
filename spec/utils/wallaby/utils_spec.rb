@@ -104,6 +104,14 @@ describe Wallaby::Utils, clear: :object_space do
     end
   end
 
+  describe '.find_filter_name' do
+    it 'returns filter name' do
+      expect(described_class.find_filter_name(nil, {})).to eq :all
+      expect(described_class.find_filter_name(:featured, {})).to eq :featured
+      expect(described_class.find_filter_name(nil, featured: { default: true })).to eq :featured
+    end
+  end
+
   describe '.to_hash' do
     it 'turns array into hash' do
       expect(described_class.to_hash([%w(key value)])).to eq Hash 'key' => 'value'

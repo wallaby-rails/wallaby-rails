@@ -47,7 +47,9 @@ module Wallaby
         end
 
         def filtered_by(filter_name)
-          scope = find_scope filter_name
+          valid_filter_name =
+            Utils.find_filter_name(filter_name, @model_decorator.filters)
+          scope = find_scope(valid_filter_name)
           return unscoped if scope.blank?
           return @model_class.instance_exec(&scope) if scope.respond_to? :call
           return @model_class.send(scope) if @model_class.respond_to? scope
@@ -55,7 +57,6 @@ module Wallaby
         end
 
         def find_scope(filter_name)
-          return if filter_name.blank?
           filter = @model_decorator.filters[filter_name] || {}
           filter[:scope] || filter_name
         end
