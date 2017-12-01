@@ -7,6 +7,7 @@ module Wallaby
   CSV = 'csv'.freeze
   PERS = [10, 20, 50, 100].freeze
   DEFAULT_PAGE_SIZE = 20
+  DEFAULT_MAX = 20
   ERRORS = %i(
     bad_request
     forbidden

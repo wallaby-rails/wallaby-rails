@@ -46,6 +46,10 @@ module Wallaby
       ].compact.join ': '
     end
 
+    def default_metadata
+      Wallaby.configuration.metadata
+    end
+
     def type_partial_render(options = {},
                             locals = {},
                             metadata_method = :show_metadata_of, &block)
