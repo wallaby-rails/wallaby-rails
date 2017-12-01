@@ -5,7 +5,7 @@
 <% if value.nil? %>
   <%= null %>
 <% else %>
-  <% max    = metadata[:max] || 17 %>
+  <% max    = metadata[:max] || default_metadata.max %>
   <% value  = value.to_s %>
   <% if value.length > max %>
     <span><%= value.truncate max %></span>

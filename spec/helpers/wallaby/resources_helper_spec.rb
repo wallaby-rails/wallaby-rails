@@ -70,6 +70,12 @@ describe Wallaby::ResourcesHelper, :current_user do
     end
   end
 
+  describe '#default_metadata' do
+    it 'returns the metadata configuration' do
+      expect(helper.default_metadata).to be_a Wallaby::Configuration::Metadata
+    end
+  end
+
   describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
 

@@ -22,6 +22,7 @@ require 'summernote-rails'
 require 'twitter-typeahead-rails'
 
 require 'csv'
+require 'securerandom'
 
 module Wallaby
   # Rails engine
@@ -48,6 +49,9 @@ module Wallaby
 end
 
 require 'wallaby/configuration'
+require 'wallaby/configuration/models'
+require 'wallaby/configuration/security'
+require 'wallaby/configuration/metadata'
 
 require 'utils/wallaby/utils'
 require 'tree/wallaby/node'
