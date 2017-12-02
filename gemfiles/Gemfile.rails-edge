@@ -12,7 +12,7 @@ gemspec path: '../'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-gem 'rails'
+gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 
 group :development, :test do
   gem 'better_errors'
