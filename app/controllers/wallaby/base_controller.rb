@@ -11,7 +11,8 @@ module Wallaby
 
     protected
 
-    begin # helper methods
+    # helper methods
+    begin
       helper_method \
         :current_resources_name,
         :current_model_class
