@@ -21,7 +21,7 @@ describe Wallaby::LinksHelper, :current_user do
 
     context 'when ActionController::Parameters are given' do
       it 'returns index path with queries' do
-        expect(helper.index_path(Product, url_params: parameters(sort: 'name asc').permit!)).to eq '/admin/products?sort=name+asc'
+        expect(helper.index_path(Product, url_params: parameters!(sort: 'name asc'))).to eq '/admin/products?sort=name+asc'
       end
 
       context 'when url_params are not permitted' do

@@ -48,10 +48,7 @@ module Wallaby
 
     def normalize_params(options)
       return options unless options.is_a? ActionController::Parameters
-      options.to_h.tap do |hash|
-        hash[:resources] = options[:resources]
-        hash[:action] = options[:action]
-      end
+      options.permit(:resources, :action, :id).to_h
     end
   end
 end
