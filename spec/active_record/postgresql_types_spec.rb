@@ -28,6 +28,33 @@ describe 'PostgreSQL Types' do
     end
   end
 
+  if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 1
+    it 'supports the following types' do
+      column_methods = ActiveRecord::ConnectionAdapters::PostgreSQL::ColumnMethods.instance_methods.map(&:to_s)
+      expect(column_methods.length).to eq 32
+      expect(column_methods.sort).to eq %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml)
+
+      native_types = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
+      expect(native_types.length).to eq 40
+      expect(native_types.sort).to eq %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml)
+
+      all_types = column_methods | native_types
+      expect(all_types.length).to eq 42
+      expect(all_types.sort).to eq %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml)
+    end
+
+    it 'supports the following types' do
+      supporting_types = AllPostgresType.connection.type_map.try do |type_map|
+        type_map.instance_variable_get('@mapping').keys.map do |key|
+          key.is_a?(String) ? key : nil
+        end.compact.uniq
+      end
+
+      expect(supporting_types.length).to eq 40
+      expect(supporting_types.sort).to eq %w(bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml)
+    end
+  end
+
   describe 'point' do
     after { AllPostgresType.attribute :point, :point }
     it 'raises if point value is invalid' do
