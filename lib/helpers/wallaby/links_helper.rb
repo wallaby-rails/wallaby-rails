@@ -90,6 +90,10 @@ module Wallaby
     end
 
     def index_path(model_class, url_params: {})
+      if url_params.is_a?(::ActionController::Parameters) \
+        && !url_params.permitted?
+        url_params = {}
+      end
       wallaby_engine.resources_path \
         to_resources_name(model_class), url_params.to_h
     end

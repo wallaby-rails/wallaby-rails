@@ -47,7 +47,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
       metadata = {}
       sti_column = model_class.columns.find { |c| c.name == model_class.inheritance_column }
       subject.update(metadata, sti_column)
-      expect(metadata).to eq(type: 'sti', sti_class_list: [model_class, Staff, HumanResource::Manager])
+      expect(metadata).to eq(type: 'sti', sti_class_list: [HumanResource::Manager, model_class, Staff])
     end
 
     context 'sti column is different' do
@@ -65,7 +65,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
         metadata = {}
         sti_column = model_class.columns.find { |c| c.name == model_class.inheritance_column }
         subject.update(metadata, sti_column)
-        expect(metadata).to eq(type: 'sti', sti_class_list: [model_class, Apple])
+        expect(metadata).to eq(type: 'sti', sti_class_list: [Apple, model_class])
       end
     end
 
@@ -79,7 +79,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
         metadata = {}
         sti_column = model_class.columns.find { |c| c.name == model_class.inheritance_column }
         subject.update(metadata, sti_column)
-        expect(metadata).to eq(type: 'sti', sti_class_list: [Person, Staff, Customer, HumanResource::Manager])
+        expect(metadata).to eq(type: 'sti', sti_class_list: [Customer, HumanResource::Manager, Person, Staff])
       end
     end
   end

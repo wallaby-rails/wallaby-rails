@@ -96,7 +96,8 @@ module Wallaby
       @resource_params ||= current_model_service.permit params
     end
 
-    begin # helper methods
+    # helper methods
+    begin
       helper_method :resource_id, :resource, :collection,
                     :current_model_decorator, :authorizer
 

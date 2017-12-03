@@ -15,13 +15,15 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
     end
 
     describe '#collection' do
-      it 'returns the collection' do
-        condition = { boolean: true }
-        record = model_class.create!(condition)
-        false_authorizer = Ability.new nil
-        false_authorizer.cannot :manage, model_class, condition
-        expect(subject.collection(parameters, authorizer)).to include record
-        expect(subject.collection(parameters, false_authorizer)).not_to include record
+      unless Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
+        it 'returns the collection' do
+          condition = { boolean: true }
+          record = model_class.create!(condition)
+          false_authorizer = Ability.new nil
+          false_authorizer.cannot :manage, model_class, condition
+          expect(subject.collection(parameters, authorizer)).to include record
+          expect(subject.collection(parameters, false_authorizer)).not_to include record
+        end
       end
 
       it 'orders the collection' do

@@ -38,6 +38,8 @@ module Wallaby
       end
 
       def render(*args); end
+
+      def virtual_path(*args); end
     end
   end
 end
