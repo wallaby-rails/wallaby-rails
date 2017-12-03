@@ -49,7 +49,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         it 'returns search with given scope' do
           if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-            expect(subject.search(parameters(filter: 'boolean')).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = FALSE"
+            expect(subject.search(parameters(filter: 'boolean')).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = FALSE'
           else
             expect(subject.search(parameters(filter: 'boolean')).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'f'"
           end
@@ -186,8 +186,8 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
         context ':!,:!=,:<>' do
           context 'number' do
             it 'returns not_eq/in query' do
+              keyword = 'integer:!1'
               if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-                keyword = 'integer:!1'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" != 1'
 
                 keyword = 'integer:!=1'
@@ -205,7 +205,6 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
                 keyword = 'integer:<>1,2'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" NOT IN (1, 2)'
               else
-                keyword = 'integer:!1'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" != 1)'
 
                 keyword = 'integer:!=1'
@@ -228,8 +227,8 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
           context 'boolean' do
             it 'returns not_eq/in query' do
+              keyword = 'boolean:!true'
               if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-                keyword = 'boolean:!true'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != 'true'"
 
                 keyword = 'boolean:!false'
@@ -256,7 +255,6 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
                 keyword = 'boolean:<>true,false'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" NOT IN ('true', 'false')"
               else
-                keyword = 'boolean:!true'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'true')"
 
                 keyword = 'boolean:!false'
@@ -288,8 +286,8 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
           context 'string' do
             it 'returns not_eq/in query' do
+              keyword = 'string:!name'
               if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-                keyword = 'string:!name'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" != 'name'"
 
                 keyword = 'string:!=name'
@@ -307,7 +305,6 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
                 keyword = 'string:<>something,else'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT IN ('something', 'else')"
               else
-                keyword = 'string:!name'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" != 'name')"
 
                 keyword = 'string:!=name'
@@ -330,8 +327,8 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
           context 'date' do
             it 'returns not_eq/in query' do
+              keyword = 'date:!2017-06-30'
               if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-                keyword = 'date:!2017-06-30'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" != '2017-06-30'"
 
                 keyword = 'date:!=2017-06-30'
@@ -349,7 +346,6 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
                 keyword = 'date:<>2017-06-30,2017-07-01'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01')"
               else
-                keyword = 'date:!2017-06-30'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" != '2017-06-30')"
 
                 keyword = 'date:!=2017-06-30'
@@ -373,11 +369,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':~' do
           it 'returns the matcing query' do
+            keyword = 'string:~something'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'string:~something'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE '%something%'"
             else
-              keyword = 'string:~something'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%something%')"
             end
           end
@@ -385,11 +380,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':^' do
           it 'returns the matcing query' do
+            keyword = 'string:^starting'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'string:^starting'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE 'starting%'"
             else
-              keyword = 'string:^starting'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE 'starting%')"
             end
           end
@@ -397,11 +391,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':$' do
           it 'returns the matcing query' do
+            keyword = 'string:$ending'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'string:$ending'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE '%ending'"
             else
-              keyword = 'string:$ending'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%ending')"
             end
           end
@@ -409,11 +402,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':!~' do
           it 'returns the matcing query' do
+            keyword = 'string:!~something'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'string:!~something'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE '%something%'"
             else
-              keyword = 'string:!~something'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT ILIKE '%something%')"
             end
           end
@@ -421,11 +413,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':!^' do
           it 'returns the matcing query' do
+            keyword = 'string:!^starting'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'string:!^starting'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE 'starting%'"
             else
-              keyword = 'string:!^starting'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT ILIKE 'starting%')"
             end
           end
@@ -433,11 +424,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':!$' do
           it 'returns the matcing query' do
+            keyword = 'string:!$ending'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'string:!$ending'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE '%ending'"
             else
-              keyword = 'string:!$ending'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT ILIKE '%ending')"
             end
           end
@@ -445,11 +435,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':>' do
           it 'returns the comparing query' do
+            keyword = 'integer:>100'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'integer:>100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" > 100'
             else
-              keyword = 'integer:>100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" > 100)'
             end
           end
@@ -457,11 +446,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':>=' do
           it 'returns the comparing query' do
+            keyword = 'integer:>=100'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'integer:>=100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" >= 100'
             else
-              keyword = 'integer:>=100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" >= 100)'
             end
           end
@@ -469,11 +457,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':<' do
           it 'returns the comparing query' do
+            keyword = 'integer:<100'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'integer:<100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" < 100'
             else
-              keyword = 'integer:<100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" < 100)'
             end
           end
@@ -481,11 +468,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':<=' do
           it 'returns the comparing query' do
+            keyword = 'integer:<=100'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'integer:<=100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" <= 100'
             else
-              keyword = 'integer:<=100'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" <= 100)'
             end
           end
@@ -493,11 +479,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
         context ':()' do
           it 'returns the comparing query' do
+            keyword = 'integer:()100,999'
             if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-              keyword = 'integer:()100,999'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" BETWEEN 100 AND 999'
             else
-              keyword = 'integer:()100,999'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" BETWEEN 100 AND 999)'
             end
           end

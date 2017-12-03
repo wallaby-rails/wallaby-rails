@@ -18,10 +18,10 @@ module Wallaby
 
           def sti_list(klass)
             list = klass
-                    .descendants
-                    .each_with_object([klass]) do |child, result|
-                      result << child
-                    end
+                   .descendants
+                   .each_with_object([klass]) do |child, result|
+                     result << child
+                   end
             list.sort_by(&:name)
           end
 
