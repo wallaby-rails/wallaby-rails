@@ -17,11 +17,12 @@ module Wallaby
           private
 
           def sti_list(klass)
-            klass
-              .descendants
-              .each_with_object([klass]) do |child, result|
-                result << child
-              end
+            list = klass
+                    .descendants
+                    .each_with_object([klass]) do |child, result|
+                      result << child
+                    end
+            list.sort_by(&:name)
           end
 
           def find_parent_of(model_class)
