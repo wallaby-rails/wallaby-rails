@@ -9,6 +9,7 @@ gemfile:
   - gemfiles/Gemfile.rails-edge
 env:
   - DB=postgresql
+  - CC_TEST_REPORTER_ID=a726345933825a3e95f72dcfd646929ecb76eb02c7f7dcd5c28b8c7246167e26
 addons:
   postgresql: "9.4"
 script:
@@ -17,3 +18,9 @@ script:
 before_script:
   - mysql -e 'CREATE DATABASE dummy_test;' -uroot
   - psql -c 'CREATE DATABASE dummy_test;' -U postgres
+  # setup code climate test coverage
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
