@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/wallaby.svg)](https://badge.fury.io/rb/wallaby)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Travis CI](https://travis-ci.org/reinteractive/wallaby.svg)](https://travis-ci.org/reinteractive/wallaby)
-[![Code Climate](https://codeclimate.com/github/reinteractive/wallaby/badges/gpa.svg)](https://codeclimate.com/github/reinteractive/wallaby)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2abd1165bdae523dd2e1/maintainability)](https://codeclimate.com/github/reinteractive/wallaby/maintainability)
 [![Inch CI](https://inch-ci.org/github/reinteractive/wallaby.svg?branch=master)](https://inch-ci.org/github/reinteractive/wallaby)
 
 Wallaby is a Rails engine for managing data. It can be easily customized in a Rails way using controllers and views. You can play with the [demo here](https://wallaby-demo.herokuapp.com/admin/)
@@ -11,6 +11,7 @@ Wallaby is a Rails engine for managing data. It can be easily customized in a Ra
 ## Features
 
 - Easy setup, ready for use.
+- It allows you to customise things in different aspects (e.g. Decorator/Controller/Servicer/View)
 - Advanced colon search, for example, `ordered_at:>2017-07-01 name_start_with:^tian`
 - It allows to predefine filters.
 - It supports Devise and provides configuration to use your own authentication. For authorization, it supports CanCanCan.
@@ -27,7 +28,7 @@ For Rails 5, use the `master` branch. It has the following features:
 - ActiveRecord 5.\*
 - Devise > 4.\*
 - CanCanCan
-- Bootstrap
+- Bootstrap 3
 
 For Rails 4, use the `rails4` branch. It has the following features:
 - Ruby 2.1.\*, 2.2.\*
@@ -35,7 +36,7 @@ For Rails 4, use the `rails4` branch. It has the following features:
 - ActiveRecord 4.\*
 - Devise 3.\* to 5.\*
 - CanCanCan
-- Bootstrap
+- Bootstrap 3
 
 > NOTE: development for Rails 4 has been ceased.
 
