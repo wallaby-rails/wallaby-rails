@@ -34,5 +34,6 @@ group :development, :test do
   gem 'rails_best_practices'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'simplecov'
   gem 'sqlite3'
 end

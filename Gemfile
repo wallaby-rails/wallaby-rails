@@ -12,6 +12,7 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+gem 'rails', '~> 5.1.4'
 
 group :development, :test do
   gem 'better_errors'
@@ -33,5 +34,6 @@ group :development, :test do
   gem 'rails_best_practices'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'simplecov'
   gem 'sqlite3'
 end
