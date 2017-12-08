@@ -34,11 +34,11 @@
   }
 
   &__prev {
-    @include arrow($icon_selector: '.fa-angle-left', $left_or_right: 'left', $padding_size: 9px);
+    @include arrow($icon_font: $fa-var-angle-left, $left_or_right: 'left', $padding_size: 9px);
   }
 
   &__next {
-    @include arrow($icon_selector: '.fa-angle-right', $padding_size: 9px);
+    @include arrow($icon_font: $fa-var-angle-right, $padding_size: 9px);
   }
 
   > span {

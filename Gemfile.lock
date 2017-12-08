@@ -6,7 +6,7 @@ PATH
       bootstrap3-datetimepicker-rails
       cancancan
       codemirror-rails
-      font-awesome-rails
+      font-awesome-sass
       jbuilder
       jquery-minicolors-rails
       jquery-rails
@@ -64,7 +64,7 @@ GEM
       tzinfo (~> 1.1)
     arel (8.0.0)
     ast (2.3.0)
-    autoprefixer-rails (7.1.6)
+    autoprefixer-rails (7.2.2)
       execjs
     bcrypt (3.1.11)
     better_errors (2.4.0)
@@ -108,8 +108,8 @@ GEM
     execjs (2.7.0)
     ffaker (2.7.0)
     ffi (1.9.18)
-    font-awesome-rails (4.7.0.2)
-      railties (>= 3.2, < 5.2)
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     haml (5.0.4)
