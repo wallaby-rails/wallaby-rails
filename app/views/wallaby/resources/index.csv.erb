@@ -8,7 +8,7 @@
 <%
   decorated_collection.each do |decorated|
     data = current_model_decorator.index_field_names.map do |field_name|
-      value = decorated.send(field_name)
+      value = decorated.public_send(field_name)
       if value.respond_to?(:map) && !value.is_a?(Range)
         value.map { |v| decorate(v).to_label }.to_sentence
       else

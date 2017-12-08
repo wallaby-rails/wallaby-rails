@@ -61,7 +61,7 @@ module Wallaby
         raise ::ArgumentError
       end
 
-      locals[:metadata] = decorated.send metadata_method, field_name
+      locals[:metadata] = decorated.public_send metadata_method, field_name
       locals[:value]    = decorated.public_send field_name
 
       # NOTE: what happen here is that
