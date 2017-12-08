@@ -26,7 +26,7 @@ module Wallaby
     end
 
     def mounted_prefix
-      prefix = mounted_path.slice(1..-1) || EMPTY_STRING
+      prefix = mounted_path.try(:slice, 1..-1) || ''
       prefix << SLASH unless prefix.empty?
       prefix << resource_path if resource_path
     end
@@ -41,7 +41,11 @@ module Wallaby
     end
 
     def mounted_path
-      Rails.application.routes.named_routes[:wallaby_engine].path.spec.to_s
+      # TODO: need to find out if  this will fail
+      # when wallaby is mounted more than once on different namespace?
+      Rails.application.routes.named_routes[:wallaby_engine].try do |route|
+        route.path.spec.to_s
+      end
     end
 
     def resource_path

@@ -17,14 +17,16 @@ module Wallaby
     end
 
     def to_csv
+      set_layout_to_none
       headers['Content-Type'] = 'text/csv'
       default_render
     end
 
     def to_json
+      set_layout_to_none
       return default_render unless post? || put? || patch? || delete?
-      if has_errors? then render :error, status: :bad_request
-      else head :no_content
+      if has_errors? then render :error, options.merge(status: :bad_request)
+      else render :form, options
       end
     end
 
@@ -32,7 +34,7 @@ module Wallaby
 
     def create_action
       if has_errors?
-        render :new
+        render :new, options
       else
         redirect_to resource_location
       end
@@ -40,7 +42,7 @@ module Wallaby
 
     def update_action
       if has_errors?
-        render :edit
+        render :edit, options
       else
         redirect_to resource_location
       end
@@ -53,6 +55,10 @@ module Wallaby
     def file_name
       timestamp = Time.zone.now.to_s(:number)
       "#{params[:resources]}-exported-#{timestamp}.#{format}"
+    end
+
+    def set_layout_to_none
+      options[:layout] = false
     end
   end
 end
