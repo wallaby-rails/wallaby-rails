@@ -62,8 +62,6 @@ require 'interfaces/wallaby/model_finder'
 require 'interfaces/wallaby/model_service_provider'
 require 'interfaces/wallaby/model_pagination_provider'
 
-require 'nils/wallaby/nil_model_decorator'
-
 require 'errors/wallaby/general_error'
 require 'errors/wallaby/deprecated'
 require 'errors/wallaby/invalid_error'

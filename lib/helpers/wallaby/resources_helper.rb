@@ -29,11 +29,8 @@ module Wallaby
     end
 
     def extract(resource)
-      if resource.is_a? ResourceDecorator
-        resource.resource
-      else
-        resource
-      end
+      return resource.resource if resource.is_a? ResourceDecorator
+      resource
     end
 
     def index_type_partial_render(options = {}, locals = {}, &block)
