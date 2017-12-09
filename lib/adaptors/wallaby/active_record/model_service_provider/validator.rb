@@ -10,12 +10,18 @@ module Wallaby
         def valid?(resource)
           resource.attributes.each do |field_name, values|
             metadata = @model_decorator.fields[field_name]
-            next unless metadata
-            next unless %w(daterange tsrange tstzrange).include? metadata[:type]
-            next unless values.try(:any?, &:blank?)
+            next if valid_range_type? values, metadata
             resource.errors.add field_name, 'required for range data'
           end
           resource.errors.blank?
+        end
+
+        private
+
+        def valid_range_type?(values, metadata)
+          !metadata \
+            || !%w(daterange tsrange tstzrange).include?(metadata[:type]) \
+            || !values.try(:any?, &:blank?)
         end
       end
     end

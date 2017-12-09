@@ -3,6 +3,9 @@ require 'rails_helper'
 describe 'Resources pages using postgresql table' do
   let(:string) { 'Vincent van Gogh' }
   let(:model_class) { AllPostgresType }
+  let(:json_headers) do
+    { 'ACCEPT' => 'application/json' }
+  end
 
   describe '#index' do
     let!(:record) { model_class.create!(string: string) }
@@ -11,6 +14,22 @@ describe 'Resources pages using postgresql table' do
       get '/admin/all_postgres_types'
       expect(response).to be_successful
       expect(response).to render_template :index
+      expect(response.body).to include string
+    end
+
+    it 'renders collections in json' do
+      get '/admin/all_postgres_types', headers: json_headers
+      expect(response).to be_successful
+      expect(response).to render_template :index
+      expect(response.content_type).to eq 'application/json'
+      expect(response.body).to include string
+    end
+
+    it 'renders collections in csv' do
+      get '/admin/all_postgres_types', headers: { 'ACCEPT' => 'text/csv' }
+      expect(response).to be_successful
+      expect(response).to render_template :index
+      expect(response.content_type).to eq 'text/csv'
       expect(response.body).to include string
     end
 
@@ -72,10 +91,19 @@ describe 'Resources pages using postgresql table' do
 
   describe '#show' do
     let!(:record) { model_class.create!(string: string) }
+
     it 'renders show' do
       get "/admin/all_postgres_types/#{record.id}"
       expect(response).to be_successful
       expect(response).to render_template :show
+      expect(response.body).to include string
+    end
+
+    it 'renders show in json' do
+      get "/admin/all_postgres_types/#{record.id}", headers: json_headers
+      expect(response).to be_successful
+      expect(response).to render_template :show
+      expect(response.content_type).to eq 'application/json'
       expect(response.body).to include string
     end
   end
@@ -96,6 +124,17 @@ describe 'Resources pages using postgresql table' do
       created = model_class.first
       expect(response).to redirect_to "/admin/all_postgres_types/#{created.id}"
       expect(flash[:notice]).to eq 'All postgres type was successfully created.'
+      expect(model_class.count).to eq 1
+      expect(created.string).to eq string
+    end
+
+    it 'creates the record in json' do
+      expect(model_class.count).to eq 0
+      post '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }, headers: json_headers
+      created = model_class.first
+      expect(response).to be_successful
+      expect(response).to render_template :form
+      expect(response.body).to include string
       expect(model_class.count).to eq 1
       expect(created.string).to eq string
     end
@@ -133,6 +172,15 @@ describe 'Resources pages using postgresql table' do
       expect(record.reload.string).to eq a_string
     end
 
+    it 'updates the record in json' do
+      a_string = 'Claude Monet'
+      put "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }, headers: json_headers
+      expect(record.reload.string).to eq a_string
+      expect(response).to be_successful
+      expect(response).to render_template :form
+      expect(response.body).to include a_string
+    end
+
     context 'when form error exists' do
       let(:string) { 'Vincent van Gogh' }
       let(:model_class) { Picture }
@@ -155,6 +203,65 @@ describe 'Resources pages using postgresql table' do
       expect(flash[:notice]).to eq 'All postgres type was successfully destroyed.'
       expect(response).to redirect_to '/admin/all_postgres_types'
       expect(model_class.count).to eq 0
+    end
+
+    it 'destroys the record in json' do
+      expect(model_class.count).to eq 1
+      delete "/admin/all_postgres_types/#{record.id}", headers: json_headers
+      expect(response).to be_successful
+      expect(response).to render_template :form
+      expect(response.content_type).to eq 'application/json'
+      expect(response.body).to include string
+    end
+  end
+end
+
+describe 'Resources pages using postgresql table' do
+  let(:name) { 'Vincent van Gogh' }
+  let(:model_class) { Product }
+  let(:json_headers) do
+    { 'ACCEPT' => 'application/json' }
+  end
+
+  before do
+    stub_const 'ProductDecorator', (Class.new Wallaby::ResourceDecorator do
+      def self.model_class
+        Product
+      end
+      self.index_field_names = %i(id name tags)
+    end)
+    Tag.create! name: 'Mens'
+    Tag.create! name: 'Women'
+  end
+
+  describe '#index' do
+    let!(:record) { model_class.create!(name: name, tags: Tag.all) }
+
+    it 'renders collections' do
+      get '/admin/products'
+      expect(response).to be_successful
+      expect(response).to render_template :index
+      expect(response.body).to include name
+      expect(response.body).to include Tag.first.name
+      expect(response.body).to include Tag.last.name
+    end
+
+    it 'renders collections in json' do
+      get '/admin/products', headers: json_headers
+      expect(response).to be_successful
+      expect(response).to render_template :index
+      expect(response.content_type).to eq 'application/json'
+      expect(response.body).to include name
+    end
+
+    it 'renders collections in csv' do
+      get '/admin/products', headers: { 'ACCEPT' => 'text/csv' }
+      expect(response).to be_successful
+      expect(response).to render_template :index
+      expect(response.content_type).to eq 'text/csv'
+      expect(response.body).to include name
+      expect(response.body).to include Tag.first.name
+      expect(response.body).to include Tag.last.name
     end
   end
 end

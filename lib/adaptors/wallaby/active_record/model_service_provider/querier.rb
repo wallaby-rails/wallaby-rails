@@ -50,10 +50,12 @@ module Wallaby
           valid_filter_name =
             Utils.find_filter_name(filter_name, @model_decorator.filters)
           scope = find_scope(valid_filter_name)
-          return unscoped if scope.blank?
-          return @model_class.instance_exec(&scope) if scope.respond_to? :call
-          return @model_class.send(scope) if @model_class.respond_to? scope
-          unscoped
+          if scope.blank? then unscoped
+          elsif scope.respond_to?(:call) then @model_class.instance_exec(&scope)
+          elsif @model_class.respond_to?(scope)
+            @model_class.public_send(scope)
+          else unscoped
+          end
         end
 
         def find_scope(filter_name)
@@ -79,11 +81,10 @@ module Wallaby
         end
 
         def field_search(field_queries, query)
-          return query if field_queries.blank?
           field_queries.each do |exp|
             next unless @model_decorator.fields[exp[:left]]
-            exp = table[exp[:left]].public_send(exp[:op], exp[:right])
-            query = query.try(:and, exp) || exp
+            sub_query = table[exp[:left]].public_send(exp[:op], exp[:right])
+            query = query.try(:and, sub_query) || sub_query
           end
           query
         end

@@ -97,34 +97,33 @@ module Wallaby
     end
 
     # helper methods
-    begin
-      helper_method :resource_id, :resource, :collection,
-                    :current_model_decorator, :authorizer
+    helper_method :resource_id, :resource, :collection,
+                  :current_model_decorator, :authorizer
 
-      def resource_id
-        params[:id]
-      end
+    def resource_id
+      params[:id]
+    end
 
-      def collection
-        @collection ||= paginate current_model_service.collection params
-      end
+    def collection
+      @collection ||= paginate current_model_service.collection params
+    end
 
-      def resource
-        @resource ||= if resource_id.present?
-                        current_model_service.find resource_id, resource_params
-                      else
-                        current_model_service.new resource_params
-                      end
-      end
+    def resource
+      @resource ||=
+        if resource_id.present?
+          current_model_service.find resource_id, resource_params
+        else
+          current_model_service.new resource_params
+        end
+    end
 
-      def current_model_decorator
-        @current_model_decorator ||= helpers.model_decorator current_model_class
-      end
+    def current_model_decorator
+      @current_model_decorator ||= helpers.model_decorator current_model_class
+    end
 
-      def authorizer
-        # TODO: to add support to pundit in the future
-        current_ability
-      end
+    def authorizer
+      # TODO: to add support to pundit in the future
+      current_ability
     end
   end
 end

@@ -1,4 +1,3 @@
-//= require jquery.minicolors
 
 // NOTE: "bootstrap-sprockets" must be imported
 // before "bootstrap" and "bootstrap/variables"
@@ -6,8 +5,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import 'bootstrap-datetimepicker';
+@import "font-awesome-sprockets";
 @import "font-awesome";
-@import 'wallaby/summernote';
+@import "jquery.minicolors";
+@import 'summernote';
 @import 'codemirror';
 @import 'codemirror/themes/mdn-like';
 @import 'base/mixins';

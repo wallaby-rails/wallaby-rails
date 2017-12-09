@@ -61,7 +61,7 @@ module Wallaby
       default = options[:readonly] && decorate(resource).to_label || nil
       return default if cannot? :edit, extract(resource)
 
-      html_options[:class] = 'resource__update' unless html_options.key? :class
+      html_options[:class] ||= 'resource__update'
 
       link_to edit_path(resource), html_options, &block
     end
@@ -76,7 +76,7 @@ module Wallaby
       return if cannot? :destroy, extract(resource)
 
       block ||= -> { t 'links.delete' }
-      html_options[:class] = 'resource__destroy' unless html_options.key? :class
+      html_options[:class] ||= 'resource__destroy'
       html_options[:method] ||= :delete
       html_options[:data] ||= {}
       html_options[:data][:confirm] ||= t 'links.confirm.delete'

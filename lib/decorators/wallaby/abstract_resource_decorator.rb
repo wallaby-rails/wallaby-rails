@@ -30,9 +30,7 @@ module Wallaby
 
     def initialize(resource)
       @resource = resource
-      @model_decorator =
-        Map.model_decorator_map(model_class) \
-          || NilModelDecorator.new(model_class)
+      @model_decorator = Map.model_decorator_map model_class
     end
 
     def method_missing(method_id, *args)
