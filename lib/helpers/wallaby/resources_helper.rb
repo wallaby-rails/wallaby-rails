@@ -16,12 +16,12 @@ module Wallaby
     end
 
     def decorate(resource, _metadata = {})
-      return resource if resource.blank?
-
-      if resource.respond_to? :map # collection
-        all = resource.to_a
-        return all if all.first.is_a? ResourceDecorator
-        all.map { |item| decorate item }
+      if resource.blank? \
+        || resource.respond_to?(:first) \
+        && resource.first.is_a?(ResourceDecorator)
+        resource
+      elsif resource.respond_to?(:map)
+        resource.map { |item| decorate item }
       else
         decorator = Map.resource_decorator_map resource.class
         decorator.decorate resource

@@ -10,7 +10,13 @@
     data = current_model_decorator.index_field_names.map do |field_name|
       value = decorated.public_send(field_name)
       if value.respond_to?(:map) && !value.is_a?(Range)
-        value.map { |v| decorate(v).to_label }.to_sentence
+        value.map do |v|
+          if model_decorator(v.class).present?
+            decorate(v).to_label
+          else
+            v
+          end
+        end.to_sentence
       else
         value
       end

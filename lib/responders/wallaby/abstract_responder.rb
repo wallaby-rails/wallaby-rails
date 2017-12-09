@@ -6,9 +6,7 @@ module Wallaby
     delegate :params, :headers, to: :request
 
     def to_html
-      # @see FlashResponder
-      set_flash_message! if set_flash_message?
-
+      set_flash_message
       if post? then create_action
       elsif put? || patch? then update_action
       elsif delete? then destroy_action
@@ -59,6 +57,11 @@ module Wallaby
 
     def set_layout_to_none
       options[:layout] = false
+    end
+
+    def set_flash_message
+      # @see FlashResponder
+      set_flash_message! if set_flash_message?
     end
   end
 end

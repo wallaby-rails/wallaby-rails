@@ -1,5 +1,6 @@
 module Wallaby
   EMPTY_STRING = ''.freeze
+  EMPTY_HASH = {}.freeze
   SPACE = ' '.freeze
   SLASH = '/'.freeze
   COLONS = '::'.freeze

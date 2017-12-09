@@ -7,11 +7,10 @@ module Wallaby
       end
 
       def map
-        return {} if @base_class.blank?
-        @base_class.subclasses.each_with_object({}) do |klass, map|
-          unless anonymous? klass
-            map[klass.model_class] = block_given? ? yield(klass) : klass
-          end
+        (@base_class.try(:subclasses) || EMPTY_HASH)
+          .each_with_object({}) do |klass, map|
+          next if anonymous? klass
+          map[klass.model_class] = block_given? ? yield(klass) : klass
         end
       end
 

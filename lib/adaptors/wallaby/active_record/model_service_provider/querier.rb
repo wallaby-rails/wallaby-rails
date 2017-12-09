@@ -81,11 +81,10 @@ module Wallaby
         end
 
         def field_search(field_queries, query)
-          return query if field_queries.blank?
           field_queries.each do |exp|
             next unless @model_decorator.fields[exp[:left]]
-            exp = table[exp[:left]].public_send(exp[:op], exp[:right])
-            query = query.try(:and, exp) || exp
+            sub_query = table[exp[:left]].public_send(exp[:op], exp[:right])
+            query = query.try(:and, sub_query) || sub_query
           end
           query
         end

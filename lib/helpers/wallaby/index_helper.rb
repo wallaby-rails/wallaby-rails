@@ -32,14 +32,13 @@ module Wallaby
     )
       is_all = filter_name == :all
       config = filters[filter_name] || {}
+      label = is_all ? all_label : filter_label(filter_name, filters)
       url_params =
         if config[:default]
         then index_params.except(:filter)
         else index_params.merge(filter: filter_name)
         end
-      index_link(model_class, url_params: url_params) do
-        is_all ? all_label : filter_label(filter_name, filters)
-      end
+      index_link(model_class, url_params: url_params) { label }
     end
   end
 end
