@@ -228,7 +228,7 @@ describe 'Resources pages using postgresql table' do
       def self.model_class
         Product
       end
-      self.index_field_names = [:id, :name, :tags]
+      self.index_field_names = %i(id name tags)
     end)
     Tag.create! name: 'Mens'
     Tag.create! name: 'Women'
