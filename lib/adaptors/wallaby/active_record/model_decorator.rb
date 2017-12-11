@@ -5,7 +5,7 @@ module Wallaby
       def fields
         # origin metadata coming from data source
         # should be frozen
-        @fields ||= ::HashWithIndifferentAccess.new.tap do |hash|
+        @fields ||= ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
           if model_class.table_exists?
             hash.merge! general_fields
             hash.merge! association_fields

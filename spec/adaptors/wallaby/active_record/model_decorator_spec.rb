@@ -7,7 +7,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
   describe 'General fields' do
     describe '#fields' do
       it 'returns a hash of all keys' do
-        expect(subject.fields).to be_a HashWithIndifferentAccess
+        expect(subject.fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.fields).to eq(
           'id' => { 'name' => 'id', 'type' => 'integer', 'label' => 'Id', 'is_origin' => true },
           'bigint' => { 'name' => 'bigint', 'type' => 'integer', 'label' => 'Bigint', 'is_origin' => true },
@@ -68,7 +68,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_fields' do
       it 'has same value as fields' do
-        expect(subject.index_fields).to be_a HashWithIndifferentAccess
+        expect(subject.index_fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.index_fields).to eq subject.fields
       end
 
@@ -81,7 +81,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#show_fields' do
       it 'has same value as fields' do
-        expect(subject.show_fields).to be_a HashWithIndifferentAccess
+        expect(subject.show_fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.show_fields).to eq subject.fields
       end
 
@@ -94,7 +94,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#form_fields' do
       it 'has same value as fields' do
-        expect(subject.form_fields).to be_a HashWithIndifferentAccess
+        expect(subject.form_fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.form_fields).to eq subject.fields
       end
 

@@ -14,7 +14,8 @@ module Wallaby
         end
 
         def #{prefix}fields=(#{prefix}fields)
-          @#{prefix}fields = ::HashWithIndifferentAccess.new #{prefix}fields
+          @#{prefix}fields =
+            ::ActiveSupport::HashWithIndifferentAccess.new #{prefix}fields
         end
 
         def #{prefix}field_names
@@ -43,7 +44,7 @@ module Wallaby
     end
 
     def filters
-      @filters ||= HashWithIndifferentAccess.new
+      @filters ||= ::ActiveSupport::HashWithIndifferentAccess.new
     end
 
     def form_active_errors(_resource)
