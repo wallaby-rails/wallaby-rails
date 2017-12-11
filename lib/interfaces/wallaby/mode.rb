@@ -1,5 +1,5 @@
 module Wallaby
-  # Mode
+  # This is the abstract class that all ORM modes to have implemented.
   class Mode
     INTERFACE_METHODS = %w(
       model_decorator model_finder

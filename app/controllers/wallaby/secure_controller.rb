@@ -1,22 +1,29 @@
 module Wallaby
-  # Responsible for authentications
+  # This controller only contains authentication logics
   class SecureController < ::Wallaby::ApplicationController
     helper SecureHelper
+    helper_method :current_user
 
     rescue_from NotAuthenticated, with: :unauthorized
     rescue_from ::CanCan::AccessDenied, with: :forbidden
-    helper_method :current_user
 
+    # Unauthorized page
     def unauthorized(exception = nil)
       error_rendering(exception, __callee__)
     end
 
+    # Forbidden page
     def forbidden(exception = nil)
       error_rendering(exception, __callee__)
     end
 
     protected
 
+    # Precedence of current_user:
+    # - [Security] @see Wallaby::SecureController#security_config
+    # - super
+    # - do nothing
+    # @see Devise::Controllers::Helpers#define_helpers
     def current_user
       @current_user ||=
         if security_config.current_user? || !defined? super
@@ -26,6 +33,11 @@ module Wallaby
         end
     end
 
+    # Precedence of authenticate_user!:
+    # - [Security] @see Wallaby::SecureController#security_config
+    # - super
+    # - do nothing
+    # @see Devise::Controllers::Helpers#define_helpers
     def authenticate_user!
       authenticated =
         if security_config.authenticate? || !defined? super
