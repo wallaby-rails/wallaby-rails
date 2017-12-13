@@ -99,6 +99,13 @@ describe 'routing' do
         get "#{script_name}/#{resources}/history"
       end
     end
+
+    context 'when resources controller could not be found' do
+      it 'routes to model not found' do
+        expect(Wallaby::ResourcesController).to receive(:action).with(:not_found)
+        get "#{script_name}/unknown_models"
+      end
+    end
   end
 
   describe 'resource route helper', type: :request do
