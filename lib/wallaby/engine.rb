@@ -63,7 +63,6 @@ require 'interfaces/wallaby/model_service_provider'
 require 'interfaces/wallaby/model_pagination_provider'
 
 require 'errors/wallaby/general_error'
-require 'errors/wallaby/deprecated'
 require 'errors/wallaby/invalid_error'
 require 'errors/wallaby/not_found'
 require 'errors/wallaby/model_not_found'
