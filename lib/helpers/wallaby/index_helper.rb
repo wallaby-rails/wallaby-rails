@@ -40,5 +40,11 @@ module Wallaby
         end
       index_link(model_class, url_params: url_params) { label }
     end
+
+    def sort_link_builder
+      @sort_link_builder ||=
+        Sorting::LinkBuilder.new \
+          current_model_decorator, index_params, self
+    end
   end
 end

@@ -2,7 +2,6 @@ module Wallaby
   # Resources helper
   module ResourcesHelper
     include FormHelper
-    include SortingHelper
     include PaginatableHelper
     include IndexHelper
 

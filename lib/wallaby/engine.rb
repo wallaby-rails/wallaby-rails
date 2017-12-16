@@ -107,11 +107,11 @@ require 'services/wallaby/lookup_context_wrapper'
 require 'services/wallaby/prefixes_builder'
 require 'services/wallaby/sorting/hash_builder'
 require 'services/wallaby/sorting/next_builder'
+require 'services/wallaby/sorting/link_builder'
 
 require 'helpers/wallaby/form_helper'
 require 'helpers/wallaby/links_helper'
 require 'helpers/wallaby/paginatable_helper'
-require 'helpers/wallaby/sorting_helper'
 require 'helpers/wallaby/styling_helper'
 require 'helpers/wallaby/index_helper'
 

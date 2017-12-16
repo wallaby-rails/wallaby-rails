@@ -20,9 +20,9 @@ decorated_collection = decorate collection
           <thead>
             <tr>
               <% field_names.each do |field_name| %>
-                <th class="<%= sort_class field_name %>">
-                  <%= sort_link field_name %>
-                </th>
+                <%= content_tag :th, class: sort_link_builder.current_sort[field_name] do %>
+                  <%= sort_link_builder.build field_name %>
+                <% end %>
               <% end %>
               <th>&nbsp;</th>
             </tr>

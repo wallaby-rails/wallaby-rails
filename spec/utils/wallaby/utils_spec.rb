@@ -112,6 +112,13 @@ describe Wallaby::Utils, clear: :object_space do
     end
   end
 
+  describe '.to_field_label' do
+    it 'returns label' do
+      expect(described_class.to_field_label(:something, {})).to eq 'Something'
+      expect(described_class.to_field_label(:something, label: 'Else')).to eq 'Else'
+    end
+  end
+
   describe '.to_hash' do
     it 'turns array into hash' do
       expect(described_class.to_hash([%w(key value)])).to eq Hash 'key' => 'value'
