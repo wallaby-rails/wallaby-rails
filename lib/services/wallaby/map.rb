@@ -30,13 +30,17 @@ module Wallaby
     # { model => resource decorator }
     def self.resource_decorator_map(model_class)
       @resource_decorator_map ||= ModelClassMapper.new(ResourceDecorator).map
-      @resource_decorator_map[model_class] ||= ResourceDecorator
+      @resource_decorator_map[model_class] ||= begin
+        ResourceDecorator if mode_map[model_class]
+      end
     end
 
     # { model => servicer }
     def self.servicer_map(model_class)
       @servicer_map ||= ModelClassMapper.new(ModelServicer).map
-      @servicer_map[model_class] ||= ModelServicer
+      @servicer_map[model_class] ||= begin
+        ModelServicer if mode_map[model_class]
+      end
     end
 
     # { model => service_provider }
@@ -51,7 +55,9 @@ module Wallaby
     # { model => paginator }
     def self.paginator_map(model_class)
       @paginator_map ||= ModelClassMapper.new(ResourcePaginator).map
-      @paginator_map[model_class] ||= ResourcePaginator
+      @paginator_map[model_class] ||= begin
+        ResourcePaginator if mode_map[model_class]
+      end
     end
 
     # { model => pagination_provider }

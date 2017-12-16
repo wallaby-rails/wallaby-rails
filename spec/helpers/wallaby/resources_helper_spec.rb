@@ -53,6 +53,14 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
       end
     end
+
+    context 'when resources is not decoratable' do
+      let(:resources) { Time.new }
+
+      it 'returns decorators' do
+        expect(helper.decorate(resources)).to be_an Time
+      end
+    end
   end
 
   describe '#extract' do
