@@ -75,7 +75,6 @@ module Wallaby
       # @return [Array]
       def form_field_names
         @form_field_names ||= begin
-          fields = %W(#{primary_key} updated_at created_at)
           form_fields.reject do |field_name, metadata|
             field_name == primary_key \
               || FORM_EXCLUSIVE_DATA_TYPES.include?(field_name) \

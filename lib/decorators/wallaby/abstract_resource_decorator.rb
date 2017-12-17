@@ -1,7 +1,6 @@
 module Wallaby
   # Resource Decorator base class
   class AbstractResourceDecorator
-
     class << self
       # Guess the model class from class name
       # @return [Class]
@@ -19,8 +18,8 @@ module Wallaby
       end
 
       delegation_methods =
-        ModelDecorator.instance_methods - \
-          ::Object.instance_methods - %i(model_class)
+        ModelDecorator.instance_methods \
+          - ::Object.instance_methods - %i(model_class)
       delegate(*delegation_methods, to: :model_decorator, allow_nil: true)
     end
 
@@ -57,8 +56,8 @@ module Wallaby
     end
 
     delegation_methods =
-      ModelDecorator.instance_methods - \
-        ::Object.instance_methods - %i(model_class)
+      ModelDecorator.instance_methods \
+        - ::Object.instance_methods - %i(model_class)
     delegate(*delegation_methods, to: :model_decorator)
     delegate :to_s, :to_param, to: :resource
 
