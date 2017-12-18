@@ -2,7 +2,6 @@ module Wallaby
   # Resources helper
   module ResourcesHelper
     include FormHelper
-    include PaginatableHelper
     include IndexHelper
 
     def model_decorator(model_class)

@@ -1,61 +1,38 @@
 require 'rails_helper'
 
 describe Wallaby::FormHelper do
+  include Wallaby::LinksHelper
+  include Wallaby::BaseHelper
+
   describe '#form_type_partial_render' do
     let(:form) { Wallaby::FormBuilder.new object_name, object, helper, {} }
     let(:object_name) { object.model_name.param_key }
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
 
-    it 'checks the arguments', prefixes: ['wallaby/resources/form'] do
-      expect { helper.form_type_partial_render }.to raise_error ArgumentError
-      expect { helper.form_type_partial_render 'integer', field_name: 'name' }.to raise_error ArgumentError
-      expect { helper.form_type_partial_render 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
-
-      expect { helper.form_type_partial_render 'integer', field_name: 'name', form: form }.not_to raise_error
-    end
-
     describe 'partials', prefixes: ['wallaby/resources/form'] do
       it 'renders a type partial' do
         expect(helper.form_type_partial_render('integer', field_name: 'name', form: form)).to match 'type="number"'
       end
-
-      context 'when partial does not exists' do
-        it 'renders string partial' do
-          expect(helper.form_type_partial_render('unknown', field_name: 'name', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_name\">Name</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <input class=\"form-control\" type=\"text\" value=\"product_name\" name=\"product[name]\" id=\"product_name\" />\n    </div>\n  </div>\n  \n</div>\n"
-          expect(helper.form_type_partial_render('unknown', field_name: 'name', form: form)).to match 'type="text"'
-        end
-      end
-
-      context 'for custom fields' do
-        let(:decorator_class) do
-          class FormProductDecorator < Wallaby::ResourceDecorator
-            def self.model_class; Product; end
-
-            form_fields[:custom] = { type: 'string', name: 'Custom Field' }
-
-            def custom
-              name
-            end
-          end
-          FormProductDecorator
-        end
-
-        let(:object) do
-          decorator_class.new Product.new(name: 'custom_value')
-        end
-
-        it 'renders the custom field' do
-          expect(helper.form_type_partial_render('string', field_name: 'custom', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_custom\">Custom</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <input class=\"form-control\" type=\"text\" value=\"custom_value\" name=\"product[custom]\" id=\"product_custom\" />\n    </div>\n  </div>\n  \n</div>\n"
-        end
-      end
     end
   end
 
-  describe '#model_choices', :current_user do
-    it 'returns a list of choise for select' do
-      Product.create! name: 'Coconut'
-      Product.create! name: 'Banana'
-      expect(helper.model_choices(Product).map(&:first)).to eq %w(Coconut Banana)
+  describe '#remote_url' do
+    it 'returns remote url' do
+      expect(helper.remote_url('/path_to_api', Product)).to eq '/path_to_api'
+      expect(helper.remote_url(nil, Product)).to eq '/admin/products?per=20&q=QUERY'
+    end
+  end
+
+  describe '#polymorphic_options' do
+    it 'returns dropdown options (klass => url) for polymorphic class' do
+      metadata = {}
+      expect(polymorphic_options(metadata)).to eq ''
+
+      metadata = { polymorphic_list: [Product, Category] }
+      expect(polymorphic_options(metadata)).to eq "<option data-url=\"/admin/products?per=20&amp;q=QUERY\" value=\"Product\">Product</option>\n<option data-url=\"/admin/categories?per=20&amp;q=QUERY\" value=\"Category\">Category</option>"
+
+      metadata = { remote_urls: { Product => 'product_url', Category => 'category_url' }, polymorphic_list: [Product, Category] }
+      expect(polymorphic_options(metadata)).to eq "<option data-url=\"product_url\" value=\"Product\">Product</option>\n<option data-url=\"category_url\" value=\"Category\">Category</option>"
     end
   end
 end
