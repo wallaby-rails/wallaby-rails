@@ -6,19 +6,19 @@
     <meta name="turbolinks-cache-control" content="no-cache">
     <%= csrf_meta_tags %>
 
-    <title>Wallaby</title>
+    <title><%= render 'title' %></title>
 
     <%= stylesheet_link_tag 'wallaby/application', media: 'all' %>
     <%= yield :custom_stylesheet %>
     <%= javascript_include_tag 'wallaby/application' %>
   </head>
   <body class="application <%= body_class %>">
-    <%= render 'layouts/wallaby/header' %>
+    <%= render 'header' %>
     <main>
       <%= yield %>
     </main>
-    <%= render 'layouts/wallaby/footer' %>
-    <%= render 'layouts/wallaby/imodal' %>
+    <%= render 'footer' %>
+    <%= render 'imodal' %>
     <%= yield :custom_javascript %>
   </body>
 </html>

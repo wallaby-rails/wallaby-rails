@@ -6,7 +6,7 @@
     <meta name="turbolinks-cache-control" content="no-cache">
     <%= csrf_meta_tags %>
 
-    <title>Wallaby</title>
+    <title><%= render 'title' %></title>
 
     <%= stylesheet_link_tag 'wallaby/application', media: 'all' %>
     <%= yield :custom_stylesheet %>
@@ -33,7 +33,7 @@
     <main>
       <%= yield %>
     </main>
-    <%= render 'layouts/wallaby/footer' %>
+    <%= render 'footer' %>
     <%= yield :custom_javascript %>
   </body>
 </html>

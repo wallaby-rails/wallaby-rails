@@ -6,9 +6,7 @@ module Wallaby
       # @param options [String] partial name
       # @param locals [Hash]
       # @return [String] HTML
-      def render(
-          helper, options = {}, locals = {},
-          action_name = nil, &block)
+      def render(helper, options = {}, locals = {}, action_name = nil, &block)
         decorated = locals[:object]
         field_name = locals[:field_name].to_s
         action_name ||= Utils.to_partial_name helper.params[:action]

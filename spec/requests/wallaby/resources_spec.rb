@@ -37,7 +37,6 @@ describe 'Resources pages using postgresql table' do
 
     it 'renders collections in csv' do
       get '/admin/all_postgres_types', headers: { 'ACCEPT' => 'text/csv' }
-      byebug
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.content_type).to eq 'text/csv'

@@ -8,7 +8,7 @@
           <span class="fa fa-bars"></span>
         </button>
         <%# //Mobile Menu Toggler %>
-        <a class="navbar-brand" href="<%= wallaby_engine.root_path %>"><span>Wallaby</span> Admin</a>
+        <%= render 'logo' %>
       </div>
       <%# //Brand %>
 
@@ -22,7 +22,7 @@
             <%= model_tree model_classes %>
           </li>
         </ul>
-        <%= render 'layouts/wallaby/navs' %>
+        <%= render 'navs' %>
         <%# //Resources navigation %>
         <%# User account %>
         <ul class="nav navbar-nav navbar-right">
