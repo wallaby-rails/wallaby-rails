@@ -89,4 +89,6 @@ RSpec.configure do |config|
   # as the one that triggered the raiseure.
   Kernel.srand config.seed
 =end
+  config.color = true
+  config.full_backtrace = true
 end

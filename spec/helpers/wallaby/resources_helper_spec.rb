@@ -13,12 +13,6 @@ describe Wallaby::ResourcesHelper, :current_user do
     end
   end
 
-  describe '#model_servicer' do
-    it 'returns a model decorator' do
-      expect(helper.model_servicer(AllPostgresType)).to be_a Wallaby::ModelServicer
-    end
-  end
-
   describe '#decorate' do
     context 'single object' do
       it 'returns a decorator' do
@@ -86,6 +80,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
   describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
+    before { helper.params[:action] = 'show' }
 
     it 'checks the arguments' do
       expect { helper.type_partial_render }.to raise_error ArgumentError
@@ -125,7 +120,6 @@ describe Wallaby::ResourcesHelper, :current_user do
 
         it 'renders the custom field' do
           expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq "    custom_value\n"
-          expect(helper.type_partial_render('string', { object: object, field_name: 'custom' }, :show_metadata_of)).to eq "    custom_value\n"
         end
       end
 
@@ -147,8 +141,8 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
 
         it 'renders the custom field' do
-          expect(helper.type_partial_render('string', { object: object, field_name: 'custom' }, :index_metadata_of)).to eq "    custom_value\n"
-          expect(helper.index_type_partial_render('string', object: object, field_name: 'custom')).to eq "    custom_value\n"
+          helper.params[:action] = 'index'
+          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq "    custom_value\n"
         end
       end
     end

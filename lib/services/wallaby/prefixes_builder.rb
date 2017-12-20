@@ -32,8 +32,7 @@ module Wallaby
     end
 
     def build_suffix(params)
-      form_actions = %w(new create edit update)
-      form_actions.include?(params[:action]) ? 'form' : params[:action]
+      Utils.to_partial_name params[:action]
     end
 
     def wallaby_path

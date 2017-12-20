@@ -8,25 +8,33 @@ module Wallaby
       Map.model_decorator_map model_class
     end
 
-    def model_servicer(model_class, authorizer = current_ability)
-      warn '[DEPRECATION] `model_servicer` will be removed in version 5.2.0.'
-      Map.servicer_map(model_class).new(model_class, authorizer)
+    # Shortcut for `Wallaby.configuration.metadata
+    def default_metadata
+      Wallaby.configuration.metadata
     end
 
-    def decorate(resource, _metadata = {})
+    # Wrap resource into a decorator
+    # @param resource [Object, Enumerable]
+    # @return
+    #   [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator]
+    def decorate(resource)
       return resource if resource.is_a? ResourceDecorator
       return resource.map { |item| decorate item } if resource.respond_to? :map
       decorator = Map.resource_decorator_map resource.class
       decorator ? decorator.new(resource) : resource
     end
 
+    # Extract the resource from decorator
+    # @param resource [Object, Wallaby::ResourceDecorator]
+    # @return [Object]
     def extract(resource)
       return resource.resource if resource.is_a? ResourceDecorator
       resource
     end
 
-    def index_type_partial_render(options = {}, locals = {}, &block)
-      type_partial_render options, locals, :index_metadata_of, &block
+    # Render partial for index/show
+    def type_partial_render(options = {}, locals = {}, &block)
+      PartialRenderer.render self, options, locals, params[:action], &block
     end
 
     def show_title(decorated)
@@ -34,29 +42,6 @@ module Wallaby
       [
         to_model_label(decorated.model_class), decorated.to_label
       ].compact.join ': '
-    end
-
-    def default_metadata
-      Wallaby.configuration.metadata
-    end
-
-    def type_partial_render(options = {},
-                            locals = {},
-                            metadata_method = :show_metadata_of, &block)
-      decorated   = locals[:object]
-      field_name  = locals[:field_name].to_s
-
-      unless field_name.present? && decorated.is_a?(ResourceDecorator)
-        raise ::ArgumentError
-      end
-
-      locals[:metadata] = decorated.public_send metadata_method, field_name
-      locals[:value]    = decorated.public_send field_name
-
-      # NOTE: what happen here is that
-      # if desired partial is not found, it won't throw an exception
-      # instead, it will render the string partial instead
-      render(options, locals, &block) || render('string', locals, &block)
     end
   end
 end

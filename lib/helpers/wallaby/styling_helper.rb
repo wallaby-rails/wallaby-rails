@@ -36,49 +36,5 @@ module Wallaby
     def muted(text_content)
       content_tag :i, "<#{text_content}>", class: 'text-muted'
     end
-
-    def imodal_label(html_options)
-      warn '[DEPRECATION] `imodal_label` will be removed in version 5.2.0.'
-      html_options.delete(:label) ||
-        html_options.delete(:icon) ||
-        fa_icon('clone')
-    end
-
-    def imodal_html(uuid, title, body)
-      warn '[DEPRECATION] `imodal_html` will be removed in version 5.2.0.'
-      container_options =
-        { id: uuid, class: 'modal fade', tabindex: -1, role: 'dialog' }
-      content_tag(:div, container_options) do
-        content_tag :div, class: 'modal-dialog modal-lg' do
-          content_tag :div, class: 'modal-content' do
-            imodal_header(title) + imodal_body(body)
-          end
-        end
-      end
-    end
-
-    def imodal_header(title)
-      warn '[DEPRECATION] `imodal_header` will be removed in version 5.2.0.'
-      content_tag(:div, class: 'modal-header') do
-        concat imodal_button
-        concat content_tag(:h4, title, class: 'modal-title')
-      end
-    end
-
-    def imodal_body(body)
-      warn '[DEPRECATION] `imodal_body` will be removed in version 5.2.0.'
-      content_tag(:div, class: 'modal-body') { body }
-    end
-
-    def imodal_button
-      warn '[DEPRECATION] `imodal_button` will be removed in version 5.2.0.'
-      button_options = {
-        type: 'button', class: 'close',
-        data: { dismiss: 'modal' }, aria: { label: 'Close' }
-      }
-      button_tag(button_options) do
-        content_tag :span, raw('&times;'), aria: { hidden: true }
-      end
-    end
   end
 end

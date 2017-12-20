@@ -8,7 +8,7 @@ module Wallaby
     def to_html
       set_flash_message
       if post? then create_action
-      elsif put? || patch? then update_action
+      elsif patch? || put? then update_action
       elsif delete? then destroy_action
       else default_render
       end
@@ -16,13 +16,13 @@ module Wallaby
 
     def to_csv
       set_layout_to_none
-      headers['Content-Type'] = 'text/csv'
+      headers['Content-Disposition'] = "attachment; filename=\"#{file_name}\""
       default_render
     end
 
     def to_json
       set_layout_to_none
-      return default_render unless post? || put? || patch? || delete?
+      return default_render unless post? || patch? || put? || delete?
       if has_errors? then render :error, options.merge(status: :bad_request)
       else render :form, options
       end

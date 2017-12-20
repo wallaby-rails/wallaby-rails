@@ -4,7 +4,7 @@ module Wallaby
     # @param options [Hash, String]
     # @param locals [Hash] local variables for the partial
     def form_type_partial_render(options = {}, locals = {}, &block)
-      FormPartialRenderer.render self, options, locals, &block
+      PartialRenderer.render_form self, options, locals, &block
     end
 
     # To generate remote url for auto select plugin.

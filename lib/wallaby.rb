@@ -18,6 +18,7 @@ module Wallaby
     unprocessable_entity
   ).freeze
   WILDCARD = 'QUERY'.freeze
+  FORM_ACTIONS = %w(new create edit update).freeze
 end
 
 require 'wallaby/engine'
