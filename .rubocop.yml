@@ -31,3 +31,11 @@ Style/PercentLiteralDelimiters:
     '%i': ()
     '%w': ()
     '%W': ()
+
+Style/FormatStringToken:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+Layout/EmptyLinesAroundArguments:
+  Exclude:
+    - 'spec/**/*_spec.rb'

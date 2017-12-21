@@ -3,7 +3,7 @@ module Wallaby
     # Security configuration
     class Security
       # by default, current_user returns nil
-      DEFAULT_CURRENT_USER  = -> {}
+      DEFAULT_CURRENT_USER  = -> { nil }
       # by default, not to stop the before_action chain
       DEFAULT_AUTHENTICATE  = -> { true }
 
