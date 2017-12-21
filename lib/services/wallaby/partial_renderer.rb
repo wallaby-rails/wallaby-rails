@@ -3,13 +3,14 @@ module Wallaby
   class PartialRenderer
     class << self
       # Render form partial
+      # @param view [ActionView] view
       # @param options [String] partial name
       # @param locals [Hash]
       # @return [String] HTML
-      def render(helper, options = {}, locals = {}, action_name = nil, &block)
+      def render(view, options = {}, locals = {}, action_name = nil, &block)
         decorated = locals[:object]
         field_name = locals[:field_name].to_s
-        action_name ||= Utils.to_partial_name helper.params[:action]
+        action_name ||= Utils.to_partial_name view.params[:action]
 
         partial_arguments_check decorated, field_name
 
@@ -17,16 +18,16 @@ module Wallaby
           decorated.public_send :"#{action_name}_metadata_of", field_name
         locals[:value] = decorated.public_send field_name
 
-        helper.render(options, locals, &block) \
-          || helper.render('string', locals, &block)
+        view.render(options, locals, &block) \
+          || view.render('string', locals, &block)
       end
 
       # Render form partial
-      # @param helper [ActionView] view
+      # @param view [ActionView] view
       # @param options [String] partial name
       # @param locals [Hash]
       # @return [String] HTML
-      def render_form(helper, options = {}, locals = {}, &block)
+      def render_form(view, options = {}, locals = {}, &block)
         form = locals[:form]
         field_name = locals[:field_name].to_s
 
@@ -36,8 +37,8 @@ module Wallaby
         locals[:metadata] = decorated.form_metadata_of locals[:field_name]
         locals[:value] = decorated.public_send locals[:field_name]
 
-        helper.render(options, locals, &block) \
-          || helper.render('string', locals, &block)
+        view.render(options, locals, &block) \
+          || view.render('string', locals, &block)
       end
 
       private
