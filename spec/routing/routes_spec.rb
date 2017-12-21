@@ -101,8 +101,10 @@ describe 'routing' do
     end
 
     context 'when resources controller could not be found' do
+      let(:mocked_response) { double 'Response', call: [404, {}, ['Not found']] }
+
       it 'routes to model not found' do
-        expect(Wallaby::ResourcesController).to receive(:action).with(:not_found)
+        expect(Wallaby::ResourcesController).to receive(:action).with(:not_found) { mocked_response }
         get "#{script_name}/unknown_models"
       end
     end
