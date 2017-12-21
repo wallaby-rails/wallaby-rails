@@ -1,6 +1,17 @@
 module Wallaby
   # Styling helper
   module StylingHelper
+    # Shortcut to build up the html options as keyword arguments
+    # @param string_or_array [String, Array]
+    # @return [Hash]
+    def html_classes(string_or_array)
+      { html_options: { class: string_or_array } }
+    end
+
+    # Shortcut for fontawesome icons
+    # @param icon_suffix [String]
+    # @param html_options [Hash]
+    # @return [String] HTML I element
     def fa_icon(icon_suffix, html_options = {}, &block)
       html_options[:class] = Array html_options[:class]
       html_options[:class] << "fa fa-#{icon_suffix}"
@@ -8,6 +19,11 @@ module Wallaby
       content_tag :i, nil, html_options, &block
     end
 
+    # Build up tooltip
+    # @param title [String]
+    # @param icon_suffix [String]
+    # @param html_options [Hash]
+    # @return [String] tooltip HTML
     def itooltip(title, icon_suffix = 'info-circle', html_options = {})
       html_options[:title] = title
       (html_options[:data] ||= {}).merge! toggle: 'tooltip', placement: 'top'
@@ -15,6 +31,11 @@ module Wallaby
       fa_icon icon_suffix, html_options
     end
 
+    # Build up modal
+    # @param title [String]
+    # @param body [String]
+    # @param html_options [Hash]
+    # @return [String] modal HTML
     def imodal(title, body, html_options = {})
       label ||= html_options.delete(:label) \
                   || html_options.delete(:icon) || fa_icon('clone')
@@ -25,14 +46,19 @@ module Wallaby
       end
     end
 
+    # @return [String] grey null
     def null
       muted 'null'
     end
 
+    # @return [String] grey N/A
     def na
       muted 'n/a'
     end
 
+    # Grey text
+    # @param text_content [String]
+    # @return [String] HTML I element
     def muted(text_content)
       content_tag :i, "<#{text_content}>", class: 'text-muted'
     end

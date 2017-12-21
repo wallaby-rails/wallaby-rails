@@ -24,7 +24,7 @@ module Wallaby
       decorator ? decorator.new(resource) : resource
     end
 
-    # Extract the resource from decorator
+    # Get the origin resource object
     # @param resource [Object, Wallaby::ResourceDecorator]
     # @return [Object]
     def extract(resource)
@@ -37,6 +37,9 @@ module Wallaby
       PartialRenderer.render self, options, locals, params[:action], &block
     end
 
+    # Title for show page of given resource
+    # @param decorated [Wallaby::ResourceDecorator]
+    # @return [String]
     def show_title(decorated)
       raise ::ArgumentError unless decorated.is_a? ResourceDecorator
       [
