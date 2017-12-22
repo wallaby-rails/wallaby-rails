@@ -34,12 +34,12 @@ group :development do
   gem 'better_errors'
   gem 'brakeman'
   gem 'massa'
+  gem 'memory_profiler'
   gem 'rails_best_practices'
   gem 'simplecov'
-  gem 'memory_profiler'
 end
 
 group :test do
-  gem 'rails-controller-testing'
   gem 'database_cleaner'
+  gem 'rails-controller-testing'
 end
