@@ -3,13 +3,6 @@ require 'rails_helper'
 describe Wallaby::IndexHelper, :current_user do
   include Wallaby::ApplicationHelper
 
-  describe '#html_options' do
-    it 'constructs the html options' do
-      expect(helper.html_classes('css_class')).to eq html_options: { class: 'css_class' }
-      expect(helper.html_classes(['css_class'])).to eq html_options: { class: ['css_class'] }
-    end
-  end
-
   describe '#paginate' do
     it 'returns a paginator' do
       expect(helper.paginate(Product, [], {})).to be_kind_of Wallaby::ResourcePaginator
@@ -26,14 +19,6 @@ describe Wallaby::IndexHelper, :current_user do
     it 'returns a label for filter' do
       expect(helper.filter_label(:all, {})).to eq 'All'
       expect(helper.filter_label(:all, all: { label: 'All records' })).to eq 'All records'
-    end
-  end
-
-  describe '.current_filter_name' do
-    it 'returns filter name' do
-      expect(helper.current_filter_name(nil, {})).to eq :all
-      expect(helper.current_filter_name(:featured, {})).to eq :featured
-      expect(helper.current_filter_name(nil, featured: { default: true })).to eq :featured
     end
   end
 

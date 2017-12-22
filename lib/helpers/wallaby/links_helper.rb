@@ -84,11 +84,18 @@ module Wallaby
       link_to show_path(resource), html_options, &block
     end
 
+    # Return link to cancel an action
+    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @return [String] HTML anchor element
     def cancel_link(html_options = {}, &block)
       block ||= -> { t 'links.cancel' }
       link_to :back, html_options, &block
     end
 
+    # Url for index page
+    # @param model_class [Class]
+    # @param url_params [ActionController::Parameters, Hash]
+    # @return [String]
     def index_path(model_class, url_params: {})
       if url_params.is_a?(::ActionController::Parameters) \
         && !url_params.permitted?
@@ -98,10 +105,16 @@ module Wallaby
         to_resources_name(model_class), url_params.to_h
     end
 
+    # Url for new resource form page
+    # @param model_class [Class]
+    # @return [String]
     def new_path(model_class)
       wallaby_engine.new_resource_path to_resources_name(model_class)
     end
 
+    # Url for show page of given resource
+    # @param resource [Object]
+    # @return [String]
     def show_path(resource)
       decorated = decorate resource
       return unless decorated.primary_key_value
@@ -109,6 +122,9 @@ module Wallaby
         decorated.resources_name, decorated.primary_key_value
     end
 
+    # Url for edit form page of given resource
+    # @param resource [Object]
+    # @return [String]
     def edit_path(resource)
       decorated = decorate resource
       return unless decorated.primary_key_value

@@ -1,11 +1,12 @@
 module Wallaby
-  # Model servicer
+  # Model paginator
   class AbstractResourcePaginator
     def self.model_class
       return unless self < ::Wallaby::ResourcePaginator
       Map.model_class_map name.gsub('Paginator', EMPTY_STRING)
     end
 
+    # Delegate methods to pagination provider
     instance_methods =
       ModelPaginationProvider.instance_methods - ::Object.instance_methods
     delegate(*instance_methods, to: :@provider)

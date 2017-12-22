@@ -14,14 +14,6 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
       end
     end
 
-    describe '.decorate' do
-      it 'returns a resource decorator instance' do
-        subject = Wallaby::ResourceDecorator.decorate Product.new
-        expect(subject).to be_a Wallaby::ResourceDecorator
-        expect(Wallaby::ResourceDecorator.decorate(subject)).to eq subject
-      end
-    end
-
     ['', 'index_', 'show_', 'form_'].each do |prefix|
       title = prefix.delete '_'
       describe "for #{title}" do
@@ -63,20 +55,6 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
     let(:resource) { model_class.new }
     let(:model_class) { Product }
 
-    let(:model_fields) do
-      {
-        'id'            => { type: 'integer', label: 'fake title' },
-        'title'         => { type: 'string', label: 'fake title' },
-        'published_at'  => { type: 'datetime', label: 'fake title' },
-        'updated_at'    => { type: 'datetime', label: 'fake title' }
-      }
-    end
-    before do
-      ['', 'index_', 'show_', 'form_'].each do |prefix|
-        allow(subject.model_decorator).to receive("#{prefix}fields").and_return model_fields
-      end
-    end
-
     describe '#model_class' do
       it 'returns model class' do
         expect(subject.model_class).to eq model_class
@@ -102,16 +80,27 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
     end
 
     describe 'fields' do
+      let(:model_fields) do
+        {
+          'id'            => { 'type' => 'integer', 'label' => 'fake title' },
+          'title'         => { 'type' => 'string', 'label' => 'fake title' },
+          'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
+          'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' }
+        }
+      end
+
+      before do
+        ['', 'index_', 'show_', 'form_'].each do |prefix|
+          subject.model_decorator.send "#{prefix}fields=", model_fields
+        end
+      end
+
       ['', 'index_', 'show_', 'form_'].each do |prefix|
         title = prefix.delete '_'
         describe "for #{title}" do
           describe "##{prefix}fields" do
             it 'returns fields hash' do
               expect(subject.send("#{prefix}fields")).to eq model_fields
-            end
-
-            it 'is not allowed to modify the fields array' do
-              expect { subject.send("#{prefix}fields").delete 'title' }.to raise_error "can't modify frozen Hash"
             end
           end
 
@@ -123,17 +112,13 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
                 expect(subject.send("#{prefix}field_names")).to eq(%w(id title published_at updated_at))
               end
             end
-
-            it 'is not allowed to modify the field names array' do
-              expect { subject.send("#{prefix}field_names").delete 'title' }.to raise_error "can't modify frozen Array"
-            end
           end
 
           describe "##{prefix}metadata_of" do
             it 'returns metadata' do
               expect(subject.send("#{prefix}metadata_of", 'id')).to eq(
-                type:   'integer',
-                label:  'fake title'
+                'type' =>   'integer',
+                'label' =>  'fake title'
               )
             end
           end
@@ -168,6 +153,20 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
         end
       end
     end
+
+    describe '#to_s' do
+      let(:resource) { 'A String' }
+      it 'returns resource string' do
+        expect(subject.to_s).to eq 'A String'
+      end
+    end
+
+    describe '#to_param' do
+      let(:resource) { { key: 'value' } }
+      it 'returns resource string' do
+        expect(subject.to_param).to eq 'key=value'
+      end
+    end
   end
 
   context 'subclasses' do
@@ -175,15 +174,15 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
     let(:klass) { stub_const 'ProductDecorator', Class.new(Wallaby::ResourceDecorator) }
     let(:model_fields) do
       {
-        'id'            => { type: 'integer', label: 'fake title' },
-        'title'         => { type: 'string', label: 'fake title' },
-        'published_at'  => { type: 'datetime', label: 'fake title' },
-        'updated_at'    => { type: 'datetime', label: 'fake title' }
+        'id'            => { 'type' => 'integer', 'label' => 'fake title' },
+        'title'         => { 'type' => 'string', 'label' => 'fake title' },
+        'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
+        'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' }
       }
     end
     before do
       ['', 'index_', 'show_', 'form_'].each do |prefix|
-        allow(klass.model_decorator).to receive("#{prefix}fields").and_return model_fields
+        klass.model_decorator.send "#{prefix}fields=", model_fields
         klass.model_decorator.instance_variable_set "@#{prefix}field_names", nil
       end
     end
@@ -214,23 +213,23 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
 
               it 'returns fields hash' do
                 expect(klass.send("#{prefix}fields")).to eq(
-                  'title'         => { type: 'string', label: 'fake title' },
-                  'published_at'  => { type: 'datetime', label: 'fake title' },
-                  'updated_at'    => { type: 'datetime', label: 'fake title' },
-                  'id'            => { type: 'integer', label: 'fake title' }
+                  'title'         => { 'type' => 'string', 'label' => 'fake title' },
+                  'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'id'            => { 'type' => 'integer', 'label' => 'fake title' }
                 )
               end
 
               it 'caches the fields hash' do
                 expect { klass.send("#{prefix}fields").delete 'title' }.to change { klass.send "#{prefix}fields" }.from(
-                  'title'         => { type: 'string', label: 'fake title' },
-                  'published_at'  => { type: 'datetime', label: 'fake title' },
-                  'updated_at'    => { type: 'datetime', label: 'fake title' },
-                  'id'            => { type: 'integer', label: 'fake title' }
+                  'title'         => { 'type' => 'string', 'label' => 'fake title' },
+                  'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'id'            => { 'type' => 'integer', 'label' => 'fake title' }
                 ).to(
-                  'published_at'  => { type: 'datetime', label: 'fake title' },
-                  'updated_at'    => { type: 'datetime', label: 'fake title' },
-                  'id'            => { type: 'integer', label: 'fake title' }
+                  'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'id'            => { 'type' => 'integer', 'label' => 'fake title' }
                 )
               end
             end
@@ -260,8 +259,8 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
             describe ".#{prefix}metadata_of" do
               it 'returns metadata' do
                 expect(klass.send("#{prefix}metadata_of", 'id')).to eq(
-                  type:   'integer',
-                  label:  'fake title'
+                  'type' =>   'integer',
+                  'label' =>  'fake title'
                 )
               end
             end

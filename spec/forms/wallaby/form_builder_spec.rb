@@ -22,14 +22,6 @@ describe 'Wallaby::FormBuilder', type: :helper do
     end
   end
 
-  describe '#error?' do
-    it 'returns true if error' do
-      expect(subject.send(:error?, :name)).to be_falsy
-      object.errors.add :name, 'not valid'
-      expect(subject.send(:error?, :name)).to be_truthy
-    end
-  end
-
   describe '#label' do
     it 'returns the label' do
       expect(subject.label(:name, 'some text')).to eq '<label for="product_name">some text</label>'
@@ -41,6 +33,13 @@ describe 'Wallaby::FormBuilder', type: :helper do
     it 'returns the select' do
       expect(subject.select(:name, [1, 2])).to eq "<select name=\"product[name]\" id=\"product_name\"><option value=\"1\">1</option>\n<option value=\"2\">2</option></select>"
       expect(subject.select(:name, -> { [1, 2] })).to eq "<select name=\"product[name]\" id=\"product_name\"><option value=\"1\">1</option>\n<option value=\"2\">2</option></select>"
+    end
+  end
+
+  describe 'missing methods' do
+    it 'delegates to helper' do
+      expect(Wallaby::FormBuilder).not_to respond_to :index_path
+      expect(subject.index_path(Product)).to eq '/admin/products'
     end
   end
 end

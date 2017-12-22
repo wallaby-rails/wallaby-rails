@@ -7,7 +7,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
   describe 'General fields' do
     describe '#fields' do
       it 'returns a hash of all keys' do
-        expect(subject.fields).to be_a HashWithIndifferentAccess
+        expect(subject.fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.fields).to eq(
           'id' => { 'name' => 'id', 'type' => 'integer', 'label' => 'Id', 'is_origin' => true },
           'bigint' => { 'name' => 'bigint', 'type' => 'integer', 'label' => 'Bigint', 'is_origin' => true },
@@ -54,6 +54,8 @@ describe Wallaby::ActiveRecord::ModelDecorator do
           'uuid' => { 'name' => 'uuid', 'type' => 'uuid', 'label' => 'Uuid', 'is_origin' => true },
           'xml' => { 'name' => 'xml', 'type' => 'xml', 'label' => 'Xml', 'is_origin' => true }
         )
+
+        expect(subject.fields).to be_frozen
       end
 
       context 'when model table does not exist' do
@@ -68,7 +70,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_fields' do
       it 'has same value as fields' do
-        expect(subject.index_fields).to be_a HashWithIndifferentAccess
+        expect(subject.index_fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.index_fields).to eq subject.fields
       end
 
@@ -81,7 +83,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#show_fields' do
       it 'has same value as fields' do
-        expect(subject.show_fields).to be_a HashWithIndifferentAccess
+        expect(subject.show_fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.show_fields).to eq subject.fields
       end
 
@@ -94,7 +96,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#form_fields' do
       it 'has same value as fields' do
-        expect(subject.form_fields).to be_a HashWithIndifferentAccess
+        expect(subject.form_fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.form_fields).to eq subject.fields
       end
 
@@ -150,18 +152,6 @@ describe Wallaby::ActiveRecord::ModelDecorator do
         expect(subject.send(:foreign_keys_from_associations)).to eq %w(product_detail_id picture_id order_item_ids order_ids category_id tag_ids)
       end
     end
-
-    describe '#many_associations' do
-      it 'returns associations' do
-        expect(subject.send(:many_associations).keys).to eq %w(order_items tags)
-      end
-    end
-
-    describe '#belongs_to_associations' do
-      it 'returns associations' do
-        expect(subject.send(:belongs_to_associations).keys).to eq %w(category)
-      end
-    end
   end
 
   describe 'Polymorphic fields' do
@@ -206,18 +196,6 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     describe '#foreign_keys_from_associations' do
       it 'returns ploymorphic foreign keys for associations' do
         expect(subject.send(:foreign_keys_from_associations)).to eq %w(imageable_id imageable_type)
-      end
-    end
-
-    describe '#many_associations' do
-      it 'returns associations' do
-        expect(subject.send(:many_associations).keys).to eq []
-      end
-    end
-
-    describe '#belongs_to_associations' do
-      it 'returns associations' do
-        expect(subject.send(:belongs_to_associations).keys).to eq %w(imageable)
       end
     end
   end

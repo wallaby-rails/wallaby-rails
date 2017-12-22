@@ -5,9 +5,9 @@ decorated = decorate resource
 <article class="resource">
   <div class="resource__header">
     <h1><%= show_title decorated %></h1>
-    <%= render 'wallaby/resources/shared/resource_nav' %>
+    <%= render 'resource_navs' %>
   </div>
-  <%= render 'wallaby/shared/flash_messages' %>
+  <%= render 'flash_messages' %>
   <section>
     <div class="resource__container">
       <% decorated.show_field_names.each do |field_name| %>

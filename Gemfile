@@ -15,25 +15,31 @@ gemspec
 gem 'rails', '~> 5.1.4'
 
 group :development, :test do
-  gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'brakeman'
   gem 'byebug'
-  gem 'database_cleaner'
   gem 'devise'
   gem 'ffaker'
   gem 'haml_lint'
   gem 'i18n-tasks'
-  gem 'inch'
-  gem 'massa'
-  gem 'memory_profiler'
+  # gem 'inch'
   gem 'mysql2'
   gem 'pg'
   gem 'pry-rails'
-  gem 'rails-controller-testing'
-  gem 'rails_best_practices'
   gem 'rspec-rails'
   gem 'rubocop'
-  gem 'simplecov'
   gem 'sqlite3'
+end
+
+group :development do
+  gem 'better_errors'
+  gem 'brakeman'
+  gem 'massa'
+  gem 'memory_profiler'
+  gem 'rails_best_practices'
+  gem 'simplecov'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'rails-controller-testing'
 end

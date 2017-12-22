@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe Wallaby::StylingHelper do
+  describe '#html_options' do
+    it 'constructs the html options' do
+      expect(helper.html_classes('css_class')).to eq html_options: { class: 'css_class' }
+      expect(helper.html_classes(['css_class'])).to eq html_options: { class: ['css_class'] }
+    end
+  end
+
   describe '#fa_icon' do
     it 'returns icon html' do
       expect(helper.fa_icon('info')).to eq '<i class="fa fa-info"></i>'

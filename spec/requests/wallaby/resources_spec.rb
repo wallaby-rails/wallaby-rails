@@ -1,5 +1,15 @@
 require 'rails_helper'
 
+describe 'general routes' do
+  describe '#healthy' do
+    it 'returns healthy' do
+      get '/admin/status'
+      expect(response).to be_successful
+      expect(response.body).to eq 'healthy'
+    end
+  end
+end
+
 describe 'Resources pages using postgresql table' do
   let(:string) { 'Vincent van Gogh' }
   let(:model_class) { AllPostgresType }

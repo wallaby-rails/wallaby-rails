@@ -2,9 +2,9 @@
 <article class="resource">
   <div class="resource__header">
     <h1>Create a <%= to_model_label current_resources_name %></h1>
-    <%= render 'wallaby/resources/shared/resource_nav' %>
+    <%= render 'resource_navs' %>
   </div>
-  <%= render 'wallaby/shared/flash_messages' %>
+  <%= render 'flash_messages' %>
   <section>
     <div class="resource__container">
       <%= form_for decorated, url: wallaby_engine.resources_path, method: :post, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>

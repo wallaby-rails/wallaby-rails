@@ -1,10 +1,16 @@
 module Wallaby
   # Custom form builder to add more helper functions
   class FormBuilder < ::ActionView::Helpers::FormBuilder
+    # Return error class if there is error
+    # @param field_name [String/Symbol]
+    # @return [String]
     def error_class(field_name)
-      'has-error' if error? field_name
+      'has-error' if object.errors[field_name].present?
     end
 
+    # Build up the HTML for displaying error messages
+    # @param field_name [String/Symbol]
+    # @return [String] HTML
     def error_messages(field_name)
       errors = Array object.errors[field_name]
       return if errors.blank?
@@ -30,18 +36,18 @@ module Wallaby
 
     protected
 
+    # Try to delegate method to `@template`
     def method_missing(method, *args, &block)
       return super unless @template.respond_to? method
+      # Delegate the method so that we don't come in here the next time
+      # same method is called
       self.class.delegate method, to: :@template
       @template.public_send method, *args, &block
     end
 
+    # Pair with #method_missing
     def respond_to_missing?(method, _include_private)
       @template.respond_to?(method) || super
-    end
-
-    def error?(field_name)
-      object.errors[field_name].present?
     end
   end
 end

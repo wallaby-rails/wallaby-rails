@@ -1,6 +1,6 @@
 <%
 filters = current_model_decorator.filters
-filter = current_filter_name(index_params[:filter], filters)
+filter = ::Wallaby::Utils.find_filter_name index_params[:filter], filters
 html_options = proc do |filter_name|
   { class: filter.to_s == filter_name.to_s ? 'filters--current' : '' }
 end
@@ -9,12 +9,12 @@ end
   <% if filters.present? %>
     <a role="button" data-target="#" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="true">
-      <%= filter_label(filter) || all_label %>
+      <%= filter_label(filter, filters) || all_label %>
     </a>
     <ul>
       <li><em><%= t 'filters.title' %></em></li>
       <% filters.keys.unshift(:all).each do |filter_name| %>
-        <%= content_tag :li, filter_link(current_model_class, filter_name), html_options.call(filter_name) %>
+        <%= content_tag :li, filter_link(current_model_class, filter_name, filters), html_options.call(filter_name) %>
       <% end %>
     </ul>
   <% else %>

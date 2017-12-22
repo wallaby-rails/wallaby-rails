@@ -33,6 +33,15 @@ module Wallaby
         :all # last resort
     end
 
+    def self.to_field_label(field_name, metadata)
+      field_name = field_name.to_s if field_name.is_a? Symbol
+      metadata[:label] || field_name.humanize
+    end
+
+    def self.to_partial_name(action_name)
+      FORM_ACTIONS.include?(action_name) ? 'form' : action_name
+    end
+
     def self.to_hash(array)
       Hash[*array.flatten(1)]
     end

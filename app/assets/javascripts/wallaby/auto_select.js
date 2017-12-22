@@ -32,7 +32,7 @@ jQuery.fn.extend({
     };
     $this.off('reload.auto_select')
       .on('reload.auto_select', recreate_typeahead)
-      .trigger('reload');
+      .trigger('reload.auto_select');
 
     var disable_typeahead_on_single_selection = function () {
       $input.prop('disabled', !multiple && $this.find('a').length === 1);
@@ -40,7 +40,7 @@ jQuery.fn.extend({
     };
     $this.off('update.auto_select')
       .on('update.auto_select', disable_typeahead_on_single_selection)
-      .trigger('update');
+      .trigger('update.auto_select');
 
     $input.removeAttr('name').removeAttr('multiple'); // some clean up for the input
 
@@ -54,7 +54,7 @@ jQuery.fn.extend({
         $new_item.find('input').attr('name', name).val(suggestion.id);
         $this.find('ul').append($new_item);
         $a = $new_item.find('a').text(suggestion.label);
-        $this.trigger('update');
+        $this.trigger('update.auto_select');
       }
       if (multiple) { $a.focus(); }
       $input.typeahead('val', '');
@@ -69,7 +69,7 @@ jQuery.fn.extend({
 
     var remove_selection = function () {
       jQuery(this).parent().remove();
-      $this.trigger('update');
+      $this.trigger('update.auto_select');
     };
     $this.off('click.auto_select').
       on('click.auto_select', 'a', remove_selection);
