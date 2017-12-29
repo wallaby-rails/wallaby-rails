@@ -52,6 +52,8 @@ require 'wallaby/configuration'
 require 'wallaby/configuration/models'
 require 'wallaby/configuration/security'
 require 'wallaby/configuration/metadata'
+require 'wallaby/configuration/pagination'
+require 'wallaby/configuration/features'
 
 require 'utils/wallaby/utils'
 require 'tree/wallaby/node'

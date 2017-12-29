@@ -16,8 +16,7 @@ module Wallaby
         when 'index', 'create' then wallaby_engine.resources_path hash
         when 'new' then wallaby_engine.new_resource_path hash
         when 'edit' then wallaby_engine.edit_resource_path hash
-        when 'show', 'update', 'destroy' then wallaby_engine.resource_path hash
-        else wallaby_engine.url_for options
+        else wallaby_engine.resource_path hash
         end
       end
 

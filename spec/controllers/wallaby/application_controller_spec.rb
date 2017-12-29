@@ -5,7 +5,7 @@ describe Wallaby::ApplicationController do
     describe 'Wallaby::ResourceNotFound' do
       controller do
         def index
-          raise Wallaby::ResourceNotFound, 'Product'
+          raise Wallaby::ResourceNotFound, 1
         end
       end
 

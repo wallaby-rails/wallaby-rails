@@ -157,7 +157,15 @@ describe 'Resources pages using postgresql table' do
         post '/admin/pictures', params: { picture: { string: string } }
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :new
-        expect(response.body).to match "can't be blank"
+        expect(response.body).to include "can't be blank"
+      end
+
+      it 'renders errors in json' do
+        expect(model_class.count).to eq 0
+        post '/admin/pictures', params: { picture: { string: string } }, headers: json_headers
+        expect(response.content_type).to eq 'application/json'
+        expect(response.body).to include "can't be blank"
+        expect(response.status).to eq 400
       end
     end
   end
@@ -200,7 +208,14 @@ describe 'Resources pages using postgresql table' do
         put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :edit
-        expect(response.body).to match "can't be blank"
+        expect(response.body).to include "can't be blank"
+      end
+
+      it 'renders form error in json' do
+        put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }, headers: json_headers
+        expect(response.content_type).to eq 'application/json'
+        expect(response.body).to include "can't be blank"
+        expect(response.status).to eq 400
       end
     end
   end
