@@ -19,7 +19,6 @@ PATH
       sass-rails
       sprockets-rails
       summernote-rails
-      turbolinks
       twitter-typeahead-rails
 
 GEM

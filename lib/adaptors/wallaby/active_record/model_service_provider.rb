@@ -21,7 +21,7 @@ module Wallaby
 
       # @see Wallaby::ModelServiceProvider#paginate
       def paginate(query, params)
-        per = params[:per] || Wallaby.configuration.page_size
+        per = params[:per] || Wallaby.configuration.pagination.page_size
         query = query.page params[:page] if query.respond_to? :page
         query = query.per per if query.respond_to? :per
         query

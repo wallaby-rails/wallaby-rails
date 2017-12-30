@@ -12,6 +12,7 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+# gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'rails', '~> 5.1.4'
 
 group :development, :test do

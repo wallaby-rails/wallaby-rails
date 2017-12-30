@@ -169,7 +169,7 @@ module Wallaby
 
     # @param field_names [Array] field names
     # @param primary_key [String] primary key name
-    # @return [Array] a list of field names that primary key goes as first item
+    # @return [Array] a list of field names that primary key goes first
     def reposition(field_names, primary_key)
       field_names.unshift(primary_key).uniq
     end

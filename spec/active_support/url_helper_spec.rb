@@ -11,11 +11,16 @@ describe 'URL helpers', type: :helper do
   describe 'wallaby_engine.resources_path helper' do
     it 'returns url' do
       expect(helper.wallaby_engine.resources_path(action: 'index', resources: 'products')).to eq '/admin/products'
-      if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 0 && Rails::VERSION::TINY == 0
-        expect(helper.wallaby_engine.resources_path(parameters!(action: 'index', resources: 'products'))).to match '/admin/%23%3CActionController::Parameters'
-      else
-        expect(helper.wallaby_engine.resources_path(parameters!(action: 'index', resources: 'products'))).to match '/admin/action=index&resources=products'
-      end
+
+      version_specific = {
+        5 => {
+          0 => {
+            0 => '/admin/%23%3CActionController::Parameters'
+          }
+        }
+      }
+      expected = tiny version_specific, '/admin/action=index&resources=products'
+      expect(helper.wallaby_engine.resources_path(parameters!(action: 'index', resources: 'products'))).to match expected
     end
   end
 end

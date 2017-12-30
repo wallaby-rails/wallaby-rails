@@ -7,20 +7,25 @@ module Wallaby
     # > Hence, we need to storing name strings instead of constants.
     class Models
       # Specify the model classes that Wallaby should handle
+      # @param models [Array<Class>]
       def set(*models)
         @models = Array(models).flatten.map(&:to_s)
       end
 
+      # @return [Array<Class>, nil] the list of models that user has configured
       def presence
-        @models.try(:map, &:constantize)
+        (@models ||= []).map(&:constantize)
       end
 
-      def excludes
-        (@excludes ||= []).map(&:constantize)
-      end
-
+      # Specify the model classes that user wants to exclude
+      # @param models [Array<Class>]
       def exclude(*models)
         @excludes = Array(models).flatten.map(&:to_s)
+      end
+
+      # @return [Array<Class>] the list of models that user has configured
+      def excludes
+        (@excludes ||= []).map(&:constantize)
       end
     end
   end

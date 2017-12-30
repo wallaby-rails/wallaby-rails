@@ -17,17 +17,20 @@ describe Wallaby::ApplicationHelper do
     end
   end
 
-  # TODO: remove this with turbolinks
   describe '#stylesheet_link_tag' do
     it 'inclues data-turbolinks attribute' do
+      expect(stylesheet_link_tag('application')).not_to include 'data-turbolinks-track="true"'
+      Wallaby.configuration.features.turbolinks_enabled = true
       expect(stylesheet_link_tag('application')).to include 'data-turbolinks-track="true"'
       expect(stylesheet_link_tag('application', 'data-turbolinks-track' => nil)).not_to include 'data-turbolinks-track'
     end
   end
 
-  # TODO: remove this with turbolinks
   describe '#javascript_include_tag' do
     it 'inclues data-turbolinks attribute' do
+      expect(javascript_include_tag('application')).not_to include 'data-turbolinks-track="true"'
+      expect(javascript_include_tag('application')).not_to include 'data-turbolinks-eval="false"'
+      Wallaby.configuration.features.turbolinks_enabled = true
       expect(javascript_include_tag('application')).to include 'data-turbolinks-track="true"'
       expect(javascript_include_tag('application')).to include 'data-turbolinks-eval="false"'
       expect(javascript_include_tag('application', 'data-turbolinks-track' => nil)).not_to include 'data-turbolinks-track'

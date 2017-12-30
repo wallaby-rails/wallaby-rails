@@ -1,4 +1,8 @@
-jQuery(document).off('turbolinks:load.wallaby').on('turbolinks:load.wallaby', function () {
+window.readyPrefix = function readyPrefix(eventName) {
+  return '<%= Wallaby.configuration.features.turbolinks_enabled ? "turbolinks:load" : "ready" %>' + eventName;
+}
+
+jQuery(document).off(readyPrefix('.wallaby')).on(readyPrefix('.wallaby'), function () {
   'use strict';
 
   jQuery('[data-toggle="tooltip"]').tooltip({ html: true, container:'body' })

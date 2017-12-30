@@ -17,7 +17,7 @@ module Wallaby
       # Page size
       # @return [Integer]
       def page_size
-        (@params[:per] || Wallaby.configuration.page_size).to_i
+        @params[:per].try(:to_i) || Wallaby.configuration.pagination.page_size
       end
 
       # Page number

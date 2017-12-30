@@ -1,6 +1,6 @@
 module Wallaby
   class Map
-    # To collect model class that are configured to be accessible
+    # To collect model classes that are configured to be handled by Wallaby
     class ModelClassCollector
       def initialize(configuration)
         @configuration = configuration
@@ -12,7 +12,7 @@ module Wallaby
         configured_models
       end
 
-      protected
+      private
 
       def invalid_models_check
         invalid_models = configured_models - all_models

@@ -32,11 +32,6 @@ module Wallaby
       error_rendering(exception, __callee__)
     end
 
-    # Internal server error page
-    def internal_server_error(exception = nil)
-      error_rendering(exception, __callee__)
-    end
-
     protected
 
     def configuration

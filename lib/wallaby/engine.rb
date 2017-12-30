@@ -9,7 +9,6 @@ require 'jbuilder'
 
 require 'sass-rails'
 
-require 'turbolinks'
 require 'jquery-turbolinks'
 require 'bootstrap-sass'
 require 'font-awesome-sass'
@@ -39,6 +38,7 @@ module Wallaby
         %w(
           codemirror* codemirror/**/*
           wallaby/404.png wallaby/422.png wallaby/500.png
+          turbolinks
         )
     end
 
@@ -52,6 +52,8 @@ require 'wallaby/configuration'
 require 'wallaby/configuration/models'
 require 'wallaby/configuration/security'
 require 'wallaby/configuration/metadata'
+require 'wallaby/configuration/pagination'
+require 'wallaby/configuration/features'
 
 require 'utils/wallaby/utils'
 require 'tree/wallaby/node'

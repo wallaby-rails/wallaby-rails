@@ -12,11 +12,14 @@ describe Wallaby::SecureHelper, clear: :object_space do
         user = double email: 'tian@example.com'
         expect(helper.user_portrait(user)).to match(/<img /)
         expect(helper.user_portrait(user)).to match(%r{www.gravatar.com/avatar/})
-        if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-          expect(helper.user_portrait(user)).to eq '<img class="hidden-xs user-portrait" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
-        else
-          expect(helper.user_portrait(user)).to eq '<img class="hidden-xs user-portrait" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
-        end
+
+        version_specific = {
+          5 => {
+            2 => '<img class="hidden-xs user-portrait" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
+          }
+        }
+        expected = minor version_specific, '<img class="hidden-xs user-portrait" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
+        expect(helper.user_portrait(user)).to eq expected
       end
     end
   end

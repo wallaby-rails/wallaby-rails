@@ -12,7 +12,7 @@ describe Wallaby::Configuration::Models do
 
   describe '#presence' do
     it 'returns presence of models' do
-      expect(subject.presence).to be_nil
+      expect(subject.presence).to be_blank
       subject.set AllPostgresType
       expect(subject.presence).to eq [AllPostgresType]
     end

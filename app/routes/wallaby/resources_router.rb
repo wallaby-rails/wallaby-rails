@@ -39,12 +39,12 @@ if Rails.env.development?
   # NOTE: Rails reload! will hit here
   puts <<-DEBUG
   [ WALLABY ] reload! triggered
-    1. Start GC
-    2. Clear all the maps
+    1. Clear all the maps
+    2. Clear tmp folder
     3. Re-preload all files under folder `app`
   DEBUG
-  GC.start
   Wallaby::Map.clear
+  FileUtils.rm_rf Dir['tmp/cache/[^.]*'], verbose: false
 
   # NOTE: we search for subclasses of
   # Wallaby::ResourcesController and Wallaby::ResourceDecorator.
