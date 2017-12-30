@@ -13,6 +13,5 @@
 //= require codemirror/modes/xml
 //= require twitter/typeahead
 //= require jquery.minicolors
-//= require turbolinks
 //= require wallaby/auto_select
 //= require wallaby/setup

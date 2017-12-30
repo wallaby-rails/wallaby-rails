@@ -10,6 +10,7 @@
 
     <%= stylesheet_link_tag 'wallaby/application', media: 'all' %>
     <%= yield :custom_stylesheet %>
+    <%= javascript_include_tag 'turbolinks' if Wallaby.configuration.features.turbolinks_enabled %>
     <%= javascript_include_tag 'wallaby/application' %>
   </head>
   <body class="application <%= body_class %>">

@@ -13,17 +13,26 @@ module Wallaby
       end
     end
 
-    # TODO: remove this with turbolinks
+    # Add turbolinks options when it's enabled
     def stylesheet_link_tag(*sources)
-      default_options = { 'data-turbolinks-track' => true }
+      default_options =
+        if Wallaby.configuration.features.turbolinks_enabled
+          { 'data-turbolinks-track' => true }
+        else
+          {}
+        end
       options = default_options.merge!(sources.extract_options!.stringify_keys)
       super(*sources, options)
     end
 
-    # TODO: remove this with turbolinks
+    # Add turbolinks options when it's enabled
     def javascript_include_tag(*sources)
       default_options =
-        { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false }
+        if Wallaby.configuration.features.turbolinks_enabled
+          { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false }
+        else
+          {}
+        end
       options = default_options.merge!(sources.extract_options!.stringify_keys)
       super(*sources, options)
     end

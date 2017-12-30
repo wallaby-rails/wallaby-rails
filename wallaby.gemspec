@@ -37,6 +37,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'sass-rails'
   s.add_dependency 'sprockets-rails'
   s.add_dependency 'summernote-rails'
-  s.add_dependency 'turbolinks'
   s.add_dependency 'twitter-typeahead-rails'
 end

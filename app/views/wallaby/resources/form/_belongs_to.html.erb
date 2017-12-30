@@ -60,7 +60,7 @@ unless @belongs_to_init
   @belongs_to_init = true
   content_for :custom_javascript do
     javascript_tag do %>
-      jQuery(document).off('turbolinks:load.belongs_to').on('turbolinks:load.belongs_to', function () {
+      jQuery(document).off(readyPrefix('.belongs_to')).on(readyPrefix('.belongs_to'), function () {
         jQuery('[data-init="belongs_to"]').on('change', 'select', function () {
           var $option = jQuery(this.selectedOptions);
           var $span = $(this).parents('span:first');
