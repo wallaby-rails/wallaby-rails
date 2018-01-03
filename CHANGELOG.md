@@ -1,11 +1,9 @@
 # TODOs
 
-- Add dropdown partial
-- Setup Travis to test Wallaby under 2.2/2.3/2.4 and rails 5.0/5.1
 - Add support for pundit
+- Add support for her ORM
 - Localization support: to be able to use localization for all the model labels
-- Add support for image, activestorage/paperclip/carrierwave/dragonfly
-- Add lint check for stylesheet
+- Add lint check for stylesheet (maybe..)
 - Data audit (use papertrail) (maybe..)
 - Batch data action (maybe..)
 
@@ -20,19 +18,31 @@ N/A
 1. Feature: added support for Active Record Single Table Inheritance (STI) ([issue 27](#27)) and navigation for STI ([issue 30](#30))
 2. Feature: added filters metadata for provide quick access for predefined query ([issue 34](#34))
 3. Feature: added responder to handle different request formats ([issue 35](#35))
-5. Feature: export function ([issue 37](#37))
-6. Feature: UI Re-design, and mobile first ([issue 39](#39))
-7. Feature: used turbolinks to boost page load and used font-awesome to replace glyphicon ([issue 29](#29))
-4. Enhancement: colon search is enhanced using parselet ([issue 28](#28))
-9. Enhancement: typeahead for form partials (has\_many/has\_and\_belongs\_to\_many/belongs\_to) ([issue 40](#40))
+4. Feature: export function ([issue 37](#37))
+5. Feature: UI Re-design, and mobile first ([issue 39](#39))
+6. Feature: used turbolinks to boost page load and used font-awesome to replace glyphicon ([issue 29](#29))
+7. Enhancement: colon search is enhanced using parselet ([issue 28](#28))
+8. Enhancement: typeahead for form partials (has\_many/has\_and\_belongs\_to\_many/belongs\_to) ([issue 40](#40))
 9. Chore: source code improvement ([issue 26](#26))
-9. Chore: remove the dependency of devise ([issue 31](#31))
-10. Chore: refactor map service ([issue 25](#25))
-10. Chore: refactor to extract/move the code into abstract classes ([issue 33](#33))
-10. Chore: added rubocop to enforce high coding standard ([issue 32](#32), [issue 38](#38))
-11. Chore: refactor service object to keep authorizer on initialization ([issue 36](#36))
-12. Chore: refactor imodal method ([issue 41](#41))
-14. Bugfix: fix how object is clone ([issue 23](#23))
+10. Chore: remove the dependency of devise ([issue 31](#31))
+11. Chore: refactor map service ([issue 25](#25))
+12. Chore: refactor to extract/move the code into abstract classes ([issue 33](#33))
+13. Chore: added rubocop to enforce high coding standard ([issue 32](#32), [issue 38](#38))
+14. Chore: refactor service object to keep authorizer on initialization ([issue 36](#36))
+15. Chore: refactor imodal method ([issue 41](#41))
+16. Bugfix: fix how object is clone ([issue 23](#23))
+17. Feature: Add partials for type box/circle/line/lseg/path/polygon that are newly supported in Rails 5.0.* ([issue 42](#42))
+18. Feature: Add dropdown partial ([issue 46](#46))
+19. Feature: Add file partial ([issue 47](#47))
+20. Feature: Add markdown partial ([issue 48](#48))
+21. Feature: Add image partial ([issue 49](#49))
+22. Feature: Authroization check for relationship partials ([issue 50](#50))
+23. Feature: Configurable maxlength for partials ([issue 52](#52))
+24. Feature: Refactor resource new and find and expose permit method to controller ([issue 53](#53))
+25. Chore: Setup travis to test on rails 5.0/5.1 ([issue 54](#54))
+26. Feature: Add JSON respond for form/show ([issue 56](#56))
+27. Feature: Documentation ([issue 57](#57))
+28. Feature: Make turbolinks optional ([issue 58](#58))
 
 ## 5.0.1
 
@@ -104,7 +114,7 @@ N/A
 1. Used model class to dispatch requests to controllers
 2. Fixed sorting / remove link for custom fields on index page table headers
 3. Added types email and color for index/show/form
-4. Ensure all hashes used for fields is instance of HashWithIndifferentAccess
+4. Ensure all hashes used for fields is instance of ::ActiveSupport::HashWithIndifferentAccess
 
 ## 4.0.0.rc
 
