@@ -40,7 +40,7 @@ module Wallaby
     end
 
     def mounted_path
-      # TODO: need to find out if  this will fail
+      # TODO: need to find out if this will fail
       # when wallaby is mounted more than once on different namespace?
       Rails.application.routes.named_routes[:wallaby_engine].try do |route|
         route.path.spec.to_s
