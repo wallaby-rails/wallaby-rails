@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="turbolinks-cache-control" content="no-cache">
+    <% if Wallaby.configuration.features.turbolinks_enabled %>
+      <meta name="turbolinks-cache-control" content="no-cache">
+    <% end %>
     <%= csrf_meta_tags %>
 
     <title><%= render 'title' %></title>
