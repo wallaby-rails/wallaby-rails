@@ -48,8 +48,9 @@
     }
 
     &:after {
-      @extend .fa, .fa-remove:before;
+      @extend .fa;
       color: $light-red-color;
+      content: $fa-var-remove;
       display: block;
       height: 16px;
       line-height: 16px;
