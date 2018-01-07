@@ -13,6 +13,13 @@ N/A
 
 # History:
 
+## 5.1.1
+
+1. Chore: update lookup context wrapper ([issue 59](#59))
+2. Chore: update application.html ([issue 62](#62))
+2. Chore: fix deprecated styling (@extend :before) ([issue 63](#63))
+2. Chore: add manual preload into initializer as well ([issue 64](#64))
+
 ## 5.1.0
 
 1. Feature: added support for Active Record Single Table Inheritance (STI) ([issue 27](#27)) and navigation for STI ([issue 30](#30))
