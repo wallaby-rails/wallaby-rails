@@ -44,6 +44,7 @@ module Wallaby
 
     config.after_initialize do
       Map.clear
+      Utils.preload_all unless Rails.env.development?
     end
   end
 end

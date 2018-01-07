@@ -34,39 +34,14 @@ module Wallaby
 end
 
 # NOTE: please keep this block at the end.
-# otherwise, it might go into a endless reloading loop in dev environment
+# otherwise, it might go into a endless reloading loop
+# NOTE: Rails reload! will hit here
 if Rails.env.development?
-  # NOTE: Rails reload! will hit here
   puts <<-DEBUG
   [ WALLABY ] reload! triggered
     1. Clear all the maps
-    2. Clear tmp folder
-    3. Re-preload all files under folder `app`
+    2. Preload all files under folder `app` (instead of eager load)
   DEBUG
   Wallaby::Map.clear
-  FileUtils.rm_rf Dir['tmp/cache/[^.]*'], verbose: false
-
-  # NOTE: we search for subclasses of
-  # Wallaby::ResourcesController and Wallaby::ResourceDecorator.
-  # therefore, under development environment, we need to preload
-  # all classes under /app folder in main_app
-  # using `require` is not the way how Rails loads a class,
-  # we need to constantize the class names instead
-  # @see http://guides.rubyonrails.org/autoloading_and_reloading_constants.html
-  Wallaby::ApplicationController.to_s
-
-  preload = proc do |file_pattern|
-    Dir[file_pattern].each do |file_path|
-      begin
-        name = file_path[%r{app/[^/]+/(.+)\.rb}, 1].gsub('concerns/', '')
-        name.classify.constantize
-      rescue NameError, LoadError => e
-        puts ">>>>>>>>> PRELOAD ERROR: #{e.message}"
-        puts e.backtrace.slice(0, 5)
-      end
-    end
-  end
-
-  preload.call 'app/models/**.rb'
-  preload.call 'app/**/*.rb'
+  Wallaby::Utils.preload_all
 end
