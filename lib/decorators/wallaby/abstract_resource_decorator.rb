@@ -14,7 +14,7 @@ module Wallaby
       # @return Wallaby::ModelDecorator
       def model_decorator
         return unless self < ::Wallaby::ResourceDecorator
-        @model_decorator ||= Map.model_decorator_map model_class
+        Map.model_decorator_map model_class
       end
 
       delegation_methods =
