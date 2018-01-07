@@ -22,8 +22,9 @@
       position: relative;
 
       &:before {
-        @extend .fa, .fa-search:before;
+        @extend .fa;
         color: $default-primary-color;
+        content: $fa-var-search;
         left: 8px;
         margin-top: -7px;
         position: absolute;

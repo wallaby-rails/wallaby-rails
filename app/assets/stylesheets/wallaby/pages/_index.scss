@@ -117,7 +117,7 @@
             color: $default-primary-color;
             &:before {
               color: $default-primary-color;
-              @extend .fa-sort-asc:before;
+              content: $fa-var-sort-asc;
             }
           }
         }
@@ -125,11 +125,11 @@
         &.asc {
           a {
             &:before {
-              @extend .fa-sort-asc:before;
+              content: $fa-var-sort-asc;
             }
             &:hover {
               &:before {
-                @extend .fa-sort-desc:before;
+                content: $fa-var-sort-desc;
               }
             }
           }
@@ -138,11 +138,11 @@
         &.desc {
           a {
             &:before {
-              @extend .fa-sort-desc:before;
+              content: $fa-var-sort-desc;
             }
             &:hover {
               &:before {
-                @extend .fa-sort:before;
+                content: $fa-var-sort;
               }
             }
           }
@@ -177,12 +177,12 @@
         }
 
         &.resources--forward:after {
-          @extend .fa-angle-double-right:before;
+          content: $fa-var-angle-double-right;
           right: 16px;
         }
 
         &.resources--backward:before {
-          @extend .fa-angle-double-left:before;
+          content: $fa-var-angle-double-left;
           left: 16px;
         }
       }
