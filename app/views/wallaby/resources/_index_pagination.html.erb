@@ -1,15 +1,17 @@
 <%
 paginator = paginate(current_model_class, collection, index_params)
-active_per = proc do |per|
-  paginator.page_size == per && 'pagination__pers--current'
-end
-from_to = t 'pagination.from_to', from: paginator.from, to: paginator.to
-of = t 'pagination.of'
-total_count = t 'pagination.total_count', total: paginator.total
-pers_title = t 'pagination.pers'
-pages_title = t 'pagination.pages'
 %>
 <% if paginator.paginatable? %>
+  <%
+  active_per = proc do |per|
+    paginator.page_size == per && 'pagination__pers--current'
+  end
+  from_to = t 'pagination.from_to', from: paginator.from, to: paginator.to
+  of = t 'pagination.of'
+  total_count = t 'pagination.total_count', total: paginator.total
+  pers_title = t 'pagination.pers'
+  pages_title = t 'pagination.pages'
+  %>
   <nav class="pagination">
     <span class="pagination__metadata">
       <% if paginator.number_of_pages > 1 # more than one page%>

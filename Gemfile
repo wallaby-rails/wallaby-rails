@@ -38,6 +38,7 @@ group :development do
   gem 'memory_profiler'
   gem 'rails_best_practices'
   gem 'simplecov'
+  gem 'turbolinks'
 end
 
 group :test do

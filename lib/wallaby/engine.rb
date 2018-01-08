@@ -9,7 +9,6 @@ require 'jbuilder'
 
 require 'sass-rails'
 
-require 'jquery-turbolinks'
 require 'bootstrap-sass'
 require 'font-awesome-sass'
 require 'bootstrap3-datetimepicker-rails'
