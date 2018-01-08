@@ -52,9 +52,10 @@ describe Wallaby::LinksHelper, :current_user do
 
   describe '#index_link' do
     it 'returns index link' do
-      expect(helper.index_link(Product)).to eq '<a href="/admin/products">Product</a>'
-      expect(helper.index_link(Product) { 'List' }).to eq '<a href="/admin/products">List</a>'
-      expect(helper.index_link(Product, url_params: parameters(sort: 'name asc').permit!) { 'List' }).to eq '<a href="/admin/products?sort=name+asc">List</a>'
+      expect(helper.index_link(Product)).to eq '<a title="Product" href="/admin/products">Product</a>'
+      expect(helper.index_link(Product, html_options: { title: 'List' })).to eq '<a title="List" href="/admin/products">Product</a>'
+      expect(helper.index_link(Product) { 'List' }).to eq '<a title="Product" href="/admin/products">List</a>'
+      expect(helper.index_link(Product, url_params: parameters(sort: 'name asc').permit!) { 'List' }).to eq '<a title="Product" href="/admin/products?sort=name+asc">List</a>'
     end
 
     context 'when cannot index' do
@@ -68,9 +69,10 @@ describe Wallaby::LinksHelper, :current_user do
 
   describe '#new_link' do
     it 'returns new link' do
-      expect(helper.new_link(Product)).to eq '<a class="resource__create" href="/admin/products/new">Create Product</a>'
-      expect(helper.new_link(Product) { 'New' }).to eq '<a class="resource__create" href="/admin/products/new">New</a>'
-      expect(helper.new_link(Product, html_options: { class: 'test' })).to eq '<a class="test" href="/admin/products/new">Create Product</a>'
+      expect(helper.new_link(Product)).to eq '<a title="Create Product" class="resource__create" href="/admin/products/new">Create Product</a>'
+      expect(helper.new_link(Product) { 'New' }).to eq '<a title="Create Product" class="resource__create" href="/admin/products/new">New</a>'
+      expect(helper.new_link(Product, html_options: { class: 'test' })).to eq '<a class="test" title="Create Product" href="/admin/products/new">Create Product</a>'
+      expect(helper.new_link(Product, html_options: { title: 'Custom Create' })).to eq '<a title="Custom Create" class="resource__create" href="/admin/products/new">Create Product</a>'
     end
 
     context 'when cannot new' do
@@ -86,8 +88,9 @@ describe Wallaby::LinksHelper, :current_user do
     let(:resource) { Product.new id: 1, name: 'iPhone' }
 
     it 'returns show link' do
-      expect(helper.show_link(resource)).to eq '<a href="/admin/products/1">iPhone</a>'
-      expect(helper.show_link(resource) { 'Show' }).to eq '<a href="/admin/products/1">Show</a>'
+      expect(helper.show_link(resource)).to eq '<a title="iPhone" href="/admin/products/1">iPhone</a>'
+      expect(helper.show_link(resource) { 'Show' }).to eq '<a title="iPhone" href="/admin/products/1">Show</a>'
+      expect(helper.show_link(resource, html_options: { title: 'Show link' }) { 'Show' }).to eq '<a title="Show link" href="/admin/products/1">Show</a>'
     end
 
     context 'when cannot show' do
@@ -114,9 +117,10 @@ describe Wallaby::LinksHelper, :current_user do
     let(:resource) { Product.new id: 1, name: 'iPhone' }
 
     it 'returns edit link' do
-      expect(helper.edit_link(resource)).to eq '<a class="resource__update" href="/admin/products/1/edit">Edit iPhone</a>'
-      expect(helper.edit_link(resource) { 'Edit' }).to eq '<a class="resource__update" href="/admin/products/1/edit">Edit</a>'
-      expect(helper.edit_link(resource, html_options: { class: 'test' })).to eq '<a class="test" href="/admin/products/1/edit">Edit iPhone</a>'
+      expect(helper.edit_link(resource)).to eq '<a title="Edit iPhone" class="resource__update" href="/admin/products/1/edit">Edit iPhone</a>'
+      expect(helper.edit_link(resource) { 'Edit' }).to eq '<a title="Edit iPhone" class="resource__update" href="/admin/products/1/edit">Edit</a>'
+      expect(helper.edit_link(resource, html_options: { class: 'test' })).to eq '<a class="test" title="Edit iPhone" href="/admin/products/1/edit">Edit iPhone</a>'
+      expect(helper.edit_link(resource, html_options: { title: 'Edit a Product' })).to eq '<a title="Edit a Product" class="resource__update" href="/admin/products/1/edit">Edit iPhone</a>'
     end
 
     context 'when cannot edit' do
@@ -143,11 +147,12 @@ describe Wallaby::LinksHelper, :current_user do
     let(:resource) { Product.new id: 1 }
 
     it 'returns delete link' do
-      expect(helper.delete_link(resource)).to eq '<a class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
-      expect(helper.delete_link(resource) { 'Destroy' }).to eq '<a class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Destroy</a>'
-      expect(helper.delete_link(resource, html_options: { class: 'test' })).to eq '<a class="test" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
-      expect(helper.delete_link(resource, html_options: { method: :put })).to eq '<a class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="put" href="/admin/products/1">Delete</a>'
-      expect(helper.delete_link(resource, html_options: { data: { confirm: 'Delete now!' } })).to eq '<a data-confirm="Delete now!" class="resource__destroy" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource)).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource) { 'Destroy' }).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Destroy</a>'
+      expect(helper.delete_link(resource, html_options: { class: 'test' })).to eq '<a class="test" title="Delete" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource, html_options: { title: 'Confirm to delete' })).to eq '<a title="Confirm to delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource, html_options: { method: :put })).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="put" href="/admin/products/1">Delete</a>'
+      expect(helper.delete_link(resource, html_options: { data: { confirm: 'Delete now!' } })).to eq '<a data-confirm="Delete now!" title="Delete" class="resource__destroy" rel="nofollow" data-method="delete" href="/admin/products/1">Delete</a>'
     end
 
     context 'when cannot delete' do
