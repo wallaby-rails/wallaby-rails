@@ -3,7 +3,7 @@ module Wallaby
   module LinksHelper
     # Permit the params used by Wallaby
     def index_params
-      params.permit(:q, :page, :per, :sort, :filter)
+      params.permit(:resources, :q, :page, :per, :sort, :filter, :utf8)
     end
 
     # Return link to index page by a given model class
@@ -14,7 +14,11 @@ module Wallaby
     # @return [String, nil] anchor element
     def index_link(model_class, url_params: {}, html_options: {}, &block)
       return if cannot? :index, model_class
-      block ||= -> { to_model_label model_class }
+      html_options, block = LinkOptionsNormalizer.normalize(
+        html_options, block,
+        block: -> { to_model_label model_class }
+      )
+
       path = index_path model_class, url_params: url_params
       link_to path, html_options, &block
     end
@@ -27,8 +31,11 @@ module Wallaby
     # @return [String, nil] anchor element
     def new_link(model_class, html_options: {}, &block)
       return if cannot? :new, model_class
-      block ||= -> { t 'links.new', model: to_model_label(model_class) }
-      html_options[:class] = 'resource__create' unless html_options.key? :class
+      html_options, block = LinkOptionsNormalizer.normalize(
+        html_options, block,
+        class: 'resource__create',
+        block: -> { t 'links.new', model: to_model_label(model_class) }
+      )
 
       link_to new_path(model_class), html_options, &block
     end
@@ -43,7 +50,10 @@ module Wallaby
       # NOTE: to_s is a must
       # if a block is returning integer (e.g. `{ 1 }`)
       # `link_to` will render blank text note inside hyper link
-      block ||= -> { decorate(resource).to_label.to_s }
+      html_options, block = LinkOptionsNormalizer.normalize(
+        html_options, block,
+        block: -> { decorate(resource).to_label.to_s }
+      )
 
       default = options[:readonly] && block.call || nil
       return default if cannot? :show, extract(resource)
@@ -57,11 +67,14 @@ module Wallaby
     # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
     # @return [String] anchor element / text
     def edit_link(resource, options: {}, html_options: {}, &block)
-      block ||= -> { "#{t 'links.edit'} #{decorate(resource).to_label}" }
       default = options[:readonly] && decorate(resource).to_label || nil
       return default if cannot? :edit, extract(resource)
 
-      html_options[:class] ||= 'resource__update'
+      html_options, block = LinkOptionsNormalizer.normalize(
+        html_options, block,
+        class: 'resource__update',
+        block: -> { "#{t 'links.edit'} #{decorate(resource).to_label}" }
+      )
 
       link_to edit_path(resource), html_options, &block
     end
@@ -75,8 +88,12 @@ module Wallaby
     def delete_link(resource, html_options: {}, &block)
       return if cannot? :destroy, extract(resource)
 
-      block ||= -> { t 'links.delete' }
-      html_options[:class] ||= 'resource__destroy'
+      html_options, block = LinkOptionsNormalizer.normalize(
+        html_options, block,
+        class: 'resource__destroy',
+        block: -> { t 'links.delete' }
+      )
+
       html_options[:method] ||= :delete
       html_options[:data] ||= {}
       html_options[:data][:confirm] ||= t 'links.confirm.delete'

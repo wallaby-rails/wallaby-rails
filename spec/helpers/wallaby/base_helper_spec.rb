@@ -57,14 +57,14 @@ describe Wallaby::BaseHelper, :current_user, type: :helper do
     context 'when root only' do
       it 'returns html' do
         classes = [Product, Order]
-        expect(helper.model_tree(model_classes(classes))).to eq '<ul class="dropdown-menu"><li><a href="/admin/orders">Order</a></li><li><a href="/admin/products">Product</a></li></ul>'
+        expect(helper.model_tree(model_classes(classes))).to eq '<ul class="dropdown-menu"><li><a title="Order" href="/admin/orders">Order</a></li><li><a title="Product" href="/admin/products">Product</a></li></ul>'
       end
     end
 
     context 'when tree structure' do
       it 'returns html' do
         classes = [Product, Order, Person, Staff, Customer]
-        expect(helper.model_tree(model_classes(classes))).to eq '<ul class="dropdown-menu"><li><a href="/admin/orders">Order</a></li><li><a href="/admin/people">Person</a><ul class="dropdown-menu"><li><a href="/admin/customers">Customer</a></li><li><a href="/admin/staffs">Staff</a></li></ul></li><li><a href="/admin/products">Product</a></li></ul>'
+        expect(helper.model_tree(model_classes(classes))).to eq '<ul class="dropdown-menu"><li><a title="Order" href="/admin/orders">Order</a></li><li><a title="Person" href="/admin/people">Person</a><ul class="dropdown-menu"><li><a title="Customer" href="/admin/customers">Customer</a></li><li><a title="Staff" href="/admin/staffs">Staff</a></li></ul></li><li><a title="Product" href="/admin/products">Product</a></li></ul>'
       end
     end
   end
