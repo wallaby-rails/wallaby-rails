@@ -2,6 +2,8 @@ module Wallaby
   module Sorting
     # Build the sorting link
     class LinkBuilder
+      delegate :model_class, to: :@model_decorator
+
       def initialize(model_decorator, params, helper)
         @model_decorator = model_decorator
         @params = params
@@ -27,10 +29,6 @@ module Wallaby
       end
 
       private
-
-      def model_class
-        @model_class ||= @model_decorator.model_class
-      end
 
       # @see Wallaby::Sorting::NextBuilder
       def next_builder

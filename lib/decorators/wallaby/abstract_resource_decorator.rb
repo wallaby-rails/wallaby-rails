@@ -6,7 +6,7 @@ module Wallaby
       # @return [Class]
       def model_class
         return unless self < ::Wallaby::ResourceDecorator
-        @model_class ||= Map.model_class_map name.gsub 'Decorator', EMPTY_STRING
+        Map.model_class_map name.gsub 'Decorator', EMPTY_STRING
       end
 
       # Get the model decorator for the model class
