@@ -55,7 +55,7 @@ N/A
 19. Feature: Add file partial ([issue 47](#47))
 20. Feature: Add markdown partial ([issue 48](#48))
 21. Feature: Add image partial ([issue 49](#49))
-22. Feature: Authroization check for relationship partials ([issue 50](#50))
+22. Feature: Authorization check for relationship partials ([issue 50](#50))
 23. Feature: Configurable maxlength for partials ([issue 52](#52))
 24. Feature: Refactor resource new and find and expose permit method to controller ([issue 53](#53))
 25. Chore: Setup travis to test on rails 5.0/5.1 ([issue 54](#54))

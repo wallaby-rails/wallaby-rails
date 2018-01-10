@@ -1,12 +1,13 @@
 ## View
 
-Because we use partials, it is easy to customize how a field should be rendered.
+- [Local Variables](#local-variables)
+- [Types](#types)
 
-### Index / show partials
+### Create type partial
 
-In the following example, we will change the product description to be rendered using markdown on the index page:
+Wallaby uses type partials to render the fields of a record. It utilizes and extends [Template Inheritance](http://guides.rubyonrails.org/layouts_and_rendering.html#using-render) so that Wallaby can search type partials.
 
-First of all, change the type in its decorator:
+For a complicated example, if in a decorator, a field type is updated to `markdown`:
 
 ```ruby
 #!app/decorators/product_decorator.rb
@@ -15,77 +16,201 @@ class ProductDecorator < Wallaby::ResourceDecorator
 end
 ```
 
-Then we need to add a partial for it. Depending on how we want it to be shared, the partial can be created in one of the following paths:
-
-1. If the partial is only for this specific controller and action:
-    ```
-    app/views/admin/products/index/_markdown.html.erb
-    ```
-
-2. If it can be shared between `index`, `show` and `form`:
-    ```
-    app/views/admin/products/_markdown.html.erb
-    ```
-
-3. If it can be shared across all controllers, but only for index:
-    ```
-    app/views/wallaby/resources/index/_markdown.html.erb
-    ```
-
-4. If it is globally shared across all controllers and actions:
-    ```
-    app/views/wallaby/resources/_markdown.html.erb
-    ```
-
-Next, we create the partial with following content:
-
-```erb
-<%= markdown.render value  %>
-```
-
-Note that for index and show partial, we will have access to the following variables:
-
-- `object`: the decorator object which wraps the resource object
-- `field_name`: current field name
-- `value`: current value
-- `metadata`: metadata for current field
-
-### Form partials for new / create / edit / update
-
-Similar to the above example of `index`, we will change product description to be rendered using markdown for form editing:
-
-First, change its type in its decorator:
+Also, a Wallaby controller for `Product` is declared:
 
 ```ruby
 #!app/decorators/product_decorator.rb
-class ProductDecorator < Wallaby::ResourceDecorator
-  self.form_fields[:description][:type] = 'markdown'
+class Backend::GoodsController < Wallaby::ResourcesController
+  def self.model_class; Product; end
 end
 ```
 
-Then we create the partial in one of the following paths:
+Then Wallaby will search type partials in the following precedence:
 
-```
-app/views/admin/products/form/_markdown.html.erb
-app/views/admin/products/_markdown.html.erb
-app/views/wallaby/resources/form/_markdown.html.erb
-app/views/wallaby/resources/_markdown.html.erb
-```
+- `app/views/$MOUNTED_PATH/$RESOURCES/$ACTION_PREFIX`
+- `app/views/$MOUNTED_PATH/$RESOURCES`
+- `app/views/$CONTROLLER_PATH/$ACTION_PREFIX`
+- `app/views/$CONTROLLER_PATH`
+- `app/views/wallaby/resources/$ACTION_PREFIX`
+- `app/views/wallaby/resources`
 
-Next we create the partial with following content:
+Given that:
+- Wallaby is mounted under `/admin` in `config/routes.rb`
+- Action prefix is `index`.
+    > NOTE: action prefix can only be one of `index`, `show` and `form` (`form` is for action name `new/create/edit/update`)
+
+Then Wallaby will look up these paths:
+
+- `app/views/admin/products/index/_markdown`
+- `app/views/admin/products/_markdown`
+- `app/views/backend/goods/index/_markdown`
+- `app/views/backend/goods/_markdown`
+- `app/views/wallaby/resources/index/_markdown`
+- `app/views/wallaby/resources/_markdown`
+
+Therefore, we could choose one of the above paths to create this type partial, let's say:
 
 ```erb
-<div class="form-group <%= form.error_class field_name %>">
-  <%= form.label field_name, metadata[:label] %>
-  <%= form.text_field field_name, class: 'form-control markdown-editing' %>
-  <%= form.error_messages field_name %>
-</div>
+<% #!app/views/admin/products/index/_markdown.html.erb %>
+<%= markdown.render value  %>
 ```
 
-Note that for the form partial, we will have access to the following variables:
+### Local Variables
 
-- `form`: the instance of `Wallaby::FormBuilder` which provides additional helper methods for error class and error messages
+In order to build complicated type partial, we will need to know the following local variables among `index`, `show` and `form`:
+
 - `object`: the decorator object which wraps the resource object
 - `field_name`: current field name
 - `value`: current value
 - `metadata`: metadata for current field
+
+For `form` action prefix, there is one more local variable:
+
+- `form`: a form builder instance extending `ActionView::Helpers::FormBuilder` to provides additional helper methods for error class and error messages.
+
+## Types
+
+Here is a list of database types that Wallaby could handle for index/show/form pages:
+
+- bigint
+- bigserial
+- binary
+- bit
+- bit_varying
+- blob
+- boolean
+- box
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- cidr
+- circle
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- citext
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- date
+- daterange
+- datetime
+- decimal
+- float
+- hstore
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- inet
+- int4range
+- int8range
+- integer
+- json
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- jsonb
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- line
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- longblob
+- longtext
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- lseg
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- ltree
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- macaddr
+- mediumblob
+- mediumtext
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- money
+- numrange
+- path
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- point
+- polygon
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- serial
+- string
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- text
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- time
+- tinyblob
+- tinytext
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- tsrange
+- tstzrange
+- tsvector
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- unsigned_bigint
+- unsigned_decimal
+- unsigned_float
+- unsigned_integer
+- uuid
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+- xml
+
+Apart from the above types, we also support:
+
+- belongs_to
+  - metadata options for `show` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+    - `:is_polymorphic`: the same value as the association option `:polymorphic` (not recommend to change)
+  - metadata options for `form` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+    - `:is_polymorphic`: the same value as the association option `:polymorphic` (not recommend to change)
+    - `:foreign_key`: the same value as the association option `:foreign_key` (not recommend to change)
+    - `:polymorphic_type`: the polymorphic type column name
+    - `:polymorphic_list`: a list of classes for this polymorphic association
+    - `:remote_urls`: the ajax URLs for autocompletion for this polymorphic association
+    - `:remote_url`: the ajax URL for autocompletion
+- color
+- dropdown (form)
+  - metadata options for `form` partial:
+    - `:choices`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
+    - `:options`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
+    - `:html_options`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
+- email
+- file (form)
+- has_and_belongs_to_many
+  - metadata options for `show` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+  - metadata options for `form` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+    - `:foreign_key`:  the same value as the association option `:foreign_key` (not recommend to change)
+    - `:remote_url`: the ajax URL for autocompletion
+- has_many
+  - metadata options for `show` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+  - metadata options for `form` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+    - `:foreign_key`:  the same value as the association option `:foreign_key` (not recommend to change)
+    - `:remote_url`: the ajax URL for autocompletion
+- has_one
+  - metadata options for `show` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+  - metadata options for `form` partial:
+    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
+- image (show)
+  - metadata options for `show` partial:
+    - `:options`: used by [ActionView::Helpers::AssetTagHelper#image_tag](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-image_tag)
+- markdown (form)
+- password
+- raw (index/show)
+- sti
+  - metadata options for `index` partial:
+    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
+  - metadata options for `form` partial:
+    - `:sti_class_list`: an array of classes for STI column
+
+To use the type partials, please read [Decorator](decorator.md)

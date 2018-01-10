@@ -43,6 +43,7 @@ module Wallaby
           rule left: simple(:left), op: simple(:op), right: simple(:right) do
             oped = op.try :to_str
             operator = SIMPLE_OPERATORS[oped]
+            # skip if the operator is unknown
             next unless operator
             lefted = left.try :to_str
             convert = case oped
