@@ -12,10 +12,7 @@ end
     <a id="actions_list" class="query__more"
       role="button" data-target="#" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="true"></a>
-    <ul aria-labelledby="actions_list">
-      <li><%= export_link current_model_class %></li>
-      <%= render 'index_actions' %>
-    </ul>
+    <%= render 'index_actions' %>
   </nav>
   <%= form_tag index_path(current_model_class), method: :get, class: 'query__search' do %>
     <%= hidden_field_tag :sort, index_params[:sort] %>
