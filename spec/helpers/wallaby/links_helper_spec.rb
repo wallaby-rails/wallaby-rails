@@ -10,6 +10,10 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.index_params.to_h).to eq hash
       helper.params[:something] = 'else'
       expect(helper.index_params.to_h).to eq hash
+      helper.params[:resources] = 'products'
+      expect(helper.index_params.to_h).to eq hash
+      helper.params[:utf8] = '√'
+      expect(helper.index_params.to_h).to eq hash
     end
   end
 
