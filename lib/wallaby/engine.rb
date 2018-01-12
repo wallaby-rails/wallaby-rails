@@ -41,8 +41,15 @@ module Wallaby
         )
     end
 
+    config.before_eager_load do
+      # We need to ensure that the core models are loaded before anything else
+      ::Wallaby::Utils.preload 'app/models/**/*.rb'
+    end
+
     config.after_initialize do
-      Utils.preload_all unless Rails.env.development?
+      unless Rails.env.development? || Rails.configuration.eager_load
+        ::Wallaby::Utils.preload_all
+      end
     end
   end
 end

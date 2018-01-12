@@ -29,6 +29,7 @@ module Wallaby
     # Index page to list data
     def index
       authorize! :index, current_model_class
+      yield if block_given? # after_index
       respond_with collection
     end
 

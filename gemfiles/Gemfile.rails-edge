@@ -28,7 +28,7 @@ group :development, :test do
   gem 'massa'
   gem 'memory_profiler'
   gem 'mysql2'
-  gem 'pg'
+  gem 'pg', '~> 1.0.0'
   gem 'pry-rails'
   gem 'rails-controller-testing'
   gem 'rails_best_practices'
