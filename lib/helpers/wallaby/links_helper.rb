@@ -3,7 +3,7 @@ module Wallaby
   module LinksHelper
     # Permit the params used by Wallaby
     def index_params
-      params.permit(:resources, :q, :page, :per, :sort, :filter, :utf8)
+      params.except(:resources, :utf8).permit(:filter, :page, :per, :q, :sort)
     end
 
     # Return link to index page by a given model class
