@@ -13,6 +13,14 @@ N/A
 
 # History:
 
+## 5.1.3
+
+1. Chore: Remove `jquery-turbolinks` gem ([issue 66](#66))
+2. Feature: Add html attribute `title` to the links ([issue 67](#67))
+3. Chore: normalize the partials that user could replace/override ([issue 69](#69))
+4. Fix: Have to make sure that `app/models` are loaded before Rails eager load ([issue 68](#68))
+5. Chore: index_params should not contain `resources`, `utf8` ([issue 71](#71))
+
 ## 5.1.2
 
 1. Chore: prevent the reference to model decorator from being cached ([issue 65](#65))
