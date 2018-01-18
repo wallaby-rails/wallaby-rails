@@ -28,6 +28,7 @@ describe Wallaby::ResourcesController do
       expect(assigns(:collection)).to include all_postgres_type
       expect(response).to be_successful
       expect(response).to render_template :index
+      Rails.application.reload_routes!
     end
   end
 
@@ -39,6 +40,7 @@ describe Wallaby::ResourcesController do
       expect(assigns(:resource).string).to eq all_postgres_type.string
       expect(response).to be_successful
       expect(response).to render_template :show
+      Rails.application.reload_routes!
     end
   end
 
@@ -52,6 +54,7 @@ describe Wallaby::ResourcesController do
       all_postgres_type = AllPostgresType.first
       expect(assigns(:resource).string).to eq all_postgres_type.string
       expect(response).to redirect_to "/admin/all_postgres_types/#{all_postgres_type.id}"
+      Rails.application.reload_routes!
     end
   end
 
@@ -63,6 +66,7 @@ describe Wallaby::ResourcesController do
       expect(assigns(:resource).string).to eq all_postgres_type.string
       expect(response).to be_successful
       expect(response).to render_template :edit
+      Rails.application.reload_routes!
     end
   end
 
@@ -76,6 +80,7 @@ describe Wallaby::ResourcesController do
       put :update, params: { resources: 'all_postgres_type', id: all_postgres_type.id, all_postgres_type: { string: 'something' } }
       expect(assigns(:resource).string).to eq all_postgres_type.string
       expect(response).to redirect_to "/admin/all_postgres_types/#{all_postgres_type.id}"
+      Rails.application.reload_routes!
     end
   end
 
@@ -89,6 +94,7 @@ describe Wallaby::ResourcesController do
       delete :destroy, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
       expect(assigns(:resource).string).to eq all_postgres_type.string
       expect(response).to redirect_to '/admin/all_postgres_types'
+      Rails.application.reload_routes!
     end
   end
 
