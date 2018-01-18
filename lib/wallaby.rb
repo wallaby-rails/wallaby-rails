@@ -19,6 +19,7 @@ module Wallaby
   ).freeze
   WILDCARD = 'QUERY'.freeze
   FORM_ACTIONS = %w(new create edit update).freeze
+  SAVE_ACTIONS = %w(create update).freeze
 end
 
 require 'wallaby/engine'

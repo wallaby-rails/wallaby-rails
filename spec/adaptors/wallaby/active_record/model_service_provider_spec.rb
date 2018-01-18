@@ -9,7 +9,8 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
 
     describe '#permit' do
       it 'returns the permitted params' do
-        expect(subject.permit(parameters)).to be_blank
+        expect{ subject.permit(parameters) }.to raise_error ActionController::ParameterMissing
+        expect{ subject.permit(parameters(all_postgres_type: {})) }.to raise_error ActionController::ParameterMissing
         expect(subject.permit(parameters(all_postgres_type: { string: 'some string' }))).to eq parameters!(string: 'some string')
       end
     end

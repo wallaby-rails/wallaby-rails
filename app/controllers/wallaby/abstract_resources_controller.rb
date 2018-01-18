@@ -286,11 +286,9 @@ module Wallaby
     # given, or requesting HTML response
     # @see Wallaby::ModelServicer#paginate
     def paginate(query)
-      if params[:page] || params[:per] || request.format.symbol == :html
-        current_model_service.paginate(query, params)
-      else
-        query
-      end
+      paginatable =
+        params[:page] || params[:per] || request.format.symbol == :html
+      paginatable ? current_model_service.paginate(query, params) : query
     end
 
     # To whitelist the params for CRUD actions
@@ -311,12 +309,14 @@ module Wallaby
 
     # @return either persisted or unpersisted resource instance
     def resource
-      @resource ||=
+      @resource ||= begin
+        whitelisted = action_name.in?(SAVE_ACTIONS) ? resource_params : {}
         if resource_id.present?
-          current_model_service.find resource_id, resource_params
+          current_model_service.find resource_id, whitelisted
         else
-          current_model_service.new resource_params
+          current_model_service.new whitelisted
         end
+      end
     end
 
     # Get current model decorator so that we could retrive metadata for given

@@ -5,9 +5,7 @@ module Wallaby
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
       # @see Wallaby::ModelServiceProvider#permit
       def permit(params)
-        return {} if params[param_key].blank?
-        # using fetch could avoid ActionController::ParameterMissing
-        params.fetch(param_key, {}).permit permitted_fields
+        params.require(param_key).permit permitted_fields
       end
 
       # @see Wallaby::ModelServiceProvider#collection
