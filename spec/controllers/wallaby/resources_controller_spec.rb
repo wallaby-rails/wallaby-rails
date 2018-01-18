@@ -88,7 +88,7 @@ describe Wallaby::ResourcesController do
       all_postgres_type = AllPostgresType.create string: 'something'
       delete :destroy, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
       expect(assigns(:resource).string).to eq all_postgres_type.string
-      expect(response).to redirect_to "/admin/all_postgres_types"
+      expect(response).to redirect_to '/admin/all_postgres_types'
     end
   end
 
