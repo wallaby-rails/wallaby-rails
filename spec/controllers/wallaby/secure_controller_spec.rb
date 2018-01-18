@@ -37,7 +37,7 @@ describe Wallaby::SecureController do
     end
 
     context 'when current_user setting exists' do
-      it 'returns a cacheing current_user' do
+      it 'returns a caching current_user' do
         user = { email: 'wallaby@wallaby.org.au' }
         security_config = Wallaby.configuration.security
         security_config.current_user { user }
@@ -58,7 +58,7 @@ describe Wallaby::SecureController do
         SuperCurrentUser.send :undef_method, :current_user
       end
 
-      it 'returns a cacheing current_user' do
+      it 'returns a caching current_user' do
         security_config = Wallaby.configuration.security
         expect(security_config.current_user?).to be_falsy
         controller.send :current_user
@@ -73,7 +73,7 @@ describe Wallaby::SecureController do
     end
 
     context 'when authenticate_user setting exists' do
-      it 'returns a cacheing authenticate_user' do
+      it 'returns a caching authenticate_user' do
         security_config = Wallaby.configuration.security
         security_config.authenticate { false }
         expect { controller.send :authenticate_user! }.to raise_error Wallaby::NotAuthenticated
@@ -92,7 +92,7 @@ describe Wallaby::SecureController do
         SuperAuthenticateUser.send :undef_method, :authenticate_user!
       end
 
-      it 'returns a cacheing authenticate_user' do
+      it 'returns a caching authenticate_user' do
         security_config = Wallaby.configuration.security
         expect(security_config.current_user?).to be_falsy
         expect { controller.send :authenticate_user! }.to raise_error 'custom authentication error'
