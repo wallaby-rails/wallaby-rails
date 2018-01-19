@@ -48,12 +48,12 @@ module Wallaby
 
     # @return [String] grey null
     def null
-      muted 'null'
+      muted t 'labels.null'
     end
 
     # @return [String] grey N/A
     def na
-      muted 'n/a'
+      muted t 'labels.na'
     end
 
     # Grey text

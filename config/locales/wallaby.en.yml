@@ -24,6 +24,8 @@ en:
     count: 'Count: '
     auto_select_hint: 'Type to select...'
     upload: 'Upload'
+    null: 'null'
+    na: 'n/a'
 
   buttons:
     save: 'Save'
