@@ -9,7 +9,7 @@ describe Wallaby::ResourcePaginator, clear: :object_space do
     end
   end
 
-  context 'subclasses' do
+  context 'descendants' do
     let(:model_class) { Product }
     let(:klass) { stub_const 'ProductPaginator', Class.new(Wallaby::ResourcePaginator) }
 

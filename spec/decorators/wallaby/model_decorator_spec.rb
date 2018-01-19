@@ -22,9 +22,9 @@ describe Wallaby::ModelDecorator do
     end
   end
 
-  describe 'subclasses' do
+  describe 'descendants' do
     it 'implements the following methods' do
-      described_class.subclasses.each do |klass|
+      described_class.descendants.each do |klass|
         instance = klass.new Product
         ['', 'index_', 'show_', 'form_'].each do |prefix|
           expect { instance.send "#{prefix}fields" }.not_to raise_error

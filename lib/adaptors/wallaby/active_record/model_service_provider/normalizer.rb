@@ -9,10 +9,10 @@ module Wallaby
 
         def normalize(params)
           params.each do |field_name, values|
-            metadata = @model_decorator.fields[field_name] || EMPTY_HASH
-            type = (metadata[:type] || EMPTY_STRING)[/range|point|binary/]
+            type = @model_decorator.metadata_of(field_name)[:type]
+                                   .try(:[], /range|point|binary/)
             next unless type
-            send "normalize_#{type}_values", params, field_name, values
+            public_send "normalize_#{type}_values", params, field_name, values
           end
         end
 

@@ -235,7 +235,7 @@ describe Wallaby::ResourcesController do
         end
       end
 
-      context 'for subclasses' do
+      context 'for descendants' do
         describe Space::PlanetsController do
           it 'returns prefixes' do
             controller.params[:resources] = 'space/planets'
@@ -267,7 +267,7 @@ describe Wallaby::ResourcesController do
             end
           end
 
-          context 'for subclasses' do
+          context 'for descendants' do
             describe Space::PlanetsController do
               it 'returns prefixes' do
                 controller.params[:resources] = 'space/planets'
@@ -287,7 +287,7 @@ describe Wallaby::ResourcesController do
     end
   end
 
-  describe 'subclasses of Wallaby::ResourcesController' do
+  describe 'descendants of Wallaby::ResourcesController' do
     class CampervansController < Wallaby::ResourcesController; end
     class Campervan; end
 

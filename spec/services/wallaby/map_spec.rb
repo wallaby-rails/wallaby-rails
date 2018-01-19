@@ -11,7 +11,7 @@ end
 describe Wallaby::Map do
   describe '.mode_map' do
     before do
-      expect(Wallaby::Mode).to receive(:subclasses) { [SuperMode] }
+      expect(Wallaby::Mode).to receive(:descendants) { [SuperMode] }
     end
 
     it 'returns a map of model -> mode' do
@@ -28,7 +28,7 @@ describe Wallaby::Map do
 
   describe '.model_classes' do
     before do
-      expect(Wallaby::Mode).to receive(:subclasses) { [SuperMode] }
+      expect(Wallaby::Mode).to receive(:descendants) { [SuperMode] }
     end
 
     after do
@@ -81,7 +81,7 @@ describe Wallaby::Map do
       class MysqlTypeController < Wallaby::ResourcesController
         def self.model_class; AllMysqlType; end
       end
-      expect(Wallaby::ResourcesController).to receive(:subclasses) {
+      expect(Wallaby::ResourcesController).to receive(:descendants) {
         [AllPostgresTypeController, MysqlTypeController]
       }
     end
@@ -108,7 +108,7 @@ describe Wallaby::Map do
       class MysqlTypeDecorator < Wallaby::ResourceDecorator
         def self.model_class; AllMysqlType; end
       end
-      expect(Wallaby::ResourceDecorator).to receive(:subclasses) {
+      expect(Wallaby::ResourceDecorator).to receive(:descendants) {
         [AllPostgresTypeDecorator, MysqlTypeDecorator]
       }
     end
@@ -133,7 +133,7 @@ describe Wallaby::Map do
       class MysqlTypeServicer < Wallaby::ModelServicer
         def self.model_class; AllMysqlType; end
       end
-      expect(Wallaby::ModelServicer).to receive(:subclasses) {
+      expect(Wallaby::ModelServicer).to receive(:descendants) {
         [AllPostgresTypeServicer, MysqlTypeServicer]
       }
     end
