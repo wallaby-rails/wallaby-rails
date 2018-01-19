@@ -9,7 +9,7 @@ module Wallaby
 
         def normalize(params)
           params.each do |field_name, values|
-            type = @model_decorator.type_of(field_name)
+            type = @model_decorator.metadata_of(field_name)[:type]
                                    .try(:[], /range|point|binary/)
             next unless type
             public_send "normalize_#{type}_values", params, field_name, values

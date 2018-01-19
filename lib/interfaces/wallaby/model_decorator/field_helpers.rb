@@ -1,5 +1,7 @@
 module Wallaby
+  # @private
   class ModelDecorator
+    # @private
     # Field helper for model decorator
     module FieldHelpers
       # @return [Hash] metadata information for a given field
