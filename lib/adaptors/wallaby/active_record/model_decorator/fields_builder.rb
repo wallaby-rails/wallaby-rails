@@ -12,8 +12,7 @@ module Wallaby
             metadata = {
               name: column.name,
               type: column.type.to_s.freeze,
-              label: @model_class.human_attribute_name(column.name),
-              is_origin: true
+              label: @model_class.human_attribute_name(column.name)
             }
             sti_builder.update(metadata, column)
             fields[column.name] = metadata
@@ -24,8 +23,7 @@ module Wallaby
           @model_class.reflections.each_with_object({}) do |(name, ref), fields|
             metadata = {
               name: name, type: ref.macro.to_s,
-              label: @model_class.human_attribute_name(name),
-              is_origin: true
+              label: @model_class.human_attribute_name(name)
             }
             association_builder.update(metadata, ref)
             polymorphic_builder.update(metadata, ref)

@@ -15,13 +15,12 @@ module Wallaby
       #   example:
       #     {
       #       # general field
-      #       id: { name: 'id', type: 'integer', label: 'Id', is_origin: true },
+      #       id: { name: 'id', type: 'integer', label: 'Id' },
       #       # association field
       #       category: {
       #         'name' => 'category',
       #         'type' => 'belongs_to',
       #         'label' => 'Category',
-      #         'is_origin' => true,
       #         'is_association' => true,
       #         'is_through' => false,
       #         'has_scope' => false,
