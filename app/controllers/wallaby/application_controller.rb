@@ -32,6 +32,12 @@ module Wallaby
 
     protected
 
+    # @see https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_controller/metal/helpers.rb#L118
+    # `helpers` exists since Rails 5, need to replicate this for Rails 4.2
+    def helpers
+      @helpers ||= defined?(super) ? super : view_context
+    end
+
     def configuration
       ::Wallaby.configuration
     end
