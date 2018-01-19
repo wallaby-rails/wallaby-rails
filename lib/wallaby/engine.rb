@@ -66,6 +66,7 @@ require 'tree/wallaby/node'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'
+require 'interfaces/wallaby/model_decorator/field_helpers'
 require 'interfaces/wallaby/model_finder'
 require 'interfaces/wallaby/model_service_provider'
 require 'interfaces/wallaby/model_pagination_provider'
