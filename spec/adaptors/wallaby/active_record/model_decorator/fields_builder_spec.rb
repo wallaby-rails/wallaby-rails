@@ -15,37 +15,37 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
     it 'returns a hash using column names as keys' do
       expect(subject.general_fields).to eq(
         'id' => {
-          name: 'id', type: 'integer', label: 'Id', is_origin: true
+          name: 'id', type: 'integer', label: 'Id'
         },
         'category_id' => {
-          name: 'category_id', type: 'integer', label: 'Category', is_origin: true
+          name: 'category_id', type: 'integer', label: 'Category'
         },
         'sku' => {
-          name: 'sku', type: 'string', label: 'Sku', is_origin: true
+          name: 'sku', type: 'string', label: 'Sku'
         },
         'name' => {
-          name: 'name', type: 'string', label: 'Name', is_origin: true
+          name: 'name', type: 'string', label: 'Name'
         },
         'description' => {
-          name: 'description', type: 'text', label: 'Description', is_origin: true
+          name: 'description', type: 'text', label: 'Description'
         },
         'stock' => {
-          name: 'stock', type: 'integer', label: 'Stock', is_origin: true
+          name: 'stock', type: 'integer', label: 'Stock'
         },
         'price' => {
-          name: 'price', type: 'float', label: 'Price', is_origin: true
+          name: 'price', type: 'float', label: 'Price'
         },
         'featured' => {
-          name: 'featured', type: 'boolean', label: 'Featured', is_origin: true
+          name: 'featured', type: 'boolean', label: 'Featured'
         },
         'available_to_date' => {
-          name: 'available_to_date', type: 'date', label: 'Available to date', is_origin: true
+          name: 'available_to_date', type: 'date', label: 'Available to date'
         },
         'available_to_time' => {
-          name: 'available_to_time', type: 'time', label: 'Available to time', is_origin: true
+          name: 'available_to_time', type: 'time', label: 'Available to time'
         },
         'published_at' => {
-          name: 'published_at', type: 'datetime', label: 'Published at', is_origin: true
+          name: 'published_at', type: 'datetime', label: 'Published at'
         }
       )
     end
@@ -72,7 +72,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             name: 'category',
             type: 'belongs_to',
             label: 'Category',
-            is_origin: true,
             is_association: true,
             is_through: false,
             has_scope: false,
@@ -89,7 +88,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             name: 'product_detail',
             type: 'has_one',
             label: 'Product detail',
-            is_origin: true,
             is_association: true,
             is_through: false,
             has_scope: false,
@@ -105,7 +103,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
               name: 'picture',
               type: 'has_one',
               label: 'Picture',
-              is_origin: true,
               is_association: true,
               is_through: false,
               has_scope: false,
@@ -123,7 +120,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             name: 'items',
             type: 'has_many',
             label: 'Items',
-            is_origin: true,
             is_association: true,
             is_through: false,
             has_scope: false,
@@ -136,7 +132,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             name: 'order_items',
             type: 'has_many',
             label: 'Order items',
-            is_origin: true,
             is_association: true,
             is_through: false,
             has_scope: false,
@@ -153,7 +148,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
               name: 'orders',
               type: 'has_many',
               label: 'Orders',
-              is_origin: true,
               is_association: true,
               is_through: true,
               has_scope: false,
@@ -170,7 +164,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
               name: 'pictures',
               type: 'has_many',
               label: 'Pictures',
-              is_origin: true,
               is_association: true,
               is_through: false,
               has_scope: false,
@@ -188,7 +181,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             name: 'tags',
             type: 'has_and_belongs_to_many',
             label: 'Tags',
-            is_origin: true,
             is_association: true,
             is_through: false,
             has_scope: false,
@@ -215,7 +207,6 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           expect(imageable[:name]).to eq 'imageable'
           expect(imageable[:type]).to eq 'belongs_to'
           expect(imageable[:label]).to eq 'Imageable'
-          expect(imageable[:is_origin]).to be_truthy
           expect(imageable[:is_association]).to be_truthy
           expect(imageable[:is_polymorphic]).to be_truthy
           expect(imageable[:is_through]).to be_falsy

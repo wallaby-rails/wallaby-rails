@@ -12,7 +12,7 @@ describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
     end
 
     it 'returns a sort link even when field is not origin but sort_field_name is set' do
-      model_decorator.index_fields['model'] = { label: 'Model', is_origin: false, is_association: false, sort_field_name: 'id' }
+      model_decorator.index_fields['model'] = { label: 'Model', is_association: false, sort_field_name: 'id' }
 
       expect(subject.build('model')).to eq '<a title="Product" href="/admin/products?sort=id+asc">Model</a>'
     end

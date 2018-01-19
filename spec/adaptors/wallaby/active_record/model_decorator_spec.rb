@@ -9,50 +9,50 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       it 'returns a hash of all keys' do
         expect(subject.fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.fields).to eq(
-          'id' => { 'name' => 'id', 'type' => 'integer', 'label' => 'Id', 'is_origin' => true },
-          'bigint' => { 'name' => 'bigint', 'type' => 'integer', 'label' => 'Bigint', 'is_origin' => true },
-          'bigserial' => { 'name' => 'bigserial', 'type' => 'integer', 'label' => 'Bigserial', 'is_origin' => true },
-          'binary' => { 'name' => 'binary', 'type' => 'binary', 'label' => 'Binary', 'is_origin' => true },
-          'bit' => { 'name' => 'bit', 'type' => 'bit', 'label' => 'Bit', 'is_origin' => true },
-          'bit_varying' => { 'name' => 'bit_varying', 'type' => 'bit_varying', 'label' => 'Bit varying', 'is_origin' => true },
-          'boolean' => { 'name' => 'boolean', 'type' => 'boolean', 'label' => 'Boolean', 'is_origin' => true },
-          'box' => { 'name' => 'box', 'type' => 'box', 'label' => 'Box', 'is_origin' => true },
-          'cidr' => { 'name' => 'cidr', 'type' => 'cidr', 'label' => 'Cidr', 'is_origin' => true },
-          'circle' => { 'name' => 'circle', 'type' => 'circle', 'label' => 'Circle', 'is_origin' => true },
-          'citext' => { 'name' => 'citext', 'type' => 'citext', 'label' => 'Citext', 'is_origin' => true },
-          'color' => { 'name' => 'color', 'type' => 'string', 'label' => 'Color', 'is_origin' => true },
-          'date' => { 'name' => 'date', 'type' => 'date', 'label' => 'Date', 'is_origin' => true },
-          'daterange' => { 'name' => 'daterange', 'type' => 'daterange', 'label' => 'Daterange', 'is_origin' => true },
-          'datetime' => { 'name' => 'datetime', 'type' => 'datetime', 'label' => 'Datetime', 'is_origin' => true },
-          'decimal' => { 'name' => 'decimal', 'type' => 'decimal', 'label' => 'Decimal', 'is_origin' => true },
-          'email' => { 'name' => 'email', 'type' => 'string', 'label' => 'Email', 'is_origin' => true },
-          'float' => { 'name' => 'float', 'type' => 'float', 'label' => 'Float', 'is_origin' => true },
-          'hstore' => { 'name' => 'hstore', 'type' => 'hstore', 'label' => 'Hstore', 'is_origin' => true },
-          'inet' => { 'name' => 'inet', 'type' => 'inet', 'label' => 'Inet', 'is_origin' => true },
-          'int4range' => { 'name' => 'int4range', 'type' => 'int4range', 'label' => 'Int4range', 'is_origin' => true },
-          'int8range' => { 'name' => 'int8range', 'type' => 'int8range', 'label' => 'Int8range', 'is_origin' => true },
-          'integer' => { 'name' => 'integer', 'type' => 'integer', 'label' => 'Integer', 'is_origin' => true },
-          'json' => { 'name' => 'json', 'type' => 'json', 'label' => 'Json', 'is_origin' => true },
-          'jsonb' => { 'name' => 'jsonb', 'type' => 'jsonb', 'label' => 'Jsonb', 'is_origin' => true },
-          'line' => { 'name' => 'line', 'type' => 'line', 'label' => 'Line', 'is_origin' => true },
-          'lseg' => { 'name' => 'lseg', 'type' => 'lseg', 'label' => 'Lseg', 'is_origin' => true },
-          'ltree' => { 'name' => 'ltree', 'type' => 'ltree', 'label' => 'Ltree', 'is_origin' => true },
-          'macaddr' => { 'name' => 'macaddr', 'type' => 'macaddr', 'label' => 'Macaddr', 'is_origin' => true },
-          'money' => { 'name' => 'money', 'type' => 'money', 'label' => 'Money', 'is_origin' => true },
-          'numrange' => { 'name' => 'numrange', 'type' => 'numrange', 'label' => 'Numrange', 'is_origin' => true },
-          'password' => { 'name' => 'password', 'type' => 'string', 'label' => 'Password', 'is_origin' => true },
-          'path' => { 'name' => 'path', 'type' => 'path', 'label' => 'Path', 'is_origin' => true },
-          'point' => { 'name' => 'point', 'type' => 'point', 'label' => 'Point', 'is_origin' => true },
-          'polygon' => { 'name' => 'polygon', 'type' => 'polygon', 'label' => 'Polygon', 'is_origin' => true },
-          'serial' => { 'name' => 'serial', 'type' => 'integer', 'label' => 'Serial', 'is_origin' => true },
-          'string' => { 'name' => 'string', 'type' => 'string', 'label' => 'String', 'is_origin' => true },
-          'text' => { 'name' => 'text', 'type' => 'text', 'label' => 'Text', 'is_origin' => true },
-          'time' => { 'name' => 'time', 'type' => 'time', 'label' => 'Time', 'is_origin' => true },
-          'tsrange' => { 'name' => 'tsrange', 'type' => 'tsrange', 'label' => 'Tsrange', 'is_origin' => true },
-          'tstzrange' => { 'name' => 'tstzrange', 'type' => 'tstzrange', 'label' => 'Tstzrange', 'is_origin' => true },
-          'tsvector' => { 'name' => 'tsvector', 'type' => 'tsvector', 'label' => 'Tsvector', 'is_origin' => true },
-          'uuid' => { 'name' => 'uuid', 'type' => 'uuid', 'label' => 'Uuid', 'is_origin' => true },
-          'xml' => { 'name' => 'xml', 'type' => 'xml', 'label' => 'Xml', 'is_origin' => true }
+          'id' => { 'name' => 'id', 'type' => 'integer', 'label' => 'Id' },
+          'bigint' => { 'name' => 'bigint', 'type' => 'integer', 'label' => 'Bigint' },
+          'bigserial' => { 'name' => 'bigserial', 'type' => 'integer', 'label' => 'Bigserial' },
+          'binary' => { 'name' => 'binary', 'type' => 'binary', 'label' => 'Binary' },
+          'bit' => { 'name' => 'bit', 'type' => 'bit', 'label' => 'Bit' },
+          'bit_varying' => { 'name' => 'bit_varying', 'type' => 'bit_varying', 'label' => 'Bit varying' },
+          'boolean' => { 'name' => 'boolean', 'type' => 'boolean', 'label' => 'Boolean' },
+          'box' => { 'name' => 'box', 'type' => 'box', 'label' => 'Box' },
+          'cidr' => { 'name' => 'cidr', 'type' => 'cidr', 'label' => 'Cidr' },
+          'circle' => { 'name' => 'circle', 'type' => 'circle', 'label' => 'Circle' },
+          'citext' => { 'name' => 'citext', 'type' => 'citext', 'label' => 'Citext' },
+          'color' => { 'name' => 'color', 'type' => 'string', 'label' => 'Color' },
+          'date' => { 'name' => 'date', 'type' => 'date', 'label' => 'Date' },
+          'daterange' => { 'name' => 'daterange', 'type' => 'daterange', 'label' => 'Daterange' },
+          'datetime' => { 'name' => 'datetime', 'type' => 'datetime', 'label' => 'Datetime' },
+          'decimal' => { 'name' => 'decimal', 'type' => 'decimal', 'label' => 'Decimal' },
+          'email' => { 'name' => 'email', 'type' => 'string', 'label' => 'Email' },
+          'float' => { 'name' => 'float', 'type' => 'float', 'label' => 'Float' },
+          'hstore' => { 'name' => 'hstore', 'type' => 'hstore', 'label' => 'Hstore' },
+          'inet' => { 'name' => 'inet', 'type' => 'inet', 'label' => 'Inet' },
+          'int4range' => { 'name' => 'int4range', 'type' => 'int4range', 'label' => 'Int4range' },
+          'int8range' => { 'name' => 'int8range', 'type' => 'int8range', 'label' => 'Int8range' },
+          'integer' => { 'name' => 'integer', 'type' => 'integer', 'label' => 'Integer' },
+          'json' => { 'name' => 'json', 'type' => 'json', 'label' => 'Json' },
+          'jsonb' => { 'name' => 'jsonb', 'type' => 'jsonb', 'label' => 'Jsonb' },
+          'line' => { 'name' => 'line', 'type' => 'line', 'label' => 'Line' },
+          'lseg' => { 'name' => 'lseg', 'type' => 'lseg', 'label' => 'Lseg' },
+          'ltree' => { 'name' => 'ltree', 'type' => 'ltree', 'label' => 'Ltree' },
+          'macaddr' => { 'name' => 'macaddr', 'type' => 'macaddr', 'label' => 'Macaddr' },
+          'money' => { 'name' => 'money', 'type' => 'money', 'label' => 'Money' },
+          'numrange' => { 'name' => 'numrange', 'type' => 'numrange', 'label' => 'Numrange' },
+          'password' => { 'name' => 'password', 'type' => 'string', 'label' => 'Password' },
+          'path' => { 'name' => 'path', 'type' => 'path', 'label' => 'Path' },
+          'point' => { 'name' => 'point', 'type' => 'point', 'label' => 'Point' },
+          'polygon' => { 'name' => 'polygon', 'type' => 'polygon', 'label' => 'Polygon' },
+          'serial' => { 'name' => 'serial', 'type' => 'integer', 'label' => 'Serial' },
+          'string' => { 'name' => 'string', 'type' => 'string', 'label' => 'String' },
+          'text' => { 'name' => 'text', 'type' => 'text', 'label' => 'Text' },
+          'time' => { 'name' => 'time', 'type' => 'time', 'label' => 'Time' },
+          'tsrange' => { 'name' => 'tsrange', 'type' => 'tsrange', 'label' => 'Tsrange' },
+          'tstzrange' => { 'name' => 'tstzrange', 'type' => 'tstzrange', 'label' => 'Tstzrange' },
+          'tsvector' => { 'name' => 'tsvector', 'type' => 'tsvector', 'label' => 'Tsvector' },
+          'uuid' => { 'name' => 'uuid', 'type' => 'uuid', 'label' => 'Uuid' },
+          'xml' => { 'name' => 'xml', 'type' => 'xml', 'label' => 'Xml' }
         )
 
         expect(subject.fields).to be_frozen
@@ -125,12 +125,12 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     describe '#fields' do
       it 'returns a hash of all keys' do
         expect(subject.fields.select { |_k, v| v['is_association'] }).to eq(
-          'product_detail' => { 'name' => 'product_detail', 'type' => 'has_one', 'label' => 'Product detail', 'is_origin' => true, 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'product_detail_id', 'class' => ProductDetail },
-          'picture' => { 'name' => 'picture', 'type' => 'has_one', 'label' => 'Picture', 'is_origin' => true, 'is_association' => true, 'is_through' => false, 'has_scope' => true, 'foreign_key' => 'picture_id', 'class' => Picture },
-          'order_items' => { 'name' => 'order_items', 'type' => 'has_many', 'label' => 'Order items', 'is_origin' => true, 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'order_item_ids', 'class' => Order::Item },
-          'orders' => { 'name' => 'orders', 'type' => 'has_many', 'label' => 'Orders', 'is_origin' => true, 'is_association' => true, 'is_through' => true, 'has_scope' => false, 'foreign_key' => 'order_ids', 'class' => Order },
-          'category' => { 'name' => 'category', 'type' => 'belongs_to', 'label' => 'Category', 'is_origin' => true, 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'category_id', 'class' => Category },
-          'tags' => { 'name' => 'tags', 'type' => 'has_and_belongs_to_many', 'label' => 'Tags', 'is_origin' => true, 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'tag_ids', 'class' => Tag }
+          'product_detail' => { 'name' => 'product_detail', 'type' => 'has_one', 'label' => 'Product detail', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'product_detail_id', 'class' => ProductDetail },
+          'picture' => { 'name' => 'picture', 'type' => 'has_one', 'label' => 'Picture', 'is_association' => true, 'is_through' => false, 'has_scope' => true, 'foreign_key' => 'picture_id', 'class' => Picture },
+          'order_items' => { 'name' => 'order_items', 'type' => 'has_many', 'label' => 'Order items', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'order_item_ids', 'class' => Order::Item },
+          'orders' => { 'name' => 'orders', 'type' => 'has_many', 'label' => 'Orders', 'is_association' => true, 'is_through' => true, 'has_scope' => false, 'foreign_key' => 'order_ids', 'class' => Order },
+          'category' => { 'name' => 'category', 'type' => 'belongs_to', 'label' => 'Category', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'category_id', 'class' => Category },
+          'tags' => { 'name' => 'tags', 'type' => 'has_and_belongs_to_many', 'label' => 'Tags', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'tag_ids', 'class' => Tag }
         )
       end
     end
@@ -160,22 +160,22 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       it 'returns a hash of all keys' do
         expect(subject.fields).to eq(
           'id' => {
-            'name' => 'id', 'type' => 'integer', 'label' => 'Id', 'is_origin' => true
+            'name' => 'id', 'type' => 'integer', 'label' => 'Id'
           },
           'name' => {
-            'name' => 'name', 'type' => 'string', 'label' => 'Name', 'is_origin' => true
+            'name' => 'name', 'type' => 'string', 'label' => 'Name'
           },
           'file' => {
-            'name' => 'file', 'type' => 'binary', 'label' => 'File', 'is_origin' => true
+            'name' => 'file', 'type' => 'binary', 'label' => 'File'
           },
           'created_at' => {
-            'name' => 'created_at', 'type' => 'datetime', 'label' => 'Created at', 'is_origin' => true
+            'name' => 'created_at', 'type' => 'datetime', 'label' => 'Created at'
           },
           'updated_at' => {
-            'name' => 'updated_at', 'type' => 'datetime', 'label' => 'Updated at', 'is_origin' => true
+            'name' => 'updated_at', 'type' => 'datetime', 'label' => 'Updated at'
           },
           'imageable' => {
-            'name' => 'imageable', 'type' => 'belongs_to', 'label' => 'Imageable', 'is_origin' => true, 'is_association' => true, 'is_polymorphic' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'imageable_id', 'polymorphic_type' => 'imageable_type', 'polymorphic_list' => [Product]
+            'name' => 'imageable', 'type' => 'belongs_to', 'label' => 'Imageable', 'is_association' => true, 'is_polymorphic' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'imageable_id', 'polymorphic_type' => 'imageable_type', 'polymorphic_list' => [Product]
           }
         )
       end
