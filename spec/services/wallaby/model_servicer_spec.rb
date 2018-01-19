@@ -7,7 +7,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
         expect(described_class.model_class).to be_nil
       end
 
-      describe 'subclasses' do
+      describe 'descendants' do
         it 'returns a default model class' do
           stub_const 'JacketServicer', Class.new(Wallaby::ModelServicer)
           stub_const 'Jacket', Class.new

@@ -169,7 +169,7 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
     end
   end
 
-  context 'subclasses' do
+  context 'descendants' do
     let(:model_class) { Product }
     let(:klass) { stub_const 'ProductDecorator', Class.new(Wallaby::ResourceDecorator) }
     let(:model_fields) do

@@ -3,7 +3,7 @@ module Wallaby
   class Map
     # { model => mode }
     def self.mode_map
-      @mode_map ||= ModeMapper.new(Mode.subclasses).map.freeze
+      @mode_map ||= ModeMapper.new(Mode.descendants).map.freeze
     end
 
     # [ model classes ]
