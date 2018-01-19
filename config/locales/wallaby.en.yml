@@ -60,6 +60,9 @@ en:
       collection: 'Records could not be found. Click + button to add one.'
       model: 'Model %{model} could not be found.'
       resource: 'Record %{resource} could not be found.'
+    unprocessable_entity:
+      keyword_search: 'Unable to perform keyword search when no text fields can be used.'
+      field_colon_search: 'Unable to perform field colon search for %{invalid_fields}.'
 
   pagination:
     prev: 'Prev'

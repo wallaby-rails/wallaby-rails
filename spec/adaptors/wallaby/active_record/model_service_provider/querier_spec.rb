@@ -114,6 +114,20 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((((\"all_postgres_types\".\"color\" ILIKE '%keyword%' AND \"all_postgres_types\".\"color\" ILIKE '%keyword1%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%' AND \"all_postgres_types\".\"email\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%' AND \"all_postgres_types\".\"password\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%' AND \"all_postgres_types\".\"string\" ILIKE '%keyword1%') OR \"all_postgres_types\".\"text\" ILIKE '%keyword%' AND \"all_postgres_types\".\"text\" ILIKE '%keyword1%')"
         end
       end
+
+      context 'when no text_fields' do
+        before do
+          model_decorator.index_field_names.delete 'string'
+          model_decorator.index_field_names.delete 'color'
+          model_decorator.index_field_names.delete 'email'
+          model_decorator.index_field_names.delete 'password'
+        end
+
+        it 'raises UnprocessableEntity' do
+          keyword = 'keyword'
+          expect { subject.search(parameters(q: keyword)).to_sql }.to raise_error Wallaby::UnprocessableEntity
+        end
+      end
     end
 
     describe 'field search' do
@@ -645,7 +659,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
       context 'when field does not exist' do
         it 'returns unscoped' do
           keyword = 'unknown:something'
-          expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types"'
+          expect { subject.search(parameters(q: keyword)).to_sql }.to raise_error Wallaby::UnprocessableEntity
         end
       end
     end

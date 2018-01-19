@@ -8,12 +8,10 @@ module Wallaby
 
     ERROR_PATH = ERROR_LAYOUT = 'wallaby/error'.freeze
 
-    # NOTE: we want to see the error blown up in development environment
-    unless Rails.env.development?
-      rescue_from NotFound, with: :not_found
-      rescue_from ::ActionController::ParameterMissing, with: :bad_request
-      rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
-    end
+    rescue_from NotFound, with: :not_found
+    rescue_from ::ActionController::ParameterMissing, with: :bad_request
+    rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
+    rescue_from UnprocessableEntity, with: :unprocessable_entity
 
     layout 'wallaby/application'
 

@@ -1,4 +1,4 @@
 module Wallaby
-  class InvalidError < ::StandardError
+  class InvalidError < GeneralError
   end
 end

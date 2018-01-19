@@ -3,7 +3,7 @@ module Wallaby
     class ModelServiceProvider
       # Query builder
       class Querier
-        TEXT_FIELDS = %w(string text citext).freeze
+        TEXT_FIELDS = %w(string text citext longtext tinytext mediumtext).freeze
 
         def initialize(model_decorator)
           @model_decorator = model_decorator
@@ -68,7 +68,7 @@ module Wallaby
         end
 
         def text_search(keywords, query = nil)
-          return query if keywords.blank?
+          return query unless keywords_check? keywords
           text_fields.each do |field_name|
             sub_query = nil
             keywords.each do |keyword|
@@ -81,6 +81,7 @@ module Wallaby
         end
 
         def field_search(field_queries, query)
+          return query unless field_check? field_queries
           field_queries.each do |exp|
             next unless @model_decorator.fields[exp[:left]]
             sub_query = table[exp[:left]].public_send(exp[:op], exp[:right])
@@ -90,11 +91,33 @@ module Wallaby
         end
 
         def text_fields
-          index_field_names = @model_decorator.index_field_names.map(&:to_s)
-          @model_decorator.fields.select do |field_name, metadata|
-            index_field_names.include?(field_name) &&
-              TEXT_FIELDS.include?(metadata[:type].to_s)
-          end.keys
+          @text_fields ||= begin
+            index_field_names = @model_decorator.index_field_names.map(&:to_s)
+            @model_decorator.fields.select do |field_name, metadata|
+              index_field_names.include?(field_name) &&
+                TEXT_FIELDS.include?(metadata[:type].to_s)
+            end.keys
+          end
+        end
+
+        def keywords_check?(keywords)
+          if keywords.present? && text_fields.blank?
+            message = I18n.t 'errors.unprocessable_entity.keyword_search'
+            raise UnprocessableEntity, message
+          end
+          keywords.present?
+        end
+
+        def field_check?(field_queries)
+          fields = field_queries.map { |exp| exp[:left] }
+          invalid_fields = fields - @model_decorator.fields.keys
+          if invalid_fields.present?
+            message =
+              I18n.t 'errors.unprocessable_entity.field_colon_search',
+                     invalid_fields: invalid_fields.to_sentence
+            raise UnprocessableEntity, message
+          end
+          fields.present?
         end
       end
     end

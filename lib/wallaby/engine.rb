@@ -77,6 +77,7 @@ require 'errors/wallaby/model_not_found'
 require 'errors/wallaby/not_authenticated'
 require 'errors/wallaby/not_implemented'
 require 'errors/wallaby/resource_not_found'
+require 'errors/wallaby/unprocessable_entity'
 
 require 'parsers/wallaby/parser'
 
