@@ -48,7 +48,7 @@ module Wallaby
 
     # @return [String] grey null
     def null
-      muted t 'labels.null'
+      muted t 'labels.empty'
     end
 
     # @return [String] grey N/A

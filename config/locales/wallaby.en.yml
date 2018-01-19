@@ -24,7 +24,7 @@ en:
     count: 'Count: '
     auto_select_hint: 'Type to select...'
     upload: 'Upload'
-    null: 'null'
+    empty: 'null'
     na: 'n/a'
 
   buttons:
