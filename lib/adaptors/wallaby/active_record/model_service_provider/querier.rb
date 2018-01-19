@@ -83,7 +83,6 @@ module Wallaby
         def field_search(field_queries, query)
           return query unless field_check? field_queries
           field_queries.each do |exp|
-            next unless @model_decorator.fields[exp[:left]]
             sub_query = table[exp[:left]].public_send(exp[:op], exp[:right])
             query = query.try(:and, sub_query) || sub_query
           end
@@ -101,23 +100,20 @@ module Wallaby
         end
 
         def keywords_check?(keywords)
-          if keywords.present? && text_fields.blank?
-            message = I18n.t 'errors.unprocessable_entity.keyword_search'
-            raise UnprocessableEntity, message
-          end
-          keywords.present?
+          return false if keywords.blank?
+          return true if text_fields.present?
+          message = I18n.t 'errors.unprocessable_entity.keyword_search'
+          raise UnprocessableEntity, message
         end
 
         def field_check?(field_queries)
+          return false if field_queries.blank?
           fields = field_queries.map { |exp| exp[:left] }
           invalid_fields = fields - @model_decorator.fields.keys
-          if invalid_fields.present?
-            message =
-              I18n.t 'errors.unprocessable_entity.field_colon_search',
-                     invalid_fields: invalid_fields.to_sentence
-            raise UnprocessableEntity, message
-          end
-          fields.present?
+          return true if invalid_fields.blank?
+          message = I18n.t 'errors.unprocessable_entity.field_colon_search',
+                           invalid_fields: invalid_fields.to_sentence
+          raise UnprocessableEntity, message
         end
       end
     end
