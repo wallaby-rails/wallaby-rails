@@ -61,7 +61,7 @@ describe Wallaby::SecureHelper, clear: :object_space do
         stub_const('ManagementUser', Class.new)
         Devise.add_mapping(:management_user, {})
         main_app = double destroy_management_user_session_path: '/destroy_management_user_session_path'
-        expect(helper.logout_path(User.new, main_app)).to eq '/destroy_management_user_session_path'
+        expect(helper.logout_path(ManagementUser.new, main_app)).to eq '/destroy_management_user_session_path'
         Devise.mappings.clear
       end
     end
@@ -85,7 +85,7 @@ describe Wallaby::SecureHelper, clear: :object_space do
       it 'returns Devise preferred method' do
         stub_const('SuperUser', Class.new)
         Devise.add_mapping(:super_user, {})
-        expect(helper.logout_method(User.new)).to eq :delete
+        expect(helper.logout_method(SuperUser.new)).to eq :delete
         Devise.mappings.clear
       end
     end
