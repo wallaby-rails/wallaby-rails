@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Wallaby::Configuration::Security do
   describe 'attributes' do
     it 'has the following attributes' do
-      [:logout_path, :logout_method, :email_method].each do |attr|
+      %i(logout_path logout_method email_method).each do |attr|
         expect(subject).to respond_to attr
         expect(subject).to respond_to "#{attr}="
       end
