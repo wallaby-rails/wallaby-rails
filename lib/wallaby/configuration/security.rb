@@ -2,10 +2,11 @@ module Wallaby
   class Configuration
     # Security configuration
     class Security
+      attr_accessor :logout_path, :logout_method, :email_method
       # by default, current_user returns nil
-      DEFAULT_CURRENT_USER  = -> { nil }
+      DEFAULT_CURRENT_USER = -> { nil }
       # by default, not to stop the before_action chain
-      DEFAULT_AUTHENTICATE  = -> { true }
+      DEFAULT_AUTHENTICATE = -> { true }
 
       # Configure how to get the current user. All application controller
       # methods will be available.

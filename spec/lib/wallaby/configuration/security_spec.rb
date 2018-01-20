@@ -1,7 +1,16 @@
 require 'rails_helper'
 
 describe Wallaby::Configuration::Security do
-  describe 'current_user' do
+  describe 'attributes' do
+    it 'has the following attributes' do
+      [:logout_path, :logout_method, :email_method].each do |attr|
+        expect(subject).to respond_to attr
+        expect(subject).to respond_to "#{attr}="
+      end
+    end
+  end
+
+  describe '#current_user' do
     it 'assigns current_user if block is given' do
       block = -> { 'doing nothing' }
       subject.current_user(&block)
@@ -13,7 +22,7 @@ describe Wallaby::Configuration::Security do
     end
   end
 
-  describe 'current_user?' do
+  describe '#current_user?' do
     it 'returns false' do
       expect(subject.current_user?).to be_falsy
     end
@@ -26,7 +35,7 @@ describe Wallaby::Configuration::Security do
     end
   end
 
-  describe 'authenticate' do
+  describe '#authenticate' do
     it 'assigns authenticate if block is given' do
       block = -> { 'doing nothing' }
       subject.authenticate(&block)
@@ -38,7 +47,7 @@ describe Wallaby::Configuration::Security do
     end
   end
 
-  describe 'authenticate?' do
+  describe '#authenticate?' do
     it 'returns false' do
       expect(subject.authenticate?).to be_falsy
     end
