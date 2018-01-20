@@ -58,11 +58,10 @@ describe Wallaby::SecureHelper, clear: :object_space do
 
     context 'when it has devise scope' do
       it 'returns devise path' do
-        stub_const('User', Class.new)
-        Devise.add_mapping(:user, {})
-        main_app = double destroy_user_session_path: '/destroy_user_session_path'
-        expect(helper.logout_path(User.new, main_app)).to eq '/destroy_user_session_path'
-        ActiveSupport::Dependencies.clear
+        stub_const('ManagementUser', Class.new)
+        Devise.add_mapping(:management_user, {})
+        main_app = double destroy_management_user_session_path: '/destroy_management_user_session_path'
+        expect(helper.logout_path(User.new, main_app)).to eq '/destroy_management_user_session_path'
         Devise.mappings.clear
       end
     end
@@ -84,10 +83,9 @@ describe Wallaby::SecureHelper, clear: :object_space do
 
     context 'when Devise exists' do
       it 'returns Devise preferred method' do
-        stub_const('User', Class.new)
-        Devise.add_mapping(:user, {})
+        stub_const('SuperUser', Class.new)
+        Devise.add_mapping(:super_user, {})
         expect(helper.logout_method(User.new)).to eq :delete
-        ActiveSupport::Dependencies.clear
         Devise.mappings.clear
       end
     end
