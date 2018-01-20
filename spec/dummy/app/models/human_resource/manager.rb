@@ -1,4 +1,4 @@
 module HumanResource
-  class Manager < Person
+  class Manager < ::Person
   end
 end
