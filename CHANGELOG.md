@@ -13,6 +13,16 @@ N/A
 
 # History:
 
+## 5.1.4
+
+1. Chore: Only use resource_params for create and update action ([issue 73](#73))
+2. Chore: Localization for style helpers ([issue 74](#74))
+3. Chore: Refactor class mapper to allow descendents ([issue 75](#75))
+4. Chore: Remove is_origin metadata ([issue 76](#76))
+5. Support: Manual tested under Rails 4.2 ([issue 77](#77))
+6. Feature: Ability to customize logout_path, logout_method, email_method ([issue 78](#78))
+
+
 ## 5.1.3
 
 1. Chore: Remove `jquery-turbolinks` gem ([issue 66](#66))
