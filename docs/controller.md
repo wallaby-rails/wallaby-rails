@@ -44,7 +44,7 @@ end
 
 ### Home
 
-`home` action is basically a blank action which renders the `home` template as the landing page of Wallaby:
+`home` action is basically a blank action which renders the `home` template as the landing page of Wallaby (the root_path of where Wallaby engine is mounted) (available since 5.1.0):
 
 ```ruby
 def home

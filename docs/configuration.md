@@ -47,17 +47,18 @@ In order to do authentication, Wallaby follows the common practice to execute `a
         end.new
       end
 
-      # This will be used to retrive the email from current_user above to show a gravatar image.
+      # This will be used to retrieve the email from current_user above to show a gravatar image.
+      # NOTE: this configuration is available from 5.1.4
       config.security.email_method = :email
     end
     ```
 
 ### Logging Out
 
-Wallaby doesn't do log-out function. However, it provides two options to send user to the logout route:
+Wallaby doesn't do logout function. However, it provides two options to send user to the logout route:
 
-- `logout_path`: the name of the logout url helper.
-- `logout_method`: the HTTP request verb for this logout url.
+- `logout_path`: the name of the logout url helper. (available from 5.1.4)
+- `logout_method`: the HTTP request verb for this logout url. (available from 5.1.4)
 
 Given the following route:
 
@@ -120,9 +121,9 @@ What models Wallaby should be handling with can be configured in the following t
 
 ### Metadata
 
-Be able to configure global metadata that Wallaby should use as default value when decorator-defined metadata is absent.
+Be able to configure global metadata that Wallaby should use as default value when decorator-defined metadata is absent. For now, it has only one option:
 
-- For now, it is possible to configure the max length that Wallaby should truncate when given text is longer than defined:
+- To configure the max length that Wallaby should truncate when given text is longer than defined:
 
     ```ruby
     #!config/initializers/wallaby.rb
@@ -133,7 +134,9 @@ Be able to configure global metadata that Wallaby should use as default value wh
 
 ### Pagination
 
-- For now, it is possible to configure the default page size that Wallaby should use as default:
+It has only one option so far:
+
+- To configure the default page size that Wallaby should use as default:
 
     ```ruby
     #!config/initializers/wallaby.rb
@@ -144,6 +147,8 @@ Be able to configure global metadata that Wallaby should use as default value wh
     ```
 
 ### Features
+
+It has only one option so far:
 
 - Wallaby supports turbolinks, to enable it, it needs to be configured:
 
