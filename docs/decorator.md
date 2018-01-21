@@ -160,19 +160,19 @@ Options are:
 
 - `:default`: to specify that the filter should be used on `index` page when end-user is first-time landing on it.
 
-```ruby
-class ProductDecorator < Wallaby::ResourceDecorator
-  self.filters[:red] = {
-    default: true
-  }
-end
-```
+    ```ruby
+    class ProductDecorator < Wallaby::ResourceDecorator
+      self.filters[:red] = {
+        default: true
+      }
+    end
+    ```
 
 ### Misc Customization
 
 #### `to_label`
 
-This method is used as the title for the page the the autocomplete.
+This method is used as the title for the show page and the autocomplete records.
 
 ```ruby
 class ProductDecorator < Wallaby::ResourceDecorator
