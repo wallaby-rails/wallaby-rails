@@ -31,7 +31,7 @@ end
 
 > NOTE: although it inherits `Wallaby::ResourcesController`, it is possible to access to all methods in `ApplicationController`. Because `Wallaby::ResourcesController` inherits `ApplicationController` unless this is changed in Wallaby [authentication configuration](configuration.md#authentication).
 
-If `ProductsController` is taken, it is still possible to use other name but needs to create method `self.model_class` to specify the model that it relates to:
+If `ProductsController` is taken, it is still possible to use another name, however the method `self.model_class` must be defined to specify the model as the example below:
 
 ```ruby
 #!app/controllers/admin/products_controller.rb

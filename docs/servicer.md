@@ -23,7 +23,7 @@ class ProductServicer < Wallaby::ModelServicer
 end
 ```
 
-If the name `ProductServicer` is taken, it is possible to use other name but needs to create a method `self.model_class` to specify the model as below:
+If the name `ProductServicer` is taken, it is possible to use another name, however the method `self.model_class` must be defined to specify the model as example below:
 
 ```ruby
 #!app/servicers/admin/product_servicer.rb

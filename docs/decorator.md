@@ -24,7 +24,7 @@ class ProductDecorator < Wallaby::ResourceDecorator
 end
 ```
 
-If the name `ProductDecorator` is taken, it is possible to use other name but needs to create a method `self.model_class` to specify the model as below:
+If the name `ProductDecorator` is taken, it is possible to use another name, however the method `self.model_class` must be defined to specify the model as the example below:
 
 ```ruby
 #!app/decorators/admin/product_decorator.rb
