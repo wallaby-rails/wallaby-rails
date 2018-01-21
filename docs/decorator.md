@@ -148,7 +148,7 @@ Defining a new scope in a decorator is easy as in ActiveRecord model:
 
 ```ruby
 class ProductDecorator < Wallaby::ResourceDecorator
-  self.filters[:blud] = {
+  self.filters[:blue] = {
     scope: -> { where(color: 'blue') }
   }
 end
