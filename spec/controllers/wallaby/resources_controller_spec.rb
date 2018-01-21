@@ -20,81 +20,85 @@ describe Wallaby::ResourcesController do
     end
   end
 
-  describe '#index' do
-    it 'renders index' do
-      routes.draw { get 'index' => 'wallaby/resources#index' }
-      all_postgres_type = AllPostgresType.create string: 'something'
-      get :index, params: { resources: 'all_postgres_type' }
-      expect(assigns(:collection)).to include all_postgres_type
-      expect(response).to be_successful
-      expect(response).to render_template :index
-      Rails.application.reload_routes!
-    end
-  end
-
-  describe '#show' do
-    it 'renders show' do
-      routes.draw { get 'show' => 'wallaby/resources#show' }
-      all_postgres_type = AllPostgresType.create string: 'something'
-      get :show, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
-      expect(assigns(:resource).string).to eq all_postgres_type.string
-      expect(response).to be_successful
-      expect(response).to render_template :show
-      Rails.application.reload_routes!
-    end
-  end
-
-  describe '#create' do
-    it 'renders create' do
+  describe 'CRUD' do
+    before do
       routes.draw do
-        get ':resources/:id' => 'wallaby/resources#show', as: :resource
-        post 'create' => 'wallaby/resources#create'
+        get ':resources', to: 'wallaby/resources#index', as: :resources
+        get ':resources/:id', to: 'wallaby/resources#show', as: :resource
+        get ':resources/new', to: 'wallaby/resources#new'
+        get ':resources/:id/edit', to: 'wallaby/resources#edit'
+        post ':resources', to: 'wallaby/resources#create'
+        patch ':resources/:id', to: 'wallaby/resources#update'
+        delete ':resources/:id', to: 'wallaby/resources#destroy'
       end
-      post :create, params: { resources: 'all_postgres_type', all_postgres_type: { string: 'something' } }
-      all_postgres_type = AllPostgresType.first
-      expect(assigns(:resource).string).to eq all_postgres_type.string
-      expect(response).to redirect_to "/admin/all_postgres_types/#{all_postgres_type.id}"
-      Rails.application.reload_routes!
     end
-  end
 
-  describe '#edit' do
-    it 'renders edit' do
-      routes.draw { get ':resources/:id/edit' => 'wallaby/resources#edit' }
-      all_postgres_type = AllPostgresType.create string: 'something'
-      get :edit, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
-      expect(assigns(:resource).string).to eq all_postgres_type.string
-      expect(response).to be_successful
-      expect(response).to render_template :edit
-      Rails.application.reload_routes!
-    end
-  end
+    after { Rails.application.reload_routes! }
 
-  describe '#update' do
-    it 'renders update' do
-      routes.draw do
-        get ':resources/:id' => 'wallaby/resources#show', as: :resource
-        put 'update' => 'wallaby/resources#update'
+    describe '#index' do
+      it 'renders index' do
+        all_postgres_type = AllPostgresType.create string: 'something'
+        get :index, params: { resources: 'all_postgres_type' }
+        expect(assigns(:collection)).to include all_postgres_type
+        expect(response).to be_successful
+        expect(response).to render_template :index
       end
-      all_postgres_type = AllPostgresType.create string: 'something'
-      put :update, params: { resources: 'all_postgres_type', id: all_postgres_type.id, all_postgres_type: { string: 'something' } }
-      expect(assigns(:resource).string).to eq all_postgres_type.string
-      expect(response).to redirect_to "/admin/all_postgres_types/#{all_postgres_type.id}"
-      Rails.application.reload_routes!
     end
-  end
 
-  describe '#destroy' do
-    it 'renders destroy' do
-      routes.draw do
-        get ':resources' => 'wallaby/resources#index', as: :resources
-        delete 'destroy' => 'wallaby/resources#destroy'
+    describe '#show' do
+      it 'renders show' do
+        all_postgres_type = AllPostgresType.create string: 'something'
+        get :show, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
+        expect(assigns(:resource).string).to eq all_postgres_type.string
+        expect(response).to be_successful
+        expect(response).to render_template :show
       end
-      all_postgres_type = AllPostgresType.create string: 'something'
-      delete :destroy, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
-      expect(assigns(:resource).string).to eq all_postgres_type.string
-      expect(response).to redirect_to '/admin/all_postgres_types'
-      Rails.application.reload_routes!
+    end
+
+    describe '#new' do
+      it 'renders new' do
+        get :new, params: { resources: 'all_postgres_type' }
+        expect(assigns(:resource)).to be_a AllPostgresType
+        expect(response).to be_successful
+        expect(response).to render_template :new
+      end
+    end
+
+    describe '#create' do
+      it 'renders create' do
+        post :create, params: { resources: 'all_postgres_type', all_postgres_type: { string: 'something' } }
+        all_postgres_type = AllPostgresType.first
+        expect(assigns(:resource).string).to eq all_postgres_type.string
+        expect(response).to redirect_to "/admin/all_postgres_types/#{all_postgres_type.id}"
+      end
+    end
+
+    describe '#edit' do
+      it 'renders edit' do
+        all_postgres_type = AllPostgresType.create string: 'something'
+        get :edit, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
+        expect(assigns(:resource).string).to eq all_postgres_type.string
+        expect(response).to be_successful
+        expect(response).to render_template :edit
+      end
+    end
+
+    describe '#update' do
+      it 'renders update' do
+        all_postgres_type = AllPostgresType.create string: 'something'
+        put :update, params: { resources: 'all_postgres_type', id: all_postgres_type.id, all_postgres_type: { string: 'something' } }
+        expect(assigns(:resource).string).to eq all_postgres_type.string
+        expect(response).to redirect_to "/admin/all_postgres_types/#{all_postgres_type.id}"
+      end
+    end
+
+    describe '#destroy' do
+      it 'renders destroy' do
+        all_postgres_type = AllPostgresType.create string: 'something'
+        delete :destroy, params: { resources: 'all_postgres_type', id: all_postgres_type.id }
+        expect(assigns(:resource).string).to eq all_postgres_type.string
+        expect(response).to redirect_to '/admin/all_postgres_types'
+      end
     end
   end
 
