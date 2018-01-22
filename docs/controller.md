@@ -58,30 +58,30 @@ that it can be completely replaced with your own implementation.
 
 - To add functionality before the action, it is fine to either use `before_action` or:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def index
-    # do something here
-    # to access the records, use `collection`
-    collection
-    # to re-assign the collection, assign to `@collection`
-    @collection = @collection.where(created_at: Date.today)
-    super
-  end
-end
-```
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def index
+        # do something here
+        # to access the records, use `collection`
+        collection
+        # to re-assign the collection, assign to `@collection`
+        @collection = @collection.where(created_at: Date.today)
+        super
+      end
+    end
+    ```
 
 - To add functionality after the action but before rendering, it goes:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def index
-    super do
-      # do something here before rendering
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def index
+        super do
+          # do something here before rendering
+        end
+      end
     end
-  end
-end
-```
+    ```
 
 Basically, `index` action is simple as:
 
@@ -99,30 +99,30 @@ that it can be completely replaced, just need to bear in mind that `@collection`
 
 - To add functionality before the action, it is fine to either use `before_action` or:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def show
-    # do something here
-    # to access the record, use `resource`
-    resource
-    # to re-assign the resource, assign to `@resource`
-    @resource = Product.first
-    super
-  end
-end
-```
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def show
+        # do something here
+        # to access the record, use `resource`
+        resource
+        # to re-assign the resource, assign to `@resource`
+        @resource = Product.first
+        super
+      end
+    end
+    ```
 
 - To add functionality after the action but before rendering, it goes:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def show
-    super do
-      # do something here before rendering
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def show
+        super do
+          # do something here before rendering
+        end
+      end
     end
-  end
-end
-```
+    ```
 
 Basically, `show` action is simple as:
 
@@ -140,30 +140,30 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 
 - To add functionality before the action, it is fine to either use `before_action` or:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def new
-    # do something here
-    # to access the record, use `resource`
-    resource
-    # to re-assign the resource, assign to `@resource`
-    @resource = Product.new(new_arrival: true)
-    super
-  end
-end
-```
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def new
+        # do something here
+        # to access the record, use `resource`
+        resource
+        # to re-assign the resource, assign to `@resource`
+        @resource = Product.new(new_arrival: true)
+        super
+      end
+    end
+    ```
 
 - To add functionality after the action but before rendering, it goes:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def new
-    super do
-      # do something here before rendering
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def new
+        super do
+          # do something here before rendering
+        end
+      end
     end
-  end
-end
-```
+    ```
 
 Basically, `new` action is simple as:
 
@@ -181,30 +181,30 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 
 - To add functionality before the action, it is fine to either use `before_action` or:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def create
-    # do something here before saving the record
-    # to access the record, use `resource`
-    resource
-    # to re-assign the resource, assign to `@resource`
-    @resource = Product.new(new_arrival: true)
-    super
-  end
-end
-```
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def create
+        # do something here before saving the record
+        # to access the record, use `resource`
+        resource
+        # to re-assign the resource, assign to `@resource`
+        @resource = Product.new(new_arrival: true)
+        super
+      end
+    end
+    ```
 
 - To add functionality after the action but before rendering, it goes:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def create
-    super do
-      # do something here before rendering
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def create
+        super do
+          # do something here before rendering
+        end
+      end
     end
-  end
-end
-```
+    ```
 
 Basically, `create` action is simple as:
 
@@ -223,30 +223,30 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 
 - To add functionality before the action, it is fine to either use `before_action` or:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def edit
-    # do something here
-    # to access the record, use `resource`
-    resource
-    # to re-assign the resource, assign to `@resource`
-    @resource = Product.find_by(id: param[:id], owner_id: current_user.id)
-    super
-  end
-end
-```
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def edit
+        # do something here
+        # to access the record, use `resource`
+        resource
+        # to re-assign the resource, assign to `@resource`
+        @resource = Product.find_by(id: param[:id], owner_id: current_user.id)
+        super
+      end
+    end
+    ```
 
 - To add functionality after the action but before rendering, it goes:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def edit
-    super do
-      # do something here before rendering
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def edit
+        super do
+          # do something here before rendering
+        end
+      end
     end
-  end
-end
-```
+    ```
 
 Basically, `edit` action is simple as:
 
@@ -264,30 +264,30 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 
 - To add functionality before the action, it is fine to either use `before_action` or:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def update
-    # do something here before saving the record
-    # to access the record, use `resource`
-    resource
-    # to re-assign the resource, assign to `@resource`
-    @resource = Product.new(new_arrival: true)
-    super
-  end
-end
-```
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def update
+        # do something here before saving the record
+        # to access the record, use `resource`
+        resource
+        # to re-assign the resource, assign to `@resource`
+        @resource = Product.new(new_arrival: true)
+        super
+      end
+    end
+    ```
 
 - To add functionality after the action but before rendering, it goes:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def update
-    super do
-      # do something here before rendering
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def update
+        super do
+          # do something here before rendering
+        end
+      end
     end
-  end
-end
-```
+    ```
 
 Basically, `update` action is simple as:
 
@@ -306,30 +306,30 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 
 - To add functionality before the action, it is fine to either use `before_action` or:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def destroy
-    # do something here before saving the record
-    # to access the record, use `resource`
-    resource
-    # to re-assign the resource, assign to `@resource`
-    @resource = Product.new(new_arrival: true)
-    super
-  end
-end
-```
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def destroy
+        # do something here before saving the record
+        # to access the record, use `resource`
+        resource
+        # to re-assign the resource, assign to `@resource`
+        @resource = Product.new(new_arrival: true)
+        super
+      end
+    end
+    ```
 
 - To add functionality after the action but before rendering, it goes:
 
-```ruby
-class ProductsController < Wallaby::ResourcesController
-  def destroy
-    super do
-      # do something here before rendering
+    ```ruby
+    class ProductsController < Wallaby::ResourcesController
+      def destroy
+        super do
+          # do something here before rendering
+        end
+      end
     end
-  end
-end
-```
+    ```
 
 Basically, `destroy` action is simple as:
 
