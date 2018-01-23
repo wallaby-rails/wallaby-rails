@@ -16,6 +16,9 @@ class ProductDecorator < Wallaby::ResourceDecorator
 end
 ```
 
+> NOTE: please do not use the following names as type:
+> `title`, `logo`, `header`, `footer`, `user_menu`, `navs`, `index_actions`, `resource_actions` and `resource_navs`, as they are used as the configurable partials in frontend (see [Partials](frontend.md#partials))
+
 Also, a Wallaby controller for `Product` is declared:
 
 ```ruby

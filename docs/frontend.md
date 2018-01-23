@@ -5,7 +5,7 @@
 Elements on the page can be customized in the following ways:
 
 - To customize page title, [`app/views/wallaby/resources/_title.html.erb`](../app/views/wallaby/resources/_title.html.erb) needs to be replaced.
-- To customize logo, [`app/views/wallaby/resources/_log.html.erb`](../app/views/wallaby/resources/_log.html.erb) needs to be replaced.
+- To customize logo, [`app/views/wallaby/resources/_logo.html.erb`](../app/views/wallaby/resources/_logo.html.erb) needs to be replaced.
 - To customize header, [`app/views/wallaby/resources/_header.html.erb`](../app/views/wallaby/resources/_header.html.erb) needs to be replaced.
 - To customize footer, [`app/views/wallaby/resources/_footer.html.erb`](../app/views/wallaby/resources/_footer.html.erb) needs to be replaced.
 - To modify links for logged-in user, [`app/views/wallaby/resources/_user_menu.html.erb`](../app/views/wallaby/resources/_user_menu.html.erb) needs to be replaced.
