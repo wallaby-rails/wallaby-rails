@@ -2,8 +2,4 @@
 <%# @param field_name [String] name of the field %>
 <%# @param value [Object] value of the field %>
 <%# @param metadata [Hash] metadata of the field %>
-<% if value.nil? %>
-  <%= null %>
-<% else %>
-  <%= image_tag value, (metadata[:options] || {}) %>
-<% end %>
+<%= value ? image_tag(value, metadata[:options].to_h) : null %>
