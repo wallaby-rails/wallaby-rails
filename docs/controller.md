@@ -17,7 +17,7 @@ The following resourceful actions can be customized:
 
 Also it is possible to customize the whitelisting parameters for mass assignment of create/update:
 
-- [`resource_params`](#resource_params)
+- [Strong Parameters](#strong_parameters)
 
 ### Declaration
 
@@ -344,7 +344,7 @@ end
 
 that it can be completely replaced with your own implementation.
 
-### resource_params
+### Strong Parameters
 
 To customize the parameters to be whitelisted for create and update, just override `resource_params` in your controller. The underlying is using [servicer's `permit` method](servicer.md#permit)
 
