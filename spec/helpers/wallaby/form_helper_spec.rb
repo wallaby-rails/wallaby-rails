@@ -38,10 +38,10 @@ describe Wallaby::FormHelper do
 
   describe '#hint_of' do
     it 'returns dropdown options (klass => url) for polymorphic class' do
-      metadata = {}
+      metadata = { type: 'unkown' }
       expect(helper.hint_of(metadata)).to be_nil
 
-      metadata = { hint: 'this is a hint' }
+      metadata = { hint: 'this is a hint', type: 'unkown' }
       expect(helper.hint_of(metadata)).to include 'this is a hint'
 
       metadata = { type: 'box' }
