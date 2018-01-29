@@ -4,6 +4,8 @@ module Wallaby
   # @see Wallaby::ResourceDecorator for more information on how to customize
   #   metadata information
   class ModelDecorator
+    include FieldHelpers
+
     attr_reader :model_class
     attr_writer \
       :field_names, :index_field_names, :show_field_names, :form_field_names
@@ -117,8 +119,8 @@ module Wallaby
     # Ensure type is present
     # @param type [String, Symbol, nil] type of a field
     # @return [String, Symbol] type name
-    def validate_presence_of(type)
-      type || raise(::ArgumentError, 'Type is required.')
+    def validate_presence_of(field_name, type)
+      type || raise(::ArgumentError, "Type is required for #{field_name}.")
     end
   end
 end
