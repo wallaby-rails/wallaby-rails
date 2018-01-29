@@ -41,6 +41,7 @@ readonly = cannot? :edit, metadata[:class]
     <% end %>
   </div>
   <%= form.error_messages field_name %>
+  <%= hint_of metadata %>
   <p class="help-block">
     <%= new_link metadata[:class] %>
   </p>

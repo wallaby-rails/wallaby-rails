@@ -12,6 +12,7 @@ The following params are the variables that can be used in this partial.
   <%= form.label field_name, metadata[:label] %>
   <%= form.text_area field_name, value: form_value, class: 'form-control', data: { init: 'codemirror', mode: 'javascript' } %>
   <%= form.error_messages field_name %>
+  <%= hint_of metadata %>
 </div>
 
 <% unless @codemirror_init %>

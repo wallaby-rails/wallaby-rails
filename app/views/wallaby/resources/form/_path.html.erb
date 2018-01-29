@@ -11,7 +11,5 @@ The following params are the variables that can be used in this partial.
   <%= form.label field_name, metadata[:label] %>
   <%= form.text_field field_name, class: 'form-control' %>
   <%= form.error_messages field_name %>
-  <p class="help-block">
-    <%= t 'hints.path_html' %>
-  </p>
+  <%= hint_of metadata %>
 </div>
