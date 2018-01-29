@@ -1,7 +1,7 @@
 module Wallaby
   # Model Decorator interface, designed to maintain metadata information for all
   # the fields coming from data source (database/api)
-  # @see Wallaby::ResourceDecorator for more information on how to customise
+  # @see Wallaby::ResourceDecorator for more information on how to customize
   #   metadata information
   class ModelDecorator
     attr_reader :model_class

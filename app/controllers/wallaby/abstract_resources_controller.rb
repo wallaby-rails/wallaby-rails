@@ -319,7 +319,7 @@ module Wallaby
       end
     end
 
-    # Get current model decorator so that we could retrive metadata for given
+    # Get current model decorator so that we could retrieve metadata for given
     # model class.
     def current_model_decorator
       @current_model_decorator ||= helpers.model_decorator current_model_class
