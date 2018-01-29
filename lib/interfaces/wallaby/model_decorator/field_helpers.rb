@@ -16,7 +16,7 @@ module Wallaby
 
       # @return [String, Symbol] type for a given field
       def type_of(field_name)
-        validate_presence_of metadata_of(field_name)[:type]
+        validate_presence_of field_name, metadata_of(field_name)[:type]
       end
 
       # @return [Hash] index metadata information for a given field
@@ -31,7 +31,7 @@ module Wallaby
 
       # @return [String, Symbol] index type for a given field
       def index_type_of(field_name)
-        validate_presence_of index_metadata_of(field_name)[:type]
+        validate_presence_of field_name, index_metadata_of(field_name)[:type]
       end
 
       # @return [Hash] show metadata information for a given field
@@ -46,7 +46,7 @@ module Wallaby
 
       # @return [String, Symbol] show type for a given field
       def show_type_of(field_name)
-        validate_presence_of show_metadata_of(field_name)[:type]
+        validate_presence_of field_name, show_metadata_of(field_name)[:type]
       end
 
       # @return [Hash] form metadata information for a given field
@@ -61,10 +61,8 @@ module Wallaby
 
       # @return [String, Symbol] form type for a given field
       def form_type_of(field_name)
-        validate_presence_of form_metadata_of(field_name)[:type]
+        validate_presence_of field_name, form_metadata_of(field_name)[:type]
       end
     end
-
-    include FieldHelpers
   end
 end

@@ -113,9 +113,39 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       end
     end
 
+    describe '#show_field_names' do
+      it 'includes all field names' do
+        expect(subject.show_field_names).to eq %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+      end
+    end
+
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
         expect(subject.form_field_names).to eq %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        expect(subject.form_field_names).not_to include 'id'
+        expect(subject.form_field_names).not_to include 'created_at'
+        expect(subject.form_field_names).not_to include 'updated_at'
+      end
+    end
+
+    describe '#index_type_of' do
+      it 'returns the type' do
+        expect(subject.index_type_of('id')).to eq 'integer'
+        expect { subject.index_type_of('unknown') }.to raise_error ArgumentError
+      end
+    end
+
+    describe '#show_type_of' do
+      it 'returns the type' do
+        expect(subject.show_type_of('id')).to eq 'integer'
+        expect { subject.show_type_of('unknown') }.to raise_error ArgumentError
+      end
+    end
+
+    describe '#form_type_of' do
+      it 'returns the type' do
+        expect(subject.form_type_of('id')).to eq 'integer'
+        expect { subject.form_type_of('unknown') }.to raise_error ArgumentError
       end
     end
   end
