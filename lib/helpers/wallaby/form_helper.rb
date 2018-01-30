@@ -41,5 +41,15 @@ module Wallaby
       end
       options_for_select options, select_options
     end
+
+    def hint_of(metadata)
+      type = metadata[:type]
+      hint = metadata[:hint]
+      # @see http://guides.rubyonrails.org/i18n.html#using-safe-html-translations
+      hint ||= type && t("hints.#{type}_html", default: '').presence
+      hint ||= type && t("hints.#{type}", default: '').presence
+      return unless hint
+      content_tag :p, hint, class: 'help-block'
+    end
   end
 end

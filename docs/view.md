@@ -51,16 +51,23 @@ Then Wallaby will look up these paths:
 - `app/views/wallaby/resources/index/_markdown`
 - `app/views/wallaby/resources/_markdown`
 
-Therefore, we could choose one of the above paths to create this type partial, let's say:
+Therefore, you could choose one of the above paths to create this type partial, let's say:
 
 ```erb
 <% #!app/views/admin/products/index/_markdown.html.erb %>
 <%= markdown.render value  %>
 ```
 
+If you want to share the partial among the whole app, it should be created as:
+
+```erb
+<% #!app/views/wallaby/resources/index/_markdown.html.erb %>
+<%= markdown.render value  %>
+```
+
 ### Local Variables
 
-In order to build complicated type partial, we will need to know the following local variables among `index`, `show` and `form`:
+In order to build complicated type partial, you will need to know the following local variables among `index`, `show` and `form`:
 
 - `object`: the decorator object which wraps the resource object
 - `field_name`: current field name
@@ -163,7 +170,7 @@ Here is a list of database types that Wallaby could handle for index/show/form p
     - `:max`: Truncates a given text after a given `max` if text is longer than `max`
 - xml
 
-Apart from the above types, we also support:
+Apart from the above types, these are also supported:
 
 - belongs_to
   - metadata options for `show` partial:
@@ -215,5 +222,7 @@ Apart from the above types, we also support:
     - `:max`: Truncates a given text after a given `max` if text is longer than `max`
   - metadata options for `form` partial:
     - `:sti_class_list`: an array of classes for STI column
+
+> NOTE: all the `form` partials above support metadata option `hint` to customize the hint message in `form` view (available from version `5.1.5`).
 
 To use the type partials, please read [Decorator](decorator.md)

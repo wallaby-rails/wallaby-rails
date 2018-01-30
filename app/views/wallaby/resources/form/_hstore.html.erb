@@ -11,9 +11,7 @@ The following params are the variables that can be used in this partial.
   <%= form.label field_name, metadata[:label] %>
   <%= form.text_area field_name, value: value.to_s[%r(\A{(.*)}\Z), 1], class: 'form-control', data: { init: 'codemirror', mode: 'ruby' } %>
   <%= form.error_messages field_name %>
-  <p class="help-block">
-    <%= t 'hints.hstore_html' %>
-  </p>
+  <%= hint_of metadata %>
 </div>
 
 <% unless @codemirror_init %>

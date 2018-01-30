@@ -26,13 +26,26 @@ describe Wallaby::FormHelper do
   describe '#polymorphic_options' do
     it 'returns dropdown options (klass => url) for polymorphic class' do
       metadata = {}
-      expect(polymorphic_options(metadata)).to eq ''
+      expect(helper.polymorphic_options(metadata)).to eq ''
 
       metadata = { polymorphic_list: [Product, Category] }
-      expect(polymorphic_options(metadata)).to eq "<option data-url=\"/admin/products?per=20&amp;q=QUERY\" value=\"Product\">Product</option>\n<option data-url=\"/admin/categories?per=20&amp;q=QUERY\" value=\"Category\">Category</option>"
+      expect(helper.polymorphic_options(metadata)).to eq "<option data-url=\"/admin/products?per=20&amp;q=QUERY\" value=\"Product\">Product</option>\n<option data-url=\"/admin/categories?per=20&amp;q=QUERY\" value=\"Category\">Category</option>"
 
       metadata = { remote_urls: { Product => 'product_url', Category => 'category_url' }, polymorphic_list: [Product, Category] }
-      expect(polymorphic_options(metadata)).to eq "<option data-url=\"product_url\" value=\"Product\">Product</option>\n<option data-url=\"category_url\" value=\"Category\">Category</option>"
+      expect(helper.polymorphic_options(metadata)).to eq "<option data-url=\"product_url\" value=\"Product\">Product</option>\n<option data-url=\"category_url\" value=\"Category\">Category</option>"
+    end
+  end
+
+  describe '#hint_of' do
+    it 'returns dropdown options (klass => url) for polymorphic class' do
+      metadata = { type: 'unkown' }
+      expect(helper.hint_of(metadata)).to be_nil
+
+      metadata = { hint: 'this is a hint', type: 'unkown' }
+      expect(helper.hint_of(metadata)).to include 'this is a hint'
+
+      metadata = { type: 'box' }
+      expect(helper.hint_of(metadata)).to include I18n.t('hints.box_html')
     end
   end
 end
