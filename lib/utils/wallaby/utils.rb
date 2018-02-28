@@ -67,7 +67,7 @@ module Wallaby
           class_name = name.classify
           class_name.constantize unless Module.const_defined? class_name
         rescue NameError, LoadError => e
-          Rails.logger.debug ">>>>>>>>> PRELOAD ERROR: #{e.message}"
+          Rails.logger.debug "  [WALLABY] Preload warning: #{e.message}"
           Rails.logger.debug e.backtrace.slice(0, 5)
         end
       end
