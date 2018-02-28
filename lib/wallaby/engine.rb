@@ -75,7 +75,7 @@ require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/features'
 
 require 'utils/wallaby/utils'
-require 'routes/wallaby/resource_router'
+require 'routes/wallaby/resources_router'
 require 'tree/wallaby/node'
 
 require 'interfaces/wallaby/mode'
