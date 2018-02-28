@@ -17,7 +17,7 @@ The following resourceful actions can be customized:
 
 Also it is possible to customize the whitelisting parameters for mass assignment of create/update:
 
-- [Strong Parameters](#strong_parameters)
+- [Strong Parameters](#strong-parameters)
 
 ### Declaration
 
