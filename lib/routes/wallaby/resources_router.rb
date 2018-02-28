@@ -1,4 +1,5 @@
 module Wallaby
+  # @private
   # This is the core of wallaby that dynamically dispatches request to
   # appropriate controller and action.
   class ResourcesRouter
@@ -31,17 +32,4 @@ module Wallaby
       (params.delete(:defaults) || params)[:action]
     end
   end
-end
-
-# NOTE: please keep this block at the end.
-# otherwise, it might go into a endless reloading loop
-# NOTE: Rails reload! will hit here
-if Rails.env.development?
-  puts <<-DEBUG
-  [ WALLABY ] reload! triggered
-    1. Clear all the maps
-    2. Preload all files under folder `app` (instead of eager load)
-  DEBUG
-  Wallaby::Map.clear
-  Wallaby::Utils.preload_all
 end

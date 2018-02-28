@@ -23,17 +23,15 @@ require 'csv'
 require 'securerandom'
 
 module Wallaby
-  # Rails engine
+  # @private
   class Engine < ::Rails::Engine
-    # isolate_namespace Wallaby
-
-    initializer 'wallaby.deflate' do |app|
+    initializer 'wallaby.deflate' do |_|
       # default to Gzip HTML
-      app.config.middleware.use Rack::Deflater
+      config.middleware.use Rack::Deflater
     end
 
-    initializer 'wallaby.assets.precompile' do |app|
-      app.config.assets.precompile +=
+    initializer 'wallaby.assets.precompile' do |_|
+      config.assets.precompile +=
         %w(
           codemirror* codemirror/**/*
           wallaby/404.png wallaby/422.png wallaby/500.png
@@ -41,13 +39,28 @@ module Wallaby
         )
     end
 
+    initializer 'wallaby.development.reload' do |_|
+      # NOTE: Rails reload! will hit here
+      # @see http://rmosolgo.github.io/blog/2017/04/12/watching-files-during-rails-development/
+      config.to_prepare do
+        if Rails.env.development? || Rails.configuration.eager_load
+          Rails.logger.debug '  [WALLABY] Reloading...'
+          ::Wallaby::Map.clear
+          ::Wallaby::Utils.preload_all
+        end
+      end
+    end
+
     config.before_eager_load do
       # We need to ensure that the core models are loaded before anything else
+      Rails.logger.debug '  [WALLABY] Preload all model files.'
       ::Wallaby::Utils.preload 'app/models/**/*.rb'
     end
 
     config.after_initialize do
+      # Preload the rest files
       unless Rails.env.development? || Rails.configuration.eager_load
+        Rails.logger.debug '  [WALLABY] Preload files after initialize.'
         ::Wallaby::Utils.preload_all
       end
     end
@@ -62,6 +75,7 @@ require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/features'
 
 require 'utils/wallaby/utils'
+require 'routes/wallaby/resources_router'
 require 'tree/wallaby/node'
 
 require 'interfaces/wallaby/mode'
