@@ -42,6 +42,11 @@ module Wallaby
       options_for_select options, select_options
     end
 
+    # To fetch the hints from the following keys:
+    # - hints.#{type}_html
+    # - hints.#{type}
+    # @param metadata [Hash]
+    # @return [String, nil] HTML
     def hint_of(metadata)
       type = metadata[:type]
       hint = metadata[:hint]

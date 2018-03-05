@@ -1,8 +1,8 @@
 # TODOs
 
+- Localization support: to be able to use localization for all the model labels
 - Add support for pundit
 - Add support for her ORM
-- Localization support: to be able to use localization for all the model labels
 - Add lint check for stylesheet (maybe..)
 - Data audit (use papertrail) (maybe..)
 - Batch data action (maybe..)
@@ -12,6 +12,15 @@
 N/A
 
 # History:
+
+## 5.1.5
+
+1. [Chore] Simplify 'resources/show/_image.html.erb' ([issue 80](#80))
+2. [Chore] Add more information to the type validation message ([issue 81](#81))
+3. [Feature] Be able to customize hint in form view ([issue 82](#82))
+4. [Fix] Link of Strong Parameters ([issue 84](#84))
+5. [Fix] Restrict font-awesome-sass version to 5 and below ([issue 85](#85))
+6. [Chore] Reload should be triggered in `to_prepare` instead of `ResourcesRouter` ([issue 86](#86))
 
 ## 5.1.4
 
