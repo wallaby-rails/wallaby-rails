@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wallaby (5.1.4)
+    wallaby (5.1.5)
       bootstrap-sass
       bootstrap3-datetimepicker-rails
       cancancan
@@ -61,7 +61,7 @@ GEM
       tzinfo (~> 1.1)
     arel (8.0.0)
     ast (2.3.0)
-    autoprefixer-rails (8.0.0)
+    autoprefixer-rails (8.1.0)
       execjs
     bcrypt (3.1.11)
     better_errors (2.4.0)
@@ -225,7 +225,7 @@ GEM
     rainbow (2.2.2)
       rake
     rake (12.3.0)
-    rb-fsevent (0.10.2)
+    rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     require_all (1.4.0)
