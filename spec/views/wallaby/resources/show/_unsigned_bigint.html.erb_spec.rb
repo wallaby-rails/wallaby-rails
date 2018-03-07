@@ -3,7 +3,7 @@ require 'rails_helper'
 partial_name = 'show/unsigned_bigint'
 describe partial_name do
   let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { BigDecimal.new(42)**20 }
+  let(:value)     { BigDecimal(42)**20 }
   let(:metadata)  { {} }
 
   before { render partial, value: value, metadata: metadata }
