@@ -33,7 +33,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rails_best_practices'
   gem 'rspec-rails'
-  gem 'rubocop', '0.52.0'
+  gem 'rubocop'
   gem 'simplecov'
   gem 'sqlite3'
 end
