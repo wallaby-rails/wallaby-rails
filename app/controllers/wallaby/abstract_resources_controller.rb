@@ -270,7 +270,7 @@ module Wallaby
     # A wrapped lookup content
     # Its aim is to render string partial when given partial is not found
     def lookup_context
-      @_lookup_context ||= LookupContextWrapper.new super
+      @_lookup_context ||= LookupContextWrapper.new super # rubocop:disable Naming/MemoizedInstanceVariableName, Metrics/LineLength
     end
 
     # Current model service to take care of all the CRUD actions

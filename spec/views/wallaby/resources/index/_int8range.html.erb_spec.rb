@@ -5,7 +5,7 @@ type = __FILE__[%r{/([^/]+)/_}, 1]
 describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
-    value: BigDecimal.new(10)**13..BigDecimal(9) * 10**14,
+    value: BigDecimal(10)**13..BigDecimal(9) * 10**14,
     skip_general: true do
 
     it 'renders the int8range' do
