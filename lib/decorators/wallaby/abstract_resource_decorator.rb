@@ -11,7 +11,7 @@ module Wallaby
 
       # Get the model decorator for the model class
       # It should be the same as #model_decorator
-      # @return Wallaby::ModelDecorator
+      # @return [Wallaby::ModelDecorator]
       def model_decorator
         return unless self < ::Wallaby::ResourceDecorator
         Map.model_decorator_map model_class
