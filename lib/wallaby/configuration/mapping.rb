@@ -1,5 +1,6 @@
 module Wallaby
   class Configuration
+    # Configuration used in Wallaby::Map
     class Mapping
       attr_writer \
         :resources_controller, :resource_decorator,
