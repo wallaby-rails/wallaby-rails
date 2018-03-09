@@ -1,6 +1,6 @@
 module Wallaby
   class Configuration
-    # Configuration for metadata
+    # Configuration for features
     class Features
       attr_writer :turbolinks_enabled
 
