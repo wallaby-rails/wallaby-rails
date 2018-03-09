@@ -11,5 +11,9 @@ describe Wallaby::Configuration::Mapping do
 
   it_behaves_like \
     'has attribute with default value',
+    :resource_paginator, Wallaby::ResourcePaginator
+
+  it_behaves_like \
+    'has attribute with default value',
     :model_servicer, Wallaby::ModelServicer
 end
