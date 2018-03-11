@@ -5,7 +5,7 @@ module Wallaby
       # Guess the model class from class name
       # @return [Class]
       def model_class
-        return unless self < ::Wallaby::ResourceDecorator
+        return unless self < configuration.mapping.resource_decorator
         Map.model_class_map name.gsub 'Decorator', EMPTY_STRING
       end
 
@@ -13,7 +13,7 @@ module Wallaby
       # It should be the same as #model_decorator
       # @return [Wallaby::ModelDecorator]
       def model_decorator
-        return unless self < ::Wallaby::ResourceDecorator
+        return unless self < configuration.mapping.resource_decorator
         Map.model_decorator_map model_class
       end
 
@@ -21,6 +21,8 @@ module Wallaby
         ModelDecorator.instance_methods \
           - ::Object.instance_methods - %i(model_class)
       delegate(*delegation_methods, to: :model_decorator, allow_nil: true)
+
+      delegate :configuration, to: Wallaby
     end
 
     attr_reader :resource, :model_decorator
