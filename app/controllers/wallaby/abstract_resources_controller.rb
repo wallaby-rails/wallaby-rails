@@ -1,6 +1,7 @@
 module Wallaby
   # Generic CRUD controller
   class AbstractResourcesController < ::Wallaby::BaseController
+    include ResourcesHelperMethods
     self.responder = ResourcesResponder
     respond_to :html
     respond_to :json
@@ -9,16 +10,18 @@ module Wallaby
     helper_method :resource_id, :resource, :collection,
                   :current_model_decorator, :authorizer
 
-    # Fetch resources name from its class name
-    def self.resources_name
-      return unless self < ::Wallaby::ResourcesController
-      Map.resources_name_map name.gsub('Controller', EMPTY_STRING)
-    end
+    class << self
+      # @return [String] resources name used within controller
+      def resources_name
+        return unless self < configuration.mapping.resources_controller
+        Map.resources_name_map name.gsub('Controller', EMPTY_STRING)
+      end
 
-    # Find model class from its resources name
-    def self.model_class
-      return unless self < ::Wallaby::ResourcesController
-      Map.model_class_map resources_name
+      # @return [Class] model class used within controller
+      def model_class
+        return unless self < configuration.mapping.resources_controller
+        Map.model_class_map resources_name
+      end
     end
 
     # home page
@@ -295,40 +298,6 @@ module Wallaby
     # @see Wallaby::ModelServicer#permit
     def resource_params
       @resource_params ||= current_model_service.permit params
-    end
-
-    # Shorthand of params[:id]
-    def resource_id
-      params[:id]
-    end
-
-    # @return [#each] a collection of all the records
-    def collection
-      @collection ||= paginate current_model_service.collection params
-    end
-
-    # @return either persisted or unpersisted resource instance
-    def resource
-      @resource ||= begin
-        whitelisted = action_name.in?(SAVE_ACTIONS) ? resource_params : {}
-        if resource_id.present?
-          current_model_service.find resource_id, whitelisted
-        else
-          current_model_service.new whitelisted
-        end
-      end
-    end
-
-    # Get current model decorator so that we could retrieve metadata for given
-    # model class.
-    def current_model_decorator
-      @current_model_decorator ||= helpers.model_decorator current_model_class
-    end
-
-    # A wrapper method for authorizer
-    # @todo to add support to pundit in the future
-    def authorizer
-      current_ability
     end
   end
 end

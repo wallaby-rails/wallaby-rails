@@ -30,16 +30,20 @@ module Wallaby
       error_rendering(exception, __callee__)
     end
 
+    def self.configuration
+      ::Wallaby.configuration
+    end
+
     protected
+
+    def configuration
+      self.class.configuration
+    end
 
     # @see https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_controller/metal/helpers.rb#L118
     # `helpers` exists since Rails 5, need to replicate this for Rails 4.2
     def helpers
       @helpers ||= defined?(super) ? super : view_context
-    end
-
-    def configuration
-      ::Wallaby.configuration
     end
 
     # capture exceptions and display the error using error layout and view
