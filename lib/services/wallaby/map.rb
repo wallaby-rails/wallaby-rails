@@ -112,7 +112,7 @@ module Wallaby
         @resources_name_map = []
       end
 
-      protected
+      private
 
       # shorthand method
       def configuration

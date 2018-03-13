@@ -2,7 +2,7 @@ module Wallaby
   # Model paginator
   class AbstractResourcePaginator
     def self.model_class
-      return unless self < ::Wallaby::ResourcePaginator
+      return unless self < ::Wallaby.configuration.mapping.resource_paginator
       Map.model_class_map name.gsub('Paginator', EMPTY_STRING)
     end
 

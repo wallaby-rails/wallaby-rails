@@ -11,7 +11,11 @@ module Wallaby
       def map
         classes_array.each_with_object({}) do |klass, map|
           next if anonymous? klass
-          map[klass.model_class] = block_given? ? yield(klass) : klass
+          begin
+            map[klass.model_class] = block_given? ? yield(klass) : klass
+          rescue Wallaby::ModelNotFound
+            missing_model_class_for klass
+          end
         end
       end
 
@@ -25,6 +29,13 @@ module Wallaby
       # @return [Array] all descendants
       def classes_array
         @base_class.try(:descendants) || EMPTY_ARRAY
+      end
+
+      def missing_model_class_for(klass)
+        Rails.logger.warn \
+          '  [WALLABY] Please define self.model_class for ' \
+          "#{klass.name} or set it as global. \n" \
+          '            see Wallaby.configuration.mapping'
       end
     end
   end
