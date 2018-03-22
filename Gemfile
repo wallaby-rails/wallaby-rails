@@ -23,7 +23,7 @@ group :development, :test do
   gem 'haml_lint'
   gem 'i18n-tasks'
   # gem 'inch'
-  gem 'mysql2'
+  gem 'mysql2', '~> 0.4.10'
   gem 'pg'
   gem 'pry-rails'
   gem 'rspec-rails'
