@@ -9,6 +9,8 @@
 
 Wallaby is a Rails engine for managing data. It can be easily customized in a Rails way using decorators, controllers and views.
 
+[![Animated Demo](docs/demo-animated.gif)](docs/demo-animated.gif)
+
 - [Demo](https://wallaby-demo.herokuapp.com/admin/)
 - [Documentation](docs/README.md)
 - [Search Manual](docs/search_manual.md)

@@ -3,9 +3,10 @@
 All configuration should go into `config/initializers/wallaby.rb`. See the following sections for the configuration that you are looking for.
 
 - [Authentication](#authentication)
-- [Logging Out](#logging-out)
+- [Logging Out](#logging-out) (since 5.1.4)
 - [Authorization](#authorization)
 - [Models](#models)
+- [Mapping](#mapping) (since 5.1.6)
 - [Metadata](#metadata)
 - [Pagination](#pagination)
 - [Features](#features)
@@ -55,7 +56,10 @@ In order to do authentication, Wallaby follows the common practice to execute `a
 
 ### Logging Out
 
-Wallaby doesn't do logout function. However, it provides two options to send user to the logout route:
+> since 5.1.4
+
+Wallaby doesn't do logout function. Instead, it sends user to logout route, by default, devise's `session#destroy` route.
+Therefore, it provides two options if you are not using devise:
 
 - `logout_path`: the name of the logout url helper. (available from 5.1.4)
 - `logout_method`: the HTTP request verb for this logout url. (available from 5.1.4)
@@ -104,7 +108,9 @@ What models Wallaby should be handling with can be configured in the following t
     end
     ```
 
-2. Whitelist the models that Wallaby should take care of (Note that once the white list is defined, Wallaby will ignore the black list above.):
+2. Whitelist the models that Wallaby should take care of:
+
+    > NOTE: once the white list is defined, Wallaby will ignore the black list above.
 
     ```ruby
     #!config/initializers/wallaby.rb
@@ -118,16 +124,94 @@ What models Wallaby should be handling with can be configured in the following t
       # config.models = ['User', 'Organization']
     end
     ```
+### Mapping
+
+> since 5.1.6
+
+If global changes are needed for controllers/decorators/paginators/servicers, it can be done as below:
+
+#### For controller
+
+A global controller needs to be created inheriting from `Wallaby::ResourcesController`:
+
+```
+class GlobalController < Wallaby::ResourcesController
+  # You don't need to define the `self.model_class`
+end
+```
+
+And a configuration to tell Wallaby to use this controller needs to go in `config/initializers/wallaby.rb`:
+
+```
+Wallaby.config do |config|
+  config.mapping.resources_controller = GlobalController
+end
+```
+
+#### For decorator
+
+A global decorator needs to be created inheriting from `Wallaby::ResourceDecorator`:
+
+```
+class GlobalDecorator < Wallaby::ResourceDecorator
+  # You don't need to define the `self.model_class`
+end
+```
+
+And a configuration to tell Wallaby to use this decorator needs to go in `config/initializers/wallaby.rb`:
+
+```
+Wallaby.config do |config|
+  config.mapping.resources_controller = GlobalDecorator
+end
+```
+
+#### For paginator
+
+A global paginator needs to be created inheriting from `Wallaby::ResourcePaginator`:
+
+```
+class GlobalPaginator < Wallaby::ResourcePaginator
+  # You don't need to define the `self.model_class`
+end
+```
+
+And a configuration to tell Wallaby to use this paginator needs to go in `config/initializers/wallaby.rb`:
+
+```
+Wallaby.config do |config|
+  config.mapping.resources_controller = GlobalPaginator
+end
+```
+
+#### For servicer
+
+A global servicer needs to be created inheriting from `Wallaby::ModelServicer`:
+
+```
+class GlobalServicer < Wallaby::ModelServicer
+  # You don't need to define the `self.model_class`
+end
+```
+
+And a configuration to tell Wallaby to use this servicer needs to go in `config/initializers/wallaby.rb`:
+
+```
+Wallaby.config do |config|
+  config.mapping.resources_controller = GlobalServicer
+end
+```
 
 ### Metadata
 
 Be able to configure global metadata that Wallaby should use as default value when decorator-defined metadata is absent. For now, it has only one option:
 
-- To configure the max length that Wallaby should truncate when given text is longer than defined:
+- To configure the max length that Wallaby should truncate to when given text is longer than defined:
 
     ```ruby
     #!config/initializers/wallaby.rb
     Wallaby.config do |config|
+      # if not set, default is 20
       config.metadata.max = 300
     end
     ```
