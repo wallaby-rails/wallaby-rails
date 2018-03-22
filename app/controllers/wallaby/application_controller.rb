@@ -30,15 +30,17 @@ module Wallaby
       error_rendering(exception, __callee__)
     end
 
+    # @return [Wallaby::Configuration] global configuration
     def self.configuration
       ::Wallaby.configuration
     end
 
-    protected
-
+    # @return [Wallaby::Configuration] global configuration
     def configuration
       self.class.configuration
     end
+
+    protected
 
     # @see https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_controller/metal/helpers.rb#L118
     # `helpers` exists since Rails 5, need to replicate this for Rails 4.2

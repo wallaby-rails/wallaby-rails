@@ -17,21 +17,27 @@ module Wallaby
       error_rendering(exception, __callee__)
     end
 
-    protected
-
     # Precedence of current_user:
     # - [Security] @see Wallaby::SecureController#security_config
     # - super
     # - do nothing
     # @see Devise::Controllers::Helpers#define_helpers
+    # @return a user object
     def current_user
       @current_user ||=
-        if security_config.current_user? || !defined? super
-          instance_exec(&security_config.current_user)
-        else
-          super
-        end
+      if security_config.current_user? || !defined? super
+        instance_exec(&security_config.current_user)
+      else
+        super
+      end
     end
+
+    # @return [Wallaby::Configuration::Security] security configuration
+    def security_config
+      configuration.security
+    end
+
+    protected
 
     # Precedence of authenticate_user!:
     # - [Security] @see Wallaby::SecureController#security_config
@@ -47,10 +53,6 @@ module Wallaby
         end
       raise NotAuthenticated unless authenticated
       true
-    end
-
-    def security_config
-      configuration.security
     end
   end
 end
