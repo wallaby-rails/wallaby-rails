@@ -27,7 +27,7 @@ group :development, :test do
   gem 'inch'
   gem 'massa'
   gem 'memory_profiler'
-  gem 'mysql2'
+  gem 'mysql2', '~> 0.4.10'
   gem 'pg', '~> 1.0.0'
   gem 'pry-rails'
   gem 'rails-controller-testing'
