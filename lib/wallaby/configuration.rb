@@ -2,7 +2,7 @@
 module Wallaby
   # Global configuration
   class Configuration
-    attr_writer :base_controller, :page_size
+    attr_writer :base_controller
 
     # @return [Class]
     #   the controller that Wallaby should inherit from
@@ -29,6 +29,12 @@ module Wallaby
       @security ||= Security.new
     end
 
+    # @return [Wallaby::Configuration::Mapping]
+    #   configuration for Wallaby::Map
+    def mapping
+      @mapping ||= Mapping.new
+    end
+
     # @return [Wallaby::Configuration::Metadata] configuration of metadata
     def metadata
       @metadata ||= Metadata.new
@@ -47,8 +53,8 @@ module Wallaby
     # Clear all configurations
     # @return nil
     def clear
-      @base_controller, @models, @security, @pagination, @metadata,
-      @features = []
+      @base_controller, @models, @security, @mapping,
+      @pagination, @metadata, @features = []
     end
   end
 

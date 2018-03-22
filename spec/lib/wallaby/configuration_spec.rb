@@ -2,18 +2,13 @@ require 'rails_helper'
 
 describe Wallaby::Configuration do
   describe '#base_controller' do
-    it 'returns ApplicationController by default' do
-      expect(subject.base_controller).to eq ::ApplicationController
-    end
-
-    it 'returns whatever is set' do
-      subject.base_controller = ::ActionController::Base
-      expect(subject.base_controller).to eq ::ActionController::Base
-    end
+    it_behaves_like \
+      'has attribute with default value',
+      :base_controller, ::ApplicationController, ::ActionController::Base
   end
 
   describe '#models' do
-    it 'returns ApplicationController by default' do
+    it 'returns a list of models' do
       subject.models = AllPostgresType
       expect(subject.models.presence).to eq [AllPostgresType]
 
@@ -25,6 +20,12 @@ describe Wallaby::Configuration do
   describe '#security' do
     it 'returns the configuration of security' do
       expect(subject.security).to be_a Wallaby::Configuration::Security
+    end
+  end
+
+  describe '#mapping' do
+    it 'returns the configuration of mapping' do
+      expect(subject.mapping).to be_a Wallaby::Configuration::Mapping
     end
   end
 
@@ -43,6 +44,17 @@ describe Wallaby::Configuration do
   describe '#features' do
     it 'returns the configuration of features' do
       expect(subject.features).to be_a Wallaby::Configuration::Features
+    end
+  end
+
+  describe '#clear' do
+    it 'clears all the instance variables' do
+      all_vars = %i(@base_controller @models @security @mapping @pagination @metadata @features)
+      subject.clear
+      expect(subject.instance_variables).to eq all_vars
+      subject.instance_variables.each do |var|
+        expect(subject.instance_variable_get(var)).to be_nil
+      end
     end
   end
 end

@@ -5,15 +5,15 @@ module Wallaby
       # Guess the model class from class name
       # @return [Class]
       def model_class
-        return unless self < ::Wallaby::ResourceDecorator
+        return unless self < ::Wallaby.configuration.mapping.resource_decorator
         Map.model_class_map name.gsub 'Decorator', EMPTY_STRING
       end
 
       # Get the model decorator for the model class
       # It should be the same as #model_decorator
-      # @return Wallaby::ModelDecorator
+      # @return [Wallaby::ModelDecorator]
       def model_decorator
-        return unless self < ::Wallaby::ResourceDecorator
+        return unless self < ::Wallaby.configuration.mapping.resource_decorator
         Map.model_decorator_map model_class
       end
 

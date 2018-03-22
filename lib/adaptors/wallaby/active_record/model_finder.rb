@@ -1,5 +1,6 @@
 module Wallaby
   class ActiveRecord
+    # @private
     # Model finder
     class ModelFinder < ::Wallaby::ModelFinder
       # @return [Array] a list of ActiveRecord subclasses
@@ -10,7 +11,8 @@ module Wallaby
         end.sort_by(&:to_s)
       end
 
-      # Base class should be either ApplicationRecord or ActiveRecord::Base
+      # This is only for ActiveRecord
+      # @return [ApplicationRecord, ActiveRecord::Base]
       def self.base
         return ::ApplicationRecord if defined? ::ApplicationRecord
         ::ActiveRecord::Base
