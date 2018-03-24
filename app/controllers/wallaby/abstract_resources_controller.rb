@@ -270,7 +270,7 @@ module Wallaby
 
     # To whitelist the params for CRUD actions
     # @see Wallaby::ModelServicer#permit
-    # @return [Action]
+    # @return [ActionController::Parameters] whitelisted params
     def resource_params
       @resource_params ||= current_model_service.permit params
     end

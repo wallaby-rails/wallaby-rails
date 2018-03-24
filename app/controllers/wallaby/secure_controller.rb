@@ -25,11 +25,11 @@ module Wallaby
     # @return a user object
     def current_user
       @current_user ||=
-      if security_config.current_user? || !defined? super
-        instance_exec(&security_config.current_user)
-      else
-        super
-      end
+        if security_config.current_user? || !defined? super
+          instance_exec(&security_config.current_user)
+        else
+          super
+        end
     end
 
     # @return [Wallaby::Configuration::Security] security configuration
