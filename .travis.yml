@@ -14,7 +14,7 @@ env:
     - DB=postgresql
     - CC_TEST_REPORTER_ID=a726345933825a3e95f72dcfd646929ecb76eb02c7f7dcd5c28b8c7246167e26
 addons:
-  postgresql: "9.4"
+  postgresql: "9.6"
 script:
   - bundle exec rubocop -c ./.rubocop.yml
   - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
