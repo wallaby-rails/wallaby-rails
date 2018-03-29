@@ -187,7 +187,7 @@ Apart from the above types, these are also supported:
 - color
 - dropdown (form)
   - metadata options for `form` partial:
-    - `:choices`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
+    - `:choices`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). NOTE: apart from a collection, choices can be a proc like `-> { Order.order_by params[:name] }` which will be executed in helper context.
     - `:options`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
     - `:html_options`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
 - email

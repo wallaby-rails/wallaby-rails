@@ -70,6 +70,7 @@ end
 require 'wallaby/configuration'
 require 'wallaby/configuration/models'
 require 'wallaby/configuration/security'
+require 'wallaby/configuration/mapping'
 require 'wallaby/configuration/metadata'
 require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/features'
@@ -145,6 +146,8 @@ require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/base_helper'
 require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
+
+require 'concerns/wallaby/resources_helper_methods'
 
 require 'responders/wallaby/abstract_responder'
 require 'responders/wallaby/resources_responder'

@@ -9,13 +9,15 @@ Because Wallaby delegates the request dispatching to a router instance, there is
 ```ruby
 describe Admin::ProductsController do
   before do
-    get ':resources', to: 'admin/products#index', as: :resources
-    get ':resources/:id', to: 'admin/products#show', as: :resource
-    get ':resources/new', to: 'admin/products#new'
-    get ':resources/:id/edit', to: 'admin/products#edit'
-    post ':resources', to: 'admin/products#create'
-    patch ':resources/:id', to: 'admin/products#update'
-    delete ':resources/:id', to: 'admin/products#destroy'
+    routes.draw do
+      get ':resources', to: 'admin/products#index', as: :resources
+      get ':resources/:id', to: 'admin/products#show', as: :resource
+      get ':resources/new', to: 'admin/products#new'
+      get ':resources/:id/edit', to: 'admin/products#edit'
+      post ':resources', to: 'admin/products#create'
+      patch ':resources/:id', to: 'admin/products#update'
+      delete ':resources/:id', to: 'admin/products#destroy'
+    end
   end
 
   after do
