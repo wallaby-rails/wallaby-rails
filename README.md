@@ -49,7 +49,7 @@ Raise an issue, discuss and resolve!
 
 ## Testing
 
-Make sure that postgres, mysql and sqlite are installed (checkout `spec/dummy/config/database.yml` to confirm credentials).
+Make sure that postgres, mysql and sqlite are installed (checkout `spec/dummy/config/database.yml` to confirm settings).
 Then run the following command to setup database for test environment:
 
 ```

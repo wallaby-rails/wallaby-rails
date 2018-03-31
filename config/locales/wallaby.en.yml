@@ -98,7 +98,4 @@ en:
   wallaby:
     map:
       model_class_mapper:
-        missing_model_class:
-          |
-            [WALLABY] Please define self.model_class for %{class_name} or set it as global.
-                      @see Wallaby.configuration.mapping
+        missing_model_class: "[WALLABY] Please define self.model_class for %{model} or set it as global.\n          @see Wallaby.configuration.mapping"

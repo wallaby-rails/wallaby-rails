@@ -8,9 +8,10 @@ describe Wallaby::Utils, clear: :object_space do
     end
   end
 
-  describe '.translate_method' do
+  describe '.translate_class' do
     it 'translates a message for a method' do
-      expect(described_class.translate_method(Wallaby::Map::ModelClassMapper, :missing_model_class)).to eq "[WALLABY] Please define self.model_class for %{class_name} or set it as global.\n          @see Wallaby.configuration.mapping\n"
+      expect(described_class.translate_class(Wallaby::Map::ModelClassMapper.new(ActiveRecord::Base), :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"
+      expect(described_class.translate_class(Wallaby::Map::ModelClassMapper, :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"
     end
   end
 

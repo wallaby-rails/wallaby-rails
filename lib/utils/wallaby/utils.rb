@@ -7,14 +7,14 @@ module Wallaby
       klass.name.blank? || klass.to_s.start_with?('#<Class')
     end
 
-    # Help to translate a message for a method and its class
+    # Help to translate a message for a class
     # @param object [Object]
-    # @param method_id [Symbol]
+    # @param key [String, Symbol]
     # @param options [Hash]
-    # @return [String] a message for this method and its class
-    def self.translate_method(object, method_id, options = {})
+    # @return [String] a message for this class
+    def self.translate_class(object, key, options = {})
       klass = object.is_a?(Class) ? object : object.class
-      key = [klass.name, method_id].join(SLASH).underscore.gsub(SLASH, DOT)
+      key = [klass.name, key].join(SLASH).underscore.gsub(SLASH, DOT)
       I18n.t key, options
     end
 
