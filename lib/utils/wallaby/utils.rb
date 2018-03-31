@@ -14,7 +14,7 @@ module Wallaby
     # @return [String] a message for this method and its class
     def self.t(object, method_id, options = {})
       klass = object.is_a?(Class) ? object : object.class
-      key = "#{klass.name.underscore.tr('/', '.')}.#{method_id}"
+      key = [klass.name, method_id].join(SLASH).underscore.gsub(SLASH, DOT)
       I18n.t key, options
     end
 

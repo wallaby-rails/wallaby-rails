@@ -43,5 +43,15 @@ Wallaby is a Rails engine for managing data. It can be easily customized in a Ra
 
 If you are using authentication rather than Devise, you will need to configure authentication as [Configuration - Authentication](docs/configuration.md#authentication) describes.
 
+## Testing
+
+Make sure that postgres, mysql and sqlite are installed (checkout `spec/dummy/config/database.yml` to confirm credentials). Then run test:
+
+```
+RAILS_ENV=test rake db:setup
+rspec
+```
+
 ## License
+
 This project rocks and uses MIT-LICENSE.
