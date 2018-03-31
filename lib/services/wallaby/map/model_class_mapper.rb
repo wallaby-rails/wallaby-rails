@@ -14,8 +14,9 @@ module Wallaby
           begin
             map[klass.model_class] = block_given? ? yield(klass) : klass
           rescue Wallaby::ModelNotFound
+            key = :missing_model_class
             Rails.logger.warn \
-              Utils.t(self, :missing_model_class, class_name: klass)
+              Utils.translate_method(self, key, class_name: klass)
           end
         end
       end

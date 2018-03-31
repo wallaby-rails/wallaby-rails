@@ -12,7 +12,7 @@ module Wallaby
     # @param method_id [Symbol]
     # @param options [Hash]
     # @return [String] a message for this method and its class
-    def self.t(object, method_id, options = {})
+    def self.translate_method(object, method_id, options = {})
       klass = object.is_a?(Class) ? object : object.class
       key = [klass.name, method_id].join(SLASH).underscore.gsub(SLASH, DOT)
       I18n.t key, options

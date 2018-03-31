@@ -7,7 +7,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2abd1165bdae523dd2e1/test_coverage)](https://codeclimate.com/github/reinteractive/wallaby/test_coverage)
 [![Inch CI](https://inch-ci.org/github/reinteractive/wallaby.svg?branch=master)](https://inch-ci.org/github/reinteractive/wallaby)
 
-Wallaby is a Rails engine for managing data. It can be easily customized in a Rails way using decorators, controllers and views.
+Wallaby is a Rails engine for managing data. It can be easily and deeply customized in a Rails way using decorators, controllers and views.
 
 [![Animated Demo](https://raw.githubusercontent.com/reinteractive/wallaby/master/docs/demo-animated.gif)](https://raw.githubusercontent.com/reinteractive/wallaby/master/docs/demo-animated.gif)
 
@@ -32,23 +32,33 @@ Wallaby is a Rails engine for managing data. It can be easily customized in a Ra
     #!./config/routes.rb
     Rails.application.routes.draw do
       # ... other routes
-      mount Wallaby::Engine => "/the_path_you_like"
+      mount Wallaby::Engine => "/desired_path"
       # ... other routes
     end
     ```
 
 3. Start Rails server
 
-4. Open Wallaby on your local machine at `/the_path_you_like`.
+4. Open Wallaby on your local machine at `http::/localhost:3000/desired_path`.
 
 If you are using authentication rather than Devise, you will need to configure authentication as [Configuration - Authentication](docs/configuration.md#authentication) describes.
 
+## Want to contribute?
+
+Raise an issue, discuss and resolve!
+
 ## Testing
 
-Make sure that postgres, mysql and sqlite are installed (checkout `spec/dummy/config/database.yml` to confirm credentials). Then run test:
+Make sure that postgres, mysql and sqlite are installed (checkout `spec/dummy/config/database.yml` to confirm credentials).
+Then run the following command to setup database for test environment:
 
 ```
 RAILS_ENV=test rake db:setup
+```
+
+Then start the tests:
+
+```
 rspec
 ```
 
