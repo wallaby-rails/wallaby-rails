@@ -4,6 +4,8 @@ module Wallaby
     include FormHelper
     include IndexHelper
 
+    # @see Map.model_decorator_map
+    # @return [Wallaby::ModelDecorator]
     def model_decorator(model_class)
       Map.model_decorator_map model_class
     end

@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 describe Wallaby::Utils, clear: :object_space do
+  describe '.anonymous_class?' do
+    it 'checks whether a class is anonymous' do
+      expect(described_class.anonymous_class?(Product)).to be_falsy
+      expect(described_class.anonymous_class?(Class.new)).to be_truthy
+    end
+  end
+
+  describe '.translate_class' do
+    it 'translates a message for a method' do
+      expect(described_class.translate_class(Wallaby::Map::ModelClassMapper.new(ActiveRecord::Base), :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"
+      expect(described_class.translate_class(Wallaby::Map::ModelClassMapper, :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"
+    end
+  end
+
   describe '.to_resources_name' do
     it 'handles the namespace and returns resources name for a class name' do
       expect(described_class.to_resources_name('Post')).to eq 'posts'
@@ -116,16 +130,6 @@ describe Wallaby::Utils, clear: :object_space do
     it 'returns label' do
       expect(described_class.to_field_label(:something, {})).to eq 'Something'
       expect(described_class.to_field_label(:something, label: 'Else')).to eq 'Else'
-    end
-  end
-
-  describe '.to_hash' do
-    it 'turns array into hash' do
-      expect(described_class.to_hash([%w(key value)])).to eq Hash 'key' => 'value'
-      expect(described_class.to_hash([['key', nil]])).to eq Hash 'key' => nil
-      expect(described_class.to_hash([['key', []]])).to eq Hash 'key' => []
-      expect(described_class.to_hash([%w(key value), ['key2', []]])).to eq Hash 'key' => 'value', 'key2' => []
-      expect { described_class.to_hash([%w(key value), ['key2']]) }.to raise_error ArgumentError
     end
   end
 end

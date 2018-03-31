@@ -23,12 +23,14 @@ module Wallaby
     end
 
     # Extend label to accept proc type `text` argument
+    # @see ActionView::Helpers::FormBuilder#label
     def label(method, text = nil, options = {}, &block)
       text = instance_exec(&text) if text.respond_to? :call
       super
     end
 
     # Extend select to accept proc type `choices` argument
+    # @see ActionView::Helpers::FormBuilder#select
     def select(method, choices = nil, options = {}, html_options = {}, &block)
       choices = instance_exec(&choices) if choices.respond_to? :call
       super
@@ -40,7 +42,7 @@ module Wallaby
     def method_missing(method, *args, &block)
       return super unless @template.respond_to? method
       # Delegate the method so that we don't come in here the next time
-      # same method is called
+      # when same method is called
       self.class.delegate method, to: :@template
       @template.public_send method, *args, &block
     end

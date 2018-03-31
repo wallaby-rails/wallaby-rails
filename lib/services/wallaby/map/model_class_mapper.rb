@@ -14,28 +14,24 @@ module Wallaby
           begin
             map[klass.model_class] = block_given? ? yield(klass) : klass
           rescue Wallaby::ModelNotFound
-            missing_model_class_for klass
+            Rails.logger.error Utils.translate_class(
+              self, :missing_model_class, model: klass.name
+            )
           end
         end
       end
 
       protected
 
-      # @return [Boolean]
+      # @param klass [Class]
+      # @return [Boolean] whether the class is anonymous
       def anonymous?(klass)
-        klass.name.blank?
+        Utils.anonymous_class? klass
       end
 
-      # @return [Array] all descendants
+      # @return [Array<Class>] all descendants
       def classes_array
         @base_class.try(:descendants) || EMPTY_ARRAY
-      end
-
-      def missing_model_class_for(klass)
-        Rails.logger.warn \
-          '  [WALLABY] Please define self.model_class for ' \
-          "#{klass.name} or set it as global. \n" \
-          '            see Wallaby.configuration.mapping'
       end
     end
   end

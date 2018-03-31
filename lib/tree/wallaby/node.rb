@@ -6,10 +6,12 @@ module Wallaby
 
     delegate :name, to: :klass
 
+    # @param klass [Class]
     def initialize(klass)
       @klass = klass
     end
 
+    # @return [Array<Class>] a list of children classes
     def children
       @children ||= []
     end

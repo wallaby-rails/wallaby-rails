@@ -16,7 +16,7 @@ module Wallaby
       @collection ||= paginate current_model_service.collection params
     end
 
-    # @return either persisted or unpersisted resource instance
+    # @return [Object] either persisted or unpersisted resource instance
     def resource
       @resource ||= begin
         # white-listed params

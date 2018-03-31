@@ -6,6 +6,7 @@ module Wallaby
   SLASH = '/'.freeze
   COLONS = '::'.freeze
   COMMA = ','.freeze
+  DOT = '.'.freeze
   CSV = 'csv'.freeze
   PERS = [10, 20, 50, 100].freeze
   DEFAULT_PAGE_SIZE = 20

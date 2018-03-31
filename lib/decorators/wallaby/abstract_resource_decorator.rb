@@ -6,7 +6,7 @@ module Wallaby
       # @return [Class]
       def model_class
         return unless self < ::Wallaby.configuration.mapping.resource_decorator
-        Map.model_class_map name.gsub 'Decorator', EMPTY_STRING
+        Map.model_class_map name.gsub('Decorator', EMPTY_STRING)
       end
 
       # Get the model decorator for the model class
@@ -25,6 +25,7 @@ module Wallaby
 
     attr_reader :resource, :model_decorator
 
+    # @param resource [Object] resource object
     def initialize(resource)
       @resource = resource
       @model_decorator = Map.model_decorator_map model_class
@@ -62,11 +63,15 @@ module Wallaby
     delegate :to_s, :to_param, to: :resource
 
     # We delegate missing methods to resource
+    # @param method_id [String,Symbol]
+    # @param args [Array]
     def method_missing(method_id, *args)
       return super unless @resource.respond_to? method_id
       @resource.public_send method_id, *args
     end
 
+    # @param method_id [String,Symbol]
+    # @param _include_private [Boolean]
     def respond_to_missing?(method_id, _include_private)
       @resource.respond_to?(method_id) || super
     end
