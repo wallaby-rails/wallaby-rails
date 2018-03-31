@@ -1,15 +1,22 @@
 module Wallaby
   class ActiveRecord
     class ModelServiceProvider
+      # @private
       # Query builder
       class Querier
         TEXT_FIELDS = %w(string text citext longtext tinytext mediumtext).freeze
 
+        # @param model_decorator [Wallaby::ModelDecorator]
         def initialize(model_decorator)
           @model_decorator = model_decorator
           @model_class = @model_decorator.model_class
         end
 
+        # Pull out the query expression string from the parameter `q`,
+        # use parser to understand the expression, then use transformer to run
+        # SQL arel query.
+        # @param params [ActionController::Parameters]
+        # @return [ActiveRecord::Relation]
         def search(params)
           filter_name, keywords, field_queries = extract params
           scope = filtered_by filter_name
@@ -20,18 +27,24 @@ module Wallaby
 
         private
 
+        # @see Wallaby::ActiveRecord::ModelServiceProvider::Parser
         def parser
           @parser ||= Parser.new
         end
 
+        # @see Wallaby::ActiveRecord::ModelServiceProvider::Transformer
         def transformer
           @transformer ||= Transformer.new
         end
 
+        # @return [Arel::Table] arel table
         def table
           @model_class.arel_table
         end
 
+        # @param params [ActionController::Parameters]
+        # @return [Array<String, Array, Array>] a list of object for other
+        #   method to use.
         def extract(params)
           expressions = to_expressions params
           keywords = expressions.select { |v| v.is_a? String }
@@ -40,12 +53,20 @@ module Wallaby
           [filter_name, keywords, field_queries]
         end
 
+        # @param params [ActionController::Parameters]
+        # @return [Array] a list of transformed operations
         def to_expressions(params)
           parsed = parser.parse(params[:q] || EMPTY_STRING)
           converted = transformer.apply parsed
           converted.is_a?(Array) ? converted : [converted]
         end
 
+        # Use the filter name to find out the scope in the following precedents:
+        # - scope from metadata
+        # - defined scope from the model
+        # - unscoped
+        # @param filter_name [String] filter name
+        # @return [ActiveRecord::Relation]
         def filtered_by(filter_name)
           valid_filter_name =
             Utils.find_filter_name(filter_name, @model_decorator.filters)
@@ -58,15 +79,26 @@ module Wallaby
           end
         end
 
+        # Find out the scope for given filter
+        # - from metadata
+        # - filter name itself
+        # @param filter_name [String] filter name
+        # @return [String]
         def find_scope(filter_name)
           filter = @model_decorator.filters[filter_name] || {}
           filter[:scope] || filter_name
         end
 
+        # Unscoped query
+        # @return [ActiveRecord::Relation]
         def unscoped
           @model_class.where nil
         end
 
+        # Search text for the text columns that appear in `index_field_names`
+        # @param filter_name [String] filter name
+        # @param query [ActiveRecord::Relation, nil]
+        # @return [ActiveRecord::Relation]
         def text_search(keywords, query = nil)
           return query unless keywords_check? keywords
           text_fields.each do |field_name|
@@ -80,6 +112,10 @@ module Wallaby
           query
         end
 
+        # Perform SQL query for the colon query (e.g. data:<2000-01-01)
+        # @param field_queries [Array]
+        # @param query [ActiveRecord::Relation]
+        # @return [ActiveRecord::Relation]
         def field_search(field_queries, query)
           return query unless field_check? field_queries
           field_queries.each do |exp|
@@ -89,6 +125,7 @@ module Wallaby
           query
         end
 
+        # @return [Array<String>] a list of text fields from `index_field_names`
         def text_fields
           @text_fields ||= begin
             index_field_names = @model_decorator.index_field_names.map(&:to_s)
@@ -99,6 +136,10 @@ module Wallaby
           end
         end
 
+        # @param keywords [Array<String>] a list of keywords
+        # @return [Boolean] false when keywords are empty
+        #   true when text fields for query exist
+        #   otherwise, raise exception
         def keywords_check?(keywords)
           return false if keywords.blank?
           return true if text_fields.present?
@@ -106,6 +147,10 @@ module Wallaby
           raise UnprocessableEntity, message
         end
 
+        # @param field_queries [Array]
+        # @return [Boolean] false when field queries are blank
+        #   true when the fields used are valid (exist in `fields`)
+        #   otherwise, raise exception
         def field_check?(field_queries)
           return false if field_queries.blank?
           fields = field_queries.map { |exp| exp[:left] }

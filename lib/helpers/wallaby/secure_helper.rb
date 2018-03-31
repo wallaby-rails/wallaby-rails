@@ -1,7 +1,9 @@
 module Wallaby
   # Secure helper
   module SecureHelper
-    # Image portrait for given user
+    # Image portrait for given user.
+    # - if email is present, a gravatar image tag will be returned
+    # - otherwise, an user icon will be returned
     # @param user [Object]
     # @return [String] IMG or I element
     def user_portrait(user = current_user)
@@ -18,20 +20,24 @@ module Wallaby
     end
 
     # Logout path for given user
+    # @see Wallaby::Configuration::Security#logout_path
     # @param user [Object]
     # @param app [Object]
-    # @return [String] HTML anchor element
+    # @return [String] url to log out
     def logout_path(user = current_user, app = main_app)
       path = Wallaby.configuration.security.logout_path
-      path ||= if defined? ::Devise
-                 scope = ::Devise::Mapping.find_scope! user
-                 "destroy_#{scope}_session_path"
-               end
+      path ||=
+        if defined? ::Devise
+          scope = ::Devise::Mapping.find_scope! user
+          "destroy_#{scope}_session_path"
+        end
       app.public_send path if path && app.respond_to?(path)
     end
 
     # Logout method for given user
-    # @return [String, Symbol]
+    # @see Wallaby::Configuration::Security#logout_method
+    # @param user [Object]
+    # @return [String, Symbol] http method to log out
     def logout_method(user = current_user)
       http_method = Wallaby.configuration.security.logout_method
       http_method || if defined? ::Devise

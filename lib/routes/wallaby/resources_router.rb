@@ -21,11 +21,15 @@ module Wallaby
 
     private
 
+    # @param resources_name [String] resource name in plural
+    # @return [Class] controller class
     def find_controller_by(resources_name)
       model_class = Map.model_class_map resources_name
       Map.controller_map model_class
     end
 
+    # @param params [ActionController::Parameters]
+    # @return [String, Symbol] action name
     def find_action_by(params)
       # Action name comes from either the defaults or :action param
       # @see Wallaby::Engine.routes

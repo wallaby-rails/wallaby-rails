@@ -4,7 +4,7 @@ module Wallaby
     class Metadata
       attr_writer :max
 
-      # @return [Integer] max characters to display
+      # @return [Integer] max characters to display, default to 20
       def max
         @max ||= DEFAULT_MAX
       end

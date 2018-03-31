@@ -11,13 +11,13 @@ module Wallaby
                   :current_model_decorator, :authorizer
 
     class << self
-      # @return [String] resources name of controller
+      # @return [String] resources name for controller
       def resources_name
         return unless self < configuration.mapping.resources_controller
         Map.resources_name_map name.gsub('Controller', EMPTY_STRING)
       end
 
-      # @return [Class] model class of controller
+      # @return [Class] model class for controller
       def model_class
         return unless self < configuration.mapping.resources_controller
         Map.model_class_map resources_name
@@ -290,6 +290,7 @@ module Wallaby
     #  (e.g. `wallaby/resources/index)
     # - wallaby_resources_controller_name
     #  (e.g. `wallaby/resources)
+    # @return [PrefixesBuilder]
     def _prefixes
       @_prefixes ||= PrefixesBuilder.new(
         super, controller_path, current_resources_name, params
@@ -298,6 +299,7 @@ module Wallaby
 
     # A wrapped lookup content
     # Its aim is to render string partial when given partial is not found
+    # @return [LookupContextWrapper]
     def lookup_context
       @_lookup_context ||= LookupContextWrapper.new super # rubocop:disable Naming/MemoizedInstanceVariableName, Metrics/LineLength
     end
@@ -305,6 +307,8 @@ module Wallaby
     # To paginate the collection but only when either `page` or `per` param is
     # given, or requesting HTML response
     # @see Wallaby::ModelServicer#paginate
+    # @param query [#each]
+    # @return [#each]
     def paginate(query)
       paginatable =
         params[:page] || params[:per] || request.format.symbol == :html

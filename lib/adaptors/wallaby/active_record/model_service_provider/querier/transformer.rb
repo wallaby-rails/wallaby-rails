@@ -2,6 +2,7 @@ module Wallaby
   class ActiveRecord
     class ModelServiceProvider
       class Querier
+        # @private
         # Build up query using the results
         class Transformer < Parslet::Transform
           SIMPLE_OPERATORS = {
@@ -32,28 +33,33 @@ module Wallaby
             ':!()' => :not_between
           }.freeze
 
+          # For single keyword
           rule keyword: simple(:value) do
             value.try :to_str
           end
 
+          # For multiple keywords
           rule keyword: sequence(:value) do
             value.presence.try :map, :to_str
           end
 
+          # For operators
           rule left: simple(:left), op: simple(:op), right: simple(:right) do
             oped = op.try :to_str
             operator = SIMPLE_OPERATORS[oped]
             # skip if the operator is unknown
             next unless operator
             lefted = left.try :to_str
-            convert = case oped
-                      when ':~', ':!~' then "%#{right}%"
-                      when ':^', ':!^' then "#{right}%"
-                      when ':$', ':!$' then "%#{right}"
-                      end
+            convert =
+              case oped
+              when ':~', ':!~' then "%#{right}%"
+              when ':^', ':!^' then "#{right}%"
+              when ':$', ':!$' then "%#{right}"
+              end
             { left: lefted, op: operator, right: convert || right }
           end
 
+          # For operators that have multiple items
           rule left: simple(:left), op: simple(:op), right: sequence(:right) do
             oped = op.try :to_str
             operator = SEQUENCE_OPERATORS[oped]

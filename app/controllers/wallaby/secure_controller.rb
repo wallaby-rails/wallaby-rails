@@ -8,11 +8,13 @@ module Wallaby
     rescue_from ::CanCan::AccessDenied, with: :forbidden
 
     # Unauthorized page
+    # @param exception [Exception]
     def unauthorized(exception = nil)
       error_rendering(exception, __callee__)
     end
 
     # Forbidden page
+    # @param exception [Exception]
     def forbidden(exception = nil)
       error_rendering(exception, __callee__)
     end

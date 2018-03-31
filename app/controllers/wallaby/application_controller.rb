@@ -16,16 +16,19 @@ module Wallaby
     layout 'wallaby/application'
 
     # Not found page
+    # @param exception [Exception]
     def not_found(exception = nil)
       error_rendering(exception, __callee__)
     end
 
     # Bad request page
+    # @param exception [Exception]
     def bad_request(exception = nil)
       error_rendering(exception, __callee__)
     end
 
     # Unprocessable entity page
+    # @param exception [Exception]
     def unprocessable_entity(exception = nil)
       error_rendering(exception, __callee__)
     end
@@ -49,6 +52,8 @@ module Wallaby
     end
 
     # capture exceptions and display the error using error layout and view
+    # @param exception [Exception]
+    # @param symbol [Symbol] http status symbol
     def error_rendering(exception, symbol)
       @exception = exception
       @symbol = symbol

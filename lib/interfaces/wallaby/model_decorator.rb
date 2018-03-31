@@ -27,7 +27,7 @@ module Wallaby
       @fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
     end
 
-    # @return [Array<String, Symbol>] a list of field names
+    # @return [Array<String>, Array<Symbol>] a list of field names
     def field_names
       @field_names ||= reposition fields.keys, primary_key
     end
@@ -43,7 +43,8 @@ module Wallaby
       @index_fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
     end
 
-    # @return [Array<String, Symbol>] a list of field names displayed on index page
+    # @return [Array<String>, Array<Symbol>]
+    #   a list of field names displayed on index page
     def index_field_names
       @index_field_names ||= reposition index_fields.keys, primary_key
     end
@@ -59,7 +60,8 @@ module Wallaby
       @show_fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
     end
 
-    # @return [Array<String, Symbol>] a list of field names displayed on show page
+    # @return [Array<String>, Array<Symbol>]
+    #   a list of field names displayed on show page
     def show_field_names
       @show_field_names ||= reposition show_fields.keys, primary_key
     end
@@ -75,7 +77,8 @@ module Wallaby
       @form_fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
     end
 
-    # @return [Array<String, Symbol>] a list field names displayed on form (new/edit) page
+    # @return [Array<String>, Array<Symbol>]
+    #   a list field names displayed on form (new/edit) page
     def form_field_names
       @form_field_names ||= reposition form_fields.keys, primary_key
     end
@@ -114,9 +117,10 @@ module Wallaby
 
     protected
 
-    # @param field_names [Array<String, Symbol>] field names
+    # @param field_names [Array<String>, Array<Symbol>] field names
     # @param primary_key [String] primary key name
-    # @return [Array<String, Symbol>] a list of field names that primary key goes first
+    # @return [Array<String>, Array<Symbol>]
+    #   a list of field names that primary key goes first
     def reposition(field_names, primary_key)
       field_names.unshift(primary_key).uniq
     end

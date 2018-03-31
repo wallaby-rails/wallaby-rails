@@ -1,9 +1,13 @@
 module Wallaby
   module Sorting
+    # @private
     # Build the sorting link
     class LinkBuilder
       delegate :model_class, to: :@model_decorator
 
+      # @param model_decorator [Wallaby::ModelDecorator]
+      # @param params [ActionController::Parameters]
+      # @param helper [ActionView::Helpers]
       def initialize(model_decorator, params, helper)
         @model_decorator = model_decorator
         @params = params
@@ -35,7 +39,8 @@ module Wallaby
         @next_builder ||= NextBuilder.new @params, current_sort
       end
 
-      # If it's non-association field or custom sorting field
+      # @return [Boolean]
+      #   whether it's non-association field or custom sorting field
       def sortable?(field_name, metadata)
         @model_decorator.fields[field_name] && !metadata[:is_association] \
           || metadata[:sort_field_name]

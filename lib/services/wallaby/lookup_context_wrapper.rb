@@ -1,17 +1,22 @@
 module Wallaby
   # Lookup context wrapper.
-  # This is to take care of missing template in production to return string
-  # template.
+  #
+  # This is to take care of missing template in production.
+  # It will return `string` template
+  # if it doesn't know how to handle the template.
   # @see Wallaby::PartialRenderer
   class LookupContextWrapper
     origin_methods = ::ActionView::LookupContext.instance_methods \
       - ::Object.instance_methods - %i(find_template)
     delegate(*origin_methods, to: :@lookup_context)
 
+    # @param lookup_context [ActionView::LookupContext]
     def initialize(lookup_context)
       @lookup_context = lookup_context
     end
 
+    # @see ActionView::LookupContext#find_template
+    # @param args [Array] a list of arguments
     def find_template(*args)
       @lookup_context.find_template(*args)
     rescue ::ActionView::MissingTemplate
@@ -25,8 +30,12 @@ module Wallaby
         super nil
       end
 
+      # @param args [Array] a list of arguments
+      # @return [nil]
       def render(*args); end
 
+      # @param args [Array] a list of arguments
+      # @return [nil]
       def virtual_path(*args); end
     end
   end

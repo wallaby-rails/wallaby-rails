@@ -118,14 +118,4 @@ describe Wallaby::Utils, clear: :object_space do
       expect(described_class.to_field_label(:something, label: 'Else')).to eq 'Else'
     end
   end
-
-  describe '.to_hash' do
-    it 'turns array into hash' do
-      expect(described_class.to_hash([%w(key value)])).to eq Hash 'key' => 'value'
-      expect(described_class.to_hash([['key', nil]])).to eq Hash 'key' => nil
-      expect(described_class.to_hash([['key', []]])).to eq Hash 'key' => []
-      expect(described_class.to_hash([%w(key value), ['key2', []]])).to eq Hash 'key' => 'value', 'key2' => []
-      expect { described_class.to_hash([%w(key value), ['key2']]) }.to raise_error ArgumentError
-    end
-  end
 end

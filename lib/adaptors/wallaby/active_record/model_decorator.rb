@@ -9,9 +9,9 @@ module Wallaby
       # Data types to exclude for form page
       FORM_EXCLUSIVE_DATA_TYPES = %w(created_at updated_at).freeze
 
-      # Origin metadata coming from data source.
+      # Origin metadata directly coming from ActiveRecord.
       # It needs to be frozen so that we can keep the metadata integrity
-      # @return [Hash]
+      # @return [Hash] metadata
       #   example:
       #     {
       #       # general field
@@ -41,26 +41,25 @@ module Wallaby
         end.freeze
       end
 
-      # A copy of all the fields for index page
-      # @return [Hash]
+      # A copy of `fields` for index page
+      # @return [Hash] metadata
       def index_fields
         @index_fields ||= Utils.clone fields
       end
 
-      # A copy of all the fields for show page
-      # @return [Hash]
+      # A copy of `fields` for show page
+      # @return [Hash] metadata
       def show_fields
         @show_fields  ||= Utils.clone fields
       end
 
-      # A copy of all the fields for form page
-      # @return [Hash]
+      # A copy of `fields` for form (new/edit) page
+      # @return [Hash] metadata
       def form_fields
         @form_fields  ||= Utils.clone fields
       end
 
-      # Fields name for index page
-      # @return [Array]
+      # @return [Array<String>] a list of field names for index page
       def index_field_names
         @index_field_names ||= begin
           index_fields.reject do |_field_name, metadata|
@@ -70,8 +69,7 @@ module Wallaby
         end
       end
 
-      # Fields name for form page
-      # @return [Array]
+      # @return [Array<String>] a list of field names for form (new/edit) page
       def form_field_names
         @form_field_names ||= begin
           form_fields.reject do |field_name, metadata|
@@ -82,22 +80,22 @@ module Wallaby
         end
       end
 
-      # Errors for resource
-      # @return [ActiveModel::Errors]
+      # @return [ActiveModel::Errors] errors for resource
       def form_active_errors(resource)
         resource.errors
       end
 
-      # Primary key for the resource
-      # @return [String]
+      # @return [String] primary key for the resource
       def primary_key
         @model_class.primary_key
       end
 
       # To guess the title for resource.
+      #
       # It will go through the fields and try to find out the one that looks
       # like a name or text to represent this resource. Otherwise, it will fall
       # back to primary key.
+      #
       # @param resource [Object]
       # @return [String] the title of given resource
       def guess_title(resource)
@@ -121,7 +119,7 @@ module Wallaby
 
       # Find out all the foreign keys for a list of fields
       # @param fields [Hash] metadata of fields
-      # @return [Array] a list of foreign keys
+      # @return [Array<String>] a list of foreign keys
       def foreign_keys_from_associations(fields = association_fields)
         fields.each_with_object([]) do |(_field_name, metadata), keys|
           keys << metadata[:foreign_key] if metadata[:foreign_key]
