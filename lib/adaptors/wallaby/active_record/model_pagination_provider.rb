@@ -8,20 +8,17 @@ module Wallaby
         @collection.respond_to? :total_count
       end
 
-      # Total count for the query
-      # @return [Integer]
+      # @return [Integer] total count for the query
       def total
         @collection.total_count
       end
 
-      # Page size
-      # @return [Integer]
+      # @return [Integer] page size from parameters or configuration
       def page_size
         @params[:per].try(:to_i) || Wallaby.configuration.pagination.page_size
       end
 
-      # Page number
-      # @return [Integer]
+      # @return [Integer] page number from parameters
       def page_number
         [@params[:page].to_i, 1].max
       end

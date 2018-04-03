@@ -94,3 +94,8 @@ en:
     macaddr_html: 'Example: <code>08:00:2b:01:02:03</code> which stores MAC addresses.'
     path_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the path.'
     polygon_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the boundary of the polygon.'
+
+  wallaby:
+    map:
+      model_class_mapper:
+        missing_model_class: "[WALLABY] Please define self.model_class for %{model} or set it as global.\n          @see Wallaby.configuration.mapping"

@@ -2,7 +2,7 @@ module Wallaby
   # Styling helper
   module StylingHelper
     # Shortcut to build up the html options as keyword arguments
-    # @param string_or_array [String, Array]
+    # @param string_or_array [String, Array<String>]
     # @return [Hash]
     def html_classes(string_or_array)
       { html_options: { class: string_or_array } }

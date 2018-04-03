@@ -1,7 +1,7 @@
 module Wallaby
   # Model pagination provider interface
   class ModelPaginationProvider
-    # @param collection
+    # @param collection [#to_a]
     # @param params [ActionController::Parameters]
     # @param options [Hash] options
     # @param model_decorator [Wallaby::ModelDecorator, nil]
@@ -13,30 +13,31 @@ module Wallaby
     end
 
     # If a collection has pagination feature
+    # @return [Boolean]
     def paginatable?
       raise NotImplemented
     end
 
     # Check and see if it's the first page
-    # @return boolean
+    # @return [Boolean]
     def first_page?
       page_number > first_page_number
     end
 
     # Check and see if it's the previous page
-    # @return boolean
+    # @return [Boolean]
     def prev_page?
       page_number > first_page_number
     end
 
     # Check and see if it's the last page
-    # @return boolean
+    # @return [Boolean]
     def last_page?
       page_number < last_page_number
     end
 
     # Check and see if it's the next page
-    # @return boolean
+    # @return [Boolean]
     def next_page?
       page_number < last_page_number
     end

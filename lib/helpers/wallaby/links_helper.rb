@@ -1,16 +1,17 @@
 module Wallaby
   # Links helper
   module LinksHelper
-    # Permit the params used by Wallaby
+    # @return [ActionController::Parameters] whitelisted params used by Wallaby
     def index_params
       params.except(:resources, :utf8).permit(:filter, :page, :per, :q, :sort)
     end
 
     # Return link to index page by a given model class
+    #
     # If user's not authorized, nil will be returned
     # @param model_class [Class] model class
     # @param url_params [ActionController::Parameters, Hash]
-    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def index_link(model_class, url_params: {}, html_options: {}, &block)
       return if cannot? :index, model_class
@@ -24,10 +25,11 @@ module Wallaby
     end
 
     # Return link to create page by a given model class
+    #
     # If user's not authorized, nil will be returned
     # @param model_class [Class] model class
     # @param options [Hash]
-    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def new_link(model_class, html_options: {}, &block)
       return if cannot? :new, model_class
@@ -44,7 +46,7 @@ module Wallaby
     # If user's not authorized, resource label will be returned
     # @param resource [Object, Wallaby::ResourceDecorator] model class
     # @param options [Hash]
-    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String] anchor element / text
     def show_link(resource, options: {}, html_options: {}, &block)
       # NOTE: to_s is a must
@@ -64,7 +66,7 @@ module Wallaby
     # If user's not authorized, resource label will be returned
     # @param resource [Object, Wallaby::ResourceDecorator] model class
     # @param options [Hash]
-    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String] anchor element / text
     def edit_link(resource, options: {}, html_options: {}, &block)
       default = options[:readonly] && decorate(resource).to_label || nil
@@ -80,10 +82,11 @@ module Wallaby
     end
 
     # Return link to delete action by a given model class
+    #
     # If user's not authorized, nil will be returned
     # @param resource [Object, Wallaby::ResourceDecorator] model class
     # @param options [Hash]
-    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def delete_link(resource, html_options: {}, &block)
       return if cannot? :destroy, extract(resource)
@@ -102,7 +105,7 @@ module Wallaby
     end
 
     # Return link to cancel an action
-    # @param html_options [Hash] (see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String] HTML anchor element
     def cancel_link(html_options = {}, &block)
       block ||= -> { t 'links.cancel' }

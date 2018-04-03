@@ -1,9 +1,8 @@
 module Wallaby
   class ActiveRecord
-    # @private
     # Model finder
     class ModelFinder < ::Wallaby::ModelFinder
-      # @return [Array] a list of ActiveRecord subclasses
+      # @return [Array<Class>] a list of ActiveRecord subclasses
       def all
         self.class.base.descendants.reject do |model_class|
           abstract?(model_class) || anonymous?(model_class) \
@@ -12,7 +11,7 @@ module Wallaby
       end
 
       # This is only for ActiveRecord
-      # @return [ApplicationRecord, ActiveRecord::Base]
+      # @return [ApplicationRecord, ActiveRecord::Base] base ActiveRecord class
       def self.base
         return ::ApplicationRecord if defined? ::ApplicationRecord
         ::ActiveRecord::Base
@@ -31,7 +30,7 @@ module Wallaby
       # @param [Class] model class
       # @return [Boolean]
       def anonymous?(model_class)
-        model_class.to_s.start_with? '#<Class'
+        Utils.anonymous_class? model_class
       end
 
       # Is model class the shcema migration class?
