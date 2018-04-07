@@ -11,6 +11,7 @@ module Wallaby
           def update(metadata, reflection)
             type = reflection.macro
             metadata[:is_association] = true
+            metadata[:sort_disabled] = true
             metadata[:is_through] = through?(reflection)
             metadata[:has_scope] = scope?(reflection)
             metadata[:foreign_key] = foreign_key_for(reflection, type)

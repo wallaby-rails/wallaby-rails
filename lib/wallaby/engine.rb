@@ -115,6 +115,12 @@ require "#{service_provider}/querier"
 require "#{service_provider}/querier/transformer"
 require "#{service_provider}/validator"
 
+require 'adaptors/wallaby/her'
+require 'adaptors/wallaby/her/model_decorator'
+require 'adaptors/wallaby/her/model_finder'
+require 'adaptors/wallaby/her/model_pagination_provider'
+require 'adaptors/wallaby/her/model_service_provider'
+
 require 'paginators/wallaby/abstract_resource_paginator'
 require 'paginators/wallaby/resource_paginator'
 require 'decorators/wallaby/abstract_resource_decorator'

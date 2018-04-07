@@ -14,6 +14,7 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'rails', '~> 5.1.4'
+gem 'her'
 
 group :development, :test do
   gem 'binding_of_caller'

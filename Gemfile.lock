@@ -102,6 +102,8 @@ GEM
     erubi (1.7.1)
     erubis (2.7.0)
     execjs (2.7.0)
+    faraday (0.14.0)
+      multipart-post (>= 1.2, < 3)
     ffaker (2.8.1)
     ffi (1.9.23)
     font-awesome-sass (4.7.0)
@@ -117,6 +119,11 @@ GEM
       rake (>= 10, < 13)
       rubocop (>= 0.50.0)
       sysexits (~> 1.1)
+    her (0.10.0)
+      activemodel (>= 3.0.0, <= 6.0.0)
+      activesupport (>= 3.0.0, <= 6.0.0)
+      faraday (>= 0.8, < 1.0)
+      multi_json (~> 1.7)
     highline (1.7.10)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
@@ -167,6 +174,7 @@ GEM
     momentjs-rails (2.17.1)
       railties (>= 3.1)
     multi_json (1.13.1)
+    multipart-post (2.0.0)
     mysql2 (0.4.10)
     nio4r (2.3.0)
     nokogiri (1.8.2)
@@ -318,6 +326,7 @@ DEPENDENCIES
   devise
   ffaker
   haml_lint
+  her
   i18n-tasks
   massa
   memory_profiler

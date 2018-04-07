@@ -22,6 +22,7 @@ module Wallaby
   WILDCARD = 'QUERY'.freeze
   FORM_ACTIONS = %w(new create edit update).freeze
   SAVE_ACTIONS = %w(create update).freeze
+  TITLE_NAMES = %w(name title string text).freeze
 end
 
 require 'wallaby/engine'
