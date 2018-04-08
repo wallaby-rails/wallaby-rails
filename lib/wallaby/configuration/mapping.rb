@@ -8,6 +8,7 @@ module Wallaby
 
       # @return [Class] configurable resources controller
       def resources_controller
+        @resources_controller ||= existing_admin_application_controller
         @resources_controller ||= ResourcesController
       end
 
@@ -24,6 +25,14 @@ module Wallaby
       # @return [Class] configurable model servicer
       def model_servicer
         @model_servicer ||= ModelServicer
+      end
+
+      private
+
+      def existing_admin_application_controller
+        defined?(::Admin::ApplicationController) \
+          && ::Admin::ApplicationController < ResourcesController \
+          && ::Admin::ApplicationController
       end
     end
   end
