@@ -14,11 +14,11 @@ module Wallaby
       # Since somewhere might need the collection without any pagination
       # @see Wallaby::ModelServiceProvider#collection
       # @param params [ActionController::Parameters]
-      # @param authorizer [Ability] for now
+      # @param _authorizer [Ability] for now
       # @return [ActiveRecord::Relation]
-      def collection(params, authorizer)
+      def collection(params, _authorizer)
         query = @model_class
-        # query = query.where params.slice(:sort) if params[:sort].present?
+        query = query.where sort: params[:sort] if params[:sort].present?
         query.all
       end
 
@@ -96,7 +96,7 @@ module Wallaby
       # @return [Array]
       def permitted_fields
         @permitted_fields ||=
-          @model_decorator.fields.reject do |field_name, metadata|
+          @model_decorator.fields.reject do |_field_name, metadata|
             metadata[:is_association]
           end.keys
       end

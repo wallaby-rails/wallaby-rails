@@ -4,6 +4,6 @@ json.array! decorate(collection) do |decorated|
   json.label decorated.to_label
 
   fields = (params[:fields] || '').split(/\s*,\s*/).flatten
-  fields = fields & decorated.index_field_names.map(&:to_s)
-  json.(decorated, *fields) if fields.present?
+  fields &= decorated.index_field_names.map(&:to_s)
+  json.call(decorated, *fields) if fields.present?
 end

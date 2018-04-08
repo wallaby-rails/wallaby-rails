@@ -52,8 +52,9 @@ module Wallaby
       # @return [Array<String>] a list of field names for form (new/edit) page
       def form_field_names
         @form_field_names ||=
-          Utils.clone(index_field_names)
-            .delete_if { |field_name| field_name == primary_key.to_s }
+          Utils
+          .clone(index_field_names)
+          .delete_if { |field_name| field_name == primary_key.to_s }
       end
 
       # @return [ActiveModel::Errors] errors for resource
@@ -82,15 +83,7 @@ module Wallaby
 
       def general_fields
         @general_fields ||= begin
-          instance_methods = @model_class.instance_methods
-          field_names =
-            instance_methods.grep(/_previous_change$/).map do |method_id|
-              method_id.to_s[0...-16]
-            end.select do |attribute|
-              instance_methods.grep(/^#{attribute}\=?$/).length == 2 \
-                && !(attribute =~ /(index_|show_|form_)?fields/)
-            end.unshift(primary_key)
-          field_names.each_with_object({}) do |attribute, fields|
+          her_attributes.each_with_object({}) do |attribute, fields|
             fields[attribute.to_sym] = {
               type: 'string'.freeze,
               label: @model_class.human_attribute_name(attribute)
@@ -101,16 +94,15 @@ module Wallaby
 
       def association_fields
         @association_fields ||=
-          @model_class.associations
-            .each_with_object({}) do |(type, assocs), fields|
-              assocs.each do |assoc|
-                fields[assoc[:name]] = {
-                  type: type.to_s.freeze,
-                  label: @model_class.human_attribute_name(assoc[:name]),
-                  is_association: true
-                }
-              end
+          @model_class.associations.each_with_object({}) do |(type, arr), hash|
+            arr.each do |assoc|
+              hash[assoc[:name]] = {
+                type: type.to_s.freeze,
+                label: @model_class.human_attribute_name(assoc[:name]),
+                is_association: true, sort_disabled: true
+              }
             end
+          end
       end
 
       def possible_title_field
@@ -120,6 +112,19 @@ module Wallaby
           end
           target_field || primary_key
         end
+      end
+
+      def her_attributes
+        instance_methods = @model_class.instance_methods
+        possible_attributes =
+          instance_methods.grep(/_previous_change$/).map do |method_id|
+            method_id.to_s[0...-16]
+          end
+        attributes = possible_attributes.select do |attribute|
+          instance_methods.grep(/^#{attribute}\=?$/).length == 2 \
+            && attribute !~ /(index_|show_|form_)?fields/
+        end
+        attributes.unshift(primary_key)
       end
     end
   end

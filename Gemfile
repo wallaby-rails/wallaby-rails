@@ -13,8 +13,8 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'rails', '~> 5.1.4'
 gem 'her'
+gem 'rails', '~> 5.1.4'
 
 group :development, :test do
   gem 'binding_of_caller'
@@ -23,7 +23,6 @@ group :development, :test do
   gem 'ffaker'
   gem 'haml_lint'
   gem 'i18n-tasks'
-  # gem 'inch'
   gem 'mysql2', '~> 0.4.10'
   gem 'pg'
   gem 'pry-rails'
