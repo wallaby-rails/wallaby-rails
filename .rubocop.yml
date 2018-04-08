@@ -1,3 +1,20 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/rails'
+    - 'spec/rails_helper.rb'
+    - 'spec/spec_helper.rb'
+    - 'spec/dummy/**/*'
+    - 'spec/dummy/*'
+    - 'spec/views/wallaby/resources/*/_xml.html.erb_spec.rb'
+    - 'gemfiles/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/RedundantFreeze:
+  Enabled: false
+
 Metrics/BlockLength:
   CountComments: false  # count full line comments?
   Max: 25
@@ -14,16 +31,6 @@ Style/SingleLineMethods:
 Metrics/LineLength:
   Exclude:
     - 'spec/**/*'
-
-AllCops:
-  Exclude:
-    - 'vendor/**/*'
-    - 'bin/rails'
-    - 'spec/rails_helper.rb'
-    - 'spec/spec_helper.rb'
-    - 'spec/dummy/**/*'
-    - 'spec/dummy/*'
-    - 'spec/views/wallaby/resources/*/_xml.html.erb_spec.rb'
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
