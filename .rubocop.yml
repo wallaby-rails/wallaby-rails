@@ -24,6 +24,7 @@ AllCops:
     - 'spec/dummy/**/*'
     - 'spec/dummy/*'
     - 'spec/views/wallaby/resources/*/_xml.html.erb_spec.rb'
+    - 'gemfiles/**/*'
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
