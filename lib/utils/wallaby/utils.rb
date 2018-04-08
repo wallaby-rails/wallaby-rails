@@ -108,7 +108,7 @@ module Wallaby
     # Preload files
     def self.preload(file_pattern)
       Dir[file_pattern].each do |file_path|
-        begin
+        begin # rubocop:disable Style/RedundantBegin
           name = file_path[%r{app/[^/]+/(.+)\.rb}, 1].gsub('concerns/', '')
           class_name = name.classify
           class_name.constantize unless Module.const_defined? class_name
