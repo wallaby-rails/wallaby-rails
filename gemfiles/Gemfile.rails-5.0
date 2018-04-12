@@ -12,10 +12,11 @@ gemspec path: '../'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+gem 'rails', '~> 5.0.7'
+
 gem 'devise'
 gem 'mysql2'
 gem 'pg'
-gem 'rails', '~> 5.0.7'
 gem 'sqlite3'
 
 group :test do
