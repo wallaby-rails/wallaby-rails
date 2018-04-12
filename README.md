@@ -11,25 +11,59 @@ Wallaby is a Rails engine for managing data. It can be easily and deeply customi
 
 [![Animated Demo](https://raw.githubusercontent.com/reinteractive/wallaby/master/docs/demo-animated.gif)](https://raw.githubusercontent.com/reinteractive/wallaby/master/docs/demo-animated.gif)
 
-- [Demo](https://wallaby-demo.herokuapp.com/admin/)
-- [Documentation](docs/README.md)
-- [Search Manual](docs/search_manual.md)
-- [Features and Requirements](docs/features.md)
-- [Change Logs](CHANGELOG.md)
+For example, you can do complicated customization as below:
+
+- Register your product on e-commence after product is created at controller level (see [Controller](docs/controller.md)):
+
+    ```ruby
+    # app/controllers/admin/products_controller.rb
+    class Admin::ProductsController < Admin::ApplicationController
+      def self.model_class; Product; end
+
+      def create
+        super do
+          register_product_on_ecommence(resource) if resource.errors.blank?
+        end
+      end
+    end
+    ```
+
+- Customize to render the product markdown description (see [Decorator](docs/decorator.md)):
+
+    ```ruby
+    # app/decorators/product_decorators.rb
+    class ProductDecorator < Admin::ApplicationDecorator
+      self.show_fields[:description][:type] = 'markdown'
+    end
+    ```
+
+    Then create the partial accordingly:
+
+    ```erb
+    <% # app/views/admin/products/show/_markdown.html.erb %>
+    <% markdowner = Redcarpet::Markdown.new(Redcarpet::Render::HTML, {}) %>
+    <%= raw markdowner.render(value) %>
+    ```
+
+- Have a play with [Demo](https://wallaby-demo.herokuapp.com/admin/)
+- See [Documentation](docs/README.md) for more How-to
+- See [Search Manual](docs/search_manual.md) for advance search
+- See [Features and Requirements](docs/features.md)
+- See [Change Logs](CHANGELOG.md)
 
 ## Getting Started
 
 1. Add wallaby gem to `Gemfile`:
 
     ```ruby
-    #!./Gemfile
+    # ./Gemfile
     gem 'wallaby'
     ```
 
 2. Mount engine in `routes.rb`:
 
     ```ruby
-    #!./config/routes.rb
+    # ./config/routes.rb
     Rails.application.routes.draw do
       # ... other routes
       mount Wallaby::Engine => "/desired_path"
@@ -39,7 +73,7 @@ Wallaby is a Rails engine for managing data. It can be easily and deeply customi
 
 3. Start Rails server
 
-4. Open Wallaby on your local machine at `http::/localhost:3000/desired_path`.
+4. Open Wallaby on your local machine at `http::/localhost:3000/desired_path`. That's it.
 
 If you are using authentication rather than Devise, you will need to configure authentication as [Configuration - Authentication](docs/configuration.md#authentication) describes.
 

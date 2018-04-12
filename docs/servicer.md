@@ -16,7 +16,7 @@ Before digging into the above methods, let's see how to create a servicer so tha
 ### Declaration
 
 ```ruby
-#!app/servicers/product_servicer.rb
+# app/servicers/product_servicer.rb
 
 # NOTE: Product in ProductServicer is recommended to be singular
 class ProductServicer < Wallaby::ModelServicer
@@ -26,7 +26,7 @@ end
 If the name `ProductServicer` is taken, it is possible to use another name, however the method `self.model_class` must be defined to specify the model as example below:
 
 ```ruby
-#!app/servicers/admin/product_servicer.rb
+# app/servicers/admin/product_servicer.rb
 class Admin::ProductServicer < Wallaby::ModelServicer
   def self.model_class
     Product

@@ -2,7 +2,23 @@
 
 ### Partials
 
-Elements on the page can be customized in the following ways:
+Wallaby take full advantages of [Template Inheritance](http://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance), please have a read before continue reading.
+
+If you have base class `Admin::ApplicationController` whose `controller_path` is `admin/application`, then elements on the page can be customized in the following ways:
+
+- To customize page title, `app/views/#{controller_path}/_title.html.erb` needs to be created.
+- To customize logo, `app/views/#{controller_path}/_logo.html.erb` needs to be created.
+- To customize header, `app/views/#{controller_path}/_header.html.erb` needs to be created.
+- To customize footer, `app/views/#{controller_path}/_footer.html.erb` needs to be created.
+- To modify links for logged-in user, `app/views/#{controller_path}/_user_menu.html.erb` needs to be created.
+- To modify links/items for the top navigation bar, `app/views/#{controller_path}/_navs.html.erb` needs to be created.
+- To modify links/items for the dropdown button on index page, `app/views/#{controller_path}/_index_actions.html.erb` needs to be created.
+- To modify show/edit/delete links on index page, `app/views/#{controller_path}/_resource_actions.html.erb` needs to be created.
+- To modify show/edit/delete links for show/new/create page, `app/views/#{controller_path}/_resource_navs.html.erb` needs to be created.
+
+> `#{controller_path}` should be replaced with the base class's `controller_path`, which is `admin/application` in this case.
+
+Otherwise, it is possible to replace the wallaby origin files:
 
 - To customize page title, [`app/views/wallaby/resources/_title.html.erb`](../app/views/wallaby/resources/_title.html.erb) needs to be replaced.
 - To customize logo, [`app/views/wallaby/resources/_logo.html.erb`](../app/views/wallaby/resources/_logo.html.erb) needs to be replaced.
