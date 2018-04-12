@@ -8,6 +8,11 @@ Because Wallaby delegates the request dispatching to a router instance, there is
 
 ```ruby
 describe Admin::ProductsController do
+  # After 5.1.6 : begin
+  Wallaby::TestUtils.around_crud(self)
+  # After 5.1.6 : end
+
+  # Before 5.1.6 : begin
   before do
     routes.draw do
       get ':resources', to: 'admin/products#index', as: :resources
@@ -23,6 +28,7 @@ describe Admin::ProductsController do
   after do
     Rails.application.reload_routes!
   end
+  # Before 5.1.6 : end
 
   it 'performs index' do
     get :index, params: { resources: 'products' }

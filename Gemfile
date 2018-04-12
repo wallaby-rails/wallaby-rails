@@ -20,28 +20,22 @@ group :development, :test do
   gem 'byebug'
   gem 'devise'
   gem 'ffaker'
-  gem 'haml_lint'
-  gem 'i18n-tasks'
-  # gem 'inch'
-  gem 'mysql2', '~> 0.4.10'
+  gem 'mysql2'
   gem 'pg'
   gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'rubocop'
   gem 'sqlite3'
 end
 
 group :development do
   gem 'better_errors'
-  gem 'brakeman'
   gem 'massa'
   gem 'memory_profiler'
-  gem 'rails_best_practices'
-  gem 'simplecov'
   gem 'turbolinks'
 end
 
 group :test do
   gem 'database_cleaner'
   gem 'rails-controller-testing'
+  gem 'simplecov'
 end

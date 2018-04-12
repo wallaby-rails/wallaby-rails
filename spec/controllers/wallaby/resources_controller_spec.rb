@@ -21,19 +21,7 @@ describe Wallaby::ResourcesController do
   end
 
   describe 'CRUD' do
-    before do
-      routes.draw do
-        get ':resources', to: 'wallaby/resources#index', as: :resources
-        get ':resources/:id', to: 'wallaby/resources#show', as: :resource
-        get ':resources/new', to: 'wallaby/resources#new'
-        get ':resources/:id/edit', to: 'wallaby/resources#edit'
-        post ':resources', to: 'wallaby/resources#create'
-        patch ':resources/:id', to: 'wallaby/resources#update'
-        delete ':resources/:id', to: 'wallaby/resources#destroy'
-      end
-    end
-
-    after { Rails.application.reload_routes! }
+    Wallaby::TestUtils.around_crud(self)
 
     describe '#index' do
       it 'renders index' do
