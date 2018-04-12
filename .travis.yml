@@ -6,9 +6,9 @@ rvm:
   - 2.4.4
   - 2.5.1
 gemfile:
-  - gemfiles/Gemfile.rails-5.0.6
-  - gemfiles/Gemfile.rails-5.1.5
-  - gemfiles/Gemfile.rails-5.2-stable
+  - gemfiles/Gemfile.rails-5.0
+  - gemfiles/Gemfile.rails-5.1
+  - gemfiles/Gemfile.rails-5.2
 env:
   global:
     - DB=postgresql

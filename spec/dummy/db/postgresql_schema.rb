@@ -19,49 +19,49 @@ ActiveRecord::Schema.define(version: 0) do
   enable_extension "citext"
 
   create_table "all_postgres_types", force: :cascade do |t|
-    t.bigint        "bigint"
-    t.bigserial     "bigserial"
-    t.binary        "binary"
-    t.bit           "bit", limit: 1
-    t.bit_varying   "bit_varying"
-    t.boolean       "boolean"
-    t.box           "box"
-    t.cidr          "cidr"
-    t.circle        "circle"
-    t.citext        "citext"
-    t.string        "color"
-    t.date          "date"
-    t.daterange     "daterange"
-    t.datetime      "datetime"
-    t.decimal       "decimal"
-    t.string        "email"
-    t.float         "float"
-    t.hstore        "hstore"
-    t.inet          "inet"
-    t.int4range     "int4range"
-    t.int8range     "int8range"
-    t.integer       "integer"
-    t.json          "json"
-    t.jsonb         "jsonb"
-    t.line          "line"
-    t.lseg          "lseg"
-    t.ltree         "ltree"
-    t.macaddr       "macaddr"
-    t.money         "money", scale: 2
-    t.numrange      "numrange"
-    t.string        "password"
-    t.path          "path"
-    t.point         "point"
-    t.polygon       "polygon"
-    t.serial        "serial"
-    t.string        "string"
-    t.text          "text"
-    t.time          "time"
-    t.tsrange       "tsrange"
-    t.tstzrange     "tstzrange"
-    t.tsvector      "tsvector"
-    t.uuid          "uuid"
-    t.xml           "xml"
+    t.bigint      "bigint"
+    t.bigserial   "bigserial",                       null: false
+    t.binary      "binary"
+    t.bit         "bit",         limit: 1
+    t.bit_varying "bit_varying"
+    t.boolean     "boolean"
+    t.box         "box"
+    t.cidr        "cidr"
+    t.circle      "circle"
+    t.citext      "citext"
+    t.string      "color"
+    t.date        "date"
+    t.daterange   "daterange"
+    t.datetime    "datetime"
+    t.decimal     "decimal"
+    t.string      "email"
+    t.float       "float"
+    t.hstore      "hstore"
+    t.inet        "inet"
+    t.int4range   "int4range"
+    t.int8range   "int8range"
+    t.integer     "integer"
+    t.json        "json"
+    t.jsonb       "jsonb"
+    t.line        "line"
+    t.lseg        "lseg"
+    t.ltree       "ltree"
+    t.macaddr     "macaddr"
+    t.money       "money",                 scale: 2
+    t.numrange    "numrange"
+    t.string      "password"
+    t.path        "path"
+    t.point       "point"
+    t.polygon     "polygon"
+    t.serial      "serial",                          null: false
+    t.string      "string"
+    t.text        "text"
+    t.time        "time"
+    t.tsrange     "tsrange"
+    t.tstzrange   "tstzrange"
+    t.tsvector    "tsvector"
+    t.uuid        "uuid"
+    t.xml         "xml"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -85,10 +85,6 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "people", force: :cascade do |t|
     t.string "type"
-  end
-
-  create_table "things", force: :cascade do |t|
-    t.string "sti_type"
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -131,6 +127,10 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "tags", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "things", force: :cascade do |t|
+    t.string "sti_type"
   end
 
   create_table "users", force: :cascade do |t|

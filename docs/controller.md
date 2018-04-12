@@ -1,6 +1,17 @@
 ## Controller
 
-Wallaby allows devs to customize controller logics in a custom controller that inherits from `Wallaby::ResourcesController`.
+Wallaby allows devs to customize controller logics in a custom controller.
+
+Before we begin, it's always recommended to create a base controller class `Admin::ApplicationController` as below,
+so that developers have a better control of global changes:
+
+```ruby
+# app/controllers/admin/application_controller.rb
+class Admin::ApplicationController < Wallaby::ResourcesController
+end
+```
+
+> see [Mapping](configuration.md#controller) if `Admin::ApplicationController` is taken for other purpose.
 
 - [Declaration](#declaration)
 
@@ -21,21 +32,21 @@ Also it is possible to customize the whitelisting parameters for mass assignment
 
 ### Declaration
 
-Let's see how a controller can be created so that Wallaby knows its existence. Similar to what it is normally done in Rails, create a custom controller for model `Product` that inherits from `Wallaby::ResourcesController` as below:
+Let's see how a controller can be created so that Wallaby knows its existence. Similar to what it is normally done in Rails, create a custom controller for model `Product` that inherits from `Admin::ApplicationController` (the base controller mentioned [above](#controller)) as below:
 
 ```ruby
-#!app/controllers/products_controller.rb
-class ProductsController < Wallaby::ResourcesController
+# app/controllers/products_controller.rb
+class ProductsController < Admin::ApplicationController
 end
 ```
 
-> NOTE: although it inherits `Wallaby::ResourcesController`, it is possible to access to all methods in `ApplicationController`. Because `Wallaby::ResourcesController` inherits `ApplicationController` unless this is changed in Wallaby [authentication configuration](configuration.md#authentication).
+> NOTE: although it inherits `Admin::ApplicationController`, it is possible to access to all methods in `ApplicationController`. Because `Admin::ApplicationController` inherits `ApplicationController` unless this is changed in Wallaby [authentication configuration](configuration.md#authentication).
 
 If `ProductsController` is taken, it is still possible to use another name, however the method `self.model_class` must be defined to specify the model as the example below:
 
 ```ruby
-#!app/controllers/admin/products_controller.rb
-class Admin::ProductsController < Wallaby::ResourcesController
+# app/controllers/admin/products_controller.rb
+class Admin::ProductsController < Admin::ApplicationController
   def self.model_class
     Product
   end
@@ -59,7 +70,7 @@ that it can be completely replaced with your own implementation.
 - To add functionality before the action, it is fine to either use `before_action` or:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def index
         # do something here
         # to access the records, use `collection`
@@ -74,7 +85,7 @@ that it can be completely replaced with your own implementation.
 - To add functionality after the action but before rendering, it goes:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def index
         super do
           # do something here before rendering
@@ -83,7 +94,7 @@ that it can be completely replaced with your own implementation.
     end
     ```
 
-Basically, `index` action is simple as:
+Basically, `index` action is as simple as:
 
 ```ruby
 def index
@@ -100,7 +111,7 @@ that it can be completely replaced, just need to bear in mind that `@collection`
 - To add functionality before the action, it is fine to either use `before_action` or:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def show
         # do something here
         # to access the record, use `resource`
@@ -115,7 +126,7 @@ that it can be completely replaced, just need to bear in mind that `@collection`
 - To add functionality after the action but before rendering, it goes:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def show
         super do
           # do something here before rendering
@@ -124,7 +135,7 @@ that it can be completely replaced, just need to bear in mind that `@collection`
     end
     ```
 
-Basically, `show` action is simple as:
+Basically, `show` action is as simple as:
 
 ```ruby
 def show
@@ -141,7 +152,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality before the action, it is fine to either use `before_action` or:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def new
         # do something here
         # to access the record, use `resource`
@@ -156,7 +167,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality after the action but before rendering, it goes:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def new
         super do
           # do something here before rendering
@@ -165,7 +176,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
     end
     ```
 
-Basically, `new` action is simple as:
+Basically, `new` action is as simple as:
 
 ```ruby
 def new
@@ -182,7 +193,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality before the action, it is fine to either use `before_action` or:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def create
         # do something here before saving the record
         # to access the record, use `resource`
@@ -197,7 +208,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality after the action but before rendering, it goes:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def create
         super do
           # do something here before rendering
@@ -206,7 +217,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
     end
     ```
 
-Basically, `create` action is simple as:
+Basically, `create` action is as simple as:
 
 ```ruby
 def create
@@ -224,7 +235,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality before the action, it is fine to either use `before_action` or:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def edit
         # do something here
         # to access the record, use `resource`
@@ -239,7 +250,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality after the action but before rendering, it goes:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def edit
         super do
           # do something here before rendering
@@ -248,7 +259,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
     end
     ```
 
-Basically, `edit` action is simple as:
+Basically, `edit` action is as simple as:
 
 ```ruby
 def edit
@@ -265,7 +276,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality before the action, it is fine to either use `before_action` or:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def update
         # do something here before saving the record
         # to access the record, use `resource`
@@ -280,7 +291,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality after the action but before rendering, it goes:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def update
         super do
           # do something here before rendering
@@ -289,7 +300,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
     end
     ```
 
-Basically, `update` action is simple as:
+Basically, `update` action is as simple as:
 
 ```ruby
 def update
@@ -307,7 +318,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality before the action, it is fine to either use `before_action` or:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def destroy
         # do something here before saving the record
         # to access the record, use `resource`
@@ -322,7 +333,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
 - To add functionality after the action but before rendering, it goes:
 
     ```ruby
-    class ProductsController < Wallaby::ResourcesController
+    class ProductsController < Admin::ApplicationController
       def destroy
         super do
           # do something here before rendering
@@ -331,7 +342,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
     end
     ```
 
-Basically, `destroy` action is simple as:
+Basically, `destroy` action is as simple as:
 
 ```ruby
 def destroy
@@ -350,7 +361,7 @@ To customize the parameters to be whitelisted for create and update, just overri
 
 
 ```ruby
-class ProductsController < Wallaby::ResourcesController
+class ProductsController < Admin::ApplicationController
   def resource_params
     params.require(:product).permit(:name, :sku)
   end
