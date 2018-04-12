@@ -12,7 +12,7 @@ gemspec path: '../'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-gem 'rails', git: 'https://github.com/rails/rails', branch: '5-2-stable'
+gem 'rails', '~> 5.1.6'
 
 group :development, :test do
   gem 'better_errors'
@@ -22,13 +22,11 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'devise'
   gem 'ffaker'
-  gem 'haml_lint'
   gem 'i18n-tasks'
-  gem 'inch'
   gem 'massa'
   gem 'memory_profiler'
   gem 'mysql2', '~> 0.4.10'
-  gem 'pg', '~> 1.0.0'
+  gem 'pg', '~> 1'
   gem 'pry-rails'
   gem 'rails-controller-testing'
   gem 'rails_best_practices'

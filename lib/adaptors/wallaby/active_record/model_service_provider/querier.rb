@@ -72,7 +72,7 @@ module Wallaby
             Utils.find_filter_name(filter_name, @model_decorator.filters)
           scope = find_scope(valid_filter_name)
           if scope.blank? then unscoped
-          elsif scope.respond_to?(:call) then @model_class.instance_exec(&scope)
+          elsif scope.is_a?(Proc) then @model_class.instance_exec(&scope)
           elsif @model_class.respond_to?(scope)
             @model_class.public_send(scope)
           else unscoped

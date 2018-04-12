@@ -5,7 +5,7 @@ RSpec.shared_examples 'has attribute with default value' do |attr_name, default_
   end
 
   it 'returns default_value' do
-    result = default_value.respond_to?(:call) ? default_value.call : default_value
+    result = default_value.is_a?(Proc) ? default_value.call : default_value
     expect(subject.send(attr_name)).to eq result
   end
 end
