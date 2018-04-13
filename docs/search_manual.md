@@ -7,16 +7,16 @@ Wallaby offers very complicated colon search functionality for ActiveRecord (e.g
 - [Field Colon Search](#simple-field-colon-search)
   - [Use Quotes in Field Colon](#use-quotes-in-field-colon)
   - [Use Comma as Divider](#use-comma-as-divider)
-  - [Equal/Not Colons (`:`, `:=`, `:!`, `:!=`, `:<>`)](#equal-not-colons)
+  - [Equal/Not Colons (`:`, `:=`, `:!`, `:!=`, `:<>`)](#equalnot-colons)
   - [Match Colons](#match-colons)
-    - [Contain/Not (`:~`, `:!~`)](#contain-not)
-    - [Start-with/Not (`:^`, `:!^`)](#start-with-not)
-    - [End-with/Not (`:$`, `:!$`)](#end-with-not)
+    - [Contain/Not (`:~`, `:!~`)](#containnot)
+    - [Start-with/Not (`:^`, `:!^`)](#start-withnot)
+    - [End-with/Not (`:$`, `:!$`)](#end-withnot)
   - [Compare Colons](#compare-colons)
     - [Larger Than (`:>`, `:>=`)](#larger-than)
     - [Less Than (`:<`, `:<=`)](#less-than)
-  - [In/Not Colons (`:`, `:=`, `:!`, `:!=`, `:<>`)](#in-not-colons)
-  - [Between/Not Colons (`:()`, `:!()`)](#between-not-colons)
+  - [In/Not Colons (`:`, `:=`, `:!`, `:!=`, `:<>`)](#innot-colons)
+  - [Between/Not Colons (`:()`, `:!()`)](#betweennot-colons)
 
 ## Simple Keyword Search
 
