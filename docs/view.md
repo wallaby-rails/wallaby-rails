@@ -114,6 +114,8 @@ Here is a list of built-in database types that Wallaby could handle for index/sh
 - datetime
 - decimal
 - float
+  - metadata options for `form` partial:
+    - `:options`: used by [ActionView::Helpers::FormHelper#number_field](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-number_field)
 - hstore
   - metadata options for `index` partial:
     - `:max`: Truncates a given text after a given `max` if text is longer than `max`
