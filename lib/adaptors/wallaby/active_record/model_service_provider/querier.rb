@@ -27,12 +27,12 @@ module Wallaby
 
         private
 
-        # @see Wallaby::ActiveRecord::ModelServiceProvider::Parser
+        # @see Wallaby::Parser
         def parser
           @parser ||= Parser.new
         end
 
-        # @see Wallaby::ActiveRecord::ModelServiceProvider::Transformer
+        # @see Wallaby::ActiveRecord::ModelServiceProvider::Querier::Transformer
         def transformer
           @transformer ||= Transformer.new
         end

@@ -13,6 +13,15 @@ N/A
 
 # History:
 
+## 5.1.6
+
+1. [Chore] upgrade to robucop 0.53 standard (#88)
+2. [Feature] Configurable global base controller/decorator/paginator/servicer (#91)
+3. [Feature] Add 'step' to float field (partial view) (#89)
+4. [Chore] Update documentation (#93)
+5. [Feature] Be able to use default base class of controller/decorator/paginator/servicer (#95)
+6. [Feature] Add test helper for controller tests (#96)
+
 ## 5.1.5
 
 1. [Chore] Simplify 'resources/show/_image.html.erb' ([issue 80](#80))
@@ -53,7 +62,7 @@ N/A
 
 ## 5.1.0
 
-1. Feature: added support for Active Record Single Table Inheritance (STI) ([issue 27](#27)) and navigation for STI ([issue 30](#30))
+1. Feature: added support for ActiveRecord Single Table Inheritance (STI) ([issue 27](#27)) and navigation for STI ([issue 30](#30))
 2. Feature: added filters metadata for provide quick access for predefined query ([issue 34](#34))
 3. Feature: added responder to handle different request formats ([issue 35](#35))
 4. Feature: export function ([issue 37](#37))
