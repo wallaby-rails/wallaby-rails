@@ -1,5 +1,5 @@
 module Wallaby
-  # Active Record mode
+  # ActiveRecord mode
   class ActiveRecord < Mode
   end
 end

@@ -7,11 +7,11 @@
 
 Wallaby uses type partials to render the fields of a record. It utilizes and extends [Template Inheritance](http://guides.rubyonrails.org/layouts_and_rendering.html#using-render) so that Wallaby can search type partials.
 
-For a complicated example, if in a decorator, a field type is updated to `markdown`:
+Let's look at a complicated example, if in a decorator, a field type is updated to `markdown`:
 
 ```ruby
-#!app/decorators/product_decorator.rb
-class ProductDecorator < Wallaby::ResourceDecorator
+# app/decorators/product_decorator.rb
+class ProductDecorator < Admin::ApplicationDecorator
   self.index_fields[:description][:type] = 'markdown'
 end
 ```
@@ -19,14 +19,18 @@ end
 > NOTE: please do not use the following names as type:
 > `title`, `logo`, `header`, `footer`, `user_menu`, `navs`, `index_actions`, `resource_actions` and `resource_navs`, as they are used as the configurable partials in frontend (see [Partials](frontend.md#partials))
 
+> see [Decorator](decorator.md) for more information about base class `Admin::ApplicationDecorator`.
+
 Also, a Wallaby controller for `Product` is declared:
 
 ```ruby
-#!app/decorators/product_decorator.rb
-class Backend::GoodsController < Wallaby::ResourcesController
+# app/controllers/backend/goods_controller.rb
+class Backend::GoodsController < Admin::ApplicationsController
   def self.model_class; Product; end
 end
 ```
+
+> see [Controller](controller.md) for more information about base class `Admin::ApplicationController`.
 
 Then Wallaby will search type partials in the following precedence:
 
@@ -34,6 +38,8 @@ Then Wallaby will search type partials in the following precedence:
 - `app/views/$MOUNTED_PATH/$RESOURCES`
 - `app/views/$CONTROLLER_PATH/$ACTION_PREFIX`
 - `app/views/$CONTROLLER_PATH`
+- `app/views/$BASE_CONTROLLER_PATH/$ACTION_PREFIX`
+- `app/views/$BASE_CONTROLLER_PATH`
 - `app/views/wallaby/resources/$ACTION_PREFIX`
 - `app/views/wallaby/resources`
 
@@ -42,26 +48,30 @@ Given that:
 - Action prefix is `index`.
     > NOTE: action prefix can only be one of `index`, `show` and `form` (`form` is for action name `new/create/edit/update`)
 
-Then Wallaby will look up these paths:
+Then Wallaby will search type partial `markdown` in the following orders:
 
 - `app/views/admin/products/index/_markdown`
 - `app/views/admin/products/_markdown`
 - `app/views/backend/goods/index/_markdown`
 - `app/views/backend/goods/_markdown`
+- `app/views/admin/application/index/_markdown`
+- `app/views/admin/application/_markdown`
 - `app/views/wallaby/resources/index/_markdown`
 - `app/views/wallaby/resources/_markdown`
 
-Therefore, you could choose one of the above paths to create this type partial, let's say:
+Therefore, you could choose one of the above paths to create this type partial based on your need.
+
+If markdown is only needed for this product, you can create partial like:
 
 ```erb
-<% #!app/views/admin/products/index/_markdown.html.erb %>
+<% # app/views/admin/products/index/_markdown.html.erb %>
 <%= markdown.render value  %>
 ```
 
 If you want to share the partial among the whole app, it should be created as:
 
 ```erb
-<% #!app/views/wallaby/resources/index/_markdown.html.erb %>
+<% # app/views/admin/application/index/_markdown.html.erb %>
 <%= markdown.render value  %>
 ```
 
@@ -80,7 +90,7 @@ For `form` action prefix, there is one more local variable:
 
 ## Types
 
-Here is a list of database types that Wallaby could handle for index/show/form pages:
+Here is a list of built-in database types that Wallaby could handle for index/show/form pages:
 
 - bigint
 - bigserial
@@ -104,6 +114,8 @@ Here is a list of database types that Wallaby could handle for index/show/form p
 - datetime
 - decimal
 - float
+  - metadata options for `form` partial:
+    - `:options`: used by [ActionView::Helpers::FormHelper#number_field](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-number_field)
 - hstore
   - metadata options for `index` partial:
     - `:max`: Truncates a given text after a given `max` if text is longer than `max`
@@ -225,4 +237,4 @@ Apart from the above types, these are also supported:
 
 > NOTE: all the `form` partials above support metadata option `hint` to customize the hint message in `form` view (available from version `5.1.5`).
 
-To use the type partials, please read [Decorator](decorator.md)
+To use the type partials, please have a read at [Decorator](decorator.md)

@@ -25,14 +25,14 @@ module Wallaby
     # Extend label to accept proc type `text` argument
     # @see ActionView::Helpers::FormBuilder#label
     def label(method, text = nil, options = {}, &block)
-      text = instance_exec(&text) if text.respond_to? :call
+      text = instance_exec(&text) if text.is_a?(Proc)
       super
     end
 
     # Extend select to accept proc type `choices` argument
     # @see ActionView::Helpers::FormBuilder#select
     def select(method, choices = nil, options = {}, html_options = {}, &block)
-      choices = instance_exec(&choices) if choices.respond_to? :call
+      choices = instance_exec(&choices) if choices.is_a?(Proc)
       super
     end
 

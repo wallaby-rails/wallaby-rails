@@ -1,6 +1,6 @@
 module Wallaby
   class ActiveRecord
-    # Modal decorator for Active Record
+    # Modal decorator for ActiveRecord
     class ModelDecorator < ::Wallaby::ModelDecorator
       # Data types to exclude for index page
       INDEX_EXCLUSIVE_DATA_TYPES =
@@ -30,7 +30,7 @@ module Wallaby
       #     }
       def fields
         @fields ||= ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
-          # NOTE: There is a chance that people create Active Record class
+          # NOTE: There is a chance that people create ActiveRecord class
           # before they do the migration, so initialising the fields will raise
           # all kinds of error. Therefore, we need to check the table existence
           if @model_class.table_exists?

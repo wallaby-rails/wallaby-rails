@@ -1,3 +1,3 @@
 module Wallaby
-  VERSION = '5.1.5'.freeze
+  VERSION = '5.1.6'.freeze
 end

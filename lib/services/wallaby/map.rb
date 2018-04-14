@@ -31,7 +31,7 @@ module Wallaby
         @model_decorator_map ||= {}
         @model_decorator_map[model_class] ||= begin
           mode = mode_map[model_class]
-          mode.model_decorator.new model_class if mode
+          mode.model_decorator.new model_class if mode # rubocop:disable Style/SafeNavigation, Metrics/LineLength
         end
       end
 
@@ -65,7 +65,7 @@ module Wallaby
         @service_provider_map ||= {}
         @service_provider_map[model_class] ||= begin
           mode = mode_map[model_class]
-          mode.model_service_provider.new model_class if mode
+          mode.model_service_provider.new model_class if mode # rubocop:disable Style/SafeNavigation, Metrics/LineLength
         end
       end
 
