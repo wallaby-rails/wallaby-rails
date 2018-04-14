@@ -25,4 +25,6 @@ module Wallaby
   TITLE_NAMES = %w(name title string text).freeze
 end
 
-require 'wallaby/engine'
+require 'wallaby/base'
+require 'wallaby/base/active_record'
+require 'wallaby/base/her'
