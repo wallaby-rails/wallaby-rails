@@ -16,15 +16,13 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
     end
 
     describe '#collection' do
-      unless Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR == 2
-        it 'returns the collection' do
-          condition = { boolean: true }
-          record = model_class.create!(condition)
-          false_authorizer = Ability.new nil
-          false_authorizer.cannot :manage, model_class, condition
-          expect(subject.collection(parameters, authorizer)).to include record
-          expect(subject.collection(parameters, false_authorizer)).not_to include record
-        end
+      it 'returns the collection' do
+        condition = { boolean: true }
+        record = model_class.create!(condition)
+        false_authorizer = Ability.new nil
+        false_authorizer.cannot :manage, model_class, condition
+        expect(subject.collection(parameters, authorizer)).to include record
+        expect(subject.collection(parameters, false_authorizer)).not_to include record
       end
 
       it 'orders the collection' do
@@ -43,10 +41,12 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
       it 'returns a resource' do
         resource = subject.new parameters, authorizer
         expect(resource).to be_a model_class
+        expect(resource).to be_new_record
         expect(resource.attributes.values.compact).to be_blank
 
         resource = subject.new parameters!(string: 'some string'), authorizer
         expect(resource).to be_a model_class
+        expect(resource).to be_new_record
         expect(resource.attributes.values.compact).not_to be_blank
         expect(resource.string).to eq 'some string'
       end
@@ -97,7 +97,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
       end
 
       context 'when params are not valid' do
-        it 'returns the resource and is_raiseed' do
+        it 'returns the resource and its errors' do
           resource = subject.new parameters!(daterange: ['', '2016-12-13']), authorizer
           resource = subject.create resource, parameters(all_postgres_type: { daterange: ['', '2016-12-13'] }), authorizer
           expect(resource).to be_a model_class
@@ -107,7 +107,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
       end
 
       context 'when database throws error' do
-        it 'returns the resource and is_raiseed' do
+        it 'returns the resource and its errors' do
           resource = subject.new parameters!(string: 'some string'), authorizer
           expect(resource).to receive(:save) { raise ActiveRecord::StatementInvalid, 'StatementInvalid' }
           resource = subject.create resource, parameters(all_postgres_type: { string: 'string' }), authorizer
@@ -130,7 +130,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
       end
 
       context 'when database throws error' do
-        it 'returns the resource and is_raiseed' do
+        it 'returns the resource and its errors' do
           existing.string = 'string'
           expect(existing).to receive(:save) { raise ActiveRecord::StatementInvalid, 'StatementInvalid' }
           resource = subject.update existing, parameters(all_postgres_type: { string: 'string' }), authorizer

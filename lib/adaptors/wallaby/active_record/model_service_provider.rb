@@ -35,6 +35,7 @@ module Wallaby
       end
 
       # @see Wallaby::ModelServiceProvider#new
+      # @param permitted_params [ActionController::Parameters]
       def new(permitted_params, _authorizer)
         @model_class.new normalize permitted_params
       rescue ::ActiveModel::UnknownAttributeError
@@ -42,6 +43,8 @@ module Wallaby
       end
 
       # @see Wallaby::ModelServiceProvider#find
+      # @param id [Integer, String]
+      # @param permitted_params [ActionController::Parameters]
       def find(id, permitted_params, _authorizer)
         resource = @model_class.find id
         resource.assign_attributes normalize permitted_params
@@ -53,16 +56,22 @@ module Wallaby
       end
 
       # @see Wallaby::ModelServiceProvider#create
+      # @param resource_with_new_value [Object]
+      # @param params [ActionController::Parameters]
       def create(resource_with_new_value, params, authorizer)
         save __callee__, resource_with_new_value, params, authorizer
       end
 
       # @see Wallaby::ModelServiceProvider#update
+      # @param resource_with_new_value [Object]
+      # @param params [ActionController::Parameters]
       def update(resource_with_new_value, params, authorizer)
         save __callee__, resource_with_new_value, params, authorizer
       end
 
       # @see Wallaby::ModelServiceProvider#destroy
+      # @param resource [Object]
+      # @param _params [ActionController::Parameters]
       def destroy(resource, _params, _authorizer)
         resource.destroy
       end

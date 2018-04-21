@@ -109,19 +109,19 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w(id bigint bigserial bit bit_varying boolean box cidr circle color date daterange datetime decimal email float inet int4range int8range integer line lseg ltree macaddr money numrange password path point polygon serial string time tsrange tstzrange uuid)
+        expect(subject.index_field_names).to match_array %w(id bigint bigserial bit bit_varying boolean box cidr circle color date daterange datetime decimal email float inet int4range int8range integer line lseg ltree macaddr money numrange password path point polygon serial string time tsrange tstzrange uuid)
       end
     end
 
     describe '#show_field_names' do
       it 'includes all field names' do
-        expect(subject.show_field_names).to eq %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        expect(subject.show_field_names).to match_array %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        expect(subject.form_field_names).to match_array %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
         expect(subject.form_field_names).not_to include 'id'
         expect(subject.form_field_names).not_to include 'created_at'
         expect(subject.form_field_names).not_to include 'updated_at'
@@ -167,19 +167,19 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w(id sku name stock price featured available_to_date available_to_time published_at)
+        expect(subject.index_field_names).to match_array %w(id sku name stock price featured available_to_date available_to_time published_at)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w(sku name description stock price featured available_to_date available_to_time published_at product_detail order_items category tags)
+        expect(subject.form_field_names).to match_array %w(sku name description stock price featured available_to_date available_to_time published_at product_detail order_items category tags)
       end
     end
 
     describe '#foreign_keys_from_associations' do
       it 'returns foreign keys for associations' do
-        expect(subject.send(:foreign_keys_from_associations)).to eq %w(product_detail_id picture_id order_item_ids order_ids category_id tag_ids)
+        expect(subject.send(:foreign_keys_from_associations)).to match_array %w(product_detail_id picture_id order_item_ids order_ids category_id tag_ids)
       end
     end
   end
@@ -213,19 +213,19 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w(id name created_at updated_at)
+        expect(subject.index_field_names).to match_array %w(id name created_at updated_at)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w(name file imageable)
+        expect(subject.form_field_names).to match_array %w(name file imageable)
       end
     end
 
     describe '#foreign_keys_from_associations' do
       it 'returns ploymorphic foreign keys for associations' do
-        expect(subject.send(:foreign_keys_from_associations)).to eq %w(imageable_id imageable_type)
+        expect(subject.send(:foreign_keys_from_associations)).to match_array %w(imageable_id imageable_type)
       end
     end
   end

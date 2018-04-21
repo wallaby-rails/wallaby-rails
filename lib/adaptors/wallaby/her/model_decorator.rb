@@ -2,6 +2,9 @@ module Wallaby
   class Her
     # Modal decorator for Her
     class ModelDecorator < ::Wallaby::ModelDecorator
+      # Generally, in Her, attribute methods are generated with this suffix
+      ATTRIBUTE_SUFFIX = '_previous_change'.freeze
+
       # Origin metadata directly coming from Her.
       # It needs to be frozen so that we can keep the metadata integrity
       # @return [Hash] metadata
@@ -53,13 +56,15 @@ module Wallaby
       def form_field_names
         @form_field_names ||=
           Utils
-          .clone(index_field_names)
-          .delete_if { |field_name| field_name == primary_key.to_s }
+            .clone(index_field_names)
+            .delete_if { |field_name| field_name == primary_key.to_s }
       end
 
-      # @return [ActiveModel::Errors] errors for resource
+      # @return [ActiveModel::Errors, Hash] errors for resource
+      # @see Her::Model::Attributes.store_her_data
       def form_active_errors(resource)
-        resource.errors || resource.response_errors
+        resource.errors.presence \
+          || resource.instance_variable_get(:@response_errors)
       end
 
       # @return [String] primary key for the resource
@@ -81,6 +86,7 @@ module Wallaby
 
       protected
 
+      # @return [Hash] a hash containing metadata for general fields
       def general_fields
         @general_fields ||= begin
           her_attributes.each_with_object({}) do |attribute, fields|
@@ -92,6 +98,7 @@ module Wallaby
         end
       end
 
+      # @return [Hash] a hash containing metadata for association fields
       def association_fields
         @association_fields ||=
           @model_class.associations.each_with_object({}) do |(type, arr), hash|
@@ -105,6 +112,8 @@ module Wallaby
           end
       end
 
+      # @return [String] a field name that can be used as title
+      #   Will fall back to `primary_key` if none is found.
       def possible_title_field
         @possible_title_field ||= begin
           target_field = general_fields.keys.find do |field_name|
@@ -114,11 +123,15 @@ module Wallaby
         end
       end
 
+      # @see Her::Model::Attributes.attributes
+      # `Her::Model::Attributes.attributes` will produce seven methods for an
+      # attribute to track dirty data like ActiveModel
+      # @return [Array<String>] a list of fields captured from instance methods
       def her_attributes
         instance_methods = @model_class.instance_methods
         possible_attributes =
-          instance_methods.grep(/_previous_change$/).map do |method_id|
-            method_id.to_s[0...-16]
+          instance_methods.grep(/#{ATTRIBUTE_SUFFIX}$/).map do |method_id|
+            method_id.to_s[0...-ATTRIBUTE_SUFFIX.length]
           end
         attributes = possible_attributes.select do |attribute|
           instance_methods.grep(/^#{attribute}\=?$/).length == 2 \

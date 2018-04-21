@@ -2,7 +2,6 @@
 # so that the main app could pick up the assets from these engines
 # even if they don't appear in the `Gemfile`
 require 'cancancan'
-require 'kaminari'
 require 'parslet'
 require 'responders'
 require 'jbuilder'
@@ -20,7 +19,6 @@ require 'summernote-rails'
 require 'twitter-typeahead-rails'
 
 require 'csv'
-require 'securerandom'
 
 require 'wallaby/engine'
 require 'wallaby/configuration'
@@ -31,10 +29,12 @@ require 'wallaby/configuration/metadata'
 require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/features'
 
-require 'utils/wallaby/utils'
-require 'utils/wallaby/test_utils'
 require 'routes/wallaby/resources_router'
 require 'tree/wallaby/node'
+require 'parsers/wallaby/parser'
+
+require 'utils/wallaby/utils'
+require 'utils/wallaby/test_utils'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator/field_helpers'
@@ -51,8 +51,6 @@ require 'errors/wallaby/not_authenticated'
 require 'errors/wallaby/not_implemented'
 require 'errors/wallaby/resource_not_found'
 require 'errors/wallaby/unprocessable_entity'
-
-require 'parsers/wallaby/parser'
 
 require 'paginators/wallaby/abstract_resource_paginator'
 require 'paginators/wallaby/resource_paginator'
