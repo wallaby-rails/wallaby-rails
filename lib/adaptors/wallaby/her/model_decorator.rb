@@ -55,9 +55,8 @@ module Wallaby
       # @return [Array<String>] a list of field names for form (new/edit) page
       def form_field_names
         @form_field_names ||=
-          Utils
-            .clone(index_field_names)
-            .delete_if { |field_name| field_name == primary_key.to_s }
+          Utils.clone(index_field_names)
+               .delete_if { |field_name| field_name == primary_key.to_s }
       end
 
       # @return [ActiveModel::Errors, Hash] errors for resource

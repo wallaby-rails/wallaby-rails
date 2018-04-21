@@ -15,6 +15,7 @@ gemspec path: '../'
 gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 
 gem 'devise'
+gem 'her'
 gem 'mysql2'
 gem 'pg'
 gem 'sqlite3'

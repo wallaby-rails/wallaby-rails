@@ -61,7 +61,7 @@ describe Wallaby::Her::ModelServiceProvider do
 
     describe '#create' do
       it 'returns the resource' do
-        stub_request(:post, /products/).with(body: { 'name' => 'string1' }).to_return(status: 200, body: {id: 'id1'}.to_json)
+        stub_request(:post, /products/).with(body: { 'name' => 'string1' }).to_return(status: 200, body: { id: 'id1' }.to_json)
         resource = model_class.new name: 'string1'
         resource = subject.create resource, parameters!(her_product: { name: 'string2' }), authorizer
         expect(resource).to be_a model_class
@@ -94,7 +94,7 @@ describe Wallaby::Her::ModelServiceProvider do
 
     describe '#update' do
       it 'returns the resource' do
-        stub_request(:put, /products/).with(body: { "id"=>"id1", 'name' => 'string1' }).to_return(status: 200, body: {id: 'id1'}.to_json)
+        stub_request(:put, /products/).with(body: { 'id' => 'id1', 'name' => 'string1' }).to_return(status: 200, body: { id: 'id1' }.to_json)
         resource = model_class.new id: 'id1', name: 'string1'
         resource = subject.update resource, parameters(her_product: { name: 'string2' }), authorizer
         expect(resource).to be_a model_class
@@ -104,7 +104,7 @@ describe Wallaby::Her::ModelServiceProvider do
 
       context 'when server returns error' do
         it 'returns the resource and its errors' do
-          stub_request(:put, /products/).with(body: { "id"=>"id1", 'name' => 'string1' }).to_return(status: 400, body: { errors: { name: 'invalid name' } }.to_json)
+          stub_request(:put, /products/).with(body: { 'id' => 'id1', 'name' => 'string1' }).to_return(status: 400, body: { errors: { name: 'invalid name' } }.to_json)
           resource = model_class.new id: 'id1', name: 'string1'
           resource = subject.update resource, parameters(her_product: { name: 'string2' }), authorizer
           expect(resource).to be_a model_class

@@ -8,12 +8,12 @@ describe Wallaby::Her::ModelDecorator do
     it 'returns a hash of all keys' do
       expect(subject.fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
       expect(subject.fields).to eq(
-        'id'=>{'type'=>'string', 'label'=>'Id'},
-        'sku'=>{'type'=>'string', 'label'=>'Sku'},
-        'name'=>{'type'=>'string', 'label'=>'Name'},
-        'picture'=>{'type'=>'has_one', 'label'=>'Picture', 'is_association'=>true, 'sort_disabled'=>true},
-        'category'=>{'type'=>'belongs_to', 'label'=>'Category', 'is_association'=>true, 'sort_disabled'=>true},
-        'orders'=>{'type'=>'has_many', 'label'=>'Orders', 'is_association'=>true, 'sort_disabled'=>true}
+        'id' => { 'type' => 'string', 'label' => 'Id' },
+        'sku' => { 'type' => 'string', 'label' => 'Sku' },
+        'name' => { 'type' => 'string', 'label' => 'Name' },
+        'picture' => { 'type' => 'has_one', 'label' => 'Picture', 'is_association' => true, 'sort_disabled' => true },
+        'category' => { 'type' => 'belongs_to', 'label' => 'Category', 'is_association' => true, 'sort_disabled' => true },
+        'orders' => { 'type' => 'has_many', 'label' => 'Orders', 'is_association' => true, 'sort_disabled' => true }
       )
       expect(subject.fields).to be_frozen
     end

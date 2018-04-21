@@ -1,3 +1,4 @@
+require 'her'
 require 'adaptors/wallaby/her'
 require 'adaptors/wallaby/her/model_decorator'
 require 'adaptors/wallaby/her/model_finder'

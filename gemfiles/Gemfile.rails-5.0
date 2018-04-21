@@ -15,6 +15,7 @@ gemspec path: '../'
 gem 'rails', '~> 5.0.7'
 
 gem 'devise'
+gem 'her'
 gem 'mysql2'
 gem 'pg'
 gem 'sqlite3'
