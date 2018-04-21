@@ -7,6 +7,5 @@ spec/dummy/.sass-cache
 .byebug_history
 *.log
 .DS_Store
-spec/dummy/config/*
 cc-test-reporter
 coverage/
