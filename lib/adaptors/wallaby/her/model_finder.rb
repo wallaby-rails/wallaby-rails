@@ -7,9 +7,8 @@ module Wallaby
       def all
         ObjectSpace
           .each_object(Class)
-          .each_with_object([]) do |klass, result|
-            next if Utils.anonymous_class?(klass)
-            result << klass if klass < ::Her::Model
+          .select do |klass|
+            klass < ::Her::Model && !Utils.anonymous_class?(klass)
           end
       end
     end
