@@ -13,8 +13,8 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'her'
-gem 'rails', '~> 5.1.4'
+gem 'her', git: 'https://github.com/remiprev/her.git', branch: 'master'
+gem 'rails', git: 'https://github.com/rails/rails', branch: '5-2-stable'
 
 group :development, :test do
   gem 'binding_of_caller'
