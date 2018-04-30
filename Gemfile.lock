@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails
-  revision: 78de0cc9143d8c7d33456b418a1305b4f5287fa1
+  revision: c293e41f834daad14a3dd19fb42b857af445da4a
   branch: 5-2-stable
   specs:
     actioncable (5.2.0)
@@ -66,12 +66,11 @@ GIT
 
 GIT
   remote: https://github.com/remiprev/her.git
-  revision: a3cb35ae032c32565efad32b39bff4d183a2a24b
+  revision: 6fe0c6e3ac9934814c453cfb5623fa17fcab02a5
   branch: master
   specs:
-    her (0.10.0)
-      activemodel (>= 3.0.0, <= 6.0.0)
-      activesupport (>= 3.0.0, <= 6.0.0)
+    her (1.0.0)
+      activemodel (>= 4.2.1)
       faraday (>= 0.8, < 1.0)
       multi_json (~> 1.7)
 
@@ -102,7 +101,7 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
-    autoprefixer-rails (8.3.0)
+    autoprefixer-rails (8.4.1)
       execjs
     bcrypt (3.1.11)
     better_errors (2.4.0)
@@ -280,7 +279,7 @@ GEM
       thread_safe (~> 0.1)
     warden (1.2.7)
       rack (>= 1.0)
-    webmock (3.3.0)
+    webmock (3.4.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
