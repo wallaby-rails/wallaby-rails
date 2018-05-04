@@ -85,6 +85,7 @@ require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
 
 require 'concerns/wallaby/resources_helper_methods'
+require 'concerns/wallaby/rails_overriden_methods'
 
 require 'responders/wallaby/abstract_responder'
 require 'responders/wallaby/resources_responder'
