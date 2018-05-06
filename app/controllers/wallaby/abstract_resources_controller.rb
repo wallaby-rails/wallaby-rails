@@ -1,8 +1,9 @@
 module Wallaby
   # Generic CRUD controller
   class AbstractResourcesController < ::Wallaby::BaseController
-    include ResourcesHelperMethods
+    include ClassAttributesAndMethods
     include RailsOverridenMethods
+    include ResourcesHelperMethods
     self.responder = ResourcesResponder
     respond_to :html
     respond_to :json
@@ -10,20 +11,6 @@ module Wallaby
     helper ResourcesHelper
     helper_method :resource_id, :resource, :collection,
                   :current_model_decorator, :authorizer
-
-    class << self
-      # @return [String] resources name for controller
-      def resources_name
-        return unless self < configuration.mapping.resources_controller
-        Map.resources_name_map name.gsub('Controller', EMPTY_STRING)
-      end
-
-      # @return [Class] model class for controller
-      def model_class
-        return unless self < configuration.mapping.resources_controller
-        Map.model_class_map resources_name
-      end
-    end
 
     # Home page
     #
