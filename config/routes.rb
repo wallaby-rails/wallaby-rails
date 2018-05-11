@@ -1,15 +1,17 @@
 Wallaby::Engine.routes.draw do
-  root to: 'wallaby/resources#home'
+  admin_controller_path =
+    Wallaby.configuration.mapping.resources_controller.controller_path
+  root to: "#{admin_controller_path}#home"
 
   # NOTE: For health check if needed
   # @see Wallaby::BaseController#healthy
-  get 'status', to: 'wallaby/resources#healthy'
+  get 'status', to: "#{admin_controller_path}#healthy"
 
   # To generate error pages for all HTTP status
   Wallaby::ERRORS.each do |status|
     code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
-    get status, to: "wallaby/resources##{status}"
-    get code.to_s, to: "wallaby/resources##{status}"
+    get status, to: "#{admin_controller_path}##{status}"
+    get code.to_s, to: "#{admin_controller_path}##{status}"
   end
 
   # This is to pass :resources and :action params onto
