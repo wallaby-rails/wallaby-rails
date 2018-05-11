@@ -82,7 +82,6 @@ describe 'routing' do
       get "#{script_name}/#{resources}/history"
     end
 
-
     it 'routes to global controller if configured' do
       stub_const 'GlobalController', (Class.new Wallaby::ResourcesController)
       controller = Wallaby.configuration.mapping.resources_controller = GlobalController
