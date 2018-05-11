@@ -3,9 +3,22 @@ require 'rails_helper'
 describe 'routing' do
   describe 'general routes', type: :routing do
     routes { Wallaby::Engine.routes }
+    after do
+      Wallaby.configuration.clear
+      Rails.application.reload_routes!
+    end
+
     it 'routes for general routes' do
       expect(get: '/').to route_to controller: 'wallaby/resources', action: 'home'
       expect(get: '/status').to route_to controller: 'wallaby/resources', action: 'healthy'
+    end
+
+    it 'routes for general routes if configured' do
+      stub_const 'GlobalController', (Class.new Wallaby::ResourcesController)
+      Wallaby.configuration.mapping.resources_controller = GlobalController
+      Rails.application.reload_routes!
+      expect(get: '/').to route_to controller: 'global', action: 'home'
+      expect(get: '/status').to route_to controller: 'global', action: 'healthy'
     end
 
     it 'routes for errors routes as well' do
@@ -13,6 +26,17 @@ describe 'routing' do
         code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
         expect(get: code.to_s).to route_to action: status.to_s, controller: 'wallaby/resources'
         expect(get: status.to_s).to route_to action: status.to_s, controller: 'wallaby/resources'
+      end
+    end
+
+    it 'routes for errors routes as well if configured' do
+      stub_const 'GlobalController', (Class.new Wallaby::ResourcesController)
+      Wallaby.configuration.mapping.resources_controller = GlobalController
+      Rails.application.reload_routes!
+      Wallaby::ERRORS.each do |status|
+        code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+        expect(get: code.to_s).to route_to action: status.to_s, controller: 'global'
+        expect(get: status.to_s).to route_to action: status.to_s, controller: 'global'
       end
     end
   end
@@ -24,6 +48,46 @@ describe 'routing' do
     it 'routes to the general resourceful routes' do
       controller  = Wallaby::ResourcesController
       resources   = 'products'
+
+      expect(controller).to receive(:action).with('index') { mocked_response }
+      get "#{script_name}/#{resources}"
+
+      expect(controller).to receive(:action).with('create') { mocked_response }
+      post "#{script_name}/#{resources}"
+
+      expect(controller).to receive(:action).with('new') { mocked_response }
+      get "#{script_name}/#{resources}/new"
+
+      expect(controller).to receive(:action).with('edit') { mocked_response }
+      get "#{script_name}/#{resources}/1/edit"
+
+      expect(controller).to receive(:action).with('show') { mocked_response }
+      get "#{script_name}/#{resources}/1"
+
+      expect(controller).to receive(:action).with('show') { mocked_response }
+      get "#{script_name}/#{resources}/1-d"
+
+      expect(controller).to receive(:action).with('update') { mocked_response }
+      put "#{script_name}/#{resources}/1"
+
+      expect(controller).to receive(:action).with('update') { mocked_response }
+      patch "#{script_name}/#{resources}/1"
+
+      expect(controller).to receive(:action).with('destroy') { mocked_response }
+      delete "#{script_name}/#{resources}/1"
+
+      expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+
+      expect(controller).to receive(:action).with('show') { mocked_response }
+      get "#{script_name}/#{resources}/history"
+    end
+
+
+    it 'routes to global controller if configured' do
+      stub_const 'GlobalController', (Class.new Wallaby::ResourcesController)
+      controller = Wallaby.configuration.mapping.resources_controller = GlobalController
+      resources  = 'products'
+      Rails.application.reload_routes!
 
       expect(controller).to receive(:action).with('index') { mocked_response }
       get "#{script_name}/#{resources}"

@@ -49,9 +49,9 @@ describe Wallaby::Configuration do
 
   describe '#clear' do
     it 'clears all the instance variables' do
-      all_vars = %i(@base_controller @models @security @mapping @pagination @metadata @features)
+      all_vars = %i(@base_controller @features @mapping @metadata @models @pagination @security)
       subject.clear
-      expect(subject.instance_variables).to eq all_vars
+      expect(subject.instance_variables.sort).to eq all_vars
       subject.instance_variables.each do |var|
         expect(subject.instance_variable_get(var)).to be_nil
       end
