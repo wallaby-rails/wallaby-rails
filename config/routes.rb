@@ -7,17 +7,15 @@ Wallaby::Engine.routes.draw do
   # @see Wallaby::BaseController#healthy
   get 'status', to: "#{admin_controller_path}#healthy"
 
-  # To generate error pages for all HTTP status
+  # To generate error pages for all supported HTTP status
   Wallaby::ERRORS.each do |status|
     code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
     get status, to: "#{admin_controller_path}##{status}"
     get code.to_s, to: "#{admin_controller_path}##{status}"
   end
 
-  # This is to pass :resources and :action params onto
-  # `Wallaby::ResourcesRouter`.
-  # So that it could handle the request dispatching.
-  # Currently, it has implemented general CRUD resourceful routes
+  # To generate general CRUD resourceful routes
+  # @see Wallaby::ResourcesRouter
   scope path: ':resources' do
     with_options to: Wallaby::ResourcesRouter.new do |route|
       # @see Wallaby::AbstractResourcesController#index

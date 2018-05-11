@@ -13,7 +13,7 @@ describe 'routing' do
       expect(get: '/status').to route_to controller: 'wallaby/resources', action: 'healthy'
     end
 
-    it 'routes for general routes if configured' do
+    it 'routes for general routes to global controller if configured' do
       stub_const 'GlobalController', (Class.new Wallaby::ResourcesController)
       Wallaby.configuration.mapping.resources_controller = GlobalController
       Rails.application.reload_routes!
@@ -21,7 +21,7 @@ describe 'routing' do
       expect(get: '/status').to route_to controller: 'global', action: 'healthy'
     end
 
-    it 'routes for errors routes as well' do
+    it 'routes for errors routes' do
       Wallaby::ERRORS.each do |status|
         code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
         expect(get: code.to_s).to route_to action: status.to_s, controller: 'wallaby/resources'
@@ -29,7 +29,7 @@ describe 'routing' do
       end
     end
 
-    it 'routes for errors routes as well if configured' do
+    it 'routes for errors routes to global controller if configured' do
       stub_const 'GlobalController', (Class.new Wallaby::ResourcesController)
       Wallaby.configuration.mapping.resources_controller = GlobalController
       Rails.application.reload_routes!
@@ -45,7 +45,7 @@ describe 'routing' do
     let(:mocked_response) { double 'Response', call: [200, {}, ['Coming soon']] }
     let(:script_name) { '/admin' }
 
-    it 'routes to the general resourceful routes' do
+    it 'routes for resourceful routes' do
       controller  = Wallaby::ResourcesController
       resources   = 'products'
 
@@ -123,7 +123,7 @@ describe 'routing' do
     end
 
     context 'when target resources controller exists' do
-      it 'routes to its resourceful routes' do
+      it 'routes to this controller' do
         class Alien; end
         class AliensController < Wallaby::ResourcesController; def history; end; end
 
@@ -176,12 +176,10 @@ describe 'routing' do
 
   describe 'resource route helper', type: :request do
     it 'has the following helpers' do
-      helpers = %w(resources new_resource edit_resource resource).map do |route_name|
-        "#{route_name}_path"
-      end
-      helpers.each do |path|
-        expect(wallaby_engine).to respond_to path
-      end
+      expect(wallaby_engine.resources_path('products')).to eq '/admin/products'
+      expect(wallaby_engine.new_resource_path('products')).to eq '/admin/products/new'
+      expect(wallaby_engine.resource_path('products', 1)).to eq '/admin/products/1'
+      expect(wallaby_engine.edit_resource_path('products', 1)).to eq '/admin/products/1/edit'
     end
   end
 end
