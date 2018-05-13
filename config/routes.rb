@@ -1,7 +1,7 @@
 Wallaby::Engine.routes.draw do
   # NOTE: For health check if needed
   # @see Wallaby::BaseController#healthy
-  get 'status', to: 'wallaby/application#healthy', as: :status
+  get 'status', to: 'wallaby/application#healthy'
 
   with_options to: Wallaby::ResourcesRouter.new do |route|
     route.root defaults: { action: 'home' }
