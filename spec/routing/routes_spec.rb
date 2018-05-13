@@ -223,10 +223,12 @@ describe 'routing' do
       expect(wallaby_engine.resource_path('products', 1)).to eq '/admin/products/1'
       expect(wallaby_engine.edit_resource_path('products', 1)).to eq '/admin/products/1/edit'
 
-      expect(manager_engine.resources_path('products')).to eq '/admin_else/products'
-      expect(manager_engine.new_resource_path('products')).to eq '/admin_else/products/new'
-      expect(manager_engine.resource_path('products', 1)).to eq '/admin_else/products/1'
-      expect(manager_engine.edit_resource_path('products', 1)).to eq '/admin_else/products/1/edit'
+      if Rails::VERSION::MAJOR == 5 && Rails::VERSION::MINOR > 0
+        expect(manager_engine.resources_path('products')).to eq '/admin_else/products'
+        expect(manager_engine.new_resource_path('products')).to eq '/admin_else/products/new'
+        expect(manager_engine.resource_path('products', 1)).to eq '/admin_else/products/1'
+        expect(manager_engine.edit_resource_path('products', 1)).to eq '/admin_else/products/1/edit'
+      end
     end
   end
 end
