@@ -19,3 +19,5 @@ require "#{service_provider}/permitter"
 require "#{service_provider}/querier"
 require "#{service_provider}/querier/transformer"
 require "#{service_provider}/validator"
+
+require 'adaptors/wallaby/active_record/cancancan_provider'

@@ -88,6 +88,16 @@ module Wallaby
           mode_map[model_class].try(:model_pagination_provider)
       end
 
+      # { model => authorizer }
+      # @param model_class [Class]
+      # @return [Hash] { model => authorizer }
+      def authorizer_map(model_class)
+        @authorizer_map ||= ModelClassMapper.new(mapping.model_authorizer).map
+        @authorizer_map[model_class] ||= begin
+          mapping.model_authorizer if mode_map[model_class]
+        end
+      end
+
       # { model => resources name }
       # @param model_class [Class]
       # @return [String] resources name

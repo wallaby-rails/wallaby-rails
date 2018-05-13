@@ -52,12 +52,14 @@ require 'errors/wallaby/not_implemented'
 require 'errors/wallaby/resource_not_found'
 require 'errors/wallaby/unprocessable_entity'
 
-require 'paginators/wallaby/abstract_resource_paginator'
-require 'paginators/wallaby/resource_paginator'
 require 'decorators/wallaby/abstract_resource_decorator'
 require 'decorators/wallaby/resource_decorator'
 require 'servicers/wallaby/abstract_model_servicer'
 require 'servicers/wallaby/model_servicer'
+require 'paginators/wallaby/abstract_resource_paginator'
+require 'paginators/wallaby/resource_paginator'
+require 'authorizers/wallaby/abstract_model_authorizer'
+require 'authorizers/wallaby/model_authorizer'
 
 require 'forms/wallaby/form_builder'
 

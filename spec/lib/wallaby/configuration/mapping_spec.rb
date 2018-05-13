@@ -80,4 +80,24 @@ describe Wallaby::Configuration::Mapping do
         :model_servicer, -> { Admin::ApplicationServicer }
     end
   end
+
+  it_behaves_like \
+    'has attribute with default value',
+    :model_authorizer, Wallaby::ModelAuthorizer
+
+  context 'when admin application authorizer exists' do
+    context 'it doesnt inherit form model authorizer' do
+      before { stub_const('Admin::ApplicationAuthorizer', Class.new) }
+      it_behaves_like \
+        'has attribute with default value',
+        :model_authorizer, Wallaby::ModelAuthorizer
+    end
+
+    context 'it inherits form model authorizer' do
+      before { stub_const('Admin::ApplicationAuthorizer', Class.new(Wallaby::ModelAuthorizer)) }
+      it_behaves_like \
+        'has attribute with default value',
+        :model_authorizer, -> { Admin::ApplicationAuthorizer }
+    end
+  end
 end

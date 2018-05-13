@@ -260,7 +260,7 @@ module Wallaby
     # @see Wallaby::ModelServicer#permit
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
-      @resource_params ||= current_model_service.permit params
+      @resource_params ||= current_model_service.permit params, action_name
     end
 
     protected

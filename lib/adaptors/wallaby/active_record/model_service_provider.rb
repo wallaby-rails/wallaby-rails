@@ -4,10 +4,12 @@ module Wallaby
     # @see Wallaby::ModelServiceProvider
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
       # @see Wallaby::ModelServiceProvider#permit
+      # @param action [String, Symbol]
       # @param params [ActionController::Parameters]
       # @return [ActionController::Parameters] whitelisted parameters
-      def permit(params)
-        params.require(param_key).permit permitted_fields
+      def permit(params, action = nil)
+        authorized_fields = authorizer.permit_params action, @model_class
+        params.require(param_key).permit(authorized_fields || permitted_fields)
       end
 
       # NOTE: pagination free here.
@@ -19,7 +21,7 @@ module Wallaby
       def collection(params, authorizer)
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?
-        query.accessible_by authorizer
+        authorizer.accessible_by :index, query
       end
 
       # Paginate
