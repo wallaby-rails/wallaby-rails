@@ -10,7 +10,7 @@ describe 'routing' do
     # NOTE: this is to test the request being dispatched to the correct controler and action
     # it does not test the actual action, see integration test for more
     def mock_response_with(body)
-      -> (env) { [200, {}, [body]] }
+      proc { [200, {}, [body]] }
     end
     let!(:global_controller) { stub_const 'GlobalController', (Class.new Wallaby::ResourcesController) }
     let(:script_name) { '/admin' }
