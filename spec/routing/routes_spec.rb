@@ -13,7 +13,7 @@ describe 'routing' do
     it 'dispatches general routes to expected controller and action' do
       controller = Wallaby::ResourcesController
       expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
-      get "#{script_name}"
+      get script_name
       expect(response.body).to eq 'home_body'
 
       expect(controller).to receive(:action).with('healthy') { mock_response_with('status_body') }
@@ -24,7 +24,7 @@ describe 'routing' do
     it 'dispatches general routes to global controller and expected action if configured' do
       controller = Wallaby.configuration.mapping.resources_controller = global_controller
       expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
-      get "#{script_name}"
+      get script_name
       expect(response.body).to eq 'home_body'
 
       expect(controller).to receive(:action).with('healthy') { mock_response_with('status_body') }
@@ -37,11 +37,11 @@ describe 'routing' do
       Wallaby::ERRORS.each do |status|
         code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
         expect(controller).to receive(:action).with(status) { mock_response_with(code.to_s) }
-        get "#{script_name}/#{code.to_s}"
+        get "#{script_name}/#{code}"
         expect(response.body).to eq code.to_s
 
         expect(controller).to receive(:action).with(status) { mock_response_with(status.to_s) }
-        get "#{script_name}/#{status.to_s}"
+        get "#{script_name}/#{status}"
         expect(response.body).to eq status.to_s
       end
     end
@@ -51,11 +51,11 @@ describe 'routing' do
       Wallaby::ERRORS.each do |status|
         code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
         expect(controller).to receive(:action).with(status) { mock_response_with(code.to_s) }
-        get "#{script_name}/#{code.to_s}"
+        get "#{script_name}/#{code}"
         expect(response.body).to eq code.to_s
 
         expect(controller).to receive(:action).with(status) { mock_response_with(status.to_s) }
-        get "#{script_name}/#{status.to_s}"
+        get "#{script_name}/#{status}"
         expect(response.body).to eq status.to_s
       end
     end
