@@ -10,13 +10,13 @@ module Wallaby
     # @param env [Hash] @see http://www.rubydoc.info/github/rack/rack/master/file/SPEC
     def call(env)
       params = env[ActionDispatch::Http::Parameters::PARAMETERS_KEY]
-      controller = find_controller_by params[:resources]
+      controller = find_controller_by(params[:resources]) || default_controller
       params[:action] = find_action_by params
 
       controller.action(params[:action]).call env
     rescue ::AbstractController::ActionNotFound, ModelNotFound => e
       params[:error] = e
-      ResourcesController.action(:not_found).call env
+      default_controller.action(:not_found).call env
     end
 
     private
@@ -34,6 +34,12 @@ module Wallaby
       # Action name comes from either the defaults or :action param
       # @see Wallaby::Engine.routes
       (params.delete(:defaults) || params)[:action]
+    end
+
+    # TODO: change to reflect the mount path changes
+    # @return [Class] controller class from configuration
+    def default_controller
+      Wallaby.configuration.mapping.resources_controller
     end
   end
 end

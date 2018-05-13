@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Wallaby::ResourcesController do
   describe '#healthy' do
     it 'returns healthy' do
+      routes.draw { get 'healthy' => 'wallaby/resources#healthy' }
       get :healthy
       expect(response.body).to eq 'healthy'
 
