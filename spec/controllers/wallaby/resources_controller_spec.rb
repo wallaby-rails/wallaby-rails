@@ -1,17 +1,6 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesController do
-  describe '#healthy' do
-    it 'returns healthy' do
-      routes.draw { get 'healthy' => 'wallaby/resources#healthy' }
-      get :healthy
-      expect(response.body).to eq 'healthy'
-
-      get :healthy, format: :json
-      expect(response.body).to eq 'healthy'
-    end
-  end
-
   describe '#home' do
     it 'renders home' do
       routes.draw { get 'home' => 'wallaby/resources#home' }

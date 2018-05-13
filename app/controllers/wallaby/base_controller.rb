@@ -8,11 +8,6 @@ module Wallaby
 
     before_action :authenticate_user!, except: [:status]
 
-    # Health check page
-    def healthy
-      render plain: 'healthy'
-    end
-
     # @return [String] the resources name coming from params
     def current_resources_name
       @current_resources_name ||= params[:resources]

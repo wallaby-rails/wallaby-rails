@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 describe 'routing' do
+  describe 'status', type: :routing do
+    routes { Wallaby::Engine.routes }
+    it { expect(get: 'status').to route_to controller: 'wallaby/application', action: 'healthy' }
+  end
+
   describe 'resources router', type: :request do
     # NOTE: this is to test the request being dispatched to the correct controler and action
     # it does not test the actual action, see integration test for more
     def mock_response_with(body)
-      double('Response', call: [200, {}, [body]])
+      -> (env) { [200, {}, [body]] }
     end
     let!(:global_controller) { stub_const 'GlobalController', (Class.new Wallaby::ResourcesController) }
     let(:script_name) { '/admin' }
@@ -15,10 +20,6 @@ describe 'routing' do
       expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
       get script_name
       expect(response.body).to eq 'home_body'
-
-      expect(controller).to receive(:action).with('healthy') { mock_response_with('status_body') }
-      get "#{script_name}/status"
-      expect(response.body).to eq 'status_body'
     end
 
     it 'dispatches general routes to global controller and expected action if configured' do
@@ -26,10 +27,6 @@ describe 'routing' do
       expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
       get script_name
       expect(response.body).to eq 'home_body'
-
-      expect(controller).to receive(:action).with('healthy') { mock_response_with('status_body') }
-      get "#{script_name}/status"
-      expect(response.body).to eq 'status_body'
     end
 
     it 'dispatches error routes to expected controller and action' do

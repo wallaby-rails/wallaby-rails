@@ -15,6 +15,11 @@ module Wallaby
 
     layout 'wallaby/application'
 
+    # Health check page
+    def healthy
+      render plain: 'healthy'
+    end
+
     # Not found page
     # @param exception [Exception]
     def not_found(exception = nil)
