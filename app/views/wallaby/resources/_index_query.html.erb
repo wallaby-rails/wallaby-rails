@@ -16,6 +16,7 @@ end
   </nav>
   <%= form_tag index_path(current_model_class), method: :get, class: 'query__search' do %>
     <%= hidden_field_tag :sort, index_params[:sort] %>
+    <%= hidden_field_tag :filter, index_params[:filter] %>
     <label for="q">
       <%= text_field_tag :q, index_params[:q], placeholder: t('search.hint') %>
     </label>
