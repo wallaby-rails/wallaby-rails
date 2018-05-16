@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails
-  revision: c293e41f834daad14a3dd19fb42b857af445da4a
+  revision: 41f0f2909570804f3a007c12dfe280a9e6ef25e9
   branch: 5-2-stable
   specs:
     actioncable (5.2.0)
@@ -66,10 +66,10 @@ GIT
 
 GIT
   remote: https://github.com/remiprev/her.git
-  revision: 6fe0c6e3ac9934814c453cfb5623fa17fcab02a5
+  revision: 0ef2092a19f4d0ab11b7891fa63505ecba204b0c
   branch: master
   specs:
-    her (1.0.0)
+    her (1.0.1)
       activemodel (>= 4.2.1)
       faraday (>= 0.8, < 1.0)
       multi_json (~> 1.7)
@@ -77,7 +77,7 @@ GIT
 PATH
   remote: .
   specs:
-    wallaby (5.1.6)
+    wallaby (5.1.7)
       bootstrap-sass
       bootstrap3-datetimepicker-rails
       cancancan
@@ -101,7 +101,7 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
-    autoprefixer-rails (8.4.1)
+    autoprefixer-rails (8.5.0)
       execjs
     bcrypt (3.1.11)
     better_errors (2.4.0)
@@ -137,7 +137,7 @@ GEM
     docile (1.3.0)
     erubi (1.7.1)
     execjs (2.7.0)
-    faraday (0.15.0)
+    faraday (0.15.1)
       multipart-post (>= 1.2, < 3)
     ffaker (2.9.0)
     ffi (1.9.23)
@@ -190,7 +190,7 @@ GEM
     multi_json (1.13.1)
     multipart-post (2.0.0)
     mysql2 (0.5.1)
-    nio4r (2.3.0)
+    nio4r (2.3.1)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
@@ -279,7 +279,7 @@ GEM
       thread_safe (~> 0.1)
     warden (1.2.7)
       rack (>= 1.0)
-    webmock (3.4.0)
+    webmock (3.4.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff

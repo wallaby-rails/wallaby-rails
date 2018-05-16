@@ -3,9 +3,6 @@ paginator = paginate(current_model_class, collection, index_params)
 %>
 <% if paginator.paginatable? %>
   <%
-  active_per = proc do |per|
-    paginator.page_size == per && 'pagination__pers--current'
-  end
   from_to = t 'pagination.from_to', from: paginator.from, to: paginator.to
   of = t 'pagination.of'
   total_count = t 'pagination.total_count', total: paginator.total
@@ -23,7 +20,7 @@ paginator = paginate(current_model_class, collection, index_params)
           <ul aria-labelledby="all_pers">
             <li><em><%= t 'pagination.pers' %></em></li>
             <% Wallaby::PERS.each do |per| %>
-              <%= content_tag :li, class: active_per.call(per) do %>
+              <%= content_tag :li, class: paginator.page_size == per && 'pagination__pers--current' do %>
                 <%= index_link(current_model_class, url_params: index_params.merge(per: per)) { per.to_s } %>
               <% end %>
             <% end %>

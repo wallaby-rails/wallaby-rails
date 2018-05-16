@@ -13,6 +13,11 @@ N/A
 
 # History:
 
+## 5.1.7
+
+1. [Fix] Routes update for configurable `resources_controller` (#99)
+2. [Fix] Update resources router to reflect the resources controller configuration (#100)
+
 ## 5.1.6
 
 1. [Chore] upgrade to robucop 0.53 standard (#88)

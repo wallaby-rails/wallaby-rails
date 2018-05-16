@@ -1,23 +1,21 @@
 Wallaby::Engine.routes.draw do
-  root to: 'wallaby/resources#home'
-
   # NOTE: For health check if needed
   # @see Wallaby::BaseController#healthy
-  get 'status', to: 'wallaby/resources#healthy'
+  get 'status', to: 'wallaby/application#healthy'
 
-  # To generate error pages for all HTTP status
-  Wallaby::ERRORS.each do |status|
-    code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
-    get status, to: "wallaby/resources##{status}"
-    get code.to_s, to: "wallaby/resources##{status}"
-  end
+  with_options to: Wallaby::ResourcesRouter.new do |route|
+    route.root defaults: { action: 'home' }
 
-  # This is to pass :resources and :action params onto
-  # `Wallaby::ResourcesRouter`.
-  # So that it could handle the request dispatching.
-  # Currently, it has implemented general CRUD resourceful routes
-  scope path: ':resources' do
-    with_options to: Wallaby::ResourcesRouter.new do |route|
+    # To generate error pages for all supported HTTP status
+    Wallaby::ERRORS.each do |status|
+      code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+      route.get status, defaults: { action: status }
+      route.get code.to_s, defaults: { action: status }
+    end
+
+    # To generate general CRUD resourceful routes
+    # @see Wallaby::ResourcesRouter
+    scope path: ':resources' do
       # @see Wallaby::AbstractResourcesController#index
       route.get '', defaults: { action: 'index' }, as: :resources
       # @see Wallaby::AbstractResourcesController#new
