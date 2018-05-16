@@ -1,11 +1,4 @@
-<%
-query_classes = proc do
-  classes = %w(query)
-  classes.push 'query--filtered' if index_params.present?
-  classes
-end
-%>
-<%= content_tag :div, class: query_classes.call do %>
+<%= content_tag :div, class: index_params.present? ? %w(query query--filtered) : %w(query) do %>
   <nav class="query__actions">
     <%= index_link(current_model_class, html_classes('query__clear')) {} if index_params.present? %>
     <%= new_link(current_model_class, html_classes('query__create')) {} %>
@@ -16,6 +9,7 @@ end
   </nav>
   <%= form_tag index_path(current_model_class), method: :get, class: 'query__search' do %>
     <%= hidden_field_tag :sort, index_params[:sort] %>
+    <%= hidden_field_tag :filter, index_params[:filter] %>
     <label for="q">
       <%= text_field_tag :q, index_params[:q], placeholder: t('search.hint') %>
     </label>

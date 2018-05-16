@@ -1,9 +1,6 @@
 <%
 filters = current_model_decorator.filters
 filter = ::Wallaby::Utils.find_filter_name index_params[:filter], filters
-html_options = proc do |filter_name|
-  { class: filter.to_s == filter_name.to_s ? 'filters--current' : '' }
-end
 %>
 <nav class="filters">
   <% if filters.present? %>
@@ -14,7 +11,7 @@ end
     <ul>
       <li><em><%= t 'filters.title' %></em></li>
       <% filters.keys.unshift(:all).each do |filter_name| %>
-        <%= content_tag :li, filter_link(current_model_class, filter_name, filters), html_options.call(filter_name) %>
+        <%= content_tag :li, filter_link(current_model_class, filter_name, filters), { class: filter.to_s == filter_name.to_s && 'filters--current' } %>
       <% end %>
     </ul>
   <% else %>
