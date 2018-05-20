@@ -38,10 +38,7 @@ module Wallaby
     # @return [Ability]
     def authorizer
       # current_ability
-      @authorizer ||=
-        helpers
-          .model_authorizer(current_model_class)
-          .new(self, current_model_class)
+      @authorizer ||= helpers.model_authorizer(current_model_class).new(self, current_model_class)
     end
   end
 end

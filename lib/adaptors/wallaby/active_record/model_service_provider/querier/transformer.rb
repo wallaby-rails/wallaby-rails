@@ -65,9 +65,7 @@ module Wallaby
             operator = SEQUENCE_OPERATORS[oped]
             next unless operator
             lefted = left.try :to_str
-            convert = if %w(:() :!()).include?(oped)
-                        Range.new right.try(:first), right.try(:last)
-                      end
+            convert = Range.new right.try(:first), right.try(:last) if %w(:() :!()).include?(oped)
             { left: lefted, op: operator, right: convert || right }
           end
         end

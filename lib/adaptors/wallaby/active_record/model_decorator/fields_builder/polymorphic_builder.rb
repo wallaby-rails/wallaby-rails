@@ -24,9 +24,7 @@ module Wallaby
           # @return [Array<Class>] a list of classes for this polymorphism
           def polymorphic_list_for(reflection)
             all_model_class.each_with_object([]) do |model_class, list|
-              if polymorphic_defined? model_class, reflection.name
-                list << model_class
-              end
+              list << model_class if polymorphic_defined? model_class, reflection.name
             end
           end
 

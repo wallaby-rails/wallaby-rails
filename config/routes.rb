@@ -4,6 +4,7 @@ Wallaby::Engine.routes.draw do
   get 'status', to: 'wallaby/application#healthy'
 
   with_options to: Wallaby::ResourcesRouter.new do |route|
+    # @see `home` action for more
     route.root defaults: { action: 'home' }
 
     # To generate error pages for all supported HTTP status

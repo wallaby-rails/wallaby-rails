@@ -3,7 +3,7 @@ module Wallaby
     # Model Authorizer to provide authroization functions
     class CancancanProvider
       # @param context [ActionController::Base]
-      def self.available?(context)
+      def self.available?(_context)
         true
       end
 

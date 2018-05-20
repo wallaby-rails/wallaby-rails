@@ -13,16 +13,16 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'her', git: 'https://github.com/remiprev/her.git', branch: 'master'
-gem 'rails', git: 'https://github.com/rails/rails', branch: '5-2-stable'
+gem 'her'
+gem 'rails', '~>4.2'
 
 group :development, :test do
   gem 'binding_of_caller'
   gem 'byebug'
   gem 'devise'
   gem 'ffaker'
-  gem 'mysql2'
-  gem 'pg'
+  gem 'mysql2', '<0.5'
+  gem 'pg', '<1.0'
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'sqlite3'

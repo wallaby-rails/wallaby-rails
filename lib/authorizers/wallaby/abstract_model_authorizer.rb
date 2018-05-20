@@ -21,23 +21,19 @@ module Wallaby
       :authorize, :authorize?, :authorize_field?, :accessible_by,
       :attributes_for, :permit_params, to: :@provider
 
-      # @param context [ActionController::Base]
+    # @param context [ActionController::Base]
     def initialize(context, model_class)
       @model_class = model_class || self.class.model_class
-      unless self.class.provider
-        self.class.provider = guess_provider_by(context, model_class)
-      end
+      self.class.provider = guess_provider_by(context, model_class) unless self.class.provider
       @provider = init_provider(self.class.provider, context)
     end
 
     protected
 
-    def init_provider(provider, context)
+    def init_provider(_provider, context)
       Wallaby::ActiveRecord::CancancanProvider.new context
     end
 
-    def guess_provider_by(context, model_class)
-
-    end
+    def guess_provider_by(context, model_class); end
   end
 end

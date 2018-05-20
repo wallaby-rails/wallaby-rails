@@ -1,24 +1,31 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesRouter do
+  # TODO: revisit the spec and try to avoid using stub/mock
+  # NOTE: this is a spec to specify that the request being dispatched to the correct controler and action
+  # it does not test the actual action, see integration test for more
   describe '#call' do
     let(:action_name) { 'index' }
     let(:mocked_env) do
-      Hash 'action_dispatch.request.path_parameters' => {
-        resources: resources_name, action: action_name
-      }
+      Hash(
+        ActionDispatch::Http::Parameters::PARAMETERS_KEY => params,
+        'rack.input' => StringIO.new,
+        'REQUEST_METHOD' => 'GET'
+      )
     end
-    let(:mocked_action) { double 'Action', call: nil }
+    let(:params) { Hash resources: resources_name, action: action_name }
+    let(:mocked_action) { ->(_env) { response } }
+    let(:response) { [200, {}, [action_name]] }
     let(:default_controller) { Wallaby::ResourcesController }
 
     context 'when model class exists' do
       context 'when controller not exists' do
         let(:resources_name) { 'kings' }
-        before { class King; end }
+        before { stub_const 'King', Class.new }
 
         it 'shows index page' do
           expect(default_controller).to receive(:action).with(action_name) { mocked_action }
-          subject.call mocked_env
+          expect(subject.call(mocked_env)).to eq response
         end
 
         context 'when action is not found' do
@@ -30,13 +37,25 @@ describe Wallaby::ResourcesRouter do
             subject.call mocked_env
           end
         end
+
+        context 'when default controller is provided' do
+          let(:params) { Hash resources: resources_name, action: action_name, resources_controller: resources_controller }
+          let(:resources_controller) { InnerController }
+
+          it 'shows index page' do
+            expect(resources_controller).to receive(:action).with(action_name) { mocked_action }
+            expect(default_controller).not_to receive(:action)
+            subject.call mocked_env
+          end
+        end
       end
 
       context 'when controller exists' do
         let(:resources_name) { 'queens' }
+
         before do
-          class Queen; end
-          class QueensController < default_controller; end
+          stub_const 'Queen', Class.new
+          stub_const 'QueensController', Class.new(default_controller)
         end
 
         it 'shows index page' do
@@ -55,23 +74,31 @@ describe Wallaby::ResourcesRouter do
         end
 
         context 'when it passes a param id as action for show route' do
-          let(:mocked_env) do
-            Hash 'action_dispatch.request.path_parameters' => {
-              resources: resources_name, action: action_name, id: action_id
-            }
-          end
+          let(:params) { Hash resources: resources_name, action: action_name, id: action_id }
           let(:action_name) { 'show' }
           let(:action_id) { 'history' }
 
           before do
-            class Queen; end
-            class QueensController < default_controller; def history; end; end
+            stub_const 'Queen', Class.new
+            stub_const 'QueensController', (Class.new(default_controller) { def history; end })
           end
 
           it 'calls show' do
             expect(QueensController).to receive(:action).with(action_name) { mocked_action }
             subject.call mocked_env
-            expect(mocked_env['action_dispatch.request.path_parameters'][:action]).to eq action_name
+          end
+
+          context 'when default controller is provided' do
+            let(:params) { Hash resources: resources_name, action: action_name, resources_controller: resources_controller }
+            let(:resources_controller) { InnerController }
+            let(:default_controller) { resources_controller }
+
+            it 'shows index page' do
+              expect(QueensController).to receive(:action).with(action_name) { mocked_action }
+              expect(resources_controller).not_to receive(:action)
+              expect(default_controller).not_to receive(:action)
+              subject.call mocked_env
+            end
           end
         end
       end

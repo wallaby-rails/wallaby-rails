@@ -17,6 +17,14 @@ describe Wallaby::Map::ModelClassMapper do
           class SubClass2 < self
             def self.model_class; :BModelClass; end
           end
+
+          class AbstractClass < self
+            def self.abstract?; true; end
+          end
+
+          class AnonymousClass < self
+            def self.name; nil; end
+          end
         end
       end
 

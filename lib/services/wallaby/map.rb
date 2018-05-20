@@ -16,12 +16,15 @@ module Wallaby
 
       # { model => controller }
       # @param model_class [Class]
+      # @param resources_controller [Class, nil]
       # @return [Class] controller class
       #   default to `mapping.resources_controller`
-      def controller_map(model_class)
-        @controller_map ||=
-          ModelClassMapper.new(mapping.resources_controller).map
-        @controller_map[model_class] ||= mapping.resources_controller
+      def controller_map(model_class, resources_controller = nil)
+        base_controller = resources_controller || mapping.resources_controller
+        @controller_map ||= {}
+        @controller_map[base_controller] ||=
+          ModelClassMapper.new(base_controller).map
+        @controller_map[base_controller][model_class] ||= base_controller
       end
 
       # { model => model decorator }
@@ -31,7 +34,7 @@ module Wallaby
         @model_decorator_map ||= {}
         @model_decorator_map[model_class] ||= begin
           mode = mode_map[model_class]
-          mode.model_decorator.new model_class if mode # rubocop:disable Style/SafeNavigation, Metrics/LineLength
+          mode.model_decorator.new model_class if mode # rubocop:disable Style/SafeNavigation
         end
       end
 
@@ -65,7 +68,7 @@ module Wallaby
         @service_provider_map ||= {}
         @service_provider_map[model_class] ||= begin
           mode = mode_map[model_class]
-          mode.model_service_provider.new model_class if mode # rubocop:disable Style/SafeNavigation, Metrics/LineLength
+          mode.model_service_provider.new model_class if mode # rubocop:disable Style/SafeNavigation
         end
       end
 

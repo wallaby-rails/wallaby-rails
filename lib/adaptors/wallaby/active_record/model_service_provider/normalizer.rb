@@ -12,8 +12,7 @@ module Wallaby
         # @param params [ActionController::Parameters]
         def normalize(params)
           params.each do |field_name, values|
-            type = @model_decorator.metadata_of(field_name)[:type]
-                                   .try(:[], /range|point|binary/)
+            type = @model_decorator.metadata_of(field_name)[:type].try(:[], /range|point|binary/)
             next unless type
             public_send "normalize_#{type}_values", params, field_name, values
           end
@@ -25,10 +24,7 @@ module Wallaby
         # @param values [Array]
         def normalize_range_values(params, field_name, values)
           normalized = Array(values).map(&:presence).compact
-          params[field_name] =
-            if normalized.present? && values.length == 2
-              values.first...values.last
-            end
+          params[field_name] = values.first...values.last if normalized.present? && values.length == 2
         end
 
         # Turn values into points

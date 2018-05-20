@@ -14,7 +14,9 @@ module Wallaby
       attr_writer :model_paginator
       # @see .model_authorizer
       attr_writer :model_authorizer
+    end
 
+    class_methods do
       # @!attribute resources_name
       #   This attribute will be used by the `self.model_class`.
       #   @return [String] store the resources name. must be in plural.
