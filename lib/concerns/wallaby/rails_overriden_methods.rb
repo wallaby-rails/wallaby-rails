@@ -18,7 +18,7 @@ module Wallaby
     #  (e.g. `wallaby/resources/index)
     # - wallaby_resources_controller_name
     #  (e.g. `wallaby/resources)
-    # @return [PrefixesBuilder]
+    # @return [Array]
     def _prefixes
       @_prefixes ||= PrefixesBuilder.new(
         super, controller_path, current_resources_name, params
@@ -29,7 +29,7 @@ module Wallaby
     # Its aim is to render string partial when given partial is not found
     # @return [LookupContextWrapper]
     def lookup_context
-      @_lookup_context ||= LookupContextWrapper.new super # rubocop:disable Naming/MemoizedInstanceVariableName, Metrics/LineLength
+      @_lookup_context ||= LookupContextWrapper.new super # rubocop:disable Naming/MemoizedInstanceVariableName
     end
   end
 end

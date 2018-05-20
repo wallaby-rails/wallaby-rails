@@ -22,8 +22,7 @@ module Wallaby
       #   @return [String] store the resources name. must be in plural.
       def resources_name
         return unless self < configuration.mapping.resources_controller
-        @resources_name \
-          || Map.resources_name_map(name.gsub('Controller', EMPTY_STRING))
+        @resources_name || Map.resources_name_map(name.gsub('Controller', EMPTY_STRING))
       end
 
       # @!attribute model_class
@@ -43,8 +42,7 @@ module Wallaby
       #     ```
       def model_class
         return unless self < configuration.mapping.resources_controller
-        @model_class \
-          || Map.model_class_map(resources_name)
+        @model_class || Map.model_class_map(resources_name)
       end
 
       # @!attribute model_decorator
