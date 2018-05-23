@@ -4,6 +4,8 @@ module Wallaby
     extend ActiveSupport::Concern
 
     class_methods do
+      # @see .resources_name
+      attr_writer :resources_name
       # @see .model_class
       attr_writer :model_class
       # @!attribute model_decorator
@@ -19,6 +21,9 @@ module Wallaby
       #   This attribute will be used for `current_model_authorizer`
       attr_accessor :model_authorizer
 
+      # @!attribute [w] engine_name
+      # @see .engine_name
+      attr_writer :engine_name
       # @!attribute [w] application_decorator
       # @see .application_decorator
       attr_writer :application_decorator
@@ -60,6 +65,12 @@ module Wallaby
       def model_class
         return unless self < ResourcesController
         @model_class || Map.model_class_map(resources_name)
+      end
+
+      # @!attribute [r] engine_name
+      #   @return [String, nil]
+      def engine_name
+        @engine_name ||= from_superclass __callee__
       end
 
       # @!attribute [r] application_decorator

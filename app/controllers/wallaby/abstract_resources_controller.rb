@@ -1,7 +1,7 @@
 module Wallaby
   # Generic CRUD controller
   class AbstractResourcesController < ::Wallaby::BaseController
-    include ClassAttributesAndMethods
+    include ConfigurationAttributesAndMethods
     include RailsOverridenMethods
     include ResourcesHelperMethods
     self.responder = ResourcesResponder
