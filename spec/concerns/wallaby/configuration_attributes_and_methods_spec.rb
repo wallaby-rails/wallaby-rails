@@ -22,6 +22,7 @@ describe Wallaby::ResourcesController do
     let!(:application_authorizer) { stub_const 'ApplicationAuthorizer', Class.new(Wallaby::ModelAuthorizer) }
 
     before do
+      subclass1.engine_name = 'engine_name'
       subclass1.application_decorator = application_decorator
       subclass1.application_servicer = application_servicer
       subclass1.application_paginator = application_paginator
@@ -29,16 +30,22 @@ describe Wallaby::ResourcesController do
     end
 
     it 'inherits the configuration' do
+      expect(described_class.resources_name).to be_nil
+      expect(described_class.engine_name).to be_nil
       expect(described_class.application_decorator).to be_nil
       expect(described_class.application_servicer).to be_nil
       expect(described_class.application_paginator).to be_nil
       expect(described_class.application_authorizer).to be_nil
 
+      expect(subclass1.resources_name).to eq 'products'
+      expect(subclass1.engine_name).to eq 'engine_name'
       expect(subclass1.application_decorator).to eq application_decorator
       expect(subclass1.application_servicer).to eq application_servicer
       expect(subclass1.application_paginator).to eq application_paginator
       expect(subclass1.application_authorizer).to eq application_authorizer
 
+      expect(subclass2.resources_name).to eq 'orders'
+      expect(subclass2.engine_name).to eq 'engine_name'
       expect(subclass2.application_decorator).to eq application_decorator
       expect(subclass2.application_servicer).to eq application_servicer
       expect(subclass2.application_paginator).to eq application_paginator

@@ -80,20 +80,6 @@ describe Wallaby::ResourcesController do
     end
   end
 
-  describe 'class methods ' do
-    describe '.resources_name' do
-      it 'returns nil' do
-        expect(described_class.resources_name).to be_nil
-      end
-    end
-
-    describe '.model_class' do
-      it 'returns nil' do
-        expect(described_class.model_class).to be_nil
-      end
-    end
-  end
-
   describe 'instance methods ' do
     let!(:model_class) { Product }
 
