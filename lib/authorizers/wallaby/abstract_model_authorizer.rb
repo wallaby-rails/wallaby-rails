@@ -6,14 +6,12 @@ module Wallaby
       attr_writer :provider
 
       def model_class
-        return unless self < Wallaby.configuration.mapping.model_authorizer
-        @model_class \
-          || Map.model_authorizer_map(name.gsub('Authorizer', EMPTY_STRING))
+        return unless self < ModelAuthorizer
+        @model_class || Map.model_class_map(name.gsub('Authorizer', EMPTY_STRING))
       end
 
       def provider
-        @provider ||=
-          superclass.respond_to?(:provider) ? superclass.provider : nil
+        @provider ||= superclass.respond_to?(:provider) ? superclass.provider : nil
       end
     end
 

@@ -72,7 +72,9 @@ module Wallaby
       def engine_name
         @engine_name ||= from_superclass __callee__
       end
+    end
 
+    class_methods do
       # @!attribute [r] application_decorator
       #   @return [Class, nil]
       def application_decorator

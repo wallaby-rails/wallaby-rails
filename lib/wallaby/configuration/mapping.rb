@@ -34,20 +34,6 @@ module Wallaby
         @resource_decorator ||= ResourceDecorator
       end
 
-      # This configuration is used by `Wallaby::Map.paginator_map`
-      #
-      # If resource_paginator is not defined,
-      # it will fallback to `Admin::ApplicationPaginator`,
-      # otherwise `Wallaby::ResourcesPaginator`.
-      # @return [Class] configurable resource paginator
-      def resource_paginator
-        @resource_paginator ||=
-          defined?(::Admin::ApplicationPaginator) \
-            && ::Admin::ApplicationPaginator < ::Wallaby::ResourcePaginator \
-            && ::Admin::ApplicationPaginator
-        @resource_paginator ||= ResourcePaginator
-      end
-
       # This configuration is used by `Wallaby::Map.servicer_map`
       #
       # If model_servicer is not defined,
@@ -60,6 +46,20 @@ module Wallaby
             && ::Admin::ApplicationServicer < ::Wallaby::ModelServicer \
             && ::Admin::ApplicationServicer
         @model_servicer ||= ModelServicer
+      end
+
+      # This configuration is used by `Wallaby::Map.paginator_map`
+      #
+      # If resource_paginator is not defined,
+      # it will fallback to `Admin::ApplicationPaginator`,
+      # otherwise `Wallaby::ResourcesPaginator`.
+      # @return [Class] configurable resource paginator
+      def resource_paginator
+        @resource_paginator ||=
+          defined?(::Admin::ApplicationPaginator) \
+            && ::Admin::ApplicationPaginator < ::Wallaby::ResourcePaginator \
+            && ::Admin::ApplicationPaginator
+        @resource_paginator ||= ResourcePaginator
       end
 
       # This configuration is used by `Wallaby::Map.authorizer_map`

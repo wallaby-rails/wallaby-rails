@@ -1,10 +1,14 @@
 module Wallaby
   # Model paginator
   class AbstractResourcePaginator
-    # @return [Class] model class for paginator
-    def self.model_class
-      return unless self < ::Wallaby.configuration.mapping.resource_paginator
-      Map.model_class_map name.gsub('Paginator', EMPTY_STRING)
+    class << self
+      attr_writer :model_class
+
+      # @return [Class] model class for paginator
+      def model_class
+        return unless self < ResourcePaginator
+        @model_class || Map.model_class_map(name.gsub('Paginator', EMPTY_STRING))
+      end
     end
 
     # Delegate methods to pagination provider

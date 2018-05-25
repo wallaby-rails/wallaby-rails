@@ -1,10 +1,13 @@
 module Wallaby
   # Abstract model servicer
   class AbstractModelServicer
-    # @return [Class] model class that comes from its class name
-    def self.model_class
-      return unless self < ::Wallaby::ModelServicer
-      Map.model_class_map name.gsub('Servicer', EMPTY_STRING)
+    class << self
+      attr_writer :model_class
+      # @return [Class] model class that comes from its class name
+      def model_class
+        return unless self < ModelServicer
+        @model_class || Map.model_class_map(name.gsub('Servicer', EMPTY_STRING))
+      end
     end
 
     # @param model_class [Class, nil] model class
@@ -13,7 +16,7 @@ module Wallaby
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'model class required' unless @model_class
       @authorizer = authorizer
-      @provider = Map.service_provider_map @model_class
+      @provider = Map.service_provider_map(@model_class).new(@model_class)
     end
 
     # @param params [ActionController::Parameters]
