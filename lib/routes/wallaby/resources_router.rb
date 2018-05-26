@@ -22,7 +22,7 @@ module Wallaby
     # @return [Class] controller class
     def find_controller_by(params)
       model_class = Map.model_class_map params[:resources]
-      Map.controller_map model_class, params[:resources_controller]
+      Map.controller_map(model_class, params[:resources_controller]) || default_controller(params)
     end
 
     # @param params [ActionController::Parameters]

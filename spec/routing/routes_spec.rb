@@ -228,11 +228,13 @@ describe 'routing' do
 
     context 'when target resources controller exists' do
       it 'routes to this controller' do
-        class Alien; end
-        class AliensController < Wallaby::ResourcesController; def history; end; end
+        stub_const 'Alien', (Class.new(ActiveRecord::Base) do
+          self.table_name = 'products'
+        end)
+        stub_const 'AliensController', Class.new(Wallaby::ResourcesController)
 
-        controller  = AliensController
-        resources   = 'aliens'
+        controller = AliensController
+        resources = 'aliens'
 
         expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
         get "#{script_name}/#{resources}"
