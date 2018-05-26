@@ -55,7 +55,7 @@ module Wallaby
     # @param _action [Symbol, String]
     # @param _target [Object]
     # @return [Array]
-    def permit_params(_action, _target)
+    def authorized_fields(_action, _target)
       raise NotImplemented
     end
   end

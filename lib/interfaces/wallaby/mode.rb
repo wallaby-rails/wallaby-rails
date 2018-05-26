@@ -1,5 +1,5 @@
 module Wallaby
-  # This is the abstract class that all ORM modes to have implemented.
+  # This is the interface that all ORM modes should implement.
   class Mode
     class << self
       # @see Wallaby::ModelDecorator
@@ -21,25 +21,30 @@ module Wallaby
       end
 
       # @see Wallaby::ModelPaginationProvider
-      # @return [Wallaby::ModelPaginationProvider]
-      # pagination provider for the mode
+      # @return [Wallaby::ModelPaginationProvider] pagination provider for the mode
       def model_pagination_provider
+        check_and_constantize __callee__
+      end
+
+      # @see Wallaby::ModelAuthorizationProvider
+      # @return [Wallaby::ModelAuthorizationProvider] authorization provider for the mode
+      def model_authorization_provider
         check_and_constantize __callee__
       end
 
       private
 
-      #
       # @return [Class] constantized class
       def check_and_constantize(method_id)
-        method_class  = method_id.to_s.classify
-        class_name    = "#{name}::#{method_class}"
-        parent_class  = "Wallaby::#{method_class}".constantize
+        method_class = method_id.to_s.classify
+        class_name = "#{name}::#{method_class}"
+        parent_class = "Wallaby::#{method_class}".constantize
         class_name.constantize.tap do |klass|
           next if klass < parent_class
-          raise InvalidError, "#{klass} must inherit #{parent_class}"
+          raise InvalidError, I18n.t('wallaby.mode.inherit_required', klass: klass, parent: parent_class)
         end
-      rescue NameError
+      rescue NameError => e
+        Rails.logger.error e
         raise NotImplemented, class_name
       end
     end

@@ -42,6 +42,7 @@ require 'interfaces/wallaby/model_decorator'
 require 'interfaces/wallaby/model_finder'
 require 'interfaces/wallaby/model_service_provider'
 require 'interfaces/wallaby/model_pagination_provider'
+require 'interfaces/wallaby/model_authorization_provider'
 
 require 'errors/wallaby/general_error'
 require 'errors/wallaby/invalid_error'
