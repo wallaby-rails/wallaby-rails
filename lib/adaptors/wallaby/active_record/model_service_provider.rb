@@ -4,11 +4,12 @@ module Wallaby
     # @see Wallaby::ModelServiceProvider
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
       # @see Wallaby::ModelServiceProvider#permit
-      # @param action [String, Symbol]
       # @param params [ActionController::Parameters]
+      # @param action [String, Symbol]
+      # @param authorizer
       # @return [ActionController::Parameters] whitelisted parameters
-      def permit(params, action = nil)
-        authorized_fields = authorizer.permit_params action, @model_class
+      def permit(params, action, authorizer)
+        authorized_fields = authorizer.authorized_fields action, @model_class
         params.require(param_key).permit(authorized_fields || permitted_fields)
       end
 

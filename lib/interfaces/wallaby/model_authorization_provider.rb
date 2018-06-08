@@ -6,6 +6,10 @@ module Wallaby
       raise NotImplemented
     end
 
+    def self.provider_name
+      name.demodulize.gsub('Provider').underscore
+    end
+
     # @param _context [ActionController::Base]
     def initialize(_context)
       raise NotImplemented

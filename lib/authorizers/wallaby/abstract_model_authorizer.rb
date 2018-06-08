@@ -15,14 +15,12 @@ module Wallaby
       end
     end
 
-    delegate \
-      :authorize, :authorize?, :authorize_field?, :accessible_by,
-      :attributes_for, :permit_params, to: :@provider
+    # Delegate methods to pagination provider
+    delegate(*(ModelAuthorizationProvider.instance_methods - ::Object.instance_methods), to: :@provider)
 
     # @param context [ActionController::Base]
     def initialize(context, model_class)
-      @model_class = model_class || self.class.model_class
-      self.class.provider = guess_provider_by(context, model_class) unless self.class.provider
+      @model_class = self.class.model_class || model_class
       @provider = init_provider(self.class.provider, context)
     end
 
@@ -31,7 +29,5 @@ module Wallaby
     def init_provider(_provider, context)
       Wallaby::ActiveRecord::CancancanProvider.new context
     end
-
-    def guess_provider_by(context, model_class); end
   end
 end

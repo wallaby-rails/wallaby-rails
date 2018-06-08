@@ -21,8 +21,8 @@ module Wallaby
 
     # @param params [ActionController::Parameters]
     # @return [ActionController::Parameters]
-    def permit(params)
-      @provider.permit params
+    def permit(params, action = nil)
+      @provider.permit params, action, @authorizer
     end
 
     # @param params [ActionController::Parameters]

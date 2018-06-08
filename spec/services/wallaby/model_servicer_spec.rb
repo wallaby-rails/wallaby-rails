@@ -28,7 +28,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
     subject { described_class.new AllPostgresType, authorizer }
     let(:provider) { subject.instance_variable_get '@provider' }
     let(:params) { parameters }
-    let(:authorizer) { Ability.new nil }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new nil }
     let(:resource) { AllPostgresType.new }
 
     it 'has model_class and model_decorator' do

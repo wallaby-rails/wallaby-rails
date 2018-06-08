@@ -11,8 +11,10 @@ module Wallaby
 
     # To whitelist params for a model class
     # @param _params [ActionController::Parameters]
+    # @param _authorizer
+    # @param _action [String, Symbol]
     # @return [ActionController::Parameters] whitelisted params
-    def permit(_params)
+    def permit(_params, _authorizer, _action)
       raise NotImplemented
     end
 

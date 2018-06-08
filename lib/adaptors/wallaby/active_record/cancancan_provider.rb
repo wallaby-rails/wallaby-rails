@@ -1,10 +1,10 @@
 module Wallaby
   class ActiveRecord
     # Model Authorizer to provide authroization functions
-    class CancancanProvider
+    class CancancanProvider < ModelAuthorizationProvider
       # @param context [ActionController::Base]
-      def self.available?(_context)
-        true
+      def self.available?(context)
+        context.respond_to?(:current_ability)
       end
 
       # @param context [ActionController::Base]
@@ -45,18 +45,18 @@ module Wallaby
         scope.accessible_by(@current_ability, action)
       end
 
-      # Make sure that user can only assign
+      # Make sure that user can only assign the values allowed
       # @param action [Symbol, String]
       # @param target [Object]
       def attributes_for(action, target)
         @current_ability.attributes_for action, target
       end
 
-      # Strong params for a particular
+      # Just return nil
       # @param _action [Symbol, String]
       # @param _target [Object]
       # @return [Array, nil]
-      def permit_params(_action, _target)
+      def authorized_fields(_action, _target)
         nil
       end
     end
