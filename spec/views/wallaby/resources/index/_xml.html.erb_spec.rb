@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-xml = <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<note>
-  <to>Tove</to>
-  <from>Jani</from>
-  <heading>Reminder</heading>
-  <body>Don't forget me this weekend!</body>
-</note>
+xml = <<~XML
+  <?xml version="1.0" encoding="UTF-8"?>
+  <note>
+    <to>Tove</to>
+    <from>Jani</from>
+    <heading>Reminder</heading>
+    <body>Don't forget me this weekend!</body>
+  </note>
 XML
 
 field_name = field_name_from __FILE__

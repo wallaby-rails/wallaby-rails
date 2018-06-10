@@ -6,5 +6,5 @@ describe field_name do
   it_behaves_like \
     "#{type} csv partial", field_name,
     value: { 'kind' => 'user_renamed', 'change' => %w(jack john) }.to_json,
-    expected_value: "{\"kind\":\"user_renamed\",\"change\":[\"jack\",\"john\"]}"
+    expected_value: '{"kind":"user_renamed","change":["jack","john"]}'
 end

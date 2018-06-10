@@ -6,5 +6,5 @@ describe field_name do
   it_behaves_like \
     "#{type} csv partial", field_name,
     value: { 'key' => 'very long long text' },
-    expected_value: "{\"key\"=>\"very long long text\"}"
+    expected_value: '{"key"=>"very long long text"}'
 end
