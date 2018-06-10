@@ -3,7 +3,7 @@ module Wallaby
   class AbstractModelServicer
     # @return [Class] model class that comes from its class name
     def self.model_class
-      return unless self < ::Wallaby::ModelServicer
+      return unless self < ::Wallaby.configuration.mapping.model_servicer
       Map.model_class_map name.gsub('Servicer', EMPTY_STRING)
     end
 
