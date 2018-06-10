@@ -2,4 +2,4 @@
 <%# @param field_name [String] name of the field %>
 <%# @param value [Object] value of the field %>
 <%# @param metadata [Hash] metadata of the field %>
-<%= (value || []).uniq.map { |item| decorate(item).to_label }.to_sentence %>
+<%= raw((value || []).uniq.map { |item| decorate(item).to_label }.to_sentence) %>

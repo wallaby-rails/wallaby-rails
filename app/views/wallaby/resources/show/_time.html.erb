@@ -6,5 +6,5 @@
   <%= null %>
 <% else %>
   <% value = Time.zone.parse value if value.is_a? String %>
-  <%= value.strftime '%H:%M:%S' %>
+  <%= I18n.l value, format: '%H:%M:%S' %>
 <% end %>

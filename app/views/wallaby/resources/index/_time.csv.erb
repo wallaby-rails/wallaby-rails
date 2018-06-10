@@ -4,5 +4,4 @@
 <%# @param metadata [Hash] metadata of the field %>
 <% if value.present? %>
 <% value = Time.zone.parse value if value.is_a? String %>
-<%= value.strftime '%H:%M:%S' %>
-<% end %>
+<%= I18n.l value, format: '%H:%M:%S' %><% end %>

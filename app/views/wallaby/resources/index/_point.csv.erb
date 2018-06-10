@@ -3,5 +3,4 @@
 <%# @param value [Object] value of the field %>
 <%# @param metadata [Hash] metadata of the field %>
 <% if value.present? %>
-(<%= value[0] %>, <%= value[1] %>)
-<% end %>
+(<%= raw value[0] %>, <%= raw value[1] %>)<% end %>

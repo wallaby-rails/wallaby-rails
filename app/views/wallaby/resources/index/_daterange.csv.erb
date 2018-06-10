@@ -3,5 +3,4 @@
 <%# @param value [Object] value of the field %>
 <%# @param metadata [Hash] metadata of the field %>
 <% if value.present? %>
-<%= I18n.l value.first %>..<%= I18n.l value.last %>
-<% end %>
+<%= I18n.l value.first %>...<%= I18n.l value.last %><% end %>
