@@ -9,8 +9,8 @@ xml = <<-XML
 <body>Don't forget me this weekend!</body>
 </note>
 XML
-field_name = __FILE__[/_(.+)\.html\.erb_spec\.rb$/, 1]
-type = __FILE__[%r{/([^/]+)/_}, 1]
+field_name = field_name_from __FILE__
+type = type_from __FILE__
 describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
