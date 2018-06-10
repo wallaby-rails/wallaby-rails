@@ -8,7 +8,6 @@ RSpec.shared_examples 'index partial' do |field_name, options = {}|
   let(:content_for) { options[:content_for] }
   let(:metadata) { options[:metadata] || {} }
   let(:model_class) { options[:model_class] || AllPostgresType }
-  let(:resources_name) { Wallaby::Utils.to_resources_name(model_class).singularize }
   let(:expected_value) { (options[:expected_value] || value).to_s }
 
   before { render partial, object: view.decorate(object), value: value, metadata: metadata }
@@ -48,6 +47,37 @@ RSpec.shared_examples 'index partial' do |field_name, options = {}|
 
       it 'renders the index partial' do
         expect(rendered).to include view.null
+      end
+    end
+  end
+end
+
+RSpec.shared_examples 'index csv partial' do |field_name, options = {}|
+  let(:partial) { "wallaby/resources/index/#{partial_name}.csv.erb" }
+  let(:page) { Nokogiri::HTML rendered }
+  let(:object) { model_class.new field_name => value }
+  let(:value) { options[:value] }
+
+  let(:partial_name) { options[:partial_name] || field_name }
+  let(:content_for) { options[:content_for] }
+  let(:metadata) { options[:metadata] || {} }
+  let(:model_class) { options[:model_class] || AllPostgresType }
+  let(:expected_value) { (options[:expected_value] || value).to_s }
+
+  before { render partial, object: view.decorate(object), value: value, metadata: metadata }
+
+  unless options[:skip_general] || options[:skip_all]
+    it 'renders the index csv partial' do
+      expect(rendered).to eq expected_value.to_s
+    end
+  end
+
+  unless options[:skip_nil] || options[:skip_all]
+    context 'when value is nil' do
+      let(:value) { nil }
+
+      it 'renders the index csv partial' do
+        expect(rendered).to eq options[:expected_nil_value].to_s
       end
     end
   end
