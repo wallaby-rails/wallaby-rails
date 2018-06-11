@@ -26,9 +26,10 @@ module Wallaby
 
     # Export link for a given model_class
     # @param model_class [Class]
+    # @param url_params [Hash, ActionController::Parameters]
     # @return [String] HTML anchor link
-    def export_link(model_class)
-      url_params = index_params.except(:page, :per).merge(format: 'csv')
+    def export_link(model_class, url_params: {})
+      url_params = index_params.except(:page, :per).merge(format: 'csv').merge(url_params)
       index_link model_class, url_params: url_params do
         t 'links.export', ext: 'CSV'
       end
@@ -38,14 +39,16 @@ module Wallaby
     # @param model_class [Class]
     # @param filter_name [String, Symbol]
     # @param filters [Hash]
+    # @param url_params [Hash, ActionController::Parameters]
     # @return [String] HTML anchor link
-    def filter_link(model_class, filter_name, filters)
+    def filter_link(model_class, filter_name, filters: {}, url_params: {})
       is_all = filter_name == :all
       config = filters[filter_name] || {}
       label = is_all ? all_label : filter_label(filter_name, filters)
-      url_params = if config[:default] then index_params.except(:filter)
-                   else index_params.merge(filter: filter_name)
-                   end
+      url_params =
+        if config[:default] then index_params.except(:filter).merge(url_params)
+        else index_params.merge(filter: filter_name).merge(url_params)
+        end
       index_link(model_class, url_params: url_params) { label }
     end
 
