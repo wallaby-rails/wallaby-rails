@@ -11,7 +11,7 @@ filter = ::Wallaby::Utils.find_filter_name index_params[:filter], filters
     <ul>
       <li><em><%= t 'filters.title' %></em></li>
       <% filters.keys.unshift(:all).each do |filter_name| %>
-        <%= content_tag :li, filter_link(current_model_class, filter_name, filters), { class: filter.to_s == filter_name.to_s && 'filters--current' } %>
+        <%= content_tag :li, filter_link(current_model_class, filter_name, filters: filters), { class: filter.to_s == filter_name.to_s && 'filters--current' } %>
       <% end %>
     </ul>
   <% else %>
