@@ -15,7 +15,7 @@ N/A
 
 ## 5.1.8
 
-1. [Fix] Keep filter param for search #102
+1. [Fix] Keep filter param for search (#102)
 2. [Feature] Allow custom csv partials (#103)
 3. [Chore] Use mapping configuration for servicer class method `model_class` (#104)
 4. [Feature] Add url_params for index and export link helper methods (#105)
