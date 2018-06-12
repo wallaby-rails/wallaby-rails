@@ -5,7 +5,7 @@ window.readyPrefix = function readyPrefix(eventName) {
 jQuery(document).off(readyPrefix('.wallaby')).on(readyPrefix('.wallaby'), function () {
   'use strict';
 
-  jQuery('[data-toggle="tooltip"]').tooltip({ html: true, container:'body' })
+  jQuery('[data-toggle="tooltip"]').tooltip({ container:'body' })
   jQuery('#imodal').on('show.bs.modal', function (event) {
     var $button = jQuery(event.relatedTarget),
         $this = jQuery(this);
