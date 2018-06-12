@@ -29,7 +29,8 @@ module Wallaby
     # @param url_params [Hash, ActionController::Parameters]
     # @return [String] HTML anchor link
     def export_link(model_class, url_params: {})
-      url_params = index_params.except(:page, :per).merge(format: 'csv').merge(url_params)
+      url_params =
+        index_params.except(:page, :per).merge(format: 'csv').merge(url_params)
       index_link model_class, url_params: url_params do
         t 'links.export', ext: 'CSV'
       end
