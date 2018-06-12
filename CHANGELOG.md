@@ -13,6 +13,13 @@ N/A
 
 # History:
 
+## 5.1.8
+
+1. [Fix] Keep filter param for search #102
+2. [Feature] Allow custom csv partials (#103)
+3. [Chore] Use mapping configuration for servicer class method `model_class` (#104)
+4. [Feature] Add url_params for index and export link helper methods (#105)
+
 ## 5.1.7
 
 1. [Fix] Routes update for configurable `resources_controller` (#99)
