@@ -1,26 +1,15 @@
 <%
   headers = current_model_decorator.index_field_names.map do |field_name|
-    current_model_decorator.index_metadata_of(field_name)[:label]
+    current_model_decorator.index_label_of(field_name)
   end
   decorated_collection = decorate collection
 %>
 <%= ::CSV.generate_line(headers).strip.html_safe %>
 <%
-  decorated_collection.each do |decorated|
-    data = current_model_decorator.index_field_names.map do |field_name|
-      value = decorated.public_send(field_name)
-      if value.respond_to?(:map) && !value.is_a?(Range)
-        value.map do |v|
-          if model_decorator(v.class).present?
-            decorate(v).to_label
-          else
-            v
-          end
-        end.to_sentence
-      else
-        value
-      end
-    end
+decorated_collection.each do |decorated|
+  data = current_model_decorator.index_field_names.map do |field_name|
+    type_partial_render decorated.index_type_of(field_name), object: decorated, field_name: field_name
+  end
 %>
 <%= ::CSV.generate_line(data).strip.html_safe %>
 <% end %>

@@ -1,0 +1,8 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<% if value.present? %>
+<% value = Time.zone.parse value if value.is_a? String %>
+<% value = value.to_date if value.is_a? Time %>
+<%= I18n.l value %><% end %>

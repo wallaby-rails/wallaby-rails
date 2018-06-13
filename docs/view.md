@@ -46,7 +46,7 @@ Then Wallaby will search type partials in the following precedence:
 Given that:
 - Wallaby is mounted under `/admin` in `config/routes.rb`
 - Action prefix is `index`.
-    > NOTE: action prefix can only be one of `index`, `show` and `form` (`form` is for action name `new/create/edit/update`)
+    > NOTE: action prefix can only be one of `index`, `show` and `form` (`form` is for actions `new`/`create`/`edit`/`update`)
 
 Then Wallaby will search type partial `markdown` in the following orders:
 
@@ -59,9 +59,9 @@ Then Wallaby will search type partial `markdown` in the following orders:
 - `app/views/wallaby/resources/index/_markdown`
 - `app/views/wallaby/resources/_markdown`
 
-Therefore, you could choose one of the above paths to create this type partial based on your need.
+Therefore, you could choose one of the above paths to create this type partial based on how you want the partial to be shared.
 
-If markdown is only needed for this product, you can create partial like:
+If markdown is only needed for this model class `Product`, you can create the partial with following name:
 
 ```erb
 <% # app/views/admin/products/index/_markdown.html.erb %>
@@ -74,6 +74,10 @@ If you want to share the partial among the whole app, it should be created as:
 <% # app/views/admin/application/index/_markdown.html.erb %>
 <%= markdown.render value  %>
 ```
+
+> NOTE: the file extension doesn't have to be `erb`, it's ok to create the type partial with preferred markup (e.g. `haml`/`slim`/etc.)
+
+> NOTE: also a note, if you need to create custom type partial and want to use `CSV` export feature, you'd better create a type partial for `CSV` format.
 
 ### Local Variables
 

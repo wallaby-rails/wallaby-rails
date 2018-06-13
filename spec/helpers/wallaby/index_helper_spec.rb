@@ -28,14 +28,17 @@ describe Wallaby::IndexHelper, :current_user do
       helper.index_params[:page] = 8
       helper.index_params[:per] = 10
       expect(helper.export_link(Product)).to eq '<a title="Product" href="/admin/products.csv">Export as CSV</a>'
+      expect(helper.export_link(Product, url_params: { date_from: '2018-06-11' })).to eq '<a title="Product" href="/admin/products.csv?date_from=2018-06-11">Export as CSV</a>'
+      expect(helper.export_link(Product, url_params: parameters!(date_from: '2018-06-11'))).to eq '<a title="Product" href="/admin/products.csv?date_from=2018-06-11">Export as CSV</a>'
     end
   end
 
   describe '.filter_link' do
     it 'returns filter name' do
       expect(helper.filter_link(Product, :all, {})).to eq '<a title="Product" href="/admin/products?filter=all">All</a>'
-      expect(helper.filter_link(Product, :all, filter: { default: true })).to eq '<a title="Product" href="/admin/products?filter=all">All</a>'
-      expect(helper.filter_link(Product, :filter, filter: { default: true })).to eq '<a title="Product" href="/admin/products">Filter</a>'
+      expect(helper.filter_link(Product, :all, filters: { filter: { default: true } })).to eq '<a title="Product" href="/admin/products?filter=all">All</a>'
+      expect(helper.filter_link(Product, :filter, filters: { filter: { default: true } })).to eq '<a title="Product" href="/admin/products">Filter</a>'
+      expect(helper.filter_link(Product, :filter, filters: { filter: { default: true } }, url_params: parameters!(date_from: '2018-06-11'))).to eq '<a title="Product" href="/admin/products?date_from=2018-06-11">Filter</a>'
     end
   end
 end
