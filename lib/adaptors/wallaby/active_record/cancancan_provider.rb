@@ -1,63 +1,68 @@
 module Wallaby
   class ActiveRecord
-    # Model Authorizer to provide authroization functions
+    # Cancancan Provider
     class CancancanProvider < ModelAuthorizationProvider
+      # Detect and see if Cancancan is in used
       # @param context [ActionController::Base]
       def self.available?(context)
-        context.respond_to?(:current_ability)
+        defined?(CanCanCan) && context.respond_to?(:current_ability) && context.current_ability.present?
       end
 
+      delegate :current_ability, :current_user, to: :@context
+
+      # Store current_ability for CanCanCan authorization
       # @param context [ActionController::Base]
       def initialize(context)
-        @current_ability = context.current_ability
+        @context = context
       end
 
-      # Check and see if a user has access to a specific resource/collection.
-      # Will raise error if denied.
+      # Check user's permission for an action.
+      # This method will be used in controller most likely.
       # @param action [Symbol, String]
-      # @param target [Object, Class]
-      def authorize(action, target)
-        @current_ability.authorize! action, target
+      # @param subject [Object, Class]
+      # @return nil
+      def authorize(action, subject)
+        current_ability.authorize! action, subject
+      rescue ::CanCan::AccessDenied
+        Rails.logger.info I18n.t('errors.unauthorized.cancancan',
+          user: current_user,
+          action: action,
+          subject: subject
+        )
+        raise Unauthorized
       end
 
-      # Check and see if a user has access to a specific resource/collection.
-      # Returns true/false.
+      # Check and see
       # @param action [Symbol, String]
-      # @param target [Object, Class]
+      # @param subject [Object, Class]
       # @return [Boolean]
-      def authorize?(action, target)
-        @current_ability.can? action, target
+      def authorized?(action, subject)
+        current_ability.can? action, subject
       end
 
-      # Check and see if a user has access to a speicific field of resource
-      # @param action [Symbol, String]
-      # @param target [Object]
-      # @param _field [String]
-      # @return [Boolean]
-      def authorize_field?(action, target, _field)
-        @current_ability.can? action, target
-      end
-
-      # Filter the scopes based on user's permission
+      # Delegate accessible_for to current_ability
       # @param action [Symbol, String]
       # @param scope [Object]
-      def accessible_by(action, scope)
-        scope.accessible_by(@current_ability, action)
+      # @return [Object]
+      def accessible_for(action, scope)
+        return scope unless scope.respond_to? :accessible_by
+        scope.accessible_by current_ability, action
       end
 
-      # Make sure that user can only assign the values allowed
+      # Delegate attributes_for to current_ability
       # @param action [Symbol, String]
-      # @param target [Object]
-      def attributes_for(action, target)
-        @current_ability.attributes_for action, target
+      # @param subject [Object]
+      # @return nil
+      def attributes_for(action, subject)
+        current_ability.attributes_for action, subject
       end
 
       # Just return nil
-      # @param _action [Symbol, String]
-      # @param _target [Object]
-      # @return [Array, nil]
-      def authorized_fields(_action, _target)
-        nil
+      # @param action [Symbol, String]
+      # @param subject [Object]
+      # @return [nil]
+      def permit_params(action, subject)
+        # Do nothing
       end
     end
   end

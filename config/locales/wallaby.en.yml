@@ -65,6 +65,8 @@ en:
     unprocessable_entity:
       keyword_search: 'Unable to perform keyword search when no text fields can be used.'
       field_colon_search: 'Unable to perform field colon search for %{invalid_fields}.'
+    unauthorized:
+      cancancan: 'User %{user} is trying to perform %{action} on %{subject}'
 
   pagination:
     prev: 'Prev'
