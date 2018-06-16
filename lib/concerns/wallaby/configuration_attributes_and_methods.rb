@@ -64,7 +64,10 @@ module Wallaby
       #     ```
       def model_class
         return unless self < ResourcesController
-        @model_class || Map.model_class_map(resources_name)
+        @model_class || \
+          unless abstract || self == Wallaby.configuration.mapping.resources_controller
+            Map.model_class_map(resources_name)
+          end
       end
 
       # @!attribute [r] engine_name

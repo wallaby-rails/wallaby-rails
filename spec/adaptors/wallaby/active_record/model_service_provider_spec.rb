@@ -5,13 +5,14 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
     subject { described_class.new model_class, model_decorator }
     let(:model_class) { AllPostgresType }
     let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new model_class }
-    let(:authorizer) { Ability.new nil }
+    let(:ability) { Ability.new nil }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new cancancan_context(ability), model_class }
 
     describe '#permit' do
       it 'returns the permitted params' do
-        expect { subject.permit(parameters) }.to raise_error ActionController::ParameterMissing
-        expect { subject.permit(parameters(all_postgres_type: {})) }.to raise_error ActionController::ParameterMissing
-        expect(subject.permit(parameters(all_postgres_type: { string: 'some string' }))).to eq parameters!(string: 'some string')
+        expect { subject.permit(parameters, :index, authorizer) }.to raise_error ActionController::ParameterMissing
+        expect { subject.permit(parameters(all_postgres_type: {}), :index, authorizer) }.to raise_error ActionController::ParameterMissing
+        expect(subject.permit(parameters(all_postgres_type: { string: 'some string' }), :index, authorizer)).to eq parameters!(string: 'some string')
       end
     end
 
@@ -19,8 +20,9 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
       it 'returns the collection' do
         condition = { boolean: true }
         record = model_class.create!(condition)
-        false_authorizer = Ability.new nil
-        false_authorizer.cannot :manage, model_class, condition
+        false_ability = Ability.new nil
+        false_ability.cannot :manage, model_class, condition
+        false_authorizer = Wallaby::ModelAuthorizer.new cancancan_context(false_ability), model_class
         expect(subject.collection(parameters, authorizer)).to include record
         expect(subject.collection(parameters, false_authorizer)).not_to include record
       end

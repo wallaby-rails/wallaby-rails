@@ -20,7 +20,6 @@ describe Wallaby::DefaultAuthorizationProvider do
     let(:target) { Product.new }
     let(:scope) { Product.where(nil) }
 
-
     describe '#authorize' do
       it 'returns target' do
         expect(subject.authorize(:index, target_class)).to eq target_class
@@ -69,14 +68,14 @@ describe Wallaby::DefaultAuthorizationProvider do
 
     describe '#attributes_for' do
       it 'returns target' do
-        expect(subject.attributes_for(:index, target_class)).to eq target_class
-        expect(subject.attributes_for(:index, target)).to eq target
-        expect(subject.attributes_for(:show, target)).to eq target
-        expect(subject.attributes_for(:new, target)).to eq target
-        expect(subject.attributes_for(:create, target)).to eq target
-        expect(subject.attributes_for(:edit, target)).to eq target
-        expect(subject.attributes_for(:update, target)).to eq target
-        expect(subject.attributes_for(:destroy, target)).to eq target
+        expect(subject.attributes_for(:index, target_class)).to eq({})
+        expect(subject.attributes_for(:index, target)).to eq({})
+        expect(subject.attributes_for(:show, target)).to eq({})
+        expect(subject.attributes_for(:new, target)).to eq({})
+        expect(subject.attributes_for(:create, target)).to eq({})
+        expect(subject.attributes_for(:edit, target)).to eq({})
+        expect(subject.attributes_for(:update, target)).to eq({})
+        expect(subject.attributes_for(:destroy, target)).to eq({})
       end
     end
 

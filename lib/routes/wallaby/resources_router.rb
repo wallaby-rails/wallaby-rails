@@ -22,6 +22,7 @@ module Wallaby
     # @return [Class] controller class
     def find_controller_by(params)
       model_class = Map.model_class_map params[:resources]
+      Map.mode_map[model_class] || raise(ModelNotFound, model_class) if model_class
       Map.controller_map(model_class, params[:resources_controller]) || default_controller(params)
     end
 

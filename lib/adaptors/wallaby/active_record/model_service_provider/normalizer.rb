@@ -24,7 +24,7 @@ module Wallaby
         # @param values [Array]
         def normalize_range_values(params, field_name, values)
           normalized = Array(values).map(&:presence).compact
-          params[field_name] = values.first...values.last if normalized.present? && values.length == 2
+          params[field_name] = (normalized.present? && values.length == 2) && (values.first...values.last) || nil
         end
 
         # Turn values into points
@@ -33,9 +33,7 @@ module Wallaby
         # @param values [Array]
         def normalize_point_values(params, field_name, values)
           normalized = Array(values).map(&:presence).compact
-          params[field_name] =
-            normalized.present? &&
-            values.map(&:to_f) || nil
+          params[field_name] = normalized.present? && values.map(&:to_f) || nil
         end
 
         # Turn values into binary
@@ -43,9 +41,7 @@ module Wallaby
         # @param field_name [String]
         # @param values [Object]
         def normalize_binary_values(params, field_name, values)
-          params[field_name] =
-            values.is_a?(::ActionDispatch::Http::UploadedFile) &&
-            values.read || nil
+          params[field_name] = values.is_a?(::ActionDispatch::Http::UploadedFile) && values.read || nil
         end
       end
     end

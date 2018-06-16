@@ -21,7 +21,7 @@ describe Wallaby::ResourcesRouter do
     context 'when model class exists' do
       context 'when controller not exists' do
         let(:resources_name) { 'kings' }
-        before { stub_const 'King', Class.new }
+        before { stub_const 'King', Class.new(ActiveRecord::Base) }
 
         it 'shows index page' do
           expect(default_controller).to receive(:action).with(action_name) { mocked_action }
@@ -54,7 +54,7 @@ describe Wallaby::ResourcesRouter do
         let(:resources_name) { 'queens' }
 
         before do
-          stub_const 'Queen', Class.new
+          stub_const 'Queen', Class.new(ActiveRecord::Base)
           stub_const 'QueensController', Class.new(default_controller)
         end
 
@@ -79,7 +79,7 @@ describe Wallaby::ResourcesRouter do
           let(:action_id) { 'history' }
 
           before do
-            stub_const 'Queen', Class.new
+            stub_const 'Queen', Class.new(ActiveRecord::Base)
             stub_const 'QueensController', (Class.new(default_controller) { def history; end })
           end
 

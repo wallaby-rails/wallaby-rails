@@ -2,12 +2,20 @@ module Wallaby
   # Model paginator
   class AbstractResourcePaginator
     class << self
+      attr_reader :abstract
       attr_writer :model_class
 
       # @return [Class] model class for paginator
       def model_class
         return unless self < ResourcePaginator
-        @model_class || Map.model_class_map(name.gsub('Paginator', EMPTY_STRING))
+        @model_class || \
+          unless abstract || self == Wallaby.configuration.mapping.resource_paginator
+            Map.model_class_map(name.gsub('Paginator', EMPTY_STRING))
+          end
+      end
+
+      def abstract!
+        @abstract = false
       end
     end
 

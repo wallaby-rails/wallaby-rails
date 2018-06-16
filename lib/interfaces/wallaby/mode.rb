@@ -32,16 +32,17 @@ module Wallaby
         check_and_constantize __callee__
       end
 
+      # Return a list of authorization providers for authorizer to detect which one to use.
       # @see Wallaby::ModelAuthorizationProvider
       # @return [ActiveSupport::HashWithIndifferentAccess<String, Class>] authorization provider hash
       def model_authorization_providers(classes = ModelAuthorizationProvider.descendants)
         @model_authorization_providers ||=
           classes
-            .select { |klass| klass.name.include? name }
-            .sort_by { |klass| klass.provider_name == DEFAULT ? 1 : 0 }
-            .each_with_object(::ActiveSupport::HashWithIndifferentAccess.new) do |klass, hash|
-              hash[klass.provider_name] = klass
-            end
+          .select { |klass| klass.name.include? name }
+          .sort_by { |klass| klass.provider_name == DEFAULT ? 1 : 0 }
+          .each_with_object(::ActiveSupport::HashWithIndifferentAccess.new) do |klass, hash|
+            hash[klass.provider_name] = klass
+          end
       end
 
       private

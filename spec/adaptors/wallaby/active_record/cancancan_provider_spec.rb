@@ -100,7 +100,7 @@ describe Wallaby::ActiveRecord::CancancanProvider do
         expect(subject.attributes_for(:edit, target)).to eq({})
         expect(subject.attributes_for(:update, target)).to eq({})
         expect(subject.attributes_for(:destroy, target)).to eq({})
-        expect(subject.attributes_for(:refresh, target)).to eq({featured: true})
+        expect(subject.attributes_for(:refresh, target)).to eq(featured: true)
       end
     end
 
