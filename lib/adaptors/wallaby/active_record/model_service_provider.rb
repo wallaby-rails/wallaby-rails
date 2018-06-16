@@ -9,7 +9,7 @@ module Wallaby
       # @param authorizer
       # @return [ActionController::Parameters] whitelisted parameters
       def permit(params, action, authorizer)
-        authorized_fields = authorizer.authorized_fields action, @model_class
+        authorized_fields = authorizer.permit_params action, @model_class
         params.require(param_key).permit(authorized_fields || permitted_fields)
       end
 
@@ -22,7 +22,7 @@ module Wallaby
       def collection(params, authorizer)
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?
-        authorizer.accessible_by :index, query
+        authorizer.accessible_for :index, query
       end
 
       # Paginate

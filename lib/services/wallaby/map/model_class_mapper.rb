@@ -6,14 +6,14 @@ module Wallaby
       # Iterate all classes and generate a hash using their model classes as the key
       # @see #map
       # @param class_array [Array<Class>]
-      # @return [Hash] model class => decendant class
+      # @return [Hash] model class => descendant class
       def self.map(class_array)
         new.send :map, class_array
       end
 
       protected
 
-      # @return [Hash] model class => decendant class
+      # @return [Hash] model class => descendant class
       def map(class_array)
         (class_array || EMPTY_ARRAY).each_with_object({}) do |klass, map|
           next if anonymous?(klass) || abstract?(klass)

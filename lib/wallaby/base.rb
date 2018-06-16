@@ -64,7 +64,6 @@ require 'paginators/wallaby/resource_paginator'
 require 'authorizers/wallaby/abstract_model_authorizer'
 require 'authorizers/wallaby/model_authorizer'
 require 'authorizers/wallaby/default_authorization_provider'
-require 'authorizers/wallaby/authorization/cancancan_strategy'
 
 require 'forms/wallaby/form_builder'
 

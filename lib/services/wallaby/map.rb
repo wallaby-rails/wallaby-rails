@@ -116,7 +116,7 @@ module Wallaby
       # @return [Class] model authorizer provider class
       def authorizer_provider_map(model_class)
         @authorizer_provider_map ||= {}
-        @authorizer_provider_map[model_class] ||= mode_map[model_class].try :model_authorizer_provider
+        @authorizer_provider_map[model_class] ||= mode_map[model_class].try :model_authorization_providers
       end
     end
 

@@ -3,33 +3,45 @@ module Wallaby
   class Mode
     class << self
       # @see Wallaby::ModelDecorator
-      # @return [Wallaby::ModelDecorator] model decorator for the mode
+      # @return [Class] model decorator for the mode
       def model_decorator
         check_and_constantize __callee__
       end
 
       # @see Wallaby::ModelFinder
-      # @return [Wallaby::ModelFinder] model finder for the mode
+      # @return [Class] model finder for the mode
       def model_finder
         check_and_constantize __callee__
       end
 
       # @see Wallaby::ModelServiceProvider
-      # @return [Wallaby::ModelServiceProvider] service provider for the mode
+      # @return [Class] service provider for the mode
       def model_service_provider
         check_and_constantize __callee__
       end
 
       # @see Wallaby::ModelPaginationProvider
-      # @return [Wallaby::ModelPaginationProvider] pagination provider for the mode
+      # @return [Class] pagination provider for the mode
       def model_pagination_provider
         check_and_constantize __callee__
       end
 
-      # @see Wallaby::ModelAuthorizationProvider
-      # @return [Wallaby::ModelAuthorizationProvider] authorization provider for the mode
-      def model_authorization_provider
+      # @see Wallaby::ModelPaginationProvider
+      # @return [Class] pagination provider for the mode
+      def default_authorization_provider
         check_and_constantize __callee__
+      end
+
+      # @see Wallaby::ModelAuthorizationProvider
+      # @return [ActiveSupport::HashWithIndifferentAccess<String, Class>] authorization provider hash
+      def model_authorization_providers(classes = ModelAuthorizationProvider.descendants)
+        @model_authorization_provider ||=
+          classes
+            .select { |klass| klass.name.include? name }
+            .sort_by { |klass| klass.provider_name == DEFAULT ? 1 : 0 }
+            .each_with_object(::ActiveSupport::HashWithIndifferentAccess.new) do |klass, hash|
+              hash[klass.provider_name] = klass
+            end
       end
 
       private

@@ -3,31 +3,40 @@ module Wallaby
   class AbstractModelAuthorizer
     class << self
       attr_writer :model_class
-      attr_writer :provider
+      attr_writer :provider_name
 
+      # This method is used to index the authorizer.
+      # @return [Class, nil] model class
       def model_class
         return unless self < ModelAuthorizer
         @model_class || Map.model_class_map(name.gsub('Authorizer', EMPTY_STRING))
       end
 
-      def provider
-        @provider ||= superclass.respond_to?(:provider) ? superclass.provider : nil
+      # This method is used to index the provider.
+      # If it's not set, it will inherit from super class.
+      # @return [String, Symbol] provider name
+      def provider_name
+        @provider_name ||= superclass.respond_to?(:provider_name) ? superclass.provider_name : nil
       end
     end
 
-    # Delegate methods to pagination provider
     delegate(*(ModelAuthorizationProvider.instance_methods - ::Object.instance_methods), to: :@provider)
 
+    # @param model_class [Class]
     # @param context [ActionController::Base]
     def initialize(context, model_class)
       @model_class = self.class.model_class || model_class
-      @provider = init_provider(self.class.provider, context)
+      @provider = init_provider context
     end
 
     protected
 
-    def init_provider(_provider, context)
-      Wallaby::ActiveRecord::CancancanProvider.new context
+    def init_provider(context)
+      providers = Map.authorizer_provider_map @model_class
+      provider_class = providers[self.class.provider_name]
+      provider_class ||= providers.values.find { |klass| klass.available? context }
+      raise InvalidError unless provider_class
+      provider_class.new context
     end
   end
 end

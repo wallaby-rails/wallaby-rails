@@ -23,6 +23,7 @@ module Wallaby
   FORM_ACTIONS = %w(new create edit update).freeze
   SAVE_ACTIONS = %w(create update).freeze
   TITLE_NAMES = %w(name title string text).freeze
+  DEFAULT = 'default'.freeze
 end
 
 require 'wallaby/base'

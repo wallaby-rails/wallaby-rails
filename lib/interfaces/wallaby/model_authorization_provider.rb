@@ -50,7 +50,7 @@ module Wallaby
     # It should be used for collection.
     # @param _action [Symbol, String]
     # @param _scope [Object]
-    def accessible_by(_action, _scope)
+    def accessible_for(_action, _scope)
       raise NotImplemented
     end
 
