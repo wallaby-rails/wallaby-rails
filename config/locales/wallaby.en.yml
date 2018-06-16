@@ -58,6 +58,8 @@ en:
     forbidden: 'You need permission to access this page.'
 
   errors:
+    invalid:
+      models: '%{models} are invalid models.'
     not_found:
       collection: 'Records could not be found. Click + button to add one.'
       model: 'Model %{model} could not be found.'

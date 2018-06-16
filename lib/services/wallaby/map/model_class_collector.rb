@@ -22,7 +22,7 @@ module Wallaby
       def invalid_models_check
         invalid_models = configured_models - @models
         return if invalid_models.blank?
-        message = "#{invalid_models.to_sentence} are invalid models."
+        message = I18n.t 'errors.invalid.models', models: invalid_models.to_sentence
         raise InvalidError, message
       end
 

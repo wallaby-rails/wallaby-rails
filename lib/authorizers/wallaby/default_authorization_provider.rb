@@ -41,8 +41,8 @@ module Wallaby
     # It should be used when creating/updating record.
     # @param _action [Symbol, String]
     # @param _subject [Object]
-    def attributes_for(_action, subject)
-      subject
+    def attributes_for(_action, _subject)
+      Hash.new
     end
 
     # This is a method for Strong params to ensure user can only modify the fields that they have permission.

@@ -7,8 +7,8 @@ module Wallaby
       # @see #map
       # @param class_array [Array<Class>]
       # @return [Hash] model class => descendant class
-      def self.map(class_array)
-        new.send :map, class_array
+      def self.map(class_array, &block)
+        new.send :map, class_array, &block
       end
 
       protected

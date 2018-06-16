@@ -35,7 +35,7 @@ module Wallaby
       # @see Wallaby::ModelAuthorizationProvider
       # @return [ActiveSupport::HashWithIndifferentAccess<String, Class>] authorization provider hash
       def model_authorization_providers(classes = ModelAuthorizationProvider.descendants)
-        @model_authorization_provider ||=
+        @model_authorization_providers ||=
           classes
             .select { |klass| klass.name.include? name }
             .sort_by { |klass| klass.provider_name == DEFAULT ? 1 : 0 }
