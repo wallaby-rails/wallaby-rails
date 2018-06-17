@@ -25,7 +25,7 @@ module Wallaby
     # @return [Class] controller class
     def find_controller_by(params)
       model_class = Map.model_class_map params[:resources]
-      supported? model_class, params
+      validate model_class, params
       Map.controller_map(model_class, params[:resources_controller]) || default_controller(params)
     end
 
@@ -37,10 +37,10 @@ module Wallaby
     end
 
     # Check and see if the model is supported or not
-    # @param params [Hash]
     # @param model_class [Class]
-    def supported?(model_class, params)
-      return if ERRORS.include? params[:action].to_sym
+    # @param params [Hash]
+    def validate(model_class, params)
+      return if params[:resources].blank?
       return if model_class && Map.mode_map[model_class]
       raise UnprocessableEntity, I18n.t('errors.unprocessable_entity.model', model: model_class)
     end
