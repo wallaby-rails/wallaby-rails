@@ -21,24 +21,26 @@ module Wallaby
     private
 
     # Find the controller class by model class
-    # @param params [ActionController::Parameters]
+    # @param params [Hash]
     # @return [Class] controller class
     def find_controller_by(params)
       model_class = Map.model_class_map params[:resources]
-      supported? model_class
+      supported? model_class, params
       Map.controller_map(model_class, params[:resources_controller]) || default_controller(params)
     end
 
     # The controller class sources from engine mounting parameter or global configuration
-    # @param params [ActionController::Parameters]
+    # @param params [Hash]
     # @return [Class] controller class
     def default_controller(params)
       params[:resources_controller] || Wallaby.configuration.mapping.resources_controller
     end
 
     # Check and see if the model is supported or not
+    # @param params [Hash]
     # @param model_class [Class]
-    def supported?(model_class)
+    def supported?(model_class, params)
+      return if ERRORS.include? params[:action].to_sym
       return if model_class && Map.mode_map[model_class]
       raise UnprocessableEntity, I18n.t('errors.unprocessable_entity.model', model: model_class)
     end

@@ -38,6 +38,12 @@ module Wallaby
       error_rendering(exception, __callee__)
     end
 
+    # Internal server error page
+    # @param exception [Exception]
+    def internal_server_error(exception = nil)
+      error_rendering(exception, __callee__)
+    end
+
     # @return [Wallaby::Configuration] global configuration
     def self.configuration
       ::Wallaby.configuration
