@@ -1,4 +1,7 @@
 require 'rails_helper'
+require 'wallaby/version'
+require 'wallaby/active_record'
+require 'wallaby/her'
 
 describe Wallaby do
   describe '.config' do
@@ -8,5 +11,9 @@ describe Wallaby do
       end
       expect(described_class.configuration.base_controller).to eq ::ActionController::Base
     end
+  end
+
+  describe '::version' do
+    it { expect(described_class::VERSION).to be_present }
   end
 end

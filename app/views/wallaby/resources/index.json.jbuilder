@@ -1,10 +1,9 @@
-# custom json to serve the frontend javascript auto_select
-json.array! decorate(collection) do |decorated|
+# custom json to serve the frontend javascript auto_select feature
+decorated_collection = decorate(collection)
+json_fields = json_fields_of decorated_collection
+json.array! decorated_collection do |decorated|
   json.id decorated.primary_key_value
   json.label decorated.to_label
 
-  index_field_names = decorated.index_field_names.map(&:to_s)
-  fields = (params[:fields] || index_field_names).split(/\s*,\s*/).flatten
-  fields &= index_field_names
-  json.call(decorated, *fields) if fields.present?
+  json.call decorated, *json_fields
 end
