@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Errors pages' do
+describe 'Error pages' do
   Wallaby::ERRORS.each do |status|
     code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
 

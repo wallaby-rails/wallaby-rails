@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'routing' do
-  # TODO: revisit the spec and try to avoid using stub/mock
   describe 'status', type: :routing do
     routes { Wallaby::Engine.routes }
     it { expect(get: 'status').to route_to controller: 'wallaby/application', action: 'healthy' }

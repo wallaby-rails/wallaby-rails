@@ -241,7 +241,7 @@ describe 'Resources pages using postgresql table' do
   end
 end
 
-describe 'Resources pages using postgresql table' do
+describe 'Resources pages using postgresql table for Product model' do
   let(:name) { 'Vincent van Gogh' }
   let(:model_class) { Product }
   let(:json_headers) do

@@ -45,7 +45,7 @@ en:
     internal_server_error: 'Hope you feel better.'
     bad_request: 'Your request is not supported.'
     not_found: 'Not found.'
-    unprocessable_entity: 'Your request could not be processed.'
+    unprocessable_entity: 'Your request can not be processed.'
     unauthorized: 'You need to sign in to access this page.'
     forbidden: 'You need permission to access this page.'
 
@@ -53,7 +53,7 @@ en:
     internal_server_error: 'Service unavailable.'
     bad_request: 'Your request is not supported.'
     not_found: 'Not found.'
-    unprocessable_entity: 'Your request could not be processed.'
+    unprocessable_entity: 'Your request can not be processed.'
     unauthorized: 'You need to sign in to access this page.'
     forbidden: 'You need permission to access this page.'
 
@@ -61,12 +61,13 @@ en:
     invalid:
       models: '%{models} are invalid models.'
     not_found:
-      collection: 'Records could not be found. Click + button to add one.'
-      model: 'Model %{model} could not be found.'
-      resource: 'Record %{resource} could not be found.'
+      collection: 'Records can not be found. Click + button to add one.'
+      model: 'Model %{model} can not be found.'
+      resource: 'Record %{resource} can not be found.'
     unprocessable_entity:
       keyword_search: 'Unable to perform keyword search when no text fields can be used.'
       field_colon_search: 'Unable to perform field colon search for %{invalid_fields}.'
+      model: 'Unable to handle model %{model}.'
     unauthorized:
       cancancan: 'User %{user} is trying to perform %{action} on %{subject}'
 
