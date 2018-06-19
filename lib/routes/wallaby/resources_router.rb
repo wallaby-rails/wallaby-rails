@@ -40,8 +40,7 @@ module Wallaby
     # @param model_class [Class]
     # @param params [Hash]
     def validate(model_class, params)
-      return if params[:resources].blank?
-      return if model_class && Map.mode_map[model_class]
+      return unless model_class && !Map.mode_map[model_class]
       raise UnprocessableEntity, I18n.t('errors.unprocessable_entity.model', model: model_class)
     end
 
@@ -51,7 +50,7 @@ module Wallaby
     def set_message_for(exception, env)
       session = env[ActionDispatch::Request::Session::ENV_SESSION_KEY] || {}
       flash = env[ActionDispatch::Flash::KEY] ||= ActionDispatch::Flash::FlashHash.from_session_value session['flash']
-      flash['error'] = exception.message
+      flash[:alert] = exception.message
     end
   end
 end

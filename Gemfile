@@ -14,6 +14,8 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'her'
+gem 'cancancan'
+gem 'pundit'
 gem 'rails', '~>5.2'
 
 group :development, :test do
