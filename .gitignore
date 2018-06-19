@@ -1,4 +1,6 @@
 .bundle/
+.yardoc/
+doc/
 pkg/
 spec/dummy/db/*.sqlite3
 spec/dummy/db/*.sqlite3-journal

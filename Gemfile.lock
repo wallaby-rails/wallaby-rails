@@ -275,6 +275,7 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
+    yard (0.9.14)
 
 PLATFORMS
   ruby
@@ -302,6 +303,7 @@ DEPENDENCIES
   turbolinks
   wallaby!
   webmock
+  yard
 
 BUNDLED WITH
    1.16.1
