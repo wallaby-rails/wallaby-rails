@@ -16,10 +16,10 @@ describe Wallaby::SecureController do
       end
     end
 
-    describe 'CanCan::AccessDenied' do
+    describe 'Unauthorized' do
       controller do
         def index
-          raise CanCan::AccessDenied
+          raise Wallaby::Unauthorized
         end
       end
 
