@@ -1,5 +1,6 @@
 module Wallaby
   class Map
+    # @!visibility private
     # To collect model classes that are configured to be handled by Wallaby
     class ModelClassCollector
       # @param configuration [Configuration]

@@ -1,4 +1,5 @@
 module Wallaby
+  # @!visibility private
   # Url helper
   class UrlFor
     class << self

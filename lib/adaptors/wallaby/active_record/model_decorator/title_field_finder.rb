@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     class ModelDecorator
-      # @private
+      # @!visibility private
       # Try to find the field that can be used as title
       class TitleFieldFinder
         TITLE_FIELD_TYPES = %w(string).freeze

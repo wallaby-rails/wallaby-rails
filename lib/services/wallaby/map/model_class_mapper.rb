@@ -1,6 +1,6 @@
 module Wallaby
   class Map
-    # @private
+    # @!visibility private
     # Generate a map.
     class ModelClassMapper
       # Iterate all classes and generate a hash using their model classes as the key

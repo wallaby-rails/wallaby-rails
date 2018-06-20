@@ -1,10 +1,11 @@
 module Wallaby
-  # @private
+  # @!visibility private
   # This is the core of wallaby that dynamically dispatches request to appropriate controller and action.
   class ResourcesRouter
     # @see http://edgeguides.rubyonrails.org/routing.html#routing-to-rack-applications
     # It tries to find out the controller that has the same model class from converted resources name.
     # Otherwise, it falls back to base resources controller which will come from the following sources:
+    #
     # 1. `:resources_controller` parameter
     # 2. resources_controller mapping configuration,
     #   e.g. `Admin::ApplicationController` if defined or `Wallaby::ResourcesController`

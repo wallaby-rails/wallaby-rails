@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     class ModelServiceProvider
-      # @private
+      # @!visibility private
       # Query builder
       class Querier
         TEXT_FIELDS = %w(string text citext longtext tinytext mediumtext).freeze

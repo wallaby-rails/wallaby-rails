@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     class ModelServiceProvider
-      # @private
+      # @!visibility private
       # Normalize the values for a model
       class Normalizer
         # @param model_decorator [Wallaby::ModelDecorator]

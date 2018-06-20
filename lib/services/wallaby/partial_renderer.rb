@@ -1,5 +1,5 @@
 module Wallaby
-  # @private
+  # @!visibility private
   # Partial renderer
   class PartialRenderer
     class << self

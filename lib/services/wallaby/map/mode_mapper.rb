@@ -1,12 +1,16 @@
 module Wallaby
   class Map
-    # To map model class to mode class so that we know how to handle a model
+    # @!visibility private
+    # To generate a hash map (`model` => `mode`).
+    # This will be used to tell if a model can be handled by Wallaby
     class ModeMapper
-      # @param model_class [Class] model class
+      # @param mode_classes [Array<Class>] model classes
       def initialize(mode_classes)
         @mode_classes = mode_classes
       end
 
+      # This will walk through each mode (e.g. **ActiveRecord**/**Her**) then pull out all the models,
+      # and then form a hash of (`model` => `mode`).
       # @return [Hash] { model_class => mode }
       def map
         return {} if @mode_classes.blank?

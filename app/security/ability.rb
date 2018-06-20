@@ -1,4 +1,4 @@
-# @private
+# @!visibility private
 # Defualt ability for wallaby
 # If main app has defined `ability.rb`, this file will not be loaded/used.
 class Ability
