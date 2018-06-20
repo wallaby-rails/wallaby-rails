@@ -1,11 +1,6 @@
 module Wallaby
   # @private
   class Engine < ::Rails::Engine
-    initializer 'wallaby.deflate' do |_|
-      # default to Gzip HTML
-      config.middleware.use Rack::Deflater
-    end
-
     initializer 'wallaby.assets.precompile' do |_|
       config.assets.precompile +=
         %w(
