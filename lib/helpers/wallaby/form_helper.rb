@@ -9,7 +9,8 @@ module Wallaby
     end
 
     # To generate remote url for auto select plugin.
-    # @see https://github.com/reinteractive/wallaby/blob/master/app/assets/javascripts/wallaby/auto_select.js auto_select.js
+    # @see https://github.com/reinteractive/wallaby/blob/master/app/assets/javascripts/wallaby/auto_select.js
+    #   auto_select.js
     # @param url [String, nil]
     #   if url is nil, it will fall back to default remote url
     # @param model_class [Class]
@@ -26,7 +27,8 @@ module Wallaby
     end
 
     # To generate dropdown options (class => url) for polymorphic class.
-    # @see https://github.com/reinteractive/wallaby/blob/master/app/assets/javascripts/wallaby/auto_select.js auto_select.js
+    # @see https://github.com/reinteractive/wallaby/blob/master/app/assets/javascripts/wallaby/auto_select.js
+    #   auto_select.js
     # This function will pull out remote urls from `metadata[:remote_urls]`
     # (Class => url).
     # @see ActionView::Helpers::FormOptionsHelper#options_for_select

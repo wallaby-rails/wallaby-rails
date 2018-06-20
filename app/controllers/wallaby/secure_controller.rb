@@ -27,7 +27,8 @@ module Wallaby
     # - do nothing
     # @note This is a template method that can be overridden by subclasses
     # @see Wallaby::SecureController#security_config
-    # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers Devise::Controllers::Helpers#define_helpers
+    # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers
+    #   Devise::Controllers::Helpers#define_helpers
     # @return [Object] a user object
     def current_user
       @current_user ||=
@@ -52,7 +53,8 @@ module Wallaby
     # - do nothing
     # @note This is a template method that can be overridden by subclasses
     # @see Wallaby::SecureController#security_config
-    # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers Devise::Controllers::Helpers#define_helpers
+    # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers
+    #   Devise::Controllers::Helpers#define_helpers
     def authenticate_user!
       authenticated =
         if security_config.authenticate? || !defined? super

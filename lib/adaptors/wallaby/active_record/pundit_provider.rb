@@ -33,7 +33,7 @@ module Wallaby
         raise Unauthorized
       end
 
-      # Check and see
+      # Check and see if user is allowed to perform an action on given subject
       # @param action [Symbol, String]
       # @param subject [Object, Class]
       # @return [Boolean]
@@ -44,10 +44,10 @@ module Wallaby
       end
 
       # Delegate accessible_for to current_ability
-      # @param action [Symbol, String]
+      # @param _action [Symbol, String]
       # @param scope [Object]
       # @return [Object]
-      def accessible_for(action, scope)
+      def accessible_for(_action, scope)
         @context.policy_scope(scope) || scope
       end
 

@@ -18,14 +18,14 @@ describe Wallaby::IndexHelper, :current_user do
   describe '#json_fields_of' do
     it 'returns a list of field names' do
       expect(helper.json_fields_of([])).to eq []
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)])).to eq ["id", "sku", "name", "stock", "price", "featured", "available_to_date", "available_to_time", "published_at"]
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], nil)).to eq ["id", "sku", "name", "stock", "price", "featured", "available_to_date", "available_to_time", "published_at"]
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], [])).to eq ["id", "sku", "name", "stock", "price", "featured", "available_to_date", "available_to_time", "published_at"]
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], ['sku', 'name'])).to eq ["sku", "name"]
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], 'sku,name')).to eq ["sku", "name"]
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], ['sku', 'name', 'unknown'])).to eq ["sku", "name"]
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], 'sku,name,unknown')).to eq ["sku", "name"]
-      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], ['unknown'])).to eq []
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)])).to eq %w(id sku name stock price featured available_to_date available_to_time published_at)
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], nil)).to eq %w(id sku name stock price featured available_to_date available_to_time published_at)
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], [])).to eq %w(id sku name stock price featured available_to_date available_to_time published_at)
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], %w(sku name))).to eq %w(sku name)
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], 'sku,name')).to eq %w(sku name)
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], %w(sku name unknown))).to eq %w(sku name)
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], 'sku,name,unknown')).to eq %w(sku name)
+      expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], %w(unknown))).to eq []
       expect(helper.json_fields_of([Wallaby::ResourceDecorator.new(Product.new)], 'unknown')).to eq []
     end
   end

@@ -1,3 +1,4 @@
+# The very beginning of Wallaby
 module Wallaby
 end
 

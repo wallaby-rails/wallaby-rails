@@ -13,8 +13,8 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'her'
 gem 'cancancan'
+gem 'her'
 gem 'pundit'
 gem 'rails', '~>5.2'
 
