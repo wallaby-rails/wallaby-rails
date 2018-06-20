@@ -29,7 +29,7 @@ module Wallaby
       # @see Wallaby::ModelServiceProvider#paginate
       # @param query [ActiveRecord::Relation]
       # @param params [ActionController::Parameters]
-      # @param [ActiveRecord::Relation] paginated query
+      # @return [ActiveRecord::Relation] paginated query
       def paginate(query, params)
         per = params[:per] || Wallaby.configuration.pagination.page_size
         query = query.page params[:page] if query.respond_to? :page

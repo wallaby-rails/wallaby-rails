@@ -96,7 +96,7 @@ module Wallaby
         end
 
         # Search text for the text columns that appear in `index_field_names`
-        # @param filter_name [String] filter name
+        # @param keywords [String] keywords
         # @param query [ActiveRecord::Relation, nil]
         # @return [ActiveRecord::Relation]
         def text_search(keywords, query = nil)

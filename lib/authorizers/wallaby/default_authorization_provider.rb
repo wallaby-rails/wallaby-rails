@@ -32,7 +32,7 @@ module Wallaby
     # Filter the scope based on user's permission
     # It should be used for collection.
     # @param _action [Symbol, String]
-    # @param _scope [Object]
+    # @param scope [Object]
     def accessible_for(_action, scope)
       scope
     end

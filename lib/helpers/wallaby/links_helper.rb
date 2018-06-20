@@ -28,7 +28,6 @@ module Wallaby
     #
     # If user's not authorized, nil will be returned
     # @param model_class [Class] model class
-    # @param options [Hash]
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def new_link(model_class, html_options: {}, &block)
@@ -85,7 +84,6 @@ module Wallaby
     #
     # If user's not authorized, nil will be returned
     # @param resource [Object, Wallaby::ResourceDecorator] model class
-    # @param options [Hash]
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def delete_link(resource, html_options: {}, &block)
