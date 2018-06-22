@@ -55,7 +55,7 @@ module Wallaby
           'attributes_for'
         end
       value = method && policy.public_send(method)
-      Rails.logger.warn I18n.t('error') if !method
+      Rails.logger.warn I18n.t('error.pundit.not_found.attributes_for', subject: subject) unless method
       value || {}
     end
 

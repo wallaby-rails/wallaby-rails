@@ -72,7 +72,8 @@ en:
       cancancan: 'User %{user} is trying to perform %{action} on %{subject}'
     pundit:
       not_found:
-        scope_policy: 'Cannot find scope policy for %{scope}'
+        scope_policy: 'Cannot find scope policy for %{scope}.'
+        attributes_for: 'Cannot find attributes for %{subject}.'
 
   pagination:
     prev: 'Prev'
