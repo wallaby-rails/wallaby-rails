@@ -1,5 +1,5 @@
 module Wallaby
-  # Model Authorizer to provide authroization functions
+  # Model Authorizer to provide authorization functions
   class AbstractModelAuthorizer
     class << self
       attr_writer :model_class

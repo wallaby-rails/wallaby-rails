@@ -1,6 +1,6 @@
 module Wallaby
-  class ActiveRecord
-    # Pundit provider for ActiveRecord
+  class Her
+    # Pundit provider for Her
     class PunditProvider < PunditAuthorizationProvider
     end
   end

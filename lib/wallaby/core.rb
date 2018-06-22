@@ -2,7 +2,6 @@ require 'jbuilder'
 require 'parslet'
 require 'responders'
 require 'csv'
-require 'sass-rails'
 
 require 'wallaby/version'
 require 'wallaby/constants'
@@ -50,6 +49,8 @@ require 'paginators/wallaby/resource_paginator'
 require 'authorizers/wallaby/abstract_model_authorizer'
 require 'authorizers/wallaby/model_authorizer'
 require 'authorizers/wallaby/default_authorization_provider'
+require 'authorizers/wallaby/cancancan_authorization_provider'
+require 'authorizers/wallaby/pundit_authorization_provider'
 
 require 'forms/wallaby/form_builder'
 

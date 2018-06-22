@@ -3,7 +3,10 @@ require 'kaminari'
 require 'adaptors/wallaby/active_record'
 
 require 'adaptors/wallaby/active_record/model_finder'
+
+# ModelPaginationProvider: begin
 require 'adaptors/wallaby/active_record/model_pagination_provider'
+# ModelPaginationProvider: end
 
 # ModelDecorator: begin
 require 'adaptors/wallaby/active_record/model_decorator'

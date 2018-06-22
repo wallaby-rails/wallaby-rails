@@ -66,7 +66,7 @@ module Wallaby
       #
       # If model_authorizer is not defined,
       # it will fallback to `Admin::ApplicationAuthorizer`,
-      # otherwise `Wallaby::ModelAuthroizer`.
+      # otherwise `Wallaby::ModelAuthorizer`.
       # @return [Class] configurable model authorizer
       def model_authorizer
         @model_authorizer ||=
