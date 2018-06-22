@@ -21,6 +21,11 @@ require 'parsers/wallaby/parser'
 require 'utils/wallaby/utils'
 require 'utils/wallaby/test_utils'
 
+require 'concerns/wallaby/abstractable'
+require 'concerns/wallaby/resources_helper_methods'
+require 'concerns/wallaby/rails_overriden_methods'
+require 'concerns/wallaby/configuration_attributes_and_methods'
+
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator/field_helpers'
 require 'interfaces/wallaby/model_decorator'
@@ -76,10 +81,6 @@ require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/base_helper'
 require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
-
-require 'concerns/wallaby/resources_helper_methods'
-require 'concerns/wallaby/rails_overriden_methods'
-require 'concerns/wallaby/configuration_attributes_and_methods'
 
 require 'responders/wallaby/abstract_responder'
 require 'responders/wallaby/resources_responder'

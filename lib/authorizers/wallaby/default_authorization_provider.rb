@@ -1,27 +1,26 @@
 module Wallaby
   # Default authorization provider
   class DefaultAuthorizationProvider < ModelAuthorizationProvider
-    # Check and see if current provider is in used.
+    # Always available.
     # @param _context [ActionController::Base]
     def self.available?(_context)
       true
     end
 
-    # Constructor
+    # Do nothing
     # @param _context [ActionController::Base]
     def initialize(_context)
       # Do nothing
     end
 
-    # Check user's permission on given resource and subject.
-    # It should raise error if denied and be used in controller.
+    # Do nothing
     # @param _action [Symbol, String]
     # @param subject [Object, Class]
     def authorize(_action, subject)
       subject
     end
 
-    # Check and see if a user has access to a specific resource/collection on given action.
+    # Always return true
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
     # @return [Boolean]
@@ -29,24 +28,21 @@ module Wallaby
       true
     end
 
-    # Filter the scope based on user's permission
-    # It should be used for collection.
+    # Do nothing
     # @param _action [Symbol, String]
     # @param scope [Object]
     def accessible_for(_action, scope)
       scope
     end
 
-    # Make sure that user can assign certain values to a record
-    # It should be used when creating/updating record.
+    # Return empty attributes
     # @param _action [Symbol, String]
     # @param _subject [Object]
     def attributes_for(_action, _subject)
       {}
     end
 
-    # This is a method for Strong params to ensure user can only modify the fields that they have permission.
-    # NOTE: Please make sure to return nil when the authorization doesn't support this feature.
+    # @note Please make sure to return nil when the authorization doesn't support this feature.
     # @param _action [Symbol, String]
     # @param _subject [Object]
     # @return [nil, Array]

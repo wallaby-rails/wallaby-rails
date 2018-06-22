@@ -1,6 +1,7 @@
 module Wallaby
   # Model Authorizer to provide authorization functions
   class AbstractModelAuthorizer
+    include Abstractable
     class << self
       attr_writer :model_class
       attr_writer :provider_name
@@ -9,6 +10,7 @@ module Wallaby
       # @return [Class, nil] model class
       def model_class
         return unless self < ModelAuthorizer
+        return if abstract || self == Wallaby.configuration.mapping.model_authorizer
         @model_class || Map.model_class_map(name.gsub('Authorizer', EMPTY_STRING))
       end
 

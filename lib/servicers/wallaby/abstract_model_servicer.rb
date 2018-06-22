@@ -1,11 +1,13 @@
 module Wallaby
   # Abstract model servicer
   class AbstractModelServicer
+    include Abstractable
     class << self
       attr_writer :model_class
       # @return [Class] model class that comes from its class name
       def model_class
         return unless self < ModelServicer
+        return if abstract || self == Wallaby.configuration.mapping.model_servicer
         @model_class || Map.model_class_map(name.gsub('Servicer', EMPTY_STRING))
       end
     end

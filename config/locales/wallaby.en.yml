@@ -70,6 +70,9 @@ en:
       model: 'Unable to handle model %{model}.'
     unauthorized:
       cancancan: 'User %{user} is trying to perform %{action} on %{subject}'
+    pundit:
+      not_found:
+        scope_policy: 'Cannot find scope policy for %{scope}'
 
   pagination:
     prev: 'Prev'

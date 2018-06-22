@@ -146,7 +146,7 @@ describe Wallaby::Utils, clear: :object_space do
 
   describe '.preload' do
     it 'doesnt raise exception' do
-      expect(described_class.preload('spec/dummy/app/models/product.rb')).to eq ["spec/dummy/app/models/product.rb"]
+      expect(described_class.preload('spec/dummy/app/models/product.rb')).to eq ['spec/dummy/app/models/product.rb']
       expect { described_class.preload('spec/dummy/app/models/invalid_model.rb') }.not_to raise_error
     end
   end

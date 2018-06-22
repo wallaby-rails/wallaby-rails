@@ -1,6 +1,7 @@
 module Wallaby
   # Resource Decorator base class
   class AbstractResourceDecorator
+    include Abstractable
     class << self
       attr_writer :model_class
 
@@ -8,6 +9,7 @@ module Wallaby
       # @return [Class]
       def model_class
         return unless self < ResourceDecorator
+        return if abstract || self == Wallaby.configuration.mapping.resource_decorator
         @model_class || Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
       end
 

@@ -22,7 +22,7 @@ module Wallaby
     # This `current_user` method will try to looking up the actual implementation from the following
     # places from high precedence to low:
     #
-    # - [Security]
+    # - {Wallaby::Configuration::Security#current_user}
     # - `super` method
     # - do nothing
     # @note This is a template method that can be overridden by subclasses
@@ -48,7 +48,7 @@ module Wallaby
     # This `authenticate_user!` method will try to looking up the actual implementation from the following
     # places from high precedence to low:
     #
-    # - [Security]
+    # - {Wallaby::Configuration::Security#authenticate}
     # - super
     # - do nothing
     # @note This is a template method that can be overridden by subclasses

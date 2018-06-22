@@ -19,7 +19,7 @@ module Wallaby
     # Constructor
     # @param _context [ActionController::Base]
     def initialize(_context)
-      raise NotImplemented
+      # do nothing
     end
 
     # Check user's permission on given resource and subject.

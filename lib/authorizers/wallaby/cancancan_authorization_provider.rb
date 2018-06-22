@@ -4,7 +4,7 @@ module Wallaby
     # Detect and see if Cancancan is in used
     # @param context [ActionController::Base]
     def self.available?(context)
-      defined?(CanCanCan) && context.respond_to?(:current_ability) && context.current_ability.present?
+      defined?(CanCanCan) && context.respond_to?(:current_ability)
     end
 
     delegate :current_ability, :current_user, to: :@context

@@ -158,7 +158,7 @@ describe Wallaby::Map do
     end
 
     describe '.authorization_provider_map' do
-      it 'returns a model authroization provider'
+      it 'returns a model authorization provider'
     end
   end
 end
