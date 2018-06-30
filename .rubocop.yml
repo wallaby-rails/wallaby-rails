@@ -29,6 +29,7 @@ Style/SingleLineMethods:
     - 'spec/**/*_spec.rb'
 
 Metrics/LineLength:
+  Max: 120
   Exclude:
     - 'spec/**/*'
 

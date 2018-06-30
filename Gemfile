@@ -13,7 +13,10 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'rails', '~> 5.1.4'
+gem 'cancancan'
+gem 'her'
+gem 'pundit'
+gem 'rails', '~>5.2'
 
 group :development, :test do
   gem 'binding_of_caller'
@@ -25,6 +28,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'sqlite3'
+  gem 'yard'
 end
 
 group :development do
@@ -38,4 +42,5 @@ group :test do
   gem 'database_cleaner'
   gem 'rails-controller-testing'
   gem 'simplecov'
+  gem 'webmock'
 end

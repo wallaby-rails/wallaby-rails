@@ -10,6 +10,12 @@ module Wallaby
       Map.model_decorator_map model_class
     end
 
+    # @see Map.authorizer_map
+    # @return [Wallaby::ModelAuthorizer]
+    def model_authorizer(model_class)
+      Map.authorizer_map model_class
+    end
+
     # Shortcut for `Wallaby.configuration.metadata
     def default_metadata
       Wallaby.configuration.metadata

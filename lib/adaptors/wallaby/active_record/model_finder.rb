@@ -20,21 +20,21 @@ module Wallaby
       private
 
       # Is model class abstract?
-      # @param [Class] model class
+      # @param model_class [Class] model class
       # @return [Boolean]
       def abstract?(model_class)
         model_class.abstract_class?
       end
 
       # Is model class anonymous?
-      # @param [Class] model class
+      # @param model_class [Class] model class
       # @return [Boolean]
       def anonymous?(model_class)
         Utils.anonymous_class? model_class
       end
 
       # Is model class the shcema migration class?
-      # @param [Class] model class
+      # @param model_class [Class] model class
       # @return [Boolean]
       def schema?(model_class)
         model_class.name == 'ActiveRecord::SchemaMigration'
@@ -42,7 +42,7 @@ module Wallaby
 
       # Check and see if given model class is intermediate class that generated
       # for has and belongs to many assocation
-      # @param [Class] model class
+      # @param model_class [Class] model class
       # @return [Boolean]
       def habtm?(model_class)
         model_class.name.index('HABTM')

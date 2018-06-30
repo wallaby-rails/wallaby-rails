@@ -11,9 +11,7 @@ module Wallaby
       block ||= defaults[:block]
       html_options[:title] ||= defaults[:block].call
       # allow empty class to be set
-      if !html_options.key?(:class) && defaults[:class]
-        html_options[:class] = defaults[:class]
-      end
+      html_options[:class] = defaults[:class] if !html_options.key?(:class) && defaults[:class]
       [html_options, block]
     end
   end

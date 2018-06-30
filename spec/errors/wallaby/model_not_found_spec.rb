@@ -5,7 +5,7 @@ describe Wallaby::ModelNotFound do
 
   describe '#message' do
     it 'returns the message' do
-      expect(subject.message).to eq 'Model AllPostgresType could not be found.'
+      expect(subject.message).to eq 'Model AllPostgresType can not be found.'
     end
   end
 end

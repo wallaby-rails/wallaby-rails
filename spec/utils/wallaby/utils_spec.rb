@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 describe Wallaby::Utils, clear: :object_space do
+  describe '.engine_name_from' do
+    # @see spec/dummy/config/routes.rb
+    it 'returns the name/alias of an engine' do
+      expect(described_class.engine_name_from('SCRIPT_NAME' => '')).to eq ''
+      expect(described_class.engine_name_from('SCRIPT_NAME' => '/admin')).to eq 'wallaby_engine'
+      expect(described_class.engine_name_from('SCRIPT_NAME' => '/admin_else')).to eq 'manager_engine'
+      expect(described_class.engine_name_from('SCRIPT_NAME' => '/core/admin')).to eq 'core_nested_engine'
+      expect(described_class.engine_name_from('SCRIPT_NAME' => '/main/admin')).to eq 'main_engine'
+    end
+  end
+
   describe '.anonymous_class?' do
     it 'checks whether a class is anonymous' do
       expect(described_class.anonymous_class?(Product)).to be_falsy
@@ -10,7 +21,7 @@ describe Wallaby::Utils, clear: :object_space do
 
   describe '.translate_class' do
     it 'translates a message for a method' do
-      expect(described_class.translate_class(Wallaby::Map::ModelClassMapper.new(ActiveRecord::Base), :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"
+      expect(described_class.translate_class(Wallaby::Map::ModelClassMapper.new, :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"
       expect(described_class.translate_class(Wallaby::Map::ModelClassMapper, :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"
     end
   end
@@ -130,6 +141,13 @@ describe Wallaby::Utils, clear: :object_space do
     it 'returns label' do
       expect(described_class.to_field_label(:something, {})).to eq 'Something'
       expect(described_class.to_field_label(:something, label: 'Else')).to eq 'Else'
+    end
+  end
+
+  describe '.preload' do
+    it 'doesnt raise exception' do
+      expect(described_class.preload('spec/dummy/app/models/product.rb')).to eq ['spec/dummy/app/models/product.rb']
+      expect { described_class.preload('spec/dummy/app/models/invalid_model.rb') }.not_to raise_error
     end
   end
 end

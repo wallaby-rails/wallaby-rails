@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'bootstrap-sass'
   s.add_dependency 'bootstrap3-datetimepicker-rails'
-  s.add_dependency 'cancancan'
   s.add_dependency 'codemirror-rails'
   s.add_dependency 'font-awesome-sass', '< 5.0.0'
   s.add_dependency 'jbuilder'

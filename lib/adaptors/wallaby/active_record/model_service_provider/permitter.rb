@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     class ModelServiceProvider
-      # @private
+      # @!visibility private
       # Filter the params
       class Permitter
         # @param model_decorator [Wallaby::ModelDecorator]

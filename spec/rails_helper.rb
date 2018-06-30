@@ -1,6 +1,10 @@
+# NOTE: simplecov has to stay at the top of everything else to work properly.
 require 'simplecov'
 SimpleCov.minimum_coverage 99
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter 'wallaby/version'
+  add_filter 'wallaby/engine'
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
@@ -9,6 +13,10 @@ require File.expand_path('../dummy/config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+require 'webmock/rspec'
+require 'cancancan'
+require 'pundit'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

@@ -1,19 +1,23 @@
 module Wallaby
   # Resource Decorator base class
   class AbstractResourceDecorator
+    include Abstractable
     class << self
+      attr_writer :model_class
+
       # Guess the model class from class name
       # @return [Class]
       def model_class
-        return unless self < ::Wallaby.configuration.mapping.resource_decorator
-        Map.model_class_map name.gsub('Decorator', EMPTY_STRING)
+        return unless self < ResourceDecorator
+        return if abstract || self == Wallaby.configuration.mapping.resource_decorator
+        @model_class || Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
       end
 
       # Get the model decorator for the model class
       # It should be the same as #model_decorator
       # @return [Wallaby::ModelDecorator]
       def model_decorator
-        return unless self < ::Wallaby.configuration.mapping.resource_decorator
+        return unless self < ResourceDecorator
         Map.model_decorator_map model_class
       end
 

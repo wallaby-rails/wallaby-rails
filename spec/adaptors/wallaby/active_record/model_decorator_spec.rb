@@ -9,50 +9,50 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       it 'returns a hash of all keys' do
         expect(subject.fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
         expect(subject.fields).to eq(
-          'id' => { 'name' => 'id', 'type' => 'integer', 'label' => 'Id' },
-          'bigint' => { 'name' => 'bigint', 'type' => 'integer', 'label' => 'Bigint' },
-          'bigserial' => { 'name' => 'bigserial', 'type' => 'integer', 'label' => 'Bigserial' },
-          'binary' => { 'name' => 'binary', 'type' => 'binary', 'label' => 'Binary' },
-          'bit' => { 'name' => 'bit', 'type' => 'bit', 'label' => 'Bit' },
-          'bit_varying' => { 'name' => 'bit_varying', 'type' => 'bit_varying', 'label' => 'Bit varying' },
-          'boolean' => { 'name' => 'boolean', 'type' => 'boolean', 'label' => 'Boolean' },
-          'box' => { 'name' => 'box', 'type' => 'box', 'label' => 'Box' },
-          'cidr' => { 'name' => 'cidr', 'type' => 'cidr', 'label' => 'Cidr' },
-          'circle' => { 'name' => 'circle', 'type' => 'circle', 'label' => 'Circle' },
-          'citext' => { 'name' => 'citext', 'type' => 'citext', 'label' => 'Citext' },
-          'color' => { 'name' => 'color', 'type' => 'string', 'label' => 'Color' },
-          'date' => { 'name' => 'date', 'type' => 'date', 'label' => 'Date' },
-          'daterange' => { 'name' => 'daterange', 'type' => 'daterange', 'label' => 'Daterange' },
-          'datetime' => { 'name' => 'datetime', 'type' => 'datetime', 'label' => 'Datetime' },
-          'decimal' => { 'name' => 'decimal', 'type' => 'decimal', 'label' => 'Decimal' },
-          'email' => { 'name' => 'email', 'type' => 'string', 'label' => 'Email' },
-          'float' => { 'name' => 'float', 'type' => 'float', 'label' => 'Float' },
-          'hstore' => { 'name' => 'hstore', 'type' => 'hstore', 'label' => 'Hstore' },
-          'inet' => { 'name' => 'inet', 'type' => 'inet', 'label' => 'Inet' },
-          'int4range' => { 'name' => 'int4range', 'type' => 'int4range', 'label' => 'Int4range' },
-          'int8range' => { 'name' => 'int8range', 'type' => 'int8range', 'label' => 'Int8range' },
-          'integer' => { 'name' => 'integer', 'type' => 'integer', 'label' => 'Integer' },
-          'json' => { 'name' => 'json', 'type' => 'json', 'label' => 'Json' },
-          'jsonb' => { 'name' => 'jsonb', 'type' => 'jsonb', 'label' => 'Jsonb' },
-          'line' => { 'name' => 'line', 'type' => 'line', 'label' => 'Line' },
-          'lseg' => { 'name' => 'lseg', 'type' => 'lseg', 'label' => 'Lseg' },
-          'ltree' => { 'name' => 'ltree', 'type' => 'ltree', 'label' => 'Ltree' },
-          'macaddr' => { 'name' => 'macaddr', 'type' => 'macaddr', 'label' => 'Macaddr' },
-          'money' => { 'name' => 'money', 'type' => 'money', 'label' => 'Money' },
-          'numrange' => { 'name' => 'numrange', 'type' => 'numrange', 'label' => 'Numrange' },
-          'password' => { 'name' => 'password', 'type' => 'string', 'label' => 'Password' },
-          'path' => { 'name' => 'path', 'type' => 'path', 'label' => 'Path' },
-          'point' => { 'name' => 'point', 'type' => 'point', 'label' => 'Point' },
-          'polygon' => { 'name' => 'polygon', 'type' => 'polygon', 'label' => 'Polygon' },
-          'serial' => { 'name' => 'serial', 'type' => 'integer', 'label' => 'Serial' },
-          'string' => { 'name' => 'string', 'type' => 'string', 'label' => 'String' },
-          'text' => { 'name' => 'text', 'type' => 'text', 'label' => 'Text' },
-          'time' => { 'name' => 'time', 'type' => 'time', 'label' => 'Time' },
-          'tsrange' => { 'name' => 'tsrange', 'type' => 'tsrange', 'label' => 'Tsrange' },
-          'tstzrange' => { 'name' => 'tstzrange', 'type' => 'tstzrange', 'label' => 'Tstzrange' },
-          'tsvector' => { 'name' => 'tsvector', 'type' => 'tsvector', 'label' => 'Tsvector' },
-          'uuid' => { 'name' => 'uuid', 'type' => 'uuid', 'label' => 'Uuid' },
-          'xml' => { 'name' => 'xml', 'type' => 'xml', 'label' => 'Xml' }
+          'id' => { 'type' => 'integer', 'label' => 'Id' },
+          'bigint' => { 'type' => 'integer', 'label' => 'Bigint' },
+          'bigserial' => { 'type' => 'integer', 'label' => 'Bigserial' },
+          'binary' => { 'type' => 'binary', 'label' => 'Binary' },
+          'bit' => { 'type' => 'bit', 'label' => 'Bit' },
+          'bit_varying' => { 'type' => 'bit_varying', 'label' => 'Bit varying' },
+          'boolean' => { 'type' => 'boolean', 'label' => 'Boolean' },
+          'box' => { 'type' => 'box', 'label' => 'Box' },
+          'cidr' => { 'type' => 'cidr', 'label' => 'Cidr' },
+          'circle' => { 'type' => 'circle', 'label' => 'Circle' },
+          'citext' => { 'type' => 'citext', 'label' => 'Citext' },
+          'color' => { 'type' => 'string', 'label' => 'Color' },
+          'date' => { 'type' => 'date', 'label' => 'Date' },
+          'daterange' => { 'type' => 'daterange', 'label' => 'Daterange' },
+          'datetime' => { 'type' => 'datetime', 'label' => 'Datetime' },
+          'decimal' => { 'type' => 'decimal', 'label' => 'Decimal' },
+          'email' => { 'type' => 'string', 'label' => 'Email' },
+          'float' => { 'type' => 'float', 'label' => 'Float' },
+          'hstore' => { 'type' => 'hstore', 'label' => 'Hstore' },
+          'inet' => { 'type' => 'inet', 'label' => 'Inet' },
+          'int4range' => { 'type' => 'int4range', 'label' => 'Int4range' },
+          'int8range' => { 'type' => 'int8range', 'label' => 'Int8range' },
+          'integer' => { 'type' => 'integer', 'label' => 'Integer' },
+          'json' => { 'type' => 'json', 'label' => 'Json' },
+          'jsonb' => { 'type' => 'jsonb', 'label' => 'Jsonb' },
+          'line' => { 'type' => 'line', 'label' => 'Line' },
+          'lseg' => { 'type' => 'lseg', 'label' => 'Lseg' },
+          'ltree' => { 'type' => 'ltree', 'label' => 'Ltree' },
+          'macaddr' => { 'type' => 'macaddr', 'label' => 'Macaddr' },
+          'money' => { 'type' => 'money', 'label' => 'Money' },
+          'numrange' => { 'type' => 'numrange', 'label' => 'Numrange' },
+          'password' => { 'type' => 'string', 'label' => 'Password' },
+          'path' => { 'type' => 'path', 'label' => 'Path' },
+          'point' => { 'type' => 'point', 'label' => 'Point' },
+          'polygon' => { 'type' => 'polygon', 'label' => 'Polygon' },
+          'serial' => { 'type' => 'integer', 'label' => 'Serial' },
+          'string' => { 'type' => 'string', 'label' => 'String' },
+          'text' => { 'type' => 'text', 'label' => 'Text' },
+          'time' => { 'type' => 'time', 'label' => 'Time' },
+          'tsrange' => { 'type' => 'tsrange', 'label' => 'Tsrange' },
+          'tstzrange' => { 'type' => 'tstzrange', 'label' => 'Tstzrange' },
+          'tsvector' => { 'type' => 'tsvector', 'label' => 'Tsvector' },
+          'uuid' => { 'type' => 'uuid', 'label' => 'Uuid' },
+          'xml' => { 'type' => 'xml', 'label' => 'Xml' }
         )
 
         expect(subject.fields).to be_frozen
@@ -109,19 +109,19 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w(id bigint bigserial bit bit_varying boolean box cidr circle color date daterange datetime decimal email float inet int4range int8range integer line lseg ltree macaddr money numrange password path point polygon serial string time tsrange tstzrange uuid)
+        expect(subject.index_field_names).to match_array %w(id bigint bigserial bit bit_varying boolean box cidr circle color date daterange datetime decimal email float inet int4range int8range integer line lseg ltree macaddr money numrange password path point polygon serial string time tsrange tstzrange uuid)
       end
     end
 
     describe '#show_field_names' do
       it 'includes all field names' do
-        expect(subject.show_field_names).to eq %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        expect(subject.show_field_names).to match_array %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        expect(subject.form_field_names).to match_array %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
         expect(subject.form_field_names).not_to include 'id'
         expect(subject.form_field_names).not_to include 'created_at'
         expect(subject.form_field_names).not_to include 'updated_at'
@@ -155,31 +155,31 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     describe '#fields' do
       it 'returns a hash of all keys' do
         expect(subject.fields.select { |_k, v| v['is_association'] }).to eq(
-          'product_detail' => { 'name' => 'product_detail', 'type' => 'has_one', 'label' => 'Product detail', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'product_detail_id', 'class' => ProductDetail },
-          'picture' => { 'name' => 'picture', 'type' => 'has_one', 'label' => 'Picture', 'is_association' => true, 'is_through' => false, 'has_scope' => true, 'foreign_key' => 'picture_id', 'class' => Picture },
-          'order_items' => { 'name' => 'order_items', 'type' => 'has_many', 'label' => 'Order items', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'order_item_ids', 'class' => Order::Item },
-          'orders' => { 'name' => 'orders', 'type' => 'has_many', 'label' => 'Orders', 'is_association' => true, 'is_through' => true, 'has_scope' => false, 'foreign_key' => 'order_ids', 'class' => Order },
-          'category' => { 'name' => 'category', 'type' => 'belongs_to', 'label' => 'Category', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'category_id', 'class' => Category },
-          'tags' => { 'name' => 'tags', 'type' => 'has_and_belongs_to_many', 'label' => 'Tags', 'is_association' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'tag_ids', 'class' => Tag }
+          'product_detail' => { 'type' => 'has_one', 'label' => 'Product detail', 'is_association' => true, 'sort_disabled' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'product_detail_id', 'class' => ProductDetail },
+          'picture' => { 'type' => 'has_one', 'label' => 'Picture', 'is_association' => true, 'sort_disabled' => true, 'is_through' => false, 'has_scope' => true, 'foreign_key' => 'picture_id', 'class' => Picture },
+          'order_items' => { 'type' => 'has_many', 'label' => 'Order items', 'is_association' => true, 'sort_disabled' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'order_item_ids', 'class' => Order::Item },
+          'orders' => { 'type' => 'has_many', 'label' => 'Orders', 'is_association' => true, 'sort_disabled' => true, 'is_through' => true, 'has_scope' => false, 'foreign_key' => 'order_ids', 'class' => Order },
+          'category' => { 'type' => 'belongs_to', 'label' => 'Category', 'is_association' => true, 'sort_disabled' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'category_id', 'class' => Category },
+          'tags' => { 'type' => 'has_and_belongs_to_many', 'label' => 'Tags', 'is_association' => true, 'sort_disabled' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'tag_ids', 'class' => Tag }
         )
       end
     end
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w(id sku name stock price featured available_to_date available_to_time published_at)
+        expect(subject.index_field_names).to match_array %w(id sku name stock price featured available_to_date available_to_time published_at)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w(sku name description stock price featured available_to_date available_to_time published_at product_detail order_items category tags)
+        expect(subject.form_field_names).to match_array %w(sku name description stock price featured available_to_date available_to_time published_at product_detail order_items category tags)
       end
     end
 
     describe '#foreign_keys_from_associations' do
       it 'returns foreign keys for associations' do
-        expect(subject.send(:foreign_keys_from_associations)).to eq %w(product_detail_id picture_id order_item_ids order_ids category_id tag_ids)
+        expect(subject.send(:foreign_keys_from_associations)).to match_array %w(product_detail_id picture_id order_item_ids order_ids category_id tag_ids)
       end
     end
   end
@@ -190,22 +190,22 @@ describe Wallaby::ActiveRecord::ModelDecorator do
       it 'returns a hash of all keys' do
         expect(subject.fields).to eq(
           'id' => {
-            'name' => 'id', 'type' => 'integer', 'label' => 'Id'
+            'type' => 'integer', 'label' => 'Id'
           },
           'name' => {
-            'name' => 'name', 'type' => 'string', 'label' => 'Name'
+            'type' => 'string', 'label' => 'Name'
           },
           'file' => {
-            'name' => 'file', 'type' => 'binary', 'label' => 'File'
+            'type' => 'binary', 'label' => 'File'
           },
           'created_at' => {
-            'name' => 'created_at', 'type' => 'datetime', 'label' => 'Created at'
+            'type' => 'datetime', 'label' => 'Created at'
           },
           'updated_at' => {
-            'name' => 'updated_at', 'type' => 'datetime', 'label' => 'Updated at'
+            'type' => 'datetime', 'label' => 'Updated at'
           },
           'imageable' => {
-            'name' => 'imageable', 'type' => 'belongs_to', 'label' => 'Imageable', 'is_association' => true, 'is_polymorphic' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'imageable_id', 'polymorphic_type' => 'imageable_type', 'polymorphic_list' => [Product]
+            'type' => 'belongs_to', 'label' => 'Imageable', 'is_association' => true, 'sort_disabled' => true, 'is_polymorphic' => true, 'is_through' => false, 'has_scope' => false, 'foreign_key' => 'imageable_id', 'polymorphic_type' => 'imageable_type', 'polymorphic_list' => [Product]
           }
         )
       end
@@ -213,19 +213,19 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to eq %w(id name created_at updated_at)
+        expect(subject.index_field_names).to match_array %w(id name created_at updated_at)
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to eq %w(name file imageable)
+        expect(subject.form_field_names).to match_array %w(name file imageable)
       end
     end
 
     describe '#foreign_keys_from_associations' do
       it 'returns ploymorphic foreign keys for associations' do
-        expect(subject.send(:foreign_keys_from_associations)).to eq %w(imageable_id imageable_type)
+        expect(subject.send(:foreign_keys_from_associations)).to match_array %w(imageable_id imageable_type)
       end
     end
   end

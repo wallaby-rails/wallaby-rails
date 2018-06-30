@@ -18,7 +18,7 @@ module Wallaby
     end
 
     # To configure the models that Wallaby should handle
-    # @models [Array] a list of models
+    # @param models [Array<[String, Class]>] a list of models
     def models=(models)
       self.models.set models
     end
