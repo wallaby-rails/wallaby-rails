@@ -16,11 +16,6 @@ module Wallaby
       Map.authorizer_map model_class
     end
 
-    # Shortcut for `Wallaby.configuration.metadata
-    def default_metadata
-      Wallaby.configuration.metadata
-    end
-
     # Wrap resource into a decorator
     # @param resource [Object, Enumerable]
     # @return [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator>]

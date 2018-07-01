@@ -24,7 +24,7 @@ module Wallaby
     # @return [String] a list of stylesheet link tags
     def stylesheet_link_tag(*sources)
       default_options =
-        if Wallaby.configuration.features.turbolinks_enabled
+        if features.turbolinks_enabled
           { 'data-turbolinks-track' => true }
         else
           {}
@@ -39,7 +39,7 @@ module Wallaby
     # @return [String] a list of javascript script tags
     def javascript_include_tag(*sources)
       default_options =
-        if Wallaby.configuration.features.turbolinks_enabled
+        if features.turbolinks_enabled
           { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false }
         else
           {}
