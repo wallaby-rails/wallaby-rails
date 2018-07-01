@@ -18,12 +18,6 @@ module Wallaby
     rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
     rescue_from UnprocessableEntity, with: :unprocessable_entity
 
-    # Shortcut of Wallaby global configuration.
-    # @return [Wallaby::Configuration] global configuration
-    def self.configuration
-      ::Wallaby.configuration
-    end
-
     # Health check page
     def healthy
       render plain: 'healthy'
@@ -53,11 +47,7 @@ module Wallaby
       error_rendering(exception, __callee__)
     end
 
-    # Shortcut of Wallaby global configuration.
-    # @return [Wallaby::Configuration] global configuration
-    def configuration
-      self.class.configuration
-    end
+    delegate(*Wallaby::ConfigurationHelper.instance_methods, to: :helpers)
 
     protected
 

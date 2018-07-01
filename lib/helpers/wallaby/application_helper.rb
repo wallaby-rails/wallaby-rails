@@ -1,6 +1,8 @@
 module Wallaby
   # Application helper
   module ApplicationHelper
+    include ConfigurationHelper
+
     # Override `actionview/lib/action_view/routing_url_for.rb#url_for`
     # to handle the url_for properly for wallaby engine when options contains
     # values of both `:resources` and `:action`

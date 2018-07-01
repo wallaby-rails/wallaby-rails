@@ -26,23 +26,16 @@ module Wallaby
     # - `super` method
     # - do nothing
     # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::SecureController#security_config
     # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers
     #   Devise::Controllers::Helpers#define_helpers
     # @return [Object] a user object
     def current_user
       @current_user ||=
-        if security_config.current_user? || !defined? super
-          instance_exec(&security_config.current_user)
+        if security.current_user? || !defined? super
+          instance_exec(&security.current_user)
         else
           super
         end
-    end
-
-    # Shortcut for security configuration.
-    # @return [Wallaby::Configuration::Security] security configuration
-    def security_config
-      configuration.security
     end
 
     # This `authenticate_user!` method will try to looking up the actual implementation from the following
@@ -52,13 +45,12 @@ module Wallaby
     # - super
     # - do nothing
     # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::SecureController#security_config
     # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers
     #   Devise::Controllers::Helpers#define_helpers
     def authenticate_user!
       authenticated =
-        if security_config.authenticate? || !defined? super
-          instance_exec(&security_config.authenticate)
+        if security.authenticate? || !defined? super
+          instance_exec(&security.authenticate)
         else
           super
         end

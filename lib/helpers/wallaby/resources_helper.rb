@@ -23,8 +23,7 @@ module Wallaby
 
     # Wrap resource into a decorator
     # @param resource [Object, Enumerable]
-    # @return
-    #   [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator]
+    # @return [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator>]
     def decorate(resource)
       return resource if resource.is_a? ResourceDecorator
       return resource.map { |item| decorate item } if resource.respond_to? :map

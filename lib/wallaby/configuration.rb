@@ -51,10 +51,8 @@ module Wallaby
     end
 
     # Clear all configurations
-    # @return nil
     def clear
-      @base_controller, @models, @security, @mapping,
-      @pagination, @metadata, @features = []
+      instance_variables.each { |name| instance_variable_set name, nil }
     end
   end
 
