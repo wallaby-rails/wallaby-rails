@@ -21,7 +21,7 @@ module Wallaby
       url ||
         index_path(
           model_class, url_params: {
-            q: wildcard, per: Wallaby.configuration.pagination.page_size
+            q: wildcard, per: pagination.page_size
           }
         )
     end

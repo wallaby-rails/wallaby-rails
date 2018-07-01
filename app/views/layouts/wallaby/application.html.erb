@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <% if Wallaby.configuration.features.turbolinks_enabled %>
+    <% if features.turbolinks_enabled %>
       <meta name="turbolinks-cache-control" content="no-cache">
     <% end %>
     <%= csrf_meta_tags %>
@@ -12,7 +12,7 @@
 
     <%= stylesheet_link_tag 'wallaby/application', media: 'all' %>
     <%= yield :custom_stylesheet %>
-    <%= javascript_include_tag 'turbolinks' if Wallaby.configuration.features.turbolinks_enabled %>
+    <%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
     <%= javascript_include_tag 'wallaby/application' %>
   </head>
   <body class="application <%= body_class %>">

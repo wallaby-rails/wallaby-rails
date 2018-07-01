@@ -76,6 +76,7 @@ require 'helpers/wallaby/form_helper'
 require 'helpers/wallaby/links_helper'
 require 'helpers/wallaby/styling_helper'
 require 'helpers/wallaby/index_helper'
+require 'helpers/wallaby/configuration_helper'
 
 require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/base_helper'
