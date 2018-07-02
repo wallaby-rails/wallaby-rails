@@ -2,13 +2,11 @@ module Wallaby
   # Base controller to provide basic helper methods.
   class BaseController < ::Wallaby::SecureController
     helper BaseHelper
-    helper_method \
-      :current_resources_name,
-      :current_model_class
+    helper_method :current_resources_name, :current_model_class
 
-    # @return [String] the resources name coming from params
+    # @return [String] the resources name from params
     def current_resources_name
-      @current_resources_name ||= params[:resources]
+      params[:resources]
     end
 
     # Get the model class from the following two sources:

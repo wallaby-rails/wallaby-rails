@@ -47,7 +47,7 @@ module Wallaby
       error_rendering(exception, __callee__)
     end
 
-    delegate(*Wallaby::ConfigurationHelper.instance_methods, to: :helpers)
+    delegate(*ConfigurationHelper.instance_methods, to: :helpers)
 
     protected
 
@@ -55,6 +55,15 @@ module Wallaby
     # @see https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_controller/metal/helpers.rb#L118
     def helpers
       @helpers ||= defined?(super) ? super : view_context
+    end
+
+    # NOTE: This is to fix the issue that Rails 5.0.* and below hasn't implemented the engine url helper properly.
+    # @see http://guides.rubyonrails.org/action_controller_overview.html#default-url-options
+    # @return [Hash] default url options
+    def default_url_options
+      {}.tap do |url_options|
+        url_options[:script_name] = request.env[ORIGINAL_SCRIPT_NAME] if request.env[ORIGINAL_SCRIPT_NAME].present?
+      end
     end
 
     # Capture exceptions and display the error using error layout and template.
