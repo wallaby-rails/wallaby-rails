@@ -23,7 +23,7 @@ module Wallaby
     protected
 
     def from_class_method(method_name, &block)
-      block ||= -> { }
+      block ||= -> {}
       self.class.respond_to?(method_name) && self.class.public_send(method_name) || block.call
     end
   end

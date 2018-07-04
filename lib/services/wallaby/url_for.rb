@@ -3,6 +3,20 @@ module Wallaby
   # Url helper
   class UrlFor
     class << self
+      ACTION_PATH_MAP =
+        Wallaby::ERRORS.each_with_object(ActiveSupport::HashWithIndifferentAccess.new) do |error, map|
+          map[error] = :"#{error}_path"
+        end.merge(
+          healthy: :root_path,
+          home: :root_path,
+          index: :resources_path,
+          create: :resources_path,
+          show: :resource_path,
+          update: :resource_path,
+          destroy: :resource_path,
+          new: :new_resource_path,
+          edit: :edit_resource_path
+        ).freeze
       # Handle wallaby engine url properly.
       # @param engine [ActionDispatch::Routing::RoutesProxy]
       # @param options [ActionController::Parameters, Hash]
@@ -13,16 +27,8 @@ module Wallaby
         # This option will stop working on path helpers in Rails 5.
         # Use the corresponding `*_url` helper instead.
         hash = normalize_params(options).except(:only_path)
-        case hash[:action]
-        when 'healthy' then engine.root_path hash
-        when 'index', 'create' then engine.resources_path hash
-        when 'show', 'update', 'destroy' then engine.resource_path hash
-        when 'new' then engine.new_resource_path hash
-        when 'edit' then engine.edit_resource_path hash
-        when 'home' then engine.root_path hash
-        when *Wallaby::ERRORS.map(&:to_s) then engine.public_send "#{hash[:action]}_path", hash
-        else engine.url_for hash
-        end
+        path_method = ACTION_PATH_MAP[hash[:action]]
+        engine.public_send path_method, hash if path_method
       end
 
       private
