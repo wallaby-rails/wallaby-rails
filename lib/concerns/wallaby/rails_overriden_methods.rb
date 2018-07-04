@@ -21,7 +21,7 @@ module Wallaby
     # @return [Array]
     def _prefixes
       @_prefixes ||= PrefixesBuilder.new(
-        super, controller_path, current_resources_name, params
+        super, controller_path, current_resources_name, request.env[SCRIPT_NAME], params
       ).build
     end
 

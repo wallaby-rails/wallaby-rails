@@ -11,4 +11,8 @@ end
 
 RSpec.configure do |config|
   config.include Wallaby::RSpec::ControllerRoutes, type: :controller
+
+  config.before :each, type: :controller do |example|
+    controller.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
+  end
 end

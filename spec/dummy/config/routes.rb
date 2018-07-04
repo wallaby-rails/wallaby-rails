@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   mount Wallaby::Engine, at: "/inner", as: :inner_engine, defaults: { resources_controller: InnerController }
 
   get '/home', to: 'wallaby/resources#home'
-  get '/test/purpose', to: 'application#index'
   resources :products, controller: 'wallaby/resources', defaults: { resources: 'products' }
+  resources :orders
   get '/something/else', to: 'wallaby/resources#index', defaults: { resources: 'products' }
+
+  get '/test/purpose', to: 'application#index'
 end

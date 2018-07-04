@@ -2,6 +2,7 @@ module Wallaby
   # Application helper
   module ApplicationHelper
     include ConfigurationHelper
+    include EngineHelper
 
     # Override `actionview/lib/action_view/routing_url_for.rb#url_for`
     # to handle the url_for properly for wallaby engine when options contains
@@ -9,10 +10,13 @@ module Wallaby
     # @param options [String, Hash]
     # @return [String] url
     def url_for(options = nil)
-      # possible Hash or Parameters
-      if options.respond_to?(:to_h) \
-        && options[:resources].present? && options[:action].present?
-        UrlFor.handle wallaby_engine, options
+      options ||= {}
+      return super options unless options.is_a?(Hash) || options.is_a?(ActionController::Parameters)
+
+      if current_engine && options[:action]
+        UrlFor.handle current_engine, options
+      elsif options[:action] == 'home'
+        main_app.root_path options
       else
         super options
       end

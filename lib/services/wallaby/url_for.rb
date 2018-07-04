@@ -4,20 +4,24 @@ module Wallaby
   class UrlFor
     class << self
       # Handle wallaby engine url properly.
-      # @param wallaby_engine [ActionDispatch::Routing::RoutesProxy]
+      # @param engine [ActionDispatch::Routing::RoutesProxy]
       # @param options [ActionController::Parameters, Hash]
       # @return [String] url string for wallaby engine
-      def handle(wallaby_engine, options)
+      def handle(engine, options)
         # NOTE: DEPRECATION WARNING: You are calling a `*_path` helper with the
         # `only_path` option explicitly set to `false`.
         # This option will stop working on path helpers in Rails 5.
         # Use the corresponding `*_url` helper instead.
         hash = normalize_params(options).except(:only_path)
         case hash[:action]
-        when 'index', 'create' then wallaby_engine.resources_path hash
-        when 'new' then wallaby_engine.new_resource_path hash
-        when 'edit' then wallaby_engine.edit_resource_path hash
-        else wallaby_engine.resource_path hash
+        when 'healthy' then engine.root_path hash
+        when 'index', 'create' then engine.resources_path hash
+        when 'show', 'update', 'destroy' then engine.resource_path hash
+        when 'new' then engine.new_resource_path hash
+        when 'edit' then engine.edit_resource_path hash
+        when 'home' then engine.root_path hash
+        when *Wallaby::ERRORS.map(&:to_s) then engine.public_send "#{hash[:action]}_path", hash
+        else engine.url_for hash
         end
       end
 
