@@ -37,10 +37,9 @@ module Wallaby
       # therefore, it is needed to convert the parameters into hash.
       #
       # Plus `script_name` needs to be set so that the engine url can be generated with the correct script name.
-      # @param engine [ActionDispatch::Routing::RoutesProxy]
       # @param options [ActionController::Parameters, Hash]
       # @return [Hash]
-      def normalize_params(engine, engine_name, options)
+      def normalize_params(engine_name, options)
         hash = options.is_a?(ActionController::Parameters) ? options.permit(:resources, :action, :id).to_h : options
         # current engine's script name
         hash[:script_name] ||= Rails.application.routes.named_routes[engine_name].path.spec.to_s

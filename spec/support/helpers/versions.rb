@@ -11,6 +11,10 @@ module Versions
     operator = string[/\<|\<\=|\=\>|\>|\~\>/]
     _, major, minor, tiny = string.match(/(\d+)\.?(\d+)?\.?(\d+)?/).to_a
     operator = '==' if operator.blank?
+    check_version operator, major, minor, tiny
+  end
+
+  def check_version(operator, major, minor, tiny)
     if operator == '~>'
       Rails::VERSION::MAJOR == major.to_i && Rails::VERSION::MINOR == minor.to_i
     else
