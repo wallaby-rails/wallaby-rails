@@ -26,7 +26,7 @@ module Wallaby
         # `only_path` option explicitly set to `false`.
         # This option will stop working on path helpers in Rails 5.
         # Use the corresponding `*_url` helper instead.
-        hash = normalize_params(engine, engine_name, options).except(:only_path)
+        hash = normalize_params(engine_name, options).except(:only_path)
         path_method = ACTION_PATH_MAP[hash[:action]]
         engine.public_send path_method, hash if path_method
       end
