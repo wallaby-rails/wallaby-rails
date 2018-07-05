@@ -13,13 +13,9 @@ module Wallaby
       options ||= {}
       return super options unless options.is_a?(Hash) || options.is_a?(ActionController::Parameters)
 
-      if current_engine && options[:action]
-        UrlFor.handle current_engine, options
-      elsif options[:action] == 'home'
-        main_app.root_path options
-      else
-        super options
-      end
+      url = UrlFor.handle current_engine, current_engine_name, options if current_engine
+      url ||= main_app.root_path options if options[:action] == 'home'
+      url || super
     end
 
     # Add turbolinks options when it's enabled
