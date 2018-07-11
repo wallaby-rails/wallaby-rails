@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::UrlFor, type: :helper do
+describe Wallaby::EnginePathBuilder, type: :helper do
   describe '.handle' do
     context 'when action is index/create' do
       it 'returns resources_path' do

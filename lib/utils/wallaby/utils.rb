@@ -1,8 +1,20 @@
 module Wallaby
   # Utils
   module Utils
-    # @param klass [Class]
+    # A helper method to check if subject responds to given method otherwise return default value from calling the block
+    # @param subject [Object]
+    # @param method_id [String, Symbol]
+    # @param args [Array] a list of arguments
+    # @param block [Proc] a block to be executed if subject doesn't respond to the given method_id
     # @return [Boolean] whether a class is anonymous
+    def self.try_to(subject, method_id, *args, &block)
+      block ||= NIL_BLOCK
+      subject.respond_to?(method_id) ? subject.public_send(method_id, *args) : block.call(subject)
+    end
+
+    # Check whether a class is anonymous or not
+    # @param klass [Class]
+    # @return [Boolean] true if a class is anonymous, false otherwise
     def self.anonymous_class?(klass)
       klass.name.blank? || klass.to_s.start_with?('#<Class')
     end

@@ -25,4 +25,5 @@ module Wallaby
   SAVE_ACTIONS = %w(create update).freeze
   TITLE_NAMES = %w(name title string text).freeze
   DEFAULT = 'default'.freeze
+  NIL_BLOCK = -> {}.freeze
 end

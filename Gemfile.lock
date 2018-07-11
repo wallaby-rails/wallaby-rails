@@ -288,7 +288,7 @@ DEPENDENCIES
   pg
   pry-rails
   pundit
-  rails (~> 5.0.0)
+  rails (~> 5.0)
   rails-controller-testing
   rspec-rails
   simplecov
