@@ -1,12 +1,10 @@
 module Wallaby
-  # Wallaby's application controller. It defaults to inherit from `::ApplicationController`,
-  # which can be configured via `Wallaby.configuration.base_controller`
+  # Wallaby's application controller. Like ordinary Rails application, it's the base controller that
+  # other controllers will inherit from. However, the difference is that the controller class that
+  # `Wallaby::ApplicationController` inherits from can be configured via `Wallaby.configuration.base_controller=`,
   #
-  # Here, it contains one action `healthy` for health check, and contains the error handling logics.
-  #
-  # @!parse
-  #   class Wallaby::ApplicationController < ::ApplicationController
-  #   end
+  # Here, it contains one action `healthy` for health check, and the error handling logics.
+  # @see Wallaby::Configuration#base_controller
   class ApplicationController < configuration.base_controller
     helper ApplicationHelper
 

@@ -35,6 +35,7 @@ group :development do
   gem 'better_errors'
   gem 'massa'
   gem 'memory_profiler'
+  gem 'rubocop'
   gem 'turbolinks'
 end
 

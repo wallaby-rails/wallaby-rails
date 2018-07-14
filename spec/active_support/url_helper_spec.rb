@@ -16,6 +16,8 @@ describe 'URL helpers', type: :helper do
         expect(helper.wallaby_engine.resources_path(parameters!(action: 'index', resources: 'products'))).to match '/inner/products'
       elsif version?('5.0.0')
         expect(helper.wallaby_engine.resources_path(parameters!(action: 'index', resources: 'products'))).to match '/inner/%23%3CActionController::Parameters'
+      elsif version?('~> 5.0')
+        expect(helper.wallaby_engine.resources_path(parameters!(action: 'index', resources: 'products'))).to match '/inner/action=index&resources=products'
       else
         expect(helper.wallaby_engine.resources_path(parameters!(action: 'index', resources: 'products'))).to match '/admin/action=index&resources=products'
       end
