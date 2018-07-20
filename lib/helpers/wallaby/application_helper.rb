@@ -7,7 +7,7 @@ module Wallaby
     # Override `actionview/lib/action_view/routing_url_for.rb#url_for` too handle URL for wallaby engine
     # @param options [String, Hash]
     # @param engine_name [String, nil]
-    # @return [String] url
+    # @return [String] URL string
     def url_for(options = nil, engine_name = current_engine_name)
       options ||= {}
       return super(options) unless options.is_a?(Hash) || options.is_a?(ActionController::Parameters)

@@ -46,6 +46,7 @@ For example, you can do complicated customization as below:
     ```
 
 - Have a play with [Demo](https://wallaby-demo.herokuapp.com/admin/)
+- See [API](https://www.rubydoc.info/gems/wallaby) for complete reference
 - See [Documentation](docs/README.md) for more How-to
 - See [Search Manual](docs/search_manual.md) for advance search
 - See [Features and Requirements](docs/features.md)

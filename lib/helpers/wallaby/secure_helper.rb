@@ -23,7 +23,7 @@ module Wallaby
     # @see Wallaby::Configuration::Security#logout_path
     # @param user [Object]
     # @param app [Object]
-    # @return [String] url to log out
+    # @return [String] URL to log out
     def logout_path(user = current_user, app = main_app)
       path = security.logout_path
       path ||=

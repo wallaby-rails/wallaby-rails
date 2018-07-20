@@ -1,5 +1,5 @@
 module Wallaby
-  # Url builder for wallaby engine
+  # Url builder for Wallaby engine
   class EnginePathBuilder
     class << self
       # A constant to map actions to their paths.
@@ -18,7 +18,9 @@ module Wallaby
           edit: :edit_resource_path
         ).freeze
 
-      # Generate url that wallaby engine supports (home/resourceful/errors).
+      # Generate URL that Wallaby engine supports (home/resourceful/errors)
+      # (see {https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb}).
+      # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
       # @param context [Object] the context that engine helpers are attached to
       # @param engine_name [String] engine name
       # @param parameters [ActionController::Parameters, Hash]
@@ -26,7 +28,6 @@ module Wallaby
       # @return [String] path string for wallaby engine
       # @return [nil] nil if this builder doesn't know how to handle the parameters
       def handle(context:, engine_name:, parameters:, default_url_options: {})
-        return unless engine_name
         engine = Utils.try_to context, engine_name
         return unless engine
 
@@ -37,7 +38,7 @@ module Wallaby
 
       private
 
-      # @see wallaby/spec/active_support/url_helper_spec.rb
+      # @see https://github.com/reinteractive/wallaby/blob/master/spec/active_support/url_helper_spec.rb
       # Please note that URL helper is not working well with parameters in Rails 5.0.*,
       # therefore, parameters has to be converted into hash.
       #
@@ -48,11 +49,11 @@ module Wallaby
       # `wallaby_engine.resources_path resources: 'products'` will generate a URL `/inner/products`,
       # but `/admin/products` is expected.
       #
-      # Therefore, in this implementation, it will add `script_name` to the hash to pass to engine url helper method.
+      # Therefore, in this implementation, it will add `script_name` to the hash to pass to engine URL helper method.
       # @param parameters [ActionController::Parameters, Hash]
       # @param default_url_options [Hash]
       # @param engine_name [String] engine name that can be found in named routes
-      # @return [Hash] a hash ready to use by engine url helper
+      # @return [Hash] a hash ready to use by engine URL helper
       def normalize(parameters, default_url_options, engine_name)
         hash =
           if parameters.is_a? ActionController::Parameters

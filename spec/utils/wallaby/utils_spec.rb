@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe Wallaby::Utils, clear: :object_space do
+  describe '.try_to' do
+    it 'checks and tries to execute given method on subject' do
+      expect(described_class.try_to(Product, :table_name)).to eq 'products'
+      expect(described_class.try_to(Product, '')).to be_nil
+    end
+  end
+
   describe '.anonymous_class?' do
     it 'checks whether a class is anonymous' do
       expect(described_class.anonymous_class?(Product)).to be_falsy

@@ -2,7 +2,9 @@ module Wallaby
   # Service object to find the engine name
   class EngineNameFinder
     class << self
-      # Use script name to find out the corresponding named route and its engine name
+      # Use script name to find out the corresponding named route and its engine name.
+      #
+      # When it can't find the engine name, it will return empty string. Reason is to prevent it from being run again.
       # @param env [Hash, String] request env or script name
       # @return [String] engine name or empty string if not found
       def find(env)
