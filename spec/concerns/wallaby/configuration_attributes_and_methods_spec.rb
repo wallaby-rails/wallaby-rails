@@ -14,8 +14,8 @@ describe Wallaby::ResourcesController do
   end
 
   describe 'subclass' do
-    let!(:subclass1) { stub_const 'ProductController', Class.new(Wallaby::ResourcesController) }
-    let!(:subclass2) { stub_const 'OrderController', Class.new(subclass1) }
+    let!(:subclass1) { stub_const 'ApplesController', Class.new(Wallaby::ResourcesController) }
+    let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
     let!(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(Wallaby::ResourceDecorator) }
     let!(:application_servicer) { stub_const 'ApplicationServicer', Class.new(Wallaby::ModelServicer) }
     let!(:application_paginator) { stub_const 'ApplicationPaginator', Class.new(Wallaby::ResourcePaginator) }
@@ -37,14 +37,14 @@ describe Wallaby::ResourcesController do
       expect(described_class.application_paginator).to be_nil
       expect(described_class.application_authorizer).to be_nil
 
-      expect(subclass1.resources_name).to eq 'products'
+      expect(subclass1.resources_name).to eq 'apples'
       expect(subclass1.engine_name).to eq 'engine_name'
       expect(subclass1.application_decorator).to eq application_decorator
       expect(subclass1.application_servicer).to eq application_servicer
       expect(subclass1.application_paginator).to eq application_paginator
       expect(subclass1.application_authorizer).to eq application_authorizer
 
-      expect(subclass2.resources_name).to eq 'orders'
+      expect(subclass2.resources_name).to eq 'things'
       expect(subclass2.engine_name).to eq 'engine_name'
       expect(subclass2.application_decorator).to eq application_decorator
       expect(subclass2.application_servicer).to eq application_servicer

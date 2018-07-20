@@ -7,9 +7,9 @@ module Wallaby
     # @param args [Array] a list of arguments
     # @param block [Proc] a block to be executed if subject doesn't respond to the given method_id
     # @return [Boolean] whether a class is anonymous
-    def self.try_to(subject, method_id, *args, &block)
-      block ||= NIL_BLOCK
-      subject.respond_to?(method_id) ? subject.public_send(method_id, *args) : block.call(subject)
+    def self.try_to(subject, method_id, *args)
+      return if method_id.blank?
+      subject.respond_to?(method_id) ? subject.public_send(method_id, *args) : (block_given? && yield(subject) || nil)
     end
 
     # Check whether a class is anonymous or not
