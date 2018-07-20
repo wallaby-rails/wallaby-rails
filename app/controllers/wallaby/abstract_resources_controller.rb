@@ -13,19 +13,6 @@ module Wallaby
                   :current_model_decorator, :authorizer
     before_action :authenticate_user!, except: [:status]
 
-    # To handle URL for wallaby engine
-    # @param options [String, Hash]
-    # @param engine_name [String, nil]
-    # @return [String] url
-    def url_for(options = nil, engine_name = current_engine_name)
-      options ||= {}
-      return super(options) unless options.is_a?(Hash) || options.is_a?(ActionController::Parameters)
-
-      url = EnginePathBuilder.handle self, engine_name, options, default_url_options
-      url ||= main_app.root_path default_url_options.merge(options) if options[:action] == 'home'
-      url || super(options)
-    end
-
     # Landing page, it does nothing but just rendering home template. This action can be replaced completely:
     #
     # ```

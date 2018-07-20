@@ -9,7 +9,7 @@ module Wallaby
     # @return [Boolean] whether a class is anonymous
     def self.try_to(subject, method_id, *args)
       return if method_id.blank?
-      subject.respond_to?(method_id) ? subject.public_send(method_id, *args) : (block_given? && yield(subject) || nil)
+      subject.respond_to?(method_id) && subject.public_send(method_id, *args) || block_given? && yield(subject) || nil
     end
 
     # Check whether a class is anonymous or not

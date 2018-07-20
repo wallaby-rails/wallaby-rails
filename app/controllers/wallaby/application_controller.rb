@@ -18,8 +18,7 @@ module Wallaby
     rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
     rescue_from UnprocessableEntity, with: :unprocessable_entity
 
-    # @see Wallaby::ApplicationHelper#url_for
-    delegate :url_for, to: :helpers
+    delegate(*ConfigurationHelper.instance_methods, :url_for, to: :helpers)
 
     # Health check page
     def healthy
@@ -49,8 +48,6 @@ module Wallaby
     def internal_server_error(exception = nil)
       error_rendering(exception, __callee__)
     end
-
-    delegate(*ConfigurationHelper.instance_methods, to: :helpers)
 
     # `helpers` exists since Rails 5, need to mimic this for Rails 4.2
     # @see https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_controller/metal/helpers.rb#L118
