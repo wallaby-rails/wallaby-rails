@@ -2,17 +2,35 @@
 
 Similar to [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.org/routing.html#path-and-url-helpers), Wallaby provides the following path and URL helpers:
 
-| HTTP Verb |	Path	                    | Mounted Path  | Engine Name     | Resources Name  | Controller#Action	      | Named Helper                                        |
-| --------- | ------------------------- | ------------- | --------------- | --------------- | ----------------------- | --------------------------------------------------- |
-| GET       |	/admin/products	          | /admin        | wallaby_engine  | products        | admin/products#index	  | wallaby_engine.resources_path('products')           |
-| GET       |	/admin/products/new	      | /admin        | wallaby_engine  | products        | admin/products#new	    | wallaby_engine.new_resource_path('products')        |
-| POST      |	/admin/products	          | /admin        | wallaby_engine  | products        | admin/products#create	  | wallaby_engine.resources_path('products')           |
-| GET       |	/admin/products/:id	      | /admin        | wallaby_engine  | products        | admin/products#show	    | wallaby_engine.resource_path('products', :id)       |
-| GET       |	/admin/products/:id/edit  | /admin        | wallaby_engine  | products        |	admin/products#edit	    | wallaby_engine.edit_resource_path('products', :id)  |
-| PATCH/PUT |	/admin/products/:id	      | /admin        | wallaby_engine  | products        | admin/products#update	  | wallaby_engine.edit_resource_path('products', :id)  |
-| DELETE    |	/admin/products/:id	      | /admin        | wallaby_engine  | products        | admin/products#destroy  |	wallaby_engine.resource_path('products', :id)       |
+| HTTP Verb |	Path	                    | Named Helper                                          | Controller#Action       | Mounted Path  | Engine Name     | Resources Name  |
+| --------- | ------------------------- | ----------------------------------------------------- | ----------------------- | ------------- | --------------- | --------------- |
+| GET       |	/admin/products	          | _wallaby_engine.resources_path('products')_           | admin/products#index	  | /admin        | wallaby_engine  | products        |
+| GET       |	/admin/products/new	      | _wallaby_engine.new_resource_path('products')_        | admin/products#new	    | /admin        | wallaby_engine  | products        |
+| POST      |	/admin/products	          | _wallaby_engine.resources_path('products')_           | admin/products#create	  | /admin        | wallaby_engine  | products        |
+| GET       |	/admin/products/:id	      | _wallaby_engine.resource_path('products',:id)_        | admin/products#show	    | /admin        | wallaby_engine  | products        |
+| GET       |	/admin/products/:id/edit  | _wallaby_engine.edit_resource_path('products',:id)_   | admin/products#edit	    | /admin        | wallaby_engine  | products        |
+| PATCH/PUT |	/admin/products/:id	      | _wallaby_engine.edit_resource_path('products',:id)_   | admin/products#update	  | /admin        | wallaby_engine  | products        |
+| DELETE    |	/admin/products/:id	      | _wallaby_engine.resource_path('products',:id)_        | admin/products#destroy  | /admin        | wallaby_engine  | products        |
 
-Regarding engine, if Wallaby is mounted in the following way with a change of engine name using `:as` option:
+> **Mounted Path** is also known as [Script Name](http://api.rubyonrails.org/classes/ActionDispatch/Routing/Redirection.html)
+
+## Controller
+
+In the above example, it assumes that `Admin::ProductsController` is defined similar to below:
+
+```ruby
+class Admin::ProductsController < Admin::ApplicationController
+  self.model_class = Product
+end
+```
+
+Otherwise, if `Admin::ProductsController` is not defined, Wallaby will dispatch the request to `Admin::ApplicationController`, or last resart `Wallaby::ResourcesController`.
+
+## Engine Name
+
+If Wallaby is mounted without `:as` option, by default, Rails will generate an engine helper called `wallaby_engine`.
+
+However, it is possible to mount Wallaby with `:as` option as follows (see [#mount](http://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Base.html#method-i-mount)):
 
 ```ruby
 Rails.application.routes.draw do
@@ -22,6 +40,5 @@ Rails.application.routes.draw do
 end
 ```
 
-Then change to use `manager_engine` instead, e.g. `manager_engine.resources_path('products')`.
+In this case, please use `manager_engine` instead, e.g. `manager_engine.resources_path('products')`.
 
-Regarding controller, if `Admin::ProductsController` is not declared, Wallaby will dispatch request to `Admin::ApplicationController` then `Wallaby::ResourcesController`.
