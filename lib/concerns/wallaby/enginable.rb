@@ -14,6 +14,7 @@ module Wallaby
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.engine_name = 'admin_engine'
       #   end
+      # @since 5.2.0
       # @return [String, nil] engine name
       def engine_name
         @engine_name ||= Utils.try_to superclass, :engine_name
@@ -53,8 +54,8 @@ module Wallaby
     # @return [String] engine name for current request
     def current_engine_name
       @current_engine_name ||=
-        if is_a? ::ActionController::Base then Utils.try_to self.class, :engine_name
-        else Utils.try_to controller, :current_engine_name
+        if is_a? ::ActionController::Base then Utils.try_to self.class, :engine_name # controller?
+        else Utils.try_to controller, :current_engine_name # view?
         end || EngineNameFinder.find(request.env)
     end
   end
