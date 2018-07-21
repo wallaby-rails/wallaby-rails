@@ -1,18 +1,21 @@
 module Wallaby
   # Utils
   module Utils
-    # Use script name to find out the corresponding route and its engine name
-    # @param env [Hash]
-    # @return [String] engine name
-    def self.engine_name_from(env)
-      script_name = env['SCRIPT_NAME']
-      return EMPTY_STRING if script_name.blank?
-      named_route = Rails.application.routes.routes.find { |route| route.path.match(script_name) }
-      named_route.try(:name) || EMPTY_STRING
+    # A helper method to check if subject responds to given method otherwise return default value from calling the block
+    # @param subject [Object]
+    # @param method_id [String, Symbol]
+    # @param args [Array] a list of arguments
+    # @yield [subject] a block to be executed if subject doesn't respond to the given method_id
+    # @return [Object] result from executing given method on subject
+    # @return [nil] if subject doesn't respond to given method
+    def self.try_to(subject, method_id, *args)
+      return if method_id.blank?
+      subject.respond_to?(method_id) && subject.public_send(method_id, *args) || block_given? && yield(subject) || nil
     end
 
+    # Check whether a class is anonymous or not
     # @param klass [Class]
-    # @return [Boolean] whether a class is anonymous
+    # @return [Boolean] true if a class is anonymous, false otherwise
     def self.anonymous_class?(klass)
       klass.name.blank? || klass.to_s.start_with?('#<Class')
     end

@@ -57,7 +57,7 @@ module Wallaby
     # Export link for a given model_class.
     # It accepts extra url params
     # @param model_class [Class]
-    # @param url_params [Hash, ActionController::Parameters] extra url params
+    # @param url_params [Hash, ActionController::Parameters] extra URL params
     # @return [String] HTML anchor link
     def export_link(model_class, url_params: {})
       url_params = index_params.except(:page, :per).merge(format: 'csv').merge(url_params)

@@ -1,9 +1,10 @@
 module Wallaby
-  # Class attributes and methods for controller
+  # Class attributes and methods for resources controller
   module ConfigurationAttributesAndMethods
     extend ActiveSupport::Concern
 
-    class_methods do
+    # Class method for Confiurable concern
+    module ClassMethods
       # @see .resources_name
       attr_writer :resources_name
       # @see .model_class
@@ -21,9 +22,6 @@ module Wallaby
       #   This attribute will be used for `current_model_authorizer`
       attr_accessor :model_authorizer
 
-      # @!attribute [w] engine_name
-      # @see .engine_name
-      attr_writer :engine_name
       # @!attribute [w] application_decorator
       # @see .application_decorator
       attr_writer :application_decorator
@@ -36,9 +34,7 @@ module Wallaby
       # @!attribute [w] application_authorizer
       # @see .application_authorizer
       attr_writer :application_authorizer
-    end
 
-    class_methods do
       # @!attribute [r] resources_name
       #   This attribute will be used by the `self.model_class`.
       #   @return [String] store the resources name. must be in plural.
@@ -69,14 +65,6 @@ module Wallaby
         @model_class || Map.model_class_map(name.gsub('Controller', EMPTY_STRING))
       end
 
-      # @!attribute [r] engine_name
-      #   @return [String, nil]
-      def engine_name
-        @engine_name ||= from_superclass __callee__
-      end
-    end
-
-    class_methods do
       # @!attribute [r] application_decorator
       #   @return [Class, nil]
       def application_decorator

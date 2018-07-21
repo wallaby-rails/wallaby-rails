@@ -8,4 +8,8 @@ Customization can be done in the following sections:
 - [Servicer](servicer.md)
 - [View](view.md)
 - [Frontend](frontend.md)
-- [Test](test.md)
+
+# Others
+
+- [Path and URL helpers](path_helper.md) engine path and URL helpers reference
+- [Test](test.md) How to write tests

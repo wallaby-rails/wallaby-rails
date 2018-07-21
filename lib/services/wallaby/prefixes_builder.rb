@@ -6,10 +6,11 @@ module Wallaby
     # @param controller_path [String] controller path
     # @param resources_name [String] resources name
     # @param params [ActionController::Parameters]
-    def initialize(origin_prefixes, controller_path, resources_name, params)
+    def initialize(origin_prefixes, controller_path, resources_name, script_name, params)
       @origin_prefixes = origin_prefixes
       @controller_path = controller_path
       @resources_name = resources_name
+      @script_name = script_name
       @params = params
     end
 
@@ -55,11 +56,7 @@ module Wallaby
 
     # @return [String] the path that Wallaby has mounted to
     def mounted_path
-      # TODO: need to find out if this will fail
-      # when wallaby is mounted more than once on different namespace?
-      Rails.application.routes.named_routes[:wallaby_engine].try do |route|
-        route.path.spec.to_s
-      end
+      @script_name
     end
 
     # Convert the resources name

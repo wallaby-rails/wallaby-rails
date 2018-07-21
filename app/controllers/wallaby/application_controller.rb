@@ -1,13 +1,13 @@
 module Wallaby
-  # Wallaby's application controller. It defaults to inherit from `::ApplicationController`,
-  # which can be configured via `Wallaby.configuration.base_controller`
+  # Wallaby's application controller. Like ordinary Rails application, it's the base controller that
+  # other Wallaby controllers will inherit from. However, the difference is that the controller class that
+  # `Wallaby::ApplicationController` inherits from can be configured via {Wallaby::Configuration#base_controller}
   #
-  # Here, it contains one action `healthy` for health check, and contains the error handling logics.
-  #
-  # @!parse
-  #   class Wallaby::ApplicationController < ::ApplicationController
-  #   end
+  # Here, it provides the most basic functions e.g. error handling for common 4xx HTTP status, helpers method,
+  # and URL handling.
   class ApplicationController < configuration.base_controller
+    extend Enginable::ClassMethods
+    include Enginable
     helper ApplicationHelper
 
     ERROR_PATH = 'wallaby/error'.freeze
@@ -18,44 +18,44 @@ module Wallaby
     rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
     rescue_from UnprocessableEntity, with: :unprocessable_entity
 
+    delegate(*ConfigurationHelper.instance_methods, :url_for, to: :helpers)
+
     # Health check page
     def healthy
       render plain: 'healthy'
     end
 
-    # Not found page. And it will be used for error handling as the action name implies.
+    # Not found page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def not_found(exception = nil)
       error_rendering(exception, __callee__)
     end
 
-    # Bad request page. And it will be used for error handling as the action name implies.
+    # Bad request page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def bad_request(exception = nil)
       error_rendering(exception, __callee__)
     end
 
-    # Unprocessable entity page. And it will be used for error handling as the action name implies.
+    # Unprocessable entity page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def unprocessable_entity(exception = nil)
       error_rendering(exception, __callee__)
     end
 
-    # Internal server error page. And it will be used for error handling as the action name implies.
+    # Internal server error page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def internal_server_error(exception = nil)
       error_rendering(exception, __callee__)
     end
-
-    delegate(*Wallaby::ConfigurationHelper.instance_methods, to: :helpers)
-
-    protected
 
     # `helpers` exists since Rails 5, need to mimic this for Rails 4.2
     # @see https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_controller/metal/helpers.rb#L118
     def helpers
       @helpers ||= defined?(super) ? super : view_context
     end
+
+    protected
 
     # Capture exceptions and display the error using error layout and template.
     # @param exception [Exception]
@@ -66,6 +66,7 @@ module Wallaby
       @code = Rack::Utils::SYMBOL_TO_STATUS_CODE[@symbol].to_i
 
       Rails.logger.error @exception
+      # TODO: change the error and path at some point
       render ERROR_PATH, layout: ERROR_LAYOUT, status: symbol
     end
   end

@@ -1,29 +1,42 @@
 module Wallaby
   class Configuration
-    # Configuration for the model classes that Wallaby should handle
-    # > NOTE: In `devlopment` environment, Rails recreates module/class
-    # > constants on reload event. If we cache constants, they will become
-    # > stale and raise conflicts.
-    # > Hence, we need to storing name strings instead of constants.
+    # Models configuration to specify the model classes that Wallaby should handle.
+    # @note In `devlopment` environment, Rails recreates module/class constants on reload event.
+    #   If constants are cached/stored, they will become stale and Rails will raise conflicts.
+    #
+    #   Hence, class name strings should be stored instead of constants.
+    #   And when classes are requested, strings will be constantized back into classes.
     class Models
-      # Specify the model classes that Wallaby should handle
+      # @note Once this is set, models exclusion configuration will be ignored.
+      # To globally configure what model classes that Wallaby should handle.
+      # @example To update the model classes in `config/initializers/wallaby.rb`
+      #   Wallaby.config do |config|
+      #     config.models = [Product, Order]
+      #   end
       # @param models [Array<Class>]
       def set(*models)
         @models = Array(models).flatten.map(&:to_s)
       end
 
-      # @return [Array<Class>, nil] the list of models that user has configured
+      # Return the model classes that have been set.
+      # @return [Array<Class>] a list of models
       def presence
         (@models ||= []).map(&:constantize)
       end
 
-      # Specify the model classes that user wants to exclude
+      # @note If models are {#set}, it will take precedence over models exclusion.
+      # To globally configure what model classes to exclude.
+      # @example To update the model classes exclusion in `config/initializers/wallaby.rb`
+      #   Wallaby.config do |config|
+      #     config.models.exclude Product, Order
+      #   end
       # @param models [Array<Class>]
       def exclude(*models)
         @excludes = Array(models).flatten.map(&:to_s)
       end
 
-      # @return [Array<Class>] the list of models that user has configured
+      # Return the model classes that should be excluded.
+      # @return [Array<Class>] a list of models
       def excludes
         (@excludes ||= []).map(&:constantize)
       end
