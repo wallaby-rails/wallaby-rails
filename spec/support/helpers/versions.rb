@@ -9,18 +9,18 @@ module Versions
 
   def version?(string)
     operator = string[/\<|\<\=|\=\>|\>|\~\>/]
-    _, major, minor, tiny = string.match(/(\d+)\.?(\d+)?\.?(\d+)?/).to_a
+    _, major, minor, tiny = string.match(/(\d+)\.?(\d+)?\.?(\d+)?/).to_a.map(&:to_i)
     operator = '==' if operator.blank?
     check_version operator, major, minor, tiny
   end
 
   def check_version(operator, major, minor, tiny)
     if operator == '~>'
-      Rails::VERSION::MAJOR == major.to_i && Rails::VERSION::MINOR == minor.to_i
+      Rails::VERSION::MAJOR == major && Rails::VERSION::MINOR == minor
     else
-      Rails::VERSION::MAJOR.public_send(operator, major.to_i) \
-        && Rails::VERSION::MINOR.public_send(operator, minor.to_i) \
-        && Rails::VERSION::TINY.public_send(operator, tiny.to_i)
+      v1 = Gem::Version.new(Rails::VERSION::STRING)
+      v2 = Gem::Version.new([major, minor, tiny].compact.join('.'))
+      v1.public_send(operator, v2)
     end
   end
 end
