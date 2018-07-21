@@ -1,6 +1,6 @@
 module Wallaby
   # Engine related helper methods for both controller and view
-  module Enginable
+  module Engineable
     # Configurable attributes
     module ClassMethods
       # @!attribute [w] engine_name

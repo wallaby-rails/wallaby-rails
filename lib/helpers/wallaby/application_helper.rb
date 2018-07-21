@@ -2,7 +2,7 @@ module Wallaby
   # Application helper
   module ApplicationHelper
     include ConfigurationHelper
-    include Enginable
+    include Engineable
 
     # Override `actionview/lib/action_view/routing_url_for.rb#url_for` too handle URL for wallaby engine
     # @param options [String, Hash]
