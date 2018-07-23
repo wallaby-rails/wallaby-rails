@@ -1,6 +1,7 @@
 module Wallaby
   # Application helper
   module ApplicationHelper
+    include SharedHelpers
     include ConfigurationHelper
     include Engineable
 

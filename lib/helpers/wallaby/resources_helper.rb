@@ -1,6 +1,7 @@
 module Wallaby
   # Resources helper
   module ResourcesHelper
+    include Themeable
     include FormHelper
     include IndexHelper
 

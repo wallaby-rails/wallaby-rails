@@ -26,6 +26,8 @@ require 'concerns/wallaby/configuration_attributes_and_methods'
 require 'concerns/wallaby/engineable'
 require 'concerns/wallaby/rails_overriden_methods'
 require 'concerns/wallaby/resources_helper_methods'
+require 'concerns/wallaby/shared_helpers'
+require 'concerns/wallaby/themeable'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator/field_helpers'

@@ -1,7 +1,7 @@
 module Wallaby
   # Model Authorizer to provide authorization functions
   class AbstractModelAuthorizer
-    include Abstractable
+    extend Abstractable::ClassMethods
     class << self
       attr_writer :model_class
       attr_writer :provider_name
