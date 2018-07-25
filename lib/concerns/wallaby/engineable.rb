@@ -1,7 +1,7 @@
 module Wallaby
   # Engine related helper methods for both controller and view
-  module Enginable
-    # Configurable attributes
+  module Engineable
+    # Configurable attribute
     module ClassMethods
       # @!attribute [w] engine_name
       attr_writer :engine_name
@@ -53,10 +53,7 @@ module Wallaby
     # If `/inner` is current script name, then `current_engine_name` returns `'inner_engine'`.
     # @return [String] engine name for current request
     def current_engine_name
-      @current_engine_name ||=
-        if is_a? ::ActionController::Base then Utils.try_to self.class, :engine_name # controller?
-        else Utils.try_to controller, :current_engine_name # view?
-        end || EngineNameFinder.find(request.env)
+      @current_engine_name ||= controller_to_get(__callee__, :engine_name) || EngineNameFinder.find(request.env)
     end
   end
 end

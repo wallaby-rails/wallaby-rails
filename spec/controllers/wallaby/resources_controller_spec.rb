@@ -215,6 +215,22 @@ describe Wallaby::ResourcesController do
               expect(controller.send(:_prefixes)).to eq ['admin/mars/index', 'admin/mars', 'space/planets/index', 'space/planets', 'wallaby/resources/index', 'wallaby/resources']
             end
           end
+
+          context 'when theme name is give' do
+            before { Space::PlanetsController.theme_name = 'theme1' }
+            after { Space::PlanetsController.theme_name = nil }
+            it 'returns prefixes' do
+              controller.params[:resources] = 'space/planets'
+              expect(controller.send(:_prefixes)).to eq ['space/planets/index', 'space/planets', 'theme1/index', 'theme1', 'wallaby/resources/index', 'wallaby/resources']
+            end
+
+            context 'when current_resources_name is different' do
+              it 'returns prefixes' do
+                controller.params[:resources] = 'mars'
+                expect(controller.send(:_prefixes)).to eq ['admin/mars/index', 'admin/mars', 'space/planets/index', 'space/planets', 'theme1/index', 'theme1', 'wallaby/resources/index', 'wallaby/resources']
+              end
+            end
+          end
         end
       end
 
@@ -245,6 +261,22 @@ describe Wallaby::ResourcesController do
                 it 'returns prefixes' do
                   controller.params[:resources] = 'mars'
                   expect(controller.send(:_prefixes)).to eq ['admin/mars/form', 'admin/mars', 'space/planets/form', 'space/planets', 'wallaby/resources/form', 'wallaby/resources']
+                end
+              end
+
+              context 'when theme name is give' do
+                before { Space::PlanetsController.theme_name = 'theme1' }
+                after { Space::PlanetsController.theme_name = nil }
+                it 'returns prefixes' do
+                  controller.params[:resources] = 'space/planets'
+                  expect(controller.send(:_prefixes)).to eq ['space/planets/form', 'space/planets', 'theme1/form', 'theme1', 'wallaby/resources/form', 'wallaby/resources']
+                end
+
+                context 'when current_resources_name is different' do
+                  it 'returns prefixes' do
+                    controller.params[:resources] = 'mars'
+                    expect(controller.send(:_prefixes)).to eq ['admin/mars/form', 'admin/mars', 'space/planets/form', 'space/planets', 'theme1/form', 'theme1', 'wallaby/resources/form', 'wallaby/resources']
+                  end
                 end
               end
             end

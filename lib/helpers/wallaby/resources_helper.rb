@@ -3,6 +3,7 @@ module Wallaby
   module ResourcesHelper
     include FormHelper
     include IndexHelper
+    include Themeable
 
     # @see Map.model_decorator_map
     # @return [Wallaby::ModelDecorator]

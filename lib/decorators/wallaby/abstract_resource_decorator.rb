@@ -1,7 +1,7 @@
 module Wallaby
   # Resource Decorator base class
   class AbstractResourceDecorator
-    include Abstractable
+    extend Abstractable::ClassMethods
     class << self
       attr_writer :model_class
 

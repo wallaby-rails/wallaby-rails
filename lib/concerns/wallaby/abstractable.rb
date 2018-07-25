@@ -1,16 +1,16 @@
 module Wallaby
-  # Class attributes and methods for controller
+  # Abstract related class methods
   module Abstractable
-    extend ActiveSupport::Concern
-
-    class_methods do
-      # @return [Boolean] abstract or not
+    # Configurable attributes and class methods
+    module ClassMethods
+      # @return [true] if class is abstract
+      # @return [false] if class is not abstract
       def abstract
         @abstract ||= false
       end
 
-      # Mark the class abstract
-      # @return [Boolean] true
+      # Mark class abstract
+      # @return [true]
       def abstract!
         @abstract = true
       end

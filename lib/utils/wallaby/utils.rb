@@ -98,7 +98,7 @@ module Wallaby
     # @param action_name [String]
     # @return [String] action name
     def self.to_partial_name(action_name)
-      FORM_ACTIONS.include?(action_name) ? 'form' : action_name
+      FORM_ACTIONS[action_name] || action_name
     end
 
     # @see http://stackoverflow.com/a/8710663/1326499

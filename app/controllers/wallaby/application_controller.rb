@@ -6,8 +6,9 @@ module Wallaby
   # Here, it provides the most basic functions e.g. error handling for common 4xx HTTP status, helpers method,
   # and URL handling.
   class ApplicationController < configuration.base_controller
-    extend Enginable::ClassMethods
-    include Enginable
+    extend Engineable::ClassMethods
+    include Engineable
+    include SharedHelpers
     helper ApplicationHelper
 
     ERROR_PATH = 'wallaby/error'.freeze

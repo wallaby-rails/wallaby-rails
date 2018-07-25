@@ -1,7 +1,7 @@
 module Wallaby
   # Abstract model servicer
   class AbstractModelServicer
-    include Abstractable
+    extend Abstractable::ClassMethods
     class << self
       attr_writer :model_class
       # @return [Class] model class that comes from its class name

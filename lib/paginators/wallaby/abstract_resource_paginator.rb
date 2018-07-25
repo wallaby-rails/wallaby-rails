@@ -1,7 +1,7 @@
 module Wallaby
   # Model paginator
   class AbstractResourcePaginator
-    include Abstractable
+    extend Abstractable::ClassMethods
     class << self
       attr_writer :model_class
 
