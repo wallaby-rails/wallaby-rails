@@ -1,9 +1,9 @@
 module Wallaby
   # Resources helper
   module ResourcesHelper
-    include Themeable
     include FormHelper
     include IndexHelper
+    include Themeable
 
     # @see Map.model_decorator_map
     # @return [Wallaby::ModelDecorator]

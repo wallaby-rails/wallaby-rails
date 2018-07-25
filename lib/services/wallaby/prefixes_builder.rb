@@ -59,7 +59,7 @@ module Wallaby
     end
 
     def resources_path
-      @resources_path ||= @resources_name&.gsub COLONS, SLASH
+      @resources_path ||= @resources_name.try :gsub, COLONS, SLASH
     end
   end
 end

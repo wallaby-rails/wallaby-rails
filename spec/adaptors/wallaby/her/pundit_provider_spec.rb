@@ -1,15 +1,9 @@
 require 'rails_helper'
 
-class PunditContext
-  include Pundit
-  attr_accessor :pundit_user, :current_user
-  def initialize(user)
-    @pundit_user = @current_user = user
-  end
-end
 describe Wallaby::Her::PunditProvider do
-  let(:context) { PunditContext.new current_user }
+  let(:context) { OpenStruct.new pundit_user: current_user }
   let(:current_user) { Staff.new }
+  before { context.extend Pundit }
 
   describe '.available?' do
     it 'returns true' do

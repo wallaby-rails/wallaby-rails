@@ -7,8 +7,8 @@ module Wallaby
   # and URL handling.
   class ApplicationController < configuration.base_controller
     extend Engineable::ClassMethods
-    include SharedHelpers
     include Engineable
+    include SharedHelpers
     helper ApplicationHelper
 
     ERROR_PATH = 'wallaby/error'.freeze

@@ -15,7 +15,7 @@ module Wallaby
       # When theme name is set to e.g. `custom_theme`, the following changes will be made:
       #
       # - layout will be set to the same name `custom_theme`
-      # - it will be added to the partial lookup prefixes right after `wallaby/resources` prefix.
+      # - it will be added to the partial lookup prefixes right on top of `wallaby/resources` prefix.
       #
       # Once theme name is set, all its controller subclass will inherit the same theme name
       # @example To set an theme name:
@@ -29,6 +29,7 @@ module Wallaby
       end
     end
 
+    # @since 5.2.0
     # @return [String, Symbol, nil] theme name
     def current_theme_name
       controller_to_get __callee__, :theme_name
