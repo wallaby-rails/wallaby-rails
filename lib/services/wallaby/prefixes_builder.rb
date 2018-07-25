@@ -18,6 +18,7 @@ module Wallaby
     end
 
     private
+
     # Constructor
     def initialize(origin_prefixes:, action_name:, resources_name:, script_name:, theme_name:)
       @origin_prefixes = origin_prefixes
@@ -47,7 +48,7 @@ module Wallaby
 
     # @return [String] a prefix of the mouted path
     def mounted_prefix
-      prefix = (@script_name || '').sub(/^\//, '')
+      prefix = (@script_name || '').sub(%r{^/}, '')
       prefix << SLASH if prefix.present?
       prefix << resources_path if resources_path
     end
@@ -58,7 +59,7 @@ module Wallaby
     end
 
     def resources_path
-      @resource_path ||= @resources_name&.gsub COLONS, SLASH
+      @resources_path ||= @resources_name&.gsub COLONS, SLASH
     end
   end
 end

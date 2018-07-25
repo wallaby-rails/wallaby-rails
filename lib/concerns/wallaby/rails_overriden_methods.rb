@@ -1,8 +1,8 @@
 module Wallaby
   # This is a collection of the helper methods that overrides the rails methods
   module RailsOverridenMethods
-
     protected
+
     # Override {https://github.com/rails/rails/blob/master/actionview/lib/action_view/view_paths.rb
     # ActionView::ViewPaths::ClassMethods#_prefixes} to extend the prefixes for **ActionView::ViewPaths** to look up
     # in below precedence from high to low:
@@ -19,7 +19,7 @@ module Wallaby
     # - :wallaby_resources_controller_path (e.g. `wallaby/resources`)
     # @return [Array<String>]
     def _prefixes
-      @_prefixes ||= PrefixesBuilder.build(
+      @_prefixes ||= PrefixesBuilder.build( # rubocop:disable Naming/MemoizedInstanceVariableName
         origin_prefixes: super,
         theme_name: current_theme_name,
         resources_name: current_resources_name,
