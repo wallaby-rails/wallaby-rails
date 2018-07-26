@@ -12,9 +12,13 @@ module Wallaby
     # @param icon_suffix [String]
     # @param html_options [Hash]
     # @return [String] HTML I element
-    def fa_icon(icon_suffix, html_options = {}, &block)
+    def fa_icon(*args, &block)
+      html_options = args.extract_options!
       html_options[:class] = Array html_options[:class]
-      html_options[:class] << "fa fa-#{icon_suffix}"
+      html_options[:class] << "fa"
+      args.each do |suffix|
+        html_options[:class] << "fa-#{suffix}"
+      end
 
       content_tag :i, nil, html_options, &block
     end
