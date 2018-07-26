@@ -9,16 +9,13 @@ module Wallaby
     end
 
     # Shortcut for fontawesome icons
-    # @param icon_suffix [String]
-    # @param html_options [Hash]
+    # @param args [String]
     # @return [String] HTML I element
     def fa_icon(*args, &block)
       html_options = args.extract_options!
       html_options[:class] = Array html_options[:class]
-      html_options[:class] << "fa"
-      args.each do |suffix|
-        html_options[:class] << "fa-#{suffix}"
-      end
+      html_options[:class] << 'fa'
+      args.each { |suffix| html_options[:class] << "fa-#{suffix}" }
 
       content_tag :i, nil, html_options, &block
     end
