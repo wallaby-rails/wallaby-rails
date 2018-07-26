@@ -1,8 +1,10 @@
 @function fa-content($fa-var) {
+  // Make sure FA value is wrapped in quotes
   @return unquote("\"#{ $fa-var }\"");
 }
 
 @if variable-exists(fa-remove) {
+  // FontAwesome 4
   $fa-map: (
     fa-var-pencil: $fa-var-pencil,
     fa-var-remove: $fa-var-remove,
@@ -10,6 +12,7 @@
     fa-var-sort-desc: $fa-var-sort-desc,
   ) !global;
 } @else {
+  // FontAwesome 5
   $fa-map: (
     fa-var-pencil: $fa-var-pencil-alt,
     fa-var-remove: $fa-var-times,

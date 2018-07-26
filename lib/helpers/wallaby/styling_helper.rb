@@ -1,15 +1,18 @@
 module Wallaby
-  # Styling helper
+  # Helper methods for HTML/CSS related
   module StylingHelper
     # Shortcut to build up the html options as keyword arguments
     # @param string_or_array [String, Array<String>]
+    # @param options [Hash]
     # @return [Hash]
-    def html_classes(string_or_array)
-      { html_options: { class: string_or_array } }
+    def html_classes(string_or_array, options = {})
+      { html_options: options.merge(class: string_or_array) }
     end
 
-    # Shortcut for fontawesome icons
-    # @param args [String]
+    # Shortcut to build FontAwesome icon
+    # @overload fa_icon(*names, html_options)
+    #   @param names [Array<String>] names of the icon
+    #   @param html_options [Hash] html options for tag <i>
     # @return [String] HTML I element
     def fa_icon(*args, &block)
       html_options = args.extract_options!
