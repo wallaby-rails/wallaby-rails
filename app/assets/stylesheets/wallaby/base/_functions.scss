@@ -6,17 +6,17 @@
 @if variable-exists(fa-remove) {
   // FontAwesome 4
   $fa-map: (
-    fa-var-pencil: $fa-var-pencil,
-    fa-var-remove: $fa-var-remove,
-    fa-var-sort-asc: $fa-var-sort-asc,
-    fa-var-sort-desc: $fa-var-sort-desc,
+    fa-var-pencil-alt: $fa-var-pencil,
+    fa-var-times: $fa-var-remove,
+    fa-var-sort-up: $fa-var-sort-asc,
+    fa-var-sort-down: $fa-var-sort-desc,
   ) !global;
 } @else {
   // FontAwesome 5
   $fa-map: (
-    fa-var-pencil: $fa-var-pencil-alt,
-    fa-var-remove: $fa-var-times,
-    fa-var-sort-asc: $fa-var-sort-up,
-    fa-var-sort-desc: $fa-var-sort-down,
+    fa-var-pencil-alt: $fa-var-pencil-alt,
+    fa-var-times: $fa-var-times,
+    fa-var-sort-up: $fa-var-sort-up,
+    fa-var-sort-down: $fa-var-sort-down,
   ) !global;
 }

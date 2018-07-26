@@ -62,7 +62,7 @@
 
           &.resource__update {
             &:before {
-              content: fa-content(map-get($fa-map, fa-var-pencil));
+              content: fa-content(map-get($fa-map, fa-var-pencil-alt));
             }
             background-color: $light-yellow-color;
 
@@ -73,7 +73,7 @@
 
           &.resource__destroy {
             &:before {
-              content: fa-content(map-get($fa-map, fa-var-remove));
+              content: fa-content(map-get($fa-map, fa-var-times));
             }
             background-color: $light-red-color;
 
@@ -125,7 +125,7 @@
           &:hover {
             color: $default-primary-color;
             &:before {
-              content: fa-content(map-get($fa-map, fa-var-sort-asc));
+              content: fa-content(map-get($fa-map, fa-var-sort-up));
             }
           }
         }
@@ -133,11 +133,11 @@
         &.asc {
           a {
             &:before {
-              content: fa-content(map-get($fa-map, fa-var-sort-asc));
+              content: fa-content(map-get($fa-map, fa-var-sort-up));
             }
             &:hover {
               &:before {
-                content: fa-content(map-get($fa-map, fa-var-sort-desc));
+                content: fa-content(map-get($fa-map, fa-var-sort-down));
               }
             }
           }
@@ -146,7 +146,7 @@
         &.desc {
           a {
             &:before {
-              content: fa-content(map-get($fa-map, fa-var-sort-desc));
+              content: fa-content(map-get($fa-map, fa-var-sort-down));
             }
             &:hover {
               &:before {

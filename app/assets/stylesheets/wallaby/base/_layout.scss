@@ -240,7 +240,7 @@ main {
 
       &__update {
         &:before {
-          content: fa-content(map-get($fa-map, fa-var-pencil));
+          content: fa-content(map-get($fa-map, fa-var-pencil-alt));
         }
         background-color: $light-yellow-color;
 
@@ -251,7 +251,7 @@ main {
 
       &__destroy {
         &:before {
-          content: fa-content(map-get($fa-map, fa-var-remove));
+          content: fa-content(map-get($fa-map, fa-var-times));
         }
         background-color: $light-red-color;
 
