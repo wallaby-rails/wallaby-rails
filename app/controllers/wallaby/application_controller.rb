@@ -29,25 +29,25 @@ module Wallaby
     # Not found page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def not_found(exception = nil)
-      error_rendering(exception, __callee__)
+      error_rendering exception, __callee__
     end
 
     # Bad request page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def bad_request(exception = nil)
-      error_rendering(exception, __callee__)
+      error_rendering exception, __callee__
     end
 
     # Unprocessable entity page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def unprocessable_entity(exception = nil)
-      error_rendering(exception, __callee__)
+      error_rendering exception, __callee__
     end
 
     # Internal server error page
     # @param exception [Exception, nil] exception comes from `rescue_from`
     def internal_server_error(exception = nil)
-      error_rendering(exception, __callee__)
+      error_rendering exception, __callee__
     end
 
     # `helpers` exists since Rails 5, need to mimic this for Rails 4.2
@@ -68,7 +68,7 @@ module Wallaby
 
       Rails.logger.error @exception
       # TODO: change the error and path at some point
-      render ERROR_PATH, layout: ERROR_LAYOUT, status: symbol
+      render ERROR_PATH, status: symbol
     end
   end
 end
