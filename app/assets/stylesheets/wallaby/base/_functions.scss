@@ -1,0 +1,19 @@
+@function fa-content($fa-var) {
+  @return unquote("\"#{ $fa-var }\"");
+}
+
+@if variable-exists(fa-remove) {
+  $fa-map: (
+    fa-var-pencil: $fa-var-pencil,
+    fa-var-remove: $fa-var-remove,
+    fa-var-sort-asc: $fa-var-sort-asc,
+    fa-var-sort-desc: $fa-var-sort-desc,
+  ) !global;
+} @else {
+  $fa-map: (
+    fa-var-pencil: $fa-var-pencil-alt,
+    fa-var-remove: $fa-var-times,
+    fa-var-sort-asc: $fa-var-sort-up,
+    fa-var-sort-desc: $fa-var-sort-down,
+  ) !global;
+}

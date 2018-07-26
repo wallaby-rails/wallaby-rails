@@ -36,7 +36,12 @@
         text-align: right;
 
         a {
-          @extend .fa, .fa-info;
+          @extend .fa;
+          &:before {
+            content: fa-content($fa-var-info);
+            line-height: 16px;
+            width: 16px;
+          }
 
           background-color: $light-primary-color;
           border-radius: 2px;
@@ -56,7 +61,9 @@
           }
 
           &.resource__update {
-            @extend .fa-pencil;
+            &:before {
+              content: fa-content(map-get($fa-map, fa-var-pencil));
+            }
             background-color: $light-yellow-color;
 
             &:hover {
@@ -65,7 +72,9 @@
           }
 
           &.resource__destroy {
-            @extend .fa-remove;
+            &:before {
+              content: fa-content(map-get($fa-map, fa-var-remove));
+            }
             background-color: $light-red-color;
 
             &:hover {
@@ -116,8 +125,7 @@
           &:hover {
             color: $default-primary-color;
             &:before {
-              color: $default-primary-color;
-              content: $fa-var-sort-asc;
+              content: fa-content(map-get($fa-map, fa-var-sort-asc));
             }
           }
         }
@@ -125,11 +133,11 @@
         &.asc {
           a {
             &:before {
-              content: $fa-var-sort-asc;
+              content: fa-content(map-get($fa-map, fa-var-sort-asc));
             }
             &:hover {
               &:before {
-                content: $fa-var-sort-desc;
+                content: fa-content(map-get($fa-map, fa-var-sort-desc));
               }
             }
           }
@@ -138,11 +146,11 @@
         &.desc {
           a {
             &:before {
-              content: $fa-var-sort-desc;
+              content: fa-content(map-get($fa-map, fa-var-sort-desc));
             }
             &:hover {
               &:before {
-                content: $fa-var-sort;
+                content: fa-content($fa-var-sort);
               }
             }
           }
@@ -177,12 +185,12 @@
         }
 
         &.resources--forward:after {
-          content: $fa-var-angle-double-right;
+          content: fa-content($fa-var-angle-double-right);
           right: 16px;
         }
 
         &.resources--backward:before {
-          content: $fa-var-angle-double-left;
+          content: fa-content($fa-var-angle-double-left);
           left: 16px;
         }
       }
