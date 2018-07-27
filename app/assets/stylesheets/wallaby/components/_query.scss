@@ -24,7 +24,7 @@
       &:before {
         @extend .fa;
         color: $default-primary-color;
-        content: $fa-var-search;
+        content: fa-content($fa-var-search);
         left: 8px;
         margin-top: -7px;
         position: absolute;
@@ -71,7 +71,10 @@
     }
 
     .query__clear {
-      @extend .fa, .fa-ban;
+      @extend .fa;
+      &:before {
+        content: fa-content($fa-var-ban);
+      }
       background-color: $light-grey-color;
 
       &:hover {
@@ -80,7 +83,10 @@
     }
 
     .query__create {
-      @extend .fa, .fa-plus;
+      @extend .fa;
+      &:before {
+        content: fa-content($fa-var-plus);
+      }
       background-color: $light-green-color;
 
       &:hover {
@@ -89,7 +95,10 @@
     }
 
     .query__more {
-      @extend .fa, .fa-chevron-down;
+      @extend .fa;
+      &:before {
+        content: fa-content($fa-var-chevron-down);
+      }
       background-color: $light-blue-color;
 
       &:hover {

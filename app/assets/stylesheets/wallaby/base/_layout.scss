@@ -98,7 +98,8 @@ header {
             position: relative;
 
             &:before {
-              @extend .fa, .fa-caret-right;
+              @extend .fa;
+              content: fa-content($fa-var-caret-right);
               position: absolute;
               left: 30px;
               top: 50%;
@@ -214,16 +215,22 @@ main {
     }
 
     .resources__index {
-      @extend .fa-list;
+      &:before {
+        content: fa-content($fa-var-list);
+      }
     }
 
     .resource {
       &__show {
-        @extend .fa-info;
+        &:before {
+          content: fa-content($fa-var-info);
+        }
       }
 
       &__create {
-        @extend .fa-plus;
+        &:before {
+          content: fa-content($fa-var-plus);
+        }
         background-color: $light-green-color;
 
         &:hover {
@@ -232,7 +239,9 @@ main {
       }
 
       &__update {
-        @extend .fa-pencil;
+        &:before {
+          content: fa-content(map-get($fa-map, fa-var-pencil-alt));
+        }
         background-color: $light-yellow-color;
 
         &:hover {
@@ -241,7 +250,9 @@ main {
       }
 
       &__destroy {
-        @extend .fa-remove;
+        &:before {
+          content: fa-content(map-get($fa-map, fa-var-times));
+        }
         background-color: $light-red-color;
 
         &:hover {
