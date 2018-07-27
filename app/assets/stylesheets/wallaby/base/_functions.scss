@@ -3,7 +3,7 @@
   @return unquote("\"#{ $fa-var }\"");
 }
 
-@if variable-exists(fa-remove) {
+@if variable-exists(fa-var-pencil) {
   // FontAwesome 4
   $fa-map: (
     fa-var-pencil-alt: $fa-var-pencil,
