@@ -9,7 +9,7 @@ module Wallaby
       { html_options: options.merge(class: string_or_array) }
     end
 
-    # Shortcut to generateFontAwesome icon using tag <i>.
+    # Shortcut to generate FontAwesome icon using tag <i>.
     # @overload fa_icon(*names, html_options)
     #   @param names [Array<String>] names of the icon
     #   @param html_options [Hash] html options for tag <i>
