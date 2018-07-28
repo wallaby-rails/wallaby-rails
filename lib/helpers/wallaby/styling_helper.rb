@@ -1,5 +1,5 @@
 module Wallaby
-  # Helper methods for HTML/CSS related
+  # Helper methods to build custom elements
   module StylingHelper
     # Shortcut to build up the html options as keyword arguments
     # @param string_or_array [String, Array<String>]
@@ -9,7 +9,7 @@ module Wallaby
       { html_options: options.merge(class: string_or_array) }
     end
 
-    # Shortcut to build FontAwesome icon
+    # Shortcut to generateFontAwesome icon using tag <i>.
     # @overload fa_icon(*names, html_options)
     #   @param names [Array<String>] names of the icon
     #   @param html_options [Hash] html options for tag <i>

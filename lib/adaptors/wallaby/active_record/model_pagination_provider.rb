@@ -5,7 +5,11 @@ module Wallaby
       # Check if collection has pagination feature
       # @return [Boolean]
       def paginatable?
-        @collection.respond_to? :total_count
+        # `total_count` is a method that kaminari uses
+        (@collection && @collection.respond_to?(:total_count)).tap do |paginatable|
+          next if paginatable
+          Rails.logger.warn I18n.t('errors.activerecord.paginatable', collection: @collection.inspect)
+        end
       end
 
       # @return [Integer] total count for the query

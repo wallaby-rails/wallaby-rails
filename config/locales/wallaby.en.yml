@@ -74,6 +74,8 @@ en:
       not_found:
         scope_policy: 'Cannot find scope policy for %{scope}.'
         attributes_for: 'Cannot find attributes for %{subject}.'
+    activerecord:
+      paginatable: '%{collection} is not paginatable.'
 
   pagination:
     prev: 'Prev'
