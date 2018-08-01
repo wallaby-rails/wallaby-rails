@@ -4,10 +4,10 @@ module Wallaby
     include StylingHelper
     include LinksHelper
 
-    # @see Utils.to_model_label
+    # @see ModelUtils.to_model_label
     # @return [String] label for given model class
     def to_model_label(model_class)
-      Utils.to_model_label model_class
+      ModelUtils.to_model_label model_class
     end
 
     # @see Map.resources_name_map

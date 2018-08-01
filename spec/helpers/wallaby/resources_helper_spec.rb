@@ -1,18 +1,6 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesHelper, :current_user do
-  describe '#model_decorator' do
-    it 'returns a model decorator' do
-      expect(helper.model_decorator(AllPostgresType)).to be_a Wallaby::ActiveRecord::ModelDecorator
-    end
-
-    context 'when model dose not exist' do
-      it 'returns a model decorator' do
-        expect(helper.model_decorator(Array)).to be_blank
-      end
-    end
-  end
-
   describe '#decorate' do
     context 'single object' do
       it 'returns a decorator' do

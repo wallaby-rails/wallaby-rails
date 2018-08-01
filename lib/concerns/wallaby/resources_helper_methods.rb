@@ -29,11 +29,6 @@ module Wallaby
       end
     end
 
-    # @return [Wallaby::ModelDecorator, nil] current model decorator
-    def current_model_decorator
-      @current_model_decorator ||= helpers.model_decorator current_model_class
-    end
-
     # A wrapper method for authorizer
     # @return [Ability]
     def authorizer

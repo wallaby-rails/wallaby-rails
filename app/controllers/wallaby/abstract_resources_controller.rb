@@ -3,6 +3,9 @@ module Wallaby
   class AbstractResourcesController < ::Wallaby::BaseController
     extend Themeable::ClassMethods
     include Themeable
+    extend Decoratable::ClassMethods
+    include Decoratable
+
     include ConfigurationAttributesAndMethods
     include RailsOverridenMethods
     include ResourcesHelperMethods

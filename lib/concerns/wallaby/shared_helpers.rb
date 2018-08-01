@@ -10,7 +10,8 @@ module Wallaby
     # @param attribute_name [String, Symbol] instance attribute name
     # @param class_attribute_name [String, Symbol] class attribute name
     # @return [Object] the value
-    def controller_to_get(attribute_name, class_attribute_name)
+    def controller_to_get(attribute_name, class_attribute_name = nil)
+      class_attribute_name ||= attribute_name
       return Utils.try_to self.class, class_attribute_name if is_a? ::ActionController::Base # controller?
       Utils.try_to controller, attribute_name # view?
     end

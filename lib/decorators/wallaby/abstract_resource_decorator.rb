@@ -13,12 +13,21 @@ module Wallaby
         @model_class || Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
       end
 
+      attr_writer :application_decorator
+
+      def application_decorator
+        @application_decorator ||=
+          ancestors.find do |parent|
+            parent <= ResourceDecorator && !(parent.model_class rescue false)
+          end
+      end
+
       # Get the model decorator for the model class
       # It should be the same as #model_decorator
       # @return [Wallaby::ModelDecorator]
       def model_decorator
         return unless self < ResourceDecorator
-        Map.model_decorator_map model_class
+        Map.model_decorator_map model_class, application_decorator
       end
 
       delegation_methods =
@@ -32,7 +41,8 @@ module Wallaby
     # @param resource [Object] resource object
     def initialize(resource)
       @resource = resource
-      @model_decorator = Map.model_decorator_map model_class
+      @model_decorator =
+        self.class.model_decorator || Map.model_decorator_map(model_class, self.class.application_decorator)
     end
 
     # @return [Class] resource's class
