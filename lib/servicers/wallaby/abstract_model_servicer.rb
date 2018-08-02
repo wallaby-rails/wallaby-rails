@@ -14,11 +14,12 @@ module Wallaby
 
     # @param model_class [Class, nil] model class
     # @param authorizer [Ability]
-    def initialize(model_class = nil, authorizer = nil)
+    # @param model_decorator [Wallaby::ModelDecorator] decorator
+    def initialize(model_class:, authorizer:, model_decorator:)
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'model class required' unless @model_class
       @authorizer = authorizer
-      @provider = Map.service_provider_map(@model_class).new(@model_class)
+      @provider = Map.service_provider_map(@model_class).new(@model_class, model_decorator)
     end
 
     # @param params [ActionController::Parameters]

@@ -25,8 +25,9 @@ describe Wallaby::ModelServicer, clear: :object_space do
   end
 
   describe 'instance methods' do
-    subject { described_class.new model_class, authorizer }
+    subject { described_class.new model_class: model_class, authorizer: authorizer, model_decorator: model_decorator }
     let(:model_class) { AllPostgresType }
+    let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new model_class }
     let(:provider) { subject.instance_variable_get '@provider' }
     let(:params) { parameters }
     let(:authorizer) { Wallaby::ModelAuthorizer.new nil, model_class }
