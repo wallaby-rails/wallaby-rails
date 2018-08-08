@@ -235,9 +235,11 @@ Apart from the above types, these are also supported:
 - raw (index/show)
 - link (index/show)
   - metadata options for `index` partial:
-    - `:html_options`: used by [ActionView::Helpers::UrlHelper#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
+    - `:title`: used as link title by [ActionView::Helpers::UrlHelper#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
+    - `:html_options`: used as link html options by [ActionView::Helpers::UrlHelper#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
   - metadata options for `show` partial:
-    - `:html_options`: used by [ActionView::Helpers::UrlHelper#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
+    - `:title`: used as link title by [ActionView::Helpers::UrlHelper#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
+    - `:html_options`: used as link html options by [ActionView::Helpers::UrlHelper#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
 - sti
   - metadata options for `index` partial:
     - `:max`: Truncates a given text after a given `max` if text is longer than `max`

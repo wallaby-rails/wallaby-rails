@@ -1,14 +1,13 @@
 require 'rails_helper'
 
-partial_name = 'index/link'
-describe partial_name, :current_user do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { 'https://reinteractive.com/' }
-  let(:metadata)  { { label: 'Rails Developers', html_options: { target: '_blank' } } }
-
-  before { render partial, value: value, metadata: metadata }
-
-  it 'renders the link' do
-    expect(rendered).to include '<a target="_blank" href="https://reinteractive.com/">Rails Developers</a>'
-  end
+field_name = 'string'
+type = type_from __FILE__
+describe field_name do
+  it_behaves_like \
+    "#{type} partial", field_name,
+    partial_name: 'link',
+    value: 'https://reinteractive.com/',
+    metadata: { title: 'Rails Developers', html_options: { target: '_blank' } },
+    skip_escaping: true,
+    expected_value: '<a target="_blank" href="https://reinteractive.com/">Rails Developers</a>'
 end

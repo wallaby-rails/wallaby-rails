@@ -2,4 +2,4 @@
 <%# @param field_name [String] name of the field %>
 <%# @param value [Object] value of the field %>
 <%# @param metadata [Hash] metadata of the field %>
-<%= value.nil? ? null : link_to(metadata[:label], value, metadata[:html_options]) %>
+<%= value.nil? ? null : link_to(metadata[:title], value, metadata[:html_options]) %>
