@@ -60,6 +60,7 @@ en:
   errors:
     invalid:
       models: '%{models} are invalid models.'
+      inheritance: '%{klass} does not inherit %{parent}.'
     not_found:
       collection: 'Records can not be found. Click + button to add one.'
       model: 'Model %{model} can not be found.'

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-xdescribe Wallaby::ResourcesController, type: :controller do
+describe Wallaby::ResourcesController, type: :controller do
   describe '.resource_decorator && .application_decorator' do
     it 'returns nil' do
       expect(described_class.resource_decorator).to be_nil
@@ -11,6 +11,7 @@ xdescribe Wallaby::ResourcesController, type: :controller do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(Wallaby::ResourcesController) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
       let!(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(Wallaby::ResourceDecorator) }
+      let!(:another_decorator) { stub_const 'AnotherDecorator', Class.new(Wallaby::ResourceDecorator) }
 
       it 'inherits the configuration' do
         expect(subclass1.resource_decorator).to be_nil

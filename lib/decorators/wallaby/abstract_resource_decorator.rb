@@ -13,12 +13,16 @@ module Wallaby
         @model_class || Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
       end
 
-      attr_writer :application_decorator
+      # @!attribute [w] application_decorator
+      def application_decorator=(application_decorator)
+        ModuleUtils.inheritance_check self, application_decorator
+        @application_decorator = application_decorator
+      end
 
       def application_decorator
         @application_decorator ||=
           ancestors.find do |parent|
-            parent <= ResourceDecorator && !(parent.model_class rescue false)
+            parent <= ResourceDecorator && !parent.model_class
           end
       end
 

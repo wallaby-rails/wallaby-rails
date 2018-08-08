@@ -3,25 +3,30 @@ module Wallaby
   module Decoratable
     # Configurable attribute
     module ClassMethods
-      # @!attribute resource_decorator
+      # @!attribute [w] resource_decorator
+      def resource_decorator=(resource_decorator)
+        ModuleUtils.inheritance_check resource_decorator, application_decorator
+        @resource_decorator = resource_decorator
+      end
+
+      # @!attribute [r] resource_decorator
       # @example To set resource decorator
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.resource_decorator = ProductDecorator
       #   end
       # @return [Class] resource decorator
       # @since 5.2.0
-      attr_accessor :resource_decorator
+      attr_reader :resource_decorator
 
       # @!attribute [w] application_decorator
-      attr_writer :application_decorator
+      def application_decorator=(application_decorator)
+        ModuleUtils.inheritance_check resource_decorator, application_decorator
+        @application_decorator = application_decorator
+      end
 
       # @!attribute [r] application_decorator
       # The `application_decorator` is as the base class of {#resource_decorator}. It
       # @example To set application decorator:
-      #   class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
-      #   end
-      #   class AnotherApplicationDecorator < Wallaby::ResourceDecorator
-      #   end
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_decorator = AnotherApplicationDecorator
       #   end

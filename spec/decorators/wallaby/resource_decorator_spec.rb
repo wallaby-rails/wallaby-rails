@@ -202,6 +202,19 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
         end
       end
 
+      describe '.application_decorator' do
+        it 'returns application decorator class' do
+          expect(klass.application_decorator).to eq Wallaby::ResourceDecorator
+        end
+      end
+
+      describe '.application_decorator=' do
+        let(:another_decorator) { stub_const 'AnotherDecorator', Class.new(Wallaby::ResourceDecorator) }
+        it 'returns application decorator class' do
+          expect { klass.application_decorator = another_decorator }.to raise_error ArgumentError
+        end
+      end
+
       describe 'fields' do
         ['', 'index_', 'show_', 'form_'].each do |prefix|
           title = prefix.delete '_'
