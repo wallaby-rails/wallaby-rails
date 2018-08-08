@@ -4,7 +4,6 @@
 - documentation for interface
 - documentation for localization
 - bugfix: can autocomplete for integer labels
-- Change to use webpack
 - Remove dependency of CanCanCan and Kaminari
 - Localization support: to be able to use localization for all the model labels
 - Add support for pundit
