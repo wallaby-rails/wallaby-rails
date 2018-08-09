@@ -157,19 +157,39 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           context 'boolean' do
             it 'returns eq/in query' do
               keyword = 'boolean:true'
-              expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'true'"
+              if version? '~> 5.2.1'
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = TRUE"
+              else
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'true'"
+              end
 
               keyword = 'boolean:false'
-              expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'false'"
+              if version? '~> 5.2.1'
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = FALSE"
+              else
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'false'"
+              end
 
               keyword = 'boolean:=true'
-              expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'true'"
+              if version? '~> 5.2.1'
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = TRUE"
+              else
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'true'"
+              end
 
               keyword = 'boolean:=false'
-              expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'false'"
+              if version? '~> 5.2.1'
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = FALSE"
+              else
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'false'"
+              end
 
               keyword = 'boolean:=true,false'
-              expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" IN ('true', 'false')"
+              if version? '~> 5.2.1'
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" IN (TRUE, FALSE)"
+              else
+                expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" IN ('true', 'false')"
+              end
             end
           end
 
@@ -277,7 +297,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != 'true'"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != TRUE"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'true')"
@@ -287,7 +307,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != 'false'"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != FALSE"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'false')"
@@ -297,7 +317,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != 'true'"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != TRUE"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'true')"
@@ -307,7 +327,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != 'false'"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != FALSE"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'false')"
@@ -317,7 +337,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != 'true'"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != TRUE"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'true')"
@@ -327,7 +347,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != 'false'"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" != FALSE"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'false')"
@@ -337,7 +357,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" NOT IN ('true', 'false')"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" NOT IN (TRUE, FALSE)"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" NOT IN ('true', 'false'))"
@@ -347,7 +367,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" NOT IN ('true', 'false')"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" NOT IN (TRUE, FALSE)"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" NOT IN ('true', 'false'))"
@@ -357,7 +377,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
                   5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" NOT IN ('true', 'false')"
+                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" NOT IN (TRUE, FALSE)"
                   }
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" NOT IN ('true', 'false'))"
