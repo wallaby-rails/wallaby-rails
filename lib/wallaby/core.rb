@@ -19,6 +19,7 @@ require 'tree/wallaby/node'
 require 'parsers/wallaby/parser'
 
 require 'utils/wallaby/model_utils'
+require 'utils/wallaby/module_utils'
 require 'utils/wallaby/test_utils'
 require 'utils/wallaby/utils'
 
