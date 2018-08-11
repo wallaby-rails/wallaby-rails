@@ -11,7 +11,7 @@ module Wallaby
       def model_class
         return unless self < ModelAuthorizer
         return if abstract || self == Wallaby.configuration.mapping.model_authorizer
-        @model_class || Map.model_class_map(name.gsub('Authorizer', EMPTY_STRING))
+        @model_class ||= Map.model_class_map(name.gsub('Authorizer', EMPTY_STRING))
       end
 
       # This method is used to index the provider.

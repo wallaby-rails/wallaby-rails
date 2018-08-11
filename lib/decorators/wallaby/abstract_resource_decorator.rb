@@ -25,7 +25,7 @@ module Wallaby
       def model_class
         return unless self < ResourceDecorator
         return if abstract || self == Wallaby.configuration.mapping.resource_decorator
-        @model_class || Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
+        @model_class ||= Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
       end
 
       # @!attribute [w] application_decorator
@@ -60,6 +60,7 @@ module Wallaby
       #   class ProductDecorator < CoreDecorator
       #     self.application_decorator = Admin::ApplicationDecorator
       #   end
+      # @raise [ArgumentError] when itself doesn't inherit from given **application_decorator**
       # @return [Class] assoicated application decorator class.
       def application_decorator
         @application_decorator ||= ancestors.find { |parent| parent < ResourceDecorator && !parent.model_class }

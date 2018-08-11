@@ -56,7 +56,7 @@ module Wallaby
       def model_class
         return unless self < ResourcesController
         return if abstract || self == Wallaby.configuration.mapping.resources_controller
-        @model_class || Map.model_class_map(name.gsub('Controller', EMPTY_STRING))
+        @model_class ||= Map.model_class_map(name.gsub('Controller', EMPTY_STRING))
       end
 
       # @!attribute [r] application_servicer

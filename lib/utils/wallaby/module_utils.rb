@@ -1,5 +1,5 @@
 module Wallaby
-  # Utils
+  # Utils for module and class
   module ModuleUtils
     # Check if a child class inherit from parent class
     # @param child [Class] child class

@@ -10,27 +10,34 @@ module Wallaby
       end
 
       # @!attribute [r] resource_decorator
+      # Resource decorator will be used for its metadata info and decoration methods.
+      #
+      # If Wallaby doesn't get it right, please specify the **resource_decorator**.
       # @example To set resource decorator
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.resource_decorator = ProductDecorator
       #   end
+      # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
+      # @see Wallaby::ResourceDecorator
       # @return [Class] resource decorator
       # @since 5.2.0
       attr_reader :resource_decorator
 
       # @!attribute [w] application_decorator
+      # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       def application_decorator=(application_decorator)
         ModuleUtils.inheritance_check resource_decorator, application_decorator
         @application_decorator = application_decorator
       end
 
       # @!attribute [r] application_decorator
-      # The `application_decorator` is as the base class of {#resource_decorator}. It
+      # The **application_decorator** is as the base class of {#resource_decorator}.
       # @example To set application decorator:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_decorator = AnotherApplicationDecorator
       #   end
       # @since 5.2.0
+      # @see Wallaby::ResourceDecorator
       # @return [Class] application decorator
       def application_decorator
         @application_decorator ||= Utils.try_to superclass, :application_decorator
