@@ -26,12 +26,10 @@ module Wallaby
     def self.to_model_class(resources_name)
       return if resources_name.blank?
       class_name = to_model_name resources_name
-      if Object.const_defined? class_name
-        Object.const_get class_name
-      else
-        Rails.logger.warn I18n.t('errors.not_found.model', model: class_name)
-        nil
-      end
+      class_name.constantize
+    rescue
+      Rails.logger.warn I18n.t('errors.not_found.model', model: class_name)
+      nil
     end
 
     # Convert resources name (e.g. `namespace::products`) into model name

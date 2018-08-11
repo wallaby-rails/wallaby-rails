@@ -9,9 +9,6 @@ module Wallaby
       attr_writer :resources_name
       # @see .model_class
       attr_writer :model_class
-      # @!attribute model_decorator
-      #   This attribute will be used for `current_model_decorator`
-      attr_accessor :model_decorator
       # @!attribute model_servicer
       #   This attribute will be used for `current_model_servicer`
       attr_accessor :model_servicer
@@ -22,9 +19,6 @@ module Wallaby
       #   This attribute will be used for `current_model_authorizer`
       attr_accessor :model_authorizer
 
-      # @!attribute [w] application_decorator
-      # @see .application_decorator
-      attr_writer :application_decorator
       # @!attribute [w] application_servicer
       # @see .application_servicer
       attr_writer :application_servicer
@@ -63,12 +57,6 @@ module Wallaby
         return unless self < ResourcesController
         return if abstract || self == Wallaby.configuration.mapping.resources_controller
         @model_class || Map.model_class_map(name.gsub('Controller', EMPTY_STRING))
-      end
-
-      # @!attribute [r] application_decorator
-      #   @return [Class, nil]
-      def application_decorator
-        @application_decorator ||= from_superclass __callee__
       end
 
       # @!attribute [r] application_servicer

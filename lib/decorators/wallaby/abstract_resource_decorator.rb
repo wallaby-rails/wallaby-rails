@@ -62,7 +62,7 @@ module Wallaby
       #   end
       # @return [Class] assoicated application decorator class.
       def application_decorator
-        @application_decorator ||= ancestors.find { |parent| parent <= ResourceDecorator && !parent.model_class }
+        @application_decorator ||= ancestors.find { |parent| parent < ResourceDecorator && !parent.model_class }
       end
 
       # Fetch model decorator from cached map using keys {.model_class} and {.application_decorator}.
