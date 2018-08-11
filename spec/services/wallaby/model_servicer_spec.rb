@@ -17,7 +17,7 @@ describe Wallaby::ModelServicer, clear: :object_space do
         context 'when model class is not found' do
           it 'raises not found' do
             stub_const 'NotFoundServicer', Class.new(Wallaby::ModelServicer)
-            expect { NotFoundServicer.model_class }.to raise_error Wallaby::ModelNotFound
+            expect(NotFoundServicer.model_class).to be_nil
           end
         end
       end
@@ -25,8 +25,9 @@ describe Wallaby::ModelServicer, clear: :object_space do
   end
 
   describe 'instance methods' do
-    subject { described_class.new model_class, authorizer }
+    subject { described_class.new model_class: model_class, authorizer: authorizer, model_decorator: model_decorator }
     let(:model_class) { AllPostgresType }
+    let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new model_class }
     let(:provider) { subject.instance_variable_get '@provider' }
     let(:params) { parameters }
     let(:authorizer) { Wallaby::ModelAuthorizer.new nil, model_class }

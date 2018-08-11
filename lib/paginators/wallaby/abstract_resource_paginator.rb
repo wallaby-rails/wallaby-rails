@@ -9,7 +9,7 @@ module Wallaby
       def model_class
         return unless self < ResourcePaginator
         return if abstract || self == Wallaby.configuration.mapping.resource_paginator
-        @model_class || Map.model_class_map(name.gsub('Paginator', EMPTY_STRING))
+        @model_class ||= Map.model_class_map(name.gsub('Paginator', EMPTY_STRING))
       end
     end
 

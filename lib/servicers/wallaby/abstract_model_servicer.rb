@@ -8,17 +8,18 @@ module Wallaby
       def model_class
         return unless self < ModelServicer
         return if abstract || self == Wallaby.configuration.mapping.model_servicer
-        @model_class || Map.model_class_map(name.gsub('Servicer', EMPTY_STRING))
+        @model_class ||= Map.model_class_map(name.gsub('Servicer', EMPTY_STRING))
       end
     end
 
     # @param model_class [Class, nil] model class
     # @param authorizer [Ability]
-    def initialize(model_class = nil, authorizer = nil)
+    # @param model_decorator [Wallaby::ModelDecorator] decorator
+    def initialize(model_class:, authorizer:, model_decorator:)
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'model class required' unless @model_class
       @authorizer = authorizer
-      @provider = Map.service_provider_map(@model_class).new(@model_class)
+      @provider = Map.service_provider_map(@model_class).new(@model_class, model_decorator)
     end
 
     # @param params [ActionController::Parameters]

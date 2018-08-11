@@ -15,7 +15,7 @@ module Wallaby
       #     self.engine_name = 'admin_engine'
       #   end
       # @since 5.2.0
-      # @return [String, nil] engine name
+      # @return [String, Symbol, nil] engine name
       def engine_name
         @engine_name ||= Utils.try_to superclass, :engine_name
       end

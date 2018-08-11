@@ -21,6 +21,7 @@ module Wallaby
     unprocessable_entity
   ).freeze
   WILDCARD = 'QUERY'.freeze
+  MODEL_ACTIONS = %i(index new create show edit update destroy).freeze
   FORM_ACTIONS =
     ActiveSupport::HashWithIndifferentAccess.new(new: 'form', create: 'form', edit: 'form', update: 'form').freeze
   SAVE_ACTIONS = %w(create update).freeze

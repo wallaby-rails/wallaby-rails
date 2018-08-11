@@ -29,7 +29,7 @@ describe Wallaby::ResourcesRouter do
         end
 
         context 'when action is not found' do
-          let(:action_name) { 'unknown' }
+          let(:action_name) { 'unknown_action' }
 
           it 'shows not found' do
             expect(default_controller).to receive(:action).with(action_name) { raise AbstractController::ActionNotFound }
@@ -64,7 +64,7 @@ describe Wallaby::ResourcesRouter do
         end
 
         context 'when action is not found' do
-          let(:action_name) { 'unknown' }
+          let(:action_name) { 'unknown_action' }
 
           it 'calls not_found' do
             expect(QueensController).to receive(:action).with(action_name) { raise AbstractController::ActionNotFound }
@@ -114,9 +114,10 @@ describe Wallaby::ResourcesRouter do
         end
 
         context 'when action is not found' do
-          let(:action_name) { 'unknown' }
+          let(:action_name) { 'unknown_action' }
 
           it 'shows not found' do
+            expect(default_controller).to receive(:action).with(action_name) { raise AbstractController::ActionNotFound }
             expect(default_controller).to receive(:action).with(:not_found) { mocked_action }
             subject.call mocked_env
           end

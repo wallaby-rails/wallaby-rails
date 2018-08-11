@@ -16,12 +16,8 @@ module Wallaby
       # @return [Hash] model class => descendant class
       def map(class_array)
         (class_array || EMPTY_ARRAY).each_with_object({}) do |klass, map|
-          next if anonymous?(klass) || abstract?(klass)
-          begin
-            map[klass.model_class] = block_given? ? yield(klass) : klass
-          rescue Wallaby::ModelNotFound
-            Rails.logger.error Utils.translate_class(self, :missing_model_class, model: klass.name)
-          end
+          next if anonymous?(klass) || abstract?(klass) || !klass.model_class
+          map[klass.model_class] = block_given? ? yield(klass) : klass
         end
       end
 

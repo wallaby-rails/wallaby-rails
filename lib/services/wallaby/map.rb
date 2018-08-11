@@ -27,7 +27,7 @@ module Wallaby
       # @return [String] resources name
       def resources_name_map(model_class)
         @resources_name_map ||= {}
-        @resources_name_map[model_class] ||= Utils.to_resources_name model_class
+        @resources_name_map[model_class] ||= ModelUtils.to_resources_name model_class
       end
 
       # { resources name => model }
@@ -35,7 +35,7 @@ module Wallaby
       # @return [Class] model class
       def model_class_map(resources_name)
         @model_class_map ||= {}
-        @model_class_map[resources_name] ||= Utils.to_model_class resources_name
+        @model_class_map[resources_name] ||= ModelUtils.to_model_class resources_name
       end
     end
 
@@ -56,6 +56,18 @@ module Wallaby
       def resource_decorator_map(model_class, application_decorator = nil)
         application_decorator ||= mapping.resource_decorator
         map_of :@decorator_map, model_class, application_decorator
+      end
+
+      # { model => model decorator }
+      # @param model_class [Class]
+      # @param application_decorator [Class, nil]
+      # @return [Wallaby::ModelDecorator] model decorator instance
+      def model_decorator_map(model_class, application_decorator = nil)
+        application_decorator ||= mapping.resource_decorator
+        @model_decorator_map ||= {}
+        @model_decorator_map[application_decorator] ||= {}
+        @model_decorator_map[application_decorator][model_class] ||=
+          mode_map[model_class].try(:model_decorator).try :new, model_class
       end
 
       # Look up which model servicer to use for a given model class
@@ -87,14 +99,6 @@ module Wallaby
     end
 
     class << self
-      # { model => model decorator }
-      # @param model_class [Class]
-      # @return [Wallaby::ModelDecorator] model decorator instance
-      def model_decorator_map(model_class)
-        @model_decorator_map ||= {}
-        @model_decorator_map[model_class] ||= mode_map[model_class].try(:model_decorator).try :new, model_class
-      end
-
       # { model => service_provider }
       # @param model_class [Class]
       # @return [Class] model service provider instance
@@ -138,6 +142,7 @@ module Wallaby
         configuration.mapping
       end
 
+      # Set up the hash map for given variable name
       # @param variable_name [Symbol] instance variable name e.g. :@decorator_map
       # @param model_class [Class]
       # @param application_class [Class]

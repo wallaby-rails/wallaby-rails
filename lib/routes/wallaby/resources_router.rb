@@ -14,9 +14,12 @@ module Wallaby
       params = env[ActionDispatch::Http::Parameters::PARAMETERS_KEY]
       controller = find_controller_by params
       controller.action(params[:action]).call env
-    rescue ::AbstractController::ActionNotFound, ModelNotFound, UnprocessableEntity => exception
+    rescue ::AbstractController::ActionNotFound, ModelNotFound => exception
       set_message_for exception, env
       default_controller(params).action(:not_found).call env
+    rescue UnprocessableEntity => exception
+      set_message_for exception, env
+      default_controller(params).action(:unprocessable_entity).call env
     end
 
     private
@@ -25,8 +28,7 @@ module Wallaby
     # @param params [Hash]
     # @return [Class] controller class
     def find_controller_by(params)
-      model_class = Map.model_class_map params[:resources]
-      validate model_class
+      model_class = find_model_class_by params
       Map.controller_map(model_class, params[:resources_controller]) || default_controller(params)
     end
 
@@ -39,9 +41,14 @@ module Wallaby
 
     # Check and see if the model is supported or not
     # @param model_class [Class]
-    def validate(model_class)
-      return unless model_class && !Map.mode_map[model_class]
-      raise UnprocessableEntity, I18n.t('errors.unprocessable_entity.model', model: model_class)
+    def find_model_class_by(params)
+      model_class = Map.model_class_map params[:resources]
+      return model_class unless MODEL_ACTIONS.include? params[:action].to_sym
+      raise ModelNotFound, params[:resources] unless model_class
+      unless Map.mode_map[model_class]
+        raise UnprocessableEntity, I18n.t('errors.unprocessable_entity.model', model: model_class)
+      end
+      model_class
     end
 
     # Set flash error message

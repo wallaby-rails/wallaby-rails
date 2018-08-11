@@ -18,6 +18,8 @@ require 'routes/wallaby/resources_router'
 require 'tree/wallaby/node'
 require 'parsers/wallaby/parser'
 
+require 'utils/wallaby/model_utils'
+require 'utils/wallaby/module_utils'
 require 'utils/wallaby/test_utils'
 require 'utils/wallaby/utils'
 
@@ -28,6 +30,7 @@ require 'concerns/wallaby/rails_overriden_methods'
 require 'concerns/wallaby/resources_helper_methods'
 require 'concerns/wallaby/shared_helpers'
 require 'concerns/wallaby/themeable'
+require 'concerns/wallaby/decoratable'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator/field_helpers'

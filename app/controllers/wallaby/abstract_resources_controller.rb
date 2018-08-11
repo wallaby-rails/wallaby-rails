@@ -3,6 +3,9 @@ module Wallaby
   class AbstractResourcesController < ::Wallaby::BaseController
     extend Themeable::ClassMethods
     include Themeable
+    extend Decoratable::ClassMethods
+    include Decoratable
+
     include ConfigurationAttributesAndMethods
     include RailsOverridenMethods
     include ResourcesHelperMethods
@@ -242,7 +245,12 @@ module Wallaby
     # For how to override model service, see {Wallaby::ModelServicer}
     # @return [Wallaby::ModelServicer] a servicer
     def current_model_service
-      @current_model_service ||= Map.servicer_map(current_model_class).new current_model_class, authorizer
+      @current_model_service ||=
+        Map.servicer_map(current_model_class).new(
+          model_class: current_model_class,
+          authorizer: authorizer,
+          model_decorator: current_model_decorator
+        )
     end
 
     # To paginate the collection but only when either `page` or `per` param is given,
