@@ -4,7 +4,7 @@ module Wallaby
     extend Abstractable::ClassMethods
     class << self
       attr_writer :model_class
-      # @return [Class] model class that comes from its class name
+      # @return [Class] model class
       def model_class
         return unless self < ModelServicer
         return if abstract || self == Wallaby.configuration.mapping.model_servicer

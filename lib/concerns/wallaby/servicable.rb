@@ -10,8 +10,6 @@ module Wallaby
       end
 
       # @!attribute [r] model_servicer
-      # Model servicer will be used for {https://en.wikipedia.org/wiki/Create,_read,_update_and_delete CRUD} operations.
-      #
       # If Wallaby doesn't get it right, please specify the **model_servicer**.
       # @example To set model servicer
       #   class Admin::ProductionsController < Admin::ApplicationController
@@ -44,13 +42,11 @@ module Wallaby
       end
     end
 
-    # Model servicer will be used for {https://en.wikipedia.org/wiki/Create,_read,_update_and_delete CRUD} operations.
-    #
     # Model servicer for current modal class. It comes from:
     #
     # - controller configuration {Wallaby::Servicable::ClassMethods#model_servicer .model_servicer}
     # - a generic servicer based on {Wallaby::Servicable::ClassMethods#application_servicer .application_servicer}
-    # @return [Wallaby::ModelServicer] a servicer
+    # @return [Wallaby::ModelServicer] model servicer
     def current_model_servicer
       @current_model_servicer ||= begin
         klass =
@@ -64,9 +60,10 @@ module Wallaby
       end
     end
 
-    # @deprecated Use {#current_model_servicer} instead. It will be removed after 5.3.*
+    # @deprecated Use {#current_model_servicer} instead. It will be removed from 5.3.*
     # @return [Wallaby::ModelServicer] a servicer
     def current_model_service
+      warn "[DEPRECATION] `current_model_service` will be deprecated from 5.3.*.  Please use `current_model_servicer` instead."
       current_model_servicer
     end
   end
