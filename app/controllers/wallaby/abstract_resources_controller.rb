@@ -5,6 +5,8 @@ module Wallaby
     include Themeable
     extend Decoratable::ClassMethods
     include Decoratable
+    extend Servicable::ClassMethods
+    include Servicable
 
     include ConfigurationAttributesAndMethods
     include RailsOverridenMethods
@@ -236,21 +238,6 @@ module Wallaby
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
       @resource_params ||= current_model_service.permit params, action_name
-    end
-
-    # Model servicer associated to current modal class.
-    #
-    # This model servicer will take care of all the CRUD operations
-    #
-    # For how to override model service, see {Wallaby::ModelServicer}
-    # @return [Wallaby::ModelServicer] a servicer
-    def current_model_service
-      @current_model_service ||=
-        Map.servicer_map(current_model_class).new(
-          model_class: current_model_class,
-          authorizer: authorizer,
-          model_decorator: current_model_decorator
-        )
     end
 
     # To paginate the collection but only when either `page` or `per` param is given,

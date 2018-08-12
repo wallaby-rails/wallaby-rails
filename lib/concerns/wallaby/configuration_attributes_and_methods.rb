@@ -10,18 +10,12 @@ module Wallaby
       # @see .model_class
       attr_writer :model_class
       # @!attribute model_servicer
-      #   This attribute will be used for `current_model_servicer`
-      attr_accessor :model_servicer
-      # @!attribute model_paginator
       #   This attribute will be used for `current_model_paginator`
       attr_accessor :model_paginator
       # @!attribute model_authorizer
       #   This attribute will be used for `current_model_authorizer`
       attr_accessor :model_authorizer
 
-      # @!attribute [w] application_servicer
-      # @see .application_servicer
-      attr_writer :application_servicer
       # @!attribute [w] application_paginator
       # @see .application_paginator
       attr_writer :application_paginator
@@ -57,12 +51,6 @@ module Wallaby
         return unless self < ResourcesController
         return if abstract || self == Wallaby.configuration.mapping.resources_controller
         @model_class ||= Map.model_class_map(name.gsub('Controller', EMPTY_STRING))
-      end
-
-      # @!attribute [r] application_servicer
-      #   @return [Class, nil]
-      def application_servicer
-        @application_servicer ||= from_superclass __callee__
       end
 
       # @!attribute [r] application_paginator

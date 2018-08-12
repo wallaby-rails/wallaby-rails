@@ -62,6 +62,7 @@ module Wallaby
       #   end
       # @raise [ArgumentError] when itself doesn't inherit from given **application_decorator**
       # @return [Class] assoicated application decorator class.
+      # @since 5.2.0
       def application_decorator
         @application_decorator ||= ancestors.find { |parent| parent < ResourceDecorator && !parent.model_class }
       end
