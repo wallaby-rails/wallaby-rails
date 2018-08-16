@@ -1,6 +1,11 @@
-## Servicer
+# Servicer
 
-The purpose of using a servicer is to allow us to modify the persistence logics which shouldn't be taken care by the controllers. Customization can be done in the following methods:
+> NOTE: This is not a service object.
+
+Servicer is a collection of [CRUD]() operations.
+
+The purpose of using a servicer is to allow us to modify the persistence logics (e.g. find/create/update/destroy) which shouldn't be taken care by the controllers.
+Customization can be done in the following methods:
 
 - [`permit`](#permit)
 - [`collection`](#collection)
@@ -11,9 +16,19 @@ The purpose of using a servicer is to allow us to modify the persistence logics 
 - [`update`](#update)
 - [`destroy`](#destroy)
 
-Before digging into the above methods, let's see how to create a servicer so that Wallaby can pick it up:
+Before digging into the above methods, let's see how to create a servicer:
 
-### Declaration
+## Creating a Servicer
+
+If Wallaby is on 5.1.8 and above, firstly, create an application servicer in folder `app/servicers`:
+
+```ruby
+# app/servicers/admin/application_servicer.rb
+class Admin::ApplicationServicer < Wallaby::ModelServicer
+end
+```
+
+So that it's possible to do global changes for
 
 ```ruby
 # app/servicers/product_servicer.rb
