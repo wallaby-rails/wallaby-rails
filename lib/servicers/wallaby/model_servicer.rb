@@ -10,6 +10,14 @@ module Wallaby
 
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to whitelist attributes for mass assignment.
+    #
+    # When speaking in Rails language, Wallaby does the whitlisting the same affect as below:
+    #
+    # ```
+    # params.require(:user).permit(:email, :first_name, :last_name)
+    # ```
+    #
+    # But automatically.
     # @param params [ActionController::Parameters, Hash]
     # @param action [String, Symbol]
     # @return [ActionController::Parameters] permitted params
