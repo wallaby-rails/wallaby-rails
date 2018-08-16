@@ -31,6 +31,7 @@ require 'concerns/wallaby/resources_helper_methods'
 require 'concerns/wallaby/shared_helpers'
 require 'concerns/wallaby/themeable'
 require 'concerns/wallaby/decoratable'
+require 'concerns/wallaby/servicable'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator/field_helpers'

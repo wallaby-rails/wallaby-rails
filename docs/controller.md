@@ -1,6 +1,6 @@
 ## Controller
 
-Wallaby allows devs to customize controller logics in a custom controller.
+Wallaby allows to place controller logics in a custom controller as Rails does.
 
 Before we begin, it's always recommended to create a base controller class `Admin::ApplicationController` as below,
 so that developers have a better control of global changes:
@@ -222,7 +222,7 @@ Basically, `create` action is as simple as:
 ```ruby
 def create
   authorize! :create, resource
-  current_model_service.create resource, params
+  current_model_servicer.create resource, params
   yield if block_given? # after_create
   respond_with resource, location: helpers.show_path(resource)
 end
@@ -305,7 +305,7 @@ Basically, `update` action is as simple as:
 ```ruby
 def update
   authorize! :update, resource
-  current_model_service.update resource, params
+  current_model_servicer.update resource, params
   yield if block_given? # after_update
   respond_with resource, location: helpers.show_path(resource)
 end
@@ -347,7 +347,7 @@ Basically, `destroy` action is as simple as:
 ```ruby
 def destroy
   authorize! :destroy, resource
-  current_model_service.destroy resource, params
+  current_model_servicer.destroy resource, params
   yield if block_given? # after_destroy
   respond_with resource, location: helpers.index_path(current_model_class)
 end

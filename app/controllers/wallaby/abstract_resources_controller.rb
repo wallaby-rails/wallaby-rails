@@ -5,6 +5,8 @@ module Wallaby
     include Themeable
     extend Decoratable::ClassMethods
     include Decoratable
+    extend Servicable::ClassMethods
+    include Servicable
 
     include ConfigurationAttributesAndMethods
     include RailsOverridenMethods
@@ -108,7 +110,7 @@ module Wallaby
     # @note This is a template method that can be overridden by subclasses
     def create
       authorize! :create, resource
-      current_model_service.create resource, params
+      current_model_servicer.create resource, params
       yield if block_given? # after_create
       respond_with resource, location: helpers.show_path(resource)
     end
@@ -190,7 +192,7 @@ module Wallaby
     # @note This is a template method that can be overridden by subclasses
     def update
       authorize! :update, resource
-      current_model_service.update resource, params
+      current_model_servicer.update resource, params
       yield if block_given? # after_update
       respond_with resource, location: helpers.show_path(resource)
     end
@@ -218,7 +220,7 @@ module Wallaby
     # @note This is a template method that can be overridden by subclasses
     def destroy
       authorize! :destroy, resource
-      current_model_service.destroy resource, params
+      current_model_servicer.destroy resource, params
       yield if block_given? # after_destroy
       respond_with resource, location: helpers.index_path(current_model_class)
     end
@@ -235,22 +237,7 @@ module Wallaby
     # @see Wallaby::ModelServicer#permit
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
-      @resource_params ||= current_model_service.permit params, action_name
-    end
-
-    # Model servicer associated to current modal class.
-    #
-    # This model servicer will take care of all the CRUD operations
-    #
-    # For how to override model service, see {Wallaby::ModelServicer}
-    # @return [Wallaby::ModelServicer] a servicer
-    def current_model_service
-      @current_model_service ||=
-        Map.servicer_map(current_model_class).new(
-          model_class: current_model_class,
-          authorizer: authorizer,
-          model_decorator: current_model_decorator
-        )
+      @resource_params ||= current_model_servicer.permit params, action_name
     end
 
     # To paginate the collection but only when either `page` or `per` param is given,
@@ -260,7 +247,7 @@ module Wallaby
     # @return [#each]
     def paginate(query)
       paginatable = params[:page] || params[:per] || request.format.symbol == :html
-      paginatable ? current_model_service.paginate(query, params) : query
+      paginatable ? current_model_servicer.paginate(query, params) : query
     end
   end
 end
