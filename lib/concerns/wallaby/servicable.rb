@@ -63,7 +63,7 @@ module Wallaby
     # @deprecated Use {#current_model_servicer} instead. It will be removed from 5.3.*
     # @return [Wallaby::ModelServicer] a servicer
     def current_model_service
-      warn '[DEPRECATION] `current_model_service` will be deprecated from 5.3.*.  Please use `current_model_servicer` instead.'
+      warn I18n.t('deprecation.current_model_service')
       current_model_servicer
     end
   end

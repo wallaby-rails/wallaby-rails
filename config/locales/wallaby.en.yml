@@ -106,3 +106,6 @@ en:
     macaddr_html: 'Example: <code>08:00:2b:01:02:03</code> which stores MAC addresses.'
     path_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the path.'
     polygon_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the boundary of the polygon.'
+
+  deprecation:
+    current_model_service: '[DEPRECATION] `current_model_service` will be deprecated from 5.3.*.  Please use `current_model_servicer` instead.'
