@@ -247,11 +247,11 @@ end
 
 > see [Customization in Paginator](paginator.md) if you want to know how paginators can be customized.
 
-A global paginator `Admin::ApplicationPaginator` needs to be created inheriting from `Wallaby::ResourcePaginator`:
+A global paginator `Admin::ApplicationPaginator` needs to be created inheriting from `Wallaby::ModelPaginator`:
 
 ```ruby
 # app/paginators/admin/application_paginator.rb
-class Admin::ApplicationPaginator < Wallaby::ResourcePaginator
+class Admin::ApplicationPaginator < Wallaby::ModelPaginator
 end
 ```
 
@@ -268,7 +268,7 @@ If other class name is preferred, for example, `GlobalPaginator`:
 
 ```ruby
 # app/paginators/global_paginator.rb
-class GlobalPaginator < Wallaby::ResourcePaginator
+class GlobalPaginator < Wallaby::ModelPaginator
 end
 ```
 
@@ -277,7 +277,7 @@ Then configuration is required so that Wallaby can pick it up:
 ```ruby
 # config/initializers/wallaby.rb
 Wallaby.config do |config|
-  config.mapping.resource_paginator = GlobalPaginator
+  config.mapping.model_paginator = GlobalPaginator
 end
 ```
 

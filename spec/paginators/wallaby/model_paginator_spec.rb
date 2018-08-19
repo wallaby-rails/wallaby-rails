@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ResourcePaginator, clear: :object_space do
+describe Wallaby::ModelPaginator, clear: :object_space do
   describe 'class methods' do
     describe '.model_class' do
       it 'returns nil' do
@@ -11,7 +11,7 @@ describe Wallaby::ResourcePaginator, clear: :object_space do
 
   context 'descendants' do
     let(:model_class) { Product }
-    let(:klass) { stub_const 'ProductPaginator', Class.new(Wallaby::ResourcePaginator) }
+    let(:klass) { stub_const 'ProductPaginator', Class.new(Wallaby::ModelPaginator) }
 
     describe 'class methods' do
       describe '.model_class' do

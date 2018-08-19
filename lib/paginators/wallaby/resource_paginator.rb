@@ -1,6 +1,5 @@
 module Wallaby
   # Resource paginator
-  # @see Wallaby::AbstractResourcePaginator
-  class ResourcePaginator < AbstractResourcePaginator
+  class ResourcePaginator < ModelPaginator
   end
 end

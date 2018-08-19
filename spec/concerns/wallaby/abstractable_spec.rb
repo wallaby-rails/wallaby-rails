@@ -4,7 +4,7 @@ require 'rails_helper'
   Wallaby::AbstractModelServicer,
   Wallaby::AbstractModelAuthorizer,
   Wallaby::AbstractResourceDecorator,
-  Wallaby::AbstractResourcePaginator
+  Wallaby::AbstractModelPaginator
 ].each do |klass|
   describe klass do
     describe '.abstract!' do

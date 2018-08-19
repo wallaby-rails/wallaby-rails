@@ -1,13 +1,12 @@
 module Wallaby
   # Helper methods for index action
   module IndexHelper
-    # Wrap the collection with paginator
-    # @param model_class [Class]
-    # @param collection [#map]
-    # @param params [ActionController::Parameters]
-    # @return [Wallaby::ResourcePaginator]
-    def paginate(model_class, collection, params)
-      Map.paginator_map(model_class).new model_class, collection, params
+    include Paginatable
+
+    # @deprecated Use {Wallaby::Paginatable#current_model_paginator} instead. It will be removed from 5.3.*
+    # @return [Wallaby::ModelPaginator]
+    def paginate(_model_class, _collection, _params)
+      current_model_paginator
     end
 
     # Just a label

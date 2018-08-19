@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe 'GlobalPaginator', type: :request, clear: :object_space do
   before do
-    stub_const 'GlobalPaginator', (Class.new Wallaby::ResourcePaginator do
+    stub_const 'GlobalPaginator', (Class.new Wallaby::ModelPaginator do
       def total
         999
       end
     end)
 
-    Wallaby.configuration.mapping.resource_paginator = GlobalPaginator
+    Wallaby.configuration.mapping.model_paginator = GlobalPaginator
   end
 
   it 'uses the configured resources paginator instead of ResourcesPaginator' do

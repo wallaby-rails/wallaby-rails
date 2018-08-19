@@ -82,9 +82,9 @@ module Wallaby
       # Look up which paginator to use for a given model class
       # @param model_class [Class]
       # @param application_paginator [Class, nil]
-      # @return [Class] resource paginator class, default to `mapping.resource_paginator`
+      # @return [Class] resource paginator class, default to `mapping.model_paginator`
       def paginator_map(model_class, application_paginator = nil)
-        application_paginator ||= mapping.resource_paginator
+        application_paginator ||= mapping.model_paginator
         map_of :@paginator_map, model_class, application_paginator
       end
 
