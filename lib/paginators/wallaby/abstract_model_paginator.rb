@@ -20,7 +20,7 @@ module Wallaby
     # @param model_class [Class] model class
     # @param collection [#to_a] a collection of all the resources
     # @param params [ActionController::Parameters] parameters
-    def initialize(model_class:, collection:, params:)
+    def initialize(model_class, collection, params)
       @model_class = self.class.model_class || model_class
       raise ArgumentError, 'model class required' unless @model_class
       @collection = collection

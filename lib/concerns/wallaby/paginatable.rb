@@ -46,18 +46,11 @@ module Wallaby
     #
     # - controller configuration {Wallaby::Servicable::ClassMethods#model_paginator .model_paginator}
     # - a generic paginator based on {Wallaby::Servicable::ClassMethods#application_paginator .application_paginator}
-    # @return [Wallaby::ModelPaginator] model paginator
-    def current_model_paginator
-      @current_model_paginator ||= begin
-        klass =
-          controller_to_get(__callee__, :model_paginator) \
-            || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))
-        klass.new(
-          model_class: current_model_class,
-          collection: collection,
-          params: params
-        )
-      end
+    # @return [Class] model paginator
+    def current_paginator_class
+      @current_paginator_class ||=
+        controller_to_get(__callee__, :model_paginator) \
+          || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))
     end
   end
 end
