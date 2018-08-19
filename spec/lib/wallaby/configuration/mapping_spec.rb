@@ -58,6 +58,11 @@ describe Wallaby::Configuration::Mapping do
       it_behaves_like \
         'has attribute with default value',
         :model_paginator, -> { Admin::ApplicationPaginator }
+
+      it 'allows deprecated resource_paginator=' do
+        subject.resource_paginator = String
+        expect(subject.model_paginator).to eq String
+      end
     end
   end
 

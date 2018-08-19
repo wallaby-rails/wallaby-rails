@@ -7,6 +7,7 @@ module Wallaby
     include Decoratable
     extend Servicable::ClassMethods
     include Servicable
+    extend Paginatable::ClassMethods
 
     include ConfigurationAttributesAndMethods
     include RailsOverridenMethods

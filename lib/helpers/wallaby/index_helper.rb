@@ -1,8 +1,6 @@
 module Wallaby
   # Helper methods for index action
   module IndexHelper
-    include Paginatable
-
     # @deprecated Use {Wallaby::Paginatable#current_model_paginator} instead. It will be removed from 5.3.*
     # @return [Wallaby::ModelPaginator]
     def paginate(_model_class, _collection, _params)

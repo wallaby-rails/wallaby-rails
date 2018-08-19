@@ -5,7 +5,15 @@ describe Wallaby::IndexHelper, :current_user do
 
   describe '#paginate' do
     it 'returns a paginator' do
+      controller.params[:resources] = 'products'
       expect(helper.paginate(Product, [], {})).to be_kind_of Wallaby::ModelPaginator
+    end
+  end
+
+  describe '#current_model_paginator' do
+    it 'returns a paginator' do
+      controller.params[:resources] = 'products'
+      expect(helper.current_model_paginator).to be_kind_of Wallaby::ModelPaginator
     end
   end
 

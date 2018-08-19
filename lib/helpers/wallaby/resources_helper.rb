@@ -3,8 +3,9 @@ module Wallaby
   module ResourcesHelper
     include FormHelper
     include IndexHelper
-    include Themeable
     include Decoratable
+    include Paginatable
+    include Themeable
 
     # @see Map.authorizer_map
     # @return [Wallaby::ModelAuthorizer]
