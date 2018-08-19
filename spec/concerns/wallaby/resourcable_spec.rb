@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::BaseController do
+describe Wallaby::ResourcesController, type: :controller do
   describe '#current_resources_name' do
     it 'returns resources_name from params' do
       controller.params[:resources] = 'on_sale_products'

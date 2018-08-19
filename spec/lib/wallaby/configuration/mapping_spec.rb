@@ -43,21 +43,26 @@ describe Wallaby::Configuration::Mapping do
 
   it_behaves_like \
     'has attribute with default value',
-    :resource_paginator, Wallaby::ResourcePaginator
+    :model_paginator, Wallaby::ModelPaginator
 
   context 'when admin application paginator exists' do
     context 'it doesnt inherit form resource paginator' do
       before { stub_const('Admin::ApplicationPaginator', Class.new) }
       it_behaves_like \
         'has attribute with default value',
-        :resource_paginator, Wallaby::ResourcePaginator
+        :model_paginator, Wallaby::ModelPaginator
     end
 
     context 'it inherits form resource paginator' do
-      before { stub_const('Admin::ApplicationPaginator', Class.new(Wallaby::ResourcePaginator)) }
+      before { stub_const('Admin::ApplicationPaginator', Class.new(Wallaby::ModelPaginator)) }
       it_behaves_like \
         'has attribute with default value',
-        :resource_paginator, -> { Admin::ApplicationPaginator }
+        :model_paginator, -> { Admin::ApplicationPaginator }
+
+      it 'allows deprecated resource_paginator=' do
+        subject.resource_paginator = String
+        expect(subject.model_paginator).to eq String
+      end
     end
   end
 

@@ -1,10 +1,14 @@
 module Wallaby
   # Resources helper
   module ResourcesHelper
+    include BaseHelper
     include FormHelper
     include IndexHelper
-    include Themeable
+
     include Decoratable
+    include Paginatable
+    include Resourcable
+    include Themeable
 
     # @see Map.authorizer_map
     # @return [Wallaby::ModelAuthorizer]

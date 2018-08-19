@@ -108,4 +108,7 @@ en:
     polygon_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the boundary of the polygon.'
 
   deprecation:
-    current_model_service: '[DEPRECATION] `current_model_service` will be deprecated from 5.3.*.  Please use `current_model_servicer` instead.'
+    paginate: '[DEPRECATION] `paginate` will be removed from 5.3.*. Please inherit `paginator_of` instead.'
+    resource_paginator_inheirtance: '[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit `Wallaby::ModelPaginator` instead.'
+    resource_paginator=: '[DEPRECATION] `resource_paginator=` will be removed from 5.3.*.  Please use `model_paginator=` instead.'
+    current_model_service: '[DEPRECATION] `current_model_service` will be removed from 5.3.*.  Please use `current_model_servicer` instead.'

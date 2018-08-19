@@ -1,12 +1,15 @@
 module Wallaby
   # Generic CRUD controller.
-  class AbstractResourcesController < ::Wallaby::BaseController
-    extend Themeable::ClassMethods
-    include Themeable
+  class AbstractResourcesController < ::Wallaby::SecureController
     extend Decoratable::ClassMethods
-    include Decoratable
+    extend Paginatable::ClassMethods
+    extend Resourcable::ClassMethods
     extend Servicable::ClassMethods
+    extend Themeable::ClassMethods
+    include Decoratable
+    include Resourcable
     include Servicable
+    include Themeable
 
     include ConfigurationAttributesAndMethods
     include RailsOverridenMethods

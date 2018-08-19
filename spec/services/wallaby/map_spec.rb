@@ -86,7 +86,7 @@ describe Wallaby::Map do
       end
 
       describe '.paginator_map' do
-        let!(:base_paginator) { Wallaby::ResourcePaginator }
+        let!(:base_paginator) { Wallaby::ModelPaginator }
         let!(:admin_paginator) { stub_const 'Admin::ApplicationPaginator', Class.new(base_paginator) }
         let!(:user_paginator) { stub_const 'UserPaginator', Class.new(base_paginator) }
         let!(:all_postgres_type_paginator) { stub_const 'AllPostgresTypePaginator', Class.new(admin_paginator) }

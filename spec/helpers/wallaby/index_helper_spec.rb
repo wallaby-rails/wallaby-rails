@@ -3,9 +3,10 @@ require 'rails_helper'
 describe Wallaby::IndexHelper, :current_user do
   include Wallaby::ApplicationHelper
 
-  describe '#paginate' do
+  describe '#paginator_of' do
     it 'returns a paginator' do
-      expect(helper.paginate(Product, [], {})).to be_kind_of Wallaby::ResourcePaginator
+      controller.params[:resources] = 'products'
+      expect(helper.paginator_of(Product, Product.where(false), {})).to be_kind_of Wallaby::ModelPaginator
     end
   end
 

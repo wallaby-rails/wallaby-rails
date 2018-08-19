@@ -78,29 +78,36 @@ module Wallaby
         @model_servicer ||= ModelServicer
       end
 
-      # @!attribute [w] resource_paginator
-      attr_writer :resource_paginator
+      # @!attribute [w] model_paginator
+      attr_writer :model_paginator
 
-      # @!attribute [r] resource_paginator
+      # @!attribute [r] model_paginator
       # @since 5.1.6
       # To globally configure the resource paginator.
       #
       # If no configuration is given, Wallaby will look up the following paginator classes
       # and use the first available one:
       #
-      # - ::Admin::ApplicationServicer (only when it inherits from {Wallaby::ResourcePaginator})
-      # - {Wallaby::ResourcePaginator}
-      # @example To update the resource paginator to `GlobalResourcePaginator` in `config/initializers/wallaby.rb`
+      # - ::Admin::ApplicationServicer (only when it inherits from {Wallaby::ModelPaginator})
+      # - {Wallaby::ModelPaginator}
+      # @example To update the resource paginator to `GlobalModelPaginator` in `config/initializers/wallaby.rb`
       #   Wallaby.config do |config|
-      #     config.mapping.resource_paginator = ::GlobalResourcePaginator
+      #     config.mapping.model_paginator = ::GlobalModelPaginator
       #   end
       # @return [Class] resource paginator class
-      def resource_paginator
-        @resource_paginator ||=
+      def model_paginator
+        @model_paginator ||=
           defined?(::Admin::ApplicationPaginator) \
-            && ::Admin::ApplicationPaginator < ::Wallaby::ResourcePaginator \
+            && ::Admin::ApplicationPaginator < ::Wallaby::ModelPaginator \
             && ::Admin::ApplicationPaginator
-        @resource_paginator ||= ResourcePaginator
+        @model_paginator ||= ModelPaginator
+      end
+
+      # @deprecated Use {#model_paginator=} instead. It will be removed from 5.3.*
+      # @return [Wallaby::ModelPaginator] a paginator
+      def resource_paginator=(resource_paginator)
+        warn I18n.t('deprecation.resource_paginator=')
+        self.model_paginator = resource_paginator
       end
 
       # @!attribute [w] model_authorizer
