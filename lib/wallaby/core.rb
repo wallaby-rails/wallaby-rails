@@ -89,8 +89,8 @@ require 'helpers/wallaby/index_helper'
 require 'helpers/wallaby/links_helper'
 require 'helpers/wallaby/styling_helper'
 
-require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/base_helper'
+require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
 
