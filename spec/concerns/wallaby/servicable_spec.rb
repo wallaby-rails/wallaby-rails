@@ -38,17 +38,17 @@ describe Wallaby::ResourcesController, type: :controller do
     end
   end
 
-  describe '#current_model_servicer' do
+  describe '#current_servicer' do
     let!(:servicer) { stub_const 'AllPostgresTypeServicer', Class.new(Wallaby::ModelServicer) }
 
     it 'returns model servicer for existing resource servicer' do
       controller.params[:resources] = 'all_postgres_types'
-      expect(controller.current_model_servicer).to be_a AllPostgresTypeServicer
+      expect(controller.current_servicer).to be_a AllPostgresTypeServicer
     end
 
     it 'returns model servicer for non-existing resource servicer' do
       controller.params[:resources] = 'orders'
-      expect(controller.current_model_servicer).to be_a Wallaby::ModelServicer
+      expect(controller.current_servicer).to be_a Wallaby::ModelServicer
     end
   end
 end

@@ -25,7 +25,7 @@ describe Wallaby::ResourcesController, type: :controller do
       controller.params[:resources] = 'products'
       expect do
         controller.current_model_service
-      end.to output("[DEPRECATION] `current_model_service` will be removed from 5.3.*.  Please use `current_model_servicer` instead.\n").to_stderr
+      end.to output("[DEPRECATION] `current_model_service` will be removed from 5.3.*.  Please use `current_servicer` instead.\n").to_stderr
       expect(controller.current_model_service).to be_a Wallaby::ModelServicer
     end
   end

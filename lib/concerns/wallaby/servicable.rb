@@ -47,8 +47,8 @@ module Wallaby
     # - controller configuration {Wallaby::Servicable::ClassMethods#model_servicer .model_servicer}
     # - a generic servicer based on {Wallaby::Servicable::ClassMethods#application_servicer .application_servicer}
     # @return [Wallaby::ModelServicer] model servicer
-    def current_model_servicer
-      @current_model_servicer ||= begin
+    def current_servicer
+      @current_servicer ||= begin
         klass =
           controller_to_get(__callee__, :model_servicer) \
             || Map.servicer_map(current_model_class, controller_to_get(:application_servicer))
@@ -56,11 +56,11 @@ module Wallaby
       end
     end
 
-    # @deprecated Use {#current_model_servicer} instead. It will be removed from 5.3.*
+    # @deprecated Use {#current_servicer} instead. It will be removed from 5.3.*
     # @return [Wallaby::ModelServicer] a servicer
     def current_model_service
       warn I18n.t('deprecation.current_model_service')
-      current_model_servicer
+      current_servicer
     end
   end
 end
