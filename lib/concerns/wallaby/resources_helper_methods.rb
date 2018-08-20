@@ -28,11 +28,5 @@ module Wallaby
         end
       end
     end
-
-    # A wrapper method for authorizer
-    # @return [Ability]
-    def authorizer
-      @authorizer ||= helpers.model_authorizer(current_model_class).new(self, current_model_class)
-    end
   end
 end

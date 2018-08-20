@@ -112,3 +112,4 @@ en:
     resource_paginator_inheirtance: '[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit `Wallaby::ModelPaginator` instead.'
     resource_paginator=: '[DEPRECATION] `resource_paginator=` will be removed from 5.3.*.  Please use `model_paginator=` instead.'
     current_model_service: '[DEPRECATION] `current_model_service` will be removed from 5.3.*.  Please use `current_model_servicer` instead.'
+    authorizer: '[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.'

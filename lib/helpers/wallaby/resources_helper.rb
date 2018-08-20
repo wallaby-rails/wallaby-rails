@@ -5,6 +5,7 @@ module Wallaby
     include FormHelper
     include IndexHelper
 
+    include Authorizable
     include Decoratable
     include Paginatable
     include Resourcable

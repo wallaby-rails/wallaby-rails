@@ -9,7 +9,7 @@ module Wallaby
       current_paginator_class.new(model_class, collection, params)
     end
 
-    # @deprecated
+    # @deprecated Use {#paginator_of} instead. It will be removed from 5.3.*
     # @param model_class [Class] model class
     # @param collection [#to_a] a collection of all the resources
     # @param params [ActionController::Parameters] parameters
