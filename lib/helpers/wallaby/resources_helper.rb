@@ -14,6 +14,7 @@ module Wallaby
     # @see Map.authorizer_map
     # @return [Wallaby::ModelAuthorizer]
     def model_authorizer(model_class)
+      warn I18n.t('deprecation.model_authorizer')
       Map.authorizer_map model_class
     end
 

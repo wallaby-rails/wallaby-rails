@@ -13,7 +13,6 @@ module Wallaby
     include Servicable
     include Themeable
 
-    include ConfigurationAttributesAndMethods
     include RailsOverridenMethods
     include ResourcesHelperMethods
     self.responder = ResourcesResponder

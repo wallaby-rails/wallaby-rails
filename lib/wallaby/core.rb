@@ -25,7 +25,6 @@ require 'utils/wallaby/utils'
 
 require 'concerns/wallaby/abstractable'
 require 'concerns/wallaby/authorizable'
-require 'concerns/wallaby/configuration_attributes_and_methods'
 require 'concerns/wallaby/decoratable'
 require 'concerns/wallaby/engineable'
 require 'concerns/wallaby/paginatable'

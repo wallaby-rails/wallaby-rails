@@ -52,11 +52,7 @@ module Wallaby
         klass =
           controller_to_get(__callee__, :model_servicer) \
             || Map.servicer_map(current_model_class, controller_to_get(:application_servicer))
-        klass.new(
-          model_class: current_model_class,
-          authorizer: authorizer,
-          model_decorator: current_model_decorator
-        )
+        klass.new current_model_class, current_authorizer, current_model_decorator
       end
     end
 
