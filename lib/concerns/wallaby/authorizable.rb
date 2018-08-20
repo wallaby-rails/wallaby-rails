@@ -52,7 +52,7 @@ module Wallaby
         klass =
           controller_to_get(__callee__, :model_authorizer) \
             || Map.authorizer_map(current_model_class, controller_to_get(:application_authorizer))
-        klass.new self, current_model_class
+        klass.try :new, self, current_model_class
       end
     end
 
@@ -61,6 +61,14 @@ module Wallaby
     def authorizer
       warn I18n.t('deprecation.authorizer')
       current_authorizer
+    end
+
+    def authorized?(action, subject)
+      current_authorizer.try :authorized?, action, subject
+    end
+
+    def unauthorized?(action, subject)
+      !authorized? action, subject
     end
   end
 end

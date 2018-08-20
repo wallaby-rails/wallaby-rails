@@ -14,7 +14,7 @@ module Wallaby
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def index_link(model_class, url_params: {}, html_options: {}, &block)
-      return if cannot? :index, model_class
+      return if unauthorized? :index, model_class
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         block: -> { to_model_label model_class }
@@ -31,7 +31,7 @@ module Wallaby
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def new_link(model_class, html_options: {}, &block)
-      return if cannot? :new, model_class
+      return if unauthorized? :new, model_class
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         class: 'resource__create',
@@ -57,7 +57,7 @@ module Wallaby
       )
 
       default = options[:readonly] && block.call || nil
-      return default if cannot? :show, extract(resource)
+      return default if unauthorized? :show, extract(resource)
       link_to show_path(resource), html_options, &block
     end
 
@@ -69,7 +69,7 @@ module Wallaby
     # @return [String] anchor element / text
     def edit_link(resource, options: {}, html_options: {}, &block)
       default = options[:readonly] && decorate(resource).to_label || nil
-      return default if cannot? :edit, extract(resource)
+      return default if unauthorized? :edit, extract(resource)
 
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
@@ -87,7 +87,7 @@ module Wallaby
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def delete_link(resource, html_options: {}, &block)
-      return if cannot? :destroy, extract(resource)
+      return if unauthorized? :destroy, extract(resource)
 
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,

@@ -59,7 +59,7 @@ module Wallaby
     # ```
     # @note This is a template method that can be overridden by subclasses
     def index
-      authorize! :index, current_model_class
+      current_authorizer.authorize :index, current_model_class
       yield if block_given? # after_index
       respond_with collection
     end
@@ -86,7 +86,7 @@ module Wallaby
     # ```
     # @note This is a template method that can be overridden by subclasses
     def new
-      authorize! :new, resource
+      current_authorizer.authorize :new, resource
       yield if block_given? # after_new
       respond_with resource
     end
@@ -113,7 +113,7 @@ module Wallaby
     # ```
     # @note This is a template method that can be overridden by subclasses
     def create
-      authorize! :create, resource
+      current_authorizer.authorize :create, resource
       current_servicer.create resource, params
       yield if block_given? # after_create
       respond_with resource, location: helpers.show_path(resource)
@@ -141,7 +141,7 @@ module Wallaby
     # ```
     # @note This is a template method that can be overridden by subclasses
     def show
-      authorize! :show, resource
+      current_authorizer.authorize :show, resource
       yield if block_given? # after_show
       respond_with resource
     end
@@ -168,7 +168,7 @@ module Wallaby
     # ```
     # @note This is a template method that can be overridden by subclasses
     def edit
-      authorize! :edit, resource
+      current_authorizer.authorize :edit, resource
       yield if block_given? # after_edit
       respond_with resource
     end
@@ -195,7 +195,7 @@ module Wallaby
     # ```
     # @note This is a template method that can be overridden by subclasses
     def update
-      authorize! :update, resource
+      current_authorizer.authorize :update, resource
       current_servicer.update resource, params
       yield if block_given? # after_update
       respond_with resource, location: helpers.show_path(resource)
@@ -223,7 +223,7 @@ module Wallaby
     # ```
     # @note This is a template method that can be overridden by subclasses
     def destroy
-      authorize! :destroy, resource
+      current_authorizer.authorize :destroy, resource
       current_servicer.destroy resource, params
       yield if block_given? # after_destroy
       respond_with resource, location: helpers.index_path(current_model_class)
