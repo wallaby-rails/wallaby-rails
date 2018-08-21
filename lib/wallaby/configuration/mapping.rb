@@ -106,7 +106,7 @@ module Wallaby
       # @deprecated Use {#model_paginator=} instead. It will be removed from 5.3.*
       # @return [Wallaby::ModelPaginator] a paginator
       def resource_paginator=(resource_paginator)
-        warn I18n.t('deprecation.resource_paginator=')
+        Utils.deprecate 'deprecation.resource_paginator=', caller: caller
         self.model_paginator = resource_paginator
       end
 

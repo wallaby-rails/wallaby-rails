@@ -48,19 +48,17 @@ module Wallaby
       # @param object [Object]
       # @param field_name [String]
       def partial_arguments_check(object, field_name)
-        raise ArgumentError, 'Field name is required.' if field_name.blank?
-        raise ArgumentError, 'Object is not decorated.' \
-          unless object.is_a? ResourceDecorator
+        raise ArgumentError, I18n.t('errors.required', subject: 'field_name') if field_name.blank?
+        raise ArgumentError, 'Object is not decorated.' unless object.is_a? ResourceDecorator
       end
 
       # Check and see if form and field_name are valid
       # @param form [Object]
       # @param field_name [String]
       def form_arguments_check(form, field_name)
-        raise ArgumentError, 'Form is required.' if form.blank?
-        raise ArgumentError, 'Field name is required.' if field_name.blank?
-        raise ArgumentError, 'Object is not decorated.' \
-          unless form.object.is_a? ResourceDecorator
+        raise ArgumentError, I18n.t('errors.required', subject: 'form')if form.blank?
+        raise ArgumentError, I18n.t('errors.required', subject: 'field_name') if field_name.blank?
+        raise ArgumentError, 'Object is not decorated.' unless form.object.is_a? ResourceDecorator
       end
     end
   end

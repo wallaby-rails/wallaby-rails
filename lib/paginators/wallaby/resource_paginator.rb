@@ -4,7 +4,7 @@ module Wallaby
     abstract!
 
     def self.inherited(_sub_class)
-      warn I18n.t('deprecation.resource_paginator_inheirtance')
+      Utils.deprecate 'deprecation.resource_paginator_inheirtance', caller: caller
     end
   end
 end

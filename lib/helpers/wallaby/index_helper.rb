@@ -15,7 +15,7 @@ module Wallaby
     # @param params [ActionController::Parameters] parameters
     # @return [Wallaby::ModelPaginator]
     def paginate(model_class, collection, params)
-      warn I18n.t('deprecation.paginate')
+      Utils.deprecate 'deprecation.paginate', caller: caller
       paginator_of model_class, collection, params
     end
 

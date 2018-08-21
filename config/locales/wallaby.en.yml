@@ -77,6 +77,7 @@ en:
         attributes_for: 'Cannot find attributes for %{subject}.'
     activerecord:
       paginatable: '%{collection} is not paginatable.'
+    required: '%{subject} is required.'
 
   pagination:
     prev: 'Prev'
@@ -108,9 +109,9 @@ en:
     polygon_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the boundary of the polygon.'
 
   deprecation:
-    authorizer: '[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.'
-    current_model_service: '[DEPRECATION] `current_model_service` will be removed from 5.3.*.  Please use `current_servicer` instead.'
-    model_authorizer: '[DEPRECATION] `model_authorizer` will be removed from 5.3.*.'
-    paginate: '[DEPRECATION] `paginate` will be removed from 5.3.*. Please inherit `paginator_of` instead.'
-    resource_paginator_inheirtance: '[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit `Wallaby::ModelPaginator` instead.'
-    resource_paginator=: '[DEPRECATION] `resource_paginator=` will be removed from 5.3.*.  Please use `model_paginator=` instead.'
+    authorizer: "[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.\n(called from %{from})"
+    current_model_service: "[DEPRECATION] `current_model_service` will be removed from 5.3.*.  Please use `current_servicer` instead.\n(called from %{from})"
+    model_authorizer: "[DEPRECATION] `model_authorizer` will be removed from 5.3.*.\n(called from %{from})"
+    paginate: "[DEPRECATION] `paginate` will be removed from 5.3.*. Please inherit `paginator_of` instead.\n(called from %{from})"
+    resource_paginator_inheirtance: "[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit `Wallaby::ModelPaginator` instead.\n(called from %{from})"
+    resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*.  Please use `model_paginator=` instead.\n(called from %{from})"
