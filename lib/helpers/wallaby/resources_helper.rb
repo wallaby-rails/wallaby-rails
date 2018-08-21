@@ -11,13 +11,6 @@ module Wallaby
     include Resourcable
     include Themeable
 
-    # @see Map.authorizer_map
-    # @return [Wallaby::ModelAuthorizer]
-    def model_authorizer(model_class)
-      Utils.deprecate 'deprecation.model_authorizer', caller: caller
-      Map.authorizer_map model_class
-    end
-
     # Wrap resource into a decorator
     # @param resource [Object, Enumerable]
     # @return [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator>]

@@ -29,6 +29,16 @@ describe Wallaby::ResourcesController, type: :controller do
       expect(controller.current_model_service).to be_a Wallaby::ModelServicer
     end
   end
+
+  describe '#authorizer' do
+    it 'shows deprecation message' do
+      controller.params[:resources] = 'products'
+      expect do
+        controller.authorizer
+      end.to output(a_string_starting_with "[DEPRECATION] `authorizer` will be removed from 5.3.*.  Please use `current_authorizer` instead.\n").to_stderr
+      expect(controller.current_model_service).to be_a Wallaby::ModelServicer
+    end
+  end
 end
 
 describe Wallaby::IndexHelper, type: :helper do
