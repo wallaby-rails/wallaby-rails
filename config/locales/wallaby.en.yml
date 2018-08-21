@@ -110,8 +110,8 @@ en:
 
   deprecation:
     authorizer: "[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.\n(called from %{from})"
-    current_model_service: "[DEPRECATION] `current_model_service` will be removed from 5.3.*.  Please use `current_servicer` instead.\n(called from %{from})"
+    current_model_service: "[DEPRECATION] `current_model_service` will be removed from 5.3.*. Please use `current_servicer` instead.\n(called from %{from})"
     model_authorizer: "[DEPRECATION] `model_authorizer` will be removed from 5.3.*.\n(called from %{from})"
     paginate: "[DEPRECATION] `paginate` will be removed from 5.3.*. Please inherit `paginator_of` instead.\n(called from %{from})"
     resource_paginator_inheirtance: "[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit `Wallaby::ModelPaginator` instead.\n(called from %{from})"
-    resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*.  Please use `model_paginator=` instead.\n(called from %{from})"
+    resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*. Please use `model_paginator=` instead.\n(called from %{from})"

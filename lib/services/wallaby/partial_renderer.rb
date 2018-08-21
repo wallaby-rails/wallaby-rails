@@ -56,7 +56,7 @@ module Wallaby
       # @param form [Object]
       # @param field_name [String]
       def form_arguments_check(form, field_name)
-        raise ArgumentError, I18n.t('errors.required', subject: 'form')if form.blank?
+        raise ArgumentError, I18n.t('errors.required', subject: 'form') if form.blank?
         raise ArgumentError, I18n.t('errors.required', subject: 'field_name') if field_name.blank?
         raise ArgumentError, 'Object is not decorated.' unless form.object.is_a? ResourceDecorator
       end
