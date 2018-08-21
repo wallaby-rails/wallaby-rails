@@ -44,8 +44,8 @@ module Wallaby
 
     # Resource paginator for current modal class. It comes from:
     #
-    # - controller configuration {Wallaby::Servicable::ClassMethods#model_paginator .model_paginator}
-    # - a generic paginator based on {Wallaby::Servicable::ClassMethods#application_paginator .application_paginator}
+    # - controller configuration {Wallaby::Paginatable::ClassMethods#model_paginator .model_paginator}
+    # - a generic paginator based on {Wallaby::Paginatable::ClassMethods#application_paginator .application_paginator}
     # @return [Class] model paginator
     def current_paginator_class
       @current_paginator_class ||=

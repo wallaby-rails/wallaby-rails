@@ -8,6 +8,7 @@ module Wallaby
       super
     end
 
+    # @!method permit(params, action = nil)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to whitelist attributes for mass assignment.
     #
@@ -21,69 +22,52 @@ module Wallaby
     # @param params [ActionController::Parameters, Hash]
     # @param action [String, Symbol]
     # @return [ActionController::Parameters] permitted params
-    def permit(params, action = nil)
-      super
-    end
 
+    # @!method collection(params)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to return a collection from querying the datasource (e.g. database, REST API).
     # @param params [ActionController::Parameters, Hash]
     # @return [Enumerable]
-    def collection(params)
-      super
-    end
 
+    # @!method paginate(query, params)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to paginate a {#collection}.
     # @param query [Enumerable]
     # @param params [ActionController::Parameters]
     # @return [Enumerable]
-    def paginate(query, params)
-      super
-    end
 
+    # @!method new(params)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to initialize an instance for its model class.
     # @param params [ActionController::Parameters]
     # @return [Object] initialized object
-    def new(params)
-      super
-    end
 
+    # @!method find(id, params)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to find a record.
     # @param id [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object
-    def find(id, params)
-      super
-    end
 
+    # @!method create(resource, params)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to create a record.
     # @param resource [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object
-    def create(resource, params)
-      super
-    end
 
+    # @!method update(resource, params)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to update a record.
     # @param resource [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object
-    def update(resource, params)
-      super
-    end
 
+    # @!method destroy(resource, params)
     # @note It can be overriden in subclasses for customization purpose.
     # This is the template method to delete a record.
     # @param resource [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object
-    def destroy(resource, params)
-      super
-    end
   end
 end
