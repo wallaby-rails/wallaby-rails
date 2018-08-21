@@ -5,16 +5,11 @@ module Wallaby
     include FormHelper
     include IndexHelper
 
+    include Authorizable
     include Decoratable
     include Paginatable
     include Resourcable
     include Themeable
-
-    # @see Map.authorizer_map
-    # @return [Wallaby::ModelAuthorizer]
-    def model_authorizer(model_class)
-      Map.authorizer_map model_class
-    end
 
     # Wrap resource into a decorator
     # @param resource [Object, Enumerable]

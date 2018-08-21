@@ -1,5 +1,5 @@
 <%
-paginator = paginate(current_model_class, collection, index_params)
+paginator = paginator_of current_model_class, collection, index_params
 %>
 <% if paginator.paginatable? %>
   <%

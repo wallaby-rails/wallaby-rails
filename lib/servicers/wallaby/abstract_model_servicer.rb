@@ -29,9 +29,9 @@ module Wallaby
     # @param model_class [Class] model class
     # @param authorizer [Wallaby::ModelAuthorizer]
     # @param model_decorator [Wallaby::ModelServicer]
-    def initialize(model_class:, authorizer:, model_decorator:)
+    def initialize(model_class, authorizer, model_decorator)
       @model_class = model_class || self.class.model_class
-      raise ArgumentError, 'model class required' unless @model_class
+      raise ArgumentError, I18n.t('errors.required', subject: 'model_class') unless @model_class
       @authorizer = authorizer
       @provider = Map.service_provider_map(@model_class).new(@model_class, model_decorator)
     end

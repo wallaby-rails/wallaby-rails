@@ -20,6 +20,10 @@ module Wallaby
       klass.name.blank? || klass.to_s.start_with?('#<Class')
     end
 
+    def self.deprecate(key, caller:, options: {})
+      warn I18n.t(key, options.merge(from: caller[0]))
+    end
+
     # Help to translate a message for a class
     # @param object [Object]
     # @param key [String, Symbol]

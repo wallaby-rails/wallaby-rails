@@ -4,7 +4,7 @@ module Wallaby
     # @param model_class [Class] model class
     # @param authorizer [Wallaby::ModelAuthorizer]
     # @param model_decorator [Wallaby::ModelDecorator]
-    def initialize(model_class:, authorizer:, model_decorator:)
+    def initialize(model_class, authorizer, model_decorator)
       super
     end
 

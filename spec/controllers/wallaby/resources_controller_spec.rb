@@ -96,11 +96,11 @@ describe Wallaby::ResourcesController do
       end
     end
 
-    describe '#current_model_servicer' do
+    describe '#current_servicer' do
       it 'returns model servicer for default model_class' do
-        model_servicer = controller.send :current_model_servicer
+        model_servicer = controller.send :current_servicer
         expect(model_servicer).to be_a Wallaby::ModelServicer
-        expect(assigns(:current_model_servicer)).to eq model_servicer
+        expect(assigns(:current_servicer)).to eq model_servicer
         expect(model_servicer).to eq controller.send(:current_model_service)
       end
     end

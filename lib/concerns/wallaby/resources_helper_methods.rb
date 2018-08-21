@@ -13,7 +13,7 @@ module Wallaby
 
     # @return [#each] a collection of all the records
     def collection
-      @collection ||= paginate current_model_servicer.collection params
+      @collection ||= paginate current_servicer.collection params
     end
 
     # @return [Object] either persisted or unpersisted resource instance
@@ -22,17 +22,11 @@ module Wallaby
         # white-listed params
         whitelisted = action_name.in?(SAVE_ACTIONS) ? resource_params : {}
         if resource_id.present?
-          current_model_servicer.find resource_id, whitelisted
+          current_servicer.find resource_id, whitelisted
         else
-          current_model_servicer.new whitelisted
+          current_servicer.new whitelisted
         end
       end
-    end
-
-    # A wrapper method for authorizer
-    # @return [Ability]
-    def authorizer
-      @authorizer ||= helpers.model_authorizer(current_model_class).new(self, current_model_class)
     end
   end
 end
