@@ -1,16 +1,25 @@
-# Customization
+# Documentation
 
-Customization can be done in the following sections:
+- [Features and Requirements](features.md)
+- [Naming Conventions](convention.md)
+- [Global Configurations](configuration.md)
+- [Declaring Routes](route.md)
+- [Customizing Controller](controller.md)
+- [Using Decorator to define Wallaby Behavior](decorator.md)
+- [Creating Type Partials](view.md)
+- [Customizing model life cycle with Servicer](servicer.md)
+- [Customizing how data can be accessed with Authorizer](authorizer.md)
+- [Customizing data pagination with Paginator](paginator.md)
+- [Customizing the frontend design (js/css)](frontend.md)
+- [Writing specs for the customization](test.md)
 
-- [Configuration](configuration.md) - global configurations
-- [Decorator](decorator.md) - simple decorator for the view
-- [Controller](controller.md)
-- [Servicer](servicer.md) - a collection of CRUD
-- [View](view.md) - all about type partials
-- [Frontend](frontend.md) - customization of CSS/Javascript
-- [Theme](theme.md)
+# Learn more
 
-# Others
+- [How Wallaby works](how_wallaby_works.md)
 
-- [Path and URL helpers](path_helper.md) - reference for engine path and URL helpers
-- [Test](test.md) - how to write specs for all the customization
+# To extend Wallaby
+
+- [Creating and applying a theme](theme.md)
+- [Implementing ORM adaptor](orm_adaptor.md)
+- [Implementing authorization adaptor](authorization_adaptor.md)
+- [Implementing pagination adaptor](pagination_adaptor.md)
