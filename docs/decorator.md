@@ -1,4 +1,31 @@
-## Decorator
+# Decorator
+
+Apart from wrapping a record object, decorator is used to hold view metadata for index, show and form pages.
+
+First of all, it's always recommended to create a base decorator class `Admin::ApplicationDecorator` as below, so that devs can have better control of developing global changes/functions:
+
+```ruby
+# app/decorators/admin/application_decorator.rb
+class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
+end
+```
+
+> see [Mapping](configuration.md#decorator) if `Admin::ApplicationDecorator` is taken for other purpose.
+
+Starting with:
+
+- [Declaration](#declaration)
+
+Being a decorator:
+
+- [resource](#resource) - to access the resource object.
+- [h](#h) - to access the Rails and Wallaby helpers.
+
+Configuring the fields to be displayed:
+
+- [index_fields and index_field_names](#index_fields-and-index_field_names) - for index page
+- [show_fields and show_field_names](#show_fields-and-show_field_names) - for show page
+- [form_fields and form_field_names](#form_fields-and-form_field_names) - for new/edit page
 
 The purposes of using a decorator are:
 - [Basic Customization](#basic-customization): to customize how resource should be displayed on index/show/form page via managing metadata.
@@ -15,31 +42,55 @@ The purposes of using a decorator are:
 Before we begin, it's always recommended to create a base decorator class `Admin::ApplicationDecorator` as below,
 so that developers have a better control of global changes:
 
-```ruby
-# app/decorators/admin/application_decorator.rb
-class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
-end
-```
+## Declaration
 
-> see [Mapping](configuration.md#decorator) if `Admin::ApplicationDecorator` is taken for other purpose.
+> Read more at [Decorator Naming Convention](convention.md#decorator)
 
-### Declaration
+Let's see how a decorator can be created so that Wallaby knows its existence.
+
+Similar to the way in Rails, create a custom decorator for model `Product` inheriting from `Admin::ApplicationDecorator` (the base decorator mentioned [above](#decorator)) as below:
 
 ```ruby
-# app/decorators/product_decorator.rb
-
-# NOTE: Product in ProductDecorator must be singular
+# app/decorators/products_decorator.rb
 class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-If the name `ProductDecorator` is taken, it is possible to use another name, however the method `self.model_class` must be defined to specify the model as the example below:
+If `ProductDecorator` is taken, it is still possible to use another name (e.g. `Admin::ProductDecorator`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
+
+## resource
+
+Decorator wraps the resource object. By default, it's possible to access resource object's method directly:
 
 ```ruby
-# app/decorators/admin/product_decorator.rb
-class Admin::ProductDecorator < Admin::ApplicationDecorator
-  def self.model_class
-    Product
+# app/models/product.rb
+class Product < ApplicationRecord
+  def amount
+    rrp * discount
+  end
+
+  def currency
+    currency_of country
+  end
+end
+
+# app/decorators/products_decorator.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def amount_in_currency
+    "#{ currency } #{ amount }"
+  end
+end
+```
+
+In above example, `currency` and `amount` are `Product`'s instance methods, and they can be used directly in `ProductDecorator`.
+
+However, it's possible to access the `resource` somehow:
+
+```ruby
+# app/decorators/products_decorator.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def amount_in_currency
+    "#{ resource.currency } #{ resource.amount }"
   end
 end
 ```

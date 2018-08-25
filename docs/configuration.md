@@ -3,8 +3,8 @@
 This is about all the global configuration that goes into `config/initializers/wallaby.rb`:
 
 - [Authentication](#authentication)
-  - [authenticate, current_user and email_method](#authenticate-current-user-and-email-method) - configure how user is authenticated and returned
-  - [logout_path and logout_method](#logout-path-and-logout-method) (since 5.1.4) - configure what route can be used to log out a user
+  - [authenticate, current_user and email_method](#authenticate-current_user-and-email_method) - configure how user is authenticated and returned
+  - [logout_path and logout_method](#logout_path-and-logout_method) (since 5.1.4) - configure what route can be used to log out a user
 - [Model](#model) - specifying what models to be listed
   - [exclude](#exclude) - execluding given models
   - [models=](#models) - whitelisting models
@@ -17,7 +17,7 @@ This is about all the global configuration that goes into `config/initializers/w
 - [Metadata](#metadata)
   - [max](#max) - setting the max length for text truncation
 - [Pagination](#pagination)
-  - [page_size](#page-size) - setting the default page size for pagination
+  - [page_size](#page_size) - setting the default page size for pagination
 - [Features](#features)
   - [turbolinks_enabled](#turbolinks-enabled) - enable/disable `turbolinks`
 
@@ -179,7 +179,7 @@ It's always recommended to use global base classes so that monkey patching to wa
 
 ### Controller
 
-> Read more from [Controller](controller.md) to understand what controller does and how controller can be customized
+> Read more from [Controller](controller.md) to understand what controller does and how controller can be customized.
 
 A global controller `Admin::ApplicationController` needs to be created inheriting from `Wallaby::ResourcesController`:
 
@@ -221,7 +221,7 @@ end
 
 ### Decorator
 
-> Read more from [Decorator](decorator.md) to understand what decorator does and how decorator can be customized
+> Read more from [Decorator](decorator.md) to understand what decorator does and how decorator can be customized.
 
 A global decorator `Admin::ApplicationDecorator` needs to be created inheriting from `Wallaby::ResourceDecorator`:
 
@@ -259,7 +259,7 @@ end
 
 ### Servicer
 
-> Read more from [Servicer](servicer.md) to understand what servicer does and how servicer can be customized
+> Read more from [Servicer](servicer.md) to understand what servicer does and how servicer can be customized.
 
 A global servicer `Admin::ApplicationServicer` needs to be created inheriting from `Wallaby::ModelServicer`:
 
@@ -299,7 +299,7 @@ end
 
 > since 5.2.0
 
-> Read more from [Authorizer](authorizer.md) to understand what authorizer does and how authorizer can be customized
+> Read more from [Authorizer](authorizer.md) to understand what authorizer does and how authorizer can be customized.
 
 A global authorizer `Admin::ApplicationAuthorizer` needs to be created inheriting from `Wallaby::ModelAuthorizer`:
 
@@ -337,7 +337,7 @@ end
 
 ### Paginator
 
-> Read more from [Paginator](paginator.md) to understand what paginator does and how paginator can be customized
+> Read more from [Paginator](paginator.md) to understand what paginator does and how paginator can be customized.
 
 A global paginator `Admin::ApplicationPaginator` needs to be created inheriting from `Wallaby::ModelPaginator`:
 

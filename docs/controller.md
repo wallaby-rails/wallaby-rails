@@ -34,28 +34,33 @@ Also it is possible to customize the whitelisting parameters for mass assignment
 
 Customize non-resourcesful actions:
 
-- [Home](#home) - landing page
+- [home](#home) (5.1.0) - landing page
 
 Apart from the above, configuration can be set for:
 
-- [abstract!](#abstract) - specifying to be an abstract controller
-- [model_class](#model-class) - specifying the model class
-- [application_decorator](#application-decorator) - specifying the base resource decorator class
-- [resource_decorator](#resource-decorator) - specifying the resource decorator class
-- [application_servicer](#application-servicer) - specifying the base model servicer class
-- [model_servicer](#model-servicer) - specifying the model servicer class
-- [application_authorizer](#application-authorizer) - specifying the base model authorizer class
-- [model_authorizer](#model-authorizer) - specifying the model authorizer class
-- [application_paginator](#application-paginator) - specifying the base model paginator class
-- [model_paginator](#model-paginator) - specifying the model paginator class
-- [theme_name](#theme-name) - specifying the theme
-- [engine_name](#engine-name) - specifying the engine name set as in `:as` option in `config/routes.rb`
+- [abstract!](#abstract) - flagging the controller as abstract
+- [model_class](#model_class) - specifying the model class
+
+More advanced configuration:
+
+- [theme_name](advanced_controller.md#theme_name) (since 5.2.0) - specifying the theme
+- [engine_name](advanced_controller.md#engine_name) (since 5.2.0) - specifying the name of engine helper
+- [application_decorator](advanced_controller.md#application_decorator) (since 5.2.0) - specifying the base resource decorator class
+- [resource_decorator](advanced_controller.md#resource_decorator) (since 5.2.0) - specifying the resource decorator class
+- [application_servicer](advanced_controller.md#application_servicer) (since 5.2.0) - specifying the base model servicer class
+- [model_servicer](advanced_controller.md#model_servicer) (since 5.2.0) - specifying the model servicer class
+- [application_authorizer](advanced_controller.md#application_authorizer) (since 5.2.0) - specifying the base model authorizer class
+- [model_authorizer](advanced_controller.md#model_authorizer) (since 5.2.0) - specifying the model authorizer class
+- [application_paginator](advanced_controller.md#application_paginator) (since 5.2.0) - specifying the base model paginator class
+- [model_paginator](advanced_controller.md#model_paginator) (since 5.2.0) - specifying the model paginator class
 
 ## Declaration
 
+> Read more at [Controller Naming Convention](convention.md#controller)
+
 Let's see how a controller can be created so that Wallaby knows its existence.
 
-Similar to how it is normally done in Rails, create a custom controller for model `Product` inheriting from `Admin::ApplicationController` (the base controller mentioned [above](#controller)) as below:
+Similar to the way in Rails, create a custom controller for model `Product` inheriting from `Admin::ApplicationController` (the base controller mentioned [above](#controller)) as below:
 
 ```ruby
 # app/controllers/products_controller.rb
@@ -65,7 +70,9 @@ end
 
 > NOTE: although it inherits `Admin::ApplicationController`, it is possible to access to all methods in `::ApplicationController`. Because `Admin::ApplicationController` inherits `ApplicationController` unless this is changed in Wallaby [authentication configuration](configuration.md#authentication).
 
-If `ProductsController` is taken, it is still possible to use another name (e.g. `Admin::ProductsController`), however the method `self.model_class` must be specified. See [model_class](#model_class) for HOW-TO and [Controller Naming Convention](convention.md#controller).
+If `ProductsController` is taken, it is still possible to use another name (e.g. `Admin::ProductsController`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
+
+# Basic Customization
 
 ## index
 
@@ -396,7 +403,7 @@ end
 
 > NOTE: `@resource` MUST be assigned, because it's the only instance variable used in the view.
 
-## Strong Parameters
+## resource_params
 
 Basically, the action is as simple as:
 
@@ -414,7 +421,9 @@ def resource_params
 end
 ```
 
-## Home
+## home
+
+> since 5.1.0
 
 `home` action is basically a blank action which renders the `home` template as the landing page of Wallaby (the root_path of where Wallaby engine is mounted) (available since 5.1.0):
 
@@ -453,4 +462,13 @@ class Admin::ProductsController < Admin::ApplicationController
 end
 ```
 
-##
+For version below 5.2.0, it is:
+
+```ruby
+# app/controllers/admin/products_controller.rb
+class Admin::ProductsController < Admin::ApplicationController
+  def self.model_class
+    Product
+  end
+end
+```

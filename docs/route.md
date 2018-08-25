@@ -3,7 +3,9 @@
 Wallaby has predefined the same resourcesful routes (index/new/create/show/edit/update/destroy) as Rails. Apart from that, routes can be declared in the following scenarios:
 
 - [For Admin Interface](#for-admin-interface)
-- [For Non Admin Interface](#for-non-admin-interface)
+  - [`:resources` match option](#resources-match-option) - to specify the resources name for a given controller
+  - [`:resources_controller` mount option](#resources_controller-mount-option) (since 5.2.0) - to specify the base controller for a given mount path
+- [For Non Admin Interface](#for-non-admin-interface) (since 5.2.0)
 
 Read more:
 
@@ -18,7 +20,11 @@ When Wallaby is used as an admin interface, generally, it is mounted like:
 mount Wallaby::Engine, at: '/admin'
 ```
 
-In this case, all URLs prefixed with `/admin` will be handled by Wallaby [Resources Router](https://www.rubydoc.info/gems/wallaby/Wallaby/ResourcesRouter). Therefore, if there is a custom controller and a custom (non-resourcesful) action, for example:
+In this case, all URLs prefixed with `/admin` will be handled by Wallaby [Resources Router](https://www.rubydoc.info/gems/wallaby/Wallaby/ResourcesRouter).
+
+### `:resources` match option
+
+Therefore, if there is a custom controller and a custom (non-resourcesful) action, for example:
 
 ```ruby
 # app/controllers/admin/products_controller.rb
@@ -44,6 +50,34 @@ mount Wallaby::Engine, at: '/admin'
 ```
 
 > NOTE: `:resources` default param must be provided.
+
+### `:resources_controller` mount option
+
+> since 5.2.0
+
+When mounting Wallaby at different path, it's possible to specify different base controller class for different mount path using `:resources_controller` default param. For example:
+
+```ruby
+# app/controllers/super_admin/application_controller.rb
+class SuperAdmin::ApplicationController < Wallaby::ResourcesController
+end
+
+# config/routes.rb
+mount Wallab::Engine,
+  at: '/super_admin', as: :super_admin,
+  defaults: { resources_controller: SuperAdmin::ApplicationController }
+```
+
+```ruby
+# app/controllers/advisor_only/application_controller.rb
+class AdvisorOnly::ApplicationController < Wallaby::ResourcesController
+end
+
+# config/routes.rb
+mount Wallab::Engine,
+  at: '/advisor', as: :advisor,
+  defaults: { resources_controller: AdvisorOnly::ApplicationController }
+```
 
 ## For Non Admin Interface
 
@@ -78,7 +112,7 @@ end
 
 ## Path and URL Helpers
 
-Similar to [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.org/routing.html#path-and-url-helpers), Wallaby provides a set of resourcesful path and URL helpers, for example:
+Similar to and apart from [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.org/routing.html#path-and-url-helpers), Wallaby provides a set of resourcesful path and URL helpers, for example:
 
 | HTTP Verb |	Path	                        | Named Helper                                            | Controller#Action         | Mounted Path  | Engine Name     | Resources Name  |
 | --------- | ----------------------------- | ------------------------------------------------------- | ------------------------- | ------------- | --------------- | --------------- |
@@ -113,7 +147,7 @@ Rails will generate the engine helper as `manager_engine` instead. Then resource
 manager_engine.resources_path('order::items')
 ```
 
-Most of the time, Wallaby should be able to determine what engine name to use. But if Wallaby can't detect the engine name, it can be configured in controller (also see [Controller -> Engine Name](controller.md#engine-name)):
+Most of the time, Wallaby should be able to determine what engine name to use. But if Wallaby can't detect the engine name, it can be configured in controller (also see [Controller - Advanced Customization -> engine_name](advanced_controller.md#engine_name)):
 
 ```ruby
 # app/controllers/admin/application_controller.rb

@@ -17,7 +17,7 @@ module Wallaby
       # - layout will be set to the same name `custom_theme`
       # - it will be added to the partial lookup prefixes right on top of `wallaby/resources` prefix.
       #
-      # Once theme name is set, all its controller subclass will inherit the same theme name
+      # Once theme name is set, all its controller subclasses will inherit the same theme name
       # @example To set an theme name:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.theme_name = 'admin_theme'
