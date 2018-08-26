@@ -27,4 +27,4 @@ en:
         missing_model_class: "[WALLABY] Please define self.model_class for %{model} or set it as global.\n          @see Wallaby.configuration.mapping"
 
     mode:
-      inherit_required: '%{klass} must inherit %{parent}.'
+      inherit_required: '%{klass} must inherit from %{parent}.'

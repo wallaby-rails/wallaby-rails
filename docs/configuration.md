@@ -3,17 +3,20 @@
 This is about all the global configuration that goes into `config/initializers/wallaby.rb`:
 
 - [Authentication](#authentication)
-  - [authenticate, current_user and email_method](#authenticate-current_user-and-email_method) - configure how user is authenticated and returned
-  - [logout_path and logout_method](#logout_path-and-logout_method) (since 5.1.4) - configure what route can be used to log out a user
+  - [authenticate_user! and current_user](#authenticate_user-and-current_user) - customize `authenticate_user!` and `current_user`
+  - [authenticate, current_user and email_method](#authenticate-current_user-and-email_method) - configure how authentication's done
+  - [logout_path and logout_method](#logout_path-and-logout_method) (since 5.1.4) - configure what route can be used to log out
+- [Controller](#controller)
+  - [base_controller](#base_controller) - configure the base class that `Wallaby::ResourcesController` inherits
 - [Model](#model) - specifying what models to be listed
   - [exclude](#exclude) - execluding given models
   - [models=](#models) - whitelisting models
 - [Mapping](#mapping) (since 5.1.6) - specifying the base classes
-  - [Controller](#controller) - how to declare and set base controller class
-  - [Decorator](#decorator) - how to declare and set base decorator class
-  - [Servicer](#servicer) - how to declare and set base servicer class
-  - [Authorizer](#authorizer) (since 5.2.0) - how to declare and set base authorizer class
-  - [Paginator](#paginator) - how to declare and set base paginator class
+  - [resources_controller](#resources_controller) - how to declare and set base controller class
+  - [resource_decorator](#resource_decorator) - how to declare and set base decorator class
+  - [model_servicer](#model_servicer) - how to declare and set base servicer class
+  - [model_authorizer](#model_authorizer) (since 5.2.0) - how to declare and set base authorizer class
+  - [model_paginator](#model_paginator) - how to declare and set base paginator class
 - [Metadata](#metadata)
   - [max](#max) - setting the max length for text truncation
 - [Pagination](#pagination)
@@ -23,76 +26,72 @@ This is about all the global configuration that goes into `config/initializers/w
 
 ## Authentication
 
-> NOTE: Wallaby doesn't handle logging in and out.
+> NOTE: Wallaby does NOT handle logging in and out.
 
 ### authenticate, current_user and email_method
 
 Wallaby follows the common authentication practice to execute `authenticate_user!` in `before_action` callbacks and use `current_user` to return the user object. Therefore, there are three ways to set up authentication:
 
-1. (since 5.1.6) Declare a base controller [`Admin::ApplicationController`](#mapping), and define methods `authenticate_user!` and `current_user`:
+### authenticate_user! and current_user
 
-  ```ruby
-  # app/controllers/admin/application_controller.rb
-  class Admin::ApplicationController < Wallaby::ResourcesController
-    def authenticate_user!
-      # http basic authentication
-      authenticate_or_request_with_http_basic do |username, password|
-        username == 'too_simple' && password == 'too_naive'
+> since 5.1.6
+
+Declare a base controller [`Admin::ApplicationController`](#mapping), and define methods `authenticate_user!` and `current_user`:
+
+```ruby
+# app/controllers/admin/application_controller.rb
+class Admin::ApplicationController < Wallaby::ResourcesController
+  def authenticate_user!
+    # http basic authentication
+    authenticate_or_request_with_http_basic do |username, password|
+      username == 'too_simple' && password == 'too_naive'
+    end
+  end
+
+  def current_user
+    # user example
+    Class.new do
+      def email
+        'user@example.com'
       end
-    end
+    end.new
+  end
+end
+```
 
-    def current_user
-      # user example
-      Class.new do
-        def email
-          'user@example.com'
-        end
-      end.new
+### authenticate, current_user and email_method
+
+Authentication can be customized by configuring the `authenticate` and `current_user` (optional: `email_method`) options as per the example below:
+
+- `authenticate`: a block that will be executed by controller to do authenticate. (all controller methods can be accessed inside the block)
+- `current_user`: a block that retrieve current user instance. (all controller methods can be accessed inside the block)
+- `email_method`: (since 5.1.4) method name (string or symbol) that returns email from `current_user`. and this email information will be used to load gravatar profile image. Default is `:email`
+
+```ruby
+# config/initializers/wallaby.rb
+Wallaby.config do |config|
+  config.security.authenticate do
+    # http basic authentication
+    authenticate_or_request_with_http_basic do |username, password|
+      username == 'too_simple' && password == 'too_naive'
     end
   end
-  ```
 
-2. Authentication can be customized by configuring the `authenticate` and `current_user` (optional: `email_method`) options as per the example below:
-
-  - `authenticate`: a block that will be executed by controller to do authenticate. (all controller methods can be accessed inside the block)
-  - `current_user`: a block that retrieve current user instance. (all controller methods can be accessed inside the block)
-  - `email_method`: (since 5.1.4) method name (string or symbol) that returns email from `current_user`. and this email information will be used to load gravatar profile image. Default is `:email`
-
-  ```ruby
-  # config/initializers/wallaby.rb
-  Wallaby.config do |config|
-    config.security.authenticate do
-      # http basic authentication
-      authenticate_or_request_with_http_basic do |username, password|
-        username == 'too_simple' && password == 'too_naive'
+  config.security.current_user do
+    # user example
+    Class.new do
+      def email
+        'user@example.com'
       end
-    end
-
-    config.security.current_user do
-      # user example
-      Class.new do
-        def email
-          'user@example.com'
-        end
-      end.new
-    end
-
-    # NOTE: this configuration is available from 5.1.4
-    config.security.email_method = :email
+    end.new
   end
-  ```
 
-3. Simply tell Wallaby which controller to inherit from. The controller should have `authenticate_user!` and `current_user` implemented:
+  # NOTE: this configuration is available from 5.1.4
+  config.security.email_method = :email
+end
+```
 
-  ```ruby
-  # config/initializers/wallaby.rb
-  Wallaby.config do |config|
-    # if base_controller's not set, it defaults to `::ApplicationController`
-    config.base_controller = MySecurityController
-  end
-  ```
-
-  Once this is set up, Wallaby will automatically pick up these two authentication methods mentioned above (which are compatible with Devise), along with all functionalities including application helpers, before_action, etc.
+See section [base_controller](#base_controller) for the third option.
 
 ### logout_path and logout_method
 
@@ -124,6 +123,26 @@ Wallaby.config do |c|
   c.security.logout_method = 'post'
 end
 ```
+
+## Controller
+
+### base_controller
+
+By default, `Wallaby::ResourcesController` inherits from `::ApplicationController`. Therefore, all subclasses of `Wallaby::ResourcesController` will have access to all `::ApplicationController`'s controller and helper methods.
+
+However, it's possible to change the base controller class that `Wallaby::ResourcesController` inherits.
+
+For example, if a controller has implemented the `authenticate_user!` and `current_user` method, to make Wallaby to pick up the authentication, it can be configured as:
+
+```ruby
+# config/initializers/wallaby.rb
+Wallaby.config do |config|
+  # if base_controller's not set, it defaults to `::ApplicationController`
+  config.base_controller = MySecurityController
+end
+```
+
+Once this is set up, Wallaby will automatically pick up these two authentication methods mentioned above (which are compatible with Devise) from `MySecurityController`.
 
 ## Models
 
@@ -171,34 +190,21 @@ end
 
 It's always recommended to use global base classes so that monkey patching to wallaby gem can be avoided. This can be done for the following classes:
 
-- [Controller](#controller)
-- [Decorator](#decorator)
-- [Servicer](#servicer)
-- [Authorizer](#authorizer) (since 5.2.0)
-- [Paginator](#paginator)
+- [resources_controller](#resources_controller)
+- [resource_decorator](#resource_decorator)
+- [model_servicer](#model_servicer)
+- [model_authorizer](#model_authorizer) (since 5.2.0)
+- [model_paginator](#model_paginator)
 
-### Controller
+### resources_controller
 
 > Read more from [Controller](controller.md) to understand what controller does and how controller can be customized.
 
-A global controller `Admin::ApplicationController` needs to be created inheriting from `Wallaby::ResourcesController`:
+A global controller `Admin::ApplicationController` is recommended to be created inheriting from `Wallaby::ResourcesController`:
 
 ```ruby
 # app/controllers/admin/application_controller.rb
 class Admin::ApplicationController < Wallaby::ResourcesController
-  # Do something globally, for example
-  before_action do
-    session[:time_zone] ||= params[:time_zone]
-  end
-end
-```
-
-Then the other controllers can inherit from it:
-
-```ruby
-# app/controllers/admin/products_controller.rb
-class Admin::ProductsController < Admin::ApplicationController
-  def self.model_class = Product
 end
 ```
 
@@ -219,7 +225,7 @@ Wallaby.config do |config|
 end
 ```
 
-### Decorator
+### resource_decorator
 
 > Read more from [Decorator](decorator.md) to understand what decorator does and how decorator can be customized.
 
@@ -228,15 +234,6 @@ A global decorator `Admin::ApplicationDecorator` needs to be created inheriting 
 ```ruby
 # app/decorators/admin/application_decorator.rb
 class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
-end
-```
-
-Then the other decorators can inherit from it:
-
-```ruby
-# app/decorators/admin/product_decorator.rb
-class Admin::ProductDecorator < Admin::ApplicationDecorator
-  def self.model_class = Product
 end
 ```
 
@@ -257,7 +254,7 @@ Wallaby.config do |config|
 end
 ```
 
-### Servicer
+### model_servicer
 
 > Read more from [Servicer](servicer.md) to understand what servicer does and how servicer can be customized.
 
@@ -266,15 +263,6 @@ A global servicer `Admin::ApplicationServicer` needs to be created inheriting fr
 ```ruby
 # app/servicers/admin/application_servicer.rb
 class Admin::ApplicationServicer < Wallaby::ModelServicer
-end
-```
-
-Then the other servicers can inherit from it:
-
-```ruby
-# app/servicers/admin/product_servicer.rb
-class Admin::ProductServicer < Admin::ApplicationServicer
-  def self.model_class = Product
 end
 ```
 
@@ -295,7 +283,7 @@ Wallaby.config do |config|
 end
 ```
 
-### Authorizer
+### model_authorizer
 
 > since 5.2.0
 
@@ -306,15 +294,6 @@ A global authorizer `Admin::ApplicationAuthorizer` needs to be created inheritin
 ```ruby
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
-end
-```
-
-Then the other authorizers can inherit from it:
-
-```ruby
-# app/authorizers/admin/product_authorizer.rb
-class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
-  def self.model_class = Product
 end
 ```
 
@@ -335,7 +314,7 @@ Wallaby.config do |config|
 end
 ```
 
-### Paginator
+### model_paginator
 
 > Read more from [Paginator](paginator.md) to understand what paginator does and how paginator can be customized.
 
@@ -344,15 +323,6 @@ A global paginator `Admin::ApplicationPaginator` needs to be created inheriting 
 ```ruby
 # app/paginators/admin/application_paginator.rb
 class Admin::ApplicationPaginator < Wallaby::ModelPaginator
-end
-```
-
-Then the other paginators can inherit from it:
-
-```ruby
-# app/paginators/admin/product_paginator.rb
-class Admin::ProductPaginator < Admin::ApplicationPaginator
-  def self.model_class = Product
 end
 ```
 

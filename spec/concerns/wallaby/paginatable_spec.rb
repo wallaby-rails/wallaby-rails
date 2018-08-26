@@ -33,7 +33,7 @@ describe Wallaby::ResourcesController, type: :controller do
         expect(subclass1.application_paginator).to eq application_paginator
         expect(subclass2.application_paginator).to eq application_paginator
 
-        expect { subclass1.application_paginator = another_paginator }.to raise_error ArgumentError, 'ApplePaginator does not inherit AnotherPaginator.'
+        expect { subclass1.application_paginator = another_paginator }.to raise_error ArgumentError, 'ApplePaginator does not inherit from AnotherPaginator.'
       end
     end
   end

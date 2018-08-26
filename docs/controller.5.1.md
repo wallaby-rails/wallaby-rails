@@ -40,7 +40,7 @@ class ProductsController < Admin::ApplicationController
 end
 ```
 
-> NOTE: although it inherits `Admin::ApplicationController`, it is possible to access to all methods in `ApplicationController`. Because `Admin::ApplicationController` inherits `ApplicationController` unless this is changed in Wallaby [authentication configuration](configuration.md#authentication).
+> NOTE: although it inherits from `Admin::ApplicationController`, it is possible to access to all methods in `ApplicationController`. Because `Admin::ApplicationController` inherits from `ApplicationController` unless this is changed in Wallaby [authentication configuration](configuration.md#authentication).
 
 If `ProductsController` is taken, it is still possible to use another name, however the method `self.model_class` must be defined to specify the model as the example below:
 

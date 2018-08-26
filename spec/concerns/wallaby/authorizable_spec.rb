@@ -33,7 +33,7 @@ describe Wallaby::ResourcesController, type: :controller do
         expect(subclass1.application_authorizer).to eq application_authorizer
         expect(subclass2.application_authorizer).to eq application_authorizer
 
-        expect { subclass1.application_authorizer = another_authorizer }.to raise_error ArgumentError, 'AppleAuthorizer does not inherit AnotherAuthorizer.'
+        expect { subclass1.application_authorizer = another_authorizer }.to raise_error ArgumentError, 'AppleAuthorizer does not inherit from AnotherAuthorizer.'
       end
     end
   end
