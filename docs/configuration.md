@@ -3,26 +3,26 @@
 This is about all the global configuration that goes into `config/initializers/wallaby.rb`:
 
 - [Authentication](#authentication)
-  - [authenticate_user! and current_user](#authenticate_user-and-current_user) - customize `authenticate_user!` and `current_user`
-  - [authenticate, current_user and email_method](#authenticate-current_user-and-email_method) - configure how authentication's done
-  - [logout_path and logout_method](#logout_path-and-logout_method) (since 5.1.4) - configure what route can be used to log out
+  - [authenticate_user! and current_user](#authenticate_user-and-current_user) - customize `authenticate_user!` and `current_user`.
+  - [authenticate, current_user and email_method](#authenticate-current_user-and-email_method) - configure how authentication's done.
+  - [logout_path and logout_method](#logout_path-and-logout_method) (since 5.1.4) - configure what route can be used to log out.
 - [Controller](#controller)
-  - [base_controller](#base_controller) - configure the base class that `Wallaby::ResourcesController` inherits
-- [Model](#model) - specifying what models to be listed
-  - [exclude](#exclude) - execluding given models
-  - [models=](#models) - whitelisting models
-- [Mapping](#mapping) (since 5.1.6) - specifying the base classes
-  - [resources_controller](#resources_controller) - how to declare and set base controller class
-  - [resource_decorator](#resource_decorator) - how to declare and set base decorator class
-  - [model_servicer](#model_servicer) - how to declare and set base servicer class
-  - [model_authorizer](#model_authorizer) (since 5.2.0) - how to declare and set base authorizer class
-  - [model_paginator](#model_paginator) - how to declare and set base paginator class
+  - [base_controller](#base_controller) - configure the base class that `Wallaby::ResourcesController` inherits from.
+- [Model](#model) - specifying what models to be listed.
+  - [exclude](#exclude) - execluding given models.
+  - [models=](#models) - whitelisting models.
+- [Mapping](#mapping) (since 5.1.6) - specifying the base classes.
+  - [resources_controller](#resources_controller) - how to declare and set base controller class.
+  - [resource_decorator](#resource_decorator) - how to declare and set base decorator class.
+  - [model_servicer](#model_servicer) - how to declare and set base servicer class.
+  - [model_authorizer](#model_authorizer) (since 5.2.0) - how to declare and set base authorizer class.
+  - [model_paginator](#model_paginator) - how to declare and set base paginator class.
 - [Metadata](#metadata)
-  - [max](#max) - setting the max length for text truncation
+  - [max](#max) - setting the max length for text truncation.
 - [Pagination](#pagination)
-  - [page_size](#page_size) - setting the default page size for pagination
+  - [page_size](#page_size) - setting the default page size for pagination.
 - [Features](#features)
-  - [turbolinks_enabled](#turbolinks-enabled) - enable/disable `turbolinks`
+  - [turbolinks_enabled](#turbolinks-enabled) - enable/disable `turbolinks`.
 
 ## Authentication
 
@@ -130,7 +130,7 @@ end
 
 By default, `Wallaby::ResourcesController` inherits from `::ApplicationController`. Therefore, all subclasses of `Wallaby::ResourcesController` will have access to all `::ApplicationController`'s controller and helper methods.
 
-However, it's possible to change the base controller class that `Wallaby::ResourcesController` inherits.
+However, it's possible to change the base controller class that `Wallaby::ResourcesController` inherits from.
 
 For example, if a controller has implemented the `authenticate_user!` and `current_user` method, to make Wallaby to pick up the authentication, it can be configured as:
 

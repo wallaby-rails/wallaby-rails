@@ -20,39 +20,39 @@ Starting with:
 
 The following resourcesful actions can be customized:
 
-- [index](#index) - collection listing page
-- [new](#new) - resource form for creation
-- [create](#create) - handling resource creation
-- [show](#show) - single resource display page
-- [edit](#edit) - resource form for editing
-- [update](#update) - handling resource update
-- [destroy](#destroy) - handling resource deletion
+- [index](#index) - collection listing page.
+- [new](#new) - resource form for creation.
+- [create](#create) - handling resource creation.
+- [show](#show) - single resource display page.
+- [edit](#edit) - resource form for editing.
+- [update](#update) - handling resource update.
+- [destroy](#destroy) - handling resource deletion.
 
-Also it is possible to customize the whitelisting parameters for mass assignment of create/update:
+Also it is possible to:
 
-- [resource_params](#resource_params)
+- [resource_params](#resource_params) - to customize the white-listed parameters for mass assignment.
 
 Customize non-resourcesful actions:
 
-- [home](#home) (5.1.0) - landing page
+- [home](#home) (5.1.0) - to customize landing page.
 
 Apart from the above, configuration can be set for:
 
-- [abstract!](#abstract) - flagging the controller as abstract
-- [model_class](#model_class) - specifying the model class
+- [abstract!](#abstract) - flagging the controller as abstract.
+- [model_class](#model_class) - specifying the model class.
 
 More advanced configuration:
 
-- [theme_name](advanced_controller.md#theme_name) (since 5.2.0) - specifying the theme
-- [engine_name](advanced_controller.md#engine_name) (since 5.2.0) - specifying the name of engine helper
-- [application_decorator](advanced_controller.md#application_decorator) (since 5.2.0) - specifying the base resource decorator class
-- [resource_decorator](advanced_controller.md#resource_decorator) (since 5.2.0) - specifying the resource decorator class
-- [application_servicer](advanced_controller.md#application_servicer) (since 5.2.0) - specifying the base model servicer class
-- [model_servicer](advanced_controller.md#model_servicer) (since 5.2.0) - specifying the model servicer class
-- [application_authorizer](advanced_controller.md#application_authorizer) (since 5.2.0) - specifying the base model authorizer class
-- [model_authorizer](advanced_controller.md#model_authorizer) (since 5.2.0) - specifying the model authorizer class
-- [application_paginator](advanced_controller.md#application_paginator) (since 5.2.0) - specifying the base model paginator class
-- [model_paginator](advanced_controller.md#model_paginator) (since 5.2.0) - specifying the model paginator class
+- [theme_name](advanced_controller.md#theme_name) (since 5.2.0) - specifying the theme.
+- [engine_name](advanced_controller.md#engine_name) (since 5.2.0) - specifying the name of engine helper.
+- [application_decorator](advanced_controller.md#application_decorator) (since 5.2.0) - specifying the base resource decorator class.
+- [resource_decorator](advanced_controller.md#resource_decorator) (since 5.2.0) - specifying the resource decorator class.
+- [application_servicer](advanced_controller.md#application_servicer) (since 5.2.0) - specifying the base model servicer class.
+- [model_servicer](advanced_controller.md#model_servicer) (since 5.2.0) - specifying the model servicer class.
+- [application_authorizer](advanced_controller.md#application_authorizer) (since 5.2.0) - specifying the base model authorizer class.
+- [model_authorizer](advanced_controller.md#model_authorizer) (since 5.2.0) - specifying the model authorizer class.
+- [application_paginator](advanced_controller.md#application_paginator) (since 5.2.0) - specifying the base model paginator class.
+- [model_paginator](advanced_controller.md#model_paginator) (since 5.2.0) - specifying the model paginator class.
 
 ## Declaration
 

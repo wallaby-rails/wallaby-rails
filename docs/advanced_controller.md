@@ -2,16 +2,16 @@
 
 See following sections for comprehensive controller customization:
 
-- [theme_name](#theme_name) (since 5.2.0) - specifying the theme
-- [engine_name](#engine_name) (since 5.2.0) - specifying the name of engine helper
-- [application_decorator](#application_decorator) (since 5.2.0) - specifying the base resource decorator class
-- [resource_decorator](#resource_decorator) (since 5.2.0) - specifying the resource decorator class
-- [application_servicer](#application_servicer) (since 5.2.0) - specifying the base model servicer class
-- [model_servicer](#model_servicer) (since 5.2.0) - specifying the model servicer class
-- [application_authorizer](#application_authorizer) (since 5.2.0) - specifying the base model authorizer class
-- [model_authorizer](#model_authorizer) (since 5.2.0) - specifying the model authorizer class
-- [application_paginator](#application_paginator) (since 5.2.0) - specifying the base model paginator class
-- [model_paginator](#model_paginator) (since 5.2.0) - specifying the model paginator class
+- [theme_name](#theme_name) (since 5.2.0) - specifying the theme.
+- [engine_name](#engine_name) (since 5.2.0) - specifying the name of engine helper.
+- [application_decorator](#application_decorator) (since 5.2.0) - specifying the base resource decorator class.
+- [resource_decorator](#resource_decorator) (since 5.2.0) - specifying the resource decorator class.
+- [application_servicer](#application_servicer) (since 5.2.0) - specifying the base model servicer class.
+- [model_servicer](#model_servicer) (since 5.2.0) - specifying the model servicer class.
+- [application_authorizer](#application_authorizer) (since 5.2.0) - specifying the base model authorizer class.
+- [model_authorizer](#model_authorizer) (since 5.2.0) - specifying the model authorizer class.
+- [application_paginator](#application_paginator) (since 5.2.0) - specifying the base model paginator class.
+- [model_paginator](#model_paginator) (since 5.2.0) - specifying the model paginator class.
 
 ## theme_name
 

@@ -158,4 +158,4 @@ end
 
 > NOTE: All sub classes of `Admin::ApplicationController` will inherit the same engine name when it is set.
 
-> See more options at [Customizating Controller](controller.md).
+> See more options at [Customizing Controller](controller.md).
