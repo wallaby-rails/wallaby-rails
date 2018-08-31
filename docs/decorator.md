@@ -430,6 +430,9 @@ The following options are the common ones used in metadata for [index_fields](#i
 
 #### :type metadata option
 
+> NOTE: please do NOT use the following names for type:
+> `title`, `logo`, `header`, `footer`, `user_menu`, `navs`, `index_actions`, `resource_actions` and `resource_navs`, as they are used as the configurable partials in [Frontend](frontend.md)
+
 `:type` is a mandatory options. For example, to set the `:type` for custom method `slug`:
 
 ```ruby

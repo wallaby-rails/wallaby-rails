@@ -1,244 +1,222 @@
-## View
+# View
 
-- [Local Variables](#local-variables)
-- [Types](#types)
+In Wallaby, the core of the view is to iterate the fields defined in decorator's **\*_field_names** and render the partial using type from decorator's metadata **\*_fields**. For example, for index page, the core looks like:
 
-### Create type partial
-
-Wallaby uses type partials to render the fields of a record. It utilizes and extends [Template Inheritance](http://guides.rubyonrails.org/layouts_and_rendering.html#using-render) so that Wallaby can search type partials.
-
-Let's look at a complicated example, if in a decorator, a field type is updated to `markdown`:
-
-```ruby
-# app/decorators/product_decorator.rb
-class ProductDecorator < Admin::ApplicationDecorator
-  self.index_fields[:description][:type] = 'markdown'
-end
+```erb
+<%= index_field_names.each do |field_name| %>
+  <%= render index_fields[field_name][:type], value: value %>
+<% end %>
 ```
 
-> NOTE: please do not use the following names as type:
-> `title`, `logo`, `header`, `footer`, `user_menu`, `navs`, `index_actions`, `resource_actions` and `resource_navs`, as they are used as the configurable partials in frontend (see [Partials](frontend.md#partials))
+Learn about Type Partial from the following sections:
 
-> see [Decorator](decorator.md) for more information about base class `Admin::ApplicationDecorator`.
+- [Creating a Type Partial](#creating-a-type-partial)
+- [Locals for Type Partials](#locals-for-type-partials) - to learn the local variables available in type partials
 
-Also, a Wallaby controller for `Product` is declared:
+See the index for built-in type partials:
+
+- [Association Type Partials](#association-type-partials)
+- [General Type Partials](#general-type-partials)
+
+> See [Decorator](decorator.md) to learn more about the metadata.
+
+## Type Partial
+
+As described above, if a custom type is defined in decorator, e.g. `:markdown`, then a partial needs to be created accordingly, and this partial is called `Type Partial`.
+
+### Creating a Type Partial
+
+Wallaby utilizes and extends [Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance) to look for type partial in controller and action inheritance chain like:
+
+- app/views/**$MOUNTED_PATH**/**$RESOURCES**/**$ACTION_PREFIX**
+- app/views/**$MOUNTED_PATH**/**$RESOURCES**
+- app/views/**$CONTROLLER_PATH**/**$ACTION_PREFIX**
+- app/views/**$CONTROLLER_PATH**
+- app/views/**$BASE_CONTROLLER_PATH**/**$ACTION_PREFIX**
+- app/views/**$BASE_CONTROLLER_PATH**
+- app/views/**$THEME_NAME**/**$ACTION_PREFIX** - (since 5.2.0)
+- app/views/**$THEME_NAME** - (since 5.2.0)
+- app/views/wallaby/resources/**$ACTION_PREFIX**
+- app/views/wallaby/resources
+
+For example, for model `Product`, a Wallaby controller is declared as:
 
 ```ruby
 # app/controllers/backend/goods_controller.rb
 class Backend::GoodsController < Admin::ApplicationsController
-  def self.model_class; Product; end
+  self.theme_name = 'foundation'
+  self.model_class = Product
 end
 ```
 
-> see [Controller](controller.md) for more information about base class `Admin::ApplicationController`.
+And given that:
 
-Then Wallaby will search type partials in the following precedence:
+- Wallaby is mounted under path `/admin` (see how Wallaby is mounted in [route](route.md)).
+- action is `index`.
 
-- `app/views/$MOUNTED_PATH/$RESOURCES/$ACTION_PREFIX`
-- `app/views/$MOUNTED_PATH/$RESOURCES`
-- `app/views/$CONTROLLER_PATH/$ACTION_PREFIX`
-- `app/views/$CONTROLLER_PATH`
-- `app/views/$BASE_CONTROLLER_PATH/$ACTION_PREFIX`
-- `app/views/$BASE_CONTROLLER_PATH`
-- `app/views/wallaby/resources/$ACTION_PREFIX`
-- `app/views/wallaby/resources`
+So the variables become:
 
-Given that:
-- Wallaby is mounted under `/admin` in `config/routes.rb`
-- Action prefix is `index`.
-    > NOTE: action prefix can only be one of `index`, `show` and `form` (`form` is for actions `new`/`create`/`edit`/`update`)
+- **$MOUNTED_PATH** is `admin` (converted from `/admin`)
+- **$ACTION_PREFIX** is `index` (converted from action `index`, see below [Action Prefix Mapping](#action-prefix-mapping))
+- **$RESOURCES** is `products` (converted from model `Product`)
+- **$CONTROLLER_PATH** is `backend/goods` (converted from controller `Backend::GoodsController`) .0) is `admin/application` (converted from controller `Admin::ApplicationController`)
+- **$THEME_NAME** (since 5.2.0) is `foundation`
 
-Then Wallaby will search type partial `markdown` in the following orders:
+Then the lookup order for type partial becomes:
 
-- `app/views/admin/products/index/_markdown`
-- `app/views/admin/products/_markdown`
-- `app/views/backend/goods/index/_markdown`
-- `app/views/backend/goods/_markdown`
-- `app/views/admin/application/index/_markdown`
-- `app/views/admin/application/_markdown`
-- `app/views/wallaby/resources/index/_markdown`
-- `app/views/wallaby/resources/_markdown`
+- app/views/admin/products/index/_markdown
+- app/views/admin/products/_markdown
+- app/views/backend/goods/index/_markdown
+- app/views/backend/goods/_markdown
+- app/views/admin/application/index/_markdown
+- app/views/admin/application/_markdown
+- app/views/foundation/index/_markdown
+- app/views/foundation/_markdown
+- app/views/wallaby/resources/index/_markdown
+- app/views/wallaby/resources/_markdown
 
-Therefore, you could choose one of the above paths to create this type partial based on how you want the partial to be shared.
+Therefore, the type partial can be created in one of the above paths depending on how it should be shared:
 
-If markdown is only needed for this model class `Product`, you can create the partial with following name:
+- if the type partial is only needed for model `Product` when no controller is created, then it can be created as:
+
+  ```
+  app/views/admin/products/index/_markdown.html.erb
+  ```
+
+- if the type partial is only needed for controller `Backend::GoodsController`, then it can be created as:
+
+  ```
+  app/views/backend/goods/index/_markdown.html.erb
+  ```
+
+- if the type partial is supposed to be shared among the app, then it can be created as:
+
+  ```
+  app/views/admin/application/index/_markdown.html.erb
+  ```
+
+> NOTE: the file extension doesn't have to be `erb`, it's totally fine to create type partial with preferred markup language (e.g. `haml`/`slim`/etc.)
+
+> ANOTHER NOTE: if CSV export feature is in use, then two type partials should be created for index, one is HTML, the other is CSV.
+
+### Locals for Type Partials
+
+To develop type partial, it's as easy as normal partial. However, it's better to get familiar with the following locals available in a type partial:
+
+- `object`: the decorator instance which wraps the resource object.
+- `field_name`: current field name.
+- `value`: current value.
+- `metadata`: metadata for current field.
+
+In addition to the above locals, `form` type partial has access to the following locals:
+
+- `form`: a form builder instance that extends `ActionView::Helpers::FormBuilder` to provide extra helper methods for error display.
+
+Let's take a look at an example of how built-in type partial (`form`/`string`) is coded:
 
 ```erb
-<% # app/views/admin/products/index/_markdown.html.erb %>
-<%= markdown.render value  %>
+<%# app/views/wallaby/resources/form/_string.html.erb
+%>
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label field_name, metadata[:label] %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= form.text_field field_name, class: 'form-control' %>
+    </div>
+  </div>
+  <%= form.error_messages field_name %>
+  <%= hint_of metadata %>
+</div>
 ```
 
-If you want to share the partial among the whole app, it should be created as:
+### Action Prefix Mapping
 
-```erb
-<% # app/views/admin/application/index/_markdown.html.erb %>
-<%= markdown.render value  %>
-```
+The following resourcesful actions are mapped to the action prefixes:
 
-> NOTE: the file extension doesn't have to be `erb`, it's ok to create the type partial with preferred markup (e.g. `haml`/`slim`/etc.)
+| Action  | Action Prefix |
+| ------- | ------------- |
+| index   | index         |
+| new     | form          |
+| create  | form          |
+| show    | show          |
+| edit    | form          |
+| update  | form          |
+| destroy | <N/A>         |
 
-> NOTE: also a note, if you need to create custom type partial and want to use `CSV` export feature, you'd better create a type partial for `CSV` format.
+## Built-in Type Partials
 
-### Local Variables
+### Association Type Partials
 
-In order to build complicated type partial, you will need to know the following local variables among `index`, `show` and `form`:
+| Type Partial            | Available to Action Prefixes  | Metadata Options  |
+| ----------------------- | ----------------------------- | ----------------- |
+| belongs_to              | index, show, form             | options for **form**: <br> - `:polymorphic_list` - the list of polymorphic classes for this association. |
+| has_one                 | index, show, form             | |
+| has_many                | index, show, form             | |
+| has_and_belongs_to_many | index, show, form             | |
 
-- `object`: the decorator object which wraps the resource object
-- `field_name`: current field name
-- `value`: current value
-- `metadata`: metadata for current field
+### General Type Partials
 
-For `form` action prefix, there is one more local variable:
+> NOTE:
 
-- `form`: a form builder instance extending `ActionView::Helpers::FormBuilder` to provides additional helper methods for error class and error messages.
-
-## Types
-
-Here is a list of built-in database types that Wallaby could handle for index/show/form pages:
-
-- bigint
-- bigserial
-- binary
-- bit
-- bit_varying
-- blob
-- boolean
-- box
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- cidr
-- circle
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- citext
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- date
-- daterange
-- datetime
-- decimal
-- float
-  - metadata options for `form` partial:
-    - `:options`: used by [ActionView::Helpers::FormHelper#number_field](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-number_field)
-- hstore
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- inet
-- int4range
-- int8range
-- integer
-- json
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- jsonb
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- line
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- longblob
-- longtext
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- lseg
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- ltree
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- macaddr
-- mediumblob
-- mediumtext
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- money
-- numrange
-- path
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- point
-- polygon
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- serial
-- string
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- text
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- time
-- tinyblob
-- tinytext
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- tsrange
-- tstzrange
-- tsvector
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- unsigned_bigint
-- unsigned_decimal
-- unsigned_float
-- unsigned_integer
-- uuid
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-- xml
-
-Apart from the above types, these are also supported:
-
-- belongs_to
-  - metadata options for `show` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-    - `:is_polymorphic`: the same value as the association option `:polymorphic` (not recommend to change)
-  - metadata options for `form` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-    - `:is_polymorphic`: the same value as the association option `:polymorphic` (not recommend to change)
-    - `:foreign_key`: the same value as the association option `:foreign_key` (not recommend to change)
-    - `:polymorphic_type`: the polymorphic type column name
-    - `:polymorphic_list`: a list of classes for this polymorphic association
-    - `:remote_urls`: the ajax URLs for autocompletion for this polymorphic association
-    - `:remote_url`: the ajax URL for autocompletion
-- color
-- dropdown (form)
-  - metadata options for `form` partial:
-    - `:choices`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). NOTE: apart from a collection, choices can be a proc like `-> { Order.order_by params[:name] }` which will be executed in helper context.
-    - `:options`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
-    - `:html_options`: used by [ActionView::Helpers::FormBuilder#select](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select)
-- email
-- file (form)
-- has_and_belongs_to_many
-  - metadata options for `show` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-  - metadata options for `form` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-    - `:foreign_key`:  the same value as the association option `:foreign_key` (not recommend to change)
-    - `:remote_url`: the ajax URL for autocompletion
-- has_many
-  - metadata options for `show` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-  - metadata options for `form` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-    - `:foreign_key`:  the same value as the association option `:foreign_key` (not recommend to change)
-    - `:remote_url`: the ajax URL for autocompletion
-- has_one
-  - metadata options for `show` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-  - metadata options for `form` partial:
-    - `:class`: the same class constant as the association option `:class_name` (not recommend to change)
-- image (show)
-  - metadata options for `show` partial:
-    - `:options`: used by [ActionView::Helpers::AssetTagHelper#image_tag](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-image_tag)
-- markdown (form)
-- password
-- raw (index/show)
-- sti
-  - metadata options for `index` partial:
-    - `:max`: Truncates a given text after a given `max` if text is longer than `max`
-  - metadata options for `form` partial:
-    - `:sti_class_list`: an array of classes for STI column
-
-> NOTE: all the `form` partials above support metadata option `hint` to customize the hint message in `form` view (available from version `5.1.5`).
-
-To use the type partials, please have a read at [Decorator](decorator.md)
+| Type Partial      | Available to Action Prefixes  | Metadata Options |
+| ----------------- | ----------------------------- | ---------------- |
+| bigint            | index, show, form             | |
+| bigserial         | index, show, form             | |
+| binary            | index, show, form             | |
+| bit_varying       | index, show, form             | |
+| bit               | index, show, form             | |
+| blob              | index, show, form             | |
+| boolean           | index, show, form             | |
+| box               | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| cidr              | index, show, form             | |
+| circle            | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| citext            | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| color             | index, show, form             | |
+| date              | index, show, form             | |
+| daterange         | index, show, form             | |
+| datetime          | index, show, form             | |
+| decimal           | index, show, form             | |
+| dropdown          | form                          | options for **form**: <br> - `:choices` - choices for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br> - `:options` - options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br>  - `:html_options` - html_options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). |
+| email             | index, show, form             | |
+| file              | form                          | |
+| float             | index, show, form             | options for **form**: <br> - `:options` - options for [ActionView::Helpers::FormHelper#number_field](https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-number_field). |
+| hstore            | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| image             | show                          | options for **show**: <br> - `:options` - options for [ActionView::Helpers::AssetTagHelper#image_tag](https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-image_tag). |
+| inet              | index, show, form             | |
+| int4range         | index, show, form             | |
+| int8range         | index, show, form             | |
+| integer           | index, show, form             | |
+| json              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| jsonb             | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| line              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| longblob          | index, show, form             | |
+| longtext          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| lseg              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| ltree             | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| macaddr           | index, show, form             |
+| markdown          | form                          | |
+| mediumblob        | index, show, form             | |
+| mediumtext        | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| money             | index, show, form             | |
+| numrange          | index, show, form             | |
+| password          | index, show, form             | |
+| path              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| point             | index, show, form             | |
+| polygon           | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| raw               | index, show                   | |
+| serial            | index, show, form             | |
+| sti               | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. <br> options for **form**: <br> - `:sti_class_list` - list of STI classes for user to choose. |
+| string            | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| text              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| time              | index, show, form             | |
+| tinyblob          | index, show, form             | |
+| tinytext          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| tsrange           | index, show, form             | |
+| tstzrange         | index, show, form             | |
+| tsvector          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| unsigned_bigint   | index, show, form             | |
+| unsigned_decimal  | index, show, form             | |
+| unsigned_float    | index, show, form             | |
+| unsigned_integer  | index, show, form             | |
+| uuid              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| xml               | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |

@@ -6,7 +6,7 @@
 - [Declaring Routes](route.md)
 - [Customizing Controller](controller.md)
 - [Using Decorator to define Wallaby Behavior](decorator.md)
-- [Creating Type Partials](view.md)
+- [Creating Type Partials For Custom Type in Decorator](view.md)
 - [Customizing model life cycle with Servicer](servicer.md)
 - [Customizing how data can be accessed with Authorizer](authorizer.md)
 - [Customizing data pagination with Paginator](paginator.md)
