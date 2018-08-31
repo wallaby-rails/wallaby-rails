@@ -1,78 +1,144 @@
-## Frontend
+# Frontend
 
-### Partials
+Learn more about the customization for frontend:
 
-Wallaby take full advantages of [Template Inheritance](http://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance), please have a read before continue reading.
+- [Partials](#partials) - customizing the components on the page, e.g. title, logo, header.
+- [Stylesheet](#stylesheet) - extending and customizing the look and feel by CSS stylesheet.
+- [Javascript](#Javascript) - extending and customizing user interaction by JS.
 
-If you have base class `Admin::ApplicationController` whose `controller_path` is `admin/application`, then elements on the page can be customized in the following ways:
+> NOTE: If a third party theme is used, its frontend implementation might be different from Wallaby, please check out its document to find out how to do customization for its frontend.
 
-- To customize page title, `app/views/#{controller_path}/_title.html.erb` needs to be created.
-- To customize logo, `app/views/#{controller_path}/_logo.html.erb` needs to be created.
-- To customize header, `app/views/#{controller_path}/_header.html.erb` needs to be created.
-- To customize footer, `app/views/#{controller_path}/_footer.html.erb` needs to be created.
-- To modify links for logged-in user, `app/views/#{controller_path}/_user_menu.html.erb` needs to be created.
-- To modify links/items for the top navigation bar, `app/views/#{controller_path}/_navs.html.erb` needs to be created.
-- To modify links/items for the dropdown button on index page, `app/views/#{controller_path}/_index_actions.html.erb` needs to be created.
-- To modify show/edit/delete links on index page, `app/views/#{controller_path}/_resource_actions.html.erb` needs to be created.
-- To modify show/edit/delete links for show/new/create page, `app/views/#{controller_path}/_resource_navs.html.erb` needs to be created.
+## Partials
 
-> `#{controller_path}` should be replaced with the base class's `controller_path`, which is `admin/application` in this case.
+Same as [Type Partial](view.md#type-partial), Wallaby utilizes and extends [Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance) to look for partial in controller and action inheritance chain.
 
-Otherwise, it is possible to replace the wallaby origin files:
+The following partials can be customized using template inheritance:
 
-- To customize page title, [`app/views/wallaby/resources/_title.html.erb`](../app/views/wallaby/resources/_title.html.erb) needs to be replaced.
-- To customize logo, [`app/views/wallaby/resources/_logo.html.erb`](../app/views/wallaby/resources/_logo.html.erb) needs to be replaced.
-- To customize header, [`app/views/wallaby/resources/_header.html.erb`](../app/views/wallaby/resources/_header.html.erb) needs to be replaced.
-- To customize footer, [`app/views/wallaby/resources/_footer.html.erb`](../app/views/wallaby/resources/_footer.html.erb) needs to be replaced.
-- To modify links for logged-in user, [`app/views/wallaby/resources/_user_menu.html.erb`](../app/views/wallaby/resources/_user_menu.html.erb) needs to be replaced.
-- To modify links/items for the top navigation bar, [`app/views/wallaby/resources/_navs.html.erb`](../app/views/wallaby/resources/_navs.html.erb) needs to be replaced.
-- To modify links/items for the dropdown button on index page, [`app/views/wallaby/resources/_index_actions.html.erb`](../app/views/wallaby/resources/_index_actions.html.erb) needs to be replaced.
-- To modify show/edit/delete links on index page, [`app/views/wallaby/resources/_resource_actions.html.erb`](../app/views/wallaby/resources/_resource_actions.html.erb) needs to be replaced.
-- To modify show/edit/delete links for show/new/create page, [`app/views/wallaby/resources/_resource_navs.html.erb`](../app/views/wallaby/resources/_resource_navs.html.erb) needs to be replaced.
+- `title` - customizing page title.
+- `logo` - customizing logo.
+- `header` - customizing header section.
+- `footer` - customizing footer section.
+- `frontend` (since 5.2.0) - customizing CSS and JS libraries in `<head>` tag.
+- `user_menu` - customizing links for logged-in user.
+- `navs` - customizing links/items for top navigation bar.
+- `index_action` - customizing links/items for dropdown button next to search form, only used by `index` page.
+- `resource_action` - customizing links for a resource in the data table, only used by `index` page.
+- `resource_navs` - customizing links for resource navigation under the resource's title, only used by `show`/`new`/`create`/`edit`/`update` page.
 
-### CSS Styling
+For example, given that Wallaby is mounted under path `/admin` (see how Wallaby is mounted in [route](route.md)), to customize `title` for model `Product`, it goes:
 
-To extend and override Wallaby CSS, the file `app/assets/stylesheets/wallaby/application.scss` is required to be replaced with:
+- if the partial is only needed for model `Product` when no controller is created for `Product`, then it can be created as:
 
-```scss
-// NOTE: need to keep this line
-@import 'wallaby/base';
+  ```
+  app/views/admin/products/_title.html.erb
+  ```
 
-// NOTE: override the CSS after the above line, for example
-header {
-  font-size: 14px;
-}
-```
+- if the partial is only needed for the controller created for `Product`, then it can be created as:
 
-If you want to add some CSS libraries, it can be written as below in order to place it to the `head` section of html:
+  ```ruby
+  # app/controllers/backend/goods_controller.rb
+  class Backend::GoodsController < Admin::ApplicationsController
+    self.theme_name = 'foundation'
+    self.model_class = Product
+  end
+  ```
 
-```erb
-<% content_for :custom_stylesheet do %>
-  <%= stylesheet_link_tag 'theme/new_year' %>
-<% end %>
-```
+  ```
+  app/views/backend/goods/_title.html.erb
+  ```
 
-> HINT: it is possible to use `custom_stylesheet` to add JS libraries into `head` section.
+- if the partial is supposed to be shared among the app when base controller (e.g. `Admin::ApplicationController`) is created, then it can be created as:
 
-### Javascripts
+  ```
+  app/views/admin/application/_title.html.erb
+  ```
 
-Similar, to extend Wallaby JS, this file `app/assets/javascripts/wallaby/application.js` is required to be replaced with:
+## Stylesheet
 
-```javascript
-// NOTE: need to keep this line
-//= require wallaby/base
+There are a couple of ways to customize stylesheet:
 
-// NOTE: add more js lib or code after the above line, for example
-//= require turbolinks
-alert('Turbolinks is loaded');
-```
+- (since 5.2.0) Create `frontend` partial mentioned [above](#partials). For example:
 
-If you want to add some one-time JS code that shouldn't go into the above global JS file, it can be written in order to place it to the bottom of html:
+  ```erb
+  <%# app/views/admin/application/_frontend.html.erb %>
+  <%= stylesheet_link_tag 'admin/application', media: 'all' %>
+  <%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
+  <%= javascript_include_tag 'admin/application' %>
+  ```
 
-```erb
-<% content_for :custom_javascript do
-  javascript_tag do %>
-  alert('I am from some.html.erb');
-<% end
-end %>
-```
+  Then create custom stylesheet asset file (e.g. `admin/application`), import Wallaby's base stylesheet and develop custom stylesheet:
+
+  ```scss
+  // app/assets/stylesheets/admin/application.scss
+  @import 'wallaby/base';
+
+  // Start customization from here
+  header {
+    font-size: 14px;
+  }
+  ```
+
+- To inject more CSS libraries to the `<head>` section, it can be written in anywhere as needed as below:
+
+  ```erb
+  <% content_for :custom_stylesheet do %>
+    <%= stylesheet_link_tag 'theme/new_year' %>
+  <% end %>
+  ```
+
+  > NOTE: it is possible to use `custom_stylesheet` to add JS libraries as well.
+
+- LAST RESORT: To extend and override Wallaby CSS, the file `app/assets/stylesheets/wallaby/application.scss` can be created with overridden content. For example:
+
+  ```scss
+  // app/assets/stylesheets/wallaby/application.scss
+  @import 'wallaby/base';
+
+  // Start customization from here
+  header {
+    font-size: 14px;
+  }
+  ```
+
+## Javascript
+
+There are a couple of ways to customize javascript:
+
+- (since 5.2.0) Create `frontend` partial mentioned [above](#partials). For example:
+
+  ```erb
+  <%# app/views/admin/application/_frontend.html.erb %>
+  <%= stylesheet_link_tag 'admin/application', media: 'all' %>
+  <%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
+  <%= javascript_include_tag 'admin/application' %>
+  ```
+
+  Then create custom javascript asset file (e.g. `admin/application`), import Wallaby's base javascript and develop custom javascript:
+
+  ```javascript
+  // app/assets/javascripts/admin/application.js
+  //= require wallaby/base
+
+  // Start customization from here
+  //= require turbolinks
+  alert('Turbolinks is loaded');
+  ```
+
+- To inject more JS libraries to the `<head>` section, it can be written in anywhere as needed as below:
+
+  ```erb
+  <% content_for :custom_stylesheet do %>
+    <%= javascript_include_tag 'angular' %>
+  <% end %>
+  ```
+
+- LAST RESORT: To extend and override Wallaby javascript, the file `app/assets/javascripts/wallaby/application.js` can be created with overridden content. For example:
+
+  ```javascript
+  // app/assets/javascripts/wallaby/application.scss
+  //= require wallaby/base
+
+  // Start customization from here
+  //= require turbolinks
+  alert('Turbolinks is loaded');
+  ```
