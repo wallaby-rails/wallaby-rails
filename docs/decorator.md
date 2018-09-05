@@ -16,7 +16,12 @@ Starting with:
 
 - [Declaration](#declaration)
 
-Being a decorator:
+Configuration can be set for:
+
+- [abstract!](#abstract) - flagging as abstract base class.
+- [model_class](#model_class) - specifying the model class.
+
+Accessing helper methods:
 
 - [resource](#resource) - to access the resource object.
 - [h](#h) (since 5.2.0) - to access the Rails and Wallaby helpers.
@@ -73,18 +78,51 @@ Let's see how a decorator can be created so that Wallaby knows its existence.
 Similar to the way in Rails, create a custom decorator for model `Product` inheriting from `Admin::ApplicationDecorator` (the base decorator mentioned [above](#decorator)) as below:
 
 ```ruby
-# app/decorators/products_decorator.rb
+# app/decorators/product_decorator.rb
 class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
 If `ProductDecorator` is taken, it is still possible to use another name (e.g. `Admin::ProductDecorator`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## Helper Methods
+## abstract!
+
+All decorators will be preloaded and processed by Wallaby in order to build up the mapping between decorators and models. If the decorator is considered not to be proceesed, it can be flagged by using `abstract!`:
+
+```ruby
+# app/decorators/admin/special_decorator.rb
+class Admin::SpecialDecorator < Admin::ApplicationDecorator
+  abstract!
+end
+```
+
+## model_class
+
+According to Wallaby's [Decorator Naming Convention](convention.md#decorator), if a custom decorator can not reflect the assication to the correct model, for example, as `Admin::ProductDecorator` to `Product`, it is required to specify the model class in the decorator as below:
+
+```ruby
+# app/decorators/admin/product_decorator.rb
+class Admin::ProductDecorator < Admin::ApplicationDecorator
+  self.model_class = Product
+end
+```
+
+For version below 5.2.0, it is:
+
+```ruby
+# app/decorators/admin/product_decorator.rb
+class Admin::ProductDecorator < Admin::ApplicationDecorator
+  def self.model_class
+    Product
+  end
+end
+```
+
+# Helper Methods
 
 The followings are the helper methods that are available in decorator instance:
 
-### resource
+## resource
 
 Decorator wraps the resource object. By default, it's possible to access resource object's public methods directly:
 
@@ -100,7 +138,7 @@ class Product < ApplicationRecord
   end
 end
 
-# app/decorators/products_decorator.rb
+# app/decorators/product_decorator.rb
 class ProductDecorator < Admin::ApplicationDecorator
   def amount_in_currency
     "#{ currency } #{ amount }"
@@ -113,7 +151,7 @@ In above example, `currency` and `amount` are `Product`'s instance methods, and 
 However, it's possible to access to the resource object on demand:
 
 ```ruby
-# app/decorators/products_decorator.rb
+# app/decorators/product_decorator.rb
 class ProductDecorator < Admin::ApplicationDecorator
   def amount_in_currency
     "#{ resource.currency } #{ resource.amount }"
@@ -121,14 +159,14 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-### h
+## h
 
 > since 5.2.0
 
 It's possible to access all Rails and Wallaby helpers via `h`, for example:
 
 ```ruby
-# app/decorators/products_decorator.rb
+# app/decorators/product_decorator.rb
 class ProductDecorator < Admin::ApplicationDecorator
   def amount_in_currency
     h.number_to_currency resource.amount
@@ -136,13 +174,13 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-## Metadata
+# Metadata
 
 Decorator uses pre-generated class attributes to store the metadata to be used on the index/show/form page.
 
 > NOTE: Decorator works the same for different ORMs including `ActiveRecord`, `HER` and etc, the only difference is the metadata that Wallaby pre-generates for different ORMs.
 
-### index_fields
+## index_fields
 
 `index_fields` is used for storing metadata of different (origin/custom) fields for index page. For example, for model `Product`:
 
@@ -225,7 +263,7 @@ end
 
 > See [index_field_names](#index_field_names) to learn how to make a custom field (e.g. `slug`) appear on index page.
 
-#### :sort_field_name
+### :sort_field_name
 
 > NOTE: this option currently only works for `ActiveRecord` models, configuring it for `HER` models will not have any effects.
 
@@ -241,7 +279,7 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-#### :sort_disabled
+### :sort_disabled
 
 `:sort_disabled` is a setting that disable/enable sorting for a field on index page. It defaults to `nil`, and its valid values are `nil`, `false` and `true`.
 
@@ -254,7 +292,7 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-### show_fields
+## show_fields
 
 `show_fields` is used for storing metadata of different (origin/custom) fields for show page. For example, for model `Product`:
 
@@ -337,7 +375,7 @@ end
 
 > See [show_field_names](#show_field_names) to learn how to make a custom field (e.g. `slug`) appear on show page.
 
-### form_fields
+## form_fields
 
 `form_fields` is used for storing metadata of different (origin/custom) fields for form page. For example, for model `Product`:
 
@@ -424,11 +462,11 @@ end
 
 > See [form_field_names](#form_field_names) to learn how to make a custom field (e.g. `slug`) appear on form page.
 
-### Metadata Options
+## Metadata Options
 
 The following options are the common ones used in metadata for [index_fields](#index_fields), [show_fields](#show_fields) and [form_fields](#form_fields).
 
-#### :type metadata option
+### :type metadata option
 
 > NOTE: please do NOT use the following names for type:
 > `title`, `logo`, `header`, `footer`, `user_menu`, `navs`, `index_actions`, `resource_actions` and `resource_navs`, as they are used as the configurable partials in [Frontend](frontend.md)
@@ -449,7 +487,7 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-#### :label metadata option
+### :label metadata option
 
 `:label` is to customize the text for the field. For example, to change the text of field `uid` to `SKU`:
 
@@ -464,11 +502,11 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-### Metadata Options for Association Fields
+## Metadata Options for Association Fields
 
 Wallaby pre-generates metadata for association fields that can be found in the model.
 
-#### belongs_to
+### belongs_to
 
 - For ActiveRecord model, it looks like:
 
@@ -515,7 +553,7 @@ Wallaby pre-generates metadata for association fields that can be found in the m
   # }
   ```
 
-#### has_one
+### has_one
 
 - For ActiveRecord model, it looks like:
 
@@ -562,7 +600,7 @@ Wallaby pre-generates metadata for association fields that can be found in the m
   # }
   ```
 
-#### has_many
+### has_many
 
 - For ActiveRecord model, it looks like:
 
@@ -610,7 +648,7 @@ Wallaby pre-generates metadata for association fields that can be found in the m
   # }
   ```
 
-#### has_and_belongs_to_many
+### has_and_belongs_to_many
 
 - For ActiveRecord model, it looks like:
 
@@ -636,7 +674,7 @@ Wallaby pre-generates metadata for association fields that can be found in the m
 
 - HER models don't support has_and_belongs_to_many association.
 
-#### Polymorphic Association
+### Polymorphic Association
 
 - For ActiveRecord model, it looks like:
 
@@ -663,7 +701,7 @@ Wallaby pre-generates metadata for association fields that can be found in the m
 
 - HER models don't support polymorphic association.
 
-### index_field_names
+## index_field_names
 
 `index_field_names` is used to get the configured fields displayed on index page. For example, for model `Product`:
 
@@ -715,7 +753,7 @@ end
 
 Then frontend will render the fields in array order accordingly.
 
-### show_field_names
+## show_field_names
 
 `show_field_names` is used to get the configured fields displayed on show page. For example, for model `Product`:
 
@@ -768,7 +806,7 @@ end
 
 Then frontend will render the fields in array order accordingly.
 
-### form_field_names
+## form_field_names
 
 `form_field_names` is used to get the configured fields displayed on form (`new`/`edit`) page. For example, for model `Product`:
 
@@ -829,13 +867,13 @@ end
 
 Then frontend will render the fields in array order accordingly.
 
-## Create Filters
+# Create Filters
 
 Filters are predefined queries on index page that allows user to click.
 
 > Learn more about how filter is working behind the scene, take a look at the [Servicer](servicer.md)
 
-### With Existing Named Scope
+## With Existing Named Scope
 
 If there is existing scope, such as:
 
@@ -860,7 +898,7 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-### With Custom Scape
+## With Custom Scape
 
 Defining a filter with custom scope in a decorator is easy as in `ActiveRecord` model:
 
@@ -873,11 +911,11 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-### Options
+## Options
 
 Here are the options for defining a filter
 
-#### :scope filter option
+### :scope filter option
 
 `:scope` option is to customize the query. It accepts the following values:
 
@@ -904,7 +942,7 @@ Here are the options for defining a filter
   end
   ```
 
-#### :label
+### :label
 
 `:label` is to customize the text that user reads on the index page. For example, to configure the `red` filter's label as `Hot Red Products`:
 
@@ -915,7 +953,7 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-#### :default
+### :default
 
 `:default` will mark the query to be run when user first time landing on the page. To customize it, it goes:
 
@@ -926,9 +964,9 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-## Misc Customization
+# Misc Customization
 
-### to_label
+## to_label
 
 To customize the title of a resource used by show page and form autocomplete:
 
@@ -941,7 +979,7 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-### primary_key
+## primary_key
 
 If a model has no primary key, in order to make show/edit page working properly, it's required to specify the field to be used as primary key. For example:
 

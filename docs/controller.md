@@ -18,6 +18,11 @@ Starting with:
 
 - [Declaration](#declaration)
 
+Configuration can be set for:
+
+- [abstract!](#abstract) - flagging as abstract base class.
+- [model_class](#model_class) - specifying the model class.
+
 The following resourcesful actions can be customized:
 
 - [index](#index) - collection listing page.
@@ -35,11 +40,6 @@ Also it is possible to:
 Customize non-resourcesful actions:
 
 - [home](#home) (5.1.0) - to customize landing page.
-
-Apart from the above, configuration can be set for:
-
-- [abstract!](#abstract) - flagging the controller as abstract.
-- [model_class](#model_class) - specifying the model class.
 
 More advanced configuration:
 
@@ -71,6 +71,39 @@ end
 > NOTE: although it inherits from `Admin::ApplicationController`, it is possible to access to all methods in `::ApplicationController`. Because `Admin::ApplicationController` inherits from `ApplicationController` unless this is changed in Wallaby [authentication configuration](configuration.md#authentication).
 
 If `ProductsController` is taken, it is still possible to use another name (e.g. `Admin::ProductsController`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
+
+## abstract!
+
+All controllers will be preloaded and processed by Wallaby in order to build up the mapping between controllers and models. If the controller is considered not to be proceesed, it can be flagged by using `abstract!`:
+
+```ruby
+# app/controllers/admin/special_controller.rb
+class Admin::SpecialController < Admin::ApplicationController
+  abstract!
+end
+```
+
+## model_class
+
+According to Wallaby's [Controller Naming Convention](convention.md#controller), if a custom controller can not reflect the assication to the correct model, for example, as `Admin::ProductsController` to `Product`, it is required to specify the model class in the controller as below:
+
+```ruby
+# app/controllers/admin/products_controller.rb
+class Admin::ProductsController < Admin::ApplicationController
+  self.model_class = Product
+end
+```
+
+For version below 5.2.0, it is:
+
+```ruby
+# app/controllers/admin/products_controller.rb
+class Admin::ProductsController < Admin::ApplicationController
+  def self.model_class
+    Product
+  end
+end
+```
 
 # Basic Customization
 
@@ -438,37 +471,5 @@ It can be completely replaced like:
 ```ruby
 def home
   @reports = build_reports
-end
-```
-
-## abstract!
-
-All controllers will be preloaded and processed by Wallaby in order to build up the mapping between controllers and models. If the controller is considered not to be proceesed, it can be flagged by using `abstract!`:
-
-```ruby
-class Admin::SpecialController < Admin::ApplicationController
-  abstract!
-end
-```
-
-## model_class
-
-According to Wallaby's [Controller Naming Convention](convention.md#controller), if a custom controller can not reflect the assication to the correct model, for example, as `Admin::ProductsController` to `Product`, it is required to specify the model class in the controller as below:
-
-```ruby
-# app/controllers/admin/products_controller.rb
-class Admin::ProductsController < Admin::ApplicationController
-  self.model_class = Product
-end
-```
-
-For version below 5.2.0, it is:
-
-```ruby
-# app/controllers/admin/products_controller.rb
-class Admin::ProductsController < Admin::ApplicationController
-  def self.model_class
-    Product
-  end
 end
 ```
