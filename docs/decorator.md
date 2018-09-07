@@ -23,6 +23,7 @@ Configuration can be set for:
 
 Accessing helper methods:
 
+- [model_class](#model_class) - accessing model class.
 - [resource](#resource) - to access the resource object.
 - [h](#h) (since 5.2.0) - to access the Rails and Wallaby helpers.
 

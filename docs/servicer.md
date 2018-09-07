@@ -25,8 +25,8 @@ Configuration can be set for:
 
 Accessing helper methods:
 
-- [authorizer](#authorizer) (since 5.2.0) - to access authorizer which provides functions for authorization.
-- [user](#user) (since 5.2.0) - to access user object.
+- [user](#user) (since 5.2.0) - accessing user object.
+- [authorizer](#authorizer) (since 5.2.0) - accessing authorizer which provides functions for authorization.
 
 Customizing CRUD operations:
 
@@ -35,7 +35,7 @@ Customizing CRUD operations:
 - [paginate](#paginate) - paginating records.
 - [new](#new) - initializing the new resource object for form to use.
 - [find](#find) - finding the record.
-- [assign](#assign) - (since 5.2.0) assigning permitted params to the resource.
+- [assign](#assign) (since 5.2.0) - assigning permitted params to the resource.
 - [create](#create) - creating record.
 - [update](#update) - updating record.
 - [destroy](#destroy) - deleting record.
@@ -49,7 +49,7 @@ Let's see how a servicer can be created so that Wallaby knows its existence.
 Similar to the way in Rails, create a custom servicer for model `Product` inheriting from `Admin::ApplicationServicer` (the base servicer mentioned [above](#servicer)) as below:
 
 ```ruby
-# app/decorators/products_decorator.rb
+# app/servicers/product_servicer.rb
 class ProductServicer < Admin::ApplicationServicer
 end
 ```
@@ -91,12 +91,6 @@ end
 
 # Helper Methods
 
-## authorizer
-
-> since 5.2.0
-
-It's the instance of [Model Authorizer](authorizer.md) that does authorization for the model and the action
-
 ## user
 
 > since 5.2.0
@@ -114,11 +108,17 @@ class Admin::ProductServicer < Admin::ApplicationServicer
 end
 ```
 
+## authorizer
+
+> since 5.2.0
+
+It's the instance of [Model Authorizer](authorizer.md) that does authorization for the model and the action
+
 # CRUD
 
 ## permit
 
-This is the template method to whitelist parameters for mass assignment automatically. The permitted params works differently for different ORMs, for example:
+This is the template method to whitelist parameters for mass assignment automatically. It works differently for different ORMs, for example:
 
 - ActiveRecord
 
