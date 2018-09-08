@@ -54,6 +54,10 @@ More advanced configuration:
 - [application_paginator](advanced_controller.md#application_paginator) (since 5.2.0) - specifying the base model paginator class.
 - [model_paginator](advanced_controller.md#model_paginator) (since 5.2.0) - specifying the model paginator class.
 
+Other customization:
+
+- [View Helpers](#view-helpers)
+
 ## Declaration
 
 > Read more at [Controller Naming Convention](convention.md#controller)
@@ -471,5 +475,25 @@ It can be completely replaced like:
 ```ruby
 def home
   @reports = build_reports
+end
+```
+
+# Others
+
+## View Helpers
+
+Developing view helpers is the same as developing Rails view helpers:
+
+```ruby
+# app/helpers/admin/products_helper.rb
+class Admin::ProductsHelper
+  def custom_method
+    # imagine it's doing something
+  end
+end
+
+# app/controllers/admin/products_controller.rb
+class Admin::ProductsController < Admin::ApplicationController
+  self.model_class = Product
 end
 ```

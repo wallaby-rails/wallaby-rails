@@ -11,7 +11,7 @@
 - [Customizing how data can be accessed with Authorizer](authorizer.md)
 - [Customizing data pagination with Paginator](paginator.md)
 - [Customizing the frontend design (html/js/css)](frontend.md)
-- [Writing specs for the customization](test.md)
+- [Writing specs for customization](test.md)
 
 # Learn more
 
