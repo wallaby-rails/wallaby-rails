@@ -1,6 +1,6 @@
 module Wallaby
   # This is a collection of the helper methods that overrides the rails methods
-  module RailsOverridenMethods
+  module RailsOverriddenMethods
     protected
 
     # Override {https://github.com/rails/rails/blob/master/actionview/lib/action_view/view_paths.rb

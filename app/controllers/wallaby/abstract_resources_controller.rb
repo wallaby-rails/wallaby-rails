@@ -12,7 +12,7 @@ module Wallaby
     include Resourcable
     include Servicable
     include Themeable
-    include RailsOverridenMethods
+    include RailsOverriddenMethods
 
     self.responder = ResourcesResponder
     respond_to :html

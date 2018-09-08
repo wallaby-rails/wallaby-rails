@@ -8,8 +8,9 @@ module Wallaby
       # @see Wallaby::ModelServiceProvider#permit
       # @param params [ActionController::Parameters]
       # @return [ActionController::Parameters] whitelisted parameters
-      def permit(params)
-        params.require(param_key).permit permitted_fields
+      def permit(params, action, authorizer)
+        authorized_fields = authorizer.permit_params action, @model_class
+        params.require(param_key).permit(authorized_fields || permitted_fields)
       end
 
       # No general practices of how ordering and searching can be done in Her.
