@@ -11,3 +11,4 @@ spec/dummy/.sass-cache
 .DS_Store
 cc-test-reporter
 coverage/
+deep_cover/

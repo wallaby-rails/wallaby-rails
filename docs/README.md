@@ -15,11 +15,11 @@
 
 # Learn more
 
-- [How Wallaby works](how_wallaby_works.md)
+- [How Wallaby works](how_wallaby_works.md) (WIP)
 
 # To extend Wallaby
 
-- [Creating and applying a theme](theme.md)
-- [Implementing ORM adaptor](orm_adaptor.md)
-- [Implementing authorization adaptor](authorization_adaptor.md)
-- [Implementing pagination adaptor](pagination_adaptor.md)
+- [Creating and applying a theme](theme.md) (WIP)
+- [Implementing ORM adaptor](orm_adaptor.md) (WIP)
+- [Implementing authorization adaptor](authorization_adaptor.md) (WIP)
+- [Implementing pagination adaptor](pagination_adaptor.md) (WIP)

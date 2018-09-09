@@ -7,7 +7,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2abd1165bdae523dd2e1/test_coverage)](https://codeclimate.com/github/reinteractive/wallaby/test_coverage)
 [![Inch CI](https://inch-ci.org/github/reinteractive/wallaby.svg?branch=master)](https://inch-ci.org/github/reinteractive/wallaby)
 
-Wallaby is a Rails engine to manage data. It can be easily and highly customized in a Rails way using decorators, controllers and views.
+Wallaby is a Rails engine for managing data. It can be easily and highly customized in a Rails way using decorators, controllers and views.
 
 Below is animated screenshots of Wallaby:
 
