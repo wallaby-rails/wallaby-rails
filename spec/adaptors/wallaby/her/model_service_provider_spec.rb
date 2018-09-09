@@ -5,13 +5,14 @@ describe Wallaby::Her::ModelServiceProvider do
     subject { described_class.new model_class, model_decorator }
     let(:model_class) { Her::Product }
     let(:model_decorator) { Wallaby::Her::ModelDecorator.new model_class }
-    let(:authorizer) { Ability.new nil }
+    let(:ability) { Ability.new nil }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new cancancan_context(ability), model_class }
 
     describe '#permit' do
       it 'returns the permitted params' do
-        expect { subject.permit(parameters) }.to raise_error ActionController::ParameterMissing
-        expect { subject.permit(parameters(her_product: {})) }.to raise_error ActionController::ParameterMissing
-        expect(subject.permit(parameters(her_product: { name: 'some string' }))).to eq parameters!(name: 'some string')
+        expect { subject.permit(parameters, :index, authorizer) }.to raise_error ActionController::ParameterMissing
+        expect { subject.permit(parameters(her_product: {}), :index, authorizer) }.to raise_error ActionController::ParameterMissing
+        expect(subject.permit(parameters(her_product: { name: 'some string' }), :index, authorizer)).to eq parameters!(name: 'some string')
       end
     end
 

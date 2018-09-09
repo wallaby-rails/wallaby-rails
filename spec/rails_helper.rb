@@ -1,9 +1,13 @@
-# NOTE: simplecov has to stay at the top of everything else to work properly.
-require 'simplecov'
-SimpleCov.minimum_coverage 100
-SimpleCov.start 'rails' do
-  add_filter 'wallaby/version'
-  add_filter 'wallaby/engine'
+if ENV['DEEP']
+  require 'deep-cover'
+else
+  # NOTE: simplecov has to stay at the top of everything else to work properly.
+  require 'simplecov'
+  SimpleCov.minimum_coverage 100
+  SimpleCov.start 'rails' do
+    add_filter 'wallaby/version'
+    add_filter 'wallaby/engine'
+  end
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
