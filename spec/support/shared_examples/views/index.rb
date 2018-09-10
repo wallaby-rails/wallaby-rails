@@ -14,7 +14,7 @@ RSpec.shared_examples 'index partial' do |field_name, options = {}|
 
   unless options[:skip_general] || options[:skip_all]
     it 'renders the index partial' do
-      expect(rendered).to include h(expected_value.to_s)
+      expect(rendered).to include(options[:skip_escaping] ? expected_value.to_s : h(expected_value.to_s))
     end
   end
 
