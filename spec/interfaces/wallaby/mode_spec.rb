@@ -14,7 +14,7 @@ describe Wallaby::Mode do
         it 'raises invalid error' do
           stub_const "#{described_class}::#{method_class}", Class.new
 
-          expect { described_class.send method_id }.to raise_error Wallaby::InvalidError, "#{described_class}::#{method_class} must inherit Wallaby::#{method_class}."
+          expect { described_class.send method_id }.to raise_error Wallaby::InvalidError, "#{described_class}::#{method_class} must inherit from Wallaby::#{method_class}."
         end
       end
     end

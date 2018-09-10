@@ -1,16 +1,27 @@
-## Write Test for the Customization
+# Rspec Test
 
-In some way, Wallaby is just an app that autocomplete the controller actions and utilise the Template Inheritance to render type partials based on the metadata from decorators. Therefore, testing the customization will be possible and simple. However, there are still a few things that should be aware of before writing the test:
+Every customization deserves a test.
 
-### Test Controller
+In general, Wallaby itself is a typical Rails application. Therefore, writing specs for customization is similar to the way how general Rails spec is written with a few extra setups:
+
+- [Controller](#controller) - writing controller specs.
+  - [Request](#request) - writing request specs.
+- [Decorator](#decorator) - writing specs for decorator.
+- [Servicer](#servicer) - writing specs for servicer.
+- [Authorizer](#authorizer) (since 5.2.0) - writing specs for authorizer.
+- [Paginator](#paginator) (since 5.2.0) - writing specs for paginator.
+- [Type Partial](#type-partial) - writing specs for partials (e.g. `index`/`show`).
+  - [Form Type Partial](#form-type-partial) - writing specs for form partials (e.g. `new`/`create`/`edit`/`update`).
+
+## Controller
 
 Because Wallaby delegates the request dispatching to a router instance, there is no named route generated. Therefore, it is required to draw routes before testing the actions and clear the routes after the test as below:
 
 ```ruby
 describe Admin::ProductsController do
-  # After 5.1.6 : begin
+  # Since 5.1.6 : begin
   Wallaby::TestUtils.around_crud(self)
-  # After 5.1.6 : end
+  # Since 5.1.6 : end
 
   # Before 5.1.6 : begin
   before do
@@ -50,6 +61,11 @@ describe Admin::ProductsController do
     # testify against expectation and etc.
   end
 
+  it 'performs edit' do
+    get :edit, params: { resources: 'products', id: product.id }
+    # testify against expectation and etc.
+  end
+
   it 'performs update' do
     patch :update, params: { resources: 'products', products: { name: 'iPhone' } }
     # testify against expectation and etc.
@@ -62,9 +78,52 @@ describe Admin::ProductsController do
 end
 ```
 
-### Test Decorator
+### Request
 
-Decorator is simply a wrapper that holds metadata. Therefore, it is as simple as below:
+For request specs, there is no need to do the same routing setup like controller specs. So it goes as usual:
+
+```ruby
+describe 'Request spec for Wallaby customization' do
+  it 'performs index' do
+    get '/admin/products'
+    # testify against expectation and etc.
+  end
+
+  it 'performs show' do
+    get "/admin/products/#{product.id}"
+    # testify against expectation and etc.
+  end
+
+  it 'performs new' do
+    get '/admin/products/new'
+    # testify against expectation and etc.
+  end
+
+  it 'performs create' do
+    post '/admin/products', params: { products: { name: 'iPhone' } }
+    # testify against expectation and etc.
+  end
+
+  it 'performs edit' do
+    get "/admin/products/#{product.id}/edit"
+    # testify against expectation and etc.
+  end
+
+  it 'performs update' do
+    patch "/admin/products/#{product.id}", params: { products: { name: 'iPhone' } }
+    # testify against expectation and etc.
+  end
+
+  it 'performs destroy' do
+    destroy "/admin/products/#{product.id}"
+    # testify against expectation and etc.
+  end
+end
+```
+
+## Decorator
+
+Decorator is simply a wrapper that holds metadata. Therefore, spec is as simple as below:
 
 ```ruby
 describe ProductDecorator do
@@ -75,9 +134,23 @@ describe ProductDecorator do
 end
 ```
 
-### Test Servicer
+## Servicer
 
-Servicer implements the persistence logics. The only thing to be aware of is the intiailization:
+Servicer implements the persistence logics. The only thing to be set up is the intiailization:
+
+```ruby
+describe ProductServicer, type: :helper do
+  subject { described_class.new model_class, authorizer }
+  let(:model_class) { Product }
+  let(:authorizer) { Admin::ApplicationAuthorizer.new helper, model_class }
+
+  it 'performs actions'
+end
+```
+
+> NOTE: helper is needed to provide the context for authorizer
+
+For version 5.2 below:
 
 ```ruby
 describe ProductServicer do
@@ -88,9 +161,39 @@ describe ProductServicer do
 end
 ```
 
-### Test Type Partials
+## Authorizer
 
-- for `index`/`show` partials
+Authorizer can be tested when it's customized for other authorization framework. The only thing to be set up is the intiailization:
+
+```ruby
+describe Admin::ApplicationAuthorizer, type: :helper do
+  subject { described_class.new helper, model_class }
+  let(:model_class) { Product }
+
+  it 'performs authorization tests'
+end
+```
+
+> NOTE: helper is needed to provide the context for authorizer
+
+## Paginator
+
+Paginator can be tested when it's customized for the models. The only thing to be set up is the intiailization:
+
+```ruby
+describe Admin::ApplicationPaginator do
+  subject { described_class.new model_class, collection, params }
+  let(:model_class) { Product }
+  let(:collection) { Product.active }
+  let(:params) { ActionController::Parameters.new page: 8, per: 100 }
+
+  it 'performs pagination tests'
+end
+```
+
+## Type Partial
+
+For `index`/`show` partials:
 
 ```ruby
 describe 'admin/products/index/_markdown.html.erb', type: :view do
@@ -110,7 +213,9 @@ describe 'admin/products/index/_markdown.html.erb', type: :view do
 end
 ```
 
-- for `form` partials
+### Form Type Partial
+
+For `form` partials:
 
 ```ruby
 describe 'admin/products/form/_markdown.html.erb', type: :view do

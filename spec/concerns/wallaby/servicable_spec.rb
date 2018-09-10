@@ -33,7 +33,7 @@ describe Wallaby::ResourcesController, type: :controller do
         expect(subclass1.application_servicer).to eq application_servicer
         expect(subclass2.application_servicer).to eq application_servicer
 
-        expect { subclass1.application_servicer = another_servicer }.to raise_error ArgumentError, 'AppleServicer does not inherit AnotherServicer.'
+        expect { subclass1.application_servicer = another_servicer }.to raise_error ArgumentError, 'AppleServicer does not inherit from AnotherServicer.'
       end
     end
   end

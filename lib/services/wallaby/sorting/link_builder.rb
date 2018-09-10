@@ -43,8 +43,7 @@ module Wallaby
       #   whether it's non-association field or custom sorting field
       def sortable?(field_name, metadata)
         # for origin fields || custom fields
-        @model_decorator.fields[field_name] && !metadata[:sort_disabled] \
-          || metadata[:sort_field_name]
+        !metadata[:sort_disabled] && (@model_decorator.fields[field_name] || metadata[:sort_field_name])
       end
     end
   end

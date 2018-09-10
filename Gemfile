@@ -15,12 +15,13 @@ gemspec
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'cancancan'
 gem 'her'
-gem 'pundit'
+gem 'pundit', '< 2.0.0'
 gem 'rails', '~>5.0'
 
 group :development, :test do
   gem 'binding_of_caller'
   gem 'byebug'
+  gem 'deep-cover'
   gem 'devise'
   gem 'ffaker'
   gem 'mysql2'

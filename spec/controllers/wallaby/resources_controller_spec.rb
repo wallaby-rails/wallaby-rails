@@ -101,7 +101,6 @@ describe Wallaby::ResourcesController do
         model_servicer = controller.send :current_servicer
         expect(model_servicer).to be_a Wallaby::ModelServicer
         expect(assigns(:current_servicer)).to eq model_servicer
-        expect(model_servicer).to eq controller.send(:current_model_service)
       end
     end
 

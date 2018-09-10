@@ -44,8 +44,9 @@ module Wallaby
 
     # Model authorizer for current modal class. It comes from:
     #
-    # - controller configuration {Wallaby::Servicable::ClassMethods#model_authorizer .model_authorizer}
-    # - a generic authorizer based on {Wallaby::Servicable::ClassMethods#application_authorizer .application_authorizer}
+    # - controller configuration {Wallaby::Authorizable::ClassMethods#model_authorizer .model_authorizer}
+    # - a generic authorizer based on
+    #   {Wallaby::Authorizable::ClassMethods#application_authorizer .application_authorizer}
     # @return [Wallaby::ModelAuthorizer] model authorizer
     def current_authorizer
       @current_authorizer ||= begin

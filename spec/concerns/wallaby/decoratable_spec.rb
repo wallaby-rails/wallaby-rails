@@ -33,7 +33,7 @@ describe Wallaby::ResourcesController, type: :controller do
         expect(subclass1.application_decorator).to eq application_decorator
         expect(subclass2.application_decorator).to eq application_decorator
 
-        expect { subclass1.application_decorator = another_decorator }.to raise_error ArgumentError, 'AppleDecorator does not inherit AnotherDecorator.'
+        expect { subclass1.application_decorator = another_decorator }.to raise_error ArgumentError, 'AppleDecorator does not inherit from AnotherDecorator.'
       end
     end
   end

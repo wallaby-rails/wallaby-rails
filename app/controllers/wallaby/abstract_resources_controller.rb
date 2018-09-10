@@ -12,16 +12,13 @@ module Wallaby
     include Resourcable
     include Servicable
     include Themeable
+    include RailsOverriddenMethods
 
-    include RailsOverridenMethods
-    include ResourcesHelperMethods
     self.responder = ResourcesResponder
     respond_to :html
     respond_to :json
     respond_to :csv, only: :index
     helper ResourcesHelper
-    helper_method :resource_id, :resource, :collection,
-                  :current_model_decorator, :authorizer
     before_action :authenticate_user!, except: [:status]
 
     # Landing page, it does nothing but just rendering home template. This action can be replaced completely:
@@ -242,16 +239,6 @@ module Wallaby
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
       @resource_params ||= current_servicer.permit params, action_name
-    end
-
-    # To paginate the collection but only when either `page` or `per` param is given,
-    # or HTML response is requested
-    # @see Wallaby::ModelServicer#paginate
-    # @param query [#each]
-    # @return [#each]
-    def paginate(query)
-      paginatable = params[:page] || params[:per] || request.format.symbol == :html
-      paginatable ? current_servicer.paginate(query, params) : query
     end
   end
 end

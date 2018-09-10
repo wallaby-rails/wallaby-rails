@@ -47,3 +47,6 @@ Style/FormatStringToken:
 Layout/EmptyLinesAroundArguments:
   Exclude:
     - 'spec/**/*_spec.rb'
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
