@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     class ModelServiceProvider
-      # @private
+      # @!visibility private
       # Validator
       class Validator
         # @param model_decorator [Wallaby::ModelDecorator]

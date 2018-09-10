@@ -1,19 +1,8 @@
-## Decorator
+# Decorator
 
-The purposes of using a decorator are:
-- [Basic Customization](#basic-customization): to customize how resource should be displayed on index/show/form page via managing metadata.
-- [Advanced Customization](#advanced-customization): to encapsulate view logics for a model. for example, to define a `full_name` method to concatenate `first_name` and `last_name` together and get it to be displayed.
-- [More Metadata Options](#more-metadata-options)
-- [Filters](#filters): predefined filters
-  - [Use Existing Named Scope](#use-existing-named-scope)
-  - [Define a New Scope](#define-a-new-scope)
-  - [More Filter Options](#more-filter-options)
-- [Misc Customization](misc-customization)
-  - [`to_label`](#to_label)
-  - [`primary_key`](#primary_key)
+Apart from wrapping a record object, decorator is used to hold view metadata for index, show and form pages.
 
-Before we begin, it's always recommended to create a base decorator class `Admin::ApplicationDecorator` as below,
-so that developers have a better control of global changes:
+First of all, it's always recommended to create a base decorator class `Admin::ApplicationDecorator` as below, so that devs can have better control of developing global changes/functions:
 
 ```ruby
 # app/decorators/admin/application_decorator.rb
@@ -21,19 +10,105 @@ class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
 end
 ```
 
-> see [Mapping](configuration.md#decorator) if `Admin::ApplicationDecorator` is taken for other purpose.
+> see [Mapping - resource_decorator](configuration.md#resource_decorator) if `Admin::ApplicationDecorator` is taken for other purpose.
 
-### Declaration
+Starting with:
+
+- [Declaration](#declaration)
+
+Configuration can be set for:
+
+- [abstract!](#abstract) - flagging as abstract base class.
+- [model_class](#model_class) - specifying the model class.
+
+Accessing helper methods:
+
+- [model_class](#model_class) - accessing model class.
+- [resource](#resource) - to access the resource object.
+- [h](#h) (since 5.2.0) - to access the Rails and Wallaby helpers.
+
+Configuring the metadata for fields:
+
+- [index_fields](#index_fields) - metadata for index page.
+  - [:sort_field_name](#sort_field_name) - specifying the field name to sort.
+  - [:sort_disabled](#sort_disabled) (since 5.2.0) - enable/disable sorting of a field.
+- [show_fields](#show_fields) - metadata for show page.
+- [form_fields](#form_fields) - metadata for new/edit page.
+
+Common options for metadata:
+
+- [:type](#type-metadata-option) - mandatory option connecting the [type partial](view.md#type-partial)
+- [:label](#label-metadata-option) - customizing the text for the field
+
+Configuring the fields to display:
+
+- [index_field_name](#index_field_name) - fields to display for index page.
+- [show_field_name](#show_field_name) - fields to display for show page.
+- [form_field_name](#form_field_name) - fields to display for new/edit page.
+
+Defining filters to allow access to fixed queries:
+
+- [With existing named scope](#with-existing-named-scope)
+- [With custom scope](#with-custom-scope)
+
+Other common options for a filter:
+
+- [:scope](#scope-filter-option) - customizing the query
+- [:label](#label-filter-option) - customizing the text for the field
+- [:default](#default-filter-option) - specifying the default query used on index page.
+
+Misc customization:
+
+- [to_label](#to_label) - customizing the title of a resource.
+- [primary_key](#primary_key) - specifying the field to be the primary key used in query.
+
+Read more for typical pre-generated metadata values for associations of `ActiveRecord`:
+
+- [belongs_to](#belongs_to)
+- [has_one](#has_one)
+- [has_many](#has_many)
+- [has_and_belongs_to_many](#has_and_belongs_to_many)
+- [Polymorphic Association](#polymorphic-association)
+
+## Declaration
+
+> Read more at [Decorator Naming Convention](convention.md#decorator)
+
+Let's see how a decorator can be created so that Wallaby knows its existence.
+
+Similar to the way in Rails, create a custom decorator for model `Product` inheriting from `Admin::ApplicationDecorator` (the base decorator mentioned [above](#decorator)) as below:
 
 ```ruby
 # app/decorators/product_decorator.rb
-
-# NOTE: Product in ProductDecorator must be singular
 class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-If the name `ProductDecorator` is taken, it is possible to use another name, however the method `self.model_class` must be defined to specify the model as the example below:
+If `ProductDecorator` is taken, it is still possible to use another name (e.g. `Admin::ProductDecorator`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
+
+## abstract!
+
+All decorators will be preloaded and processed by Wallaby in order to build up the mapping between decorators and models. If the decorator is considered not to be proceesed, it can be flagged by using `abstract!`:
+
+```ruby
+# app/decorators/admin/special_decorator.rb
+class Admin::SpecialDecorator < Admin::ApplicationDecorator
+  abstract!
+end
+```
+
+## model_class
+
+According to Wallaby's [Decorator Naming Convention](convention.md#decorator), if a custom decorator can not reflect the assication to the correct model, for example, as `Admin::ProductDecorator` to `Product`, it is required to specify the model class in the decorator as below:
+
+```ruby
+# app/decorators/admin/product_decorator.rb
+class Admin::ProductDecorator < Admin::ApplicationDecorator
+  self.model_class = Product
+end
+```
+
+For version below 5.2.0, it is:
 
 ```ruby
 # app/decorators/admin/product_decorator.rb
@@ -44,116 +119,776 @@ class Admin::ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-### Basic Customization
+# Helper Methods
 
-There are two things that can be done with the metadata:
+The followings are the helper methods that are available in decorator instance:
 
-- change what fields to be displayed on index/show/form page. You will need to work on `index_field_names`/`show_field_names`/`form_field_names` respectively. The following example focuses on `index` page:
+## resource
 
-    ```ruby
-      class ProductDecorator < Admin::ApplicationDecorator
-        # Till here, Wallaby has already generated a list of field names
-        # from existing database table columns or ORM,
-        # and it's an array of string/symbol.
-        # Therefore, you can do array operations on it.
-        # For example, insert a field to the end of the list.
-        self.index_field_names << 'updated_at'
-
-        # Or it can be replaced with a brand new array.
-        # Note that fields will be rendered in the array sequence on the frontend.
-        self.index_field_names = ['id', 'name', 'price', 'created_at']
-      end
-    ```
-
-    > NOTE: changing the `index_field_names` will not only impact how fields are displayed, but also what fields can be used for keyword search on both index page and autocomplete function. If a field will be used for autocomplete function, make sure it is listed in `index_field_names`.
-
-- update the metadata information of a field.
-
-    ```ruby
-      class ProductDecorator < Admin::ApplicationDecorator
-        # Till here, Wallaby has already generated the metadata for existing database columns or ORM.
-        # Basically, metadata is just a hash that has minimum values of `:type`.
-        # For example, you can update the label
-        self.index_fields[:price][:label] = 'RRP'
-
-        # Or you can update its type to `raw`
-        # `raw` is built-in type to render HTML instead of escaping the HTML tags and entities.
-        self.index_fields[:description][:type] = 'raw'
-
-        # Or you can update its type to a custom one `custom_description`
-        # If new type `custom_description` is assigned, a type partial created as
-        # e.g. `app/views/admin/products/show/_custom_description.html.erb` will be required
-        # in order to make this field rendered properly as expected:
-        self.show_fields[:description][:type] = 'custom_description'
-      end
-    ```
-
-    > Please check [View - Types](view.md#types) for full list of built-in types that Wallaby supports.
-    > and check [View](view.md) to learn how partials can be created.
-
-
-### Advanced Customization
-
-As decorator is view-model for a resource object, it is possible to create custom method as a new field to be displayed:
+Decorator wraps the resource object. By default, it's possible to access resource object's public methods directly:
 
 ```ruby
-class ProductDecorator < Admin::ApplicationDecorator
-  # `name` and `uid` are methods of `Product` object which decorator has delegated to.
-  # or it is possible to access these methods by `resource.name` and `resource.uid`
-  def slug
-    [name, uid].join
+# app/models/product.rb
+class Product < ApplicationRecord
+  def amount
+    rrp * discount
   end
 
-  # After this, two steps need to be done:
-  # 1. add metadata for the the desired page (index, show or form page)
-  # to specify how this field should be rendered.
-  # NOTE: `type` is the minimum setup.
-  self.index_fields[:slug] = {
-    type: 'string'
-  }
+  def currency
+    currency_of country
+  end
+end
 
-  # 2. add it to the field name list so that it can be displayed on index page.
+# app/decorators/product_decorator.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def amount_in_currency
+    "#{ currency } #{ amount }"
+  end
+end
+```
+
+In above example, `currency` and `amount` are `Product`'s instance methods, and they can be accessed directly in `ProductDecorator`.
+
+However, it's possible to access to the resource object on demand:
+
+```ruby
+# app/decorators/product_decorator.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def amount_in_currency
+    "#{ resource.currency } #{ resource.amount }"
+  end
+end
+```
+
+## h
+
+> since 5.2.0
+
+It's possible to access all Rails and Wallaby helpers via `h`, for example:
+
+```ruby
+# app/decorators/product_decorator.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def amount_in_currency
+    h.number_to_currency resource.amount
+  end
+end
+```
+
+# Metadata
+
+Decorator uses pre-generated class attributes to store the metadata to be used on the index/show/form page.
+
+> NOTE: Decorator works the same for different ORMs including `ActiveRecord`, `HER` and etc, the only difference is the metadata that Wallaby pre-generates for different ORMs.
+
+## index_fields
+
+`index_fields` is used for storing metadata of different (origin/custom) fields for index page. For example, for model `Product`:
+
+```ruby
+# app/models/product.rb
+class Product < ApplicationRecord
+  has_many :order_items, class_name: Order::Item.name
+  has_many :orders, through: :order_items
+end
+
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+end
+
+# NOTE: Wallaby has already generated a set of metadata using the information
+# from model `Product`.
+ProductDecorator.index_fields
+# It looks like =>
+# {
+#   'id' => { 'type' => 'integer', 'label' => 'Id' },
+#   'description' => { 'type' => 'text', 'label' => 'Description' },
+#   'order_items' => {
+#     'type' => 'has_many', 'label' => 'Order items',
+#     'is_association' => true, 'sort_disabled' => true, 'is_through' => false,
+#     'has_scope' => false, 'foreign_key' => 'order_item_ids',
+#     'class' => Order::Item
+#   },
+#   'orders' => {
+#     'type' => 'has_many', 'label' => 'Orders',
+#     'is_association' => true, 'sort_disabled' => true, 'is_through' => true,
+#     'has_scope' => false, 'foreign_key' => 'order_ids', 'class' => Order
+#   }
+# }
+```
+
+> NOTE: `index_fields` has the same values as `show_fields` and `form_fields` at the very first beginning. However, changing any of the `index_fields`, `show_fields` or `form_fields` will not update the others.
+
+It's possible to update existing metadata for origin `ActiveRecord`/`HER` fields. For example, to change `description`'s type to built-in type `:raw`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.index_fields[:description][:type] = :raw
+end
+```
+
+Or change `description`'s type to custom type `:custom_description` and create the required type partial accordingly:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.index_fields[:description][:type] = :custom_description
+end
+```
+
+In order for custom type `:custom_description` to work, a type partial must be created as below:
+
+```erb
+<%# app/views/admin/products/index/_custom_description.html.erb %>
+<code><%= raw value %></code>
+```
+
+> See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.
+
+It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def slug
+    # e.g. lev-28jn_harman-nude-leather-pointed-tue-stiletto-heel
+    [uid, name].join('_').downcase.dasherize
+  end
+
+  # NOTE: as minimum requirement, custom metadata must contain at least a value
+  # for `type`.
+  self.index_fields[:slug] = { type: 'string' }
+end
+```
+
+> See [index_field_names](#index_field_names) to learn how to make a custom field (e.g. `slug`) appear on index page.
+
+### :sort_field_name
+
+> NOTE: this option currently only works for `ActiveRecord` models, configuring it for `HER` models will not have any effects.
+
+`:sort_field_name` is a setting that allows dev to define what field to be sorted when sorting is clicked on index page.
+
+Take `slug` as example, `slug` is not an origin database field, therefore, by default, `slug` is not sortable. But to make this field sortable, it goes:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  # `name` is origin database field
+  self.index_fields[:slug][:sort_field_name] = 'name'
+end
+```
+
+### :sort_disabled
+
+`:sort_disabled` is a setting that disable/enable sorting for a field on index page. It defaults to `nil`, and its valid values are `nil`, `false` and `true`.
+
+Take the `name` as example, to disable sorting for this field, it goes:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.index_fields[:name][:sort_disabled] = true
+end
+```
+
+## show_fields
+
+`show_fields` is used for storing metadata of different (origin/custom) fields for show page. For example, for model `Product`:
+
+```ruby
+# app/models/product.rb
+class Product < ApplicationRecord
+  has_many :order_items, class_name: Order::Item.name
+  has_many :orders, through: :order_items
+end
+
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+end
+
+# NOTE: Wallaby has already generated a set of metadata using the information
+# from model `Product`.
+ProductDecorator.show_fields
+# It looks like =>
+# {
+#   'id' => { 'type' => 'integer', 'label' => 'Id' },
+#   'description' => { 'type' => 'text', 'label' => 'Description' },
+#   'order_items' => {
+#     'type' => 'has_many', 'label' => 'Order items',
+#     'is_association' => true, 'sort_disabled' => true, 'is_through' => false,
+#     'has_scope' => false, 'foreign_key' => 'order_item_ids',
+#     'class' => Order::Item
+#   },
+#   'orders' => {
+#     'type' => 'has_many', 'label' => 'Orders',
+#     'is_association' => true, 'sort_disabled' => true, 'is_through' => true,
+#     'has_scope' => false, 'foreign_key' => 'order_ids', 'class' => Order
+#   }
+# }
+```
+
+> NOTE: `show_fields` has the same values as `index_fields` and `form_fields` at the very first beginning. However, changing any of the `index_fields`, `show_fields` or `form_fields` will not update the others.
+
+It's possible to update existing metadata for origin `ActiveRecord`/`HER` fields. For example, to change `description`'s type to built-in type `:raw`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.show_fields[:description][:type] = :raw
+end
+```
+
+Or change `description`'s type to custom type `:custom_description` and create the required type partial accordingly:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.show_fields[:description][:type] = :custom_description
+end
+```
+
+In order for custom type `:custom_description` to work, a type partial must be created as below:
+
+```erb
+<%# app/views/admin/products/show/_custom_description.html.erb %>
+<code><%= raw value %></code>
+```
+
+> See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.
+
+It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def slug
+    # e.g. lev-28jn_harman-nude-leather-pointed-tue-stiletto-heel
+    [uid, name].join('_').downcase.dasherize
+  end
+
+  # NOTE: as minimum requirement, custom metadata must contain at least a value
+  # for `type`.
+  self.show_fields[:slug] = { type: 'string' }
+end
+```
+
+> See [show_field_names](#show_field_names) to learn how to make a custom field (e.g. `slug`) appear on show page.
+
+## form_fields
+
+`form_fields` is used for storing metadata of different (origin/custom) fields for form page. For example, for model `Product`:
+
+```ruby
+# app/models/product.rb
+class Product < ApplicationRecord
+  has_many :order_items, class_name: Order::Item.name
+  has_many :orders, through: :order_items
+end
+
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+end
+
+# NOTE: Wallaby has already generated a set of metadata using the information
+# from model `Product`.
+ProductDecorator.form_fields
+# It looks like =>
+# {
+#   'id' => { 'type' => 'integer', 'label' => 'Id' },
+#   'description' => { 'type' => 'text', 'label' => 'Description' },
+#   'order_items' => {
+#     'type' => 'has_many', 'label' => 'Order items',
+#     'is_association' => true, 'sort_disabled' => true, 'is_through' => false,
+#     'has_scope' => false, 'foreign_key' => 'order_item_ids',
+#     'class' => Order::Item
+#   },
+#   'orders' => {
+#     'type' => 'has_many', 'label' => 'Orders',
+#     'is_association' => true, 'sort_disabled' => true, 'is_through' => true,
+#     'has_scope' => false, 'foreign_key' => 'order_ids', 'class' => Order
+#   }
+# }
+```
+
+> NOTE: `form_fields` has the same values as `index_fields` and `show_fields` at the very first beginning. However, changing any of the `index_fields`, `show_fields` or `form_fields` will not update the others.
+
+It's possible to update existing metadata for origin `ActiveRecord`/`HER` fields. For example, to change `description`'s type to built-in type `:markdown`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.form_fields[:description][:type] = :markdown
+end
+```
+
+Or change `description`'s type to custom type `:custom_description` and create the required type partial accordingly:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.form_fields[:description][:type] = :custom_description
+end
+```
+
+In order for custom type `:custom_description` to work, a type partial must be created as below:
+
+```erb
+<%# app/views/admin/products/form/_custom_description.html.erb %>
+
+<%= form.label field_name, metadata[:label] %>
+<%= form.text_area field_name, class: 'form-control', data: { init: 'summernote' } %>
+
+<code class="preview" data-bind-to-form-name="<%= field_name %>"></code>
+```
+
+> See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.
+
+It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def slug
+    # e.g. lev-28jn_harman-nude-leather-pointed-tue-stiletto-heel
+    [uid, name].join('_').downcase.dasherize
+  end
+
+  # NOTE: as minimum requirement, custom metadata must contain at least a value
+  # for `type`.
+  self.form_fields[:slug] = { type: 'string' }
+end
+```
+
+> See [form_field_names](#form_field_names) to learn how to make a custom field (e.g. `slug`) appear on form page.
+
+## Metadata Options
+
+The following options are the common ones used in metadata for [index_fields](#index_fields), [show_fields](#show_fields) and [form_fields](#form_fields).
+
+### :type metadata option
+
+> NOTE: please do NOT use the following names for type:
+> `title`, `logo`, `header`, `footer`, `user_menu`, `navs`, `index_actions`, `resource_actions` and `resource_navs`, as they are used as the configurable partials in [Frontend](frontend.md)
+
+`:type` is a mandatory options. For example, to set the `:type` for custom method `slug`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def slug
+    # e.g. lev-28jn_harman-nude-leather-pointed-tue-stiletto-heel
+    [uid, name].join('_').downcase.dasherize
+  end
+
+  # NOTE: as minimum requirement, custom metadata must contain at least a value
+  # for `type`.
+  self.index_fields[:slug] = { type: 'string' }
+end
+```
+
+### :label metadata option
+
+`:label` is to customize the text for the field. For example, to change the text of field `uid` to `SKU`:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.index_fields[:uid]
+  # it looks like =>
+  # { type: 'string', label: 'Uid' }
+
+  self.index_fields[:uid][:label] = 'SKU'
+end
+```
+
+## Metadata Options for Association Fields
+
+Wallaby pre-generates metadata for association fields that can be found in the model.
+
+### belongs_to
+
+- For ActiveRecord model, it looks like:
+
+  ```ruby
+  # app/models/product.rb
+  class Product < ApplicationRecord
+    belongs_to :category
+  end
+
+  # app/decorators/product_decorato.rb
+  class ProductDecorator < Admin::ApplicationDecorator
+  end
+
+  ProductDecorator.index_fields[:category]
+  # It looks like =>
+  # {
+  #   'type' => 'belongs_to', 'label' => 'Category',
+  #   'is_association' => true, 'sort_disabled' => true,
+  #   'is_through' => false, 'has_scope' => false,
+  #   'foreign_key' => 'category_id', 'class' => Category
+  # }
+  ```
+
+- For HER model, it looks like:
+
+  ```ruby
+  # app/models/her/product.rb
+  module Her
+    class Product
+      include Her::Model
+      belongs_to :category, class_name: Her::Category.name
+    end
+  end
+
+  # app/decorators/her/product_decorato.rb
+  class Her::ProductDecorator < Admin::ApplicationDecorator
+  end
+
+  Her::ProductDecorator.index_fields[:category]
+  # It looks like =>
+  # {
+  #   'type' => 'belongs_to', 'label' => 'Category',
+  #   'is_association' => true, 'sort_disabled' => true
+  # }
+  ```
+
+### has_one
+
+- For ActiveRecord model, it looks like:
+
+  ```ruby
+  # app/models/product.rb
+  class Product < ApplicationRecord
+    has_one :picture
+  end
+
+  # app/decorators/product_decorato.rb
+  class ProductDecorator < Admin::ApplicationDecorator
+  end
+
+  ProductDecorator.index_fields[:picture]
+  # It looks like =>
+  # {
+  #   'type' => 'has_one', 'label' => 'Picture',
+  #   'is_association' => true, 'sort_disabled' => true,
+  #   'is_through' => false, 'has_scope' => true,
+  #   'foreign_key' => 'picture_id', 'class' => Picture
+  # }
+  ```
+
+- For HER model, it looks like:
+
+  ```ruby
+  # app/models/her/product.rb
+  module Her
+    class Product
+      include Her::Model
+      has_one :picture, class_name: Her::Picture.name
+    end
+  end
+
+  # app/decorators/her/product_decorato.rb
+  class Her::ProductDecorator < Admin::ApplicationDecorator
+  end
+
+  Her::ProductDecorator.index_fields[:picture]
+  # It looks like =>
+  # {
+  #   'type' => 'has_one', 'label' => 'Picture',
+  #   'is_association' => true, 'sort_disabled' => true
+  # }
+  ```
+
+### has_many
+
+- For ActiveRecord model, it looks like:
+
+  ```ruby
+  # app/models/product.rb
+  class Product < ApplicationRecord
+    has_many :order_items, class_name: Order::Item.name
+    has_many :orders, through: :order_items
+  end
+
+  # app/decorators/product_decorato.rb
+  class ProductDecorator < Admin::ApplicationDecorator
+  end
+
+  ProductDecorator.index_fields[:orders]
+  # It looks like =>
+  # {
+  #   'type' => 'has_many', 'label' => 'Orders',
+  #   'is_association' => true, 'sort_disabled' => true,
+  #   'is_through' => true, 'has_scope' => false,
+  #   'foreign_key' => 'order_ids', 'class' => Order
+  # }
+  ```
+
+- For HER model, it looks like:
+
+  ```ruby
+  # app/models/her/product.rb
+  module Her
+    class Product
+      include Her::Model
+      has_many :orders, class_name: Her::Order.name
+    end
+  end
+
+  # app/decorators/her/product_decorato.rb
+  class Her::ProductDecorator < Admin::ApplicationDecorator
+  end
+
+  Her::ProductDecorator.index_fields[:orders]
+  # It looks like =>
+  # {
+  #   'type' => 'has_many', 'label' => 'Orders',
+  #   'is_association' => true, 'sort_disabled' => true
+  # }
+  ```
+
+### has_and_belongs_to_many
+
+- For ActiveRecord model, it looks like:
+
+  ```ruby
+  # app/models/product.rb
+  class Product < ApplicationRecord
+    has_and_belongs_to_many :tags
+  end
+
+  # app/decorators/product_decorato.rb
+  class ProductDecorator < Admin::ApplicationDecorator
+  end
+
+  ProductDecorator.index_fields[:tags]
+  # It looks like =>
+  # {
+  #   'type' => 'has_and_belongs_to_many', 'label' => 'Tags',
+  #   'is_association' => true, 'sort_disabled' => true,
+  #   'is_through' => false, 'has_scope' => false,
+  #   'foreign_key' => 'tag_ids', 'class' => Tag
+  # }
+  ```
+
+- HER models don't support has_and_belongs_to_many association.
+
+### Polymorphic Association
+
+- For ActiveRecord model, it looks like:
+
+  ```ruby
+  # app/models/picture.rb
+  class Picture < ApplicationRecord
+    belongs_to :imageable, polymorphic: true
+  end
+
+  # app/decorators/picture_decorato.rb
+  class PictureDecorator < Admin::ApplicationDecorator
+  end
+
+  PictureDecorator.index_fields[:imageable]
+  # It looks like =>
+  # {
+  #   'type' => 'belongs_to', 'label' => 'Imageable',
+  #   'is_association' => true, 'sort_disabled' => true,
+  #   'is_polymorphic' => true, 'is_through' => false, 'has_scope' => false,
+  #   'foreign_key' => 'imageable_id', 'polymorphic_type' => 'imageable_type',
+  #   'polymorphic_list' => [Product]
+  # }
+  ```
+
+- HER models don't support polymorphic association.
+
+## index_field_names
+
+`index_field_names` is used to get the configured fields displayed on index page. For example, for model `Product`:
+
+```ruby
+# app/models/product.rb
+class Product < ApplicationRecord
+  has_many :order_items, class_name: Order::Item.name
+  has_many :orders, through: :order_items
+end
+
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  # NOTE: Wallaby has already generated the list of fields from model `Product`.
+  self.index_field_names
+  # It looks like =>
+  # [
+  #   'id', 'sku', 'name', 'stock', 'price', 'featured',
+  #   'available_to_date', 'available_to_time', 'published_at'
+  # ]
+end
+```
+
+> NOTE: by default, for `ActiveRecord` models, `index_field_names` excludes association fields and big-value fields (e.g. binary, blob, citext, hstore, json, jsonb, longblob, longtext, mediumblob, mediumtext, text, tsvector, xml).
+> For `HER` models, `index_field_names` excludes association fields.
+
+Because the `index_field_names` is an array, to modify the values, all array functions can be used. For example, to add a custom field `slug` to it:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def slug
+    # e.g. lev-28jn_harman-nude-leather-pointed-tue-stiletto-heel
+    [uid, name].join('_').downcase.dasherize
+  end
+
+  self.index_fields[:slug] = { type: 'string' }
   self.index_field_names << 'slug'
 end
 ```
 
-> NOTE: it is unnecessary to code in above order. Update of `index_fields`  and `index_field_names` can go before `def slug`.
-
-
-### More Metadata Options
-
-Options are:
-
-- `:sort_field_name`: field name to be used for sorting on `index` page. Given the example in [Advanced Customization](#advanced-customization), it is possible to turn field `slug` sortable by defining the `:sort_field_name` option:
-
-    ```ruby
-    class ProductDecorator < Admin::ApplicationDecorator
-      index_fields[:slug][:sort_field_name] = 'name'
-    end
-    ```
-
-    > NOTE: the field name has to be one of the existing column in database table to make sorting working properly.
-    > Also, this option only works with ActiveRecord models.
-
-### Filters
-
-> NOTE: filters only works with ActiveRecord models at the moment.
-
-It's possible to define filters for a model in decorator to provide shortcuts to query the records apart from using the search.
-
-#### Use Existing Named Scope
-
-Given a model has defined a scope:
+Or replace `index_field_names` with a new array. For example:
 
 ```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.index_field_names = ['id', 'name', 'price', 'created_at']
+end
+```
+
+Then frontend will render the fields in array order accordingly.
+
+## show_field_names
+
+`show_field_names` is used to get the configured fields displayed on show page. For example, for model `Product`:
+
+```ruby
+# app/models/product.rb
+class Product < ApplicationRecord
+  has_many :order_items, class_name: Order::Item.name
+  has_many :orders, through: :order_items
+end
+
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  # NOTE: Wallaby has already generated the list of fields from model `Product`.
+  self.show_field_names
+  # It looks like =>
+  # [
+  #   'id', 'sku', 'name', 'stock', 'price', 'featured',
+  #   'available_to_date', 'available_to_time', 'published_at',
+  #   'orders', 'order_items'
+  # ]
+end
+```
+
+> NOTE: unlike `index_field_names` and `form_field_names`, by default, for `ActiveRecord` models, `show_field_names` does NOT exclude any fields from displaying.
+> The same for `HER` models, `show_field_names` does NOT exclude any fields from displaying.
+
+Because the `show_field_names` is an array, to modify the values, all array functions can be used. For example, to add a custom field `slug` to it:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  def slug
+    # e.g. lev-28jn_harman-nude-leather-pointed-tue-stiletto-heel
+    [uid, name].join('_').downcase.dasherize
+  end
+
+  self.show_fields[:slug] = { type: 'string' }
+  self.show_field_names << 'slug'
+end
+```
+
+Or replace `show_field_names` with a new array. For example:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.show_field_names = ['id', 'name', 'price', 'created_at']
+end
+```
+
+Then frontend will render the fields in array order accordingly.
+
+## form_field_names
+
+`form_field_names` is used to get the configured fields displayed on form (`new`/`edit`) page. For example, for model `Product`:
+
+```ruby
+# app/models/product.rb
+class Product < ApplicationRecord
+  has_many :order_items, class_name: Order::Item.name
+  has_many :orders, through: :order_items
+end
+
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  # NOTE: Wallaby has already generated the list of fields from model `Product`.
+  self.form_field_names
+  # It looks like =>
+  # [
+  #   'id', 'sku', 'name', 'stock', 'price', 'featured',
+  #   'available_to_date', 'available_to_time', 'published_at',
+  #   'orders', 'order_items'
+  # ]
+end
+```
+
+> NOTE: by default, for `ActiveRecord` models, `form_field_names` excludes primary key field, default timestamp fields (e.g. `created_at` and `updated_at`) and the associations that have custom scope (e.g. `has_many :special_orders, -> { special: true }`) or have `:through` option (e.g. `has_many :orders, through: :order_items`).
+> For `HER` models, `form_field_names` excludes primary key field.
+
+Because the `form_field_names` is an array, to modify the values, all array functions can be used. For example, to add a custom field `name` to it:
+
+```ruby
+# app/models/customer.rb
+class Customer < ApplicationRecord
+  def name
+    [first_name, last_name].compact.join ' '
+  end
+
+  def name=(name)
+    names = name.rpartition(' ')
+    self.first_name = names.first
+    self.last_name = names.last
+  end
+end
+
+# app/decorators/customer_decorato.rb
+class CustomerDecorator < Admin::ApplicationDecorator
+  self.form_fields[:name] = { type: 'string' }
+  self.form_field_names << 'name'
+end
+```
+
+Or replace `form_field_names` with a new array. For example:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.form_field_names = ['id', 'name', 'price', 'created_at']
+end
+```
+
+Then frontend will render the fields in array order accordingly.
+
+# Create Filters
+
+Filters are predefined queries on index page that allows user to click.
+
+> Learn more about how filter is working behind the scene, take a look at the [Servicer](servicer.md)
+
+## With Existing Named Scope
+
+If there is existing scope, such as:
+
+```ruby
+# app/model/product.rb
 class Product < ApplicationRecord
   scope :red, -> { where(color: 'red') }
 end
 ```
 
-Then a filter can be added as:
+Then filter can be created as below:
 
 ```ruby
+# app/decorators/product_decorato.rb
 class ProductDecorator < Admin::ApplicationDecorator
   self.filters[:red] = {
     scope: :red,
@@ -164,11 +899,12 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-#### Define a New Scope
+## With Custom Scape
 
-Defining a new scope in a decorator is easy as in ActiveRecord model:
+Defining a filter with custom scope in a decorator is easy as in `ActiveRecord` model:
 
 ```ruby
+# app/decorators/product_decorato.rb
 class ProductDecorator < Admin::ApplicationDecorator
   self.filters[:blue] = {
     scope: -> { where(color: 'blue') }
@@ -176,27 +912,67 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-#### More Filter Options
+## Options
 
-Options are:
+Here are the options for defining a filter
 
-- `:default`: to specify that the filter should be used on `index` page as default filter when end-user is first-time landing on it.
+### :scope filter option
 
-    ```ruby
-    class ProductDecorator < Admin::ApplicationDecorator
-      self.filters[:red] = {
-        default: true
-      }
-    end
-    ```
+`:scope` option is to customize the query. It accepts the following values:
 
-### Misc Customization
+- `symbol` - the value should be the symbol name of the query that have defined in the model. For example:
 
-#### `to_label`
+  ```ruby
+  # app/model/product.rb
+  class Product < ApplicationRecord
+    scope :red, -> { where(color: 'red') }
+  end
 
-This method is used as the title for show page and autocomplete json response.
+  # app/decorators/product_decorato.rb
+  class ProductDecorator < Admin::ApplicationDecorator
+    self.filters[:red] = { scope: :red }
+  end
+  ```
+
+- `proc` - a proc similar to how a scope is defined in a model, all model class methods can be accessed inside the proc. For example:
+
+  ```ruby
+  # app/decorators/product_decorato.rb
+  class ProductDecorator < Admin::ApplicationDecorator
+    self.filters[:red] = { scope: -> { where(color: 'red') } }
+  end
+  ```
+
+### :label
+
+`:label` is to customize the text that user reads on the index page. For example, to configure the `red` filter's label as `Hot Red Products`:
 
 ```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.filters[:red] = { label: 'Hot Red Products' }
+end
+```
+
+### :default
+
+`:default` will mark the query to be run when user first time landing on the page. To customize it, it goes:
+
+```ruby
+# app/decorators/product_decorato.rb
+class ProductDecorator < Admin::ApplicationDecorator
+  self.filters[:red] = { default: true }
+end
+```
+
+# Misc Customization
+
+## to_label
+
+To customize the title of a resource used by show page and form autocomplete:
+
+```ruby
+# app/decorators/product_decorato.rb
 class ProductDecorator < Admin::ApplicationDecorator
   def to_label
     product_slug + ' - ' + uuid
@@ -204,11 +980,12 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-#### `primary_key`
+## primary_key
 
-If a model has no primary key, it will be required to specify a field that Wallaby can be used as primary key to make show/form page working properly:
+If a model has no primary key, in order to make show/edit page working properly, it's required to specify the field to be used as primary key. For example:
 
 ```ruby
+# app/decorators/active_record/schema_migration_decorato.rb
 class ActiveRecord::SchemaMigrationDecorator < Admin::ApplicationDecorator
   def primary_key
     version

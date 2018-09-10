@@ -6,6 +6,6 @@
   <% if @code >= 500 %>
     <%= t "http_errors.report_error_html" %>
   <% else %>
-    <p><%= @exception.try :message %></p>
+    <p><%= @exception.try(:message) || flash[:alert] %></p>
   <% end %>
 </article>

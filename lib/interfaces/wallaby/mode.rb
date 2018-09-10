@@ -1,45 +1,63 @@
 module Wallaby
-  # This is the abstract class that all ORM modes to have implemented.
+  # This is the interface that all ORM modes should implement.
   class Mode
     class << self
       # @see Wallaby::ModelDecorator
-      # @return [Wallaby::ModelDecorator] model decorator for the mode
+      # @return [Class] model decorator for the mode
       def model_decorator
         check_and_constantize __callee__
       end
 
       # @see Wallaby::ModelFinder
-      # @return [Wallaby::ModelFinder] model finder for the mode
+      # @return [Class] model finder for the mode
       def model_finder
         check_and_constantize __callee__
       end
 
       # @see Wallaby::ModelServiceProvider
-      # @return [Wallaby::ModelServiceProvider] service provider for the mode
+      # @return [Class] service provider for the mode
       def model_service_provider
         check_and_constantize __callee__
       end
 
       # @see Wallaby::ModelPaginationProvider
-      # @return [Wallaby::ModelPaginationProvider]
-      # pagination provider for the mode
+      # @return [Class] pagination provider for the mode
       def model_pagination_provider
         check_and_constantize __callee__
       end
 
+      # @see Wallaby::ModelPaginationProvider
+      # @return [Class] pagination provider for the mode
+      def default_authorization_provider
+        check_and_constantize __callee__
+      end
+
+      # Return a list of authorization providers for authorizer to detect which one to use.
+      # @see Wallaby::ModelAuthorizationProvider
+      # @return [ActiveSupport::HashWithIndifferentAccess<String, Class>] authorization provider hash
+      def model_authorization_providers(classes = ModelAuthorizationProvider.descendants)
+        @model_authorization_providers ||=
+          classes
+          .select { |klass| klass.name.include? name }
+          .sort_by { |klass| klass.provider_name == DEFAULT ? 1 : 0 }
+          .each_with_object(::ActiveSupport::HashWithIndifferentAccess.new) do |klass, hash|
+            hash[klass.provider_name] = klass
+          end
+      end
+
       private
 
-      #
       # @return [Class] constantized class
       def check_and_constantize(method_id)
-        method_class  = method_id.to_s.classify
-        class_name    = "#{name}::#{method_class}"
-        parent_class  = "Wallaby::#{method_class}".constantize
+        method_class = method_id.to_s.classify
+        class_name = "#{name}::#{method_class}"
+        parent_class = "Wallaby::#{method_class}".constantize
         class_name.constantize.tap do |klass|
           next if klass < parent_class
-          raise InvalidError, "#{klass} must inherit #{parent_class}"
+          raise InvalidError, I18n.t('wallaby.mode.inherit_required', klass: klass, parent: parent_class)
         end
-      rescue NameError
+      rescue NameError => e
+        Rails.logger.error e
         raise NotImplemented, class_name
       end
     end

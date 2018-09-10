@@ -1,318 +1,244 @@
 module Wallaby
-  # Generic CRUD controller
-  class AbstractResourcesController < ::Wallaby::BaseController
-    include ResourcesHelperMethods
+  # Generic CRUD controller.
+  class AbstractResourcesController < ::Wallaby::SecureController
+    extend Authorizable::ClassMethods
+    extend Decoratable::ClassMethods
+    extend Paginatable::ClassMethods
+    extend Resourcable::ClassMethods
+    extend Servicable::ClassMethods
+    extend Themeable::ClassMethods
+    include Authorizable
+    include Decoratable
+    include Resourcable
+    include Servicable
+    include Themeable
+    include RailsOverriddenMethods
+
     self.responder = ResourcesResponder
     respond_to :html
     respond_to :json
     respond_to :csv, only: :index
     helper ResourcesHelper
-    helper_method :resource_id, :resource, :collection,
-                  :current_model_decorator, :authorizer
+    before_action :authenticate_user!, except: [:status]
 
-    class << self
-      # @return [String] resources name for controller
-      def resources_name
-        return unless self < configuration.mapping.resources_controller
-        Map.resources_name_map name.gsub('Controller', EMPTY_STRING)
-      end
-
-      # @return [Class] model class for controller
-      def model_class
-        return unless self < configuration.mapping.resources_controller
-        Map.model_class_map resources_name
-      end
-    end
-
-    # Home page
+    # Landing page, it does nothing but just rendering home template. This action can be replaced completely:
     #
-    # You can completely override this action:
-    #
-    #    def home
-    #      # do something differently
-    #    end
+    # ```
+    # def home
+    #   # generate_dashboard_report
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def home
       # do nothing
     end
 
-    # Resourceful action to list paginated records.
+    # This is a resourceful action to list records.
+    # It is possible to customize this action in sub controller as below:
     #
-    # You can override this method in subclasses in the following ways:
+    # ```
+    # def index
+    #   # do something before the origin `index` action
+    #   super do
+    #     # do something after the origin `index` action, but before rendering
+    #   end
+    # end
+    # ```
     #
-    # - To perform action before `index` is run
+    # Otherwise, it can be replaced completely:
     #
-    #    def index
-    #      # do something beforehand
-    #      super
-    #    end
-    #
-    # - To perform action after `index`, but before rendering.
-    # The reason is that we use responder at the end of the action
-    #
-    #    def index
-    #      super do
-    #        # do something afterwards
-    #      end
-    #    end
-    #
-    # - To perform completely different action
-    #
-    #     def index
-    #       # do something completely different
-    #     end
+    # ```
+    # def index
+    #   # do something completely different
+    #   # NOTE: but need to make sure that `@collection` is assigned
+    #   # NOTE: and index action can respond to `html`, `csv` and `json`
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def index
-      authorize! :index, current_model_class
+      current_authorizer.authorize :index, current_model_class
       yield if block_given? # after_index
       respond_with collection
     end
 
-    # Resourceful new action to show a form for creating a record.
+    # This is a resourceful action to show a form for creating a record.
+    # It is possible to customize this action in sub controller as below:
     #
-    # You can override this method in subclasses in the following ways:
+    # ```
+    # def new
+    #   # do something before the origin `new` action
+    #   super do
+    #     # do something after the origin `new` action, but before rendering
+    #   end
+    # end
+    # ```
     #
-    # - To perform action before `new` is run
+    # Otherwise, it can be replaced completely:
     #
-    #    def new
-    #      # do something beforehand
-    #      super
-    #    end
-    #
-    # - To perform action after `new`, but before rendering.
-    # The reason is that we use responder at the end of the action
-    #
-    #    def new
-    #      super do
-    #        # do something afterwards
-    #      end
-    #    end
-    #
-    # - To perform completely different action
-    #
-    #     def new
-    #       # do something completely different
-    #     end
+    # ```
+    # def new
+    #   # do something completely different
+    #   # NOTE: but need to make sure that `@resource` is assigned
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def new
-      authorize! :new, resource
+      current_authorizer.authorize :new, resource
       yield if block_given? # after_new
       respond_with resource
     end
 
-    # Resourceful create action to create a record.
+    # This is a resourceful action to create a record.
+    # It is possible to customize this action in sub controller as below:
     #
-    # You can override this method in subclasses in the following ways:
+    # ```
+    # def create
+    #   # do something before the origin `create` action
+    #   super do
+    #     # do something after the origin `create` action, but before rendering
+    #   end
+    # end
+    # ```
     #
-    # - To perform action before `new` is run
+    # Otherwise, it can be replaced completely:
     #
-    #     def create
-    #       # do something beforehand
-    #       super
-    #     end
-    #
-    # - To perform action after `create`, but before rendering.
-    # The reason is that we use responder at the end of the action
-    #
-    #     def create
-    #       super do
-    #         # do something afterwards
-    #       end
-    #     end
-    #
-    # - To perform completely different action
-    #
-    #     def create
-    #       # do something completely different
-    #     end
+    # ```
+    # def create
+    #   # do something completely different
+    #   # NOTE: but need to make sure that `@resource` is assigned
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def create
-      authorize! :create, resource
-      current_model_service.create resource, params
+      current_authorizer.authorize :create, resource
+      current_servicer.create resource, params
       yield if block_given? # after_create
       respond_with resource, location: helpers.show_path(resource)
     end
 
-    # Resourceful show action to display values for a record.
+    # This is a resourceful action to display the details of a record.
+    # It is possible to customize this action in sub controller as below:
     #
-    # You can override this method in subclasses in the following ways:
+    # ```
+    # def show
+    #   # do something before the origin `show` action
+    #   super do
+    #     # do something after the origin `show` action, but before rendering
+    #   end
+    # end
+    # ```
     #
-    # - To perform action before `show` is run
+    # Otherwise, it can be replaced completely:
     #
-    #     def show
-    #       # do something beforehand
-    #       super
-    #     end
-    #
-    # - To perform action after `show`, but before rendering.
-    # The reason is that we use responder at the end of the action
-    #
-    #     def show
-    #       super do
-    #         # do something afterwards
-    #       end
-    #     end
-    #
-    # - To perform completely different action
-    #
-    #     def show
-    #       # do something completely different
-    #     end
+    # ```
+    # def show
+    #   # do something completely different
+    #   # NOTE: but need to make sure that `@resource` is assigned
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def show
-      authorize! :show, resource
+      current_authorizer.authorize :show, resource
       yield if block_given? # after_show
       respond_with resource
     end
 
-    # Resourceful edit action to show a form for editing a record.
+    # This is a resourceful action to show a form for editing a record.
+    # It is possible to customize this action in sub controller as below:
     #
-    # You can override this method in subclasses in the following ways:
+    # ```
+    # def edit
+    #   # do something before the origin `edit` action
+    #   super do
+    #     # do something after the origin `edit` action, but before rendering
+    #   end
+    # end
+    # ```
     #
-    # - To perform action before `edit` is run
+    # Otherwise, it can be replaced completely:
     #
-    #     def edit
-    #       # do something beforehand
-    #       super
-    #     end
-    #
-    # - To perform action after `edit`, but before rendering.
-    # The reason is that we use responder at the end of the action
-    #
-    #     def edit
-    #       super do
-    #         # do something afterwards
-    #       end
-    #     end
-    #
-    # - To perform completely different action
-    #
-    #     def edit
-    #       # do something completely different
-    #     end
+    # ```
+    # def edit
+    #   # do something completely different
+    #   # NOTE: but need to make sure that `@resource` is assigned
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def edit
-      authorize! :edit, resource
+      current_authorizer.authorize :edit, resource
       yield if block_given? # after_edit
       respond_with resource
     end
 
-    # Resourceful update action to update a record.
+    # This is a resourceful action to update a record.
+    # It is possible to customize this action in sub controller as below:
     #
-    # You can override this method in subclasses in the following ways:
+    # ```
+    # def update
+    #   # do something before the origin `update` action
+    #   super do
+    #     # do something after the origin `update` action, but before rendering
+    #   end
+    # end
+    # ```
     #
-    # - To perform action before `update` is run
+    # Otherwise, it can be replaced completely:
     #
-    #     def update
-    #       # do something beforehand
-    #       super
-    #     end
-    #
-    # - To perform action after `update`, but before rendering.
-    # The reason is that we use responder at the end of the action
-    #
-    #     def update
-    #       super do
-    #         # do something afterwards
-    #       end
-    #     end
-    #
-    # - To perform completely different action
-    #
-    #     def update
-    #       # do something completely different
-    #     end
+    # ```
+    # def update
+    #   # do something completely different
+    #   # NOTE: but need to make sure that `@resource` is assigned
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def update
-      authorize! :update, resource
-      current_model_service.update resource, params
+      current_authorizer.authorize :update, resource
+      current_servicer.update resource, params
       yield if block_given? # after_update
       respond_with resource, location: helpers.show_path(resource)
     end
 
-    # Resourceful destroy action to delete a record.
+    # This is a resourceful action to destroy a record.
+    # It is possible to customize this action in sub controller as below:
     #
-    # You can override this method in subclasses in the following ways:
+    # ```
+    # def destroy
+    #   # do something before the origin `destroy` action
+    #   super do
+    #     # do something after the origin `destroy` action, but before rendering
+    #   end
+    # end
+    # ```
     #
-    # - To perform action before `destroy` is run
+    # Otherwise, it can be replaced completely:
     #
-    #     def destroy
-    #       # do something beforehand
-    #       super
-    #     end
-    #
-    # - To perform action after `destroy`, but before rendering.
-    # The reason is that we use responder at the end of the action
-    #
-    #     def destroy
-    #       super do
-    #         # do something afterwards
-    #       end
-    #     end
-    #
-    # - To perform completely different action
-    #
-    #     def destroy
-    #       # do something completely different
-    #     end
+    # ```
+    # def destroy
+    #   # do something completely different
+    #   # NOTE: but need to make sure that `@resource` is assigned
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     def destroy
-      authorize! :destroy, resource
-      current_model_service.destroy resource, params
+      current_authorizer.authorize :destroy, resource
+      current_servicer.destroy resource, params
       yield if block_given? # after_destroy
       respond_with resource, location: helpers.index_path(current_model_class)
     end
 
-    # Model servicer associated to current modal class.
+    # To whitelist the params for CRUD actions.
+    # If Wallaby cannot generate the correct strong parameters, it can be customized as:
     #
-    # This model servicer will take care of all the CRUD operations
-    #
-    # For how to override model service, see (Wallaby::ModelServicer)
-    # @return [Wallaby::ModelServicer] a servicer
-    def current_model_service
-      @current_model_service ||= begin
-        model_class = current_model_class
-        Map.servicer_map(model_class).new model_class, authorizer
-      end
-    end
-
-    # To whitelist the params for CRUD actions
+    # ```
+    # def resource_params
+    #   params.fetch(:product, {}).permit(:name, :sku)
+    # end
+    # ```
+    # @note This is a template method that can be overridden by subclasses
     # @see Wallaby::ModelServicer#permit
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
-      @resource_params ||= current_model_service.permit params
-    end
-
-    protected
-
-    # Override origin ActionView::ViewPaths::ClassMethods#_prefixes
-    # to add more paths so that it could look up partials in the following
-    # order:
-    # - mounted_path/resources_name/action_name (e.g. `admin/products/index)
-    # - mounted_path/resources_name (e.g. `admin/products)
-    # - full_path_of_custom_resources_controller/action_name
-    #  (e.g. `management/custom_products/index)
-    # - full_path_of_custom_resources_controller
-    #  (e.g. `management/custom_products)
-    # - wallaby_resources_controller_name/action_name
-    #  (e.g. `wallaby/resources/index)
-    # - wallaby_resources_controller_name
-    #  (e.g. `wallaby/resources)
-    # @return [PrefixesBuilder]
-    def _prefixes
-      @_prefixes ||= PrefixesBuilder.new( # rubocop:disable Naming/MemoizedInstanceVariableName, Metrics/LineLength
-        super, controller_path, current_resources_name, params
-      ).build
-    end
-
-    # A wrapped lookup content
-    # Its aim is to render string partial when given partial is not found
-    # @return [LookupContextWrapper]
-    def lookup_context
-      @_lookup_context ||= LookupContextWrapper.new super # rubocop:disable Naming/MemoizedInstanceVariableName, Metrics/LineLength
-    end
-
-    # To paginate the collection but only when either `page` or `per` param is
-    # given, or requesting HTML response
-    # @see Wallaby::ModelServicer#paginate
-    # @param query [#each]
-    # @return [#each]
-    def paginate(query)
-      paginatable =
-        params[:page] || params[:per] || request.format.symbol == :html
-      paginatable ? current_model_service.paginate(query, params) : query
+      @resource_params ||= current_servicer.permit params, action_name
     end
   end
 end

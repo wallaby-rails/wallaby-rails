@@ -5,7 +5,7 @@ describe Wallaby::ResourceNotFound do
 
   describe '#message' do
     it 'returns the message' do
-      expect(subject.message).to eq 'Record 1 could not be found.'
+      expect(subject.message).to eq 'Record 1 can not be found.'
     end
   end
 end

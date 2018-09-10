@@ -1,6 +1,6 @@
 module Wallaby
   # Resources responder for later usage
-  # @overwritable
+  # @see Wallaby::AbstractResponder
   class ResourcesResponder < AbstractResponder
   end
 end

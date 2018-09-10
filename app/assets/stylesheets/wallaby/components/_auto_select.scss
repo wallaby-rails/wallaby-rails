@@ -50,7 +50,7 @@
     &:after {
       @extend .fa;
       color: $light-red-color;
-      content: $fa-var-remove;
+      content: fa-content(map-get($fa-map, fa-var-times));
       display: block;
       height: 16px;
       line-height: 16px;

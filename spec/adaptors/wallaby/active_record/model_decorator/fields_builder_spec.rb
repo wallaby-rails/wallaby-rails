@@ -15,37 +15,37 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
     it 'returns a hash using column names as keys' do
       expect(subject.general_fields).to eq(
         'id' => {
-          name: 'id', type: 'integer', label: 'Id'
+          type: 'integer', label: 'Id'
         },
         'category_id' => {
-          name: 'category_id', type: 'integer', label: 'Category'
+          type: 'integer', label: 'Category'
         },
         'sku' => {
-          name: 'sku', type: 'string', label: 'Sku'
+          type: 'string', label: 'Sku'
         },
         'name' => {
-          name: 'name', type: 'string', label: 'Name'
+          type: 'string', label: 'Name'
         },
         'description' => {
-          name: 'description', type: 'text', label: 'Description'
+          type: 'text', label: 'Description'
         },
         'stock' => {
-          name: 'stock', type: 'integer', label: 'Stock'
+          type: 'integer', label: 'Stock'
         },
         'price' => {
-          name: 'price', type: 'float', label: 'Price'
+          type: 'float', label: 'Price'
         },
         'featured' => {
-          name: 'featured', type: 'boolean', label: 'Featured'
+          type: 'boolean', label: 'Featured'
         },
         'available_to_date' => {
-          name: 'available_to_date', type: 'date', label: 'Available to date'
+          type: 'date', label: 'Available to date'
         },
         'available_to_time' => {
-          name: 'available_to_time', type: 'time', label: 'Available to time'
+          type: 'time', label: 'Available to time'
         },
         'published_at' => {
-          name: 'published_at', type: 'datetime', label: 'Published at'
+          type: 'datetime', label: 'Published at'
         }
       )
     end
@@ -69,10 +69,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         it 'returns association_fields that has a belongs_to association' do
           model_class.belongs_to :category
           expect(subject.association_fields['category']).to eq(
-            name: 'category',
             type: 'belongs_to',
             label: 'Category',
             is_association: true,
+            sort_disabled: true,
             is_through: false,
             has_scope: false,
             foreign_key: 'category_id',
@@ -85,10 +85,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         it 'returns association_fields' do
           model_class.has_one :product_detail
           expect(subject.association_fields['product_detail']).to eq(
-            name: 'product_detail',
             type: 'has_one',
             label: 'Product detail',
             is_association: true,
+            sort_disabled: true,
             is_through: false,
             has_scope: false,
             foreign_key: 'product_detail_id',
@@ -100,10 +100,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           it 'returns association_fields' do
             model_class.has_one :picture, as: :imageable
             expect(subject.association_fields['picture']).to eq(
-              name: 'picture',
               type: 'has_one',
               label: 'Picture',
               is_association: true,
+              sort_disabled: true,
               is_through: false,
               has_scope: false,
               foreign_key: 'picture_id',
@@ -117,10 +117,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         it 'returns association_fields' do
           model_class.has_many :items, class_name: 'Order::Item'
           expect(subject.association_fields['items']).to eq(
-            name: 'items',
             type: 'has_many',
             label: 'Items',
             is_association: true,
+            sort_disabled: true,
             is_through: false,
             has_scope: false,
             foreign_key: 'item_ids',
@@ -129,10 +129,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
 
           model_class.has_many :order_items, class_name: 'Order::Item'
           expect(subject.association_fields['order_items']).to eq(
-            name: 'order_items',
             type: 'has_many',
             label: 'Order items',
             is_association: true,
+            sort_disabled: true,
             is_through: false,
             has_scope: false,
             foreign_key: 'order_item_ids',
@@ -145,10 +145,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
             model_class.has_many :items, class_name: 'Order::Item'
             model_class.has_many :orders, through: :items
             expect(subject.association_fields['orders']).to eq(
-              name: 'orders',
               type: 'has_many',
               label: 'Orders',
               is_association: true,
+              sort_disabled: true,
               is_through: true,
               has_scope: false,
               foreign_key: 'order_ids',
@@ -161,10 +161,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           it 'returns association_fields' do
             model_class.has_many :pictures, as: :imageable
             expect(subject.association_fields['pictures']).to eq(
-              name: 'pictures',
               type: 'has_many',
               label: 'Pictures',
               is_association: true,
+              sort_disabled: true,
               is_through: false,
               has_scope: false,
               foreign_key: 'picture_ids',
@@ -178,10 +178,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         it 'returns association_fields' do
           model_class.has_and_belongs_to_many :tags
           expect(subject.association_fields['tags']).to eq(
-            name: 'tags',
             type: 'has_and_belongs_to_many',
             label: 'Tags',
             is_association: true,
+            sort_disabled: true,
             is_through: false,
             has_scope: false,
             foreign_key: 'tag_ids',
@@ -204,10 +204,10 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         it 'returns association_fields' do
           model_class.belongs_to :imageable, polymorphic: true
           imageable = subject.association_fields['imageable']
-          expect(imageable[:name]).to eq 'imageable'
           expect(imageable[:type]).to eq 'belongs_to'
           expect(imageable[:label]).to eq 'Imageable'
           expect(imageable[:is_association]).to be_truthy
+          expect(imageable[:sort_disabled]).to be_truthy
           expect(imageable[:is_polymorphic]).to be_truthy
           expect(imageable[:is_through]).to be_falsy
           expect(imageable[:has_scope]).to be_falsy

@@ -1,4 +1,5 @@
 module Wallaby
+  # @!visibility private
   # Lookup context wrapper.
   #
   # This is to take care of missing template in production.

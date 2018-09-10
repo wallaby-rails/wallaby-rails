@@ -3,16 +3,18 @@ module Wallaby
   class ModelServiceProvider
     # @param model_class [Class] model class
     # @param model_decorator [Wallaby::ModelDecorator, nil] model decorator
-    def initialize(model_class, model_decorator = nil)
+    def initialize(model_class, model_decorator)
       raise ::ArgumentError, 'model class required' unless model_class
       @model_class = model_class
-      @model_decorator = model_decorator || Map.model_decorator_map(model_class)
+      @model_decorator = model_decorator
     end
 
     # To whitelist params for a model class
     # @param _params [ActionController::Parameters]
+    # @param _action [String, Symbol]
+    # @param _authorizer [Wallaby::ModelAuthorizer]
     # @return [ActionController::Parameters] whitelisted params
-    def permit(_params)
+    def permit(_params, _action, _authorizer)
       raise NotImplemented
     end
 

@@ -1,7 +1,7 @@
 module Wallaby
   class ActiveRecord
     class ModelDecorator
-      # @private
+      # @!visibility private
       # To search and build the metadata for fields
       class FieldsBuilder
         # @param model_class [Class] model class
@@ -13,7 +13,6 @@ module Wallaby
         def general_fields
           @model_class.columns.each_with_object({}) do |column, fields|
             metadata = {
-              name: column.name,
               type: column.type.to_s.freeze,
               label: @model_class.human_attribute_name(column.name)
             }
@@ -26,7 +25,7 @@ module Wallaby
         def association_fields
           @model_class.reflections.each_with_object({}) do |(name, ref), fields|
             metadata = {
-              name: name, type: ref.macro.to_s,
+              type: ref.macro.to_s,
               label: @model_class.human_attribute_name(name)
             }
             association_builder.update(metadata, ref)

@@ -7,7 +7,7 @@
   <%= render 'flash_messages' %>
   <section>
     <div class="resource__container">
-      <%= form_for decorated, url: wallaby_engine.resources_path, method: :post, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
+      <%= form_for decorated, url: url_for(action: :index), method: :post, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
         <%= render 'form', form: form, decorated: decorated %>
       <% end %>
     </div>

@@ -1,15 +1,18 @@
 module Wallaby
   class Map
+    # @!visibility private
     # To collect model classes that are configured to be handled by Wallaby
     class ModelClassCollector
       # @param configuration [Configuration]
-      def initialize(configuration)
+      # @param models [Array<Class>]
+      def initialize(configuration, models = nil)
         @configuration = configuration
+        @models = models || []
       end
 
       # @return [Array<Class>] model class
       def collect
-        return all_models - excluded_models if configured_models.blank?
+        return @models - excluded_models if configured_models.blank?
         invalid_models_check
         configured_models
       end
@@ -18,20 +21,15 @@ module Wallaby
 
       # Check if the models are valid, raise if invalid
       def invalid_models_check
-        invalid_models = configured_models - all_models
+        invalid_models = configured_models - @models
         return if invalid_models.blank?
-        message = "#{invalid_models.to_sentence} are invalid models."
+        message = I18n.t 'errors.invalid.models', models: invalid_models.to_sentence
         raise InvalidError, message
       end
 
       # @return [Wallaby::Configuration::Models]
       def models
         @configuration.models
-      end
-
-      # @return [Array<Class>] all the models that modes recognize
-      def all_models
-        Map.mode_map.keys
       end
 
       # @return [Array<Class>] a list of models to exclude

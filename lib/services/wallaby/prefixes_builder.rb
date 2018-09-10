@@ -1,72 +1,65 @@
 module Wallaby
-  # @private
-  # Prefix builder
+  # @!visibility private
+  # To extend prefixes to provide more possibility
   class PrefixesBuilder
-    # @param origin_prefixes [Array<string>] a list of all the prefixes
-    # @param controller_path [String] controller path
+    # @param origin_prefixes [Array<string>] a list of all the origin prefixes
+    # @param action_name [String] action name
     # @param resources_name [String] resources name
-    # @param params [ActionController::Parameters]
-    def initialize(origin_prefixes, controller_path, resources_name, params)
-      @origin_prefixes = origin_prefixes
-      @controller_path = controller_path
-      @resources_name = resources_name
-      @params = params
+    # @param script_name [String] script name
+    # @param theme_name [String] theme name
+    def self.build(origin_prefixes:, action_name:, resources_name:, script_name:, theme_name:)
+      new(
+        origin_prefixes: origin_prefixes,
+        action_name: action_name,
+        resources_name: resources_name,
+        script_name: script_name,
+        theme_name: theme_name
+      ).send :build
     end
 
-    # @return [Array<String>] a list of all the prefixes
+    private
+
+    # Constructor
+    def initialize(origin_prefixes:, action_name:, resources_name:, script_name:, theme_name:)
+      @origin_prefixes = origin_prefixes
+      @action_name = action_name
+      @resources_name = resources_name
+      @script_name = script_name
+      @theme_name = theme_name
+    end
+
+    # @return [Array<String>] prefixes
     def build
       prefixes = minimal_prefixes
-      prefixes.unshift mounted_prefix if resource_path != @controller_path
-      suffix = build_suffix(@params)
-      prefixes.each_with_object([]) do |prefix, result|
-        result << "#{prefix}/#{suffix}" << prefix if prefix
+      prefixes.unshift mounted_prefix unless prefixes.include? resources_path
+      prefixes.uniq.compact.each_with_object([]) do |prefix, result|
+        result << "#{prefix}/#{suffix}" << prefix
       end
     end
 
-    protected
-
-    # @return [Array<String>] a list of prefixes starting from wallaby
+    # @return [Array<String>] prefixes starting from wallaby controller path
     def minimal_prefixes
-      # this should contains only the current controller's path and wallaby path
-      index = @origin_prefixes.index wallaby_path
-      @origin_prefixes.slice 0..index
-    end
-
-    # @return [String] a prefix of the mouted path.
-    #   Given mounted path `admin`, and current resources `products`, it returns
-    #   `admin/products`
-    def mounted_prefix
-      prefix = mounted_path.try(:slice, 1..-1) || ''
-      prefix << SLASH unless prefix.empty?
-      prefix << resource_path if resource_path
-    end
-
-    # Consolidate action name (new/create/edit/update) as `form`
-    # @param params [ActionController::Parameters]
-    # @return [String]
-    def build_suffix(params)
-      Utils.to_partial_name params[:action]
-    end
-
-    # @return [String] path of `wallaby/resources`
-    def wallaby_path
-      ResourcesController.controller_path
-    end
-
-    # @return [String] the path that Wallaby has mounted to
-    def mounted_path
-      # TODO: need to find out if this will fail
-      # when wallaby is mounted more than once on different namespace?
-      Rails.application.routes.named_routes[:wallaby_engine].try do |route|
-        route.path.spec.to_s
+      index = @origin_prefixes.index ResourcesController.controller_path
+      @origin_prefixes.slice(0..index).tap do |prefixes|
+        insert_index = prefixes.length > 1 ? -2 : 0
+        prefixes.insert insert_index, @theme_name if @theme_name.present?
       end
     end
 
-    # Convert the resources name
-    # (e.g. `namespace::products` to `namespace/products`)
-    # @return [String] a path of the resources
-    def resource_path
-      @resource_path ||= @resources_name.try :gsub, COLONS, SLASH
+    # @return [String] a prefix of the mouted path
+    def mounted_prefix
+      prefix = (@script_name || '').sub(%r{^/}, '')
+      prefix << SLASH if prefix.present?
+      prefix << resources_path if resources_path
+    end
+
+    # @return [String]
+    def suffix
+      @suffix ||= Utils.to_partial_name @action_name
+    end
+
+    def resources_path
+      @resources_path ||= @resources_name.try :gsub, COLONS, SLASH
     end
   end
 end

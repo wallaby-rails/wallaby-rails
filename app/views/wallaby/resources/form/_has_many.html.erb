@@ -9,7 +9,7 @@ The following params are the variables that can be used in this partial.
 %>
 <%
 decorated = decorate(value || [])
-readonly = cannot? :edit, metadata[:class]
+readonly = unauthorized? :edit, metadata[:class]
 %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label metadata[:foreign_key], metadata[:label] %>

@@ -4,7 +4,9 @@ module Wallaby
     class ModelDecorator < ::Wallaby::ModelDecorator
       # Data types to exclude for index page
       INDEX_EXCLUSIVE_DATA_TYPES =
-        %w(binary citext hstore json jsonb text tsvector xml).freeze
+        (['', 'medium', 'long'] * 2)
+        .zip(%w(blob text) * 3).map(&:join)
+        .concat(%w(binary citext hstore json jsonb tsvector xml)).freeze
 
       # Data types to exclude for form page
       FORM_EXCLUSIVE_DATA_TYPES = %w(created_at updated_at).freeze

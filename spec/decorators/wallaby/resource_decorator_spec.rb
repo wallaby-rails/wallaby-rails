@@ -14,6 +14,12 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
       end
     end
 
+    describe '.application_decorator' do
+      it 'returns nil' do
+        expect(described_class.application_decorator).to be_nil
+      end
+    end
+
     ['', 'index_', 'show_', 'form_'].each do |prefix|
       title = prefix.delete '_'
       describe "for #{title}" do
@@ -171,7 +177,8 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
 
   context 'descendants' do
     let(:model_class) { Product }
-    let(:klass) { stub_const 'ProductDecorator', Class.new(Wallaby::ResourceDecorator) }
+    let(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(Wallaby::ResourceDecorator) }
+    let(:klass) { stub_const 'ProductDecorator', Class.new(application_decorator) }
     let(:model_fields) do
       {
         'id'            => { 'type' => 'integer', 'label' => 'fake title' },
@@ -199,6 +206,21 @@ describe Wallaby::ResourceDecorator, clear: :object_space do
           expect(klass.model_decorator).not_to be_nil
           decorator = klass.model_decorator
           expect(klass.model_decorator).to eq decorator
+        end
+      end
+
+      describe '.application_decorator' do
+        it 'returns application decorator class' do
+          expect(klass.application_decorator).to eq application_decorator
+        end
+      end
+
+      describe '.application_decorator=' do
+        let(:another_decorator) { stub_const 'AnotherDecorator', Class.new(Wallaby::ResourceDecorator) }
+        it 'returns application decorator class' do
+          klass.application_decorator = Wallaby::ResourceDecorator
+          expect(klass.application_decorator).to eq Wallaby::ResourceDecorator
+          expect { klass.application_decorator = another_decorator }.to raise_error ArgumentError
         end
       end
 

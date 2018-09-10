@@ -23,16 +23,26 @@ describe Wallaby::ModelDecorator do
   end
 
   describe 'descendants' do
-    it 'implements the following methods' do
-      described_class.descendants.each do |klass|
-        instance = klass.new Product
-        ['', 'index_', 'show_', 'form_'].each do |prefix|
-          expect { instance.send "#{prefix}fields" }.not_to raise_error
-        end
-        expect { instance.form_active_errors Product.new }.not_to raise_error
-        expect { instance.primary_key }.not_to raise_error
-        expect { instance.guess_title Product.new name: 'abc' }.not_to raise_error
+    it 'implements the following methods for ActiveRecord adaptor' do
+      klass = Wallaby::ActiveRecord::ModelDecorator
+      instance = klass.new Product
+      ['', 'index_', 'show_', 'form_'].each do |prefix|
+        expect { instance.send "#{prefix}fields" }.not_to raise_error
       end
+      expect { instance.form_active_errors Product.new }.not_to raise_error
+      expect { instance.primary_key }.not_to raise_error
+      expect { instance.guess_title Product.new name: 'abc' }.not_to raise_error
+    end
+
+    it 'implements the following methods for Her adaptor' do
+      klass = Wallaby::Her::ModelDecorator
+      instance = klass.new Her::Product
+      ['', 'index_', 'show_', 'form_'].each do |prefix|
+        expect { instance.send "#{prefix}fields" }.not_to raise_error
+      end
+      expect { instance.form_active_errors Product.new }.not_to raise_error
+      expect { instance.primary_key }.not_to raise_error
+      expect { instance.guess_title Product.new name: 'abc' }.not_to raise_error
     end
   end
 end

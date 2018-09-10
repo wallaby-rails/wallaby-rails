@@ -1,46 +1,77 @@
 module Wallaby
   # Abstract model servicer
   class AbstractModelServicer
-    # @return [Class] model class that comes from its class name
-    def self.model_class
-      return unless self < ::Wallaby.configuration.mapping.model_servicer
-      Map.model_class_map name.gsub('Servicer', EMPTY_STRING)
+    extend Abstractable::ClassMethods
+    class << self
+      # @!attribute [w] model_class
+      attr_writer :model_class
+
+      # @!attribute [r] model_class
+      # Return the assoicated model class.
+      #
+      # If model class is not set, Wallaby will try to get it from current class.
+      # For instance, if current class is **ProductServicer**, then Wallaby will return model class **Product**.
+      #
+      # However, if current class is **Admin::ProductServicer**, it's needed to configure the model class as in the
+      # example
+      # @example To set model class
+      #   class Admin::ProductServicer < Admin::ApplicationServicer
+      #     self.model_class = Product
+      #   end
+      # @return [Class] assoicated model class
+      def model_class
+        return unless self < ModelServicer
+        return if abstract || self == Wallaby.configuration.mapping.model_servicer
+        @model_class ||= Map.model_class_map(name.gsub('Servicer', EMPTY_STRING))
+      end
     end
 
-    # @param model_class [Class, nil] model class
-    # @param authorizer [Ability]
-    def initialize(model_class = nil, authorizer = nil)
+    attr_reader :model_class, :authorizer
+
+    delegate :user, to: :authorizer
+
+    # @param model_class [Class] model class
+    # @param authorizer [Wallaby::ModelAuthorizer]
+    # @param model_decorator [Wallaby::ModelServicer]
+    def initialize(model_class, authorizer, model_decorator = nil)
       @model_class = model_class || self.class.model_class
-      raise ArgumentError, 'model class required' unless @model_class
+      raise ArgumentError, I18n.t('errors.required', subject: 'model_class') unless @model_class
+      @model_decorator ||= Map.model_decorator_map model_class
       @authorizer = authorizer
-      @provider = Map.service_provider_map @model_class
+      @provider = Map.service_provider_map(@model_class).new(@model_class, model_decorator)
     end
 
-    # @param params [ActionController::Parameters]
-    # @return [ActionController::Parameters]
-    def permit(params)
-      @provider.permit params
+    # This is the template method to whitelist attributes for mass assignment.
+    # @param params [ActionController::Parameters, Hash]
+    # @param action [String, Symbol]
+    # @return [ActionController::Parameters] permitted params
+    def permit(params, action = nil)
+      @provider.permit params, action, @authorizer
     end
 
-    # @param params [ActionController::Parameters]
-    # @return [ActiveRecord::Relation]
+    # This is the template method to return a collection from querying the datasource (e.g. database, REST API).
+    # @param params [ActionController::Parameters, Hash]
+    # @return [Enumerable]
     def collection(params)
       @provider.collection params, @authorizer
     end
 
-    # @param query [ActiveRecord::Relation]
+    # This is the template method to paginate a {#collection}.
+    # @param query [Enumerable]
     # @param params [ActionController::Parameters]
-    # @return [ActiveRecord::Relation]
+    # @return [Enumerable]
     def paginate(query, params)
       @provider.paginate query, params
     end
 
+    # This is the template method to initialize an instance for its model class.
     # @param params [ActionController::Parameters]
     # @return [Object] initialized object
     def new(params)
       @provider.new params, @authorizer
     end
 
+    # This is the template method to find a record.
     # @param id [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object
@@ -48,6 +79,7 @@ module Wallaby
       @provider.find id, params, @authorizer
     end
 
+    # This is the template method to create a record.
     # @param resource [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object
@@ -55,6 +87,7 @@ module Wallaby
       @provider.create resource, params, @authorizer
     end
 
+    # This is the template method to update a record.
     # @param resource [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object
@@ -62,6 +95,7 @@ module Wallaby
       @provider.update resource, params, @authorizer
     end
 
+    # This is the template method to delete a record.
     # @param resource [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource object

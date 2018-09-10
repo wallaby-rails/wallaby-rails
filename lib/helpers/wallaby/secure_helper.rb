@@ -7,7 +7,7 @@ module Wallaby
     # @param user [Object]
     # @return [String] IMG or I element
     def user_portrait(user = current_user)
-      email_method = Wallaby.configuration.security.email_method || :email
+      email_method = security.email_method || :email
       email = user.respond_to?(email_method) && user.public_send(email_method)
       if email.present?
         https = "http#{request.ssl? ? 's' : EMPTY_STRING}"
@@ -23,9 +23,9 @@ module Wallaby
     # @see Wallaby::Configuration::Security#logout_path
     # @param user [Object]
     # @param app [Object]
-    # @return [String] url to log out
+    # @return [String] URL to log out
     def logout_path(user = current_user, app = main_app)
-      path = Wallaby.configuration.security.logout_path
+      path = security.logout_path
       path ||=
         if defined? ::Devise
           scope = ::Devise::Mapping.find_scope! user
@@ -39,7 +39,7 @@ module Wallaby
     # @param user [Object]
     # @return [String, Symbol] http method to log out
     def logout_method(user = current_user)
-      http_method = Wallaby.configuration.security.logout_method
+      http_method = security.logout_method
       http_method || if defined? ::Devise
                        scope = ::Devise::Mapping.find_scope! user
                        mapping = ::Devise.mappings[scope]

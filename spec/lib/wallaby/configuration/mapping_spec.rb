@@ -43,21 +43,21 @@ describe Wallaby::Configuration::Mapping do
 
   it_behaves_like \
     'has attribute with default value',
-    :resource_paginator, Wallaby::ResourcePaginator
+    :model_paginator, Wallaby::ModelPaginator
 
   context 'when admin application paginator exists' do
     context 'it doesnt inherit form resource paginator' do
       before { stub_const('Admin::ApplicationPaginator', Class.new) }
       it_behaves_like \
         'has attribute with default value',
-        :resource_paginator, Wallaby::ResourcePaginator
+        :model_paginator, Wallaby::ModelPaginator
     end
 
     context 'it inherits form resource paginator' do
-      before { stub_const('Admin::ApplicationPaginator', Class.new(Wallaby::ResourcePaginator)) }
+      before { stub_const('Admin::ApplicationPaginator', Class.new(Wallaby::ModelPaginator)) }
       it_behaves_like \
         'has attribute with default value',
-        :resource_paginator, -> { Admin::ApplicationPaginator }
+        :model_paginator, -> { Admin::ApplicationPaginator }
     end
   end
 
@@ -78,6 +78,26 @@ describe Wallaby::Configuration::Mapping do
       it_behaves_like \
         'has attribute with default value',
         :model_servicer, -> { Admin::ApplicationServicer }
+    end
+  end
+
+  it_behaves_like \
+    'has attribute with default value',
+    :model_authorizer, Wallaby::ModelAuthorizer
+
+  context 'when admin application authorizer exists' do
+    context 'it doesnt inherit form model authorizer' do
+      before { stub_const('Admin::ApplicationAuthorizer', Class.new) }
+      it_behaves_like \
+        'has attribute with default value',
+        :model_authorizer, Wallaby::ModelAuthorizer
+    end
+
+    context 'it inherits form model authorizer' do
+      before { stub_const('Admin::ApplicationAuthorizer', Class.new(Wallaby::ModelAuthorizer)) }
+      it_behaves_like \
+        'has attribute with default value',
+        :model_authorizer, -> { Admin::ApplicationAuthorizer }
     end
   end
 end

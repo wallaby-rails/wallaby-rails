@@ -1,0 +1,2 @@
+class SomethingElse
+end

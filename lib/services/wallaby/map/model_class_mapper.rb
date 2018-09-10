@@ -1,27 +1,25 @@
 module Wallaby
   class Map
-    # @private
-    # To find out all descendant classes and convert them if necessary.
+    # @!visibility private
+    # Generate a map.
     class ModelClassMapper
-      def initialize(base_class)
-        @base_class = base_class
-      end
-
-      # @return [Array] a list of non-anonymous descendant classes
-      def map
-        classes_array.each_with_object({}) do |klass, map|
-          next if anonymous? klass
-          begin
-            map[klass.model_class] = block_given? ? yield(klass) : klass
-          rescue Wallaby::ModelNotFound
-            Rails.logger.error Utils.translate_class(
-              self, :missing_model_class, model: klass.name
-            )
-          end
-        end
+      # Iterate all classes and generate a hash using their model classes as the key
+      # @see #map
+      # @param class_array [Array<Class>]
+      # @return [Hash] model class => descendant class
+      def self.map(class_array, &block)
+        new.send :map, class_array, &block
       end
 
       protected
+
+      # @return [Hash] model class => descendant class
+      def map(class_array)
+        (class_array || EMPTY_ARRAY).each_with_object({}) do |klass, map|
+          next if anonymous?(klass) || abstract?(klass) || !klass.model_class
+          map[klass.model_class] = block_given? ? yield(klass) : klass
+        end
+      end
 
       # @param klass [Class]
       # @return [Boolean] whether the class is anonymous
@@ -29,9 +27,10 @@ module Wallaby
         Utils.anonymous_class? klass
       end
 
-      # @return [Array<Class>] all descendants
-      def classes_array
-        @base_class.try(:descendants) || EMPTY_ARRAY
+      # @param klass [Class]
+      # @return [Boolean] whether the class is abstract, only applicable to controller class
+      def abstract?(klass)
+        klass.respond_to?(:abstract?) && klass.abstract?
       end
     end
   end

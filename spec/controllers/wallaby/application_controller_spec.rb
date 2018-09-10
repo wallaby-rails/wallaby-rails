@@ -68,4 +68,34 @@ describe Wallaby::ApplicationController do
       end
     end
   end
+
+  describe 'configuration shortcuts' do
+    describe '#configuration' do
+      it { expect(controller.configuration).to be_a Wallaby::Configuration }
+    end
+
+    describe '#models' do
+      it { expect(controller.models).to be_a Wallaby::Configuration::Models }
+    end
+
+    describe '#security' do
+      it { expect(controller.security).to be_a Wallaby::Configuration::Security }
+    end
+
+    describe '#mapping' do
+      it { expect(controller.mapping).to be_a Wallaby::Configuration::Mapping }
+    end
+
+    describe '#default_metadata' do
+      it { expect(controller.default_metadata).to be_a Wallaby::Configuration::Metadata }
+    end
+
+    describe '#pagination' do
+      it { expect(controller.pagination).to be_a Wallaby::Configuration::Pagination }
+    end
+
+    describe '#features' do
+      it { expect(controller.features).to be_a Wallaby::Configuration::Features }
+    end
+  end
 end

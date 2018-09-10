@@ -14,7 +14,7 @@ module Wallaby
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def index_link(model_class, url_params: {}, html_options: {}, &block)
-      return if cannot? :index, model_class
+      return if unauthorized? :index, model_class
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         block: -> { to_model_label model_class }
@@ -28,11 +28,10 @@ module Wallaby
     #
     # If user's not authorized, nil will be returned
     # @param model_class [Class] model class
-    # @param options [Hash]
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def new_link(model_class, html_options: {}, &block)
-      return if cannot? :new, model_class
+      return if unauthorized? :new, model_class
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         class: 'resource__create',
@@ -58,7 +57,7 @@ module Wallaby
       )
 
       default = options[:readonly] && block.call || nil
-      return default if cannot? :show, extract(resource)
+      return default if unauthorized? :show, extract(resource)
       link_to show_path(resource), html_options, &block
     end
 
@@ -70,7 +69,7 @@ module Wallaby
     # @return [String] anchor element / text
     def edit_link(resource, options: {}, html_options: {}, &block)
       default = options[:readonly] && decorate(resource).to_label || nil
-      return default if cannot? :edit, extract(resource)
+      return default if unauthorized? :edit, extract(resource)
 
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
@@ -85,11 +84,10 @@ module Wallaby
     #
     # If user's not authorized, nil will be returned
     # @param resource [Object, Wallaby::ResourceDecorator] model class
-    # @param options [Hash]
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def delete_link(resource, html_options: {}, &block)
-      return if cannot? :destroy, extract(resource)
+      return if unauthorized? :destroy, extract(resource)
 
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
@@ -121,15 +119,20 @@ module Wallaby
         && !url_params.permitted?
         url_params = {}
       end
-      wallaby_engine.resources_path \
-        to_resources_name(model_class), url_params.to_h
+      url_for url_params.to_h.reverse_merge(
+        resources: to_resources_name(model_class),
+        action: 'index'
+      )
     end
 
     # Url for new resource form page
     # @param model_class [Class]
     # @return [String]
     def new_path(model_class)
-      wallaby_engine.new_resource_path to_resources_name(model_class)
+      url_for(
+        resources: to_resources_name(model_class),
+        action: 'new'
+      )
     end
 
     # Url for show page of given resource
@@ -138,8 +141,12 @@ module Wallaby
     def show_path(resource)
       decorated = decorate resource
       return unless decorated.primary_key_value
-      wallaby_engine.resource_path \
-        decorated.resources_name, decorated.primary_key_value
+
+      url_for(
+        id: decorated.primary_key_value,
+        resources: decorated.resources_name,
+        action: 'show'
+      )
     end
 
     # Url for edit form page of given resource
@@ -148,8 +155,12 @@ module Wallaby
     def edit_path(resource)
       decorated = decorate resource
       return unless decorated.primary_key_value
-      wallaby_engine.edit_resource_path \
-        decorated.resources_name, decorated.primary_key_value
+
+      url_for(
+        id: decorated.primary_key_value,
+        resources: decorated.resources_name,
+        action: 'edit'
+      )
     end
   end
 end
