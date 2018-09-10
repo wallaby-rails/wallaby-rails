@@ -21,8 +21,6 @@ Below is animated screenshots of Wallaby:
 - See [Change Logs](CHANGELOG.md)
 - See [Get Started](#get-started)
 
-## What is Wallaby?
-
 Here are examples of sophisticated customization:
 
 - Register your product on e-commence after product is created at controller level (see [Controller](docs/controller.md)):
