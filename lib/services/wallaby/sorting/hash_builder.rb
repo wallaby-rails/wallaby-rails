@@ -1,13 +1,10 @@
 module Wallaby
   module Sorting
-    # @private
-    # Turn a string e.g.`'name asc,id desc'` into sort
-    # hash e.g.`{name: 'asc', id: 'desc'}`
+    # Turn a string e.g.`'name asc,id desc'` into sort hash e.g.`{name: 'asc', id: 'desc'}`
     class HashBuilder
       SORT_REGEX = /(([^\s,]+)\s+(asc|desc))\s*,?\s*/i
 
-      # Turn a string e.g.`'name asc,id desc'` into sort
-      # hash e.g.`{name: 'asc', id: 'desc'}`
+      # Turn a string e.g.`'name asc,id desc'` into sort hash e.g.`{name: 'asc', id: 'desc'}`
       # @param sort_string [String]
       # @return [Hash] { field_name => 'asc|desc' }
       def self.build(sort_string)
