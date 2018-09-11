@@ -59,7 +59,7 @@ For example, given that Wallaby is mounted under path `/admin` (see how Wallaby 
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize CSS and JS libraries, it goes:
 
@@ -74,7 +74,7 @@ To customize CSS and JS libraries, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize page title, it goes:
 
@@ -87,7 +87,7 @@ Page Title
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize header section, it goes:
 
@@ -104,7 +104,7 @@ To customize header section, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize footer section, it goes:
 
@@ -117,7 +117,7 @@ To customize footer section, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize logo/slogan, it goes:
 
@@ -130,7 +130,7 @@ To customize logo/slogan, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize popup menu when clicking at user icon, it goes:
 
@@ -147,7 +147,7 @@ To customize popup menu when clicking at user icon, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize popup menu when clicking at user icon, it goes:
 
@@ -167,7 +167,7 @@ To customize popup menu when clicking at user icon, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize links/items for dropdown button next to search form, it goes:
 
@@ -184,7 +184,7 @@ To customize links/items for dropdown button next to search form, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize action links for a resource row in data table, it goes:
 
@@ -201,7 +201,7 @@ To customize action links for a resource row in data table, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partial] for where the partial should be created.
+> See [Partials](#partials) for where the partial should be created.
 
 To customize action links for resource navigation, it goes:
 
