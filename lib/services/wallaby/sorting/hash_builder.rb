@@ -9,9 +9,7 @@ module Wallaby
       # @return [Hash] { field_name => 'asc|desc' }
       def self.build(sort_string)
         ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
-          (sort_string || EMPTY_STRING).scan SORT_REGEX do |_, key, order|
-            hash[key] = order
-          end
+          (sort_string || EMPTY_STRING).scan SORT_REGEX { |_, key, order| hash[key] = order }
         end
       end
     end
