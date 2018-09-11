@@ -1,6 +1,5 @@
 # TODOs
 
-- `frontend` partial
 - fix metadata[:options] for float form partial
 - fix sort_disabled in link_builder
 - permit has_many through
