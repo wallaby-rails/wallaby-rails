@@ -8,22 +8,22 @@ Learn more about the customization for frontend:
 
 > NOTE: If a third party theme is used, its frontend implementation might be different from Wallaby, please check out its document to find out how to do customization for its frontend.
 
-## Partials
+# Partials
 
 Same as [Type Partial](view.md#type-partial), Wallaby utilizes and extends [Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance) to look for partial in controller and action inheritance chain.
 
 The following partials can be customized using template inheritance:
 
+- `frontend` (since 5.2.0) - customizing CSS and JS libraries in `<head>` tag.
 - `title` - customizing page title.
-- `logo` - customizing logo.
 - `header` - customizing header section.
 - `footer` - customizing footer section.
-- `frontend` (since 5.2.0) - customizing CSS and JS libraries in `<head>` tag.
+- `logo` - customizing logo.
 - `user_menu` - customizing links for logged-in user.
 - `navs` - customizing links/items for top navigation bar.
-- `index_action` - customizing links/items for dropdown button next to search form, only used by `index` page.
-- `resource_action` - customizing links for a resource in the data table, only used by `index` page.
-- `resource_navs` - customizing links for resource navigation under the resource's title, only used by `show`/`new`/`create`/`edit`/`update` page.
+- `index_actions` - customizing links/items for dropdown button next to search form, only used by `index` page.
+- `resource_actions` - customizing action links for a resource row in data table, only used by `index` page.
+- `resource_navs` - customizing action links for resource navigation under the resource's title, only used by `show`/`new`/`create`/`edit`/`update` page.
 
 For example, given that Wallaby is mounted under path `/admin` (see how Wallaby is mounted in [route](route.md)), to customize `title` for model `Product`, it goes:
 
@@ -53,7 +53,173 @@ For example, given that Wallaby is mounted under path `/admin` (see how Wallaby 
   app/views/admin/application/_title.html.erb
   ```
 
-## Stylesheet
+## frontend
+
+> since 5.2.0
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize CSS and JS libraries, it goes:
+
+```erb
+<%# app/views/admin/application/_frontend.html.erb %>
+<%= stylesheet_link_tag 'admin/application', media: 'all' %>
+<%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
+<%= javascript_include_tag 'admin/application' %>
+```
+
+## title
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize page title, it goes:
+
+```erb
+<%# app/views/admin/application/_title.html.erb %>
+Page Title
+```
+
+## header
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize header section, it goes:
+
+```erb
+<%# app/views/admin/application/_header.html.erb %>
+<%= render 'logo' %>
+<%= render 'navs' %>
+<%= render 'user_menu' %>
+```
+
+> NOTE: origin header section includes `logo`, `navs` and `user_menu` partials.
+
+## footer
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize footer section, it goes:
+
+```erb
+<%# app/views/admin/application/_footer.html.erb %>
+<footer>© 2018 Company</footer>
+```
+
+## logo
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize logo/slogan, it goes:
+
+```erb
+<%# app/views/admin/application/_logo.html.erb %>
+<a class="navbar-brand" href="<%= current_engine.root_path %>">Slogan</a>
+```
+
+## user_menu
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize popup menu when clicking at user icon, it goes:
+
+```erb
+<%# app/views/admin/application/_user_menu.html.erb %>
+<ul class="dropdown-menu">
+  <% if logout_path.present? %>
+    <li><%= link_to 'Sign out', logout_path, method: logout_method %></li>
+  <% end %>
+</ul>
+```
+
+## navs
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize popup menu when clicking at user icon, it goes:
+
+```erb
+<%# app/views/admin/application/_navs.html.erb %>
+<ul class="nav navbar-nav">
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+      Data <span class="caret"></span>
+    </a>
+    <%= model_tree model_classes %>
+  </li>
+</ul>
+```
+
+## index_actions
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize links/items for dropdown button next to search form, it goes:
+
+```erb
+<%# app/views/admin/application/_index_actions.html.erb %>
+<ul aria-labelledby="actions_list">
+  <li><%= export_link current_model_class %></li>
+</ul>
+```
+
+> NOTE: it's used by index page only.
+
+## resource_actions
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize action links for a resource row in data table, it goes:
+
+```erb
+<%# app/views/admin/application/_resource_actions.html.erb %>
+<%= show_link(decorated) {} %>
+<%= edit_link(decorated) {} %>
+<%= delete_link(decorated) {} %>
+```
+
+> NOTE: it's used by index page only.
+
+## resource_navs
+
+Following example will create partial under `admin/application` controller path.
+
+> See [Partials](#partials) for where the partial should be created.
+
+To customize action links for resource navigation, it goes:
+
+```erb
+<%# app/views/admin/application/_resource_navs.html.erb %>
+<nav>
+  <ul>
+    <%# list %>
+    <li role="presentation">
+      <%= index_link(current_model_class, html_options: { class: 'resources__index' }) {} %>
+    </li>
+  </ul>
+</nav>
+```
+
+> NOTE: it's used by `show`/`new`/`create`/`edit`/`update` page.
+
+# Stylesheet
 
 There are a couple of ways to customize stylesheet:
 
@@ -100,7 +266,7 @@ There are a couple of ways to customize stylesheet:
   }
   ```
 
-## Javascript
+# Javascript
 
 There are a couple of ways to customize javascript:
 
