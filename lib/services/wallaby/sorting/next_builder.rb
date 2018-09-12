@@ -1,25 +1,24 @@
 module Wallaby
   module Sorting
-    # @private
-    # Pass field_name to generate sort param for its next sort order
+    # Generate sort param for given field's next sort order
     # (e.g. from empty to `asc`, from `asc` to `desc`, from `desc` to empty)
     class NextBuilder
       ASC = 'asc'.freeze
       DESC = 'desc'.freeze
 
       # @param params [ActionController::Parameters]
-      # @param hash [Hash, nil] sorting hash
+      # @param hash [Hash, nil] a hash containing sorting info, e.g. `{ name: 'asc' }`
       def initialize(params, hash = nil)
         @params = params
         @hash = hash || HashBuilder.build(params[:sort])
       end
 
       # Update the `sort` parameter.
-      # @example for param `{sort: 'name asc'}`, it will update the parameters
-      #   to `{sort: 'name desc'}`
+      # @example for param `{sort: 'name asc'}`, it updates the parameters to:
+      #   {sort: 'name desc'}
       # @param field_name [String] field name
       # @return [ActionController::Parameters]
-      #   updated parameters that update the sort order for given field
+      #   updated parameters with new sort order for given field
       def next_params(field_name)
         params = clean_params
         update params, :sort, complete_sorting_str_with(field_name)
@@ -28,7 +27,7 @@ module Wallaby
 
       protected
 
-      # @return [ActionController::Parameters] whitelisted parameters
+      # @return [ActionController::Parameters] parameters without controller, action info
       def clean_params
         @params.except :resources, :controller, :action
       end
@@ -53,7 +52,7 @@ module Wallaby
       end
 
       # @param current [String, nil] current sort order
-      # @return [String, nil] next state of sort order
+      # @return [String, nil] next sort order
       def next_value_for(current)
         case current
         when ASC then DESC
@@ -64,8 +63,8 @@ module Wallaby
 
       # Update the value for given key. Remove the key if value is blank
       # @param hash [Hash] sort order hash
-      # @param key [String] key name
-      # @param value [Object, nil] value
+      # @param key [String]
+      # @param value [String, nil]
       def update(hash, key, value)
         return hash.delete key if value.blank?
         hash[key] = value
