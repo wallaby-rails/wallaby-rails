@@ -57,11 +57,6 @@ module Wallaby
       end
     end
 
-    def authorizer_of(model_class)
-      klass = Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
-      klass.new self, model_class
-    end
-
     # @deprecated Use {#current_authorizer} instead. It will be removed from 5.3.*
     # @return [Wallaby::ModelAuthorizer] model authorizer
     def authorizer
@@ -69,12 +64,30 @@ module Wallaby
       current_authorizer
     end
 
+    # Get authorizer for given model
+    # @param model_class [Class]
+    # @return [Wallaby::ModelAuthorizer]
+    def authorizer_of(model_class)
+      klass = Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
+      klass.new self, model_class
+    end
+
+    # Check if user is allowed to perform action on given subject
+    # @param action [Symbol, String]
+    # @param subject [Object, Class]
+    # @return [true] if allowed
+    # @return [false] if not allowed
     def authorized?(action, subject)
       raise ArgumentError, I18n.t('errors.required', subject: 'subject') unless subject
       klass = subject.is_a?(Class) ? subject : subject.class
       authorizer_of(klass).authorized? action, subject
     end
 
+    # Check if user is allowed to perform action on given subject
+    # @param action [Symbol, String]
+    # @param subject [Object, Class]
+    # @return [true] if not allowed
+    # @return [false] if allowed
     def unauthorized?(action, subject)
       !authorized? action, subject
     end
