@@ -4,7 +4,6 @@
 - permit has_many through
 - allow access to authorizer and user in servicer
 - extract assign_attributes out from servicer find/new
-- allow access to context and user in authorizer
 
 - pagination check of collection class
 - documentation for interface

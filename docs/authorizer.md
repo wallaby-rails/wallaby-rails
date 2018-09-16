@@ -52,6 +52,7 @@ Configuration can be set for:
 Accessing helper methods:
 
 - [controller](#controller) - accessing controller context.
+- [user](#user) - accessing current user object.
 
 Customizing authorization operations:
 
@@ -153,6 +154,20 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   private
   def rescue_permission_exception(action, error)
     controller.flash[:alert] = translate_message_for action, error
+  end
+end
+```
+
+## user
+
+It's the reference of current user object. To access `user`, it goes:
+
+```ruby
+# app/authorizers/admin/application_authorizer.rb
+class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
+  private
+  def audit_log(action)
+    AuditLog.log action, user
   end
 end
 ```

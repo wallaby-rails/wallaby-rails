@@ -6,7 +6,7 @@ module Wallaby
     # @return [true] if Cancancan is in use.
     # @return [false] if Cancancan is not in use.
     def self.available?(context)
-      defined?(CanCanCan) && context.respond_to?(:current_ability)
+      defined?(CanCanCan) && defined?(Ability) && context.respond_to?(:current_ability)
     end
 
     delegate :current_ability, to: :context
