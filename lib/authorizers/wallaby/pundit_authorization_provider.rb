@@ -9,8 +9,6 @@ module Wallaby
       defined?(Pundit) && context.respond_to?(:pundit_user)
     end
 
-    delegate :current_user, to: :context
-
     # Check user's permission for an action on given subject.
     #
     # This method will be used in controller.
@@ -20,7 +18,7 @@ module Wallaby
     def authorize(action, subject)
       context.send(:authorize, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
-      Rails.logger.info I18n.t('errors.unauthorized', user: current_user, action: action, subject: subject)
+      Rails.logger.info I18n.t('errors.unauthorized', user: user, action: action, subject: subject)
       raise Unauthorized
     end
 

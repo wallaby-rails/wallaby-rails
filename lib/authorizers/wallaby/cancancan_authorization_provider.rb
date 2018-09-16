@@ -9,7 +9,7 @@ module Wallaby
       defined?(CanCanCan) && context.respond_to?(:current_ability)
     end
 
-    delegate :current_ability, :current_user, to: :context
+    delegate :current_ability, to: :context
 
     # Check user's permission for an action on given subject.
     # This method will be used in controller.
@@ -19,7 +19,7 @@ module Wallaby
     def authorize(action, subject)
       current_ability.authorize! action, subject
     rescue ::CanCan::AccessDenied
-      Rails.logger.info I18n.t('errors.unauthorized', user: current_user, action: action, subject: subject)
+      Rails.logger.info I18n.t('errors.unauthorized', user: user, action: action, subject: subject)
       raise Unauthorized
     end
 

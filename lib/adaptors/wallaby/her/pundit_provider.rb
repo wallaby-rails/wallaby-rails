@@ -14,7 +14,7 @@ module Wallaby
             scope
           end
         scope_policy = Pundit::PolicyFinder.new(klass).scope
-        scope_policy ? scope_policy.new(current_user, scope).resolve : scope
+        scope_policy ? scope_policy.new(user, scope).resolve : scope
       end
     end
   end
