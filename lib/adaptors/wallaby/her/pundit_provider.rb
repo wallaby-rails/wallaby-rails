@@ -2,7 +2,7 @@ module Wallaby
   class Her
     # Pundit provider for Her
     class PunditProvider < PunditAuthorizationProvider
-      # Filter a scope
+      # Find out the class and filter scope.
       # @param _action [Symbol, String]
       # @param scope [Object]
       # @return [Object]

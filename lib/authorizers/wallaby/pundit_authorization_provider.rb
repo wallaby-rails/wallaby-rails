@@ -1,34 +1,26 @@
 module Wallaby
-  # Base Pundit authorization provider
+  # Pundit base authorization provider
   class PunditAuthorizationProvider < ModelAuthorizationProvider
-    # Check if current context is using pundit
+    # Detect and see if Pundit is in use.
     # @param context [ActionController::Base]
+    # @return [true] if Pundit is in use.
+    # @return [false] if Pundit is not in use.
     def self.available?(context)
-      defined?(Pundit) && context.respond_to?(:pundit_user) && context.respond_to?(:policy)
+      defined?(Pundit) && context.respond_to?(:pundit_user)
     end
 
-    delegate :current_user, to: :@context
-
-    # Store context for Pundit authorization
-    # @param context [ActionController::Base]
-    def initialize(context)
-      @context = context
-    end
+    delegate :current_user, to: :context
 
     # Check user's permission for an action on given subject.
-    # This method will be used in controller most likely.
+    #
+    # This method will be used in controller.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @return nil
+    # @raise [Wallaby::Unauthorized] when user is not authorized to perform the action.
     def authorize(action, subject)
-      @context.authorize(subject, normalize(action)) && subject
+      context.send(:authorize, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
-      Rails.logger.info I18n.t(
-        'errors.unauthorized.cancancan',
-        user: current_user,
-        action: action,
-        subject: subject
-      )
+      Rails.logger.info I18n.t('errors.unauthorized', user: current_user, action: action,subject: subject)
       raise Unauthorized
     end
 
@@ -38,47 +30,48 @@ module Wallaby
     # @return [Boolean]
     def authorized?(action, subject)
       action_query = normalize action
-      policy = @context.policy subject
+      policy = context.send :policy, subject
       policy.respond_to?(action_query) && policy.public_send(action_query)
     end
 
-    # Delegate attributes_for to current_ability
+    # Restrict user to assign certain values.
+    #
+    # It will do a lookup in policy's methods and pick the first available method:
+    #
+    # - attributes\_for\_#\{ action \}
+    # - attributes\_for
     # @param action [Symbol, String]
     # @param subject [Object]
-    # @return nil
+    # @return [Hash] field value paired hash that user's allowed to assign
     def attributes_for(action, subject)
-      policy = @context.policy(subject)
-      method =
-        if policy.respond_to? "attributes_for_#{action}"
-          "attributes_for_#{action}"
-        elsif policy.respond_to? 'attributes_for'
-          'attributes_for'
-        end
-      value = method && policy.public_send(method)
+      policy = context.send :policy, subject
+      value = Utils.try_to(policy, "attributes_for_#{action}") || Utils.try_to(policy, "attributes_for")
       Rails.logger.warn I18n.t('error.pundit.not_found.attributes_for', subject: subject) unless method
       value || {}
     end
 
-    # Just return nil
+    # Restrict user for mass assignment.
+    #
+    # It will do a lookup in policy's methods and pick the first available method:
+    #
+    # - permitted\_attributes\_for\_#\{ action \}
+    # - permitted\_attributes
     # @param action [Symbol, String]
     # @param subject [Object]
-    # @return [nil]
+    # @return [Array] field list that user's allowed to change.
     def permit_params(action, subject)
-      policy = @context.policy subject
+      policy = context.send :policy, subject
       # @see https://github.com/varvet/pundit/blob/master/lib/pundit.rb#L258
-      method =
-        if policy.respond_to? "permitted_attributes_for_#{action}"
-          "permitted_attributes_for_#{action}"
-        else
-          'permitted_attributes'
-        end
-      policy.public_send(method).presence
+      Utils.try_to(policy, "permitted_attributes_for_#{action}") || Utils.try_to(policy, "permitted_attributes")
     end
 
     private
 
+    # Convert action to pundit method name
+    # @param action [Symbol, String]
+    # @return [String] e.g. `create?`
     def normalize(action)
-      action.to_s + (action.to_s.end_with?('?') ? '' : '?')
+      "#{action}?".tr('??', '?')
     end
   end
 end

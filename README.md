@@ -23,7 +23,7 @@ Below is animated screenshots of Wallaby:
 
 Here are examples of sophisticated customization:
 
-- Register your product on e-commence after product is created at controller level (see [Controller](docs/controller.md)):
+- Register your product on e-commence after product is created at controller level (see [Controller](docs/controller.md) for more):
 
     ```ruby
     # app/controllers/admin/products_controller.rb
@@ -38,7 +38,7 @@ Here are examples of sophisticated customization:
     end
     ```
 
-- Customize to render the product markdown description (see [Decorator](docs/decorator.md)):
+- Customize to render the product markdown description (see [Decorator](docs/decorator.md) for more):
 
     ```ruby
     # app/decorators/product_decorators.rb
@@ -47,7 +47,7 @@ Here are examples of sophisticated customization:
     end
     ```
 
-    Then create the partial accordingly:
+    Then create the type partial accordingly (see [Type Partial](docs/view.md) for more):
 
     ```erb
     <% # app/views/admin/products/show/_markdown.html.erb %>
@@ -60,14 +60,14 @@ Here are examples of sophisticated customization:
 1. Add wallaby gem to `Gemfile`:
 
     ```ruby
-    # ./Gemfile
+    # Gemfile
     gem 'wallaby'
     ```
 
 2. Mount engine in `routes.rb`:
 
     ```ruby
-    # ./config/routes.rb
+    # config/routes.rb
     Rails.application.routes.draw do
       # ... other routes
       mount Wallaby::Engine => "/desired_path"
