@@ -24,8 +24,8 @@ module Wallaby
 
     delegate(*(ModelAuthorizationProvider.instance_methods - ::Object.instance_methods), to: :@provider)
 
-    # @param model_class [Class]
     # @param context [ActionController::Base]
+    # @param model_class [Class]
     def initialize(context, model_class)
       @model_class = self.class.model_class || model_class
       @provider = init_provider context

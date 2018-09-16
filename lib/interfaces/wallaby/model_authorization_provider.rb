@@ -21,7 +21,6 @@ module Wallaby
     end
 
     # @!attribute [r] context
-    # @return context [ActionController::Base]
     attr_reader :context
 
     # @param context [ActionController::Base]

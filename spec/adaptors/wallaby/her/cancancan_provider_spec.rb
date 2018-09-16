@@ -32,14 +32,14 @@ describe Wallaby::Her::CancancanProvider do
 
     describe '#authorize' do
       it 'returns target' do
-        expect { subject.authorize(:index, target_class) }.to raise_error Wallaby::Unauthorized
-        expect { subject.authorize(:index, target) }.to raise_error Wallaby::Unauthorized
+        expect { subject.authorize(:index, target_class) }.to raise_error Wallaby::Forbidden
+        expect { subject.authorize(:index, target) }.to raise_error Wallaby::Forbidden
         expect(subject.authorize(:show, target)).to eq target
         expect(subject.authorize(:new, target)).to eq target
         expect(subject.authorize(:create, target)).to eq target
         expect(subject.authorize(:edit, target)).to eq target
         expect(subject.authorize(:update, target)).to eq target
-        expect { subject.authorize(:destroy, target) }.to raise_error Wallaby::Unauthorized
+        expect { subject.authorize(:destroy, target) }.to raise_error Wallaby::Forbidden
       end
     end
 

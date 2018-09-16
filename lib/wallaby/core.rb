@@ -49,8 +49,8 @@ require 'errors/wallaby/not_found'
 require 'errors/wallaby/model_not_found'
 require 'errors/wallaby/resource_not_found'
 
+require 'errors/wallaby/forbidden'
 require 'errors/wallaby/not_authenticated'
-require 'errors/wallaby/unauthorized'
 require 'errors/wallaby/unprocessable_entity'
 
 require 'decorators/wallaby/abstract_resource_decorator'

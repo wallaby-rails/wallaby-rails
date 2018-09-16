@@ -176,7 +176,7 @@ end
 
 ## authorize
 
-This is the template method to check permission for given subject and raise `Wallaby::Unauthorized` exception if user has no access. It's used by controller mostly.
+This is the template method to check permission for given subject and raise `Wallaby::Forbidden` exception if user has no access. It's used by controller mostly.
 
 To customize how to check permission for given subject, it goes:
 

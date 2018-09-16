@@ -1,12 +1,10 @@
 module Wallaby
   # Model servicer is used for {https://en.wikipedia.org/wiki/Create,_read,_update_and_delete CRUD} operations.
   class ModelServicer < AbstractModelServicer
+    # @!method initialize(model_class, authorizer, model_decorator)
     # @param model_class [Class] model class
     # @param authorizer [Wallaby::ModelAuthorizer]
     # @param model_decorator [Wallaby::ModelDecorator]
-    def initialize(model_class, authorizer, model_decorator)
-      super
-    end
 
     # @!method permit(params, action = nil)
     # @note It can be overridden in subclasses for customization purpose.

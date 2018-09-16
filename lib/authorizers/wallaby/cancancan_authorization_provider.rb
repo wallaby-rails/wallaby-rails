@@ -15,12 +15,12 @@ module Wallaby
     # This method will be used in controller.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @raise [Wallaby::Unauthorized] when user is not authorized to perform the action.
+    # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
     def authorize(action, subject)
       current_ability.authorize! action, subject
     rescue ::CanCan::AccessDenied
       Rails.logger.info I18n.t('errors.unauthorized', user: user, action: action, subject: subject)
-      raise Unauthorized
+      raise Forbidden
     end
 
     # Check and see if user is allowed to perform an action on given subject.
