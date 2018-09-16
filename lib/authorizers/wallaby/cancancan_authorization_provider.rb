@@ -19,7 +19,7 @@ module Wallaby
     def authorize(action, subject)
       current_ability.authorize! action, subject
     rescue ::CanCan::AccessDenied
-      Rails.logger.info I18n.t('errors.unauthorized', user: current_user, action: action,subject: subject)
+      Rails.logger.info I18n.t('errors.unauthorized', user: current_user, action: action, subject: subject)
       raise Unauthorized
     end
 

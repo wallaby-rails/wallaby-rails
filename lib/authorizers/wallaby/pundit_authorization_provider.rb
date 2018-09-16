@@ -20,7 +20,7 @@ module Wallaby
     def authorize(action, subject)
       context.send(:authorize, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
-      Rails.logger.info I18n.t('errors.unauthorized', user: current_user, action: action,subject: subject)
+      Rails.logger.info I18n.t('errors.unauthorized', user: current_user, action: action, subject: subject)
       raise Unauthorized
     end
 
@@ -45,7 +45,7 @@ module Wallaby
     # @return [Hash] field value paired hash that user's allowed to assign
     def attributes_for(action, subject)
       policy = context.send :policy, subject
-      value = Utils.try_to(policy, "attributes_for_#{action}") || Utils.try_to(policy, "attributes_for")
+      value = Utils.try_to(policy, "attributes_for_#{action}") || Utils.try_to(policy, 'attributes_for')
       Rails.logger.warn I18n.t('error.pundit.not_found.attributes_for', subject: subject) unless method
       value || {}
     end
@@ -62,7 +62,7 @@ module Wallaby
     def permit_params(action, subject)
       policy = context.send :policy, subject
       # @see https://github.com/varvet/pundit/blob/master/lib/pundit.rb#L258
-      Utils.try_to(policy, "permitted_attributes_for_#{action}") || Utils.try_to(policy, "permitted_attributes")
+      Utils.try_to(policy, "permitted_attributes_for_#{action}") || Utils.try_to(policy, 'permitted_attributes')
     end
 
     private
