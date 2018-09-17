@@ -39,16 +39,26 @@ describe Wallaby::ResourcesController, type: :controller do
   end
 
   describe '#current_authorizer' do
-    let!(:authorizer) { stub_const 'AllPostgresTypeAuthorizer', Class.new(Wallaby::ModelAuthorizer) }
-
-    it 'returns model authorizer for existing resource authorizer' do
-      controller.params[:resources] = 'all_postgres_types'
-      expect(controller.current_authorizer).to be_a AllPostgresTypeAuthorizer
-    end
-
-    it 'returns model authorizer for non-existing resource authorizer' do
+    it 'returns model authorizer' do
       controller.params[:resources] = 'orders'
       expect(controller.current_authorizer).to be_a Wallaby::ModelAuthorizer
+    end
+  end
+
+  describe '#authorizer_of' do
+    it 'returns model authorizer' do
+      expect(controller.authorizer_of(Order)).to be_a Wallaby::ModelAuthorizer
+    end
+  end
+
+  describe '#authorized? & #unauthorized?' do
+    it 'returns boolean' do
+      expect(controller.authorized?(:index, AllPostgresType)).to be_truthy
+      expect(controller.authorized?(:index, AllPostgresType.new)).to be_truthy
+      expect(controller.unauthorized?(:index, AllPostgresType)).to be_falsy
+      expect(controller.unauthorized?(:index, AllPostgresType.new)).to be_falsy
+      expect { controller.authorized?(:index, nil) }.to raise_error ArgumentError
+      expect { controller.unauthorized?(:index, nil) }.to raise_error ArgumentError
     end
   end
 end

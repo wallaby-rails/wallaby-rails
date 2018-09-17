@@ -1,5 +1,6 @@
 RSpec.configure do |config|
-  config.before do |example|
+  config.before do
+    # TODO: remove `clear: :object_space
     Wallaby.configuration.clear
     Wallaby::Map.clear
   end

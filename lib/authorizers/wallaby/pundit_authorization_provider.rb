@@ -27,9 +27,8 @@ module Wallaby
     # @param subject [Object, Class]
     # @return [Boolean]
     def authorized?(action, subject)
-      action_query = normalize action
       policy = context.send :policy, subject
-      policy.respond_to?(action_query) && policy.public_send(action_query)
+      Utils.try_to policy, normalize(action)
     end
 
     # Restrict user to assign certain values.

@@ -4,6 +4,7 @@ module Wallaby
     class << self
       # @!attribute [w] provider_name
       attr_writer :provider_name
+
       # @!attribute [r] provider_name
       # This is the provider name that can be set in Wallaby::ModelAuthorizer subclasses.
       # @see Wallaby::ModelAuthorizer.provider_name

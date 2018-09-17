@@ -49,27 +49,16 @@ module Wallaby
     #   {Wallaby::Authorizable::ClassMethods#application_authorizer .application_authorizer}
     # @return [Wallaby::ModelAuthorizer] model authorizer
     def current_authorizer
-      @current_authorizer ||= begin
-        klass =
-          controller_to_get(__callee__, :model_authorizer) \
-            || Map.authorizer_map(current_model_class, controller_to_get(:application_authorizer))
-        klass.new self, current_model_class
-      end
-    end
-
-    # @deprecated Use {#current_authorizer} instead. It will be removed from 5.3.*
-    # @return [Wallaby::ModelAuthorizer] model authorizer
-    def authorizer
-      Utils.deprecate 'deprecation.authorizer', caller: caller
-      current_authorizer
+      @current_authorizer ||=
+        authorizer_of current_model_class, controller_to_get(__callee__, :model_authorizer)
     end
 
     # Get authorizer for given model
     # @param model_class [Class]
     # @return [Wallaby::ModelAuthorizer]
-    def authorizer_of(model_class)
-      klass = Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
-      klass.new self, model_class
+    def authorizer_of(model_class, authorizer_class = nil)
+      authorizer_class ||= Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
+      authorizer_class.new self, model_class
     end
 
     # Check if user is allowed to perform action on given subject
@@ -90,6 +79,13 @@ module Wallaby
     # @return [false] if allowed
     def unauthorized?(action, subject)
       !authorized? action, subject
+    end
+
+    # @deprecated Use {#current_authorizer} instead. It will be removed from 5.3.*
+    # @return [Wallaby::ModelAuthorizer] model authorizer
+    def authorizer
+      Utils.deprecate 'deprecation.authorizer', caller: caller
+      current_authorizer
     end
   end
 end
