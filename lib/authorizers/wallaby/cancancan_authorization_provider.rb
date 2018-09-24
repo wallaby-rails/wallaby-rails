@@ -1,35 +1,26 @@
 module Wallaby
-  # Base Cancancan authorization provider
+  # Cancancan base authorization provider
   class CancancanAuthorizationProvider < ModelAuthorizationProvider
-    # Detect and see if Cancancan is in used
+    # Detect and see if Cancancan is in use.
     # @param context [ActionController::Base]
+    # @return [true] if Cancancan is in use.
+    # @return [false] if Cancancan is not in use.
     def self.available?(context)
-      defined?(CanCanCan) && context.respond_to?(:current_ability)
+      defined?(CanCanCan) && defined?(Ability) && context.respond_to?(:current_ability)
     end
 
-    delegate :current_ability, :current_user, to: :@context
-
-    # Store current context for later
-    # @param context [ActionController::Base]
-    def initialize(context)
-      @context = context
-    end
+    delegate :current_ability, to: :context
 
     # Check user's permission for an action on given subject.
     # This method will be used in controller.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @return nil
+    # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
     def authorize(action, subject)
       current_ability.authorize! action, subject
     rescue ::CanCan::AccessDenied
-      Rails.logger.info I18n.t(
-        'errors.unauthorized.cancancan',
-        user: current_user,
-        action: action,
-        subject: subject
-      )
-      raise Unauthorized
+      Rails.logger.info I18n.t('errors.unauthorized', user: user, action: action, subject: subject)
+      raise Forbidden
     end
 
     # Check and see if user is allowed to perform an action on given subject.
@@ -40,7 +31,7 @@ module Wallaby
       current_ability.can? action, subject
     end
 
-    # Check and see
+    # Restrict user to access certain scope.
     # @param action [Symbol, String]
     # @param scope [Object]
     # @return [Object]
@@ -49,7 +40,7 @@ module Wallaby
       scope.accessible_by current_ability, action
     end
 
-    # Delegate attributes_for to current_ability
+    # Restrict user to assign certain values.
     # @param action [Symbol, String]
     # @param subject [Object]
     # @return nil

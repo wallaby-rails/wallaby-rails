@@ -1,5 +1,4 @@
 module Wallaby
-  # @!visibility private
   # This is the core of wallaby that dynamically dispatches request to appropriate controller and action.
   class ResourcesRouter
     # @see http://edgeguides.rubyonrails.org/routing.html#routing-to-rack-applications
@@ -24,7 +23,7 @@ module Wallaby
 
     private
 
-    # Find the controller class by model class
+    # Find controller class
     # @param params [Hash]
     # @return [Class] controller class
     def find_controller_by(params)
@@ -32,15 +31,21 @@ module Wallaby
       Map.controller_map(model_class, params[:resources_controller]) || default_controller(params)
     end
 
-    # The controller class sources from engine mounting parameter or global configuration
+    # Default controller class sources from:
+    #
+    # 1. `:resources_controller` parameter
+    # 2. resources_controller mapping configuration,
     # @param params [Hash]
     # @return [Class] controller class
     def default_controller(params)
       params[:resources_controller] || Wallaby.configuration.mapping.resources_controller
     end
 
-    # Check and see if the model is supported or not
-    # @param model_class [Class]
+    # Find out the model class
+    # @param params [Hash]
+    # @raise [Wallaby::ModelNotFound] when model class is not found
+    # @raise [Wallaby::UnprocessableEntity] when there is no corresponding mode found for model class
+    # @return [Class] model class
     def find_model_class_by(params)
       model_class = Map.model_class_map params[:resources]
       return model_class unless MODEL_ACTIONS.include? params[:action].to_sym

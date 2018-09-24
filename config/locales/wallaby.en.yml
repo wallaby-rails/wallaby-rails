@@ -69,8 +69,7 @@ en:
       keyword_search: 'Unable to perform keyword search when no text fields can be used.'
       field_colon_search: 'Unable to perform field colon search for %{invalid_fields}.'
       model: 'Unable to handle model %{model}.'
-    unauthorized:
-      cancancan: 'User %{user} is trying to perform %{action} on %{subject}'
+    unauthorized: 'User %{user} is trying to perform %{action} on %{subject}'
     pundit:
       not_found:
         scope_policy: 'Cannot find scope policy for %{scope}.'

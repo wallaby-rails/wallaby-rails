@@ -49,17 +49,36 @@ module Wallaby
     #   {Wallaby::Authorizable::ClassMethods#application_authorizer .application_authorizer}
     # @return [Wallaby::ModelAuthorizer] model authorizer
     def current_authorizer
-      @current_authorizer ||= begin
-        klass =
-          controller_to_get(__callee__, :model_authorizer) \
-            || Map.authorizer_map(current_model_class, controller_to_get(:application_authorizer))
-        klass.new self, current_model_class
-      end
+      @current_authorizer ||=
+        authorizer_of current_model_class, controller_to_get(__callee__, :model_authorizer)
     end
 
-    def authorizer_of(model_class)
-      klass = Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
-      klass.new self, model_class
+    # Get authorizer for given model
+    # @param model_class [Class]
+    # @return [Wallaby::ModelAuthorizer]
+    def authorizer_of(model_class, authorizer_class = nil)
+      authorizer_class ||= Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
+      authorizer_class.new self, model_class
+    end
+
+    # Check if user is allowed to perform action on given subject
+    # @param action [Symbol, String]
+    # @param subject [Object, Class]
+    # @return [true] if allowed
+    # @return [false] if not allowed
+    def authorized?(action, subject)
+      raise ArgumentError, I18n.t('errors.required', subject: 'subject') unless subject
+      klass = subject.is_a?(Class) ? subject : subject.class
+      authorizer_of(klass).authorized? action, subject
+    end
+
+    # Check if user is allowed to perform action on given subject
+    # @param action [Symbol, String]
+    # @param subject [Object, Class]
+    # @return [true] if not allowed
+    # @return [false] if allowed
+    def unauthorized?(action, subject)
+      !authorized? action, subject
     end
 
     # @deprecated Use {#current_authorizer} instead. It will be removed from 5.3.*
@@ -67,16 +86,6 @@ module Wallaby
     def authorizer
       Utils.deprecate 'deprecation.authorizer', caller: caller
       current_authorizer
-    end
-
-    def authorized?(action, subject)
-      raise ArgumentError, I18n.t('errors.required', subject: 'subject') unless subject
-      klass = subject.is_a?(Class) ? subject : subject.class
-      authorizer_of(klass).authorized? action, subject
-    end
-
-    def unauthorized?(action, subject)
-      !authorized? action, subject
     end
   end
 end

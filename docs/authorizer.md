@@ -52,6 +52,7 @@ Configuration can be set for:
 Accessing helper methods:
 
 - [controller](#controller) - accessing controller context.
+- [user](#user) - accessing current user object.
 
 Customizing authorization operations:
 
@@ -157,11 +158,25 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
+## user
+
+It's the reference of current user object. To access `user`, it goes:
+
+```ruby
+# app/authorizers/admin/application_authorizer.rb
+class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
+  private
+  def audit_log(action)
+    AuditLog.log action, user
+  end
+end
+```
+
 # Authorization
 
 ## authorize
 
-This is the template method to check permission for given subject and raise `Wallaby::Unauthorized` exception if user has no access. It's used by controller mostly.
+This is the template method to check permission for given subject and raise `Wallaby::Forbidden` exception if user has no access. It's used by controller mostly.
 
 To customize how to check permission for given subject, it goes:
 

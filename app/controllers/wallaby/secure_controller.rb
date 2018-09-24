@@ -5,9 +5,9 @@ module Wallaby
     helper_method :current_user
 
     rescue_from NotAuthenticated, with: :unauthorized
-    rescue_from Unauthorized, with: :forbidden
+    rescue_from Forbidden, with: :forbidden
 
-    # Unauthorized page. And it will be used for error handling as the action name implies.
+    # Forbidden page. And it will be used for error handling as the action name implies.
     # @param exception [Exception] exception comes from `rescue_from`
     def unauthorized(exception = nil)
       error_rendering(exception, __callee__)

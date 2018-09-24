@@ -3,14 +3,9 @@ module Wallaby
   class DefaultAuthorizationProvider < ModelAuthorizationProvider
     # Always available.
     # @param _context [ActionController::Base]
+    # @return [true]
     def self.available?(_context)
       true
-    end
-
-    # Do nothing
-    # @param _context [ActionController::Base]
-    def initialize(_context)
-      # Do nothing
     end
 
     # Do nothing
@@ -23,7 +18,7 @@ module Wallaby
     # Always return true
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
-    # @return [Boolean]
+    # @return [true]
     def authorized?(_action, _subject)
       true
     end
@@ -38,6 +33,7 @@ module Wallaby
     # Return empty attributes
     # @param _action [Symbol, String]
     # @param _subject [Object]
+    # @return [Hash] empty hash
     def attributes_for(_action, _subject)
       {}
     end
@@ -45,7 +41,7 @@ module Wallaby
     # @note Please make sure to return nil when the authorization doesn't support this feature.
     # @param _action [Symbol, String]
     # @param _subject [Object]
-    # @return [nil, Array]
+    # @return [nil]
     def permit_params(_action, _subject)
       # Do nothing
     end

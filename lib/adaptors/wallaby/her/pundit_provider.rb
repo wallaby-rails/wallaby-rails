@@ -2,7 +2,7 @@ module Wallaby
   class Her
     # Pundit provider for Her
     class PunditProvider < PunditAuthorizationProvider
-      # Filter a scope
+      # Find out the class and filter scope.
       # @param _action [Symbol, String]
       # @param scope [Object]
       # @return [Object]
@@ -14,7 +14,7 @@ module Wallaby
             scope
           end
         scope_policy = Pundit::PolicyFinder.new(klass).scope
-        scope_policy ? scope_policy.new(current_user, scope).resolve : scope
+        scope_policy ? scope_policy.new(user, scope).resolve : scope
       end
     end
   end
