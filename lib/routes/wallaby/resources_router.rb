@@ -60,7 +60,7 @@ module Wallaby
     # @param exception [Exception]
     # @param env [Hash] @see http://www.rubydoc.info/github/rack/rack/master/file/SPEC
     def set_message_for(exception, env)
-      session = env[ActionDispatch::Request::Session::ENV_SESSION_KEY].to_h
+      session = env[ActionDispatch::Request::Session::ENV_SESSION_KEY] || {}
       env[ActionDispatch::Flash::KEY] ||= ActionDispatch::Flash::FlashHash.from_session_value session['flash']
       flash = env[ActionDispatch::Flash::KEY]
       flash[:alert] = exception.message

@@ -5,7 +5,7 @@ module Wallaby
       # @param field_name [String, Symbol] field name
       # @return [Hash] metadata information for a given field
       def metadata_of(field_name)
-        fields[field_name].to_h
+        fields[field_name] || {}
       end
 
       # @param field_name [String, Symbol] field name
@@ -23,7 +23,7 @@ module Wallaby
       # @param field_name [String, Symbol] field name
       # @return [Hash] index metadata information for a given field
       def index_metadata_of(field_name)
-        index_fields[field_name].to_h
+        index_fields[field_name] || {}
       end
 
       # @param field_name [String, Symbol] field name
@@ -41,7 +41,7 @@ module Wallaby
       # @param field_name [String, Symbol] field name
       # @return [Hash] show metadata information for a given field
       def show_metadata_of(field_name)
-        show_fields[field_name].to_h
+        show_fields[field_name] || {}
       end
 
       # @param field_name [String, Symbol] field name
@@ -59,7 +59,7 @@ module Wallaby
       # @param field_name [String, Symbol] field name
       # @return [Hash] form metadata information for a given field
       def form_metadata_of(field_name)
-        form_fields[field_name].to_h
+        form_fields[field_name] || {}
       end
 
       # @param field_name [String, Symbol] field name

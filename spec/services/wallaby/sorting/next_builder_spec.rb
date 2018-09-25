@@ -4,7 +4,7 @@ describe Wallaby::Sorting::NextBuilder do
   describe '#next_params' do
     it 'returns params with sort values' do
       params = parameters sort: 'name asc'
-      subject = described_class.new(params, { name: 'asc' }.with_indifferent_access)
+      subject = described_class.new(params, name: 'asc')
       expect { subject.next_params(:name) }.not_to(change { params })
       expect(subject.next_params(:name)).to eq parameters(sort: 'name desc')
 
