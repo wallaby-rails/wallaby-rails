@@ -1,7 +1,5 @@
 # TODOs
 
-- fix metadata[:options] for float form partial
-- permit has_many through
 - allow access to authorizer and user in servicer
 - extract assign_attributes out from servicer find/new
 
@@ -9,10 +7,7 @@
 - documentation for interface
 - documentation for localization
 - bugfix: can autocomplete for integer labels
-- Remove dependency of CanCanCan and Kaminari
 - Localization support: to be able to use localization for all the model labels
-- Add support for pundit
-- Add support for her ORM
 - Add lint check for stylesheet (maybe..)
 - Data audit (use papertrail) (maybe..)
 - Batch data action (maybe..)

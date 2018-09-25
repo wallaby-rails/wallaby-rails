@@ -163,6 +163,8 @@ end
 
 ## Authorizer
 
+> since 5.2.0
+
 Authorizer can be tested when it's customized for other authorization framework. The only thing to be set up is the intiailization:
 
 ```ruby
@@ -177,6 +179,8 @@ end
 > NOTE: helper is needed to provide the context for authorizer
 
 ## Paginator
+
+> since 5.2.0
 
 Paginator can be tested when it's customized for the models. The only thing to be set up is the intiailization:
 
