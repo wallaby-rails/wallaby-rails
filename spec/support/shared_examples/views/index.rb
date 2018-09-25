@@ -6,7 +6,7 @@ RSpec.shared_examples 'index partial' do |field_name, options = {}|
 
   let(:partial_name) { options[:partial_name] || field_name }
   let(:content_for) { options[:content_for] }
-  let(:metadata) { options[:metadata] || {} }
+  let(:metadata) { options[:metadata].to_h }
   let(:model_class) { options[:model_class] || AllPostgresType }
   let(:expected_value) { (options[:expected_value] || value).to_s }
 
@@ -60,7 +60,7 @@ RSpec.shared_examples 'index csv partial' do |field_name, options = {}|
 
   let(:partial_name) { options[:partial_name] || field_name }
   let(:content_for) { options[:content_for] }
-  let(:metadata) { options[:metadata] || {} }
+  let(:metadata) { options[:metadata].to_h }
   let(:model_class) { options[:model_class] || AllPostgresType }
   let(:expected_value) { (options[:expected_value] || value).to_s }
 

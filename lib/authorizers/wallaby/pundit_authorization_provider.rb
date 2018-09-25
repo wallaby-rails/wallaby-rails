@@ -44,7 +44,7 @@ module Wallaby
       policy = context.send :policy, subject
       value = Utils.try_to(policy, "attributes_for_#{action}") || Utils.try_to(policy, 'attributes_for')
       Rails.logger.warn I18n.t('error.pundit.not_found.attributes_for', subject: subject) unless value
-      value || {}
+      value.to_h
     end
 
     # Restrict user for mass assignment.

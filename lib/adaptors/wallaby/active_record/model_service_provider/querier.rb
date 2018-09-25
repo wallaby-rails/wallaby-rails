@@ -85,7 +85,7 @@ module Wallaby
         # @param filter_name [String] filter name
         # @return [String]
         def find_scope(filter_name)
-          filter = @model_decorator.filters[filter_name] || {}
+          filter = @model_decorator.filters[filter_name].to_h
           filter[:scope] || filter_name
         end
 

@@ -37,7 +37,7 @@ module Wallaby
     # @param select_options [Hash]
     # @return [String] options HTML
     def polymorphic_options(metadata, wildcard = 'QUERY', select_options = {})
-      urls = metadata[:remote_urls] || {}
+      urls = metadata[:remote_urls].to_h
       options = (metadata[:polymorphic_list] || []).map do |klass|
         [
           klass, klass,

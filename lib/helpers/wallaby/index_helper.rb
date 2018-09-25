@@ -44,7 +44,7 @@ module Wallaby
     # @return [String] HTML anchor link
     def filter_link(model_class, filter_name, filters: {}, url_params: {})
       is_all = filter_name == :all
-      config = filters[filter_name] || {}
+      config = filters[filter_name].to_h
       label = is_all ? all_label : filter_label(filter_name, filters)
       url_params =
         if config[:default] then index_params.except(:filter).merge(url_params)

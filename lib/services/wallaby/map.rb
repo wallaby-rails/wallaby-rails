@@ -153,7 +153,7 @@ module Wallaby
           Rails.logger.warn Utils.translate_class(self, :missing_mode_for_model_class, model: model_class.name)
           return
         end
-        instance_variable_set(variable_name, instance_variable_get(variable_name) || {})
+        instance_variable_set(variable_name, instance_variable_get(variable_name).to_h)
         map = instance_variable_get variable_name
         map[application_class] ||= ModelClassMapper.map application_class.descendants
         map[application_class][model_class] ||= application_class
