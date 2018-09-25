@@ -10,7 +10,7 @@ module Wallaby
       # @param hash [Hash, nil] a hash containing sorting info, e.g. `{ name: 'asc' }`
       def initialize(params, hash = nil)
         @params = params
-        @hash = hash || HashBuilder.build(params[:sort])
+        @hash = hash.try(:with_indifferent_access) || HashBuilder.build(params[:sort])
       end
 
       # Update the `sort` parameter.

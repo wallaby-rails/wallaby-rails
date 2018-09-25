@@ -8,7 +8,7 @@ RSpec.shared_examples 'form partial' do |field_name, options = {}|
   let(:partial_name) { options[:partial_name] || field_name }
   let(:content_for) { options[:content_for] }
   let(:type) { options[:type] || 'text' }
-  let(:metadata) { options[:metadata] || {} }
+  let(:metadata) { options[:metadata].to_h }
   let(:model_class) { options[:model_class] || AllPostgresType }
   let(:resources_name) { Wallaby::ModelUtils.to_resources_name(model_class).singularize }
   let(:input_selector) { options[:input_selector] || '.form-group .row div input' }
