@@ -6,5 +6,14 @@ describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
     value: 88.8888,
-    type: 'number'
+    type: 'number' do
+    context 'when metadata options are given' do
+      let(:metadata) { { options: { step: 2 } } }
+
+      it 'sets step' do
+        input = page.at_css(input_selector)
+        expect(input['step'].to_i).to eq metadata[:options][:step]
+      end
+    end
+  end
 end
