@@ -64,7 +64,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
 
     describe '#compound_hashed_fields' do
       it 'returns range fields' do
-        expect(subject.compound_hashed_fields).to eq 'order_item_ids' => [], 'tag_ids' => []
+        expect(subject.compound_hashed_fields).to eq 'order_ids' => [], 'order_item_ids' => [], 'tag_ids' => []
       end
     end
 
@@ -88,13 +88,13 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
 
     describe '#association_fields' do
       it 'returns association fields' do
-        expect(subject.send(:association_fields).keys).to match_array %w(product_detail order_items category tags)
+        expect(subject.send(:association_fields).keys).to match_array %w(product_detail order_items orders category tags)
       end
     end
 
     describe '#many_association_fields' do
       it 'returns many-association fields' do
-        expect(subject.send(:many_association_fields).keys).to match_array %w(order_items tags)
+        expect(subject.send(:many_association_fields).keys).to match_array %w(order_items orders tags)
       end
     end
 
