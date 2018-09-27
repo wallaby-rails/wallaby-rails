@@ -14,10 +14,14 @@ module Wallaby
       return super(options) unless options.is_a?(Hash) || options.is_a?(ActionController::Parameters)
 
       url = EnginePathBuilder.handle(
-        context: self, engine_name: engine_name, parameters: options, default_url_options: default_url_options
+        engine_name: engine_name, parameters: options, default_url_options: default_url_options
       )
       url ||= main_app.root_path default_url_options.merge(options) if options[:action] == 'home'
       url || super(options)
+    end
+
+    def default_url_options
+      defined?(super) ? super : controller_to_get(:default_url_options)
     end
 
     # Add turbolinks options when it's enabled

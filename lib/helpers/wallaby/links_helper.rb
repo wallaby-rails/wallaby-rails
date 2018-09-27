@@ -3,7 +3,13 @@ module Wallaby
   module LinksHelper
     # @return [ActionController::Parameters] whitelisted params used by Wallaby
     def index_params
-      params.except(:resources, :utf8).permit(:filter, :page, :per, :q, :sort)
+      permit_list = :filter, :page, :per, :q, :sort
+      parameters = params.except :resources, :utf8
+      if parameters.respond_to?(:permit)
+        parameters.permit(*permit_list)
+      else
+        parameters.with_indifferent_access.slice(*permit_list)
+      end
     end
 
     # Return link to index page by a given model class

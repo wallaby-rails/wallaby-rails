@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "all_mysql_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.binary   "binary",           limit: 65535
-    t.binary   "blob",             limit: 65535
+    t.binary   "blob",             limit: 65535 if Rails::VERSION::MAJOR >= 5
     t.boolean  "boolean"
     t.date     "date"
     t.datetime "datetime"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "string"
     t.text     "text",             limit: 65535
     t.time     "time"
-    t.blob     "tinyblob",         limit: 255
+    t.blob     "tinyblob",         limit: 255 if Rails::VERSION::MAJOR >= 5
     t.text     "tinytext",         limit: 255
     t.bigint   "unsigned_bigint",                                    unsigned: true
     t.decimal  "unsigned_decimal",                    precision: 10, unsigned: true

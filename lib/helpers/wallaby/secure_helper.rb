@@ -31,7 +31,7 @@ module Wallaby
           scope = ::Devise::Mapping.find_scope! user
           "destroy_#{scope}_session_path"
         end
-      app.public_send path if path && app.respond_to?(path)
+      Utils.try_to app, path
     end
 
     # Logout method for given user

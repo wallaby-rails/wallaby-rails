@@ -1,5 +1,6 @@
 module Wallaby
   SCRIPT_NAME = 'SCRIPT_NAME'.freeze
+  PATH_INFO = 'PATH_INFO'.freeze
   EMPTY_STRING = ''.freeze
   EMPTY_HASH = {}.freeze
   EMPTY_ARRAY = [].freeze

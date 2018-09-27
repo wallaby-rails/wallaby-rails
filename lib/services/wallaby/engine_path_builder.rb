@@ -21,19 +21,18 @@ module Wallaby
       # Generate URL that Wallaby engine supports (home/resourceful/errors)
       # (see {https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb}).
       # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
-      # @param context [Object] the context that engine helpers are attached to
       # @param engine_name [String] engine name
       # @param parameters [ActionController::Parameters, Hash]
       # @param default_url_options [Hash]
       # @return [String] path string for wallaby engine
       # @return [nil] nil if this builder doesn't know how to handle the parameters
-      def handle(context:, engine_name:, parameters:, default_url_options: {})
-        engine = Utils.try_to context, engine_name
-        return unless engine
+      def handle(engine_name:, parameters:, default_url_options: {})
+        route = Rails.application.routes.named_routes[engine_name]
+        return unless route
 
-        hash = normalize parameters, default_url_options, engine_name
+        hash = normalize parameters, default_url_options, route
         path_method = ACTION_TO_PATH_MAP[hash[:action]]
-        engine.public_send path_method, hash if path_method
+        Wallaby::Engine.routes.url_helpers.public_send path_method, hash if path_method
       end
 
       private
@@ -52,19 +51,13 @@ module Wallaby
       # Therefore, in this implementation, it will add `script_name` to the hash to pass to engine URL helper method.
       # @param parameters [ActionController::Parameters, Hash]
       # @param default_url_options [Hash]
-      # @param engine_name [String] engine name that can be found in named routes
+      # @param route [ActionDispatch::Journey::Route]
       # @return [Hash] a hash ready to use by engine URL helper
-      def normalize(parameters, default_url_options, engine_name)
-        hash =
-          if parameters.is_a? ActionController::Parameters
-            parameters.permit(:resources, :action, :id).to_h.with_indifferent_access
-          else
-            parameters
-          end
-        hash.reverse_merge! default_url_options
-        # set script name for given engine
-        hash[:script_name] ||= Rails.application.routes.named_routes[engine_name].path.spec.to_s
-        hash.except :only_path
+      def normalize(parameters, default_url_options, route)
+        default_url_options.with_indifferent_access
+          .merge(Utils.try_to(parameters, :permit, :resources, :action, :id) || parameters)
+          .merge(script_name: route.path.spec.to_s) # set script name for given engine
+          .except(:only_path).symbolize_keys
       end
     end
   end
