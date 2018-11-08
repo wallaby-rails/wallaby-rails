@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'general routes' do
   describe '#healthy' do
     it 'returns healthy' do
-      get '/admin/status'
+      http :get, '/admin/status'
       expect(response).to be_successful
       expect(response.body).to eq 'healthy'
     end
@@ -21,14 +21,14 @@ describe 'Resources pages using postgresql table' do
     let!(:record) { model_class.create!(string: string) }
 
     it 'renders collections' do
-      get '/admin/all_postgres_types'
+      http :get, '/admin/all_postgres_types'
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.body).to include string
     end
 
     it 'renders collections in json' do
-      get '/admin/all_postgres_types', headers: json_headers
+      http :get, '/admin/all_postgres_types', headers: json_headers
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.content_type).to eq 'application/json'
@@ -36,7 +36,7 @@ describe 'Resources pages using postgresql table' do
     end
 
     it 'renders collections in csv' do
-      get '/admin/all_postgres_types', headers: { 'ACCEPT' => 'text/csv' }
+      http :get, '/admin/all_postgres_types', headers: { 'ACCEPT' => 'text/csv' }
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.content_type).to eq 'text/csv'
@@ -45,7 +45,7 @@ describe 'Resources pages using postgresql table' do
 
     context 'sorting' do
       it 'renders collections' do
-        get '/admin/all_postgres_types?sort=string%20desc'
+        http :get, '/admin/all_postgres_types?sort=string%20desc'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
@@ -54,12 +54,12 @@ describe 'Resources pages using postgresql table' do
 
     context 'keyword' do
       it 'renders collections' do
-        get '/admin/all_postgres_types?q=van'
+        http :get, '/admin/all_postgres_types?q=van'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
 
-        get '/admin/all_postgres_types?q=string:~van'
+        http :get, '/admin/all_postgres_types?q=string:~van'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
@@ -67,7 +67,7 @@ describe 'Resources pages using postgresql table' do
 
       context 'when not found' do
         it 'renders collections' do
-          get '/admin/all_postgres_types?q=unknown'
+          http :get, '/admin/all_postgres_types?q=unknown'
           expect(response).to be_successful
           expect(response).to render_template :index
           expect(response.body).not_to include string
@@ -77,12 +77,12 @@ describe 'Resources pages using postgresql table' do
 
     context 'pagination' do
       it 'renders collections' do
-        get '/admin/all_postgres_types?per=100'
+        http :get, '/admin/all_postgres_types?per=100'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
 
-        get '/admin/all_postgres_types?page=1'
+        http :get, '/admin/all_postgres_types?page=1'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
@@ -90,7 +90,7 @@ describe 'Resources pages using postgresql table' do
 
       context 'when not found' do
         it 'renders collections' do
-          get '/admin/all_postgres_types?page=100'
+          http :get, '/admin/all_postgres_types?page=100'
           expect(response).to be_successful
           expect(response).to render_template :index
           expect(response.body).not_to include string
@@ -103,14 +103,14 @@ describe 'Resources pages using postgresql table' do
     let!(:record) { model_class.create!(string: string) }
 
     it 'renders show' do
-      get "/admin/all_postgres_types/#{record.id}"
+      http :get, "/admin/all_postgres_types/#{record.id}"
       expect(response).to be_successful
       expect(response).to render_template :show
       expect(response.body).to include string
     end
 
     it 'renders show in json' do
-      get "/admin/all_postgres_types/#{record.id}", headers: json_headers
+      http :get, "/admin/all_postgres_types/#{record.id}", headers: json_headers
       expect(response).to be_successful
       expect(response).to render_template :show
       expect(response.content_type).to eq 'application/json'
@@ -120,7 +120,7 @@ describe 'Resources pages using postgresql table' do
 
   describe '#new' do
     it 'renders show' do
-      get '/admin/all_postgres_types/new'
+      http :get, '/admin/all_postgres_types/new'
       expect(response).to be_successful
       expect(response).to render_template :new
       expect(response.body).to include 'name="all_postgres_type[string]"'
@@ -130,7 +130,7 @@ describe 'Resources pages using postgresql table' do
   describe '#create' do
     it 'creates the record' do
       expect(model_class.count).to eq 0
-      post '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }
+      http :post, '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }
       created = model_class.first
       expect(response).to redirect_to "/admin/all_postgres_types/#{created.id}"
       expect(flash[:notice]).to eq 'All postgres type was successfully created.'
@@ -140,7 +140,7 @@ describe 'Resources pages using postgresql table' do
 
     it 'creates the record in json' do
       expect(model_class.count).to eq 0
-      post '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }, headers: json_headers
+      http :post, '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }, headers: json_headers
       created = model_class.first
       expect(response).to be_successful
       expect(response).to render_template :form
@@ -154,7 +154,7 @@ describe 'Resources pages using postgresql table' do
       let(:model_class) { Picture }
 
       it 'renders form and show error' do
-        post '/admin/pictures', params: { picture: { string: string } }
+        http :post, '/admin/pictures', params: { picture: { string: string } }
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :new
         expect(response.body).to include "can't be blank"
@@ -162,7 +162,7 @@ describe 'Resources pages using postgresql table' do
 
       it 'renders errors in json' do
         expect(model_class.count).to eq 0
-        post '/admin/pictures', params: { picture: { string: string } }, headers: json_headers
+        http :post, '/admin/pictures', params: { picture: { string: string } }, headers: json_headers
         expect(response.content_type).to eq 'application/json'
         expect(response.body).to include "can't be blank"
         expect(response.status).to eq 400
@@ -173,7 +173,7 @@ describe 'Resources pages using postgresql table' do
   describe '#edit' do
     let!(:record) { model_class.create!(string: string) }
     it 'renders edit' do
-      get "/admin/all_postgres_types/#{record.id}/edit"
+      http :get, "/admin/all_postgres_types/#{record.id}/edit"
       expect(response).to be_successful
       expect(response).to render_template :edit
       expect(response.body).to include "value=\"#{string}\""
@@ -184,7 +184,7 @@ describe 'Resources pages using postgresql table' do
     let!(:record) { model_class.create!(string: string) }
     it 'updates the record' do
       a_string = 'Claude Monet'
-      put "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }
+      http :put, "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }
       expect(flash[:notice]).to eq 'All postgres type was successfully updated.'
       expect(response).to redirect_to "/admin/all_postgres_types/#{record.id}"
       expect(record.reload.string).to eq a_string
@@ -192,7 +192,7 @@ describe 'Resources pages using postgresql table' do
 
     it 'updates the record in json' do
       a_string = 'Claude Monet'
-      put "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }, headers: json_headers
+      http :put, "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }, headers: json_headers
       expect(record.reload.string).to eq a_string
       expect(response).to be_successful
       expect(response).to render_template :form
@@ -205,14 +205,14 @@ describe 'Resources pages using postgresql table' do
       let!(:record) { model_class.create!(name: string) }
 
       it 'renders form and show error' do
-        put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
+        http :put, "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :edit
         expect(response.body).to include "can't be blank"
       end
 
       it 'renders form error in json' do
-        put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }, headers: json_headers
+        http :put, "/admin/pictures/#{record.id}", params: { picture: { name: '' } }, headers: json_headers
         expect(response.content_type).to eq 'application/json'
         expect(response.body).to include "can't be blank"
         expect(response.status).to eq 400
@@ -224,7 +224,7 @@ describe 'Resources pages using postgresql table' do
     let!(:record) { model_class.create!(string: string) }
     it 'destroys the record' do
       expect(model_class.count).to eq 1
-      delete "/admin/all_postgres_types/#{record.id}"
+      http :delete, "/admin/all_postgres_types/#{record.id}"
       expect(flash[:notice]).to eq 'All postgres type was successfully destroyed.'
       expect(response).to redirect_to '/admin/all_postgres_types'
       expect(model_class.count).to eq 0
@@ -232,7 +232,7 @@ describe 'Resources pages using postgresql table' do
 
     it 'destroys the record in json' do
       expect(model_class.count).to eq 1
-      delete "/admin/all_postgres_types/#{record.id}", headers: json_headers
+      http :delete, "/admin/all_postgres_types/#{record.id}", headers: json_headers
       expect(response).to be_successful
       expect(response).to render_template :form
       expect(response.content_type).to eq 'application/json'
@@ -263,7 +263,7 @@ describe 'Resources pages using postgresql table for Product model' do
     let!(:record) { model_class.create!(name: name, tags: Tag.all) }
 
     it 'renders collections' do
-      get '/admin/products'
+      http :get, '/admin/products'
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.body).to include name
@@ -272,7 +272,7 @@ describe 'Resources pages using postgresql table for Product model' do
     end
 
     it 'renders collections in json' do
-      get '/admin/products', headers: json_headers
+      http :get, '/admin/products', headers: json_headers
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.content_type).to eq 'application/json'
@@ -280,7 +280,7 @@ describe 'Resources pages using postgresql table for Product model' do
     end
 
     it 'renders collections in csv' do
-      get '/admin/products', headers: { 'ACCEPT' => 'text/csv' }
+      http :get, '/admin/products', headers: { 'ACCEPT' => 'text/csv' }
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.content_type).to eq 'text/csv'

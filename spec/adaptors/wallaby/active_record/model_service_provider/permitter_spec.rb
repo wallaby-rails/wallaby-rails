@@ -7,31 +7,31 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
   describe 'model that has all postgres types' do
     describe '#simple_field_names' do
       it 'returns non-range fields' do
-        expect(subject.simple_field_names).to match_array %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date datetime decimal email float hstore inet integer json jsonb line lseg ltree macaddr money password path polygon serial string text time tsvector uuid xml)
+        expect(subject.simple_field_names).to match_array %w(bigint binary bit bit_varying boolean cidr citext color date datetime decimal email float hstore inet integer json jsonb ltree macaddr money password string text time tsvector uuid xml)
       end
     end
 
     describe '#compound_hashed_fields' do
       it 'returns range fields' do
-        expect(subject.compound_hashed_fields).to eq 'daterange' => [], 'numrange' => [], 'tsrange' => [], 'tstzrange' => [], 'int4range' => [], 'int8range' => [], 'point' => []
+        expect(subject.compound_hashed_fields).to eq 'daterange' => [], 'numrange' => [], 'tsrange' => [], 'tstzrange' => [], 'int4range' => [], 'int8range' => []
       end
     end
 
     describe '#non_association_fields' do
       it 'returns non-association fields' do
-        expect(subject.send(:non_association_fields).keys).to match_array %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        expect(subject.send(:non_association_fields).keys).to match_array %w(id bigint binary bit bit_varying boolean cidr citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb ltree macaddr money numrange password string text time tsrange tstzrange tsvector uuid xml)
       end
     end
 
     describe '#non_range_fields' do
       it 'returns non-range fields' do
-        expect(subject.send(:non_range_fields).keys).to match_array %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date datetime decimal email float hstore inet integer json jsonb line lseg ltree macaddr money password path polygon serial string text time tsvector uuid xml)
+        expect(subject.send(:non_range_fields).keys).to match_array %w(id bigint binary bit bit_varying boolean cidr citext color date datetime decimal email float hstore inet integer json jsonb ltree macaddr money password string text time tsvector uuid xml)
       end
     end
 
     describe '#range_fields' do
       it 'returns range fields' do
-        expect(subject.send(:range_fields).keys).to match_array %w(daterange int4range int8range numrange point tsrange tstzrange)
+        expect(subject.send(:range_fields).keys).to match_array %w(daterange int4range int8range numrange tsrange tstzrange)
       end
     end
 

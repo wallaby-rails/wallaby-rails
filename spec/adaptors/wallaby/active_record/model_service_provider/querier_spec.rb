@@ -47,7 +47,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
       context 'when scope is not a block' do
         around do |example|
-          AllPostgresType.scope :boolean, (-> { where(boolean: false) })
+          AllPostgresType.scope :boolean, (-> { AllPostgresType.where(boolean: false) })
           model_decorator.filters[:boolean] = { scope: :boolean }
           example.run
           AllPostgresType.singleton_class.send :remove_method, :boolean

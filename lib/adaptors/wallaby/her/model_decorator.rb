@@ -3,7 +3,7 @@ module Wallaby
     # Modal decorator for Her
     class ModelDecorator < ::Wallaby::ModelDecorator
       # Generally, in Her, attribute methods are generated with this suffix
-      ATTRIBUTE_SUFFIX = '_previous_change'.freeze
+      ATTRIBUTE_SUFFIX = '_will_change!'.freeze
 
       # Origin metadata directly coming from Her.
       # It needs to be frozen so that we can keep the metadata integrity

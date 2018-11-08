@@ -99,15 +99,26 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Normalizer do
 
     describe 'point types' do
       it 'turns array into range' do
-        expect(subject.normalize(parameters(point: %w(3 4)))[:point]).to eq [3.0, 4.0]
-        expect(subject.normalize(parameters(point: ['', '4']))[:point]).to eq [0.0, 4.0]
-        expect(subject.normalize(parameters(point: ['3', '']))[:point]).to eq [3.0, 0.0]
+        if Rails::VERSION::MAJOR == 5
+          expect(subject.normalize(parameters(point: %w(3 4)))[:point]).to eq [3.0, 4.0]
+          expect(subject.normalize(parameters(point: ['', '4']))[:point]).to eq [0.0, 4.0]
+          expect(subject.normalize(parameters(point: ['3', '']))[:point]).to eq [3.0, 0.0]
+        elsif Rails::VERSION::MAJOR == 4
+          expect(subject.normalize(parameters(point: %w(3 4)))[:point]).to eq %w(3 4)
+          expect(subject.normalize(parameters(point: ['', '4']))[:point]).to eq ['', '4']
+          expect(subject.normalize(parameters(point: ['3', '']))[:point]).to eq ['3', '']
+        end
       end
 
       context 'when value is invalid' do
         it 'returns nil' do
-          expect(subject.normalize(parameters(point: ['', '']))[:point]).to be_nil
-          expect(subject.normalize(parameters(point: ['']))[:point]).to be_nil
+          if Rails::VERSION::MAJOR == 5
+            expect(subject.normalize(parameters(point: ['', '']))[:point]).to be_nil
+            expect(subject.normalize(parameters(point: ['']))[:point]).to be_nil
+          elsif Rails::VERSION::MAJOR == 4
+            expect(subject.normalize(parameters(point: ['', '']))[:point]).to eq ['', '']
+            expect(subject.normalize(parameters(point: ['']))[:point]).to eq ['']
+          end
         end
       end
     end

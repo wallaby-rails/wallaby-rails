@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-field_name = 'blob'
+field_name = 'binary'
 type = type_from __FILE__
 describe field_name do
   it_behaves_like \

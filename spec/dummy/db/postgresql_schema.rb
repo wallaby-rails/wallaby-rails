@@ -20,14 +20,11 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "all_postgres_types", force: :cascade do |t|
     t.bigint      "bigint"
-    t.bigserial   "bigserial",                       null: false if Rails::VERSION::MAJOR >= 5
     t.binary      "binary"
     t.bit         "bit",         limit: 1
     t.bit_varying "bit_varying"
     t.boolean     "boolean"
-    t.box         "box" if Rails::VERSION::MAJOR >= 5
     t.cidr        "cidr"
-    t.circle      "circle" if Rails::VERSION::MAJOR >= 5
     t.citext      "citext"
     t.string      "color"
     t.date        "date"
@@ -43,17 +40,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer     "integer"
     t.json        "json"
     t.jsonb       "jsonb"
-    t.line        "line" if Rails::VERSION::MAJOR >= 5
-    t.lseg        "lseg" if Rails::VERSION::MAJOR >= 5
     t.ltree       "ltree"
     t.macaddr     "macaddr"
     t.money       "money",                 scale: 2
     t.numrange    "numrange"
     t.string      "password"
-    t.path        "path" if Rails::VERSION::MAJOR >= 5
-    t.point       "point" if Rails::VERSION::MAJOR >= 5
-    t.polygon     "polygon" if Rails::VERSION::MAJOR >= 5
-    t.serial      "serial",                          null: false if Rails::VERSION::MAJOR >= 5
     t.string      "string"
     t.text        "text"
     t.time        "time"
