@@ -113,7 +113,7 @@ module Wallaby
     # @return [String] HTML anchor element
     def cancel_link(html_options = {}, &block)
       block ||= -> { t 'links.cancel' }
-      link_to :back, html_options, &block
+      link_to 'javascript:history.back()', html_options, &block
     end
 
     # Url for index page
