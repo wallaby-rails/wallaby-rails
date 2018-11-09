@@ -53,6 +53,17 @@ ActiveRecord::Schema.define(version: 0) do
     t.tsvector    "tsvector"
     t.uuid        "uuid"
     t.xml         "xml"
+    if Rails::VERSION::MAJOR >= 5
+      t.bigserial "bigserial"
+      t.box "box"
+      t.circle "circle"
+      t.line "line"
+      t.lseg "lseg"
+      t.path "path"
+      t.point "point"
+      t.polygon "polygon"
+      t.serial "serial"
+    end
   end
 
   create_table "categories", force: :cascade do |t|

@@ -2,7 +2,7 @@ module Wallaby
   module Sorting
     # Turn a string e.g.`'name asc,id desc'` into sort hash e.g.`{name: 'asc', id: 'desc'}`
     class HashBuilder
-      SORT_REGEX = /(([^\s,]+)\s+(asc|desc))\s*,?\s*/i
+      SORT_REGEX = /(([^\s,]+)\s+(asc|desc))\s*,?\s*/i.freeze
 
       # Turn a string e.g.`'name asc,id desc'` into sort hash e.g.`{name: 'asc', id: 'desc'}`
       # @param sort_string [String]
