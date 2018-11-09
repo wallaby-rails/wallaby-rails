@@ -32,29 +32,22 @@ module Wallaby
 
         # @return [Array<String>] a list of field names that ain't association
         def non_association_fields
-          @model_decorator
-            .fields.reject { |_, metadata| metadata[:is_association] }
+          @model_decorator.fields.reject { |_, metadata| metadata[:is_association] }
         end
 
         # @return [Array<String>] a list of field names that ain't range
         def non_range_fields
-          non_association_fields
-            .reject { |_, metadata| /range|point/ =~ metadata[:type] }
+          non_association_fields.reject { |_, metadata| /range|point/ =~ metadata[:type] }
         end
 
         # @return [Array<String>] a list of range field names
         def range_fields
-          non_association_fields.select do |_, metadata|
-            /range|point/ =~ metadata[:type]
-          end
+          non_association_fields.select { |_, metadata| /range|point/ =~ metadata[:type] }
         end
 
         # @return [Array<String>] a list of association field names
         def association_fields
-          @model_decorator.fields.select do |_, metadata|
-            metadata[:is_association] \
-              && !metadata[:has_scope] && !metadata[:is_through]
-          end
+          @model_decorator.fields.select { |_, metadata| metadata[:is_association] && !metadata[:has_scope] }
         end
 
         # @return [Array<String>] a list of many association field names:
@@ -66,9 +59,7 @@ module Wallaby
 
         # @return [Array<String>] a list of belongs_to association field names
         def belongs_to_fields
-          association_fields.select do |_field_name, metadata|
-            metadata[:type] == 'belongs_to'
-          end
+          association_fields.select { |_, metadata| metadata[:type] == 'belongs_to' }
         end
       end
     end
