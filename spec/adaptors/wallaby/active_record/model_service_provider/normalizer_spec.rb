@@ -5,6 +5,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Normalizer do
   let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new AllPostgresType }
 
   describe '#normalize' do
+    before do
+      model_decorator.form_fields[:point] = { type: 'point' }
+    end
+
     describe 'range types' do
       describe 'daterange' do
         it 'turns array into range' do
@@ -99,26 +103,15 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Normalizer do
 
     describe 'point types' do
       it 'turns array into range' do
-        if Rails::VERSION::MAJOR == 5
-          expect(subject.normalize(parameters(point: %w(3 4)))[:point]).to eq [3.0, 4.0]
-          expect(subject.normalize(parameters(point: ['', '4']))[:point]).to eq [0.0, 4.0]
-          expect(subject.normalize(parameters(point: ['3', '']))[:point]).to eq [3.0, 0.0]
-        elsif Rails::VERSION::MAJOR == 4
-          expect(subject.normalize(parameters(point: %w(3 4)))[:point]).to eq %w(3 4)
-          expect(subject.normalize(parameters(point: ['', '4']))[:point]).to eq ['', '4']
-          expect(subject.normalize(parameters(point: ['3', '']))[:point]).to eq ['3', '']
-        end
+        expect(subject.normalize(parameters(point: %w(3 4)))[:point]).to eq [3.0, 4.0]
+        expect(subject.normalize(parameters(point: ['', '4']))[:point]).to eq [0.0, 4.0]
+        expect(subject.normalize(parameters(point: ['3', '']))[:point]).to eq [3.0, 0.0]
       end
 
       context 'when value is invalid' do
         it 'returns nil' do
-          if Rails::VERSION::MAJOR == 5
-            expect(subject.normalize(parameters(point: ['', '']))[:point]).to be_nil
-            expect(subject.normalize(parameters(point: ['']))[:point]).to be_nil
-          elsif Rails::VERSION::MAJOR == 4
-            expect(subject.normalize(parameters(point: ['', '']))[:point]).to eq ['', '']
-            expect(subject.normalize(parameters(point: ['']))[:point]).to eq ['']
-          end
+          expect(subject.normalize(parameters(point: ['', '']))[:point]).to be_nil
+          expect(subject.normalize(parameters(point: ['']))[:point]).to be_nil
         end
       end
     end

@@ -166,6 +166,7 @@ describe 'PostgreSQL Types' do
       expect { record = AllPostgresType.new tsrange: ['', '2016-03-29 12:59:59'] }.to raise_error ArgumentError, 'bad value for range'
       expect { record = AllPostgresType.new tsrange: ['2016-03-29 12:59:59', ''] }.to raise_error ArgumentError, 'bad value for range'
       expect { record = AllPostgresType.new tstzrange: ['', '2016-03-29 12:59:59 +00:00'] }.to raise_error ArgumentError, 'bad value for range'
-      expect { record = AllPostgresType.new tstzrange: ['2016-03-29 12:59:59 +00:00', ''] }.to raise_error ArgumentError, 'bad value for range'    end
+      expect { record = AllPostgresType.new tstzrange: ['2016-03-29 12:59:59 +00:00', ''] }.to raise_error ArgumentError, 'bad value for range'
+    end
   end
 end

@@ -8,7 +8,7 @@ describe 'Resources pages using mysql table' do
     let!(:record) { model_class.create!(string: string) }
 
     it 'renders collections' do
-      get '/admin/all_sqlite_types'
+      http :get, '/admin/all_sqlite_types'
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.body).to include string
@@ -16,7 +16,7 @@ describe 'Resources pages using mysql table' do
 
     context 'sorting' do
       it 'renders collections' do
-        get '/admin/all_sqlite_types?sort=string%20desc'
+        http :get, '/admin/all_sqlite_types?sort=string%20desc'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
@@ -25,12 +25,12 @@ describe 'Resources pages using mysql table' do
 
     context 'keyword' do
       it 'renders collections' do
-        get '/admin/all_sqlite_types?q=van'
+        http :get, '/admin/all_sqlite_types?q=van'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
 
-        get '/admin/all_sqlite_types?q=string:~van'
+        http :get, '/admin/all_sqlite_types?q=string:~van'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
@@ -38,7 +38,7 @@ describe 'Resources pages using mysql table' do
 
       context 'when not found' do
         it 'renders collections' do
-          get '/admin/all_sqlite_types?q=unknown'
+          http :get, '/admin/all_sqlite_types?q=unknown'
           expect(response).to be_successful
           expect(response).to render_template :index
           expect(response.body).not_to include string
@@ -48,12 +48,12 @@ describe 'Resources pages using mysql table' do
 
     context 'pagination' do
       it 'renders collections' do
-        get '/admin/all_sqlite_types?per=100'
+        http :get, '/admin/all_sqlite_types?per=100'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
 
-        get '/admin/all_sqlite_types?page=1'
+        http :get, '/admin/all_sqlite_types?page=1'
         expect(response).to be_successful
         expect(response).to render_template :index
         expect(response.body).to include string
@@ -61,7 +61,7 @@ describe 'Resources pages using mysql table' do
 
       context 'when not found' do
         it 'renders collections' do
-          get '/admin/all_sqlite_types?page=100'
+          http :get, '/admin/all_sqlite_types?page=100'
           expect(response).to be_successful
           expect(response).to render_template :index
           expect(response.body).not_to include string
@@ -73,7 +73,7 @@ describe 'Resources pages using mysql table' do
   describe '#show' do
     let!(:record) { model_class.create!(string: string) }
     it 'renders show' do
-      get "/admin/all_sqlite_types/#{record.id}"
+      http :get, "/admin/all_sqlite_types/#{record.id}"
       expect(response).to be_successful
       expect(response).to render_template :show
       expect(response.body).to include string
@@ -82,7 +82,7 @@ describe 'Resources pages using mysql table' do
 
   describe '#new' do
     it 'renders show' do
-      get '/admin/all_sqlite_types/new'
+      http :get, '/admin/all_sqlite_types/new'
       expect(response).to be_successful
       expect(response).to render_template :new
       expect(response.body).to include 'name="all_sqlite_type[string]"'
@@ -92,7 +92,7 @@ describe 'Resources pages using mysql table' do
   describe '#create' do
     it 'creates the record' do
       expect(model_class.count).to eq 0
-      post '/admin/all_sqlite_types', params: { all_sqlite_type: { string: string } }
+      http :post, '/admin/all_sqlite_types', params: { all_sqlite_type: { string: string } }
       created = model_class.first
       expect(response).to redirect_to "/admin/all_sqlite_types/#{created.id}"
       expect(flash[:notice]).to eq 'All sqlite type was successfully created.'
@@ -105,7 +105,7 @@ describe 'Resources pages using mysql table' do
       let(:model_class) { Picture }
 
       it 'renders form and show error' do
-        post '/admin/pictures', params: { picture: { string: string } }
+        http :post, '/admin/pictures', params: { picture: { string: string } }
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :new
         expect(response.body).to match "can't be blank"
@@ -116,7 +116,7 @@ describe 'Resources pages using mysql table' do
   describe '#edit' do
     let!(:record) { model_class.create!(string: string) }
     it 'renders edit' do
-      get "/admin/all_sqlite_types/#{record.id}/edit"
+      http :get, "/admin/all_sqlite_types/#{record.id}/edit"
       expect(response).to be_successful
       expect(response).to render_template :edit
       expect(response.body).to include "value=\"#{string}\""
@@ -127,7 +127,7 @@ describe 'Resources pages using mysql table' do
     let!(:record) { model_class.create!(string: string) }
     it 'updates the record' do
       a_string = 'Claude Monet'
-      put "/admin/all_sqlite_types/#{record.id}", params: { all_sqlite_type: { string: a_string } }
+      http :put, "/admin/all_sqlite_types/#{record.id}", params: { all_sqlite_type: { string: a_string } }
       expect(flash[:notice]).to eq 'All sqlite type was successfully updated.'
       expect(response).to redirect_to "/admin/all_sqlite_types/#{record.id}"
       expect(record.reload.string).to eq a_string
@@ -139,7 +139,7 @@ describe 'Resources pages using mysql table' do
       let!(:record) { model_class.create!(name: string) }
 
       it 'renders form and show error' do
-        put "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
+        http :put, "/admin/pictures/#{record.id}", params: { picture: { name: '' } }
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :edit
         expect(response.body).to match "can't be blank"
@@ -151,7 +151,7 @@ describe 'Resources pages using mysql table' do
     let!(:record) { model_class.create!(string: string) }
     it 'destroys the record' do
       expect(model_class.count).to eq 1
-      delete "/admin/all_sqlite_types/#{record.id}"
+      http :delete, "/admin/all_sqlite_types/#{record.id}"
       expect(flash[:notice]).to eq 'All sqlite type was successfully destroyed.'
       expect(response).to redirect_to '/admin/all_sqlite_types'
       expect(model_class.count).to eq 0

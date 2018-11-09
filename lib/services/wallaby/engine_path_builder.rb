@@ -54,7 +54,8 @@ module Wallaby
       # @param route [ActionDispatch::Journey::Route]
       # @return [Hash] a hash ready to use by engine URL helper
       def normalize(parameters, default_url_options, route)
-        default_url_options.with_indifferent_access
+        default_url_options
+          .with_indifferent_access
           .merge(Utils.try_to(parameters, :permit, :resources, :action, :id) || parameters)
           .merge(script_name: route.path.spec.to_s) # set script name for given engine
           .except(:only_path).symbolize_keys

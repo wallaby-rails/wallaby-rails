@@ -7,12 +7,12 @@ if Rails::VERSION::MAJOR == 4
       path
     else
       msg = "the directory '%s' does not contain a file named '%s'"
-      raise ArgumentError, msg % [file_fixture_path, fixture_name]
+      raise ArgumentError, format(msg, file_fixture_path, fixture_name)
     end
   end
 
   ActionView::TestCase::TestController.instance_eval do
-    helper Rails.application.routes.url_helpers#, (append other helpers you need)
+    helper Rails.application.routes.url_helpers
   end
 
   ActionView::TestCase::TestController.class_eval do
