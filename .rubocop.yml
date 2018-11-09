@@ -49,8 +49,7 @@ Layout/EmptyLinesAroundArguments:
     - 'spec/**/*_spec.rb'
 
 Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'spec/**/*_spec.rb'
+  Enabled: false
 
 Layout/AlignHash:
   Exclude:

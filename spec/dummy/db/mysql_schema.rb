@@ -32,6 +32,10 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal  "unsigned_decimal",                    precision: 10, unsigned: true
     t.float    "unsigned_float",   limit: 24,                        unsigned: true
     t.integer  "unsigned_integer",                                   unsigned: true
+    if Rails::VERSION::MAJOR >= 5
+      t.blob "blob"
+      t.tinyblob "tinyblob"
+    end
   end
 
 end
