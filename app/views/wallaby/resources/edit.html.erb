@@ -4,13 +4,13 @@ decorated = decorate resource
 %>
 <article class="resource">
   <div class="resource__header">
-    <h1>Edit # <%= decorated.id %></h1>
+    <h1><%= t 'labels.edit', id: decorated.id %></h1>
     <%= render 'resource_navs' %>
   </div>
   <%= render 'flash_messages' %>
   <section>
     <div class="resource__container">
-      <%= form_for decorated, url: url_for(action: :show), method: :put, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
+      <%= form_for decorated, url: url_for(params.slice(:resources, :id).merge(action: :show)), method: :put, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
         <%= render 'form', form: form, decorated: decorated %>
       <% end %>
     </div>

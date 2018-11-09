@@ -23,7 +23,7 @@ describe field_name do
 
   it_behaves_like \
     "#{type} partial", field_name,
-    value: [],
+    value: nil,
     skip_all: true do
     it 'renders empty range' do
       first_input = page.at_css('.row > div:first .form-control')

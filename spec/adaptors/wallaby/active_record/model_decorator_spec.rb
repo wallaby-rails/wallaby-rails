@@ -8,53 +8,92 @@ describe Wallaby::ActiveRecord::ModelDecorator do
     describe '#fields' do
       it 'returns a hash of all keys' do
         expect(subject.fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
-        expect(subject.fields).to eq(
-          'id' => { 'type' => 'integer', 'label' => 'Id' },
-          'bigint' => { 'type' => 'integer', 'label' => 'Bigint' },
-          'bigserial' => { 'type' => 'integer', 'label' => 'Bigserial' },
-          'binary' => { 'type' => 'binary', 'label' => 'Binary' },
-          'bit' => { 'type' => 'bit', 'label' => 'Bit' },
-          'bit_varying' => { 'type' => 'bit_varying', 'label' => 'Bit varying' },
-          'boolean' => { 'type' => 'boolean', 'label' => 'Boolean' },
-          'box' => { 'type' => 'box', 'label' => 'Box' },
-          'cidr' => { 'type' => 'cidr', 'label' => 'Cidr' },
-          'circle' => { 'type' => 'circle', 'label' => 'Circle' },
-          'citext' => { 'type' => 'citext', 'label' => 'Citext' },
-          'color' => { 'type' => 'string', 'label' => 'Color' },
-          'date' => { 'type' => 'date', 'label' => 'Date' },
-          'daterange' => { 'type' => 'daterange', 'label' => 'Daterange' },
-          'datetime' => { 'type' => 'datetime', 'label' => 'Datetime' },
-          'decimal' => { 'type' => 'decimal', 'label' => 'Decimal' },
-          'email' => { 'type' => 'string', 'label' => 'Email' },
-          'float' => { 'type' => 'float', 'label' => 'Float' },
-          'hstore' => { 'type' => 'hstore', 'label' => 'Hstore' },
-          'inet' => { 'type' => 'inet', 'label' => 'Inet' },
-          'int4range' => { 'type' => 'int4range', 'label' => 'Int4range' },
-          'int8range' => { 'type' => 'int8range', 'label' => 'Int8range' },
-          'integer' => { 'type' => 'integer', 'label' => 'Integer' },
-          'json' => { 'type' => 'json', 'label' => 'Json' },
-          'jsonb' => { 'type' => 'jsonb', 'label' => 'Jsonb' },
-          'line' => { 'type' => 'line', 'label' => 'Line' },
-          'lseg' => { 'type' => 'lseg', 'label' => 'Lseg' },
-          'ltree' => { 'type' => 'ltree', 'label' => 'Ltree' },
-          'macaddr' => { 'type' => 'macaddr', 'label' => 'Macaddr' },
-          'money' => { 'type' => 'money', 'label' => 'Money' },
-          'numrange' => { 'type' => 'numrange', 'label' => 'Numrange' },
-          'password' => { 'type' => 'string', 'label' => 'Password' },
-          'path' => { 'type' => 'path', 'label' => 'Path' },
-          'point' => { 'type' => 'point', 'label' => 'Point' },
-          'polygon' => { 'type' => 'polygon', 'label' => 'Polygon' },
-          'serial' => { 'type' => 'integer', 'label' => 'Serial' },
-          'string' => { 'type' => 'string', 'label' => 'String' },
-          'text' => { 'type' => 'text', 'label' => 'Text' },
-          'time' => { 'type' => 'time', 'label' => 'Time' },
-          'tsrange' => { 'type' => 'tsrange', 'label' => 'Tsrange' },
-          'tstzrange' => { 'type' => 'tstzrange', 'label' => 'Tstzrange' },
-          'tsvector' => { 'type' => 'tsvector', 'label' => 'Tsvector' },
-          'uuid' => { 'type' => 'uuid', 'label' => 'Uuid' },
-          'xml' => { 'type' => 'xml', 'label' => 'Xml' }
-        )
-
+        if Rails::VERSION::MAJOR >= 5
+          expect(subject.fields).to eq(
+            'id' => { 'type' => 'integer', 'label' => 'Id' },
+            'bigint' => { 'type' => 'integer', 'label' => 'Bigint' },
+            'bigserial' => { 'type' => 'integer', 'label' => 'Bigserial' },
+            'binary' => { 'type' => 'binary', 'label' => 'Binary' },
+            'bit' => { 'type' => 'bit', 'label' => 'Bit' },
+            'bit_varying' => { 'type' => 'bit_varying', 'label' => 'Bit varying' },
+            'boolean' => { 'type' => 'boolean', 'label' => 'Boolean' },
+            'box' => { 'type' => 'box', 'label' => 'Box' },
+            'cidr' => { 'type' => 'cidr', 'label' => 'Cidr' },
+            'circle' => { 'type' => 'circle', 'label' => 'Circle' },
+            'citext' => { 'type' => 'citext', 'label' => 'Citext' },
+            'color' => { 'type' => 'string', 'label' => 'Color' },
+            'date' => { 'type' => 'date', 'label' => 'Date' },
+            'daterange' => { 'type' => 'daterange', 'label' => 'Daterange' },
+            'datetime' => { 'type' => 'datetime', 'label' => 'Datetime' },
+            'decimal' => { 'type' => 'decimal', 'label' => 'Decimal' },
+            'email' => { 'type' => 'string', 'label' => 'Email' },
+            'float' => { 'type' => 'float', 'label' => 'Float' },
+            'hstore' => { 'type' => 'hstore', 'label' => 'Hstore' },
+            'inet' => { 'type' => 'inet', 'label' => 'Inet' },
+            'int4range' => { 'type' => 'int4range', 'label' => 'Int4range' },
+            'int8range' => { 'type' => 'int8range', 'label' => 'Int8range' },
+            'integer' => { 'type' => 'integer', 'label' => 'Integer' },
+            'json' => { 'type' => 'json', 'label' => 'Json' },
+            'jsonb' => { 'type' => 'jsonb', 'label' => 'Jsonb' },
+            'line' => { 'type' => 'line', 'label' => 'Line' },
+            'lseg' => { 'type' => 'lseg', 'label' => 'Lseg' },
+            'ltree' => { 'type' => 'ltree', 'label' => 'Ltree' },
+            'macaddr' => { 'type' => 'macaddr', 'label' => 'Macaddr' },
+            'money' => { 'type' => 'money', 'label' => 'Money' },
+            'numrange' => { 'type' => 'numrange', 'label' => 'Numrange' },
+            'password' => { 'type' => 'string', 'label' => 'Password' },
+            'path' => { 'type' => 'path', 'label' => 'Path' },
+            'point' => { 'type' => 'point', 'label' => 'Point' },
+            'polygon' => { 'type' => 'polygon', 'label' => 'Polygon' },
+            'serial' => { 'type' => 'integer', 'label' => 'Serial' },
+            'string' => { 'type' => 'string', 'label' => 'String' },
+            'text' => { 'type' => 'text', 'label' => 'Text' },
+            'time' => { 'type' => 'time', 'label' => 'Time' },
+            'tsrange' => { 'type' => 'tsrange', 'label' => 'Tsrange' },
+            'tstzrange' => { 'type' => 'tstzrange', 'label' => 'Tstzrange' },
+            'tsvector' => { 'type' => 'tsvector', 'label' => 'Tsvector' },
+            'uuid' => { 'type' => 'uuid', 'label' => 'Uuid' },
+            'xml' => { 'type' => 'xml', 'label' => 'Xml' }
+          )
+        elsif Rails::VERSION::MAJOR == 4
+          expect(subject.fields).to eq(
+            'id' => { 'type' => 'integer', 'label' => 'Id' },
+            'bigint' => { 'type' => 'integer', 'label' => 'Bigint' },
+            'binary' => { 'type' => 'binary', 'label' => 'Binary' },
+            'bit' => { 'type' => 'bit', 'label' => 'Bit' },
+            'bit_varying' => { 'type' => 'bit_varying', 'label' => 'Bit varying' },
+            'boolean' => { 'type' => 'boolean', 'label' => 'Boolean' },
+            'cidr' => { 'type' => 'cidr', 'label' => 'Cidr' },
+            'citext' => { 'type' => 'citext', 'label' => 'Citext' },
+            'color' => { 'type' => 'string', 'label' => 'Color' },
+            'date' => { 'type' => 'date', 'label' => 'Date' },
+            'daterange' => { 'type' => 'daterange', 'label' => 'Daterange' },
+            'datetime' => { 'type' => 'datetime', 'label' => 'Datetime' },
+            'decimal' => { 'type' => 'decimal', 'label' => 'Decimal' },
+            'email' => { 'type' => 'string', 'label' => 'Email' },
+            'float' => { 'type' => 'float', 'label' => 'Float' },
+            'hstore' => { 'type' => 'hstore', 'label' => 'Hstore' },
+            'inet' => { 'type' => 'inet', 'label' => 'Inet' },
+            'int4range' => { 'type' => 'int4range', 'label' => 'Int4range' },
+            'int8range' => { 'type' => 'int8range', 'label' => 'Int8range' },
+            'integer' => { 'type' => 'integer', 'label' => 'Integer' },
+            'json' => { 'type' => 'json', 'label' => 'Json' },
+            'jsonb' => { 'type' => 'jsonb', 'label' => 'Jsonb' },
+            'ltree' => { 'type' => 'ltree', 'label' => 'Ltree' },
+            'macaddr' => { 'type' => 'macaddr', 'label' => 'Macaddr' },
+            'money' => { 'type' => 'money', 'label' => 'Money' },
+            'numrange' => { 'type' => 'numrange', 'label' => 'Numrange' },
+            'password' => { 'type' => 'string', 'label' => 'Password' },
+            'string' => { 'type' => 'string', 'label' => 'String' },
+            'text' => { 'type' => 'text', 'label' => 'Text' },
+            'time' => { 'type' => 'time', 'label' => 'Time' },
+            'tsrange' => { 'type' => 'tsrange', 'label' => 'Tsrange' },
+            'tstzrange' => { 'type' => 'tstzrange', 'label' => 'Tstzrange' },
+            'tsvector' => { 'type' => 'tsvector', 'label' => 'Tsvector' },
+            'uuid' => { 'type' => 'uuid', 'label' => 'Uuid' },
+            'xml' => { 'type' => 'xml', 'label' => 'Xml' }
+          )
+        end
         expect(subject.fields).to be_frozen
       end
 
@@ -109,19 +148,31 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
     describe '#index_field_names' do
       it 'excludes fields that have long value' do
-        expect(subject.index_field_names).to match_array %w(id bigint bigserial bit bit_varying boolean box cidr circle color date daterange datetime decimal email float inet int4range int8range integer line lseg ltree macaddr money numrange password path point polygon serial string time tsrange tstzrange uuid)
+        if Rails::VERSION::MAJOR == 5
+          expect(subject.index_field_names).to match_array %w(id bigint bigserial bit bit_varying boolean box cidr circle color date daterange datetime decimal email float inet int4range int8range integer line lseg ltree macaddr money numrange password path point polygon serial string time tsrange tstzrange uuid)
+        elsif Rails::VERSION::MAJOR == 4
+          expect(subject.index_field_names).to match_array %w(id bigint bit bit_varying boolean cidr color date daterange datetime decimal email float inet int4range int8range integer ltree macaddr money numrange password string time tsrange tstzrange uuid)
+        end
       end
     end
 
     describe '#show_field_names' do
       it 'includes all field names' do
-        expect(subject.show_field_names).to match_array %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        if Rails::VERSION::MAJOR == 5
+          expect(subject.show_field_names).to match_array %w(id bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        elsif Rails::VERSION::MAJOR == 4
+          expect(subject.show_field_names).to match_array %w(id bigint binary bit bit_varying boolean cidr citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb ltree macaddr money numrange password string text time tsrange tstzrange tsvector uuid xml)
+        end
       end
     end
 
     describe '#form_field_names' do
       it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-        expect(subject.form_field_names).to match_array %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        if Rails::VERSION::MAJOR == 5
+          expect(subject.form_field_names).to match_array %w(bigint bigserial binary bit bit_varying boolean box cidr circle citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange password path point polygon serial string text time tsrange tstzrange tsvector uuid xml)
+        elsif Rails::VERSION::MAJOR == 4
+          expect(subject.form_field_names).to match_array %w(bigint binary bit bit_varying boolean cidr citext color date daterange datetime decimal email float hstore inet int4range int8range integer json jsonb ltree macaddr money numrange password string text time tsrange tstzrange tsvector uuid xml)
+        end
         expect(subject.form_field_names).not_to include 'id'
         expect(subject.form_field_names).not_to include 'created_at'
         expect(subject.form_field_names).not_to include 'updated_at'

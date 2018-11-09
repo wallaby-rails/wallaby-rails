@@ -41,7 +41,7 @@ module Wallaby
       # @param permitted_params [ActionController::Parameters]
       def new(permitted_params, _authorizer)
         @model_class.new normalize permitted_params
-      rescue ::ActiveModel::UnknownAttributeError
+      rescue unknown_attribute_error
         @model_class.new
       end
 
@@ -54,7 +54,7 @@ module Wallaby
         resource
       rescue ::ActiveRecord::RecordNotFound
         raise ResourceNotFound, id
-      rescue ::ActiveModel::UnknownAttributeError
+      rescue unknown_attribute_error
         resource
       end
 
@@ -150,6 +150,10 @@ module Wallaby
       # @see Wallaby::ModelServiceProvider::Validator
       def validator
         @validator ||= Validator.new @model_decorator
+      end
+
+      def unknown_attribute_error
+        (defined?(::ActiveModel::UnknownAttributeError) ? ::ActiveModel : ::ActiveRecord)::UnknownAttributeError
       end
     end
   end

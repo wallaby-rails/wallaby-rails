@@ -3,7 +3,9 @@ module Wallaby
   module LinksHelper
     # @return [ActionController::Parameters] whitelisted params used by Wallaby
     def index_params
-      params.except(:resources, :utf8).permit(:filter, :page, :per, :q, :sort)
+      permit_list = :filter, :page, :per, :q, :sort
+      Utils.try_to(params, :permit, permit_list) \
+        || params.with_indifferent_access.slice(*permit_list)
     end
 
     # Return link to index page by a given model class
@@ -107,7 +109,7 @@ module Wallaby
     # @return [String] HTML anchor element
     def cancel_link(html_options = {}, &block)
       block ||= -> { t 'links.cancel' }
-      link_to :back, html_options, &block
+      link_to 'javascript:history.back()', html_options, &block
     end
 
     # Url for index page

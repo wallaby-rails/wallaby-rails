@@ -12,7 +12,9 @@ module Wallaby
         # @param params [ActionController::Parameters]
         def normalize(params)
           params.each do |field_name, values|
-            type = @model_decorator.metadata_of(field_name)[:type].try(:[], /range|point|binary/)
+            metadata =
+              @model_decorator.metadata_of(field_name).presence || @model_decorator.form_metadata_of(field_name)
+            type = metadata[:type].try(:[], /range|point|binary/)
             next unless type
             public_send "normalize_#{type}_values", params, field_name, values
           end

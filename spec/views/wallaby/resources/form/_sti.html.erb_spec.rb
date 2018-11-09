@@ -5,7 +5,7 @@ type = type_from __FILE__
 describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
-    value: Staff,
+    value: Staff.name,
     metadata: {
       sti_class_list: [Customer, Staff]
     },

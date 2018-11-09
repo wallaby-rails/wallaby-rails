@@ -5,6 +5,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Normalizer do
   let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new AllPostgresType }
 
   describe '#normalize' do
+    before do
+      model_decorator.form_fields[:point] = { type: 'point' }
+    end
+
     describe 'range types' do
       describe 'daterange' do
         it 'turns array into range' do

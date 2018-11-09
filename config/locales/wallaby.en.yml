@@ -26,6 +26,8 @@ en:
     upload: 'Upload'
     empty: 'null'
     na: 'n/a'
+    edit: 'Edit # %{id}'
+    create: 'Create a %{model}'
 
   buttons:
     save: 'Save'
