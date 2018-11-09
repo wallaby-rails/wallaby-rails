@@ -52,7 +52,7 @@ describe 'PostgreSQL Types' do
       expect(native_types.length).to eq 38
       expect(native_types.sort).to eq %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml)
 
-      expect(all_types.length).to eq 42
+      expect(all_types.length).to eq 40
       expect(all_types.sort).to eq %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml)
     elsif version? '~> 5.1.0'
       expect(column_methods.length).to eq 32
