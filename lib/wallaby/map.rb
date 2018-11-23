@@ -1,6 +1,5 @@
 module Wallaby
-  # @private
-  # Global map
+  # Global storage to hold all the information that Wallaby needs to look up.
   class Map
     class << self
       # To store modes

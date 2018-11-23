@@ -8,6 +8,7 @@ module Wallaby
       # @!attribute [r] turbolinks_enabled
       # To globally configure whether to use turbolinks or not.
       #
+      # By default, turbolinks is disabled.
       # @example To enable turbolinks:
       #   Wallaby.config do |config|
       #     config.features.turbolinks_enabled = true

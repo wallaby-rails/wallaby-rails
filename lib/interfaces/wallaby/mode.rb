@@ -1,5 +1,5 @@
 module Wallaby
-  # This is the interface that all ORM modes should implement.
+  # This is the interface that all ORM modes should inherit from and implement.
   class Mode
     class << self
       # @see Wallaby::ModelDecorator
@@ -36,10 +36,11 @@ module Wallaby
       # @see Wallaby::ModelAuthorizationProvider
       # @return [ActiveSupport::HashWithIndifferentAccess<String, Class>] authorization provider hash
       def model_authorization_providers(classes = ModelAuthorizationProvider.descendants)
+        # NOTE: make sure default provider always comes last
         @model_authorization_providers ||=
           classes
           .select { |klass| klass.name.include? name }
-          .sort_by { |klass| klass.provider_name == DEFAULT ? 1 : 0 }
+          .sort_by { |klass| klass.provider_name == DEFAULT_PROVIDER ? 1 : 0 }
           .each_with_object(::ActiveSupport::HashWithIndifferentAccess.new) do |klass, hash|
             hash[klass.provider_name] = klass
           end

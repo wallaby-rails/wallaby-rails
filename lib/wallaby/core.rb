@@ -13,6 +13,7 @@ require 'wallaby/configuration/metadata'
 require 'wallaby/configuration/models'
 require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/security'
+require 'wallaby/map'
 
 require 'routes/wallaby/resources_router'
 require 'tree/wallaby/node'
@@ -68,7 +69,6 @@ require 'authorizers/wallaby/pundit_authorization_provider'
 
 require 'forms/wallaby/form_builder'
 
-require 'services/wallaby/map'
 require 'services/wallaby/map/mode_mapper'
 require 'services/wallaby/map/model_class_collector'
 require 'services/wallaby/map/model_class_mapper'

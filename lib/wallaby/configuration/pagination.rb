@@ -6,10 +6,18 @@ module Wallaby
       attr_writer :page_size
 
       # @!attribute [r] page_size
-      # To globally configure the resources controller.
-      # @example To update the model classes in `config/initializers/wallaby.rb`
+      # To globally configure the page size for pagination.
+      #
+      # Page size can be one of the following values:
+      #
+      # - 10
+      # - 20
+      # - 50
+      # - 100
+      # @see Wallaby::PERS
+      # @example To update the page size in `config/initializers/wallaby.rb`
       #   Wallaby.config do |config|
-      #     config.models = [Product, Order]
+      #     config.pagination.page_size = 50
       #   end
       # @return [Integer] page size, default to 20
       def page_size

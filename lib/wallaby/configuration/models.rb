@@ -1,11 +1,11 @@
 module Wallaby
   class Configuration
     # Models configuration to specify the model classes that Wallaby should handle.
-    # @note In `devlopment` environment, Rails recreates module/class constants on reload event.
+    # @note In `development` environment, Rails recreates module/class constants on reload event.
     #   If constants are cached/stored, they will become stale and Rails will raise conflicts.
     #
     #   Hence, class name strings should be stored instead of constants.
-    #   And when classes are requested, strings will be constantized back into classes.
+    #   When classes are requested, strings will be constantized back into classes.
     class Models
       # @note Once this is set, models exclusion configuration will be ignored.
       # To globally configure what model classes that Wallaby should handle.

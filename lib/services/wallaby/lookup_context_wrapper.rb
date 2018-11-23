@@ -1,10 +1,8 @@
 module Wallaby
   # @!visibility private
-  # Lookup context wrapper.
+  # Lookup context wrapper is to take care of missing template in production.
   #
-  # This is to take care of missing template in production.
-  # It will return `string` template
-  # if it doesn't know how to handle the template.
+  # It will return `string` template if it doesn't know how to handle the template.
   # @see Wallaby::PartialRenderer
   class LookupContextWrapper
     origin_methods = ::ActionView::LookupContext.instance_methods \
@@ -25,7 +23,7 @@ module Wallaby
       BlankTemplate.new
     end
 
-    # Blank template to return nil. It should be used by production
+    # Blank template to return nil. It should be used by production only
     class BlankTemplate < ::ActionView::Template::HTML
       def initialize
         super nil

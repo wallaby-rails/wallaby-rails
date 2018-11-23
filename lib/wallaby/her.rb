@@ -1,3 +1,4 @@
+# Only loads the adaptor when HER is required in Gemfile
 if Gem.loaded_specs['her']
   # All files here is for HER ORM
   require 'her'

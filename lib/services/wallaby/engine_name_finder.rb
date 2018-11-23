@@ -1,5 +1,5 @@
 module Wallaby
-  # Service object to find the engine name
+  # Service object to find the engine name by given request environment variables.
   class EngineNameFinder
     class << self
       # Use script name to find out the corresponding named route and its engine name.
