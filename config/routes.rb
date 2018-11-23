@@ -1,6 +1,6 @@
 Wallaby::Engine.routes.draw do
   # NOTE: For health check if needed
-  # @see Wallaby::BaseController#healthy
+  # @see Wallaby::ApplicationController#healthy
   get 'status', to: 'wallaby/application#healthy'
 
   with_options to: Wallaby::ResourcesRouter.new do |route|

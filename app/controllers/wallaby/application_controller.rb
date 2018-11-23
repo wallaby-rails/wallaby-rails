@@ -1,6 +1,6 @@
 module Wallaby
   # Wallaby's application controller. Like ordinary Rails application, it's the base controller that
-  # other Wallaby controllers will inherit from. However, the difference is that the controller class that
+  # other Wallaby controllers inherit from. However, the difference is that the controller class that
   # `Wallaby::ApplicationController` inherits from can be configured via {Wallaby::Configuration#base_controller}
   #
   # Here, it provides the most basic functions e.g. error handling for common 4xx HTTP status, helpers method,
@@ -11,8 +11,8 @@ module Wallaby
     include SharedHelpers
     helper ApplicationHelper
 
+    # A constant of error path for error handling
     ERROR_PATH = 'wallaby/error'.freeze
-    ERROR_LAYOUT = ERROR_PATH
 
     rescue_from NotFound, with: :not_found
     rescue_from ::ActionController::ParameterMissing, with: :bad_request
@@ -21,7 +21,7 @@ module Wallaby
 
     delegate(*ConfigurationHelper.instance_methods, :url_for, to: :helpers)
 
-    # Health check page
+    # Health check page for e.g. NewRelic
     def healthy
       render plain: 'healthy'
     end
@@ -62,12 +62,11 @@ module Wallaby
     # @param exception [Exception]
     # @param symbol [Symbol] http status symbol
     def error_rendering(exception, symbol)
+      Rails.logger.error exception
+
       @exception = exception
       @symbol = symbol
-      @code = Rack::Utils::SYMBOL_TO_STATUS_CODE[@symbol].to_i
-
-      Rails.logger.error @exception
-      # TODO: change the error and path at some point
+      @code = Rack::Utils::SYMBOL_TO_STATUS_CODE[symbol].to_i
       render ERROR_PATH, status: symbol
     end
   end

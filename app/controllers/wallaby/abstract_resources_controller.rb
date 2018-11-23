@@ -1,5 +1,5 @@
 module Wallaby
-  # Generic CRUD controller.
+  # Abstract CRUD controller.
   class AbstractResourcesController < ::Wallaby::SecureController
     extend Authorizable::ClassMethods
     extend Decoratable::ClassMethods
@@ -21,6 +21,7 @@ module Wallaby
     helper ResourcesHelper
     before_action :authenticate_user!, except: [:status]
 
+    # @note This is a template method that can be overridden by subclasses
     # Landing page, it does nothing but just rendering home template. This action can be replaced completely:
     #
     # ```
@@ -28,11 +29,11 @@ module Wallaby
     #   # generate_dashboard_report
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def home
       # do nothing
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This is a resourceful action to list records.
     # It is possible to customize this action in sub controller as below:
     #
@@ -54,13 +55,13 @@ module Wallaby
     #   # NOTE: and index action can respond to `html`, `csv` and `json`
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def index
       current_authorizer.authorize :index, current_model_class
       yield if block_given? # after_index
       respond_with collection
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This is a resourceful action to show a form for creating a record.
     # It is possible to customize this action in sub controller as below:
     #
@@ -81,13 +82,13 @@ module Wallaby
     #   # NOTE: but need to make sure that `@resource` is assigned
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def new
       current_authorizer.authorize :new, resource
       yield if block_given? # after_new
       respond_with resource
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This is a resourceful action to create a record.
     # It is possible to customize this action in sub controller as below:
     #
@@ -108,7 +109,6 @@ module Wallaby
     #   # NOTE: but need to make sure that `@resource` is assigned
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def create
       current_authorizer.authorize :create, resource
       current_servicer.create resource, params
@@ -116,6 +116,7 @@ module Wallaby
       respond_with resource, location: helpers.show_path(resource)
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This is a resourceful action to display the details of a record.
     # It is possible to customize this action in sub controller as below:
     #
@@ -136,13 +137,13 @@ module Wallaby
     #   # NOTE: but need to make sure that `@resource` is assigned
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def show
       current_authorizer.authorize :show, resource
       yield if block_given? # after_show
       respond_with resource
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This is a resourceful action to show a form for editing a record.
     # It is possible to customize this action in sub controller as below:
     #
@@ -163,13 +164,13 @@ module Wallaby
     #   # NOTE: but need to make sure that `@resource` is assigned
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def edit
       current_authorizer.authorize :edit, resource
       yield if block_given? # after_edit
       respond_with resource
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This is a resourceful action to update a record.
     # It is possible to customize this action in sub controller as below:
     #
@@ -190,7 +191,6 @@ module Wallaby
     #   # NOTE: but need to make sure that `@resource` is assigned
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def update
       current_authorizer.authorize :update, resource
       current_servicer.update resource, params
@@ -198,6 +198,7 @@ module Wallaby
       respond_with resource, location: helpers.show_path(resource)
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This is a resourceful action to destroy a record.
     # It is possible to customize this action in sub controller as below:
     #
@@ -218,7 +219,6 @@ module Wallaby
     #   # NOTE: but need to make sure that `@resource` is assigned
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     def destroy
       current_authorizer.authorize :destroy, resource
       current_servicer.destroy resource, params
@@ -226,6 +226,7 @@ module Wallaby
       respond_with resource, location: helpers.index_path(current_model_class)
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # To whitelist the params for CRUD actions.
     # If Wallaby cannot generate the correct strong parameters, it can be customized as:
     #
@@ -234,7 +235,6 @@ module Wallaby
     #   params.fetch(:product, {}).permit(:name, :sku)
     # end
     # ```
-    # @note This is a template method that can be overridden by subclasses
     # @see Wallaby::ModelServicer#permit
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
