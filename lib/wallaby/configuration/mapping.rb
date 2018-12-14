@@ -7,7 +7,6 @@ module Wallaby
       attr_writer :resources_controller
 
       # @!attribute [r] resources_controller
-      # @since 5.1.6
       # To globally configure the resources controller.
       #
       # If no configuration is given, Wallaby will look up the following controller classes
@@ -20,6 +19,7 @@ module Wallaby
       #     config.mapping.resources_controller = ::GlobalResourcesController
       #   end
       # @return [Class] resources controller class
+      # @since 5.1.6
       def resources_controller
         @resources_controller ||=
           defined?(::Admin::ApplicationController) \
@@ -32,7 +32,6 @@ module Wallaby
       attr_writer :resource_decorator
 
       # @!attribute [r] resource_decorator
-      # @since 5.1.6
       # To globally configure the resource decorator.
       #
       # If no configuration is given, Wallaby will look up the following decorator classes
@@ -45,6 +44,7 @@ module Wallaby
       #     config.mapping.resource_decorator = ::GlobalResourceDecorator
       #   end
       # @return [Class] resource decorator class
+      # @since 5.1.6
       def resource_decorator
         @resource_decorator ||=
           defined?(::Admin::ApplicationDecorator) \
@@ -57,7 +57,6 @@ module Wallaby
       attr_writer :model_servicer
 
       # @!attribute [r] model_servicer
-      # @since 5.1.6
       # To globally configure the model servicer.
       #
       # If no configuration is given, Wallaby will look up the following servicer classes
@@ -70,6 +69,7 @@ module Wallaby
       #     config.mapping.model_servicer = ::GlobalModelServicer
       #   end
       # @return [Class] model servicer class
+      # @since 5.1.6
       def model_servicer
         @model_servicer ||=
           defined?(::Admin::ApplicationServicer) \
@@ -82,7 +82,6 @@ module Wallaby
       attr_writer :model_paginator
 
       # @!attribute [r] model_paginator
-      # @since 5.1.6
       # To globally configure the resource paginator.
       #
       # If no configuration is given, Wallaby will look up the following paginator classes
@@ -95,6 +94,7 @@ module Wallaby
       #     config.mapping.model_paginator = ::GlobalModelPaginator
       #   end
       # @return [Class] resource paginator class
+      # @since 5.1.6
       def model_paginator
         @model_paginator ||=
           defined?(::Admin::ApplicationPaginator) \
@@ -114,7 +114,6 @@ module Wallaby
       attr_writer :model_authorizer
 
       # @!attribute [r] model_authorizer
-      # @since 5.1.6
       # To globally configure the model authorizer.
       #
       # If no configuration is given, Wallaby will look up the following authorizer classes
@@ -127,6 +126,7 @@ module Wallaby
       #     config.mapping.model_authorizer = ::GlobalModelAuthorizer
       #   end
       # @return [Class] model authorizer class
+      # @since 5.1.6
       def model_authorizer
         @model_authorizer ||=
           defined?(::Admin::ApplicationAuthorizer) \

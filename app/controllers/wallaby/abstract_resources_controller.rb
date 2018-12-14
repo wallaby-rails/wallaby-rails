@@ -251,8 +251,8 @@ module Wallaby
     #   params.fetch(:product, {}).permit(:name, :sku)
     # end
     # ```
-    # @see Wallaby::ModelServicer#permit
     # @return [ActionController::Parameters] whitelisted params
+    # @see Wallaby::ModelServicer#permit
     def resource_params
       @resource_params ||= current_servicer.permit params, action_name
     end

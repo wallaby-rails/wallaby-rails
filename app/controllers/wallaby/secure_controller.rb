@@ -27,14 +27,11 @@ module Wallaby
     # - `super`
     # - do nothing
     #
-    # To replace `current_user` with own implementation in subclass:
-    #
-    # ```
-    # def current_user
-    #   # NOTE: please ensure `@current_user` is assigned, for instance:
-    #   @current_user ||= User.new params.slice(:email)
-    # end
-    # ```
+    # @example To replace `current_user` with own implementation in subclass:
+    #   def current_user
+    #     # NOTE: please ensure `@current_user` is assigned, for instance:
+    #     @current_user ||= User.new params.slice(:email)
+    #   end
     # @return [Object] a user object
     def current_user
       @current_user ||=
@@ -53,16 +50,14 @@ module Wallaby
     # - `super`
     # - do nothing
     #
-    # To replace `authenticate_user!` with own implementation in subclass:
-    #
-    # ```
-    # def authenticate_user!
-    #   authenticate_or_request_with_http_basic do |username, password|
-    #     username == 'too_simple' && password == 'too_naive'
+    # @example To replace `authenticate_user!` with own implementation in subclass:
+    #   def authenticate_user!
+    #     authenticate_or_request_with_http_basic do |username, password|
+    #       username == 'too_simple' && password == 'too_naive'
+    #     end
     #   end
-    # end
-    # ```
-    # @raise Wallaby::NotAuthenticated
+    # @return [true] when user is authenticated successfully
+    # @raise [Wallaby::NotAuthenticated] when user fails to authenticate
     def authenticate_user!
       authenticated =
         if security.authenticate? || !defined? super

@@ -41,9 +41,9 @@ module Wallaby
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_class = ProductResources
       #   end
+      # @return [Class] model paginator
       # @raise [ArgumentError] when **model_class** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelResources
-      # @return [Class] model paginator
       def model_class
         @model_class ||= Map.model_class_map(resources_name)
       end
@@ -86,9 +86,9 @@ module Wallaby
 
     # To paginate the collection but only when either `page` or `per` param is given,
     # or HTML response is requested
-    # @see Wallaby::ModelServicer#paginate
     # @param query [#each]
     # @return [#each]
+    # @see Wallaby::ModelServicer#paginate
     def paginate(query)
       paginatable = params[:page] || params[:per] || request.format.symbol == :html
       paginatable ? current_servicer.paginate(query, params) : query

@@ -1,7 +1,7 @@
 module Wallaby
   # Abstract related class methods
   module Abstractable
-    # Configurable attributes and class methods
+    # Configurable attributes and class methods for abstract
     module ClassMethods
       # @return [true] if class is abstract
       # @return [false] if class is not abstract

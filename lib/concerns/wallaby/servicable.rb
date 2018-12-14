@@ -15,14 +15,13 @@ module Wallaby
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_servicer = ProductServicer
       #   end
+      # @return [Class] model servicer
       # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
       # @see Wallaby::ModelServicer
-      # @return [Class] model servicer
       # @since 5.2.0
       attr_reader :model_servicer
 
       # @!attribute [w] application_servicer
-      # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
       def application_servicer=(application_servicer)
         ModuleUtils.inheritance_check model_servicer, application_servicer
         @application_servicer = application_servicer
@@ -34,9 +33,10 @@ module Wallaby
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_servicer = AnotherApplicationServicer
       #   end
-      # @since 5.2.0
-      # @see Wallaby::ModelServicer
       # @return [Class] application decorator
+      # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
+      # @see Wallaby::ModelServicer
+      # @since 5.2.0
       def application_servicer
         @application_servicer ||= Utils.try_to superclass, :application_servicer
       end

@@ -43,9 +43,9 @@ module Wallaby
 
     # Find out the model class
     # @param params [Hash]
+    # @return [Class] model class
     # @raise [Wallaby::ModelNotFound] when model class is not found
     # @raise [Wallaby::UnprocessableEntity] when there is no corresponding mode found for model class
-    # @return [Class] model class
     def find_model_class_by(params)
       model_class = Map.model_class_map params[:resources]
       return model_class unless MODEL_ACTIONS.include? params[:action].to_sym

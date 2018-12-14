@@ -22,15 +22,15 @@ module Wallaby
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.theme_name = 'admin_theme'
       #   end
-      # @since 5.2.0
       # @return [String, Symbol, nil] theme name
+      # @since 5.2.0
       def theme_name
         @theme_name ||= Utils.try_to superclass, :theme_name
       end
     end
 
-    # @since 5.2.0
     # @return [String, Symbol, nil] theme name
+    # @since 5.2.0
     def current_theme_name
       controller_to_get __callee__, :theme_name
     end

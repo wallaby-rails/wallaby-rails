@@ -60,8 +60,8 @@ module Wallaby
       #   class ProductDecorator < CoreDecorator
       #     self.application_decorator = Admin::ApplicationDecorator
       #   end
-      # @raise [ArgumentError] when itself doesn't inherit from given **application_decorator**
       # @return [Class] assoicated application decorator class.
+      # @raise [ArgumentError] when itself doesn't inherit from given **application_decorator**
       # @since 5.2.0
       def application_decorator
         @application_decorator ||= ancestors.find { |parent| parent < ResourceDecorator && !parent.model_class }
