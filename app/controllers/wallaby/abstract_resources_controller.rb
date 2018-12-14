@@ -26,7 +26,7 @@ module Wallaby
     #
     # ```
     # def home
-    #   # generate_dashboard_report
+    #   generate_dashboard_report
     # end
     # ```
     def home
@@ -41,7 +41,8 @@ module Wallaby
     # def index
     #   # do something before the origin `index` action
     #   super do
-    #     # do something after the origin `index` action, but before rendering
+    #     # NOTE: index action responds to `html`, `csv` and `json` format
+    #     # do something after the origin `index` action, but before responder's rendering
     #   end
     # end
     # ```
@@ -51,8 +52,8 @@ module Wallaby
     # ```
     # def index
     #   # do something completely different
-    #   # NOTE: but need to make sure that `@collection` is assigned
-    #   # NOTE: and index action can respond to `html`, `csv` and `json`
+    #   # NOTE: please ensure that `@collection` is assigned, for instance
+    #   @collection = Product.all
     # end
     # ```
     def index
@@ -62,14 +63,14 @@ module Wallaby
     end
 
     # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to show a form for creating a record.
+    # This is a resourceful action to show the form for creating a record.
     # It is possible to customize this action in sub controller as below:
     #
     # ```
     # def new
     #   # do something before the origin `new` action
     #   super do
-    #     # do something after the origin `new` action, but before rendering
+    #     # do something after the origin `new` action, but before responder's rendering
     #   end
     # end
     # ```
@@ -79,7 +80,8 @@ module Wallaby
     # ```
     # def new
     #   # do something completely different
-    #   # NOTE: but need to make sure that `@resource` is assigned
+    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   @resource = Product.new new_arrival: true
     # end
     # ```
     def new
@@ -96,7 +98,7 @@ module Wallaby
     # def create
     #   # do something before the origin `create` action
     #   super do
-    #     # do something after the origin `create` action, but before rendering
+    #     # do something after the origin `create` action, but before responder's rendering
     #   end
     # end
     # ```
@@ -106,9 +108,13 @@ module Wallaby
     # ```
     # def create
     #   # do something completely different
-    #   # NOTE: but need to make sure that `@resource` is assigned
+    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   @resource = Product.new resource_params.merge(new_arrival: true)
+    #   @resource.save
+    #   respond_with @resource
     # end
     # ```
+    # @see Wallaby::ModelServicer#create
     def create
       current_authorizer.authorize :create, resource
       current_servicer.create resource, params
@@ -124,7 +130,7 @@ module Wallaby
     # def show
     #   # do something before the origin `show` action
     #   super do
-    #     # do something after the origin `show` action, but before rendering
+    #     # do something after the origin `show` action, but before responder's rendering
     #   end
     # end
     # ```
@@ -134,7 +140,8 @@ module Wallaby
     # ```
     # def show
     #   # do something completely different
-    #   # NOTE: but need to make sure that `@resource` is assigned
+    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   @resource = Product.find_by_slug params[:id]
     # end
     # ```
     def show
@@ -151,7 +158,7 @@ module Wallaby
     # def edit
     #   # do something before the origin `edit` action
     #   super do
-    #     # do something after the origin `edit` action, but before rendering
+    #     # do something after the origin `edit` action, but before responder's rendering
     #   end
     # end
     # ```
@@ -161,7 +168,8 @@ module Wallaby
     # ```
     # def edit
     #   # do something completely different
-    #   # NOTE: but need to make sure that `@resource` is assigned
+    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   @resource = Product.find_by_slug params[:id]
     # end
     # ```
     def edit
@@ -178,7 +186,7 @@ module Wallaby
     # def update
     #   # do something before the origin `update` action
     #   super do
-    #     # do something after the origin `update` action, but before rendering
+    #     # do something after the origin `update` action, but before responder's rendering
     #   end
     # end
     # ```
@@ -188,9 +196,13 @@ module Wallaby
     # ```
     # def update
     #   # do something completely different
-    #   # NOTE: but need to make sure that `@resource` is assigned
+    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   @resource = Product.find_by_slug params[:id]
+    #   @resource.save
+    #   respond_with @resource
     # end
     # ```
+    # @see Wallaby::ModelServicer#update
     def update
       current_authorizer.authorize :update, resource
       current_servicer.update resource, params
@@ -206,7 +218,7 @@ module Wallaby
     # def destroy
     #   # do something before the origin `destroy` action
     #   super do
-    #     # do something after the origin `destroy` action, but before rendering
+    #     # do something after the origin `destroy` action, but before responder's rendering
     #   end
     # end
     # ```
@@ -216,9 +228,13 @@ module Wallaby
     # ```
     # def destroy
     #   # do something completely different
-    #   # NOTE: but need to make sure that `@resource` is assigned
+    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   @resource = Product.find_by_slug params[:id]
+    #   @resource.destroy
+    #   respond_with @resource
     # end
     # ```
+    # @see Wallaby::ModelServicer#destroy
     def destroy
       current_authorizer.authorize :destroy, resource
       current_servicer.destroy resource, params
@@ -228,7 +244,7 @@ module Wallaby
 
     # @note This is a template method that can be overridden by subclasses
     # To whitelist the params for CRUD actions.
-    # If Wallaby cannot generate the correct strong parameters, it can be customized as:
+    # If Wallaby cannot generate the correct strong parameters, it can be replaced, for instance:
     #
     # ```
     # def resource_params
