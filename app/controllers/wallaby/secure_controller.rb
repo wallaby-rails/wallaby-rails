@@ -36,7 +36,7 @@ module Wallaby
     def current_user
       @current_user ||=
         if security.current_user? || !defined? super
-          instance_exec &security.current_user
+          instance_exec(&security.current_user)
         else
           super
         end
@@ -61,7 +61,7 @@ module Wallaby
     def authenticate_user!
       authenticated =
         if security.authenticate? || !defined? super
-          instance_exec &security.authenticate
+          instance_exec(&security.authenticate)
         else
           super
         end
