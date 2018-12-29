@@ -16,7 +16,7 @@ gemspec
 gem 'cancancan'
 gem 'her'
 gem 'pundit'
-gem 'rails', '~>5.2.2'
+gem 'rails', '~>5.2.0'
 
 group :development, :test do
   gem 'binding_of_caller'
