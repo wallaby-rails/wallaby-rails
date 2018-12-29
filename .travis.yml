@@ -12,6 +12,10 @@ gemfile:
   - gemfiles/Gemfile.rails-5.1
   - gemfiles/Gemfile.rails-5.2
   - gemfiles/Gemfile.rails-5.2.legacy_gems
+matrix:
+  exclude:
+  - rvm: 2.6.0
+    gemfile: gemfiles/Gemfile.rails-4.2
 env:
   global:
     - DB=postgresql

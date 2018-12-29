@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'GlobalPaginator', type: :request, clear: :object_space do
+describe 'GlobalPaginator', type: :request do
   before do
     stub_const 'GlobalPaginator', (Class.new Wallaby::ModelPaginator do
       def total

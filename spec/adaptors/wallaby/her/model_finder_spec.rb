@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::Her::ModelFinder, clear: :object_space do
+describe Wallaby::Her::ModelFinder do
   describe '#all' do
     it 'returns valid model classes in alphabetic order' do
       expect(subject.all).to match_array [Her::Order, Her::Category, Her::Picture, Her::Product]
