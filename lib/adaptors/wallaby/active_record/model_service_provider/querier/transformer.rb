@@ -2,7 +2,7 @@ module Wallaby
   class ActiveRecord
     class ModelServiceProvider
       class Querier
-        # @private
+        # @!visibility private
         # Build up query using the results
         class Transformer < Parslet::Transform
           SIMPLE_OPERATORS = {

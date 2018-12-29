@@ -8,7 +8,7 @@ module Wallaby
     # @return [String] IMG or I element
     def user_portrait(user = current_user)
       email_method = security.email_method || :email
-      email = user.respond_to?(email_method) && user.public_send(email_method)
+      email = Utils.try_to user, email_method
       if email.present?
         https = "http#{request.ssl? ? 's' : EMPTY_STRING}"
         email_md5 = ::Digest::MD5.hexdigest email.downcase

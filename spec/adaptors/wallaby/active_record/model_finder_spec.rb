@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ActiveRecord::ModelFinder, clear: :object_space do
+describe Wallaby::ActiveRecord::ModelFinder do
   describe '#all' do
     before do
       stub_const 'Airport', (Class.new { def self.abstract_class?; false; end })

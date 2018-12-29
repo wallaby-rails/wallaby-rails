@@ -1,5 +1,5 @@
 module Wallaby
-  # @private
+  # @!visibility private
   class Engine < ::Rails::Engine
     initializer 'wallaby.assets.precompile' do |_|
       config.assets.precompile +=

@@ -15,14 +15,13 @@ module Wallaby
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_paginator = ProductPaginator
       #   end
+      # @return [Class] model paginator
       # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelPaginator
-      # @return [Class] model paginator
       # @since 5.2.0
       attr_reader :model_paginator
 
       # @!attribute [w] application_paginator
-      # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       def application_paginator=(application_paginator)
         ModuleUtils.inheritance_check model_paginator, application_paginator
         @application_paginator = application_paginator
@@ -34,9 +33,10 @@ module Wallaby
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_paginator = AnotherApplicationPaginator
       #   end
-      # @since 5.2.0
-      # @see Wallaby::ModelPaginator
       # @return [Class] application decorator
+      # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
+      # @see Wallaby::ModelPaginator
+      # @since 5.2.0
       def application_paginator
         @application_paginator ||= Utils.try_to superclass, :application_paginator
       end

@@ -1,5 +1,5 @@
 module Wallaby
-  # @private
+  # @!visibility private
   # a parser to handle colon query
   class Parser < Parslet::Parser
     root(:statement)

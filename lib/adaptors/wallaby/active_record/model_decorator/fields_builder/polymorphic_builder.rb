@@ -2,7 +2,7 @@ module Wallaby
   class ActiveRecord
     class ModelDecorator
       class FieldsBuilder
-        # @private
+        # @!visibility private
         # To build the metadata for polymorphic
         class PolymorphicBuilder
           # update the metadata

@@ -15,6 +15,10 @@ Style/FrozenStringLiteralComment:
 Style/RedundantFreeze:
   Enabled: false
 
+Style/RedundantBegin:
+  Exclude:
+    - 'lib/utils/wallaby/utils.rb'
+
 Metrics/BlockLength:
   CountComments: false  # count full line comments?
   Max: 25

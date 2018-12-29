@@ -8,7 +8,6 @@ module Wallaby
       DEFAULT_AUTHENTICATE = -> { true }
 
       # @!attribute logout_path
-      # @since 5.1.4
       # To globally configure the logout path.
       #
       # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout path will be required
@@ -19,10 +18,10 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.security.logout_path = 'logout_path'
       #   end
+      # @since 5.1.4
       attr_accessor :logout_path
 
       # @!attribute logout_method
-      # @since 5.1.4
       # To globally configure the logout HTTP method.
       #
       # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout method will be required
@@ -33,10 +32,10 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.security.logout_method = 'post'
       #   end
+      # @since 5.1.4
       attr_accessor :logout_method
 
       # @!attribute email_method
-      # @since 5.1.4
       # To globally configure the method on {#current_user} to retrieve email address.
       #
       # If no configuration is given, it will attempt to call `email` on {#current_user}.
@@ -44,6 +43,7 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.security.email_method = 'email_address'
       #   end
+      # @since 5.1.4
       attr_accessor :email_method
 
       # To globally configure how to get user object.

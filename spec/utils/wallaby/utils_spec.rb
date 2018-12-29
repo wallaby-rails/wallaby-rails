@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::Utils, clear: :object_space do
+describe Wallaby::Utils do
   describe '.try_to' do
     it 'checks and tries to execute given method on subject' do
       expect(described_class.try_to(Product, :table_name)).to eq 'products'

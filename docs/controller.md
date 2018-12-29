@@ -1,8 +1,8 @@
 # Controller
 
-> NOTE: this is a documentation for 5.2.0 and above, if Wallaby version is under 5.2.0, please see this [document for 5.1 and below](controller.5.1.md).
+> NOTE: this is a documentation for 5.2.0 and above, if Wallaby version under 5.2.0 is used, please see this [document for 5.1 and below](controller.5.1.md).
 
-Wallaby places controller logics in a custom controller same as what Rails does. Therefore, apart from adding functions to support Wallaby, Wallaby controllers are Rails controllers.
+Apart from additional supporting functions, Wallaby controllers are just ordinary Rails controllers that have implemented CRUD actions which can be overridden for customization.
 
 First of all, it's always recommended to create a base controller class `Admin::ApplicationController` as below, so that devs can have better control of developing global changes/functions:
 
@@ -39,7 +39,7 @@ Also it is possible to:
 
 Customize non-resourcesful actions:
 
-- [home](#home) (5.1.0) - to customize landing page.
+- [home](#home) (since 5.1.0) - customizing landing page.
 
 More advanced configuration:
 
@@ -136,7 +136,7 @@ end
   end
   ```
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def index
@@ -181,7 +181,7 @@ end
   end
   ```
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def new
@@ -228,7 +228,7 @@ end
   end
   ```
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def create
@@ -276,7 +276,7 @@ end
   end
   ```
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def show
@@ -321,7 +321,7 @@ end
   end
   ```
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def edit
@@ -369,7 +369,7 @@ end
   end
   ```
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def update
@@ -418,7 +418,7 @@ end
   end
   ```
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def destroy
@@ -442,7 +442,7 @@ end
 
 ## resource_params
 
-Basically, the action is as simple as:
+Basically, the implementation is as simple as:
 
 ```ruby
 def resource_params

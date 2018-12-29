@@ -1,77 +1,104 @@
-'use strict';
+/* global jQuery, Bloodhound */
 
-jQuery.fn.extend({
-  auto_select: function (typeahead_options, engine_options) {
-    var $this = jQuery(this),
-        $input = jQuery('div input', this),
-        $template = jQuery('<li><input type="hidden" /><a href="javascript:,"></a></li>'),
-        name = $input.attr('name'),
-        multiple = $input.attr('multiple');
+(function (jQuery, Bloodhound) {
+  'use strict';
 
-    var recreate_typeahead = function () {
-      var data = $this.data(),
-          options = jQuery.extend({
-            highlight: true,
-            hint: true,
-            minLength: 1
-          }, typeahead_options || {}),
-          source_options = {
-            name: data.source,
-            display: 'label',
-            source: new Bloodhound(jQuery.extend({
+  var  $template = jQuery('<li><input type="hidden" /><a href="javascript:;"></a></li>');
+
+  jQuery.fn.extend({
+    auto_select: function (typeaheadOptions, engineOptions) {
+      jQuery(this).each(function () {
+        var $container = jQuery(this),
+            $input = $container.find('div input');
+
+        setup($container, $input, typeaheadOptions, engineOptions);
+
+        $input
+          .off('typeahead:select')
+          .off('typeahead:change')
+          .on('typeahead:select typeahead:autocomplete', function onSelect(_event, suggestion) {
+            appendAndFocusOnSelection($container, $input, suggestion);
+          })
+          .on('keypress', ignoreTabAndEnter);
+
+        $container
+          .off('click.auto_select')
+          .on('click.auto_select', 'a', function onRemove(_event) {
+            jQuery(this).parent().remove();
+            disableTypeaheadOnSingleSelection($container, $input);
+          });
+      });
+    }
+  });
+
+  function setup($container, $input, typeaheadOptions, engineOptions) {
+    moveAttributesIntoDataFor($input);
+    recreateTypeahead($input, typeaheadOptions, engineOptions, $container.data());
+    disableTypeaheadOnSingleSelection($container, $input);
+  }
+
+  function moveAttributesIntoDataFor($input) {
+    $input.data('name', $input.attr('name'));
+    $input.data('multiple', $input.attr('multiple'));
+    $input.removeAttr('name').removeAttr('multiple');
+  }
+
+  function recreateTypeahead($input, typeaheadOptions, engineOptions, containerOptions) {
+    var options = jQuery.extend({
+          highlight: true,
+          hint: true,
+          minLength: 1
+        }, typeaheadOptions),
+        sourceOptions = {
+          name: containerOptions.source,
+          display: 'label',
+          source: new Bloodhound(
+            jQuery.extend({
               remote: {
-                url: data.url,
-                wildcard: data.wildcard
+                url: containerOptions.url,
+                wildcard: containerOptions.wildcard
               },
               queryTokenizer: Bloodhound.tokenizers.whitespace,
               datumTokenizer: Bloodhound.tokenizers.whitespace
-            }, engine_options || {}))
-          };
-      $input.typeahead('destroy')
-      $input.typeahead(options, source_options);
-    };
-    $this.off('reload.auto_select')
-      .on('reload.auto_select', recreate_typeahead)
-      .trigger('reload.auto_select');
+            }, engineOptions)
+          )
+        };
 
-    var disable_typeahead_on_single_selection = function () {
-      $input.prop('disabled', !multiple && $this.find('a').length === 1);
-      $this.find('.auto_select__count span').text($this.find('a').length);
-    };
-    $this.off('update.auto_select')
-      .on('update.auto_select', disable_typeahead_on_single_selection)
-      .trigger('update.auto_select');
-
-    $input.removeAttr('name').removeAttr('multiple'); // some clean up for the input
-
-    var append_and_focus_on_selection = function (event, suggestion) {
-      var $a,
-          $existing = $this.find('input[value=' + suggestion.id + ']');
-      if ($existing.length) {
-        $a = $existing.next();
-      } else {
-        var $new_item = $template.clone();
-        $new_item.find('input').attr('name', name).val(suggestion.id);
-        $this.find('ul').append($new_item);
-        $a = $new_item.find('a').text(suggestion.label);
-        $this.trigger('update.auto_select');
-      }
-      if (multiple) { $a.focus(); }
-      $input.typeahead('val', '');
-    };
-    var ignore_tab_and_enter = function (e) {
-      var k = e.keyCode || e.which;
-      if (k === 13) { return false; }
-    };
-    $input.off('typeahead:select').off('typeahead:change')
-      .on('typeahead:select typeahead:autocomplete', append_and_focus_on_selection)
-      .on('keypress', ignore_tab_and_enter);
-
-    var remove_selection = function () {
-      jQuery(this).parent().remove();
-      $this.trigger('update.auto_select');
-    };
-    $this.off('click.auto_select').
-      on('click.auto_select', 'a', remove_selection);
+    $input.typeahead('destroy')
+    $input.typeahead(options, sourceOptions);
   }
-});
+
+  function disableTypeaheadOnSingleSelection($container, $input) {
+    var $anchors = $container.find('a'),
+        $count = $container.find('.auto_select__count span'),
+        countOfAnchors = $anchors.length,
+        isMultiple = $input.data('multiple');
+    $input.prop('disabled', !isMultiple && countOfAnchors === 1);
+    $count.text(countOfAnchors);
+  }
+
+  function appendAndFocusOnSelection($container, $input, suggestion) {
+    var $anchor,
+        $existing = $container.find('input[value=' + suggestion.id + ']'),
+        isMultiple = $input.data('multiple'),
+        inputName = $input.data('name');
+    if ($existing.length) {
+      $anchor = $existing.next();
+    } else {
+      var $newItem = $template.clone(),
+          $itemInput = $newItem.find('input'),
+          $list = $container.find('ul');
+      $itemInput.attr('name', inputName).val(suggestion.id);
+      $list.append($newItem);
+      $anchor = $newItem.find('a').text(suggestion.label);
+      disableTypeaheadOnSingleSelection($container, $input);
+    }
+    if (isMultiple) { $anchor.focus(); }
+    $input.typeahead('val', '');
+  }
+
+  function ignoreTabAndEnter(event) {
+    var keyCode = event.keyCode || event.which;
+    if (keyCode === 13 || keyCode === 9) { return false; }
+  }
+})(jQuery, Bloodhound);

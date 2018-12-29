@@ -1,5 +1,5 @@
 module Wallaby
-  # This controller only contains authentication logics.
+  # This is the controller with only authentication logics.
   class SecureController < ::Wallaby::ApplicationController
     helper SecureHelper
     helper_method :current_user
@@ -7,27 +7,31 @@ module Wallaby
     rescue_from NotAuthenticated, with: :unauthorized
     rescue_from Forbidden, with: :forbidden
 
-    # Forbidden page. And it will be used for error handling as the action name implies.
-    # @param exception [Exception] exception comes from `rescue_from`
+    # Unauthorized page.
+    # @param exception [Exception, nil] exception comes from `rescue_from`
     def unauthorized(exception = nil)
-      error_rendering(exception, __callee__)
+      error_rendering exception, __callee__
     end
 
-    # Forbidden page. And it will be used for error handling as the action name implies.
-    # @param exception [Exception] exception comes from `rescue_from`
+    # Forbidden page.
+    # @param exception [Exception, nil] exception comes from `rescue_from`
     def forbidden(exception = nil)
-      error_rendering(exception, __callee__)
+      error_rendering exception, __callee__
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This `current_user` method will try to looking up the actual implementation from the following
     # places from high precedence to low:
     #
     # - {Wallaby::Configuration::Security#current_user}
-    # - `super` method
+    # - `super`
     # - do nothing
-    # @note This is a template method that can be overridden by subclasses
-    # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers
-    #   Devise::Controllers::Helpers#define_helpers
+    #
+    # @example To replace `current_user` with own implementation in subclass:
+    #   def current_user
+    #     # NOTE: please ensure `@current_user` is assigned, for instance:
+    #     @current_user ||= User.new params.slice(:email)
+    #   end
     # @return [Object] a user object
     def current_user
       @current_user ||=
@@ -38,15 +42,22 @@ module Wallaby
         end
     end
 
+    # @note This is a template method that can be overridden by subclasses
     # This `authenticate_user!` method will try to looking up the actual implementation from the following
     # places from high precedence to low:
     #
     # - {Wallaby::Configuration::Security#authenticate}
-    # - super
+    # - `super`
     # - do nothing
-    # @note This is a template method that can be overridden by subclasses
-    # @see https://www.rubydoc.info/gems/devise/Devise%2FControllers%2FHelpers.define_helpers
-    #   Devise::Controllers::Helpers#define_helpers
+    #
+    # @example To replace `authenticate_user!` with own implementation in subclass:
+    #   def authenticate_user!
+    #     authenticate_or_request_with_http_basic do |username, password|
+    #       username == 'too_simple' && password == 'too_naive'
+    #     end
+    #   end
+    # @return [true] when user is authenticated successfully
+    # @raise [Wallaby::NotAuthenticated] when user fails to authenticate
     def authenticate_user!
       authenticated =
         if security.authenticate? || !defined? super

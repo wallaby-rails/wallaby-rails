@@ -8,7 +8,8 @@ module Wallaby
     # @!attribute [r] base_controller
     # To globally configure the base controller class that {Wallaby::ApplicationController} should inherit from.
     #
-    # If no configuration is given, default base controller class is `::ApplicationController` from the host Rails app.
+    # If no configuration is given, {Wallaby::ApplicationController} defaults to inherit from `::ApplicationController`
+    # from the host Rails app.
     # @example To update base controller to `CoreController` in `config/initializers/wallaby.rb`
     #   Wallaby.config do |config|
     #     config.base_controller = ::CoreController
@@ -29,7 +30,7 @@ module Wallaby
     #   Wallaby.config do |config|
     #     config.models = [Product, Order]
     #   end
-    # @param models [Array<[Class, String]>] a list of models class/name
+    # @param models [Array<[Class, String]>] a list of model classes/name strings
     def models=(models)
       self.models.set models
     end
@@ -70,7 +71,7 @@ module Wallaby
     @configuration ||= Configuration.new
   end
 
-  # To config settings using block
+  # To config settings using a block
   # @example
   #   Wallaby.config do |c|
   #     c.pagination.page_size = 20

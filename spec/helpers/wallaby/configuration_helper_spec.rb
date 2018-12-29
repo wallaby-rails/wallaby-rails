@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ConfigurationHelper, clear: :object_space do
+describe Wallaby::ConfigurationHelper do
   describe '#configuration' do
     it { expect(helper.configuration).to be_a Wallaby::Configuration }
   end

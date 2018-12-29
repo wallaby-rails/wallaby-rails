@@ -2,7 +2,7 @@ module Wallaby
   class ActiveRecord
     class ModelDecorator
       class FieldsBuilder
-        # @private
+        # @!visibility private
         # To build the metadata for sti column
         class StiBuilder
           # @param model_class [Class] model class
@@ -39,8 +39,7 @@ module Wallaby
           # @param klass [Class]
           # @return [Boolean] whether the class is ActiveRecord base class
           def top_parent?(klass)
-            klass == ModelFinder.base ||
-              klass.respond_to?(:abstract_class?) && klass.abstract_class?
+            klass == ModelFinder.base || Utils.try_to(klass, :abstract_class?)
           end
         end
       end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'GlobalController', type: :request, clear: :object_space do
+describe 'GlobalController', type: :request do
   before do
     stub_const 'GlobalController', (Class.new Wallaby::ResourcesController do
       before_action do

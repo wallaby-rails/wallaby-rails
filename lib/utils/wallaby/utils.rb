@@ -1,16 +1,15 @@
 module Wallaby
   # Utils
   module Utils
-    # A helper method to check if subject responds to given method otherwise return default value from calling the block
+    # A helper method to check if subject responds to given method and to return the result if so
     # @param subject [Object]
     # @param method_id [String, Symbol]
     # @param args [Array] a list of arguments
-    # @yield [subject] a block to be executed if subject doesn't respond to the given method_id
     # @return [Object] result from executing given method on subject
     # @return [nil] if subject doesn't respond to given method
-    def self.try_to(subject, method_id, *args)
+    def self.try_to(subject, method_id, *args, &block)
       return if method_id.blank?
-      subject.respond_to?(method_id) && subject.public_send(method_id, *args) || block_given? && yield(subject) || nil
+      subject.respond_to?(method_id) && subject.public_send(method_id, *args, &block) || nil
     end
 
     # Check whether a class is anonymous or not
@@ -83,7 +82,7 @@ module Wallaby
     # Preload files
     def self.preload(file_pattern)
       Dir[file_pattern].each do |file_path|
-        begin # rubocop:disable Style/RedundantBegin
+        begin
           name = file_path[%r{app/[^/]+/(.+)\.rb}, 1].gsub('concerns/', '')
           class_name = name.classify
           class_name.constantize unless Module.const_defined? class_name

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'GlobalDecorator', type: :request, clear: :object_space do
+describe 'GlobalDecorator', type: :request do
   before do
     stub_const 'GlobalDecorator', (Class.new Wallaby::ResourceDecorator do
       def to_label

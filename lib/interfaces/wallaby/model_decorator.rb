@@ -4,7 +4,7 @@ module Wallaby
   # @see Wallaby::ResourceDecorator for more information on how to customize
   #   metadata
   class ModelDecorator
-    include FieldHelpers
+    include Fieldable
 
     attr_reader :model_class
     attr_writer \

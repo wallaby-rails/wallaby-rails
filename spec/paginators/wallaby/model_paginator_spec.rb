@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::ModelPaginator, clear: :object_space do
+describe Wallaby::ModelPaginator do
   describe 'class methods' do
     describe '.model_class' do
       it 'returns nil' do

@@ -17,14 +17,13 @@ module Wallaby
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.resource_decorator = ProductDecorator
       #   end
+      # @return [Class] resource decorator
       # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @see Wallaby::ResourceDecorator
-      # @return [Class] resource decorator
       # @since 5.2.0
       attr_reader :resource_decorator
 
       # @!attribute [w] application_decorator
-      # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       def application_decorator=(application_decorator)
         ModuleUtils.inheritance_check resource_decorator, application_decorator
         @application_decorator = application_decorator
@@ -36,9 +35,10 @@ module Wallaby
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_decorator = AnotherApplicationDecorator
       #   end
-      # @since 5.2.0
-      # @see Wallaby::ResourceDecorator
+      # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @return [Class] application decorator
+      # @see Wallaby::ResourceDecorator
+      # @since 5.2.0
       def application_decorator
         @application_decorator ||= Utils.try_to superclass, :application_decorator
       end

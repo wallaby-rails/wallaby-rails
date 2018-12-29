@@ -2,7 +2,7 @@ module Wallaby
   # Url builder for Wallaby engine
   class EnginePathBuilder
     class << self
-      # A constant to map actions to their paths.
+      # A constant to map actions to their route paths defined in Wallaby routes.
       ACTION_TO_PATH_MAP =
         Wallaby::ERRORS.each_with_object(ActiveSupport::HashWithIndifferentAccess.new) do |error, map|
           map[error] = :"#{error}_path"
@@ -18,12 +18,11 @@ module Wallaby
           edit: :edit_resource_path
         ).freeze
 
-      # Generate URL that Wallaby engine supports (home/resourceful/errors)
-      # (see {https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb}).
+      # Generate URL that Wallaby engine supports (e.g. home/resourceful/errors)
       # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
       # @param engine_name [String] engine name
       # @param parameters [ActionController::Parameters, Hash]
-      # @param default_url_options [Hash]
+      # @param default_url_options [Hash] default to empty hash
       # @return [String] path string for wallaby engine
       # @return [nil] nil if this builder doesn't know how to handle the parameters
       def handle(engine_name:, parameters:, default_url_options: {})

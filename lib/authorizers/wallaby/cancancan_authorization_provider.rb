@@ -36,8 +36,7 @@ module Wallaby
     # @param scope [Object]
     # @return [Object]
     def accessible_for(action, scope)
-      return scope unless scope.respond_to? :accessible_by
-      scope.accessible_by current_ability, action
+      Utils.try_to(scope, :accessible_by, current_ability, action) || scope
     end
 
     # Restrict user to assign certain values.

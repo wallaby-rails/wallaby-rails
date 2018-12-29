@@ -1,5 +1,5 @@
 module Wallaby
-  # Model Authorizer to provide authorization functions
+  # Abstract model authorizer to provide authorization functions
   class AbstractModelAuthorizer
     extend Abstractable::ClassMethods
     class << self
