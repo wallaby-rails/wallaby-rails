@@ -22,12 +22,14 @@ module Wallaby
 
       # @see Wallaby::ModelPaginationProvider
       # @return [Class] pagination provider for the mode
+      # @since 5.2.0
       def model_pagination_provider
         check_and_constantize __callee__
       end
 
       # @see Wallaby::ModelPaginationProvider
       # @return [Class] pagination provider for the mode
+      # @since 5.2.0
       def default_authorization_provider
         check_and_constantize __callee__
       end
@@ -35,6 +37,7 @@ module Wallaby
       # Return a list of authorization providers for authorizer to detect which one to use.
       # @see Wallaby::ModelAuthorizationProvider
       # @return [ActiveSupport::HashWithIndifferentAccess<String, Class>] authorization provider hash
+      # @since 5.2.0
       def model_authorization_providers(classes = ModelAuthorizationProvider.descendants)
         # NOTE: make sure default provider always comes last
         @model_authorization_providers ||=

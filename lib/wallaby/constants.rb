@@ -12,6 +12,7 @@ module Wallaby
   DEFAULT_PAGE_SIZE = 20
   # Default max charactoers to display for {Wallaby::Configuration::Metadata#max}
   DEFAULT_MAX = 20
+  # Default provider name for authorizer sorting.
   DEFAULT_PROVIDER = 'default'.freeze
 
   ERRORS = %i(
