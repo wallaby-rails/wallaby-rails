@@ -95,3 +95,7 @@ require 'helpers/wallaby/application_helper'
 
 require 'responders/wallaby/abstract_responder'
 require 'responders/wallaby/resources_responder'
+
+require 'renderers/wallaby/renderer'
+require 'renderers/wallaby/lookup_context'
+require 'renderers/wallaby/renderer_resolver'

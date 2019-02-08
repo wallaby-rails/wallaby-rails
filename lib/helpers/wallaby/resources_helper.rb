@@ -31,7 +31,7 @@ module Wallaby
 
     # Render partial for index/show
     def type_partial_render(options = {}, locals = {}, &block)
-      PartialRenderer.render self, options, locals, params[:action], &block
+      PartialRenderer.render self, options, locals, &block
     end
 
     # Title for show page of given resource

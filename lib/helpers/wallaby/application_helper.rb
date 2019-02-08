@@ -5,6 +5,12 @@ module Wallaby
     include Engineable
     include SharedHelpers
 
+    # @!attribute [r] partial_lookup
+    # to cache partial lookup result
+    def partial_lookup
+      @partial_lookup ||= {}
+    end
+
     # Override `actionview/lib/action_view/routing_url_for.rb#url_for` too handle URL for wallaby engine
     # @param options [String, Hash]
     # @param engine_name [String, nil]

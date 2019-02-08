@@ -22,8 +22,18 @@ module Wallaby
       end
     end
 
+    initializer 'wallaby.autoload_paths', before: :set_load_path do |_|
+      # NOTE: this needs to be run before `set_load_path`
+      # so that files under `app/views` can be eager loaded
+      # and therefore, Wallaby's renderer can function properly
+      [config, Rails.configuration].each do |conf|
+        next if conf.paths['app/views'].eager_load?
+        conf.paths.add 'app/views', eager_load: true
+      end
+    end
+
     config.before_eager_load do
-      # We need to ensure that the core models are loaded before anything else
+      # NOTE: We need to ensure that the core models are loaded before anything else
       Rails.logger.debug '  [WALLABY] Preload all model files.'
       ::Wallaby::Utils.preload 'app/models/**/*.rb'
     end

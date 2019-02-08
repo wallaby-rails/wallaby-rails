@@ -1,9 +1,27 @@
 module Wallaby
   # In order to improve the rendering performance, renderer is used to render simple partials.
   class Renderer
+    attr_reader :context, :locals
+    attr_accessor :object, :field_name, :value, :metadata, :form
+
     # @param context []
-    def initialize(context)
+    def initialize(context, locals)
       @context = context
+      @locals = locals
+      %i[object field_name value metadata form].each do |var|
+        instance_variable_set :"@#{var}", @locals[var]
+      end
+    end
+
+    def render_complete(&block)
+      @buffer = ''.html_safe
+      last_part = render &block
+      last_part = last_part.to_s unless last_part.is_a? String
+      @buffer << last_part
+    end
+
+    def concat(string)
+      @buffer << string
     end
 
     # We delegate missing methods to context

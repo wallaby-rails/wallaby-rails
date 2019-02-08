@@ -84,10 +84,10 @@ module Wallaby
       Dir[file_pattern].each do |file_path|
         begin
           name = file_path[%r{app/[^/]+/(.+)\.rb}, 1].gsub('concerns/', '')
-          class_name = name.classify
+          class_name = name.camelize
           class_name.constantize unless Module.const_defined? class_name
         rescue NameError, LoadError => e
-          Rails.logger.debug "  [WALLABY] Preload warning: #{e.message}"
+          Rails.logger.debug "  [WALLABY] Preload warning: #{e.message} from #{file_path}"
           Rails.logger.debug e.backtrace.slice(0, 5)
         end
       end
