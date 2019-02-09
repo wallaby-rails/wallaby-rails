@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class EmailHtml < Renderer
+      class EmailHtml < Cell
         def render
           value.nil? ? null : mail_to(value)
         end

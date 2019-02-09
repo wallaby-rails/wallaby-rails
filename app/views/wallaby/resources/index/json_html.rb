@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class JsonHtml < Renderer
+      class JsonHtml < Cell
         def render
           if value.nil?
             null

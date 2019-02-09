@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class UnsignedDecimalHtml < Renderer
+      class UnsignedDecimalHtml < Cell
         def render
           value || null
         end

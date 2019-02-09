@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class MediumtextHtml < Renderer
+      class MediumtextHtml < Cell
         def render
           if value.nil?
             null

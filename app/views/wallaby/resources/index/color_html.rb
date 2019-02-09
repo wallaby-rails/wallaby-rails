@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class ColorHtml < Renderer
+      class ColorHtml < Cell
         def render
           if value.nil?
             null

@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class TinyblobHtml < Renderer
+      class TinyblobHtml < Cell
         def render
           value ? muted('tinyblob') : null
         end

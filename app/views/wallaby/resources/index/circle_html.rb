@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class CircleHtml < Renderer
+      class CircleHtml < Cell
         def render
           if value.nil?
             null

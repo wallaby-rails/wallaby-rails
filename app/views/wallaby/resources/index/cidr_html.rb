@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class CidrHtml < Renderer
+      class CidrHtml < Cell
         def render
           if value.nil?
             null

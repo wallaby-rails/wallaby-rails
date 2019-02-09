@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class StiHtml < Renderer
+      class StiHtml < Cell
         def render
           if value.nil?
             null

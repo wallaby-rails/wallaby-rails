@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class NumrangeHtml < Renderer
+      class NumrangeHtml < Cell
         def render
           if value.nil?
             null

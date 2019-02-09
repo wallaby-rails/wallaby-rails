@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class HasOneHtml < Renderer
+      class HasOneHtml < Cell
         def render
           value.present? ? show_link(value, options: { readonly: true }) : null
         end

@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class LongtextHtml < Renderer
+      class LongtextHtml < Cell
         def render
           if value.nil?
             null

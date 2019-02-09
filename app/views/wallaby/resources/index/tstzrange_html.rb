@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class TstzrangeHtml < Renderer
+      class TstzrangeHtml < Cell
         def render
           if value.nil?
             null

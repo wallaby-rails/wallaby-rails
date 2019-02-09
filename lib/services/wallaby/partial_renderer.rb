@@ -14,8 +14,8 @@ module Wallaby
         complete locals, view.params[:action]
         partial = find_partial options, view
 
-        if is_renderer? partial
-          run_renderer partial, locals, view, &block
+        if is_cell? partial
+          render_cell partial, locals, view, &block
         else
           view.render options, locals, &block
         end
@@ -57,18 +57,18 @@ module Wallaby
       # @param partial [String]
       # @return [true] if partial ends with `.rb`
       # @return [false] otherwise
-      def is_renderer?(partial)
+      def is_cell?(partial)
         partial.inspect.end_with? '.rb'
       end
 
       # @param partial [String]
       # @param locals [Hash]
       # @param view [ActionView]
-      def run_renderer(partial, locals, view, &block)
+      def render_cell(partial, locals, view, &block)
         file_name = partial.inspect[%r{(?<=/app/).+(?=\.rb)}].split('/', 2).last
-        renderer_class = file_name.camelize.constantize
-        Rails.logger.debug "Rendered #{file_name}"
-        renderer_class.new(view, locals).render_complete &block
+        cell_class = file_name.camelize.constantize
+        Rails.logger.debug "  Rendered [cell] #{partial.inspect}"
+        cell_class.new(view, locals).render_complete &block
       end
     end
   end

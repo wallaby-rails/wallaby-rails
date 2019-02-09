@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class BitVaryingHtml < Renderer
+      class BitVaryingHtml < Cell
         def render
           if value.nil?
             null

@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class TsvectorHtml < Renderer
+      class TsvectorHtml < Cell
         def render
           if value.nil?
             null

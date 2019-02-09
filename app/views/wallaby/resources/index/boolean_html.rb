@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class BooleanHtml < Renderer
+      class BooleanHtml < Cell
         def render
           if value.nil?
             null

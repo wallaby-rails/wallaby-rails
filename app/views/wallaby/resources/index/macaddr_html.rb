@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class MacaddrHtml < Renderer
+      class MacaddrHtml < Cell
         def render
           if value.nil?
             null

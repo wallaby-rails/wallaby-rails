@@ -1,6 +1,6 @@
 module Wallaby
   # In order to improve the rendering performance, renderer is used to render simple partials.
-  class Renderer
+  class Cell
     attr_reader :context, :locals
     attr_accessor :object, :field_name, :value, :metadata, :form
 

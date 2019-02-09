@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class DateHtml < Renderer
+      class DateHtml < Cell
         def render
           if value.nil?
             null

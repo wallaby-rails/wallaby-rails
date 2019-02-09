@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class LtreeHtml < Renderer
+      class LtreeHtml < Cell
         def render
           if value.nil?
             null

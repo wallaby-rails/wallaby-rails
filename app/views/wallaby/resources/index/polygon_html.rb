@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class PolygonHtml < Renderer
+      class PolygonHtml < Cell
         def render
           if value.nil?
             null

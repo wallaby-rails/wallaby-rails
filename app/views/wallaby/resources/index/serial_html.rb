@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class SerialHtml < Renderer
+      class SerialHtml < Cell
         def render
           value || null
         end

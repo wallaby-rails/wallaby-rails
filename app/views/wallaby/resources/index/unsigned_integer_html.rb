@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class UnsignedIntegerHtml < Renderer
+      class UnsignedIntegerHtml < Cell
         def render
           value.try(:to_i) || null
         end

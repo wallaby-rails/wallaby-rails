@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class TinytextHtml < Renderer
+      class TinytextHtml < Cell
         def render
           if value.nil?
             null

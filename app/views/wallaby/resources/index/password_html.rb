@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class PasswordHtml < Renderer
+      class PasswordHtml < Cell
         def render
           if value.nil?
             null

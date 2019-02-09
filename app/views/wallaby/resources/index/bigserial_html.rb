@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class BigserialHtml < Renderer
+      class BigserialHtml < Cell
         def render
           value || null
         end

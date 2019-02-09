@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class UnsignedFloatHtml < Renderer
+      class UnsignedFloatHtml < Cell
         def render
           value.try(:to_f) || null
         end

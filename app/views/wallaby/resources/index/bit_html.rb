@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class BitHtml < Renderer
+      class BitHtml < Cell
         def render
           if value.nil?
             null

@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class PathHtml < Renderer
+      class PathHtml < Cell
         def render
           if value.nil?
             null

@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class DecimalHtml < Renderer
+      class DecimalHtml < Cell
         def render
           value || null
         end

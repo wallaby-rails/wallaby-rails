@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class HstoreHtml < Renderer
+      class HstoreHtml < Cell
         def render
           if value.nil?
             null

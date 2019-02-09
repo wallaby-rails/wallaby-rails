@@ -27,12 +27,5 @@ module Wallaby
         action_name: params[:action]
       )
     end
-
-    # A wrapped lookup content
-    # Its aim is to render string partial when given partial is not found
-    # @return [LookupContextWrapper]
-    def lookup_context
-      @_lookup_context ||= LookupContextWrapper.new super # rubocop:disable Naming/MemoizedInstanceVariableName
-    end
   end
 end

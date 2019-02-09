@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class BoxHtml < Renderer
+      class BoxHtml < Cell
         def render
           if value.nil?
             null

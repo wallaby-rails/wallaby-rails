@@ -1,7 +1,7 @@
 module Wallaby
   module Resources
     module Index
-      class BinaryHtml < Renderer
+      class BinaryHtml < Cell
         def render
           value ? muted('binary') : null
         end
