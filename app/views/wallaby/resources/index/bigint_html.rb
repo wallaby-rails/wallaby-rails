@@ -3,7 +3,7 @@ module Wallaby
     module Index
       class BigintHtml < Cell
         def render
-          value.try(:to_i) || null
+          value || null
         end
       end
     end

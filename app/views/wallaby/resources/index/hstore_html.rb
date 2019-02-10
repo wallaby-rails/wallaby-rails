@@ -10,7 +10,7 @@ module Wallaby
             self.value = value.to_s
             if value.length > max
               concat content_tag(:code, value.truncate(max))
-              itooltip value
+              imodal metadata[:label], "<pre>#{ h value }</pre>".html_safe
             else
               content_tag :code, value
             end

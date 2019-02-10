@@ -4,6 +4,8 @@ module Wallaby
     attr_reader :context, :locals
     attr_accessor :object, :field_name, :value, :metadata, :form
 
+    delegate(*ERB::Util.singleton_methods, to: ERB::Util)
+
     # @param context []
     def initialize(context, locals)
       @context = context

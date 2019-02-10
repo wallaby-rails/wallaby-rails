@@ -6,7 +6,7 @@ module Wallaby
           if value.nil?
             null
           else
-            content_tag :span, '********'
+            content_tag :code, '********'
           end
         end
       end

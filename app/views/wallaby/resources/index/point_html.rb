@@ -8,8 +8,9 @@ module Wallaby
           else
             concat '('
             concat content_tag(:span, value[0], class: 'x')
+            concat ', '
             concat content_tag(:span, value[1], class: 'y')
-            concat ')'
+            ')'
           end
         end
       end
