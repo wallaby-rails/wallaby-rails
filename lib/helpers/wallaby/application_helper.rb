@@ -5,10 +5,10 @@ module Wallaby
     include Engineable
     include SharedHelpers
 
-    # @!attribute [r] partial_lookup
-    # to cache partial lookup result
-    def partial_lookup
-      @partial_lookup ||= {}
+    # @!attribute [r] custom_lookup_context
+    def custom_lookup_context
+      @custom_lookup_context ||=
+        Wallaby::LookupContext.new lookup_context.view_paths, {}, lookup_context.prefixes
     end
 
     # Override `actionview/lib/action_view/routing_url_for.rb#url_for` too handle URL for wallaby engine

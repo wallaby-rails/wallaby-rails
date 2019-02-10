@@ -46,12 +46,9 @@ module Wallaby
       # @return [String] partial path string
       # @return [String] blank string
       def find_partial(options, view)
-        view.partial_lookup[options] ||= begin
-          formats = [view.request.format.to_sym]
-          lookup_context = view.lookup_context
-          custom_lookup_context = Wallaby::LookupContext.new lookup_context.view_paths, {}, lookup_context.prefixes
-          custom_lookup_context.find_template options, custom_lookup_context.prefixes, true, [], formats: formats
-        end
+        formats = [view.request.format.to_sym]
+        lookup = view.custom_lookup_context
+        lookup.find_template options, lookup.prefixes, true, [], formats: formats
       end
 
       # @param partial [String]
