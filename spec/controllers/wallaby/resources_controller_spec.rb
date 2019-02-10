@@ -172,14 +172,6 @@ describe Wallaby::ResourcesController do
       end
     end
 
-    describe '#lookup_context' do
-      it 'returns a caching lookup_context' do
-        controller.params[:resources] = 'wallaby/resources'
-        expect(controller.send(:lookup_context)).to be_a Wallaby::LookupContextWrapper
-        expect(controller.instance_variable_get(:@_lookup_context)).to be_a Wallaby::LookupContextWrapper
-      end
-    end
-
     describe '#_prefixes' do
       module Space
         class PlanetsController < Wallaby::ResourcesController; end
