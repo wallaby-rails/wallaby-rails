@@ -7,7 +7,11 @@ module Wallaby
             null
           else
             concat content_tag(:code, value)
-            link_to fa_icon('external-link-square', 'external-link-square-alt'), "http://ip-api.com/##{ value }", target: :_blank, class: 'text-info'
+            link_to(
+              fa_icon('external-link-square', 'external-link-square-alt'),
+              "http://ip-api.com/##{value}",
+              target: :_blank, class: 'text-info'
+            )
           end
         end
       end

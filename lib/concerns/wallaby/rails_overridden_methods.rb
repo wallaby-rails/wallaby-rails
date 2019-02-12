@@ -19,7 +19,7 @@ module Wallaby
     # - :wallaby_resources_controller_path (e.g. `wallaby/resources`)
     # @return [Array<String>]
     def _prefixes
-      @_prefixes ||= PrefixesBuilder.build( # rubocop:disable Naming/MemoizedInstanceVariableName
+      @_prefixes ||= PrefixesBuilder.build(
         origin_prefixes: super,
         theme_name: current_theme_name,
         resources_name: current_resources_name,

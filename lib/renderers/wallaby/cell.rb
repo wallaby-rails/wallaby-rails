@@ -1,7 +1,17 @@
 module Wallaby
-  # In order to improve the rendering performance, renderer is used to render simple partials.
+  # In order to improve the rendering performance, cell is used as simple partials.
+  # @since 5.2.0
   class Cell
-    attr_reader :context, :locals
+    # @!attribute [r] context
+    # @return [ActionView::Context] view context
+    attr_reader :context
+
+    # @!attribute [r] locals
+    # @return [Hash] a list of locals for urrent object
+    attr_reader :locals
+
+    # @!attribute [r] locals
+    # @return [Hash] a list of locals for urrent object
     attr_accessor :object, :field_name, :value, :metadata, :form
 
     delegate(*ERB::Util.singleton_methods, to: ERB::Util)
@@ -10,20 +20,20 @@ module Wallaby
     def initialize(context, locals)
       @context = context
       @locals = locals
-      %i[object field_name value metadata form].each do |var|
+      %i(object field_name value metadata form).each do |var|
         instance_variable_set :"@#{var}", @locals[var]
       end
     end
 
     def render_complete(&block)
-      @buffer = ''.html_safe
-      last_part = render &block
+      @buffer = EMPTY_STRING.html_safe
+      last_part = render(&block)
       last_part = last_part.to_s unless last_part.is_a? String
       @buffer << last_part
     end
 
     def concat(string)
-      @buffer << string
+      (@buffer ||= EMPTY_STRING.html_safe) << string
     end
 
     # We delegate missing methods to context

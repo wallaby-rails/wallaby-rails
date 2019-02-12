@@ -107,7 +107,7 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
 
         it 'renders the custom field' do
-          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq "custom_value"
+          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq 'custom_value'
         end
       end
 
@@ -130,7 +130,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
         it 'renders the custom field' do
           helper.params[:action] = 'index'
-          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq "custom_value"
+          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq 'custom_value'
         end
       end
     end

@@ -6,7 +6,7 @@ module Wallaby
           if value.nil?
             null
           else
-            concat content_tag(:span, nil, style: "background-color: #{ value };", class: 'color-square')
+            concat content_tag(:span, nil, style: "background-color: #{value};", class: 'color-square')
             content_tag(:span, value, class: 'text-uppercase')
           end
         end

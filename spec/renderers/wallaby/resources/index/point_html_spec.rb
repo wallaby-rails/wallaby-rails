@@ -10,7 +10,7 @@ if Rails::VERSION::MAJOR >= 5
       value: [3, 4],
       skip_general: true do
       it 'renders the point' do
-        expect(rendered).to eq "(<span class=\"x\">3</span>, <span class=\"y\">4</span>)"
+        expect(rendered).to eq '(<span class="x">3</span>, <span class="y">4</span>)'
       end
     end
   end

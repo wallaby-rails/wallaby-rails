@@ -18,9 +18,7 @@ module Wallaby
       base_dir = origin.gsub(%r{/[^/]*$}, '')
       locales = convert details[:locale]
       formats = convert details[:formats]
-      renderer = "%{base_dir}/%{file_name}{%{locales}}{%{formats}}.rb" % {
-        base_dir: base_dir, file_name: file_name, locales: locales, formats: formats
-      }
+      renderer = "#{base_dir}/#{file_name}{#{locales}}{#{formats}}.rb"
       "{#{renderer},#{origin}}"
     end
 

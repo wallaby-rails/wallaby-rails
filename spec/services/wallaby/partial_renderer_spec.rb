@@ -23,7 +23,7 @@ describe Wallaby::PartialRenderer, type: :helper do
 
       context 'when partial does not exists' do
         it 'renders string partial' do
-          expect{ described_class.render(helper, 'unknown', field_name: 'name', form: form) }.to raise_error ActionView::MissingTemplate
+          expect { described_class.render(helper, 'unknown', field_name: 'name', form: form) }.to raise_error ActionView::MissingTemplate
         end
       end
 

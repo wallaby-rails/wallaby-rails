@@ -1,5 +1,5 @@
 def field_name_from(file_name)
-  file_name[/\/_?([^\/]+)(\.[^\.\/]+\.erb|_[^\_\/]+)_spec\.rb$/, 1]
+  file_name[%r{/_?([^/]+)(\.[^\./]+\.erb|_[^\_/]+)_spec\.rb$}, 1]
 end
 
 def type_from(file_name)
@@ -7,5 +7,5 @@ def type_from(file_name)
 end
 
 def cell_class_from(file_name)
-  file_name[/\/spec\/[^\/]+\/(.+)_spec\.rb$/, 1].camelize.constantize
+  file_name[%r{/spec/[^/]+/(.+)_spec\.rb$}, 1].camelize.constantize
 end

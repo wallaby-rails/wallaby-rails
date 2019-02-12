@@ -28,7 +28,7 @@ group :development, :test do
   gem 'pg'
   gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'sqlite3'
+  gem 'sqlite3', '~>1.3.0'
   gem 'yard'
 end
 

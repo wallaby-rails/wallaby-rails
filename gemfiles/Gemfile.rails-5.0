@@ -20,7 +20,7 @@ gem 'pundit'
 gem 'her'
 gem 'mysql2'
 gem 'pg'
-gem 'sqlite3'
+gem 'sqlite3', '< 1.4.0'
 
 group :test do
   gem 'database_cleaner'
