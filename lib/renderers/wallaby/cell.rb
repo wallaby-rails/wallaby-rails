@@ -10,13 +10,30 @@ module Wallaby
     # @return [Hash] a list of locals for urrent object
     attr_reader :locals
 
-    # @!attribute [r] locals
-    # @return [Hash] a list of locals for urrent object
-    attr_accessor :object, :field_name, :value, :metadata, :form
+    # @!attribute object
+    # @return [Object] resource object
+    attr_accessor :object
+
+    # @!attribute field_name
+    # @return [String, Symbol] field name
+    attr_accessor :field_name
+
+    # @!attribute value
+    # @return [Object] value for a specific field name
+    attr_accessor :value
+
+    # @!attribute metadata
+    # @return [Hash] metadata
+    attr_accessor :metadata
+
+    # @!attribute form
+    # @return [ActionView::Helpers::FormBuilder] form object
+    attr_accessor :form
 
     delegate(*ERB::Util.singleton_methods, to: ERB::Util)
 
-    # @param context []
+    # @param context [Object] view context
+    # @param locals [Hash] locals for the cell
     def initialize(context, locals)
       @context = context
       @locals = locals
@@ -25,6 +42,7 @@ module Wallaby
       end
     end
 
+    # @return [String] output of the cell
     def render_complete(&block)
       @buffer = EMPTY_STRING.html_safe
       last_part = render(&block)
@@ -32,6 +50,8 @@ module Wallaby
       @buffer << last_part
     end
 
+    # Append string to output buffer
+    # @param string [String] string to concat
     def concat(string)
       (@buffer ||= EMPTY_STRING.html_safe) << string
     end

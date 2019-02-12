@@ -15,6 +15,18 @@ describe Wallaby::LinksHelper, :current_user do
       helper.params[:utf8] = '√'
       expect(helper.index_params.to_h).to eq hash
     end
+
+    it 'permits the following keywords for hash as well' do
+      hash = { 'q' => 'keywords', 'page' => 2, 'per' => 20, 'sort' => 'name asc' }
+      params = hash.dup
+      expect(helper.index_params(params).to_h).to eq hash
+      params[:something] = 'else'
+      expect(helper.index_params(params).to_h).to eq hash
+      params[:resources] = 'products'
+      expect(helper.index_params(params).to_h).to eq hash
+      params[:utf8] = '√'
+      expect(helper.index_params(params).to_h).to eq hash
+    end
   end
 
   describe '#index_path' do

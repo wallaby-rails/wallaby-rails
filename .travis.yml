@@ -25,7 +25,7 @@ env:
 addons:
   postgresql: "9.6"
 before_install:
-  - gem install bundler
+  - gem install bundler -v '< 2'
 script:
   - bundle exec rubocop
   - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
