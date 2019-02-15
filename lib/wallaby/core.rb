@@ -96,5 +96,5 @@ require 'responders/wallaby/abstract_responder'
 require 'responders/wallaby/resources_responder'
 
 require 'renderers/wallaby/cell'
+require 'renderers/wallaby/cell_resolver'
 require 'renderers/wallaby/lookup_context'
-require 'renderers/wallaby/renderer_resolver'

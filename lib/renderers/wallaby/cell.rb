@@ -1,13 +1,13 @@
 module Wallaby
-  # In order to improve the rendering performance, cell is used as simple partials.
+  # In order to improve the rendering performance, cell is used as simple partial component.
   # @since 5.2.0
   class Cell
     # @!attribute [r] context
-    # @return [ActionView::Context] view context
+    # @return [Object] view context
     attr_reader :context
 
     # @!attribute [r] locals
-    # @return [Hash] a list of locals for urrent object
+    # @return [Hash] a list of locals including {#object}, {#field_name}, {#value}, {#metadata} and {#form}
     attr_reader :locals
 
     # @!attribute object
@@ -19,7 +19,7 @@ module Wallaby
     attr_accessor :field_name
 
     # @!attribute value
-    # @return [Object] value for a specific field name
+    # @return [Object] value for the given field name
     attr_accessor :value
 
     # @!attribute metadata
@@ -38,10 +38,18 @@ module Wallaby
       @context = context
       @locals = locals
       %i(object field_name value metadata form).each do |var|
-        instance_variable_set :"@#{var}", @locals[var]
+        self.public_send "#{var}=", @locals[var]
       end
     end
 
+    # @note this is a template method that can be overridden by subclasses
+    # Produce output for this cell component.
+    #
+    # Please note that the output doesn't include the buffer produced by {#concat}.
+    # Therefore, use {#render_complete} method instead when the cell is rendered.
+    def render; end
+
+    # This method produces the complete rendered string including the buffer produced by {#concat}.
     # @return [String] output of the cell
     def render_complete(&block)
       @buffer = EMPTY_STRING.html_safe
@@ -55,6 +63,8 @@ module Wallaby
     def concat(string)
       (@buffer ||= EMPTY_STRING.html_safe) << string
     end
+
+    protected
 
     # We delegate missing methods to context
     # @param method_id [String,Symbol]
