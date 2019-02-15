@@ -30,6 +30,10 @@ module Wallaby
     # @return [ActionView::Helpers::FormBuilder] form object
     attr_accessor :form
 
+    # @!attribute [r] buffer
+    # @return [String] string buffer
+    attr_reader :buffer
+
     delegate(*ERB::Util.singleton_methods, to: ERB::Util)
 
     # @param context [Object] view context

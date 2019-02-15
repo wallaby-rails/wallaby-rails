@@ -7,7 +7,7 @@ describe Wallaby::LookupContext, type: :helper do
     it 'sets view paths' do
       file_path = '/file_path'
       subject.view_paths = [file_path]
-      expect(subject.view_paths.first).to be_a Wallaby::RendererResolver
+      expect(subject.view_paths.first).to be_a Wallaby::CellResolver
       expect(subject.view_paths.first.to_s).to eq file_path
 
       file = File.new __FILE__, 'r'
