@@ -2,7 +2,7 @@ module Wallaby
   module Resources
     module Index
       class BlobHtml < Cell
-        def render
+        def render(object:, field_name:, value:, metadata:)
           value ? muted('blob') : null
         end
       end

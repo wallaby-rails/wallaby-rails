@@ -31,6 +31,12 @@ module Wallaby
 
     # Render partial for index/show
     def type_partial_render(options = {}, locals = {}, &block)
+      Utils.deprecate 'deprecation.type_partial_render', caller: caller
+      type_render options, locals, &block
+    end
+
+    # Render type cell/partial
+    def type_render(options = {}, locals = {}, &block)
       PartialRenderer.render self, options, locals, &block
     end
 

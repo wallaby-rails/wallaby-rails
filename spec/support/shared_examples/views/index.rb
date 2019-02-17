@@ -1,6 +1,6 @@
 RSpec.shared_examples 'index cell' do |field_name, options = {}|
   let(:rendered) { described_class.new(view, locals).render_complete }
-  let(:locals) { { object: view.decorate(object), value: value, metadata: metadata } }
+  let(:locals) { { object: view.decorate(object), value: value, metadata: metadata, field_name: field_name } }
   let(:page) { Nokogiri::HTML rendered }
   let(:object) { model_class.new field_name => value }
   let(:value) { options[:value] }

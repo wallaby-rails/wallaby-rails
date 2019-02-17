@@ -2,12 +2,12 @@ module Wallaby
   module Resources
     module Index
       class JsonbHtml < Cell
-        def render
+        def render(object:, field_name:, value:, metadata:)
           if value.nil?
             null
           else
             max = metadata[:max] || default_metadata.max
-            self.value = value.to_s
+            value = value.to_s
             if value.length > max
               concat content_tag(:code, value.truncate(max))
               imodal metadata[:label], "<pre>#{h value}</pre>".html_safe

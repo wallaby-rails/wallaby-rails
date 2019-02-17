@@ -2,7 +2,7 @@ module Wallaby
   module Resources
     module Index
       class BigserialHtml < Cell
-        def render
+        def render(object:, field_name:, value:, metadata:)
           value || null
         end
       end

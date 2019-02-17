@@ -23,7 +23,7 @@ describe Wallaby::Cell, type: :helper do
 end
 
 describe Wallaby::Resources::Index::StringHtml, type: :helper do
-  subject { described_class.new helper, object: AllPostgresType.new, value: value, metadata: {} }
+  subject { described_class.new helper, object: AllPostgresType.new, value: value, metadata: {}, field_name: 'string' }
   let(:value) { 'test' }
 
   describe '#render_complete' do

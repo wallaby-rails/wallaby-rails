@@ -2,7 +2,7 @@ module Wallaby
   module Resources
     module Index
       class CidrHtml < Cell
-        def render
+        def render(object:, field_name:, value:, metadata:)
           if value.nil?
             null
           else

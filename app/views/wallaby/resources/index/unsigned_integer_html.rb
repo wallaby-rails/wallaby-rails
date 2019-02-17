@@ -2,7 +2,7 @@ module Wallaby
   module Resources
     module Index
       class UnsignedIntegerHtml < Cell
-        def render
+        def render(object:, field_name:, value:, metadata:)
           value.try(:to_i) || null
         end
       end

@@ -10,25 +10,9 @@ module Wallaby
     # @return [Hash] a list of locals including {#object}, {#field_name}, {#value}, {#metadata} and {#form}
     attr_reader :locals
 
-    # @!attribute object
-    # @return [Object] resource object
-    attr_accessor :object
-
-    # @!attribute field_name
-    # @return [String, Symbol] field name
-    attr_accessor :field_name
-
-    # @!attribute value
-    # @return [Object] value for the given field name
-    attr_accessor :value
-
-    # @!attribute metadata
-    # @return [Hash] metadata
-    attr_accessor :metadata
-
-    # @!attribute form
+    # @!attribute [r] form
     # @return [ActionView::Helpers::FormBuilder] form object
-    attr_accessor :form
+    attr_reader :form
 
     # @!attribute [r] buffer
     # @return [String] string buffer
@@ -41,9 +25,7 @@ module Wallaby
     def initialize(context, locals)
       @context = context
       @locals = locals
-      %i(object field_name value metadata form).each do |var|
-        self.public_send "#{var}=", @locals[var]
-      end
+      @form = @locals.delete :form
     end
 
     # @note this is a template method that can be overridden by subclasses
@@ -51,13 +33,13 @@ module Wallaby
     #
     # Please note that the output doesn't include the buffer produced by {#concat}.
     # Therefore, use {#render_complete} method instead when the cell is rendered.
-    def render; end
+    def render(*args); end
 
     # This method produces the complete rendered string including the buffer produced by {#concat}.
     # @return [String] output of the cell
     def render_complete(&block)
       @buffer = EMPTY_STRING.html_safe
-      last_part = render(&block)
+      last_part = render(**locals, &block)
       last_part = last_part.to_s unless last_part.is_a? String
       @buffer << last_part
     end
