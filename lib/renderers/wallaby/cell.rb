@@ -6,9 +6,9 @@ module Wallaby
     # @return [Object] view context
     attr_reader :context
 
-    # @!attribute [r] locals
-    # @return [Hash] a list of locals including {#object}, {#field_name}, {#value}, {#metadata} and {#form}
-    attr_reader :locals
+    # @!attribute [r] local_assigns
+    # @return [Hash] a list of local_assigns including {#object}, {#field_name}, {#value}, {#metadata} and {#form}
+    attr_reader :local_assigns
 
     # @!attribute [r] form
     # @return [ActionView::Helpers::FormBuilder] form object
@@ -21,11 +21,11 @@ module Wallaby
     delegate(*ERB::Util.singleton_methods, to: ERB::Util)
 
     # @param context [Object] view context
-    # @param locals [Hash] locals for the cell
-    def initialize(context, locals)
+    # @param local_assigns [Hash] local_assigns for the cell
+    def initialize(context, local_assigns)
       @context = context
-      @locals = locals
-      @form = @locals.delete :form
+      @local_assigns = local_assigns
+      @form = @local_assigns.delete :form
     end
 
     # @note this is a template method that can be overridden by subclasses
@@ -39,7 +39,7 @@ module Wallaby
     # @return [String] output of the cell
     def render_complete(&block)
       @buffer = EMPTY_STRING.html_safe
-      last_part = render(**locals, &block)
+      last_part = render(**local_assigns, &block)
       last_part = last_part.to_s unless last_part.is_a? String
       @buffer << last_part
     end

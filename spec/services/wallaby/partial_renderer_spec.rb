@@ -4,7 +4,8 @@ describe Wallaby::PartialRenderer, type: :helper do
   describe '.render' do
     let(:form) { Wallaby::FormBuilder.new object_name, object, helper, {} }
     let(:object_name) { object.model_name.param_key }
-    let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
+    let(:object) { Wallaby::ResourceDecorator.new Product.new(name: value) }
+    let(:value) { 'product name' }
 
     before { helper.params[:action] = 'edit' }
 
@@ -12,7 +13,6 @@ describe Wallaby::PartialRenderer, type: :helper do
       expect { described_class.render helper }.to raise_error ArgumentError
       expect { described_class.render helper, 'integer', field_name: 'name' }.to raise_error ArgumentError
       expect { described_class.render helper, 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
-
       expect { described_class.render helper, 'integer', field_name: 'name', form: form }.not_to raise_error
     end
 
@@ -22,7 +22,7 @@ describe Wallaby::PartialRenderer, type: :helper do
       end
 
       context 'when partial does not exists' do
-        it 'renders string partial' do
+        it 'raises missing template error' do
           expect { described_class.render(helper, 'unknown', field_name: 'name', form: form) }.to raise_error ActionView::MissingTemplate
         end
       end
@@ -47,6 +47,14 @@ describe Wallaby::PartialRenderer, type: :helper do
         it 'renders the custom field' do
           expect(described_class.render(helper, 'string', field_name: 'custom', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_custom\">Custom</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <input class=\"form-control\" type=\"text\" value=\"custom_value\" name=\"product[custom]\" id=\"product_custom\" />\n    </div>\n  </div>\n  \n  \n</div>\n"
         end
+      end
+    end
+
+    describe 'cells', prefixes: ['wallaby/resources/index'] do
+      it 'renders a cell' do
+        expect(described_class.render(helper, 'string', field_name: 'name', object: object)).to eq value
+        byebug
+        expect(described_class.render(helper, 'wallaby/resources/index/string', field_name: 'name', object: object)).to eq value
       end
     end
   end
