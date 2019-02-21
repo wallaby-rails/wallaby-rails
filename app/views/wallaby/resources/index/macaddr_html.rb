@@ -2,7 +2,7 @@ module Wallaby
   module Resources
     module Index
       class MacaddrHtml < Cell
-        def render(object:, field_name:, value:, metadata:) # rubocop:disable Lint/UnusedMethodArgument
+        def render
           if value.nil?
             null
           else

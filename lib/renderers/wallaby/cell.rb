@@ -10,9 +10,25 @@ module Wallaby
     # @return [Hash] a list of local_assigns including {#object}, {#field_name}, {#value}, {#metadata} and {#form}
     attr_reader :local_assigns
 
-    # @!attribute [r] form
+    # @!attribute form
     # @return [ActionView::Helpers::FormBuilder] form object
-    attr_reader :form
+    attr_accessor :form
+
+    # @!attribute object
+    # @return [Wallaby::ResourceDecorator] resource decorator
+    attr_accessor :object
+
+    # @!attribute field_name
+    # @return [String] field name
+    attr_accessor :field_name
+
+    # @!attribute value
+    # @return [String] value
+    attr_accessor :value
+
+    # @!attribute metadata
+    # @return [String] metadata
+    attr_accessor :metadata
 
     # @!attribute [r] buffer
     # @return [String] string buffer
@@ -25,7 +41,11 @@ module Wallaby
     def initialize(context, local_assigns)
       @context = context
       @local_assigns = local_assigns
-      @form = @local_assigns.delete :form
+      @form = @local_assigns[:form]
+      @object = @local_assigns[:object]
+      @field_name = @local_assigns[:field_name]
+      @value = @local_assigns[:value]
+      @metadata = @local_assigns[:metadata]
     end
 
     # @note this is a template method that can be overridden by subclasses
@@ -39,7 +59,7 @@ module Wallaby
     # @return [String] output of the cell
     def render_complete(&block)
       @buffer = EMPTY_STRING.html_safe
-      last_part = render(**local_assigns, &block)
+      last_part = render(&block)
       last_part = last_part.to_s unless last_part.is_a? String
       @buffer << last_part
     end

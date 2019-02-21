@@ -2,7 +2,7 @@ module Wallaby
   module Resources
     module Index
       class LongblobHtml < Cell
-        def render(object:, field_name:, value:, metadata:) # rubocop:disable Lint/UnusedMethodArgument
+        def render
           value ? muted('longblob') : null
         end
       end
