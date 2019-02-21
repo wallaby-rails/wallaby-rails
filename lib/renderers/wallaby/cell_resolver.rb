@@ -5,7 +5,7 @@ module Wallaby
     # In addition to the origin query, Wallaby adds cell query which looks like:
     #
     # ```
-    # /wallaby/app/views/wallaby/resources/index/integer{_en,}{_html,}.rb
+    # app/views/wallaby/resources/index/integer{_en,}{_html,}.rb
     # ```
     # @param path [String]
     # @param details [Hash]
@@ -23,7 +23,7 @@ module Wallaby
       "{#{cell},#{origin}}"
     end
 
-    private
+    protected
 
     # @example concat a list of values into a string e.g. `_html,_cvs,`
     #   convert(['html', 'csv']) # => '_html,_cvs,'

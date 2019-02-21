@@ -5,7 +5,8 @@ module Wallaby
     # @param locals [Hash] local variables for the partial
     # @return [String] rendered type partial for a form
     def form_type_partial_render(options = {}, locals = {}, &block)
-      PartialRenderer.render self, options, locals, &block
+      Utils.deprecate 'deprecation.type_partial_render', caller: caller
+      type_render options, locals, &block
     end
 
     # To generate remote URL for auto select plugin.

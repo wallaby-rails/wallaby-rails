@@ -33,7 +33,7 @@ module Wallaby
     #
     # Please note that the output doesn't include the buffer produced by {#concat}.
     # Therefore, use {#render_complete} method instead when the cell is rendered.
-    def render(*args); end
+    def render(*); end
 
     # This method produces the complete rendered string including the buffer produced by {#concat}.
     # @return [String] output of the cell

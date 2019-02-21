@@ -37,7 +37,7 @@ module Wallaby
 
     # Render type cell/partial
     def type_render(options = {}, locals = {}, &block)
-      PartialRenderer.render self, options, locals, &block
+      TypeRenderer.render self, options, locals, &block
     end
 
     # Title for show page of given resource

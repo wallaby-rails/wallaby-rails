@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::PartialRenderer, type: :helper do
+describe Wallaby::TypeRenderer, type: :helper do
   describe '.render' do
     let(:form) { Wallaby::FormBuilder.new object_name, object, helper, {} }
     let(:object_name) { object.model_name.param_key }
@@ -53,7 +53,9 @@ describe Wallaby::PartialRenderer, type: :helper do
     describe 'cells', prefixes: ['wallaby/resources/index'] do
       it 'renders a cell' do
         expect(described_class.render(helper, 'string', field_name: 'name', object: object)).to eq value
-        byebug
+      end
+
+      it 'renders a cell using absolute path' do
         expect(described_class.render(helper, 'wallaby/resources/index/string', field_name: 'name', object: object)).to eq value
       end
     end

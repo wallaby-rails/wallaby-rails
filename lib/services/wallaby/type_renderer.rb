@@ -1,7 +1,7 @@
 module Wallaby
   # @!visibility private
   # Partial renderer
-  class PartialRenderer
+  class TypeRenderer
     class << self
       # Render partial
       # @param view [ActionView]
@@ -12,10 +12,11 @@ module Wallaby
         locals[:object] ||= locals[:form].try :object
         check locals
         complete locals, view.params[:action]
+        # view.render options, locals, &block
         partial = find_partial options, view
 
         if cell? partial
-          render_cell partial, locals, view, &block
+          render_cell view, partial, locals, &block
         else
           view.render options, locals, &block
         end
@@ -47,7 +48,7 @@ module Wallaby
       # @return [String] blank string
       def find_partial(options, view)
         formats = [view.request.format.to_sym]
-        lookup = view.custom_lookup_context
+        lookup = view.lookup_context
         lookup.find_template options, lookup.prefixes, true, [], formats: formats
       end
 
@@ -61,11 +62,8 @@ module Wallaby
       # @param partial [String]
       # @param locals [Hash]
       # @param view [ActionView]
-      def render_cell(partial, locals, view, &block)
-        file_name = partial.inspect[%r{(?<=/app/).+(?=\.rb)}].split('/', 2).last
-        cell_class = file_name.camelize.constantize
-        Rails.logger.debug "  Rendered [cell] #{partial.inspect}"
-        cell_class.new(view, locals).render_complete(&block)
+      def render_cell(view, partial, locals, &block)
+        CellRenderer.render view, partial.inspect, locals, &block
       end
     end
   end
