@@ -241,7 +241,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 
 ```erb
 <%# app/views/admin/products/index/_custom_description.html.erb %>
-<code>raw value</code>
+<code><%= raw value %></code>
 ```
 
 > See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.
@@ -353,7 +353,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 
 ```erb
 <%# app/views/admin/products/show/_custom_description.html.erb %>
-<code>raw value</code>
+<code><%= raw value %></code>
 ```
 
 > See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.

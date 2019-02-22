@@ -2,7 +2,7 @@ module Wallaby
   # Link renderer
   class LinkOptionsNormalizer
     # Normalize options for `link_to` to use
-    # @param html_options [Hash] html options
+    # @param html_options [Hash] HTML options
     # @param block [Proc] a block
     # @param defaults [Hash]
     # @return [Array<Hash, Proc>] html_options and the block

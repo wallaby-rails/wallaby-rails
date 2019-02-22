@@ -1,7 +1,8 @@
 module Wallaby
-  # Custom view renderer to replace the origin Rails view renderer
+  # Custom view renderer to provide support for cell rendering
   class CustomRenderer < ::ActionView::Renderer
-    # Direct access to partial rendering.
+    # @return [String] HTML output
+    # @see Wallaby::CustomPartialRenderer
     def render_partial(context, options, &block) #:nodoc:
       CustomPartialRenderer.new(lookup_context).render(context, options, block)
     end

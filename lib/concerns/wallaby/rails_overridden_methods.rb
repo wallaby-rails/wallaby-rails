@@ -33,7 +33,7 @@ module Wallaby
     # Override to provide support for cell lookup
     # @return [Wallaby::CustomLookupContext]
     def lookup_context
-      @lookup_context ||=
+      @_lookup_context ||= # rubocop:disable Naming/MemoizedInstanceVariableName
         CustomLookupContext.new(self.class._view_paths, details_for_lookup, _prefixes)
     end
   end

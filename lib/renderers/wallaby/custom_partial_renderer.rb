@@ -1,10 +1,14 @@
 module Wallaby
-  # Custom view renderer to provide support for cell rendering
+  # Custom partial renderer to provide support for cell rendering
   class CustomPartialRenderer < ::ActionView::PartialRenderer
-    # Render a cell
+    # When a type partial is found, it works as usual.
+    #
+    # But when a cell is found, there is an exception {Wallaby::CellHandling} raised. This error will be captured,
+    # and the cell will be rendered.
     # @param context [ActionView::Context]
     # @param options [Hash]
     # @param block [Proc]
+    # @return [String] HTML output
     def render(context, options, block)
       super
     rescue CellHandling => e
@@ -12,6 +16,7 @@ module Wallaby
     end
 
     # Override origin method to stop rendering when a cell is found.
+    # @return [ActionView::Template] partial template
     # @raise [Wallaby:::CellHandling] when a cell is found
     def find_partial(*)
       super.tap do |partial|

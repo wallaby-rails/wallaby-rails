@@ -1,11 +1,17 @@
 module Wallaby
-  # Cell and partial resolver
+  # Resolver to provide support for cell and partial
   # @since 5.2.0
   class CellResolver < ActionView::OptimizedFileSystemResolver
-    # In addition to the origin query, Wallaby adds cell query which looks like before the origin query:
+    # A cell query looks like:
     #
     # ```
     # app/views/wallaby/resources/index/integer{_en,}{_html,}.rb
+    # ```
+    #
+    # Wallaby adds it to the front of the whole query as below:
+    #
+    # ```
+    # {app/views/wallaby/resources/index/integer{_en,}{_html,}.rb,app/views/wallaby/resources/index/_integer{.en,}{.html,}{.erb,}}
     # ```
     # @param path [String]
     # @param details [Hash]

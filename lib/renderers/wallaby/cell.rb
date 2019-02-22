@@ -1,5 +1,5 @@
 module Wallaby
-  # In order to improve the rendering performance, cell is used as simple partial component.
+  # In order to improve the rendering performance, cell is designed as simple partial component.
   # @since 5.2.0
   class Cell
     # @!attribute [r] context
@@ -16,7 +16,7 @@ module Wallaby
 
     delegate(*ERB::Util.singleton_methods, to: ERB::Util)
 
-    # @param context [Object] view context
+    # @param context [ActionView::Context] view context
     # @param local_assigns [Hash] local variables
     def initialize(context, local_assigns)
       @context = context

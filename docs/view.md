@@ -187,8 +187,8 @@ On top of [Rails' lookup order](https://guides.rubyonrails.org/layouts_and_rende
 - app/views/**$MOUNTED_PATH**/**$RESOURCES**
 - app/views/**$CONTROLLER_PATH**/**$ACTION_PREFIX**
 - app/views/**$CONTROLLER_PATH**
-- app/views/**$BASE_CONTROLLER_PATH**/**$ACTION_PREFIX**
-- app/views/**$BASE_CONTROLLER_PATH**
+- app/views/**$PARENT_CONTROLLER_PATH**/**$ACTION_PREFIX** (it will keep going if there are more ancestor controllers)
+- app/views/**$PARENT_CONTROLLER_PATH**
 - app/views/**$THEME_NAME**/**$ACTION_PREFIX** - (since 5.2.0)
 - app/views/**$THEME_NAME** - (since 5.2.0)
 - app/views/wallaby/resources/**$ACTION_PREFIX** - (will not be applicable when **$THEME_NAME** is set)
@@ -215,7 +215,7 @@ In this case, variables become:
 - **$ACTION_PREFIX** is `index` (converted from [action_name](https://api.rubyonrails.org/classes/AbstractController/Base.html#method-i-action_name), see below [Action Prefix Mapping](#action-prefix-mapping))
 - **$RESOURCES** is `products` (plural model name of `Product`, see [URL naming convention](convention.md#url))
 - **$CONTROLLER_PATH** is `backend/goods` ([controller_name](https://api.rubyonrails.org/classes/ActionController/Metal.html#method-c-controller_name) of `Backend::GoodsController`)
-- **$BASE_CONTROLLER_PATH** is `admin/application` ([controller_name](https://api.rubyonrails.org/classes/ActionController/Metal.html#method-c-controller_name) of `Admin::ApplicationController`)
+- **$PARENT_CONTROLLER_PATH** is `admin/application` ([controller_name](https://api.rubyonrails.org/classes/ActionController/Metal.html#method-c-controller_name) of `Admin::ApplicationController`)
 - **$THEME_NAME** (since 5.2.0) is `foundation`
 
 Then the cell and partial lookup order becomes:
