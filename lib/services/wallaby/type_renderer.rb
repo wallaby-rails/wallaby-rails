@@ -1,6 +1,5 @@
 module Wallaby
-  # @!visibility private
-  # Partial renderer
+  # Type renderer
   class TypeRenderer
     class << self
       # Render partial
@@ -15,8 +14,8 @@ module Wallaby
         # view.render options, locals, &block
         partial = find_partial options, view
 
-        if cell? partial
-          render_cell view, partial, locals, &block
+        if CellUtils.cell? partial.inspect
+          CellUtils.render view, partial.inspect, locals, &block
         else
           view.render options, locals, &block
         end
@@ -50,20 +49,6 @@ module Wallaby
         formats = [view.request.format.to_sym]
         lookup = view.lookup_context
         lookup.find_template options, lookup.prefixes, true, [], formats: formats
-      end
-
-      # @param partial [String]
-      # @return [true] if partial ends with `.rb`
-      # @return [false] otherwise
-      def cell?(partial)
-        partial.inspect.end_with? '.rb'
-      end
-
-      # @param partial [String]
-      # @param locals [Hash]
-      # @param view [ActionView]
-      def render_cell(view, partial, locals, &block)
-        CellRenderer.render view, partial.inspect, locals, &block
       end
     end
   end

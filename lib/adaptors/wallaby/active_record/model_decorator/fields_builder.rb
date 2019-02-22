@@ -1,7 +1,6 @@
 module Wallaby
   class ActiveRecord
     class ModelDecorator
-      # @!visibility private
       # To search and build the metadata for fields
       class FieldsBuilder
         # @param model_class [Class] model class

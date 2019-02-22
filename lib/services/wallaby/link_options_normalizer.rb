@@ -1,5 +1,4 @@
 module Wallaby
-  # @!visibility private
   # Link renderer
   class LinkOptionsNormalizer
     # Normalize options for `link_to` to use

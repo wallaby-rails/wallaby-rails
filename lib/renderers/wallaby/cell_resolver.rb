@@ -1,8 +1,8 @@
 module Wallaby
-  # Look up cell and view partials
+  # Cell and partial resolver
   # @see https://github.com/reinteractive/wallaby/blob/master/docs/view.md
   class CellResolver < ActionView::OptimizedFileSystemResolver
-    # In addition to the origin query, Wallaby adds cell query which looks like:
+    # In addition to the origin query, Wallaby adds cell query which looks like before the origin query:
     #
     # ```
     # app/views/wallaby/resources/index/integer{_en,}{_html,}.rb

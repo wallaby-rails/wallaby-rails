@@ -1,6 +1,5 @@
 module Wallaby
   class Map
-    # @!visibility private
     # To generate a hash map (`model` => `mode`).
     # This will be used to tell if a model can be handled by Wallaby
     class ModeMapper

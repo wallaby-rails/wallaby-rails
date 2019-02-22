@@ -7,7 +7,7 @@ module Wallaby
     attr_reader :context
 
     # @!attribute [r] local_assigns
-    # @return [Hash] a list of local_assigns including {#object}, {#field_name}, {#value}, {#metadata} and {#form}
+    # @return [Hash] a list of local_assigns containing {#object}, {#field_name}, {#value}, {#metadata} and {#form}
     attr_reader :local_assigns
 
     # @!attribute form
@@ -31,13 +31,13 @@ module Wallaby
     attr_accessor :metadata
 
     # @!attribute [r] buffer
-    # @return [String] string buffer
+    # @return [String] output string buffer
     attr_reader :buffer
 
     delegate(*ERB::Util.singleton_methods, to: ERB::Util)
 
     # @param context [Object] view context
-    # @param local_assigns [Hash] local_assigns for the cell
+    # @param local_assigns [Hash] local variables
     def initialize(context, local_assigns)
       @context = context
       @local_assigns = local_assigns
@@ -58,10 +58,9 @@ module Wallaby
     # This method produces the complete rendered string including the buffer produced by {#concat}.
     # @return [String] output of the cell
     def render_complete(&block)
-      @buffer = EMPTY_STRING.html_safe
+      @buffer = EMPTY_STRING.html_safe # reset buffer before rendering
       last_part = render(&block)
-      last_part = last_part.to_s unless last_part.is_a? String
-      @buffer << last_part
+      @buffer << last_part.to_s
     end
 
     # Append string to output buffer
@@ -70,7 +69,7 @@ module Wallaby
       (@buffer ||= EMPTY_STRING.html_safe) << string
     end
 
-    protected
+    private
 
     # We delegate missing methods to context
     # @param method_id [String,Symbol]

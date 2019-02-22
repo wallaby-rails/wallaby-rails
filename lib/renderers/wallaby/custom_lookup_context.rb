@@ -1,5 +1,5 @@
 module Wallaby
-  # A custom lookup context that uses {Wallaby::CellResolver} to find partial
+  # A custom lookup context that uses {Wallaby::CellResolver} to find cell/partial
   class CustomLookupContext < ::ActionView::LookupContext
     # It overrides the origin method to wrap paths using {Wallaby::CellResolver}
     # @param paths [Array]
@@ -8,9 +8,13 @@ module Wallaby
     end
 
     # It overrides the oirgin method to call the origin `find_template` and cache the result during a request.
-    # @param args [Array]
+    # @param name [String]
+    # @param prefixes [Array<String>]
+    # @param partial [Boolean]
+    # @param keys [Array<String>] keys of local variables
+    # @param options [Hash]
     def find_template(name, prefixes = [], partial = false, keys = [], options = {})
-      prefixes = [] if partial && name.include?(?/)
+      prefixes = [] if partial && name.include?(SLASH) # reset the prefixes if / is detected
       key = [name, prefixes, partial, keys, options].map(&:inspect).join('/')
       cached_lookup[key] ||= super
     end
