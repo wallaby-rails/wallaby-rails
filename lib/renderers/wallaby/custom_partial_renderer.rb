@@ -8,7 +8,7 @@ module Wallaby
     def render(context, options, block)
       super
     rescue CellHandling => e
-      CellUtils.render context, file_name, options[:locals], &block
+      CellUtils.render context, e.message, options[:locals], &block
     end
 
     # Override origin method to stop rendering when a cell is found.

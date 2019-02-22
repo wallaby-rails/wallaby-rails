@@ -63,7 +63,7 @@ Customizing authorization operations:
 - [attributes_for](#attributes_for) - applying the attribute values that user can create/update.
 - [permit_params](#permit_params) - whitelisting params for mass assignment.
 
-How Wallaby applies authorization for framework:
+How Wallaby applies authorization for following frameworks:
 
 - [CanCanCan](#cancancan)
 - [Pundit](#pundit)

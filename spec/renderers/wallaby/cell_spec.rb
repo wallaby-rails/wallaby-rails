@@ -3,6 +3,33 @@ require 'rails_helper'
 describe Wallaby::Cell, type: :helper do
   subject { described_class.new helper, object: AllPostgresType.new }
 
+  describe 'attributes' do
+    it 'reads and writes to attributes' do
+      field_name = 'string'
+      value = 'a string'
+      object = AllPostgresType.new field_name => value
+      metadata = {}
+      form = Wallaby::FormBuilder.new 'all_postgres_type', object, helper, {}
+      subject = described_class.new helper, object: object, field_name: field_name, value: value, metadata: metadata, form: form
+      expect(subject.object).to eq object
+      expect(subject.field_name).to eq field_name
+      expect(subject.value).to eq value
+      expect(subject.metadata).to eq metadata
+      expect(subject.form).to eq form
+
+      subject.object = 'object'
+      expect(subject.object).to eq 'object'
+      subject.field_name = 'field_name'
+      expect(subject.field_name).to eq 'field_name'
+      subject.value = 'value'
+      expect(subject.value).to eq 'value'
+      subject.metadata = 'metadata'
+      expect(subject.metadata).to eq 'metadata'
+      subject.form = 'form'
+      expect(subject.form).to eq 'form'
+    end
+  end
+
   describe '#concat' do
     it 'buffers the string' do
       subject.concat 'test'

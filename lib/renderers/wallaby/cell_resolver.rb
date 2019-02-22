@@ -1,6 +1,6 @@
 module Wallaby
   # Cell and partial resolver
-  # @see https://github.com/reinteractive/wallaby/blob/master/docs/view.md
+  # @since 5.2.0
   class CellResolver < ActionView::OptimizedFileSystemResolver
     # In addition to the origin query, Wallaby adds cell query which looks like before the origin query:
     #
@@ -11,7 +11,7 @@ module Wallaby
     # @param details [Hash]
     #   see {https://api.rubyonrails.org/classes/ActionView/LookupContext/ViewPaths.html#method-i-detail_args_for
     #   Detials from ViewPaths}
-    # @return [String] a string of the path query
+    # @return [String] a path query
     def build_query(path, details)
       origin = super
       file_name = origin[%r{(?<=/_)[^/\{]+}]
@@ -23,9 +23,9 @@ module Wallaby
       "{#{cell},#{origin}}"
     end
 
-    protected
+    private
 
-    # @example concat a list of values into a string e.g. `_html,_cvs,`
+    # @example concat a list of values into a string
     #   convert(['html', 'csv']) # => '_html,_cvs,'
     # @param values [Array<String>]
     def convert(values)
