@@ -80,12 +80,12 @@ describe Wallaby::ResourcesHelper, :current_user do
 
     describe 'partials' do
       it 'renders a type partial' do
-        expect(helper.type_partial_render('integer', object: object, field_name: 'name')).to eq "0\n"
+        expect(helper.type_partial_render('integer', object: object, field_name: 'name')).to eq '0'
       end
 
       context 'when partial does not exists' do
         it 'renders string partial' do
-          expect(helper.type_partial_render('unknown', object: object, field_name: 'name')).to eq "    product_name\n"
+          expect { helper.type_partial_render('unknown', object: object, field_name: 'name') }.to raise_error ActionView::MissingTemplate
         end
       end
 
@@ -107,7 +107,7 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
 
         it 'renders the custom field' do
-          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq "    custom_value\n"
+          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq 'custom_value'
         end
       end
 
@@ -130,7 +130,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
         it 'renders the custom field' do
           helper.params[:action] = 'index'
-          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq "    custom_value\n"
+          expect(helper.type_partial_render('string', object: object, field_name: 'custom')).to eq 'custom_value'
         end
       end
     end

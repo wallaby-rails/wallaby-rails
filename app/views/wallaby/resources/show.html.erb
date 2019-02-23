@@ -13,7 +13,7 @@ decorated = decorate resource
       <% decorated.show_field_names.each do |field_name| %>
         <dl>
           <dt><%= decorated.show_label_of field_name %></dt>
-          <dd><%= type_partial_render decorated.show_type_of(field_name), object: decorated, field_name: field_name %></dd>
+          <dd><%= type_render decorated.show_type_of(field_name), object: decorated, field_name: field_name %></dd>
         </dl>
       <% end %>
     </div>

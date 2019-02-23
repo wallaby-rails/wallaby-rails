@@ -1,7 +1,7 @@
 module Wallaby
   # Helper methods to build custom elements
   module StylingHelper
-    # Shortcut to build up the html options as keyword arguments
+    # Shortcut to build up the HTML options as keyword arguments
     # @param string_or_array [String, Array<String>]
     # @param options [Hash]
     # @return [Hash]
@@ -12,7 +12,7 @@ module Wallaby
     # Shortcut to generate FontAwesome icon using tag <i>.
     # @overload fa_icon(*names, html_options)
     #   @param names [Array<String>] names of the icon
-    #   @param html_options [Hash] html options for tag <i>
+    #   @param html_options [Hash] HTML options for tag <i>
     # @return [String] HTML I element
     def fa_icon(*args, &block)
       html_options = args.extract_options!

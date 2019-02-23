@@ -28,6 +28,19 @@ Metrics/BlockLength:
     - 'spec/**/*.rb'
     - 'wallaby.gemspec'
 
+Metrics/AbcSize:
+  Exclude:
+    - 'app/views/**/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/views/**/*'
+
+Style/Documentation:
+  Exclude:
+    - 'app/views/**/*'
+    - 'spec/**/*'
+
 Style/SingleLineMethods:
   Exclude:
     - 'spec/**/*_spec.rb'

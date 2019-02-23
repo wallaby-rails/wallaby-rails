@@ -1,43 +1,198 @@
 # View
 
-In Wallaby, the core of the view is to iterate the fields defined in decorator's **\*_field_names** and render the partial using type from decorator's metadata **\*_fields**. For example, for index page, the core looks like:
+In Wallaby, the core of view layer is to iterate decorator's **\*_field_names** and render the cell/partial using corresponding type from decorator's **\*_fields**.
+
+For example, for index view, the core looks like the following pseudocode:
 
 ```erb
 <%= index_field_names.each do |field_name| %>
-  <%= render index_fields[field_name][:type], value: value %>
+  <%= type_render index_fields[field_name][:type],
+    object: object, field_name: field_name, value: value %>
 <% end %>
 ```
 
-Learn about Type Partial from the following sections:
+It extends Rails' partial lookup order (see [Rails Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance)) and supports [Type Partial](#type-partial).
 
-- [Creating a Type Partial](#creating-a-type-partial)
-- [Locals for Type Partials](#locals-for-type-partials) - to learn the local variables available in type partials
+From 5.2.0, `type_render` is used to extend `render` helper method to provide support for [Cell](#cell) to improve rendering performance.
 
-See the index for built-in type partials:
+Starting with these concepts:
 
-- [Association Type Partials](#association-type-partials)
-- [General Type Partials](#general-type-partials)
+- [What's Cell](#cell) (since 5.2.0)
+- [What's Type Partial](#type-partial)
+- [Cell and Partial Lookup Order](#cell-and-partial-lookup-order)
 
-> See [Decorator](decorator.md) to learn more about the metadata.
+For Cell (since 5.2.0):
+
+- [Declaration](#cell)
+- [context](#context) - view context
+- [local_assigns](#local_assigns) - local variables same as partial `local_assigns`
+- [object, field_name, value, metadata and form](#object-field_name-value-metadata-and-form) - five mostly used local variables
+
+Cell helper methods (since 5.2.0):
+
+- [concat](#concat) - to append a string to cell's output buffer.
+
+For Type Partial:
+
+- [object, field_name, value, metadata and form](#type-partial-locals) - local variables for type partial
+
+Also check out:
+
+- [Built-in Cell/Type Partials](#built-in-cell-type-partials)
+
+## Cell
+
+> since 5.2.0
+
+In short, a cell is a special [type partial](#type-partial) component in `rb` file format.
+
+For example, a custom type `markdown` is defined for show field `description` in `ProductDecorator`:
+
+```ruby
+class ProductDecorator < Admin::ApplicationDecorator
+  show_fields[:description][:type] = 'markdown'
+end
+```
+
+Then a cell can be created using the type `markdown` to serve this field `description` using the following file path:
+
+```ruby
+# app/views/admin/products/show/markdown_html.rb
+module Admin
+  module Products
+    module Show
+      class MarkdownHtml < Wallaby::Cell
+        def render
+          Redcarpet.new(value.to_s).to_html
+        end
+      end
+    end
+  end
+end
+```
+
+> NOTE: the cell is designed to improve performance. Therefore, if the view logic is complicated (e.g. containing a lot of CSS/JS), it will become hard to read and maintain.
+
+Similar to other Rails naming convention, the cell's class name reflects the full file path that can contain the locale (e.g. `en` or `fr`) and format of the HTTP request (e.g. `html`, `csv` or `json`). For example:
+
+```
+app/views/admin/products/show/markdown_fr_csv.rb
+```
+
+A cell uses `render` method to produce HTML output. On top of that, all Rails and Wallaby helper methods (e.g. `content_tag`, `null`) can be accessed as in ordinary Rails partial template.
+
+However, please be aware of the following important differences between a cell and a partial template:
+
+- to access or modify the instance variable for the view, it's required to use `context.instance_variable_get` and `context.instance_variable_set` (see [context](#context)).
+- `concat` helper method is overridden to maintain a standalone buffer inside a cell. But it is still possible to access the origin `concat` by calling `context.concat`.
+
+### context
+
+Generally, a cell is initialized with view context and delegates all Rails and Wallaby helper methods (except `concat`) to this view context. Therefore, all Rails and Wallaby helper methods can be accessed either directly or via `context`. For example:
+
+```ruby
+def render
+  # direct access to helper method
+  link_to local_assigns[:value], 'external url'
+  # via `context`
+  context.link_to local_assigns[:value], 'external url'
+end
+```
+
+### local_assigns
+
+Similar to a partial, a cell can accept [local variables](https://guides.rubyonrails.org/layouts_and_rendering.html#passing-local-variables) (a.k.a. **locals**) from [**render**](https://api.rubyonrails.org/classes/AbstractController/Rendering.html#method-i-render) method. And locals is stored as attribute reader `local_assigns` in a cell. To access it, it goes:
+
+```ruby
+def render
+  link_to local_assigns[:label], 'external url'
+end
+```
+
+### object, field_name, value, metadata and form
+
+The following methods are the shortcut to read and write local variables:
+
+- `object`: resource object wrapped in a decorator, the same as `local_assigns[:object]`
+  `object=`: the same as `local_assigns[:object]=`
+- `field_name`: current field name
+  `field_name=`: the same as `local_assigns[:field_name]=`
+- `value`: current value
+  `value=`: the same as `local_assigns[:value]=`
+- `metadata`: associated metadata for current field and current action (`index`/`show`/`form`).
+  `metadata=`: the same as `local_assigns[:metadata]=`
+- `form`: form object related to the resource object
+  `form=`: the same as `local_assigns[:form]=`
+
+```ruby
+def render
+  # shortcut
+  link_to value, 'external url'
+  # or via `local_assigns`
+  link_to local_assigns[:value], 'external url'
+end
+```
+
+### Cell Helper Methods
+
+#### concat
+
+`concat` is used to append a string to cell's output buffer. For example:
+
+```ruby
+def render
+  concat form.label field_name
+  form.text_field field_name, value, metadata[:options]
+end
+```
 
 ## Type Partial
 
-As described above, if a custom type is defined in decorator, e.g. `:markdown`, then a partial needs to be created accordingly, and this partial is called `Type Partial`.
+A type partial is no different from Rails partial template. Just its name associates with the type defined in decorator's metadata.
 
-### Creating a Type Partial
+For example, a custom type `markdown` is defined for show field `description` in `ProductDecorator`:
 
-Wallaby utilizes and extends [Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance) to look for type partial in controller and action inheritance chain like:
+```ruby
+class ProductDecorator < Admin::ApplicationDecorator
+  show_fields[:description][:type] = 'markdown'
+end
+```
+
+Then a partial can be created using the type `markdown` to serve this field `description` using the following file path:
+
+```erb
+<%# app/views/admin/products/show/_markdown.html.erb %>
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<%= Redcarpet.new(value).to_html %>
+```
+
+### Type Partial Locals
+
+Similar to [Cell Local variables](#local_assigns), the following variables are available:
+
+- `object`: resource object wrapped in a decorator
+- `field_name`: current field name
+- `value`: current value
+- `metadata`: associated metadata for current field and current action (`index`/`show`/`form`).
+- `form`: form object associated with the `object`
+
+## Cell and Partial Lookup Order
+
+On top of [Rails' lookup order](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance), Wallaby has extended the order from high to low precedence as:
 
 - app/views/**$MOUNTED_PATH**/**$RESOURCES**/**$ACTION_PREFIX**
 - app/views/**$MOUNTED_PATH**/**$RESOURCES**
 - app/views/**$CONTROLLER_PATH**/**$ACTION_PREFIX**
 - app/views/**$CONTROLLER_PATH**
-- app/views/**$BASE_CONTROLLER_PATH**/**$ACTION_PREFIX**
-- app/views/**$BASE_CONTROLLER_PATH**
+- app/views/**$PARENT_CONTROLLER_PATH**/**$ACTION_PREFIX** (it will keep going if there are more ancestor controllers)
+- app/views/**$PARENT_CONTROLLER_PATH**
 - app/views/**$THEME_NAME**/**$ACTION_PREFIX** - (since 5.2.0)
 - app/views/**$THEME_NAME** - (since 5.2.0)
-- app/views/wallaby/resources/**$ACTION_PREFIX**
-- app/views/wallaby/resources
+- app/views/wallaby/resources/**$ACTION_PREFIX** - (will not be applicable when **$THEME_NAME** is set)
+- app/views/wallaby/resources - (will not be applicable when **$THEME_NAME** is set)
 
 For example, for model `Product`, a Wallaby controller is declared as:
 
@@ -51,83 +206,82 @@ end
 
 And given that:
 
-- Wallaby is mounted under path `/admin` (see how Wallaby is mounted in [route](route.md)).
+- Wallaby is mounted under path `/manage` (see how Wallaby is mounted in [route](route.md)).
 - action is `index`.
 
-So the variables become:
+In this case, variables become:
 
-- **$MOUNTED_PATH** is `admin` (converted from `/admin`)
-- **$ACTION_PREFIX** is `index` (converted from action `index`, see below [Action Prefix Mapping](#action-prefix-mapping))
-- **$RESOURCES** is `products` (converted from model `Product`)
-- **$CONTROLLER_PATH** is `backend/goods` (converted from controller `Backend::GoodsController`) .0) is `admin/application` (converted from controller `Admin::ApplicationController`)
+- **$MOUNTED_PATH** is `manage` (from mount path `/manage`)
+- **$ACTION_PREFIX** is `index` (converted from [action_name](https://api.rubyonrails.org/classes/AbstractController/Base.html#method-i-action_name), see below [Action Prefix Mapping](#action-prefix-mapping))
+- **$RESOURCES** is `products` (plural model name of `Product`, see [URL naming convention](convention.md#url))
+- **$CONTROLLER_PATH** is `backend/goods` ([controller_name](https://api.rubyonrails.org/classes/ActionController/Metal.html#method-c-controller_name) of `Backend::GoodsController`)
+- **$PARENT_CONTROLLER_PATH** is `admin/application` ([controller_name](https://api.rubyonrails.org/classes/ActionController/Metal.html#method-c-controller_name) of `Admin::ApplicationController`)
 - **$THEME_NAME** (since 5.2.0) is `foundation`
 
-Then the lookup order for type partial becomes:
+Then the cell and partial lookup order becomes:
 
-- app/views/admin/products/index/_markdown
-- app/views/admin/products/_markdown
-- app/views/backend/goods/index/_markdown
-- app/views/backend/goods/_markdown
-- app/views/admin/application/index/_markdown
-- app/views/admin/application/_markdown
-- app/views/foundation/index/_markdown
-- app/views/foundation/_markdown
-- app/views/wallaby/resources/index/_markdown
-- app/views/wallaby/resources/_markdown
+- app/views/manage/products/index/markdown_html.rb _(cell)_
+- app/views/manage/products/index/\_markdown.html.erb _(type partial)_
+- app/views/manage/products/markdown_html.rb _(cell)_
+- app/views/manage/products/\_markdown.html.erb _(type partial)_
+- app/views/backend/goods/index/markdown_html.rb _(cell)_
+- app/views/backend/goods/index/\_markdown.html.erb _(type partial)_
+- app/views/backend/goods/markdown_html.rb _(cell)_
+- app/views/backend/goods/\_markdown.html.erb _(type partial)_
+- app/views/admin/application/index/markdown_html.rb _(cell)_
+- app/views/admin/application/index/\_markdown.html.erb _(type partial)_
+- app/views/admin/application/markdown_html.rb _(cell)_
+- app/views/admin/application/\_markdown.html.erb _(type partial)_
+- app/views/foundation/index/markdown_html.rb _(cell)_
+- app/views/foundation/index/\_markdown.html.erb _(type partial)_
+- app/views/foundation/markdown_html.rb _(cell)_
+- app/views/foundation/\_markdown.html.erb _(type partial)_
 
-Therefore, the type partial can be created in one of the above paths depending on how it should be shared:
+> NOTE: as it can be seen above, the cell has higher precedence than the type partial.
 
-- if the type partial is only needed for model `Product` when no controller is created, then it can be created as:
+Therefore, the cell/type partial can be created in one of the above paths depending on how it's shared:
+
+- if the cell is only needed for model `Product` when no controller is created, then it can be created as:
+
+  ```
+  app/views/admin/products/index/markdown_html.rb (since 5.2.0)
+  ```
+
+  otherwise, for type partial:
 
   ```
   app/views/admin/products/index/_markdown.html.erb
   ```
 
-- if the type partial is only needed for controller `Backend::GoodsController`, then it can be created as:
+- if the cell is only needed for controller `Backend::GoodsController`, then it can be created as:
+
+  ```
+  app/views/backend/goods/index/markdown_html.rb (since 5.2.0)
+  ```
+
+  otherwise, for type partial:
 
   ```
   app/views/backend/goods/index/_markdown.html.erb
   ```
 
-- if the type partial is supposed to be shared among the app, then it can be created as:
+- if the cell is supposed to be shared among the app, then it can be created as:
+
+  ```
+  app/views/admin/application/index/markdown_html.erb (since 5.2.0)
+  ```
+
+  otherwise, for type partial:
 
   ```
   app/views/admin/application/index/_markdown.html.erb
   ```
 
-> NOTE: the file extension doesn't have to be `erb`, it's totally fine to create type partial with preferred markup language (e.g. `haml`/`slim`/etc.)
+> NOTE: both locale and format can be included in file name. For example, to include locale `en` and format `json` for a cell, it goes as `app/views/admin/products/index/markdown_en_json.rb`; for type partial, it goes as `app/views/admin/products/index/_markdown.en.json.rb`.
 
-> ANOTHER NOTE: if CSV export feature is in use, then two type partials should be created for index, one is HTML, the other is CSV.
+> NOTE: for type partial, the file extension doesn't have to be `erb`, it's totally fine to create it with preferable markup language (e.g. `haml`/`slim`/etc.)
 
-### Locals for Type Partials
-
-To develop type partial, it's as easy as normal partial. However, it's better to get familiar with the following locals available in a type partial:
-
-- `object`: the decorator instance which wraps the resource object.
-- `field_name`: current field name.
-- `value`: current value.
-- `metadata`: metadata for current field.
-
-In addition to the above locals, `form` type partial has access to the following locals:
-
-- `form`: a form builder instance that extends `ActionView::Helpers::FormBuilder` to provide extra helper methods for error display.
-
-Let's take a look at an example of how built-in type partial (`form`/`string`) is coded:
-
-```erb
-<%# app/views/wallaby/resources/form/_string.html.erb
-%>
-<div class="form-group <%= form.error_class field_name %>">
-  <%= form.label field_name, metadata[:label] %>
-  <div class="row">
-    <div class="col-xs-12">
-      <%= form.text_field field_name, class: 'form-control' %>
-    </div>
-  </div>
-  <%= form.error_messages field_name %>
-  <%= hint_of metadata %>
-</div>
-```
+> NOTE: if CSV export feature is in use, two cell/type partials should be created for index, one for HTML and one for CSV.
 
 ### Action Prefix Mapping
 

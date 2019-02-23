@@ -7,19 +7,21 @@ module Wallaby
     # ActionView::ViewPaths::ClassMethods#_prefixes} to extend the prefixes for **ActionView::ViewPaths** to look up
     # in below precedence from high to low:
     #
-    # - :mounted_path/:resources_name/:action_name (e.g. `admin/products/index`)
+    # - :mounted_path/:resources_name/:action_prefix (e.g. `admin/products/index`)
     # - :mounted_path/:resources_name (e.g. `admin/products`)
-    # - :controller_path/:action_name
+    # - :controller_path/:action_prefix
     # - :controller_path
-    # - :parent_controller_path/:action_name
+    # - :parent_controller_path/:action_prefix
     # - :parent_controller_path
-    # - :more_parent_controller_path/:action_name
+    # - :more_parent_controller_path/:action_prefix
     # - :more_parent_controller_path
-    # - :wallaby_resources_controller_path/:action_name (e.g. `wallaby/resources/index`)
-    # - :wallaby_resources_controller_path (e.g. `wallaby/resources`)
+    # - :theme_name/:action_prefix
+    # - :theme_name
+    # - wallaby/resources/:action_prefix
+    # - wallaby/resources
     # @return [Array<String>]
     def _prefixes
-      @_prefixes ||= PrefixesBuilder.build( # rubocop:disable Naming/MemoizedInstanceVariableName
+      @_prefixes ||= PrefixesBuilder.build(
         origin_prefixes: super,
         theme_name: current_theme_name,
         resources_name: current_resources_name,
@@ -28,11 +30,11 @@ module Wallaby
       )
     end
 
-    # A wrapped lookup content
-    # Its aim is to render string partial when given partial is not found
-    # @return [LookupContextWrapper]
+    # Override to provide support for cell lookup
+    # @return [Wallaby::CustomLookupContext]
     def lookup_context
-      @_lookup_context ||= LookupContextWrapper.new super # rubocop:disable Naming/MemoizedInstanceVariableName
+      @_lookup_context ||= # rubocop:disable Naming/MemoizedInstanceVariableName
+        CustomLookupContext.new(self.class._view_paths, details_for_lookup, _prefixes)
     end
   end
 end

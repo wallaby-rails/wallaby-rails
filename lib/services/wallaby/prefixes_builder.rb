@@ -1,5 +1,4 @@
 module Wallaby
-  # @!visibility private
   # To extend prefixes to provide more possibility
   class PrefixesBuilder
     # @param origin_prefixes [Array<string>] a list of all the origin prefixes

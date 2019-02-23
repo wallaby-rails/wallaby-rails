@@ -2,7 +2,6 @@ module Wallaby
   class ActiveRecord
     class ModelDecorator
       class FieldsBuilder
-        # @!visibility private
         # To build the metadata for associations
         class AssociationBuilder
           # Update the metadata

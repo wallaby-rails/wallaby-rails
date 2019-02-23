@@ -5,6 +5,13 @@ module Wallaby
     include Engineable
     include SharedHelpers
 
+    # Override the origin view_renderer to provide support for cell rendering
+    # @!attribute [r] view_renderer
+    def view_renderer
+      return @view_renderer if @view_renderer.is_a? CustomRenderer
+      @view_renderer = CustomRenderer.new @view_renderer.lookup_context
+    end
+
     # Override `actionview/lib/action_view/routing_url_for.rb#url_for` too handle URL for wallaby engine
     # @param options [String, Hash]
     # @param engine_name [String, nil]

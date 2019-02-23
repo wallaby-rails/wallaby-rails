@@ -116,3 +116,5 @@ en:
     paginate: "[DEPRECATION] `paginate` will be removed from 5.3.*. Please use `paginator_of` instead.\n(called from %{from})"
     resource_paginator_inheirtance: "[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit from `Wallaby::ModelPaginator` instead.\n(called from %{from})"
     resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*. Please use `model_paginator=` instead.\n(called from %{from})"
+    type_partial_render: "[DEPRECATION] `type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"
+    form_type_partial_render: "[DEPRECATION] `form_type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"

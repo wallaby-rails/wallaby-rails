@@ -2,7 +2,6 @@ module Wallaby
   class ActiveRecord
     class ModelDecorator
       class FieldsBuilder
-        # @!visibility private
         # To build the metadata for sti column
         class StiBuilder
           # @param model_class [Class] model class

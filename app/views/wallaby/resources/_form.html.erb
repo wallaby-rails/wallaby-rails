@@ -6,7 +6,7 @@
   <% end %>
 <% end %>
 <% decorated.form_field_names.each do |field_name| %>
-  <%= form_type_partial_render decorated.form_type_of(field_name), field_name: field_name, form: form %>
+  <%= type_render decorated.form_type_of(field_name), field_name: field_name, form: form %>
 <% end %>
 <%= form.button t('buttons.save'), class: 'btn btn-primary' %>
 <%= cancel_link class: 'btn btn-default' %>
