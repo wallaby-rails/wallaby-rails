@@ -1,20 +1,6 @@
 require 'rails_helper'
 
 describe Wallaby::Utils do
-  describe '.try_to' do
-    it 'checks and tries to execute given method on subject' do
-      expect(described_class.try_to(Product, :table_name)).to eq 'products'
-      expect(described_class.try_to(Product, '')).to be_nil
-    end
-  end
-
-  describe '.anonymous_class?' do
-    it 'checks whether a class is anonymous' do
-      expect(described_class.anonymous_class?(Product)).to be_falsy
-      expect(described_class.anonymous_class?(Class.new)).to be_truthy
-    end
-  end
-
   describe '.translate_class' do
     it 'translates a message for a method' do
       expect(described_class.translate_class(Wallaby::Map::ModelClassMapper.new, :missing_model_class, model: Product)).to eq "[WALLABY] Please define self.model_class for Product or set it as global.\n          @see Wallaby.configuration.mapping"

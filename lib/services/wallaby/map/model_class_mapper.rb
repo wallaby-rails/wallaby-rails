@@ -20,10 +20,9 @@ module Wallaby
         end
       end
 
-      # @param klass [Class]
-      # @return [Boolean] whether the class is anonymous
+      # @see Wallaby::ModuleUtils.anonymous_class?
       def anonymous?(klass)
-        Utils.anonymous_class? klass
+        ModuleUtils.anonymous_class? klass
       end
 
       # @param klass [Class]

@@ -1,6 +1,6 @@
 module Wallaby
   # Cell utils
-  class CellUtils
+  module CellUtils
     class << self
       # Render cell
       # @param view [ActionView::Context]

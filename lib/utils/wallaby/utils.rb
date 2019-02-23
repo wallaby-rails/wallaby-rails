@@ -1,24 +1,6 @@
 module Wallaby
   # Utils
   module Utils
-    # A helper method to check if subject responds to given method and to return the result if so
-    # @param subject [Object]
-    # @param method_id [String, Symbol]
-    # @param args [Array] a list of arguments
-    # @return [Object] result from executing given method on subject
-    # @return [nil] if subject doesn't respond to given method
-    def self.try_to(subject, method_id, *args, &block)
-      return if method_id.blank?
-      subject.respond_to?(method_id) && subject.public_send(method_id, *args, &block) || nil
-    end
-
-    # Check whether a class is anonymous or not
-    # @param klass [Class]
-    # @return [Boolean] true if a class is anonymous, false otherwise
-    def self.anonymous_class?(klass)
-      klass.name.blank? || klass.to_s.start_with?('#<Class')
-    end
-
     def self.deprecate(key, caller:, options: {})
       warn I18n.t(key, options.merge(from: caller[0]))
     end
