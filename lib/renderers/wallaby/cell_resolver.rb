@@ -11,7 +11,8 @@ module Wallaby
     # Wallaby adds it to the front of the whole query as below:
     #
     # ```
-    # {app/views/wallaby/resources/index/integer{_en,}{_html,}.rb,app/views/wallaby/resources/index/_integer{.en,}{.html,}{.erb,}}
+    # {app/views/wallaby/resources/index/integer{_en,}{_html,}.rb,
+    # app/views/wallaby/resources/index/_integer{.en,}{.html,}{.erb,}}
     # ```
     # @param path [String]
     # @param details [Hash]
