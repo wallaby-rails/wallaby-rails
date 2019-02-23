@@ -13,11 +13,11 @@ describe Wallaby::CustomPartialRenderer, type: :helper do
     end
 
     it 'renders cell before partial', prefixes: ['custom/index'] do
-      expect(subject.render(helper, { partial: 'integer', locals: { value: 1000000 } }, -> {})).to eq '1 Million'
+      expect(subject.render(helper, { partial: 'integer', locals: { value: 1_000_000 } }, -> {})).to eq '1 Million'
     end
 
     it 'renders cell by precedence', prefixes: ['custom/index', 'wallaby/resources/index'] do
-      expect(subject.render(helper, { partial: 'integer', locals: { value: 1000000 } }, -> {})).to eq '1 Million'
+      expect(subject.render(helper, { partial: 'integer', locals: { value: 1_000_000 } }, -> {})).to eq '1 Million'
     end
   end
 end

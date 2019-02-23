@@ -3,8 +3,8 @@ require 'rails_helper'
 describe Wallaby::CellUtils, type: :helper do
   describe '.render' do
     it 'renders a cell' do
-      expect(described_class.render(helper, '/wallaby/app/views/wallaby/resources/index/integer_html.rb', { value: 1000000 })).to eq '1000000'
-      expect(described_class.render(helper, 'app/views/custom/index/integer_html.rb', { value: 1000000 })).to eq '1 Million'
+      expect(described_class.render(helper, '/wallaby/app/views/wallaby/resources/index/integer_html.rb', value: 1_000_000)).to eq '1000000'
+      expect(described_class.render(helper, 'app/views/custom/index/integer_html.rb', value: 1_000_000)).to eq '1 Million'
     end
   end
 
