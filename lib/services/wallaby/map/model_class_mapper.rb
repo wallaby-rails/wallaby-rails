@@ -28,7 +28,7 @@ module Wallaby
       # @param klass [Class]
       # @return [Boolean] whether the class is abstract, only applicable to controller class
       def abstract?(klass)
-        Utils.try_to klass, :abstract?
+        ModuleUtils.try_to klass, :abstract?
       end
     end
   end

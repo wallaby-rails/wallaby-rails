@@ -40,7 +40,7 @@ module Wallaby
       # @see Wallaby::ResourceDecorator
       # @since 5.2.0
       def application_decorator
-        @application_decorator ||= Utils.try_to superclass, :application_decorator
+        @application_decorator ||= ModuleUtils.try_to superclass, :application_decorator
       end
     end
 

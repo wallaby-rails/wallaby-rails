@@ -38,7 +38,7 @@ module Wallaby
       # @see Wallaby::ModelServicer
       # @since 5.2.0
       def application_servicer
-        @application_servicer ||= Utils.try_to superclass, :application_servicer
+        @application_servicer ||= ModuleUtils.try_to superclass, :application_servicer
       end
     end
 

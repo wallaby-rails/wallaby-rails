@@ -38,7 +38,7 @@ module Wallaby
       # @see Wallaby::ModelAuthorizer
       # @since 5.2.0
       def application_authorizer
-        @application_authorizer ||= Utils.try_to superclass, :application_authorizer
+        @application_authorizer ||= ModuleUtils.try_to superclass, :application_authorizer
       end
     end
 

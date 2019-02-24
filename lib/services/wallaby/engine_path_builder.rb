@@ -55,7 +55,7 @@ module Wallaby
       def normalize(parameters, default_url_options, route)
         default_url_options
           .with_indifferent_access
-          .merge(Utils.try_to(parameters, :permit, :resources, :action, :id) || parameters)
+          .merge(ModuleUtils.try_to(parameters, :permit, :resources, :action, :id) || parameters)
           .merge(script_name: route.path.spec.to_s) # set script name for given engine
           .except(:only_path).symbolize_keys
       end

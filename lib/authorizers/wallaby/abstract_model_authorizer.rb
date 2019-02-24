@@ -24,7 +24,7 @@ module Wallaby
       # If it's not set, it will inherit from super class.
       # @return [String, Symbol] provider name
       def provider_name
-        @provider_name ||= Utils.try_to superclass, :provider_name
+        @provider_name ||= ModuleUtils.try_to superclass, :provider_name
       end
     end
 
