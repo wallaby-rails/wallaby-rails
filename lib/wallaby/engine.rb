@@ -17,7 +17,7 @@ module Wallaby
         if Rails.env.development? || Rails.configuration.eager_load
           Rails.logger.debug '  [WALLABY] Reloading...'
           ::Wallaby::Map.clear
-          ::Wallaby::Utils.preload_all
+          ::Wallaby::PreloadUtils.require_all
         end
       end
     end
@@ -35,14 +35,14 @@ module Wallaby
     config.before_eager_load do
       # NOTE: We need to ensure that the core models are loaded before anything else
       Rails.logger.debug '  [WALLABY] Preload all model files.'
-      ::Wallaby::Utils.preload 'app/models/**/*.rb'
+      ::Wallaby::PreloadUtils.require_one 'app/models'
     end
 
+    # Preload the rest files
     config.after_initialize do
-      # Preload the rest files
       unless Rails.env.development? || Rails.configuration.eager_load
         Rails.logger.debug '  [WALLABY] Preload files after initialize.'
-        ::Wallaby::Utils.preload_all
+        ::Wallaby::PreloadUtils.require_all
       end
     end
   end
