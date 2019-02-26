@@ -9,28 +9,10 @@ module Wallaby
       warn I18n.t(key, options.merge(from: caller[0]))
     end
 
-    # Help to translate a message for a class
-    # @param object [Object]
-    # @param key [String, Symbol]
-    # @param options [Hash]
-    # @return [String] a message for this class
-    def self.translate_class(object, key, options = {})
-      klass = object.is_a?(Class) ? object : object.class
-      key = [klass.name, key].join(SLASH).underscore.gsub(SLASH, DOT)
-      I18n.t key, options
-    end
-
+    # @deprecated Use {Wallaby::FilterUtils.filter_name_by} instead. It will be removed from 5.3.*
     def self.find_filter_name(filter_name, filters)
       deprecate 'deprecation.find_filter_name', caller: caller
       FilterUtils.filter_name_by filter_name, filters
-    end
-
-    # @todo maybe delegate this label thing to the mode?
-    # @param field_name [String, Symbol] field name
-    # @return [String] field label
-    def self.to_field_label(field_name, metadata)
-      field_name = field_name.to_s if field_name.is_a? Symbol
-      metadata[:label] || field_name.humanize
     end
 
     # Return `form` for `new/create/edit/update`

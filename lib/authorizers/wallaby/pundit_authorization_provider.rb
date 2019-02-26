@@ -59,7 +59,8 @@ module Wallaby
     def permit_params(action, subject)
       policy = context.send :policy, subject
       # @see https://github.com/varvet/pundit/blob/master/lib/pundit.rb#L258
-      ModuleUtils.try_to(policy, "permitted_attributes_for_#{action}") || ModuleUtils.try_to(policy, 'permitted_attributes')
+      ModuleUtils.try_to(policy, "permitted_attributes_for_#{action}") \
+        || ModuleUtils.try_to(policy, 'permitted_attributes')
     end
 
     private

@@ -86,7 +86,6 @@ module Wallaby
     end
 
     # @deprecated Use {#current_authorizer} instead. It will be removed from 5.3.*
-    # @return [Wallaby::ModelAuthorizer] model authorizer
     def authorizer
       Utils.deprecate 'deprecation.authorizer', caller: caller
       current_authorizer

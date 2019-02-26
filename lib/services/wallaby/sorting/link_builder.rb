@@ -35,7 +35,7 @@ module Wallaby
       # @return [String] link or text
       def build(field_name)
         metadata = @model_decorator.index_metadata_of field_name
-        label = Utils.to_field_label field_name, metadata
+        label = to_field_label field_name, metadata
         return label unless sortable? field_name, metadata
         sort_field_name = metadata[:sort_field_name] || field_name
         url_params = next_builder.next_params sort_field_name
@@ -52,6 +52,10 @@ module Wallaby
       # @return [Boolean] true if sortable
       def sortable?(field_name, metadata)
         !metadata[:sort_disabled] && (@model_decorator.fields[field_name] || metadata[:sort_field_name])
+      end
+
+      def to_field_label(field_name, metadata)
+        metadata[:label] || field_name.to_s.humanize
       end
     end
   end

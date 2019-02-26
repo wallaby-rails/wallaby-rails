@@ -149,7 +149,7 @@ module Wallaby
       def map_of(variable_name, model_class, application_class)
         return unless model_class
         unless mode_map[model_class]
-          Rails.logger.warn Utils.translate_class(self, :missing_mode_for_model_class, model: model_class.name)
+          Rails.logger.warn I18n.t('wallaby.map.missing_mode_for_model_class', model: model_class.name)
           return
         end
         instance_variable_set(variable_name, instance_variable_get(variable_name) || {})

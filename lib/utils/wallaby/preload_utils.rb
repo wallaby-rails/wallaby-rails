@@ -11,7 +11,7 @@ module Wallaby
       # @params load_path [String, Pathname]
       # @see {https://api.rubyonrails.org/classes/Rails/Engine.html#method-i-eager_load-21 Rails::Engine#eager_load!}
       def require_one(load_path)
-        matcher = /\A#{Regexp.escape(load_path.to_s)}\/(.*)\.rb\Z/
+        matcher = %r{\A#{Regexp.escape(load_path.to_s)}\/(.*)\.rb\Z}
         Dir.glob("#{load_path}/**/*.rb").sort.each do |file|
           require_dependency file.sub(matcher, '\1')
         end
