@@ -68,7 +68,7 @@ module Wallaby
         # @return [ActiveRecord::Relation]
         def filtered_by(filter_name)
           valid_filter_name =
-            Utils.find_filter_name(filter_name, @model_decorator.filters)
+            FilterUtils.filter_name_by(filter_name, @model_decorator.filters)
           scope = find_scope(valid_filter_name)
           if scope.blank? then unscoped
           elsif scope.is_a?(Proc) then @model_class.instance_exec(&scope)

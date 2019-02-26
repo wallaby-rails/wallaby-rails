@@ -1,6 +1,6 @@
 <%
 filters = current_model_decorator.filters
-filter = ::Wallaby::Utils.find_filter_name index_params[:filter], filters
+filter = filter_name_by index_params[:filter], filters
 %>
 <nav class="filters">
   <% if filters.present? %>

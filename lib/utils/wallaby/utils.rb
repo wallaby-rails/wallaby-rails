@@ -1,6 +1,10 @@
 module Wallaby
   # Utils
   module Utils
+    # Display deprecate message including the line where it's used
+    # @param key [String]
+    # @param caller [String] the line where it's called
+    # @param options [Hash]
     def self.deprecate(key, caller:, options: {})
       warn I18n.t(key, options.merge(from: caller[0]))
     end
@@ -16,17 +20,9 @@ module Wallaby
       I18n.t key, options
     end
 
-    # Find filter name in the following precedences:
-    # - filter name argument
-    # - filters that has been marked as default
-    # - `:all`
-    # @param filter_name [String, Symbol] filter name
-    # @param filters [Hash] filter metadata
-    # @return [String, Symbol]
     def self.find_filter_name(filter_name, filters)
-      filter_name || # from params
-        filters.find { |_k, v| v[:default] }.try(:first) || # from default value
-        :all # last resort
+      deprecate 'deprecation.find_filter_name', caller: caller
+      FilterUtils.filter_name_by filter_name, filters
     end
 
     # @todo maybe delegate this label thing to the mode?
