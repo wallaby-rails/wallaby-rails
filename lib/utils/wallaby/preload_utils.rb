@@ -8,32 +8,21 @@ module Wallaby
       end
 
       # Require files under a load path
+      # @params load_path [String, Pathname]
+      # @see {https://api.rubyonrails.org/classes/Rails/Engine.html#method-i-eager_load-21 Rails::Engine#eager_load!}
       def require_one(load_path)
-        load_path = eager_load_path_of load_path unless load_path.start_with? '/'
         matcher = /\A#{Regexp.escape(load_path.to_s)}\/(.*)\.rb\Z/
         Dir.glob("#{load_path}/**/*.rb").sort.each do |file|
-          require_one_dependency file, matcher
+          require_dependency file.sub(matcher, '\1')
         end
       end
 
       protected
 
-      def require_one_dependency(file, matcher)
-        path = file.sub(matcher, '\1')
-        require_dependency path
-      rescue NameError => e
-        Rails.logger.error "Error loading: #{e.message} at #{e.backtrace[0]}"
-      end
-
+      # @return [Array<String, Pathname>] a list of special sorted eager load paths
       def eager_load_paths
         Rails.configuration.eager_load_paths.sort_by do |path|
           - path.index(%r{/models$}).to_i
-        end
-      end
-
-      def eager_load_path_of(path)
-        eager_load_paths.find do |eager|
-          eager.index path
         end
       end
     end
