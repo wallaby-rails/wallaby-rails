@@ -16,7 +16,7 @@ gemspec
 gem 'cancancan'
 gem 'her'
 gem 'pundit'
-gem 'rails', '~>4.2.0'
+gem 'rails', '~>5.2.2'
 
 group :development, :test do
   gem 'binding_of_caller'
@@ -25,10 +25,10 @@ group :development, :test do
   gem 'devise'
   gem 'ffaker'
   gem 'mysql2'
-  gem 'pg', '< 1.0'
+  gem 'pg'
   gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'sqlite3', '~>1.3.0'
+  gem 'sqlite3', '< 1.4.0'
   gem 'yard'
 end
 
