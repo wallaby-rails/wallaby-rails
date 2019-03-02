@@ -1,8 +1,9 @@
 module Wallaby
   # Filter utils
   module FilterUtils
-    # Find filter name in the following precedences:
-    # - filter name argument
+    # Find filter name in the following precedences from high to low:
+    #
+    # - `filter_name` argument
     # - filters that has been marked as default
     # - `:all`
     # @param filter_name [String, Symbol] filter name

@@ -15,13 +15,6 @@ module Wallaby
       FilterUtils.filter_name_by filter_name, filters
     end
 
-    # Return `form` for `new/create/edit/update`
-    # @param action_name [String]
-    # @return [String] action name
-    def self.to_partial_name(action_name)
-      FORM_ACTIONS[action_name] || action_name
-    end
-
     # @see http://stackoverflow.com/a/8710663/1326499
     # @param object [Object]
     # @return [Object] a clone object

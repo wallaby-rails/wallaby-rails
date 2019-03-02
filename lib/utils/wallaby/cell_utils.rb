@@ -14,12 +14,18 @@ module Wallaby
         cell_class.new(context, locals).render_complete(&block)
       end
 
-      # Check if a partial is a cell?
+      # Check if a partial is a cell or not
       # @param partial_path [String]
       # @return [true] if partial is a `rb` file
       # @return [false] otherwise
       def cell?(partial_path)
         partial_path.end_with? '.rb'
+      end
+
+      # @param action_name [String, Symbol]
+      # @return [String, Symbol] action prefix
+      def to_action_prefix(action_name)
+        FORM_ACTIONS[action_name] || action_name
       end
     end
   end

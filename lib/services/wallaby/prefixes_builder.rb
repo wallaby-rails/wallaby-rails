@@ -54,7 +54,7 @@ module Wallaby
 
     # @return [String]
     def suffix
-      @suffix ||= Utils.to_partial_name @action_name
+      @suffix ||= CellUtils.to_action_prefix @action_name
     end
 
     def resources_path
