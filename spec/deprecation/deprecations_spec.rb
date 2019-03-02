@@ -41,3 +41,13 @@ describe Wallaby::ResourcesController, type: :controller do
     end
   end
 end
+
+describe Wallaby::Utils do
+  describe '.find_filter_name' do
+    it 'shows deprecation message' do
+      expect do
+        described_class.find_filter_name nil, {}
+      end.to output(a_string_starting_with("[DEPRECATION] `Wallaby::Utils.find_filter_name` will be removed from 5.3.*. Please use `Wallaby::FilterUtils.filter_name_by` instead.\n")).to_stderr
+    end
+  end
+end

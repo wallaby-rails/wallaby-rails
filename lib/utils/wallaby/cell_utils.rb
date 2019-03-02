@@ -1,25 +1,31 @@
 module Wallaby
   # Cell utils
-  class CellUtils
+  module CellUtils
     class << self
-      # Render cell
-      # @param view [ActionView::Context]
+      # Render a cell and produce output
+      # @param context [ActionView::Context]
       # @param file_name [String]
       # @param locals [Hash]
-      # @return [String] HTML output
-      def render(view, file_name, locals = {}, &block)
+      # @return [String] output
+      def render(context, file_name, locals = {}, &block)
         snake_class = file_name[%r{(?<=app/).+(?=\.rb)}].split(SLASH, 2).last
         cell_class = snake_class.camelize.constantize
         Rails.logger.debug "  Rendered [cell] #{file_name}"
-        cell_class.new(view, locals).render_complete(&block)
+        cell_class.new(context, locals).render_complete(&block)
       end
 
-      # Check if a partial is a cell?
-      # @param full_partial_path [String]
+      # Check if a partial is a cell or not
+      # @param partial_path [String]
       # @return [true] if partial is a `rb` file
       # @return [false] otherwise
-      def cell?(full_partial_path)
-        full_partial_path.end_with? '.rb'
+      def cell?(partial_path)
+        partial_path.end_with? '.rb'
+      end
+
+      # @param action_name [String, Symbol]
+      # @return [String, Symbol] action prefix
+      def to_action_prefix(action_name)
+        FORM_ACTIONS[action_name] || action_name
       end
     end
   end

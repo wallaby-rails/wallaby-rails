@@ -36,6 +36,14 @@ module Wallaby
       filters[filter_name].try(:[], :label) || filter_name.to_s.humanize
     end
 
+    # @param filter_name [String, Symbol]
+    # @param filters [Hash]
+    # @return [String, String]
+    # @see Wallaby::FilterUtils.filter_name_by
+    def filter_name_by(filter_name, filters)
+      FilterUtils.filter_name_by filter_name, filters
+    end
+
     # Link for a given model class and filter name
     # @param model_class [Class]
     # @param filter_name [String, Symbol]

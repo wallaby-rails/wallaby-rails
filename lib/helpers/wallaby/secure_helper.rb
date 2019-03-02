@@ -8,7 +8,7 @@ module Wallaby
     # @return [String] IMG or I element
     def user_portrait(user = current_user)
       email_method = security.email_method || :email
-      email = Utils.try_to user, email_method
+      email = ModuleUtils.try_to user, email_method
       if email.present?
         https = "http#{request.ssl? ? 's' : EMPTY_STRING}"
         email_md5 = ::Digest::MD5.hexdigest email.downcase
@@ -31,7 +31,7 @@ module Wallaby
           scope = ::Devise::Mapping.find_scope! user
           "destroy_#{scope}_session_path"
         end
-      Utils.try_to app, path
+      ModuleUtils.try_to app, path
     end
 
     # Logout method for given user

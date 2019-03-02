@@ -14,4 +14,16 @@ describe Wallaby::CellUtils, type: :helper do
       expect(described_class.cell?('/wallaby/app/views/wallaby/resources/index/integer.html.erb')).to be_falsy
     end
   end
+
+  describe '.to_action_prefix' do
+    it 'converts action to action prefix' do
+      expect(described_class.to_action_prefix('new')).to eq 'form'
+      expect(described_class.to_action_prefix('create')).to eq 'form'
+      expect(described_class.to_action_prefix('edit')).to eq 'form'
+      expect(described_class.to_action_prefix('update')).to eq 'form'
+      expect(described_class.to_action_prefix('form')).to eq 'form'
+      expect(described_class.to_action_prefix('show')).to eq 'show'
+      expect(described_class.to_action_prefix('index')).to eq 'index'
+    end
+  end
 end

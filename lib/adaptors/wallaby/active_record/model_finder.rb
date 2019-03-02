@@ -26,11 +26,9 @@ module Wallaby
         model_class.abstract_class?
       end
 
-      # Is model class anonymous?
-      # @param model_class [Class] model class
-      # @return [Boolean]
+      # @see Wallaby::ModuleUtils.anonymous_class?
       def anonymous?(model_class)
-        Utils.anonymous_class? model_class
+        ModuleUtils.anonymous_class? model_class
       end
 
       # Is model class the shcema migration class?

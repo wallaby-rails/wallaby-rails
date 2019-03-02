@@ -38,7 +38,7 @@ module Wallaby
       # @see Wallaby::ModelAuthorizer
       # @since 5.2.0
       def application_authorizer
-        @application_authorizer ||= Utils.try_to superclass, :application_authorizer
+        @application_authorizer ||= ModuleUtils.try_to superclass, :application_authorizer
       end
     end
 
@@ -86,7 +86,6 @@ module Wallaby
     end
 
     # @deprecated Use {#current_authorizer} instead. It will be removed from 5.3.*
-    # @return [Wallaby::ModelAuthorizer] model authorizer
     def authorizer
       Utils.deprecate 'deprecation.authorizer', caller: caller
       current_authorizer

@@ -25,7 +25,7 @@ module Wallaby
       # @return [String, Symbol, nil] theme name
       # @since 5.2.0
       def theme_name
-        @theme_name ||= Utils.try_to superclass, :theme_name
+        @theme_name ||= ModuleUtils.try_to superclass, :theme_name
       end
     end
 

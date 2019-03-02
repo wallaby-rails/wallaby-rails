@@ -20,16 +20,15 @@ module Wallaby
         end
       end
 
-      # @param klass [Class]
-      # @return [Boolean] whether the class is anonymous
+      # @see Wallaby::ModuleUtils.anonymous_class?
       def anonymous?(klass)
-        Utils.anonymous_class? klass
+        ModuleUtils.anonymous_class? klass
       end
 
       # @param klass [Class]
       # @return [Boolean] whether the class is abstract, only applicable to controller class
       def abstract?(klass)
-        Utils.try_to klass, :abstract?
+        ModuleUtils.try_to klass, :abstract?
       end
     end
   end

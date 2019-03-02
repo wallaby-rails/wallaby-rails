@@ -38,7 +38,7 @@ module Wallaby
       # @see Wallaby::ModelServicer
       # @since 5.2.0
       def application_servicer
-        @application_servicer ||= Utils.try_to superclass, :application_servicer
+        @application_servicer ||= ModuleUtils.try_to superclass, :application_servicer
       end
     end
 
@@ -57,7 +57,6 @@ module Wallaby
     end
 
     # @deprecated Use {#current_servicer} instead. It will be removed from 5.3.*
-    # @return [Wallaby::ModelServicer] a servicer
     def current_model_service
       Utils.deprecate 'deprecation.current_model_service', caller: caller
       current_servicer

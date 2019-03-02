@@ -22,19 +22,24 @@ module Wallaby
       end
 
       # { model => resources name }
+      # It's a setter when value is given.
+      # Otherwise, a getter.
       # @param model_class [Class]
+      # @param value [String, nil] resources name
       # @return [String] resources name
-      def resources_name_map(model_class)
+      def resources_name_map(model_class, value = nil)
         @resources_name_map ||= {}
-        @resources_name_map[model_class] ||= ModelUtils.to_resources_name model_class
+        @resources_name_map[model_class] ||= value || ModelUtils.to_resources_name(model_class)
       end
 
       # { resources name => model }
+      # It's a setter when value is given.
+      # Otherwise, a getter.
       # @param resources_name [String]
       # @return [Class] model class
-      def model_class_map(resources_name)
+      def model_class_map(resources_name, value = nil)
         @model_class_map ||= {}
-        @model_class_map[resources_name] ||= ModelUtils.to_model_class resources_name
+        @model_class_map[resources_name] ||= value || ModelUtils.to_model_class(resources_name)
       end
     end
 
@@ -149,7 +154,7 @@ module Wallaby
       def map_of(variable_name, model_class, application_class)
         return unless model_class
         unless mode_map[model_class]
-          Rails.logger.warn Utils.translate_class(self, :missing_mode_for_model_class, model: model_class.name)
+          Rails.logger.warn I18n.t('wallaby.map.missing_mode_for_model_class', model: model_class.name)
           return
         end
         instance_variable_set(variable_name, instance_variable_get(variable_name) || {})

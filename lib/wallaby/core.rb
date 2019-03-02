@@ -19,10 +19,12 @@ require 'routes/wallaby/resources_router'
 require 'tree/wallaby/node'
 require 'parsers/wallaby/parser'
 
+require 'utils/wallaby/cell_utils'
+require 'utils/wallaby/filter_utils'
 require 'utils/wallaby/model_utils'
 require 'utils/wallaby/module_utils'
+require 'utils/wallaby/preload_utils'
 require 'utils/wallaby/test_utils'
-require 'utils/wallaby/cell_utils'
 require 'utils/wallaby/utils'
 
 require 'concerns/wallaby/abstractable'

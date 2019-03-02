@@ -8,7 +8,7 @@ module Wallaby
         ObjectSpace
           .each_object(Class)
           .select do |klass|
-            klass < ::Her::Model && !Utils.anonymous_class?(klass)
+            klass < ::Her::Model && !ModuleUtils.anonymous_class?(klass)
           end
       end
     end

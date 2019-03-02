@@ -28,7 +28,7 @@ module Wallaby
     # @return [Boolean]
     def authorized?(action, subject)
       policy = context.send :policy, subject
-      Utils.try_to policy, normalize(action)
+      ModuleUtils.try_to policy, normalize(action)
     end
 
     # Restrict user to assign certain values.
@@ -42,7 +42,7 @@ module Wallaby
     # @return [Hash] field value paired hash that user's allowed to assign
     def attributes_for(action, subject)
       policy = context.send :policy, subject
-      value = Utils.try_to(policy, "attributes_for_#{action}") || Utils.try_to(policy, 'attributes_for')
+      value = ModuleUtils.try_to(policy, "attributes_for_#{action}") || ModuleUtils.try_to(policy, 'attributes_for')
       Rails.logger.warn I18n.t('error.pundit.not_found.attributes_for', subject: subject) unless value
       value || {}
     end
@@ -59,7 +59,8 @@ module Wallaby
     def permit_params(action, subject)
       policy = context.send :policy, subject
       # @see https://github.com/varvet/pundit/blob/master/lib/pundit.rb#L258
-      Utils.try_to(policy, "permitted_attributes_for_#{action}") || Utils.try_to(policy, 'permitted_attributes')
+      ModuleUtils.try_to(policy, "permitted_attributes_for_#{action}") \
+        || ModuleUtils.try_to(policy, 'permitted_attributes')
     end
 
     private

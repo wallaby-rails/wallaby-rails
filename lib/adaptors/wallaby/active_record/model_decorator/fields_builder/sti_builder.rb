@@ -38,7 +38,7 @@ module Wallaby
           # @param klass [Class]
           # @return [Boolean] whether the class is ActiveRecord base class
           def top_parent?(klass)
-            klass == ModelFinder.base || Utils.try_to(klass, :abstract_class?)
+            klass == ModelFinder.base || ModuleUtils.try_to(klass, :abstract_class?)
           end
         end
       end
