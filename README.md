@@ -23,7 +23,7 @@ Below is animated screenshots of Wallaby:
 
 Here are examples of sophisticated customization:
 
-- Register your product on e-commence after product is created at controller level (see [Controller](docs/controller.md) for more):
+- Register the product on e-commence after it is created at controller level (see [Controller](docs/controller.md) for more):
 
     ```ruby
     # app/controllers/admin/products_controller.rb
@@ -38,7 +38,7 @@ Here are examples of sophisticated customization:
     end
     ```
 
-- Customize to render the product markdown description (see [Decorator](docs/decorator.md) for more):
+- Customize to render the product description in markdown format (see [Decorator](docs/decorator.md) for more):
 
     ```ruby
     # app/decorators/product_decorators.rb
@@ -77,28 +77,17 @@ Here are examples of sophisticated customization:
 
 3. Start Rails server
 
-4. Open Wallaby on your local machine at `http::/localhost:3000/desired_path`. That's it.
+    ```shell
+    rails server
+    ```
 
-If you are using authentication rather than Devise, you will need to configure authentication as [Configuration - Authentication](docs/configuration.md#authentication) describes.
+4. Open Wallaby on your local machine at http::/localhost:3000/desired_path. That's it.
+
+If you are using authentication other than Devise, you will need to configure authentication as [Configuration - Authentication](docs/configuration.md#authentication) describes.
 
 ## Want to contribute?
 
 Raise an issue, discuss and resolve!
-
-## Testing
-
-Make sure that postgres, mysql and sqlite are installed (checkout `spec/dummy/config/database.yml` to confirm settings).
-Then run the following command to setup database for test environment:
-
-```
-RAILS_ENV=test rake db:setup
-```
-
-Then start the tests:
-
-```
-rspec
-```
 
 ## License
 
