@@ -18,7 +18,7 @@ Starting with:
 
 Configuration can be set for:
 
-- [abstract!](#abstract) - flagging as abstract base class.
+- [base_class!](#base_class) (since 5.2.0) - flagging as base class.
 - [model_class](#model_class) - specifying the model class.
 
 Accessing helper methods:
@@ -86,14 +86,16 @@ end
 
 If `ProductDecorator` is taken, it is still possible to use another name (e.g. `Admin::ProductDecorator`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## abstract!
+## base_class!
 
-All decorators will be preloaded and processed by Wallaby in order to build up the mapping between decorators and models. If the decorator is considered not to be proceesed, it can be flagged by using `abstract!`:
+> since 5.2.0
+
+All decorators will be preloaded and processed by Wallaby in order to build up the mapping between decorators and models. If the decorator is considered not to be proceesed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/decorators/admin/special_decorator.rb
 class Admin::SpecialDecorator < Admin::ApplicationDecorator
-  abstract!
+  base_class!
 end
 ```
 
