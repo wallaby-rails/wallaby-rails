@@ -29,15 +29,17 @@ module Wallaby
       resource
     end
 
-    # Render partial for index/show
+    # @deprecated Use {#type_render} instead. It will be removed from 5.3.*
     def type_partial_render(options = {}, locals = {}, &block)
       Utils.deprecate 'deprecation.type_partial_render', caller: caller
       type_render options, locals, &block
     end
 
     # Render type cell/partial
-    def type_render(options = {}, locals = {}, &block)
-      TypeRenderer.render self, options, locals, &block
+    # @param partial_name [String]
+    # @param locals [Hash]
+    def type_render(partial_name = '', locals = {}, &block)
+      TypeRenderer.render self, partial_name, locals, &block
     end
 
     # Title for show page of given resource

@@ -1,11 +1,9 @@
 module Wallaby
   # Form helper
   module FormHelper
-    # @param options [Hash, String]
-    # @param locals [Hash] local variables for the partial
-    # @return [String] rendered type partial for a form
+    # @deprecated Use {#type_render} instead. It will be removed from 5.3.*
     def form_type_partial_render(options = {}, locals = {}, &block)
-      Utils.deprecate 'deprecation.type_partial_render', caller: caller
+      Utils.deprecate 'deprecation.form_type_partial_render', caller: caller
       type_render options, locals, &block
     end
 
