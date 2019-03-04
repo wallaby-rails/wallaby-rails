@@ -15,7 +15,7 @@ module Wallaby
       # @return [String] resource names
       def resources_name
         return unless self < ResourcesController
-        return if abstract || self == Wallaby.configuration.mapping.resources_controller
+        return if base_class? || self == Wallaby.configuration.mapping.resources_controller
         @resources_name ||= Map.resources_name_map(controller_path)
       end
 

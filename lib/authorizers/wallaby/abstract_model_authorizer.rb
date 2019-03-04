@@ -1,7 +1,8 @@
 module Wallaby
   # Abstract model authorizer to provide authorization functions
+  # @since 5.2.0
   class AbstractModelAuthorizer
-    extend Abstractable::ClassMethods
+    extend Baseable::ClassMethods
     class << self
       # @!attribute [w] model_class
       attr_writer :model_class
@@ -9,10 +10,10 @@ module Wallaby
       # @!attribute [r] model_class
       # This method is used to index the authorizer.
       # @return [Class] model class
-      # @return [nil] if abstract or not found
+      # @return [nil] if base class or not found
       def model_class
         return unless self < ModelAuthorizer
-        return if abstract || self == Wallaby.configuration.mapping.model_authorizer
+        return if base_class? || self == Wallaby.configuration.mapping.model_authorizer
         @model_class ||= Map.model_class_map(name.gsub('Authorizer', EMPTY_STRING))
       end
 

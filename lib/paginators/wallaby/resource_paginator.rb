@@ -1,7 +1,7 @@
 module Wallaby
   # Resource paginator
   class ResourcePaginator < ModelPaginator
-    abstract!
+    base_class!
 
     def self.inherited(_sub_class)
       Utils.deprecate 'deprecation.resource_paginator_inheirtance', caller: caller

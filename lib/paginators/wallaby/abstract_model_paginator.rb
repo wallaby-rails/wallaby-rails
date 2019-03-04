@@ -1,14 +1,14 @@
 module Wallaby
   # Model paginator
   class AbstractModelPaginator
-    extend Abstractable::ClassMethods
+    extend Baseable::ClassMethods
     class << self
       attr_writer :model_class
 
       # @return [Class] model class for paginator
       def model_class
         return unless self < ModelPaginator
-        return if abstract || self == Wallaby.configuration.mapping.model_paginator
+        return if base_class? || self == Wallaby.configuration.mapping.model_paginator
         @model_class ||= Map.model_class_map(name.gsub('Paginator', EMPTY_STRING))
       end
     end

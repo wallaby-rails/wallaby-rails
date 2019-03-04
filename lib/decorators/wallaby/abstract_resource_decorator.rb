@@ -1,7 +1,7 @@
 module Wallaby
   # Resource Decorator base class
   class AbstractResourceDecorator
-    extend Abstractable::ClassMethods
+    extend Baseable::ClassMethods
 
     DELEGATE_METHODS = ModelDecorator.public_instance_methods - ::Object.public_instance_methods - %i(model_class)
 
@@ -24,7 +24,7 @@ module Wallaby
       # @return [Class] assoicated model class
       def model_class
         return unless self < ResourceDecorator
-        return if abstract || self == Wallaby.configuration.mapping.resource_decorator
+        return if base_class? || self == Wallaby.configuration.mapping.resource_decorator
         @model_class ||= Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
       end
 
@@ -54,7 +54,7 @@ module Wallaby
       #   end
       #
       #   class CoreDecorator < Admin::ApplicationDecorator
-      #     abstract!
+      #     base_class!
       #   end
       #
       #   class ProductDecorator < CoreDecorator
