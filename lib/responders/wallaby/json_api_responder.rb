@@ -35,20 +35,26 @@ module Wallaby
     def single(resource)
       {
         id: resource.id,
-        type: ModelUtils.to_resources_name(resource.class),
+        type: params[:resources],
         attributes: attributes_of(resource)
       }
     end
 
     def collection_data
       {
-        data: resource.map(&method(:single))
+        data: resource.map(&method(:single)),
+        links: {
+          self: controller.url_for(resources: params[:resources], action: 'index')
+        }
       }
     end
 
     def resource_data
       {
-        data: single(resource)
+        data: single(resource),
+        links: {
+          self: controller.url_for(resources: params[:resources], action: 'show', id: resource.id)
+        }
       }
     end
 

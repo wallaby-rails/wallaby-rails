@@ -11,13 +11,25 @@ Rails.application.routes.draw do
   mount Wallaby::Engine, at: '/admin'
   mount Wallaby::Engine, at: '/inner', as: :inner_engine, defaults: { resources_controller: InnerController }
 
-  get '/home', to: 'wallaby/resources#home'
-  resources :products, controller: 'wallaby/resources', defaults: { resources: 'products' }
-  resources :orders
   get '/something/else', to: 'wallaby/resources#index', defaults: { resources: 'products' }
 
-  scope path: :api do
-    resources :pictures, controller: 'json_api', defaults: { resources: 'pictures' }
+  begin # for non-admin usage
+    resources :orders, defaults: { resources: 'orders' } do
+      resources :items, defaults: { resources: 'order::items' }
+    end
+    resources :categories, defaults: { resources: 'categories' }
+    resources :products, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'products' }
+    resources :pictures, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'pictures' }
+
+    scope path: '/nested', as: :nested do
+      resources :products, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'products' }
+      resources :pictures, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'pictures' }
+    end
+
+    scope path: '/api', as: :api do
+      resources :products, controller: 'json_api', path: ':resources', constraints: { resources: 'products' }
+      resources :pictures, controller: 'json_api', path: ':resources', constraints: { resources: 'pictures' }
+    end
   end
 
   get '/test/purpose', to: 'application#index'

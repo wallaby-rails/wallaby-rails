@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'JSON API pages' do
+describe 'JSON API' do
   it 'lists collection' do
     picture1 = Picture.create name: 'picture1'
     picture2 = Picture.create name: 'picture2'
@@ -14,6 +14,7 @@ describe 'JSON API pages' do
     expect(json['data'][1]['attributes']).to include 'id' => picture2.id, 'name' => picture2.name
     expect(json['data'][2]).to include 'id' => picture3.id, 'type' => 'pictures'
     expect(json['data'][2]['attributes']).to include 'id' => picture3.id, 'name' => picture3.name
+    expect(json['links']['self']).to eq '/api/pictures'
   end
 
   it 'shows resource' do
@@ -23,19 +24,22 @@ describe 'JSON API pages' do
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => picture.id, 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => picture.id, 'name' => picture.name
+    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
   end
 
   it 'creates resource' do
-    http :post, '/api/pictures/', params: { picture: { name: 'beautiful' } }
+    http :post, '/api/pictures', params: { picture: { name: 'beautiful' } }
+    picture = Picture.last
     expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => be_an(Integer), 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => be_an(Integer), 'name' => 'beautiful'
+    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
   end
 
   context 'when params is missing' do
     it 'shows error' do
-      http :post, '/api/pictures/'
+      http :post, '/api/pictures'
       expect(response).to have_http_status :bad_request
       expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
       json = JSON.parse response.body
@@ -45,7 +49,7 @@ describe 'JSON API pages' do
 
   context 'when name is missing' do
     it 'shows error' do
-      http :post, '/api/pictures/', params: { picture: { test: 'test' } }
+      http :post, '/api/pictures', params: { picture: { test: 'test' } }
       expect(response).to have_http_status :unprocessable_entity
       expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
       json = JSON.parse response.body
@@ -60,6 +64,7 @@ describe 'JSON API pages' do
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => picture.id, 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => picture.id, 'name' => 'splendid'
+    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
   end
 
   context 'when params is missing' do
@@ -91,5 +96,6 @@ describe 'JSON API pages' do
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => picture.id, 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => picture.id, 'name' => 'beautiful'
+    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
   end
 end

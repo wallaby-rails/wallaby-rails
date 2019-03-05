@@ -45,7 +45,7 @@ module Wallaby
     # Find out the offset `from`
     # @return [Integer]
     def from
-      (page_number - 1) * page_size + 1
+      total.zero? ? total : (page_number - 1) * page_size + 1
     end
 
     # Find out the offset `to`

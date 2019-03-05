@@ -15,6 +15,13 @@ describe Wallaby::ApplicationHelper do
         expect(helper.url_for('/products')).to eq '/products'
       end
     end
+
+    context 'when script name is blank' do
+      it 'generates the correct url', script_name: '' do
+        expect(helper.url_for(parameters(controller: 'wallaby/resources', resources: 'products', action: 'index'))).to eq '/products'
+        expect(helper.url_for(parameters(controller: 'wallaby/resources', resources: 'pictures', action: 'index'))).to eq '/pictures'
+      end
+    end
   end
 
   describe '#stylesheet_link_tag' do

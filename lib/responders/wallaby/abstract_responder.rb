@@ -8,6 +8,7 @@ module Wallaby
     # @return [String] HTML
     def to_html
       set_flash_message
+      return render options if exception?
       if post? then create_action
       elsif patch? || put? then update_action
       elsif delete? then destroy_action
@@ -75,6 +76,10 @@ module Wallaby
     # @see FlashResponder
     def set_flash_message
       set_flash_message! if set_flash_message?
+    end
+
+    def exception?
+      (resource.nil? || resource.is_a?(Exception)) && options[:template] == ERROR_PATH
     end
   end
 end
