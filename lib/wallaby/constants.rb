@@ -36,4 +36,7 @@ module Wallaby
   CSV = 'csv'.freeze
   WILDCARD = 'QUERY'.freeze
   TITLE_NAMES = %w(name title string text).freeze
+
+  # A constant of error path for error handling
+  ERROR_PATH = 'wallaby/error'.freeze
 end

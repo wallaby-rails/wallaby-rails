@@ -26,8 +26,7 @@ module Wallaby
     def to_json
       set_layout_to_none
       return default_render unless post? || patch? || put? || delete?
-      if has_errors? then \
-        render :bad_request, options.merge(status: :bad_request)
+      if has_errors? then render :bad_request, options.merge(status: :bad_request)
       else render :form, options
       end
     end

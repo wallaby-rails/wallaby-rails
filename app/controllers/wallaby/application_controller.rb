@@ -11,8 +11,7 @@ module Wallaby
     include SharedHelpers
     helper ApplicationHelper
 
-    # A constant of error path for error handling
-    ERROR_PATH = 'wallaby/error'.freeze
+    self.responder = ActionController::Responder
 
     rescue_from NotFound, with: :not_found
     rescue_from ::ActionController::ParameterMissing, with: :bad_request
@@ -67,7 +66,7 @@ module Wallaby
       @exception = exception
       @symbol = symbol
       @code = Rack::Utils::SYMBOL_TO_STATUS_CODE[symbol].to_i
-      render ERROR_PATH, status: symbol
+      respond_with @exception, status: @code, template: ERROR_PATH
     end
   end
 end
