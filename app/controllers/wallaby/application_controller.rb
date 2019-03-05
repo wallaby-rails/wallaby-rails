@@ -12,6 +12,7 @@ module Wallaby
     helper ApplicationHelper
 
     self.responder = ActionController::Responder
+    respond_to :html
 
     rescue_from NotFound, with: :not_found
     rescue_from ::ActionController::ParameterMissing, with: :bad_request

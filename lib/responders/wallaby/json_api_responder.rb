@@ -12,20 +12,25 @@ module Wallaby
 
     # @return [String] JSON
     def to_json
-      with_options content_type: 'application/vnd.api+json' do |opts|
-        if !get? && has_errors?
-          opts.render json: resource_errors, status: :unprocessable_entity
-        elsif exception?
-          opts.render json: exception_details, status: options[:status]
-        elsif index?
-          opts.render json: collection_data
-        else
-          opts.render json: resource_data
-        end
+      json_options = { content_type: 'application/vnd.api+json', status: options[:status] }
+      if exception?
+        render json_options.merge(json: exception_details)
+      else
+        render json_options.merge(action_options)
       end
     end
 
     protected
+
+    def action_options
+      if !get? && has_errors?
+        { json: resource_errors, status: :unprocessable_entity }
+      elsif index?
+        { json: collection_data }
+      else
+        { json: resource_data }
+      end
+    end
 
     def single(resource)
       {
@@ -69,7 +74,14 @@ module Wallaby
     end
 
     def exception_details
-      { errors: [{status: options[:status],detail: resource.try(:message)}]}
+      {
+        errors: [
+          {
+            status: options[:status],
+            detail: resource.try(:message)
+          }
+        ]
+      }
     end
 
     def index?

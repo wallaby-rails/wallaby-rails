@@ -16,5 +16,9 @@ Rails.application.routes.draw do
   resources :orders
   get '/something/else', to: 'wallaby/resources#index', defaults: { resources: 'products' }
 
+  scope path: :api do
+    resources :pictures, controller: 'json_api', defaults: { resources: 'pictures' }
+  end
+
   get '/test/purpose', to: 'application#index'
 end

@@ -1,3 +1,3 @@
 class InnerController < Wallaby::ResourcesController
-  self.abstract!
+  self.base_class!
 end
