@@ -3,6 +3,18 @@
 Learn more about the customization for frontend:
 
 - [Partials](#partials) - customizing the components on the page, e.g. title, logo, header.
+
+  - [frontend](#frontend) (since 5.2.0) - customizing CSS and JS libraries in `<head>` tag.
+  - [title](#title) - customizing page title.
+  - [header](#header) - customizing header section.
+  - [footer](#footer) - customizing footer section.
+  - [logo](#logo) - customizing logo.
+  - [user_menu](#user_menu) - customizing links for logged-in user.
+  - [navs](#navs) - customizing links/items for top navigation bar.
+  - [index_actions](#index_actions) - customizing links/items for dropdown button next to search form, it's only used by `index` page.
+  - [resource_actions](#resource_actions) - customizing action links for a resource row in data table, it's only used by `index` page.
+  - [resource_navs](#resource_navs) - customizing action links for resource navigation under the resource's title, it's used by `show`/`new`/`create`/`edit`/`update` page.
+
 - [Stylesheet](#stylesheet) - extending and customizing the look and feel by CSS stylesheet.
 - [Javascript](#Javascript) - extending and customizing user interaction by JS.
 
@@ -11,19 +23,6 @@ Learn more about the customization for frontend:
 # Partials
 
 Same as [Type Partial](view.md#type-partial), Wallaby utilizes and extends [Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance) to look for partial in controller and action inheritance chain.
-
-The following partials can be customized using template inheritance:
-
-- `frontend` (since 5.2.0) - customizing CSS and JS libraries in `<head>` tag.
-- `title` - customizing page title.
-- `header` - customizing header section.
-- `footer` - customizing footer section.
-- `logo` - customizing logo.
-- `user_menu` - customizing links for logged-in user.
-- `navs` - customizing links/items for top navigation bar.
-- `index_actions` - customizing links/items for dropdown button next to search form, only used by `index` page.
-- `resource_actions` - customizing action links for a resource row in data table, only used by `index` page.
-- `resource_navs` - customizing action links for resource navigation under the resource's title, only used by `show`/`new`/`create`/`edit`/`update` page.
 
 For example, given that Wallaby is mounted under path `/admin` (see how Wallaby is mounted in [route](route.md)), to customize `title` for model `Product`, it goes:
 
@@ -38,7 +37,6 @@ For example, given that Wallaby is mounted under path `/admin` (see how Wallaby 
   ```ruby
   # app/controllers/backend/goods_controller.rb
   class Backend::GoodsController < Admin::ApplicationsController
-    self.theme_name = 'foundation'
     self.model_class = Product
   end
   ```
@@ -47,11 +45,19 @@ For example, given that Wallaby is mounted under path `/admin` (see how Wallaby 
   app/views/backend/goods/_title.html.erb
   ```
 
-- if the partial is supposed to be shared among the app when base controller (e.g. `Admin::ApplicationController`) is created, then it can be created as:
+- if the partial is only needed for the controller created for `Product` and action `index`, then it can be created as:
+
+  ```
+  app/views/backend/goods/index/_title.html.erb
+  ```
+
+- if the partial is supposed to be shared among the app with base controller (e.g. `Admin::ApplicationController`), then it can be created as:
 
   ```
   app/views/admin/application/_title.html.erb
   ```
+
+> See [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for more details.
 
 ## frontend
 
@@ -59,7 +65,7 @@ For example, given that Wallaby is mounted under path `/admin` (see how Wallaby 
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize CSS and JS libraries, it goes:
 
@@ -74,7 +80,7 @@ To customize CSS and JS libraries, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize page title, it goes:
 
@@ -87,7 +93,7 @@ Page Title
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize header section, it goes:
 
@@ -104,7 +110,7 @@ To customize header section, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize footer section, it goes:
 
@@ -117,7 +123,7 @@ To customize footer section, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize logo/slogan, it goes:
 
@@ -130,7 +136,7 @@ To customize logo/slogan, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize popup menu when clicking at user icon, it goes:
 
@@ -147,7 +153,7 @@ To customize popup menu when clicking at user icon, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize popup menu when clicking at user icon, it goes:
 
@@ -167,7 +173,7 @@ To customize popup menu when clicking at user icon, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize links/items for dropdown button next to search form, it goes:
 
@@ -184,7 +190,7 @@ To customize links/items for dropdown button next to search form, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize action links for a resource row in data table, it goes:
 
@@ -201,7 +207,7 @@ To customize action links for a resource row in data table, it goes:
 
 Following example will create partial under `admin/application` controller path.
 
-> See [Partials](#partials) for where the partial should be created.
+> See [Partials](#partials) and [Wallaby lookup order](view.md#cell-and-partial-lookup-order) for where the partial should be created.
 
 To customize action links for resource navigation, it goes:
 
