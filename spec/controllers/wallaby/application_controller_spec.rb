@@ -11,64 +11,6 @@ describe Wallaby::ApplicationController do
     end
   end
 
-  describe 'error handling' do
-    describe 'Wallaby::ResourceNotFound' do
-      controller do
-        def index
-          raise Wallaby::ResourceNotFound, 1
-        end
-      end
-
-      it 'rescues the exception and renders 404' do
-        expect { get :index }.not_to raise_error
-        expect(response.status).to eq 404
-        expect(response).to render_template 'wallaby/error'
-      end
-    end
-
-    describe 'Wallaby::ModelNotFound' do
-      controller do
-        def index
-          raise Wallaby::ModelNotFound, 'Product'
-        end
-      end
-
-      it 'rescues the exception and renders 404' do
-        expect { get :index }.not_to raise_error
-        expect(response.status).to eq 404
-        expect(response).to render_template 'wallaby/error'
-      end
-    end
-
-    describe 'ActionController::ParameterMissing' do
-      controller do
-        def index
-          params.require(:product)
-        end
-      end
-
-      it 'rescues the exception and renders 400' do
-        expect { get :index }.not_to raise_error
-        expect(response.status).to eq 400
-        expect(response).to render_template 'wallaby/error'
-      end
-    end
-
-    describe 'ActiveRecord::StatementInvalid' do
-      controller do
-        def index
-          Product.where(unknown: false).to_a
-        end
-      end
-
-      it 'rescues the exception and renders 422' do
-        expect { get :index }.not_to raise_error
-        expect(response.status).to eq 422
-        expect(response).to render_template 'wallaby/error'
-      end
-    end
-  end
-
   describe 'configuration shortcuts' do
     describe '#configuration' do
       it { expect(controller.configuration).to be_a Wallaby::Configuration }
@@ -96,6 +38,66 @@ describe Wallaby::ApplicationController do
 
     describe '#features' do
       it { expect(controller.features).to be_a Wallaby::Configuration::Features }
+    end
+  end
+end
+
+describe Wallaby::ResourcesController do
+  describe 'error handling' do
+    describe 'Wallaby::ResourceNotFound' do
+      controller do
+        def index
+          raise Wallaby::ResourceNotFound, 1
+        end
+      end
+
+      it 'rescues the exception and renders 404' do
+        expect { get :index }.not_to raise_error
+        expect(response.status).to eq 404
+        expect(response).to render_template :error
+      end
+    end
+
+    describe 'Wallaby::ModelNotFound' do
+      controller do
+        def index
+          raise Wallaby::ModelNotFound, 'Product'
+        end
+      end
+
+      it 'rescues the exception and renders 404' do
+        expect { get :index }.not_to raise_error
+        expect(response.status).to eq 404
+        expect(response).to render_template :error
+      end
+    end
+
+    describe 'ActionController::ParameterMissing' do
+      controller do
+        def index
+          params.require(:product)
+        end
+      end
+
+      it 'rescues the exception and renders 400' do
+        expect { get :index }.not_to raise_error
+        expect(response.status).to eq 400
+        expect(response).to render_template :error
+      end
+    end
+
+    describe 'ActiveRecord::StatementInvalid' do
+      controller do
+        def index
+          Product.where(unknown: false).to_a
+        end
+      end
+
+      it 'rescues the exception and renders 422' do
+        expect { get :index }.not_to raise_error
+        expect(response.status).to eq 422
+        expect(response).to render_template :error
+      end
     end
   end
 end

@@ -38,5 +38,5 @@ module Wallaby
   TITLE_NAMES = %w(name title string text).freeze
 
   # A constant of error path for error handling
-  ERROR_PATH = 'wallaby/error'.freeze
+  ERROR_PATH = 'error'.freeze
 end
