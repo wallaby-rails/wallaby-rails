@@ -1,55 +1,26 @@
 # Declaring Routes
 
-Wallaby has predefined the same resourcesful routes (index/new/create/show/edit/update/destroy) as Rails. Apart from that, routes can be declared in the following scenarios:
+Routes can be declared in the following scenarios:
 
-- [For Admin Interface](#for-admin-interface)
-  - [`:resources` match option](#resources-match-option) - to specify the resources name for a given controller
+- [As Admin Interface](#as-admin-interface)
   - [`:resources_controller` mount option](#resources_controller-mount-option) (since 5.2.0) - to specify the base controller for a given mount path
-- [For Non Admin Interface](#for-non-admin-interface) (since 5.2.0)
+  - [route for custom action](#route-for-custom-action)
+- [As Non Admin Interface](#as-non-admin-interface) (since 5.2.0)
 
 Read more:
 
 - [Path and URL Helpers](#path-and-url-helpers) for the full list of predefined routes and helpers.
 
-## For Admin Interface
+## As Admin Interface
 
-When Wallaby is used as an admin interface, generally, it is mounted like:
+When Wallaby is used as an admin interface, generally, it can be mounted as below:
 
 ```ruby
 # config/routes.rb
 mount Wallaby::Engine, at: '/admin'
 ```
 
-In this case, all URLs prefixed with `/admin` will be handled by Wallaby [Resources Router](https://www.rubydoc.info/gems/wallaby/Wallaby/ResourcesRouter).
-
-### `:resources` match option
-
-Therefore, if there is a custom controller and a custom (non-resourcesful) action, for example:
-
-```ruby
-# app/controllers/admin/products_controller.rb
-class Admin::Order::ItemsController < Admin::ApplicationController
-  self.model_class = Order::Items
-
-  def report
-    @report = Report.for resource
-  end
-end
-```
-
-Then the route to `Admin::Order::ItemsController` and its action `report` has to be declared before Wallaby's mounting:
-
-```ruby
-# config/routes.rb
-match '/admin/order::items/:id/report',
-  to: 'admin/orders/items#report',
-  via: :get,
-  # `:resources` is required.
-  defaults: { resources: 'order::items' }
-mount Wallaby::Engine, at: '/admin'
-```
-
-> NOTE: `:resources` default param must be provided.
+Once it is mounted at `/admin`, all URLs prefixed with `/admin` will be handled by Wallaby [Resources Router](https://www.rubydoc.info/gems/wallaby/Wallaby/ResourcesRouter), which will dispatch resourceful Rails request to corresponding action (**index**/**new**/**create**/**show**/**edit**/**update**/**destroy**).
 
 ### `:resources_controller` mount option
 
@@ -62,28 +33,57 @@ When mounting Wallaby at different path, it's possible to specify different base
 class SuperAdmin::ApplicationController < Wallaby::ResourcesController
 end
 
-# config/routes.rb
-mount Wallab::Engine,
-  at: '/super_admin', as: :super_admin,
-  defaults: { resources_controller: SuperAdmin::ApplicationController }
-```
-
-```ruby
 # app/controllers/advisor_only/application_controller.rb
 class AdvisorOnly::ApplicationController < Wallaby::ResourcesController
 end
 
 # config/routes.rb
 mount Wallab::Engine,
+  at: '/super_admin', as: :super_admin,
+  defaults: { resources_controller: SuperAdmin::ApplicationController }
+
+mount Wallab::Engine,
   at: '/advisor', as: :advisor,
   defaults: { resources_controller: AdvisorOnly::ApplicationController }
 ```
 
-## For Non Admin Interface
+Then you have two admin apps, one for admin, one for advisor, with different base controllers and different purposes.
+
+### route for custom action
+
+Given the following controller and member action:
+
+```ruby
+# app/controllers/admin/products_controller.rb
+class Admin::ProductsController < Admin::ApplicationController
+  def mark_shipped
+    resource.mark_shipped
+  end
+end
+```
+
+Then route should be declared before Wallaby's mount statement:
+
+```ruby
+# config/routes.rb
+get 'admin/products/:id/mark_shipped', to: 'admin/products#mark_shipped'
+
+mount Wallaby::Engine, at: '/admin'
+```
+
+## As Non Admin Interface
 
 > since 5.2.0
 
-Wallaby can be used beyond being admin interface, for example:
+Wallaby can be used beyond being admin interface. For example, it can be used to quickly generate a page for an existing model (e.g. `Product`) without any custom controller:
+
+```ruby
+resources :products, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'products' }
+```
+
+> NOTE: `controller`, `path` and `constraints` options must be provided in this scenario.
+
+If custom controller exists as below:
 
 ```ruby
 # app/controllers/products_controller.rb
@@ -94,25 +94,29 @@ class ProductsController < Wallaby::ResourcesController
 end
 ```
 
-And the route is:
-
-```
-# config/routes.rb
-resources :products
-```
-
-In this case, the route to `ProductsController` and action `orders` can be declared as usual Rails resourcesful route:
+Then the route to declare will just be:
 
 ```ruby
 # config/routes.rb
-resources :products do
+resources :products, defaults: { resources: 'products' }
+# or without defaults
+resources :products
+```
+
+> NOTE: if `defaults` option is emitted, query `?resources=products` will be appended to the end of URL.
+
+In this case, the route to `ProductsController` and member action `orders` can be declared as usual Rails resourcesful route:
+
+```ruby
+# config/routes.rb
+resources :products, defaults: { resources: 'products' } do
   get :orders, on: :member
 end
 ```
 
 ## Path and URL Helpers
 
-Similar to and apart from [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.org/routing.html#path-and-url-helpers), Wallaby provides a set of resourcesful path and URL helpers, for example:
+Similar to [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.org/routing.html#path-and-url-helpers), Wallaby provides a set of resourcesful path and URL helpers, for example:
 
 | HTTP Verb |	Path	                        | Named Helper                                            | Controller#Action         | Mounted Path  | Engine Name     | Resources Name  |
 | --------- | ----------------------------- | ------------------------------------------------------- | ------------------------- | ------------- | --------------- | --------------- |

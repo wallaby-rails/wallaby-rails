@@ -1,7 +1,7 @@
 module Wallaby
   # Abstract model servicer
   class AbstractModelServicer
-    extend Abstractable::ClassMethods
+    extend Baseable::ClassMethods
     class << self
       # @!attribute [w] model_class
       attr_writer :model_class
@@ -21,7 +21,7 @@ module Wallaby
       # @return [Class] assoicated model class
       def model_class
         return unless self < ModelServicer
-        return if abstract || self == Wallaby.configuration.mapping.model_servicer
+        return if base_class? || self == Wallaby.configuration.mapping.model_servicer
         @model_class ||= Map.model_class_map(name.gsub('Servicer', EMPTY_STRING))
       end
     end

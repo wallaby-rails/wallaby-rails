@@ -6,6 +6,7 @@ module Wallaby
     extend Paginatable::ClassMethods
     extend Resourcable::ClassMethods
     extend Servicable::ClassMethods
+    extend Baseable::ClassMethods
     extend Themeable::ClassMethods
     include Authorizable
     include Decoratable

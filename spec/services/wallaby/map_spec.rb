@@ -33,8 +33,8 @@ describe Wallaby::Map do
     describe 'application classes' do
       describe '.controller_map' do
         let!(:base_controller) { Wallaby::ResourcesController }
-        let!(:admin_controller) { stub_const 'Admin::ApplicationController', (Class.new(base_controller) { abstract! }) }
-        let!(:user_controller) { stub_const 'UserController', (Class.new(base_controller) { abstract! }) }
+        let!(:admin_controller) { stub_const 'Admin::ApplicationController', (Class.new(base_controller) { base_class! }) }
+        let!(:user_controller) { stub_const 'UserController', (Class.new(base_controller) { base_class! }) }
         let!(:all_postgres_types_controller) { stub_const 'AllPostgresTypesController', Class.new(admin_controller) }
         let!(:mysql_types_controller) { stub_const 'MysqlTypesController', (Class.new(user_controller) { self.model_class = AllMysqlType }) }
 

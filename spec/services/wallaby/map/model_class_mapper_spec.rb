@@ -19,7 +19,7 @@ describe Wallaby::Map::ModelClassMapper do
           end
 
           class AbstractClass < self
-            def self.abstract?; true; end
+            def self.base_class?; true; end
           end
 
           class AnonymousClass < self

@@ -45,7 +45,7 @@ Starting with:
 
 Configuration can be set for:
 
-- [abstract!](#abstract) - flagging as abstract base class.
+- [base_class!](#base_class) - flagging as base class.
 - [model_class](#model_class) - specifying the model class.
 - [provider_name](#provider_name) - specifying the authorization provider's name.
 
@@ -84,14 +84,14 @@ end
 
 If `ProductAuthorizer` is taken, it is still possible to use another name (e.g. `Admin::ProductAuthorizer`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## abstract!
+## base_class!
 
-All authorizers will be preloaded and processed by Wallaby in order to build up the mapping between authorizers and models. If the authorizer is considered not to be proceesed, it can be flagged by using `abstract!`:
+All authorizers will be preloaded and processed by Wallaby in order to build up the mapping between authorizers and models. If the authorizer is considered not to be proceesed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/authorizers/admin/special_authorizer.rb
 class Admin::SpecialAuthorizer < Admin::ApplicationAuthorizer
-  abstract!
+  base_class!
 end
 ```
 

@@ -2,10 +2,6 @@ module Wallaby
   # Model Authorizer to provide authorization functions
   # @since 5.2.0
   class ModelAuthorizer < AbstractModelAuthorizer
-    # @!method initializeinitialize(context, model_class)
-    # @param context [ActionController::Base]
-    # @param model_class [Class]
-
     # @!method authorize(action, subject)
     # @note It can be overridden in subclasses for customization purpose.
     # This is the template method to check user's permission for given action on given subject.

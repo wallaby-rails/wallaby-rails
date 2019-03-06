@@ -15,7 +15,7 @@ module Wallaby
       # @return [Hash] model class => descendant class
       def map(class_array)
         (class_array || EMPTY_ARRAY).each_with_object({}) do |klass, map|
-          next if anonymous?(klass) || abstract?(klass) || !klass.model_class
+          next if anonymous?(klass) || base_class?(klass) || !klass.model_class
           map[klass.model_class] = block_given? ? yield(klass) : klass
         end
       end
@@ -26,9 +26,9 @@ module Wallaby
       end
 
       # @param klass [Class]
-      # @return [Boolean] whether the class is abstract, only applicable to controller class
-      def abstract?(klass)
-        ModuleUtils.try_to klass, :abstract?
+      # @return [Boolean] whether the class is base or not
+      def base_class?(klass)
+        ModuleUtils.try_to klass, :base_class?
       end
     end
   end

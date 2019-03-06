@@ -1,2 +1,2 @@
 <% # can be overridden %>
-<a class="navbar-brand" href="<%= current_engine.root_path %>"><span>Wallaby</span> Admin</a>
+<a class="navbar-brand" href="<%= current_engine.try(:root_path) || '/' %>"><span>Wallaby</span> <%= current_engine && 'Admin' %></a>

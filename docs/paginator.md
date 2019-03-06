@@ -20,7 +20,7 @@ Starting with:
 
 Configuration can be set for:
 
-- [abstract!](#abstract) - flagging as abstract base class.
+- [base_class!](#base_class) - flagging as base class.
 - [model_class](#model_class) - specifying the model class.
 
 Accessing helper methods:
@@ -51,14 +51,14 @@ end
 
 If `ProductPaginator` is taken, it is still possible to use another name (e.g. `Admin::ProductPaginator`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## abstract!
+## base_class!
 
-All paginators will be preloaded and processed by Wallaby in order to build up the mapping between paginators and models. If the paginator is considered not to be proceesed, it can be flagged by using `abstract!`:
+All paginators will be preloaded and processed by Wallaby in order to build up the mapping between paginators and models. If the paginator is considered not to be proceesed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/paginators/admin/special_paginator.rb
 class Admin::SpecialPaginator < Admin::ApplicationPaginator
-  abstract!
+  base_class!
 end
 ```
 

@@ -21,7 +21,7 @@ describe Wallaby::ModelAuthorizer, type: :helper do
 end
 
 class CoreAuthorizer < Wallaby::ModelAuthorizer
-  abstract!
+  base_class!
 end
 
 describe CoreAuthorizer, type: :helper do

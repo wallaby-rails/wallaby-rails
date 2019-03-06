@@ -27,9 +27,9 @@ require 'utils/wallaby/preload_utils'
 require 'utils/wallaby/test_utils'
 require 'utils/wallaby/utils'
 
-require 'concerns/wallaby/abstractable'
 require 'concerns/wallaby/authorizable'
 require 'concerns/wallaby/decoratable'
+require 'concerns/wallaby/baseable'
 require 'concerns/wallaby/engineable'
 require 'concerns/wallaby/fieldable'
 require 'concerns/wallaby/paginatable'
@@ -97,6 +97,7 @@ require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
 
 require 'responders/wallaby/abstract_responder'
+require 'responders/wallaby/json_api_responder'
 require 'responders/wallaby/resources_responder'
 
 require 'renderers/wallaby/cell'

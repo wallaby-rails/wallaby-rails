@@ -8,6 +8,7 @@ describe 'Error pages' do
       it 'responses' do
         get "/admin/#{status}"
         expect(response.status).to eq code
+        expect(response).to render_template 'wallaby/error'
         expect(response.body).to include I18n.t("http_errors.#{status}")
       end
     end
@@ -16,6 +17,7 @@ describe 'Error pages' do
       it 'responses' do
         get "/admin/#{code}"
         expect(response.status).to eq code
+        expect(response).to render_template 'wallaby/error'
         expect(response.body).to include I18n.t("http_errors.#{status}")
       end
     end
