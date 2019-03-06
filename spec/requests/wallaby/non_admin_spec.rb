@@ -44,7 +44,7 @@ describe 'non admin usage' do
       it 'shows error' do
         http :post, '/pictures'
         expect(response).to have_http_status :bad_request
-        expect(response).to render_template 'wallaby/error'
+        expect(response).to render_template :error
       end
     end
 
@@ -75,7 +75,7 @@ describe 'non admin usage' do
         record = model_class.create name: 'beautiful'
         http :put, "/pictures/#{record.id}"
         expect(response).to have_http_status :bad_request
-        expect(response).to render_template 'wallaby/error'
+        expect(response).to render_template :error
       end
     end
 
