@@ -18,8 +18,10 @@ describe Wallaby::ApplicationHelper do
 
     context 'when script name is blank' do
       it 'generates the correct url', script_name: '' do
-        expect(helper.url_for(parameters(controller: 'wallaby/resources', resources: 'products', action: 'index'))).to eq '/products'
-        expect(helper.url_for(parameters(controller: 'wallaby/resources', resources: 'pictures', action: 'index'))).to eq '/pictures'
+        expect(helper.url_for(controller: 'wallaby/resources', resources: 'products', action: 'index', only_path: true)).to eq '/products'
+        expect(helper.url_for(controller: 'wallaby/resources', resources: 'pictures', action: 'index', only_path: true)).to eq '/pictures'
+        expect(helper.url_for(parameters(controller: 'wallaby/resources', resources: 'products', action: 'index', only_path: true))).to eq '/products'
+        expect(helper.url_for(parameters(controller: 'wallaby/resources', resources: 'pictures', action: 'index', only_path: true))).to eq '/pictures'
       end
     end
   end
