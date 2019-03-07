@@ -1,7 +1,9 @@
 module Wallaby
   module Resources
     module Index
+      # Html cell
       class HasManyHtml < Cell
+        # @return [String]
         def render
           unique_collection = value.uniq
           concat raw unique_collection.first(2).map { |item| show_link item, options: { readonly: true } }.join(', ')
