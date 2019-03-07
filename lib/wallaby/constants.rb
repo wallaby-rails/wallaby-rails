@@ -24,8 +24,7 @@ module Wallaby
     unprocessable_entity
   ).freeze
   MODEL_ACTIONS = %i(index new create show edit update destroy).freeze
-  FORM_ACTIONS =
-    ActiveSupport::HashWithIndifferentAccess.new(new: 'form', create: 'form', edit: 'form', update: 'form').freeze
+  FORM_ACTIONS = { new: 'form', create: 'form', edit: 'form', update: 'form' }.with_indifferent_access.freeze
   SAVE_ACTIONS = %w(create update).freeze
 
   SCRIPT_NAME = 'SCRIPT_NAME'.freeze

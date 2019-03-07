@@ -60,6 +60,11 @@ module Wallaby
       @features ||= Features.new
     end
 
+    # @return [Wallaby::Configuration::Sorting] sorting configuration
+    def sorting
+      @sorting ||= Sorting.new
+    end
+
     # Clear all configurations
     def clear
       instance_variables.each { |name| instance_variable_set name, nil }

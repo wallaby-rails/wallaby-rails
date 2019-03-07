@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
   let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new Product }
   let(:params) { parameters.permit(:sort, :q) }
-  subject { described_class.new model_decorator, params, helper }
+  let(:strategy) {}
+  subject { described_class.new model_decorator, params, helper, strategy }
 
   describe '#build' do
     it 'returns a sort link for non-association field' do
@@ -52,7 +53,7 @@ describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
       expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products?sort=name+desc">Published at</a>'
     end
 
-    describe 'when sort_disabled is set' do
+    context 'when sort_disabled is set' do
       it 'returns a sort link for non-association field' do
         model_decorator.index_fields[:id][:sort_disabled] = true
         expect(subject.build('id')).to eq 'Id'
@@ -68,6 +69,41 @@ describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
         model_decorator.index_fields[:model][:sort_disabled] = true
 
         expect(subject.build('model')).to eq 'Model'
+      end
+    end
+
+    context 'when strategy is single' do
+      let(:strategy) { :single }
+      it 'returns a sort link' do
+        expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=name+asc">Name</a>'
+      end
+
+      it 'returns a sort link' do
+        params[:sort] = 'name asc'
+        expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=name+desc">Name</a>'
+      end
+
+      it 'returns a sort link' do
+        params[:sort] = 'name desc'
+        expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products">Name</a>'
+      end
+
+      it 'returns a sort link' do
+        params[:sort] = 'name desc'
+        expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products?sort=published_at+asc">Published at</a>'
+      end
+
+      it 'returns a sort link' do
+        model_decorator.index_fields[:published_at] = { sort_field_name: 'published_at' }
+        params[:sort] = 'name desc,published_at asc'
+        expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products">Name</a>'
+        expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products?sort=published_at+desc">Published at</a>'
+      end
+
+      it 'returns a sort link' do
+        params[:sort] = 'name desc,published_at desc'
+        expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products">Name</a>'
+        expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products">Published at</a>'
       end
     end
   end
