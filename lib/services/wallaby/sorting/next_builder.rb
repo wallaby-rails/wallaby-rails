@@ -47,7 +47,7 @@ module Wallaby
       def rebuild_str_from(hash)
         hash.each_with_object('') do |(name, sort), str|
           str << (str == EMPTY_STRING ? str : COMMA)
-          str << name << SPACE << sort
+          str << name.to_s << SPACE << sort
         end
       end
 

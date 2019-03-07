@@ -2,15 +2,18 @@ module Wallaby
   module Sorting
     # Build link for sorting
     class LinkBuilder
+      SORT_STRATEGIES = { single: SingleBuilder }.with_indifferent_access.freeze
+
       delegate :model_class, to: :@model_decorator
 
       # @param model_decorator [Wallaby::ModelDecorator]
       # @param params [ActionController::Parameters]
       # @param helper [ActionView::Helpers]
-      def initialize(model_decorator, params, helper)
+      def initialize(model_decorator, params, helper, strategy)
         @model_decorator = model_decorator
         @params = params
         @helper = helper
+        @strategy = strategy
       end
 
       # To return the sort hash converted from string value, e.g. `{ 'title' => 'asc', 'updated_at' => 'desc' }`
@@ -46,7 +49,11 @@ module Wallaby
 
       # @return [Wallaby::Sorting::NextBuilder]
       def next_builder
-        @next_builder ||= NextBuilder.new @params, current_sort
+        @next_builder ||=
+          begin
+            klass = SORT_STRATEGIES[@strategy] || NextBuilder
+            klass.new @params, current_sort
+          end
       end
 
       # @return [Boolean] true if sortable

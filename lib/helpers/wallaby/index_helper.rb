@@ -71,10 +71,10 @@ module Wallaby
       index_link(model_class, url_params: url_params) { t 'links.export', ext: 'CSV' }
     end
 
-    # Sort link builder
     # @return [Sorting::LinkBuilder]
     def sort_link_builder
-      @sort_link_builder ||= Sorting::LinkBuilder.new current_model_decorator, index_params, self
+      @sort_link_builder ||=
+        Sorting::LinkBuilder.new current_model_decorator, index_params, self, features.sort_strategy
     end
   end
 end

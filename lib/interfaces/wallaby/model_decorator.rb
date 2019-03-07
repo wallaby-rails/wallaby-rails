@@ -24,7 +24,7 @@ module Wallaby
     # Set metadata as origin
     # @param fields [Hash] metadata
     def fields=(fields)
-      @fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
+      @fields = fields.with_indifferent_access
     end
 
     # @return [Array<String>, Array<Symbol>] a list of field names
@@ -40,7 +40,7 @@ module Wallaby
     # Set metadata for index page
     # @param fields [Hash] metadata
     def index_fields=(fields)
-      @index_fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
+      @index_fields = fields.with_indifferent_access
     end
 
     # @return [Array<String>, Array<Symbol>]
@@ -57,7 +57,7 @@ module Wallaby
     # Set metadata for show page
     # @param fields [Hash] metadata
     def show_fields=(fields)
-      @show_fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
+      @show_fields = fields.with_indifferent_access
     end
 
     # @return [Array<String>, Array<Symbol>]
@@ -74,7 +74,7 @@ module Wallaby
     # Set metadata for form (new/edit) page
     # @param fields [Hash] metadata
     def form_fields=(fields)
-      @form_fields = ::ActiveSupport::HashWithIndifferentAccess.new fields
+      @form_fields = fields.with_indifferent_access
     end
 
     # @return [Array<String>, Array<Symbol>]

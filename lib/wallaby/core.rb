@@ -83,6 +83,7 @@ require 'services/wallaby/type_renderer'
 require 'services/wallaby/link_options_normalizer'
 require 'services/wallaby/sorting/hash_builder'
 require 'services/wallaby/sorting/next_builder'
+require 'services/wallaby/sorting/single_builder'
 require 'services/wallaby/sorting/link_builder'
 
 require 'helpers/wallaby/configuration_helper'
