@@ -17,25 +17,6 @@ module Wallaby
       def turbolinks_enabled
         @turbolinks_enabled ||= false
       end
-
-      # @!attribute [w] sort_strategy
-      attr_writer :sort_strategy
-
-      # @!attribute [r] sort_strategy
-      # To globally configure which strategy to use for sorting. Options are
-      #
-      #   - `:multiple`: support multiple columns sorting
-      #   - `:single`: support single column sorting
-      #
-      # By default, strategy is `:multiple`.
-      # @example To enable turbolinks:
-      #   Wallaby.config do |config|
-      #     config.features.sort_strategy = :single
-      #   end
-      # @return [Boolean] a feture flag of turbolinks, default to false.
-      def sort_strategy
-        @sort_strategy ||= :multiple
-      end
     end
   end
 end

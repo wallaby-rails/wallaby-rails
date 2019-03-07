@@ -23,7 +23,8 @@ This is about all the global configuration that goes into `config/initializers/w
   - [page_size](#page_size) - setting the default page size for pagination.
 - [Features](#features)
   - [turbolinks_enabled](#turbolinks-enabled) - enable/disable `turbolinks`.
-  - [sort_strategy](#sort-strategy) - multiple/single column sorting.
+- [Sorting](#sorting)
+  - [strategy](#strategy) (since 5.2.0) - multiple/single column sorting.
 
 ## Authentication
 
@@ -394,13 +395,19 @@ end
 
 And make sure that `turbolinks` gem is added in `Gemfile`
 
-### sort_strategy
+## Sorting
+
+It has only one configuration so far:
+
+### strategy
+
+> since 5.2.0
 
 Wallaby supports `:multiple`/`:single` column sorting, and the default option is `:multiple`. To change to single column sorting, it goes:
 
 ```ruby
 # config/initializers/wallaby.rb
 Wallaby.config do |config|
-  config.features.sort_strategy = :single
+  config.sorting.strategy = :single
 end
 ```

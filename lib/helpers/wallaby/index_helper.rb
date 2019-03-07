@@ -74,7 +74,7 @@ module Wallaby
     # @return [Sorting::LinkBuilder]
     def sort_link_builder
       @sort_link_builder ||=
-        Sorting::LinkBuilder.new current_model_decorator, index_params, self, features.sort_strategy
+        Sorting::LinkBuilder.new current_model_decorator, index_params, self, sorting.strategy
     end
   end
 end

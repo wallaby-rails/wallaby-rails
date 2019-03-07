@@ -13,6 +13,7 @@ require 'wallaby/configuration/metadata'
 require 'wallaby/configuration/models'
 require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/security'
+require 'wallaby/configuration/sorting'
 require 'wallaby/map'
 
 require 'routes/wallaby/resources_router'
