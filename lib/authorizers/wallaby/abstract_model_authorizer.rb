@@ -35,10 +35,13 @@ module Wallaby
 
     delegate(*(ModelAuthorizationProvider.instance_methods - ::Object.instance_methods), to: :@provider)
 
+    # @!attribute [r] model_class
+    # @return [Class] model class
+    attr_reader :model_class
+
     # @param context [ActionController::Base]
     # @param model_class [Class]
     def initialize(context, model_class)
-      @context = context
       @model_class = self.class.model_class || model_class
       @provider = init_provider context
     end
@@ -49,7 +52,7 @@ module Wallaby
     # @param context [ActionController::Base]
     # @return [Wallaby::Authorizer]
     def init_provider(context)
-      providers = Map.authorizer_provider_map @model_class
+      providers = Map.authorizer_provider_map model_class
       provider_class = providers[self.class.provider_name]
       provider_class ||= providers.values.find { |klass| klass.available? context }
       provider_class.new context
