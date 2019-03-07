@@ -20,13 +20,13 @@ Starting with:
 
 Configuration can be set for:
 
-- [base_class!](#base_class) - flagging as base class.
-- [model_class](#model_class) - specifying the model class.
+- [.base_class!](#base_class) - flagging as base class.
+- [.model_class](#model_class) - specifying the model class.
 
 Accessing helper methods:
 
-- [collection](#collection) - accessing collection object.
-- [params](#params) - accessing parameters object.
+- [#collection](#collection) - accessing collection object.
+- [#params](#params) - accessing parameters object.
 
 Customizing pagination operations:
 
@@ -51,9 +51,9 @@ end
 
 If `ProductPaginator` is taken, it is still possible to use another name (e.g. `Admin::ProductPaginator`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## base_class!
+## .base_class!
 
-All paginators will be preloaded and processed by Wallaby in order to build up the mapping between paginators and models. If the paginator is considered not to be proceesed, it can be flagged by using `base_class!`:
+All paginators will be preloaded and processed by Wallaby in order to build up the mapping between paginators and models. If the paginator is considered not to be processed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/paginators/admin/special_paginator.rb
@@ -62,9 +62,9 @@ class Admin::SpecialPaginator < Admin::ApplicationPaginator
 end
 ```
 
-## model_class
+## .model_class
 
-According to Wallaby's [Paginator Naming Convention](convention.md#paginator), if a custom paginator can not reflect the assication to the correct model, for example, as `Admin::ProductPaginator` to `Product`, it is required to specify the model class in the paginator as below:
+According to Wallaby's [Paginator Naming Convention](convention.md#paginator), if a custom paginator cannot reflect the association to the correct model, for example, as `Admin::ProductPaginator` to `Product`, it is required to specify the model class in the paginator as below:
 
 ```ruby
 # app/paginators/admin/product_paginator.rb
@@ -75,7 +75,7 @@ end
 
 # Helper Methods
 
-## collection
+## #collection
 
 It's the reference of collection. To access `collection`, it goes:
 
@@ -88,7 +88,7 @@ class Admin::ApplicationPaginator < Wallaby::ModelPaginator
 end
 ```
 
-## params
+## #params
 
 It's the reference of params. To access `params`, it goes:
 

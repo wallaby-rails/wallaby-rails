@@ -17,6 +17,12 @@ describe Wallaby::ModelAuthorizer, type: :helper do
     it 'returns authorizer' do
       expect(described_class.new(helper, Product)).to be_a Wallaby::ModelAuthorizer
     end
+
+    it 'has attributes' do
+      subject = described_class.new helper, Product
+      expect(subject.context).to eq helper
+      expect(subject).to respond_to :user
+    end
   end
 end
 

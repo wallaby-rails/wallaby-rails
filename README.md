@@ -16,7 +16,7 @@ Below is animated screenshots of Wallaby:
 - See [Demo](https://wallaby-demo.herokuapp.com/admin/)
 - See [API Reference](https://www.rubydoc.info/gems/wallaby)
 - See [Documentation](docs/README.md) for customization guides
-- See [Wiki](https://github.com/reinteractive/wallaby/wiki) for more HOW-TOs
+- See [Wiki](/reinteractive/wallaby/wiki) for more HOW-TOs
 - See [Features and Requirements](docs/features.md)
 - See [Change Logs](CHANGELOG.md)
 - See [Get Started](#get-started)
@@ -81,9 +81,9 @@ Here are examples of sophisticated customization:
     rails server
     ```
 
-4. Open Wallaby on your local machine at http::/localhost:3000/desired_path. That's it.
+4. Open Wallaby on at http::/localhost:3000/desired_path. That's it.
 
-If you are using authentication other than Devise, you will need to configure authentication as [Configuration - Authentication](docs/configuration.md#authentication) describes.
+If authentication rather than Devise is used, authentication configuration will be required (see [Configuration - Authentication](docs/configuration.md#authentication)).
 
 ## Want to contribute?
 

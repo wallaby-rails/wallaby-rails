@@ -2,13 +2,11 @@
 
 > since 5.2.0
 
-Authorizer is designed using adaptor pattern to allow Wallaby to apply the authorization that authorization framework has defined, e.g. CanCanCan ability or Pundit policy.
+Authorizer is designed using adaptor pattern to allow Wallaby to check permissions defined by e.g. CanCanCan ability or Pundit policy.
 
-Therefore, if you are using CanCanCan or Pundit or no authorization, you shouldn't need to do anything about authorizer since Wallaby can pick up the authorization framework.
+Therefore, if CanCanCan, Pundit or no authorization is used, there shouldn't be anything to do about authorizer since Wallaby can pick up the authorization framework in use.
 
-What you might want to do mostly is to improve the performance by specifying the provider name and save the detection time for Wallaby.
-
-For example, it goes:
+In order to tell Wallaby which authorization framework to apply or to reduce Wallaby's detection time, `provider_name` can be set to accomplish these goals:
 
 ```ruby
 # app/authorizers/admin/application_authorizer.rb
@@ -19,13 +17,9 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
-Otherwise, you shouldn't need to customize authorizer. Especially, DO NOT put authorization logics into authorizer. Instead, they should go into ability file if CanCanCan or policies if Pundit.
+This is most likely how authorizer should be customized.
 
-You are more than welcome to use the authorization framework as usual in custom controller/servicer/type partials.
-
-If you are looking for how to build the adaptor for your favourate authorization framework as a gem, see [Implementing authorization adaptor](authorization_adaptor.md).
-
-Continue reading if you want to learn how Wallaby do authorization or if you need to support other authorization framework that Wallaby doesn't support in your project.
+Continue reading if there is a need to add more functions to authorization (e.g. auditing).
 
 # Continue
 
@@ -45,25 +39,25 @@ Starting with:
 
 Configuration can be set for:
 
-- [base_class!](#base_class) - flagging as base class.
-- [model_class](#model_class) - specifying the model class.
-- [provider_name](#provider_name) - specifying the authorization provider's name.
+- [.base_class!](#base_class) - flagging as base class.
+- [.model_class](#model_class) - specifying the model class.
+- [.provider_name](#provider_name) - specifying the authorization provider's name.
 
 Accessing helper methods:
 
-- [controller](#controller) - accessing controller context.
-- [user](#user) - accessing current user object.
+- [#user](#user) - accesing user object
+- [#context](#context) - accessing controller context.
 
 Customizing authorization operations:
 
-- [authorize](#authorize) - checking permission and raising error if any. It's mostly used in controller.
-- [authorized?](#authorized) - checking if user has access to given subject.
-- [unauthorized?](#unauthorized) - checking if user has no access to given subject.
-- [accessible_for](#accessible_for) - applying the scope that user has access to.
-- [attributes_for](#attributes_for) - applying the attribute values that user can create/update.
-- [permit_params](#permit_params) - whitelisting params for mass assignment.
+- [#authorize](#authorize) - checking permission and raising error if any. It's mostly used in controller.
+- [#authorized?](#authorized) - checking if the user has access to given subject.
+- [#unauthorized?](#unauthorized) - checking if the user has no access to given subject.
+- [#accessible_for](#accessible_for) - applying the scope that the user has access to.
+- [#attributes_for](#attributes_for) - applying the attribute values that the user can create/update.
+- [#permit_params](#permit_params) - whitelisting params for mass assignment.
 
-How Wallaby applies authorization for following frameworks:
+How Wallaby checks permissions for following frameworks:
 
 - [CanCanCan](#cancancan)
 - [Pundit](#pundit)
@@ -72,7 +66,7 @@ How Wallaby applies authorization for following frameworks:
 
 > Read more at [Authorizer Naming Convention](convention.md#authorizer)
 
-Let's see how a authorizer can be created so that Wallaby knows its existence.
+Let's see how au authorizer can be created so that Wallaby knows its existence.
 
 Similar to the way in Rails, create a custom authorizer for model `Product` inheriting from `Admin::ApplicationAuthorizer` (the base authorizer mentioned [above](#authorizer)) as below:
 
@@ -84,9 +78,9 @@ end
 
 If `ProductAuthorizer` is taken, it is still possible to use another name (e.g. `Admin::ProductAuthorizer`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## base_class!
+## .base_class!
 
-All authorizers will be preloaded and processed by Wallaby in order to build up the mapping between authorizers and models. If the authorizer is considered not to be proceesed, it can be flagged by using `base_class!`:
+All authorizers will be preloaded and processed by Wallaby in order to build up the mapping between authorizers and models. If the authorizer is considered not to be processed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/authorizers/admin/special_authorizer.rb
@@ -95,9 +89,9 @@ class Admin::SpecialAuthorizer < Admin::ApplicationAuthorizer
 end
 ```
 
-## model_class
+## .model_class
 
-According to Wallaby's [Authorizer Naming Convention](convention.md#authorizer), if a custom authorizer can not reflect the assication to the correct model, for example, as `Admin::ProductAuthorizer` to `Product`, it is required to specify the model class in the authorizer as below:
+According to Wallaby's [Authorizer Naming Convention](convention.md#authorizer), if a custom authorizer cannot reflect the association to the correct model, for example, as `Admin::ProductAuthorizer` to `Product`, it is required to specify the model class in the authorizer as below:
 
 ```ruby
 # app/authorizers/admin/product_authorizer.rb
@@ -106,7 +100,7 @@ class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
 end
 ```
 
-## provider_name
+## .provider_name
 
 Wallaby has implemented the following authorization adaptors for ActiveRecord and HER:
 
@@ -130,35 +124,21 @@ end
 
 # Helper Methods
 
-## user
+## #context
 
-It's the reference of `current_user` from controller. To access `user`, it goes:
-
-```ruby
-# app/authorizers/admin/application_authorizer.rb
-class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
-  private
-  def rescue_permission_exception(action, error)
-    Notifier.notify user, action, error
-  end
-end
-```
-
-## controller
-
-It's the reference of controller itself. To access `controller`, it goes:
+It's the reference of controller itself. To access `context`, it goes:
 
 ```ruby
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   private
   def rescue_permission_exception(action, error)
-    controller.flash[:alert] = translate_message_for action, error
+    context.flash[:alert] = translate_message_for action, error
   end
 end
 ```
 
-## user
+## #user
 
 It's the reference of current user object. To access `user`, it goes:
 
@@ -174,40 +154,40 @@ end
 
 # Authorization
 
-## authorize
+## #authorize
 
-This is the template method to check permission for given subject and raise `Wallaby::Forbidden` exception if user has no access. It's used by controller mostly.
+This is the template method to check permission for a given subject and raise `Wallaby::Forbidden` exception if the user has no access. It's used by controller mostly.
 
-To customize how to check permission for given subject, it goes:
+To customize how to check permission for a given subject, it goes:
 
 ```ruby
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def authorize(action, subject)
-    controller.authorize! action, subject
-    controller.authorize subject, "#{action}?"
+    context.authorize! action, subject
+    context.authorize subject, "#{action}?"
   end
 end
 ```
 
-## authorized?
+## #authorized?
 
-This is the template method that checks if user has access to given subject and returns true if so.
+This is the template method that checks if the user has access to given subject and returns true if so.
 
-To customize how to check permission for given subject, it goes:
+To customize how to check permission for a given subject, it goes:
 
 ```ruby
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def authorized?(action, subject)
-    controller.can?(action, subject) && controller.policy(subject).public_send("#{action}?")
+    context.can?(action, subject) && context.policy(subject).public_send("#{action}?")
   end
 end
 ```
 
-## unauthorized?
+## #unauthorized?
 
-This is the template method that checks if user has no access to given subject and returns true if so. It's simply the opposite version of [authorized?](#authorized).
+This is the template method that checks if the user has no access to given subject and returns true if so. It's simply the opposite version of [authorized?](#authorized).
 
 To customize how to check permission for given subject, it goes:
 
@@ -215,14 +195,14 @@ To customize how to check permission for given subject, it goes:
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def unauthorized?(action, subject)
-    !(controller.can?(action, subject) && controller.policy(subject).public_send("#{action}?"))
+    !(context.can?(action, subject) && context.policy(subject).public_send("#{action}?"))
   end
 end
 ```
 
-## accessible_for
+## #accessible_for
 
-This is the template method to ensure user can only query the data that they are allowed to access.
+This is the template method to ensure the user can only query the data that they are allowed to access.
 
 To customize how to restrict the query, it goes:
 
@@ -230,15 +210,15 @@ To customize how to restrict the query, it goes:
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def accessible_for(action, scope)
-    query = scope.accessible_by controller.current_ability, action
-    controller.policy_scope query
+    query = scope.accessible_by context.current_ability, action
+    context.policy_scope query
   end
 end
 ```
 
-## attributes_for
+## #attributes_for
 
-This is the template method to ensure user can only update the data with the value that they are allowed to assign.
+This is the template method to ensure the user can only update the data with the value that they are allowed to assign.
 
 To customize how to restrict the assignment, it goes:
 
@@ -246,13 +226,13 @@ To customize how to restrict the assignment, it goes:
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def attributes_for(action, subject)
-    controller.current_ability.attributes_for action, subject
-    controller.policy(subject).public_send :attributes_for
+    context.current_ability.attributes_for action, subject
+    context.policy(subject).public_send :attributes_for
   end
 end
 ```
 
-## permit_params
+## #permit_params
 
 This is the template method to permit parameters for mass assignment.
 
@@ -262,7 +242,7 @@ To customize how to permit parameters, it goes:
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def permit_params(action, subject)
-    controller.policy(subject).public_send "permitted_attributes_for_#{action}"
+    context.policy(subject).public_send "permitted_attributes_for_#{action}"
   end
 end
 ```
@@ -273,9 +253,7 @@ end
 
 ### For `authorize`, `authorized?` and `unauthorized?`
 
-Wallaby has implemented the support for general Rails resourcesful actions (`index`/`new`/`create`/`show`/`edit`/`update`/`destroy`), and they are also the actions that Wallaby will check against.
-
-And because CanCanCan comes with default alias actions:
+Wallaby has implemented the support for general Rails resourcesful actions (`index`/`new`/`create`/`show`/`edit`/`update`/`destroy`) and CanCanCan comes with alias actions that mapped to Rails actions:
 
 ```ruby
 # lib/cancan/ability/actions.rb
@@ -288,7 +266,7 @@ def default_alias_actions
 end
 ```
 
-Therefore, when Wallaby checks permission against resourcesful actions, they will be mapped to CanCanCan's actions as below:
+Therefore, when Wallaby checks permission in each resourcesful action, they will be mapped to CanCanCan's action accordingly as below:
 
 ```ruby
 authorizer.authorized? :index, Product # => Same as `can? :read, Product`
@@ -302,13 +280,13 @@ authorizer.authorized? :destroy, product # => Same as `can? :destroy, product`
 
 ### For `permit_params`
 
-Since CanCanCan does not support this feature, therefore, Wallaby won't do anything either for `permit_params`.
+Since CanCanCan does not support this feature, Wallaby won't do anything either for `permit_params`.
 
 ## Pundit
 
 ### For `authorize`, `authorized?` and `unauthorized?`
 
-As mentioned [above](#cancancan), when Wallaby checks permission against, they will work as how Pundit works:
+Similar to [Cancancan](#cancancan), when Wallaby checks permission, they will work the same as how Pundit works:
 
 ```ruby
 authorizer.authorized? :index, Product # => Same as `policy(Product).index?`

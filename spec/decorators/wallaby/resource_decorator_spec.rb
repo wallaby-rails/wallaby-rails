@@ -67,13 +67,20 @@ describe Wallaby::ResourceDecorator do
       end
     end
 
+    describe '#h' do
+      it 'returns helpers' do
+        expect(subject.h).to be_a ActionView::Base
+        expect(subject.h.extract(subject)).to eq resource
+      end
+    end
+
     describe '#errors' do
       it 'returns errors' do
-        resource.errors.add :name, 'can not be nil'
+        resource.errors.add :name, 'cannot be nil'
         resource.errors.add :base, 'has error'
         expect(subject.errors).to be_a ActiveModel::Errors
         expect(subject.errors.messages).to eq(
-          name: ['can not be nil'],
+          name: ['cannot be nil'],
           base: ['has error']
         )
       end

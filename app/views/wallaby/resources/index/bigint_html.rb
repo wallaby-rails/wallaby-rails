@@ -1,7 +1,9 @@
 module Wallaby
   module Resources
     module Index
+      # Html cell
       class BigintHtml < Cell
+        # @return [String]
         def render
           value || null
         end

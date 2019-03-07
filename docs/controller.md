@@ -20,8 +20,8 @@ Starting with:
 
 Configuration can be set for:
 
-- [base_class!](#base_class) (since 5.2.0) - flagging as base class.
-- [model_class](#model_class) - specifying the model class.
+- [.base_class!](#base_class) (since 5.2.0) - flagging as base class.
+- [.model_class](#model_class) - specifying the model class.
 
 The following resourcesful actions can be customized:
 
@@ -76,11 +76,11 @@ end
 
 If `ProductsController` is taken, it is still possible to use another name (e.g. `Admin::ProductsController`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## base_class!
+## .base_class!
 
 > since 5.2.0
 
-All controllers will be preloaded and processed by Wallaby in order to build up the mapping between controllers and models. If the controller is considered not to be proceesed, it can be flagged by using `base_class!`:
+All controllers will be preloaded and processed by Wallaby in order to build up the mapping between controllers and models. If the controller is considered not to be processed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/controllers/admin/special_controller.rb
@@ -89,9 +89,9 @@ class Admin::SpecialController < Admin::ApplicationController
 end
 ```
 
-## model_class
+## .model_class
 
-According to Wallaby's [Controller Naming Convention](convention.md#controller), if a custom controller can not reflect the assication to the correct model, for example, as `Admin::ProductsController` to `Product`, it is required to specify the model class in the controller as below:
+According to Wallaby's [Controller Naming Convention](convention.md#controller), if a custom controller cannot reflect the association to the correct model, for example, as `Admin::ProductsController` to `Product`, it is required to specify the model class in the controller as below:
 
 ```ruby
 # app/controllers/admin/products_controller.rb

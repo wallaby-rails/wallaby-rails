@@ -1,5 +1,6 @@
 module Wallaby
-  # Model Authorizer to provide authorization functions
+  # Model Authorizer interface.
+  # @since 5.2.0
   class ModelAuthorizationProvider
     class << self
       # @!attribute [w] provider_name
@@ -22,6 +23,7 @@ module Wallaby
     end
 
     # @!attribute [r] context
+    # @return [ActionController::Base]
     attr_reader :context
 
     # @param context [ActionController::Base]
@@ -34,8 +36,8 @@ module Wallaby
       context.current_user
     end
 
-    # Template method to check user's permission on given resource and subject.
-    # It should raise error if denied and be used in controller.
+    # @note It can be overridden in subclasses for customization purpose.
+    # This is the template method to check user's permission for given action on given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
     # @raise [Wallaby::NotImplemented]
@@ -43,7 +45,8 @@ module Wallaby
       raise NotImplemented
     end
 
-    # Template method to check and see if a user has access to a specific resource/collection on given action.
+    # @note It can be overridden in subclasses for customization purpose.
+    # This is the template method to check if user has permission for given action on given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
     # @raise [Wallaby::NotImplemented]
@@ -51,7 +54,8 @@ module Wallaby
       raise NotImplemented
     end
 
-    # Template method to check and see if a user has no access to a specific resource/collection on given action.
+    # @note It can be overridden in subclasses for customization purpose.
+    # This is the template method to check if user has no permission for given action on given subject.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
     # @raise [Wallaby::NotImplemented]
@@ -59,9 +63,8 @@ module Wallaby
       !authorized?(action, subject)
     end
 
-    # Template method to filter the scope based on user's permission.
-    #
-    # It should be used for collection.
+    # @note It can be overridden in subclasses for customization purpose.
+    # This is the template method to restrict user's access to certain scope.
     # @param _action [Symbol, String]
     # @param _scope [Object]
     # @raise [Wallaby::NotImplemented]
@@ -69,9 +72,8 @@ module Wallaby
       raise NotImplemented
     end
 
-    # Template method to make sure that user can assign certain values to a record.
-    #
-    # It should be used when creating/updating record.
+    # @note It can be overridden in subclasses for customization purpose.
+    # This is the template method to restrict user's modification to certain fields of given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object]
     # @raise [Wallaby::NotImplemented]
@@ -79,8 +81,8 @@ module Wallaby
       raise NotImplemented
     end
 
-    # @note Please make sure to return nil when the authorization doesn't support this feature.
-    # Template method to ensure user can only modify the fields that they have permission for Strong params.
+    # @note It can be overridden in subclasses for customization purpose.
+    # This is the template method to restrict user's mass assignment to certain fields of given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object]
     # @raise [Wallaby::NotImplemented]

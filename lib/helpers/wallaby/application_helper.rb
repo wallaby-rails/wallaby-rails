@@ -27,6 +27,8 @@ module Wallaby
       url || super(ModuleUtils.try_to(options, :permit!) || options)
     end
 
+    # It's required by {#url_for}
+    # @return [Hash] default URL options
     def default_url_options
       defined?(super) ? super : controller_to_get(:default_url_options)
     end
