@@ -63,7 +63,7 @@
       @if $left_or_right == "right" { right: 0 }
       @extend .fa;
       color: $light;
-      content: $icon_font;
+      content: fa-content($icon_font);
       font-size: 12px;
       margin-top: -6px;
       position: absolute;
@@ -78,7 +78,7 @@
   &.open > a {
     &:after {
       @extend .fa;
-      content: $icon_font_open;
+      content: fa-content($icon_font_open);
     }
   }
 }
