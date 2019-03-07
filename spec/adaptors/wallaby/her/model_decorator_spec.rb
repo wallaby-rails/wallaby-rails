@@ -101,11 +101,11 @@ describe Wallaby::Her::ModelDecorator do
   describe '#form_active_errors' do
     it 'returns the form errors' do
       resource = double errors: ActiveModel::Errors.new({})
-      resource.errors.add :name, 'can not be nil'
+      resource.errors.add :name, 'cannot be nil'
       resource.errors.add :base, 'has error'
       expect(subject.form_active_errors(resource)).to be_a ActiveModel::Errors
       expect(subject.form_active_errors(resource).messages).to eq(
-        name: ['can not be nil'],
+        name: ['cannot be nil'],
         base: ['has error']
       )
     end

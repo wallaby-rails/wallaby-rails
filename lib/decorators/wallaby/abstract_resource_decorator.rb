@@ -28,6 +28,7 @@ module Wallaby
       # @return [nil] if current class is marked as base class
       # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#resource_decorator}
       # @return [nil] if current class is {Wallaby::ResourceDecorator}
+      # @return [nil] if assoicated model class is not found
       def model_class
         return unless self < ResourceDecorator
         return if base_class? || self == Wallaby.configuration.mapping.resource_decorator
@@ -67,7 +68,7 @@ module Wallaby
       #     self.application_decorator = Admin::ApplicationDecorator
       #   end
       # @return [Class] assoicated base class.
-      # @return [nil] when assoicated base class is not found from its ancestors chain
+      # @return [nil] if assoicated base class is not found from its ancestors chain
       # @raise [ArgumentError] when current class doesn't inherit from given value
       # @since 5.2.0
       def application_decorator

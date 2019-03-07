@@ -60,7 +60,7 @@ If `ProductServicer` is taken, it is still possible to use another name (e.g. `A
 
 > since 5.2.0
 
-All servicers will be preloaded and processed by Wallaby in order to build up the mapping between servicers and models. If the servicer is considered not to be proceesed, it can be flagged by using `base_class!`:
+All servicers will be preloaded and processed by Wallaby in order to build up the mapping between servicers and models. If the servicer is considered not to be processed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/servicers/admin/special_servicer.rb
@@ -71,7 +71,7 @@ end
 
 ## model_class
 
-According to Wallaby's [Servicer Naming Convention](convention.md#servicer), if a custom servicer can not reflect the assication to the correct model, for example, as `Admin::ProductServicer` to `Product`, it is required to specify the model class in the servicer as below:
+According to Wallaby's [Servicer Naming Convention](convention.md#servicer), if a custom servicer cannot reflect the association to the correct model, for example, as `Admin::ProductServicer` to `Product`, it is required to specify the model class in the servicer as below:
 
 ```ruby
 # app/servicers/admin/product_servicer.rb

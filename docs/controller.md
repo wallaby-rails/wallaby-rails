@@ -80,7 +80,7 @@ If `ProductsController` is taken, it is still possible to use another name (e.g.
 
 > since 5.2.0
 
-All controllers will be preloaded and processed by Wallaby in order to build up the mapping between controllers and models. If the controller is considered not to be proceesed, it can be flagged by using `base_class!`:
+All controllers will be preloaded and processed by Wallaby in order to build up the mapping between controllers and models. If the controller is considered not to be processed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/controllers/admin/special_controller.rb
@@ -91,7 +91,7 @@ end
 
 ## model_class
 
-According to Wallaby's [Controller Naming Convention](convention.md#controller), if a custom controller can not reflect the assication to the correct model, for example, as `Admin::ProductsController` to `Product`, it is required to specify the model class in the controller as below:
+According to Wallaby's [Controller Naming Convention](convention.md#controller), if a custom controller cannot reflect the association to the correct model, for example, as `Admin::ProductsController` to `Product`, it is required to specify the model class in the controller as below:
 
 ```ruby
 # app/controllers/admin/products_controller.rb

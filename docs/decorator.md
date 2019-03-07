@@ -90,7 +90,7 @@ If `ProductDecorator` is taken, it is still possible to use another name (e.g. `
 
 > since 5.2.0
 
-All decorators will be preloaded and processed by Wallaby in order to build up the mapping between decorators and models. If the decorator is considered not to be proceesed, it can be flagged by using `base_class!`:
+All decorators will be preloaded and processed by Wallaby in order to build up the mapping between decorators and models. If the decorator is considered not to be processed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/decorators/admin/special_decorator.rb
@@ -101,7 +101,7 @@ end
 
 ## model_class
 
-According to Wallaby's [Decorator Naming Convention](convention.md#decorator), if a custom decorator can not reflect the assication to the correct model, for example, as `Admin::ProductDecorator` to `Product`, it is required to specify the model class in the decorator as below:
+According to Wallaby's [Decorator Naming Convention](convention.md#decorator), if a custom decorator cannot reflect the association to the correct model, for example, as `Admin::ProductDecorator` to `Product`, it is required to specify the model class in the decorator as below:
 
 ```ruby
 # app/decorators/admin/product_decorator.rb

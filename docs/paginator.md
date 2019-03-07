@@ -53,7 +53,7 @@ If `ProductPaginator` is taken, it is still possible to use another name (e.g. `
 
 ## base_class!
 
-All paginators will be preloaded and processed by Wallaby in order to build up the mapping between paginators and models. If the paginator is considered not to be proceesed, it can be flagged by using `base_class!`:
+All paginators will be preloaded and processed by Wallaby in order to build up the mapping between paginators and models. If the paginator is considered not to be processed, it can be flagged by using `base_class!`:
 
 ```ruby
 # app/paginators/admin/special_paginator.rb
@@ -64,7 +64,7 @@ end
 
 ## model_class
 
-According to Wallaby's [Paginator Naming Convention](convention.md#paginator), if a custom paginator can not reflect the assication to the correct model, for example, as `Admin::ProductPaginator` to `Product`, it is required to specify the model class in the paginator as below:
+According to Wallaby's [Paginator Naming Convention](convention.md#paginator), if a custom paginator cannot reflect the association to the correct model, for example, as `Admin::ProductPaginator` to `Product`, it is required to specify the model class in the paginator as below:
 
 ```ruby
 # app/paginators/admin/product_paginator.rb
