@@ -20,13 +20,13 @@ Starting with:
 
 Configuration can be set for:
 
-- [base_class!](#base_class) (since 5.2.0) - flagging as base class.
-- [model_class](#model_class) - specifying the model class.
+- [.base_class!](#base_class) (since 5.2.0) - flagging as base class.
+- [.model_class](#model_class) - specifying the model class.
 
 Accessing helper methods:
 
-- [user](#user) (since 5.2.0) - accessing user object.
-- [authorizer](#authorizer) (since 5.2.0) - accessing authorizer which provides functions for authorization.
+- [#user](#user) (since 5.2.0) - accessing user object.
+- [#authorizer](#authorizer) (since 5.2.0) - accessing authorizer which provides functions for authorization.
 
 Customizing CRUD operations:
 
@@ -56,7 +56,7 @@ end
 
 If `ProductServicer` is taken, it is still possible to use another name (e.g. `Admin::ProductServicer`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## base_class!
+## .base_class!
 
 > since 5.2.0
 
@@ -69,7 +69,7 @@ class Admin::SpecialServicer < Admin::ApplicationServicer
 end
 ```
 
-## model_class
+## .model_class
 
 According to Wallaby's [Servicer Naming Convention](convention.md#servicer), if a custom servicer cannot reflect the association to the correct model, for example, as `Admin::ProductServicer` to `Product`, it is required to specify the model class in the servicer as below:
 
@@ -93,7 +93,7 @@ end
 
 # Helper Methods
 
-## user
+## #user
 
 > since 5.2.0
 
@@ -110,7 +110,7 @@ class Admin::ProductServicer < Admin::ApplicationServicer
 end
 ```
 
-## authorizer
+## #authorizer
 
 > since 5.2.0
 

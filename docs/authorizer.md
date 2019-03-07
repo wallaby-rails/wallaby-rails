@@ -39,23 +39,23 @@ Starting with:
 
 Configuration can be set for:
 
-- [base_class!](#base_class) - flagging as base class.
-- [model_class](#model_class) - specifying the model class.
-- [provider_name](#provider_name) - specifying the authorization provider's name.
+- [.base_class!](#base_class) - flagging as base class.
+- [.model_class](#model_class) - specifying the model class.
+- [.provider_name](#provider_name) - specifying the authorization provider's name.
 
 Accessing helper methods:
 
-- [user](#user) - accesing user object
-- [context](#context) - accessing controller context.
+- [#user](#user) - accesing user object
+- [#context](#context) - accessing controller context.
 
 Customizing authorization operations:
 
-- [authorize](#authorize) - checking permission and raising error if any. It's mostly used in controller.
-- [authorized?](#authorized) - checking if the user has access to given subject.
-- [unauthorized?](#unauthorized) - checking if the user has no access to given subject.
-- [accessible_for](#accessible_for) - applying the scope that the user has access to.
-- [attributes_for](#attributes_for) - applying the attribute values that the user can create/update.
-- [permit_params](#permit_params) - whitelisting params for mass assignment.
+- [#authorize](#authorize) - checking permission and raising error if any. It's mostly used in controller.
+- [#authorized?](#authorized) - checking if the user has access to given subject.
+- [#unauthorized?](#unauthorized) - checking if the user has no access to given subject.
+- [#accessible_for](#accessible_for) - applying the scope that the user has access to.
+- [#attributes_for](#attributes_for) - applying the attribute values that the user can create/update.
+- [#permit_params](#permit_params) - whitelisting params for mass assignment.
 
 How Wallaby checks permissions for following frameworks:
 
@@ -78,7 +78,7 @@ end
 
 If `ProductAuthorizer` is taken, it is still possible to use another name (e.g. `Admin::ProductAuthorizer`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
 
-## base_class!
+## .base_class!
 
 All authorizers will be preloaded and processed by Wallaby in order to build up the mapping between authorizers and models. If the authorizer is considered not to be processed, it can be flagged by using `base_class!`:
 
@@ -89,7 +89,7 @@ class Admin::SpecialAuthorizer < Admin::ApplicationAuthorizer
 end
 ```
 
-## model_class
+## .model_class
 
 According to Wallaby's [Authorizer Naming Convention](convention.md#authorizer), if a custom authorizer cannot reflect the association to the correct model, for example, as `Admin::ProductAuthorizer` to `Product`, it is required to specify the model class in the authorizer as below:
 
@@ -100,7 +100,7 @@ class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
 end
 ```
 
-## provider_name
+## .provider_name
 
 Wallaby has implemented the following authorization adaptors for ActiveRecord and HER:
 
@@ -124,7 +124,7 @@ end
 
 # Helper Methods
 
-## context
+## #context
 
 It's the reference of controller itself. To access `context`, it goes:
 
@@ -138,7 +138,7 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
-## user
+## #user
 
 It's the reference of current user object. To access `user`, it goes:
 
@@ -154,7 +154,7 @@ end
 
 # Authorization
 
-## authorize
+## #authorize
 
 This is the template method to check permission for a given subject and raise `Wallaby::Forbidden` exception if the user has no access. It's used by controller mostly.
 
@@ -170,7 +170,7 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
-## authorized?
+## #authorized?
 
 This is the template method that checks if the user has access to given subject and returns true if so.
 
@@ -185,7 +185,7 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
-## unauthorized?
+## #unauthorized?
 
 This is the template method that checks if the user has no access to given subject and returns true if so. It's simply the opposite version of [authorized?](#authorized).
 
@@ -200,7 +200,7 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
-## accessible_for
+## #accessible_for
 
 This is the template method to ensure the user can only query the data that they are allowed to access.
 
@@ -216,7 +216,7 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
-## attributes_for
+## #attributes_for
 
 This is the template method to ensure the user can only update the data with the value that they are allowed to assign.
 
@@ -232,7 +232,7 @@ class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
 end
 ```
 
-## permit_params
+## #permit_params
 
 This is the template method to permit parameters for mass assignment.
 
