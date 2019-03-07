@@ -1,6 +1,6 @@
 # Decorator
 
-Apart from wrapping a record object, decorator is used to hold view metadata for index, show and form pages.
+Apart from wrapping a record object, the decorator is used in order to hold view metadata for index, show, and form (new/edit) pages.
 
 First of all, it's always recommended to create a base decorator class `Admin::ApplicationDecorator` as below, so that devs can have better control of developing global changes/functions:
 
@@ -18,33 +18,32 @@ Starting with:
 
 Configuration can be set for:
 
-- [base_class!](#base_class) (since 5.2.0) - flagging as base class.
-- [model_class](#model_class) - specifying the model class.
+- [.base_class!](#base_class) (since 5.2.0) - flagging as base class.
+- [.model_class](#model_class) - specifying the model class.
 
 Accessing helper methods:
 
-- [model_class](#model_class) - accessing model class.
-- [resource](#resource) - to access the resource object.
-- [h](#h) (since 5.2.0) - to access the Rails and Wallaby helpers.
+- [#resource](#resource) - to access the resource object.
+- [#h](#h) (since 5.2.0) - to access the Rails and Wallaby helpers.
 
 Configuring the metadata for fields:
 
-- [index_fields](#index_fields) - metadata for index page.
+- [index_fields](#index_fields) - metadata for the index page.
   - [:sort_field_name](#sort_field_name) - specifying the field name to sort.
   - [:sort_disabled](#sort_disabled) (since 5.2.0) - enable/disable sorting of a field.
-- [show_fields](#show_fields) - metadata for show page.
-- [form_fields](#form_fields) - metadata for new/edit page.
+- [show_fields](#show_fields) - metadata for the show page.
+- [form_fields](#form_fields) - metadata for the form (new/edit) page.
 
 Common options for metadata:
 
-- [:type](#type-metadata-option) - mandatory option connecting the [type partial](view.md#type-partial)
-- [:label](#label-metadata-option) - customizing the text for the field
+- [:type](#type-metadata-option) - mandatory option to associate [cell/type partial](view.md) with the field.
+- [:label](#label-metadata-option) - customizing text for a field
 
 Configuring the fields to display:
 
-- [index_field_name](#index_field_name) - fields to display for index page.
-- [show_field_name](#show_field_name) - fields to display for show page.
-- [form_field_name](#form_field_name) - fields to display for new/edit page.
+- [index_field_name](#index_field_name) - fields to display for the index page.
+- [show_field_name](#show_field_name) - fields to display for the show page.
+- [form_field_name](#form_field_name) - fields to display for the form (new/edit) page.
 
 Defining filters to allow access to fixed queries:
 
@@ -54,13 +53,13 @@ Defining filters to allow access to fixed queries:
 Other common options for a filter:
 
 - [:scope](#scope-filter-option) - customizing the query
-- [:label](#label-filter-option) - customizing the text for the field
-- [:default](#default-filter-option) - specifying the default query used on index page.
+- [:label](#label-filter-option) - customizing text for a field
+- [:default](#default-filter-option) - specifying the default query used on the index page.
 
 Misc customization:
 
-- [to_label](#to_label) - customizing the title of a resource.
-- [primary_key](#primary_key) - specifying the field to be the primary key used in query.
+- [to_label](#to_label) - customizing title of a resource.
+- [primary_key](#primary_key) - specifying the field to be the primary key to use in query.
 
 Read more for typical pre-generated metadata values for associations of `ActiveRecord`:
 
@@ -84,9 +83,9 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-If `ProductDecorator` is taken, it is still possible to use another name (e.g. `Admin::ProductDecorator`). However, the attribute `model_class` must be specified. See [`model_class`](#model_class) for examples.
+If `ProductDecorator` is taken, it is still possible to use another name (e.g. `Admin::ProductDecorator`). However, the attribute `model_class` must be specified. See [.model_class](#model_class) for examples.
 
-## base_class!
+## .base_class!
 
 > since 5.2.0
 
@@ -99,9 +98,9 @@ class Admin::SpecialDecorator < Admin::ApplicationDecorator
 end
 ```
 
-## model_class
+## .model_class
 
-According to Wallaby's [Decorator Naming Convention](convention.md#decorator), if a custom decorator cannot reflect the association to the correct model, for example, as `Admin::ProductDecorator` to `Product`, it is required to specify the model class in the decorator as below:
+According to Wallaby's [Decorator Naming Convention](convention.md#decorator), if a custom decorator cannot reflect the association with the correct model. For example, as `Admin::ProductDecorator` to `Product`, it is required to specify the model class in the decorator as below:
 
 ```ruby
 # app/decorators/admin/product_decorator.rb
@@ -125,7 +124,7 @@ end
 
 The followings are the helper methods that are available in decorator instance:
 
-## resource
+## #resource
 
 Decorator wraps the resource object. By default, it's possible to access resource object's public methods directly:
 
@@ -149,9 +148,9 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-In above example, `currency` and `amount` are `Product`'s instance methods, and they can be accessed directly in `ProductDecorator`.
+In the above example, `currency` and `amount` are `Product`'s instance methods, and they can be accessed directly in `ProductDecorator`.
 
-However, it's possible to access to the resource object on demand:
+However, it's still possible to access to the resource object on demand:
 
 ```ruby
 # app/decorators/product_decorator.rb
@@ -162,7 +161,7 @@ class ProductDecorator < Admin::ApplicationDecorator
 end
 ```
 
-## h
+## #h
 
 > since 5.2.0
 
@@ -246,7 +245,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 <code><%= raw value %></code>
 ```
 
-> See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.
+> See [Cell/Type Partial](view.md) to learn more about how type connects with cell/type partial and how to create one.
 
 It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
 
@@ -272,7 +271,7 @@ end
 
 `:sort_field_name` is a setting that allows dev to define what field to be sorted when sorting is clicked on index page.
 
-Take `slug` as example, `slug` is not an origin database field, therefore, by default, `slug` is not sortable. But to make this field sortable, it goes:
+Take `slug` as example, `slug` is not an origin database field, therefore, by default, `slug` is not sortable. But to make this field sortable by `name`, it goes:
 
 ```ruby
 # app/decorators/product_decorato.rb
@@ -283,6 +282,8 @@ end
 ```
 
 ### :sort_disabled
+
+> NOTE: this option currently only works for `ActiveRecord` models, configuring it for `HER` models will not have any effects.
 
 `:sort_disabled` is a setting that disable/enable sorting for a field on index page. It defaults to `nil`, and its valid values are `nil`, `false` and `true`.
 
@@ -297,7 +298,7 @@ end
 
 ## show_fields
 
-`show_fields` is used for storing metadata of different (origin/custom) fields for show page. For example, for model `Product`:
+`show_fields` is used for storing metadata of different (origin/custom) fields for the show page. For example, for model `Product`:
 
 ```ruby
 # app/models/product.rb
@@ -358,7 +359,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 <code><%= raw value %></code>
 ```
 
-> See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.
+> See [Cell/Type Partial](view.md) to learn more about how type connects with cell/type partial and how to create one.
 
 It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
 
@@ -445,7 +446,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 <code class="preview" data-bind-to-form-name="<%= field_name %>"></code>
 ```
 
-> See [Type Partial](view.md#type-partial) to learn more about how type connects with type partial and how to create type partial.
+> See [Cell/Type Partial](view.md) to learn more about how type connects with cell/type partial and how to create one.
 
 It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
 
@@ -474,7 +475,7 @@ The following options are the common ones used in metadata for [index_fields](#i
 > NOTE: please do NOT use the following names for type:
 > `title`, `logo`, `header`, `footer`, `user_menu`, `navs`, `index_actions`, `resource_actions` and `resource_navs`, as they are used as the configurable partials in [Frontend](frontend.md)
 
-`:type` is a mandatory options. For example, to set the `:type` for custom method `slug`:
+`:type` is a mandatory option. For example, to set the `:type` for custom method `slug`:
 
 ```ruby
 # app/decorators/product_decorato.rb
@@ -492,7 +493,7 @@ end
 
 ### :label metadata option
 
-`:label` is to customize the text for the field. For example, to change the text of field `uid` to `SKU`:
+`:label` is to customize text for the field. For example, to change text of the field `uid` to `SKU`:
 
 ```ruby
 # app/decorators/product_decorato.rb
@@ -675,7 +676,7 @@ Wallaby pre-generates metadata for association fields that can be found in the m
   # }
   ```
 
-- HER models don't support has_and_belongs_to_many association.
+- HER models doesn't support `has_and_belongs_to_many` association.
 
 ### Polymorphic Association
 
@@ -702,7 +703,7 @@ Wallaby pre-generates metadata for association fields that can be found in the m
   # }
   ```
 
-- HER models don't support polymorphic association.
+- HER models doesn't support polymorphic association.
 
 ## index_field_names
 

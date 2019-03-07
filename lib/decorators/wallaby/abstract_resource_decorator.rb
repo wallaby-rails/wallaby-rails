@@ -83,6 +83,15 @@ module Wallaby
         return unless self < ResourceDecorator || model_class
         Map.model_decorator_map model_class, application_decorator
       end
+
+      # @!attribute [w] h
+      attr_writer :h
+
+      # @!attribute [r] h
+      # @return [ActionView::Base] resources controller's helpers
+      def h
+        @h ||= Wallaby.configuration.mapping.resources_controller.helpers
+      end
     end
 
     # @!attribute [r] resource
@@ -92,6 +101,12 @@ module Wallaby
     # @!attribute [r] model_decorator
     # @return [Wallaby::ModelDecorator]
     attr_reader :model_decorator
+
+    # @return [ActionView::Base] resources controller's helpers
+    # @see .h
+    def h
+      self.class.h
+    end
 
     delegate(*DELEGATE_METHODS, to: :model_decorator)
     # NOTE: this delegation is to make url helper method working properly with resource decorator instance

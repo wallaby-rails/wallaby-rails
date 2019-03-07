@@ -67,6 +67,13 @@ describe Wallaby::ResourceDecorator do
       end
     end
 
+    describe '#h' do
+      it 'returns helpers' do
+        expect(subject.h).to be_a ActionView::Base
+        expect(subject.h.extract(subject)).to eq resource
+      end
+    end
+
     describe '#errors' do
       it 'returns errors' do
         resource.errors.add :name, 'cannot be nil'
