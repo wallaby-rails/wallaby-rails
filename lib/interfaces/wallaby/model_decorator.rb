@@ -1,14 +1,8 @@
 module Wallaby
-  # Model Decorator interface, designed to maintain metadata for all
-  # the fields coming from data source (database/api)
-  # @see Wallaby::ResourceDecorator for more information on how to customize
-  #   metadata
+  # Model Decorator interface, designed to maintain metadata for all fields from the data source (database/api)
+  # @see Wallaby::ResourceDecorator for more information on how to customize metadata
   class ModelDecorator
     include Fieldable
-
-    attr_reader :model_class
-    attr_writer \
-      :field_names, :index_field_names, :show_field_names, :form_field_names
 
     # Initialize with model class
     # @param model_class [Class] model class
@@ -16,120 +10,166 @@ module Wallaby
       @model_class = model_class
     end
 
-    # @return [Hash] origin metadata for fields
+    # @!attribute [r] model_class
+    #   @return [Class] model class
+    attr_reader :model_class
+
+    # @!attribute [r] fields
+    #   @note to be implemented in sub classes.
+    #   Origin fields metadata.
+    #
+    #   Initially, {#index_fields}, {#show_fields} and {#form_fields} are copies of it.
+    #   @return [ActiveSupport::HashWithIndifferentAccess]
     def fields
       raise NotImplemented
     end
 
-    # Set metadata as origin
-    # @param fields [Hash] metadata
+    # @!attribute [w] model_class
+    # @param fields [Hash] fields metadata
     def fields=(fields)
       @fields = fields.with_indifferent_access
     end
 
-    # @return [Array<String>, Array<Symbol>] a list of field names
+    # @!attribute [w] field_names
+    attr_writer :field_names
+
+    # @!attribute [r] field_names
+    #   A list of field names.
+    #   @return [Array<String, Symbol>]
     def field_names
       @field_names ||= reposition fields.keys, primary_key
     end
 
-    # @return [Hash] metadata for fields used on index page
+    # @!attribute [r] index_fields
+    #   @note to be implemented in sub classes.
+    #   Fields metadata for `index` page.
+    #   @return [ActiveSupport::HashWithIndifferentAccess]
     def index_fields
       raise NotImplemented
     end
 
-    # Set metadata for index page
-    # @param fields [Hash] metadata
+    # @!attribute [w] index_fields
+    # @param fields [hash] fields metadata
     def index_fields=(fields)
       @index_fields = fields.with_indifferent_access
     end
 
-    # @return [Array<String>, Array<Symbol>]
-    #   a list of field names displayed on index page
+    # @!attribute [w] index_field_names
+    attr_writer :index_field_names
+
+    # @!attribute [r] index_field_names
+    #   A list of field names for `index` page
+    #   @return [Array<String, Symbol>]
     def index_field_names
       @index_field_names ||= reposition index_fields.keys, primary_key
     end
 
-    # @return [Hash] metadata for fields used on show page
+    # @!attribute [r] show_fields
+    #   @note to be implemented in sub classes.
+    #   Fields metadata for `show` page.
+    #   @return [ActiveSupport::HashWithIndifferentAccess]
     def show_fields
       raise NotImplemented
     end
 
-    # Set metadata for show page
-    # @param fields [Hash] metadata
+    # @!attribute [w] show_fields
+    # @param fields [hash] fields metadata
     def show_fields=(fields)
       @show_fields = fields.with_indifferent_access
     end
 
-    # @return [Array<String>, Array<Symbol>]
-    #   a list of field names displayed on show page
+    # @!attribute [w] show_field_names
+    attr_writer :show_field_names
+
+    # @!attribute [r] show_field_names
+    #   A list of field names for `show` page
+    #   @return [Array<String, Symbol>]
     def show_field_names
       @show_field_names ||= reposition show_fields.keys, primary_key
     end
 
-    # @return [Hash] metadata for fields used on form (new/edit) page
+    # @!attribute [r] form_fields
+    #   @note to be implemented in sub classes.
+    #   Fields metadata for form (`new`/`edit`) page.
+    #   @return [ActiveSupport::HashWithIndifferentAccess]
     def form_fields
       raise NotImplemented
     end
 
-    # Set metadata for form (new/edit) page
-    # @param fields [Hash] metadata
+    # @!attribute [w] form_fields
+    # @param fields [hash] fields metadata
     def form_fields=(fields)
       @form_fields = fields.with_indifferent_access
     end
 
-    # @return [Array<String>, Array<Symbol>]
-    #   a list field names displayed on form (new/edit) page
+    # @!attribute [w] form_field_names
+    attr_writer :form_field_names
+
+    # @!attribute [r] form_field_names
+    #   A list of field names for form (`new`/`edit`) page
+    #   @return [Array<String, Symbol>]
     def form_field_names
       @form_field_names ||= reposition form_fields.keys, primary_key
     end
 
-    # @return [Hash] metadata for custom filters used on index page
+    # @!attribute [r] filters
+    #   @note to be implemented in sub classes.
+    #   Filter metadata for index page.
+    #   @return [ActiveSupport::HashWithIndifferentAccess]
     def filters
       @filters ||= ::ActiveSupport::HashWithIndifferentAccess.new
     end
 
-    # @return [Hash] validation errors for current resource
+    # @note to be implemented in sub classes.
+    # Validation error for given resource
+    # @param _resource [Object]
+    # @return [ActiveModel::Errors, Hash]
     def form_active_errors(_resource)
       raise NotImplemented
     end
 
-    # @return [String] primary key
+    # @note to be implemented in sub classes.
+    # @return [String] primary key name
     def primary_key
       raise NotImplemented
     end
 
+    # @note to be implemented in sub classes.
     # To guess the title for a resource.
     #
     # This title will be used on the following places:
     # - page title on show page
     # - in the response for autocomplete association field
     # - title of show link for a resource
-    # @param _resource [Object] resource
+    # @param _resource [Object]
     # @return [String] title of current resource
     def guess_title(_resource)
       raise NotImplemented
     end
 
-    # @return [String] resources name coverted from model class
+    # @return [String]
+    # @see Wallaby::Map.resources_name_map
     def resources_name
-      Map.resources_name_map @model_class
+      Map.resources_name_map model_class
     end
 
     protected
 
-    # @param field_names [Array<String>, Array<Symbol>] field names
-    # @param primary_key [String] primary key name
-    # @return [Array<String>, Array<Symbol>]
-    #   a list of field names that primary key goes first
+    # Move primary key to the front for given field names.
+    # @param field_names [Array<String, Symbol>] field names
+    # @param primary_key [String, Symbol] primary key name
+    # @return [Array<String, Symbol>]
+    #   a new list of field names that primary key goes first
     def reposition(field_names, primary_key)
       field_names.unshift(primary_key.to_s).uniq
     end
 
-    # Ensure type is present
-    # @param type [String, Symbol, nil] type of a field
+    # Validate presence of a type for given field name
+    # @param type [String, Symbol, nil]
     # @return [String, Symbol] type name
+    # @raise [ArgumentError] when type is nil
     def validate_presence_of(field_name, type)
-      type || raise(::ArgumentError, "Type is required for #{field_name}.")
+      type || raise(::ArgumentError, I18n.t('errors.invalid.type_required', field_name: field_name))
     end
   end
 end

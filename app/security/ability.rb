@@ -4,6 +4,7 @@
 class Ability
   include ::CanCan::Ability
 
+  # @param _user [Object]
   def initialize(_user)
     can :manage, :all
   end

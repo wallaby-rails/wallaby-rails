@@ -46,7 +46,7 @@ Also check out:
 
 In short, a cell is a special [type partial](#type-partial) component in `rb` file format.
 
-For example, a custom type `markdown` is defined for show field `description` in `ProductDecorator`:
+For example, if a custom type `markdown` is defined for show field `description` in `ProductDecorator`:
 
 ```ruby
 class ProductDecorator < Admin::ApplicationDecorator

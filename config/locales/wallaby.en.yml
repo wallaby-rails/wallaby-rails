@@ -63,6 +63,7 @@ en:
     invalid:
       models: '%{models} are invalid models.'
       inheritance: '%{klass} does not inherit from %{parent}.'
+      type_required: 'Type is required for %{field_name}.'
     not_found:
       collection: 'Records can not be found. Click + button to add one.'
       model: 'Model %{model} can not be found.'
