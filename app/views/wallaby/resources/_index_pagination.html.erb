@@ -13,8 +13,7 @@ paginator = paginator_of current_model_class, collection, index_params
     <span class="pagination__metadata">
       <% if paginator.number_of_pages > 1 # more than one page%>
         <span class="pagination__pers">
-          <a role="button" data-target="#" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="true">
+          <a id="all_pers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <%= from_to %>
           </a>
           <ul aria-labelledby="all_pers">
@@ -28,8 +27,7 @@ paginator = paginator_of current_model_class, collection, index_params
         </span>
         <%= t 'pagination.of' %>
         <span class="pagination__pages">
-          <a role="button" data-target="#" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="true">
+          <a id="all_pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <%= total_count %>
           </a>
           <%= content_tag :form, action: index_path(current_model_class), method: :get, aria: { labelledby: 'all_pages' } do %>

@@ -23,7 +23,8 @@
           <% if current_user.present? %>
             <li role="separator" class="divider"></li>
             <li>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <a id="user_menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                class="dropdown-toggle">
                 <%= user_portrait %>
                 <span class="visible-xs-inline-block">User</span>
                 <span class="caret"></span>
