@@ -9,12 +9,9 @@ module Wallaby
       { html_options: options.merge(class: string_or_array) }
     end
 
-    # Shortcut to generate FontAwesome icon using tag <i>.
-    # @overload fa_icon(*names, html_options)
-    #   @param names [Array<String>] names of the icon
-    #   @param html_options [Hash] HTML options for tag <i>
-    # @return [String] HTML I element
+    # @deprecated Use {#glyph_icon} instead. It will be removed from 5.3.*
     def fa_icon(*args, &block)
+      Utils.deprecate 'deprecation.fa_icon', caller: caller
       html_options = args.extract_options!
       html_options[:class] = Array html_options[:class]
       html_options[:class] << 'fa'
