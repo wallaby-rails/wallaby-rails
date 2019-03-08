@@ -98,8 +98,9 @@ header {
             position: relative;
 
             &:before {
-              @extend .fa;
-              content: fa-content($fa-var-caret-right);
+              @include caret("right");
+              // @extend .glyphicon;
+              // content: fa-content($fa-var-caret-right);
               position: absolute;
               left: 30px;
               top: 50%;
@@ -195,7 +196,7 @@ main {
     }
 
     a {
-      @extend .fa;
+      @extend .glyphicon;
 
       background-color: $light-blue-color;
       display: inline-block;
@@ -215,22 +216,25 @@ main {
     }
 
     .resources__index {
-      &:before {
-        content: fa-content($fa-var-list);
-      }
+      @extend .glyphicon-list;
+      // &:before {
+      //   content: fa-content($fa-var-list);
+      // }
     }
 
     .resource {
       &__show {
-        &:before {
-          content: fa-content($fa-var-info);
-        }
+        @extend .glyphicon-info-sign;
+        // &:before {
+        //   content: fa-content($fa-var-info);
+        // }
       }
 
       &__create {
-        &:before {
-          content: fa-content($fa-var-plus);
-        }
+        @extend .glyphicon-plus;
+        // &:before {
+        //   content: fa-content($fa-var-plus);
+        // }
         background-color: $light-green-color;
 
         &:hover {
@@ -239,9 +243,10 @@ main {
       }
 
       &__update {
-        &:before {
-          content: fa-content(map-get($fa-map, fa-var-pencil-alt));
-        }
+        @extend .glyphicon-pencil;
+        // &:before {
+        //   content: fa-content(map-get($fa-map, fa-var-pencil-alt));
+        // }
         background-color: $light-yellow-color;
 
         &:hover {
@@ -250,9 +255,10 @@ main {
       }
 
       &__destroy {
-        &:before {
-          content: fa-content(map-get($fa-map, fa-var-times));
-        }
+        @extend .glyphicon-remove;
+        // &:before {
+        //   content: fa-content(map-get($fa-map, fa-var-times));
+        // }
         background-color: $light-red-color;
 
         &:hover {

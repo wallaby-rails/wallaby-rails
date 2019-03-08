@@ -36,9 +36,10 @@
         text-align: right;
 
         a {
-          @extend .fa;
+          @extend .glyphicon;
+          @extend .glyphicon-info-sign;
           &:before {
-            content: fa-content($fa-var-info);
+            // content: fa-content($fa-var-info);
             line-height: 16px;
             width: 16px;
           }
@@ -61,9 +62,10 @@
           }
 
           &.resource__update {
-            &:before {
-              content: fa-content(map-get($fa-map, fa-var-pencil-alt));
-            }
+            @extend .glyphicon-pencil;
+            // &:before {
+            //   content: fa-content(map-get($fa-map, fa-var-pencil-alt));
+            // }
             background-color: $light-yellow-color;
 
             &:hover {
@@ -72,9 +74,10 @@
           }
 
           &.resource__destroy {
-            &:before {
-              content: fa-content(map-get($fa-map, fa-var-times));
-            }
+            @extend .glyphicon-remove;
+            // &:before {
+            //   content: fa-content(map-get($fa-map, fa-var-times));
+            // }
             background-color: $light-red-color;
 
             &:hover {
@@ -113,7 +116,7 @@
           transition: 0.5s;
 
           &:before {
-            @extend .fa;
+            @extend .glyphicon;
             color: $light-primary-color;
             margin-top: -6px;
             position: absolute;
@@ -124,34 +127,39 @@
 
           &:hover {
             color: $default-primary-color;
-            &:before {
-              content: fa-content(map-get($fa-map, fa-var-sort-up));
-            }
+            @extend .glyphicon-sort-by-attributes;
+            // &:before {
+            //   content: fa-content(map-get($fa-map, fa-var-sort-up));
+            // }
           }
         }
 
         &.asc {
           a {
-            &:before {
-              content: fa-content(map-get($fa-map, fa-var-sort-up));
-            }
+            @extend .glyphicon-sort-by-attributes;
+            // &:before {
+            //   content: fa-content(map-get($fa-map, fa-var-sort-up));
+            // }
             &:hover {
-              &:before {
-                content: fa-content(map-get($fa-map, fa-var-sort-down));
-              }
+              @extend .glyphicon-sort-by-attributes-alt;
+              // &:before {
+              //   content: fa-content(map-get($fa-map, fa-var-sort-down));
+              // }
             }
           }
         }
 
         &.desc {
           a {
-            &:before {
-              content: fa-content(map-get($fa-map, fa-var-sort-down));
-            }
+            @extend .glyphicon-sort-by-attributes-alt;
+            // &:before {
+            //   content: fa-content(map-get($fa-map, fa-var-sort-down));
+            // }
             &:hover {
-              &:before {
-                content: fa-content($fa-var-sort);
-              }
+              @extend .glyphicon-sort;
+              // &:before {
+              //   content: fa-content($fa-var-sort);
+              // }
             }
           }
         }
@@ -173,24 +181,28 @@
       width: inherit;
 
       thead tr th {
-        @extend .fa;
+        @extend .glyphicon;
         display: table-cell;
         font-size: 14px;
 
         &:before, &:after {
           display: inline-block;
+          font-size: 10px;
+          font-weight: lighter;
           margin-top: -10px;
           position: absolute;
           top: 50%;
         }
 
         &.resources--forward:after {
-          content: fa-content($fa-var-angle-double-right);
+          @extend .glyphicon-chevron-right:before;
+          // content: fa-content($fa-var-angle-double-right);
           right: 16px;
         }
 
         &.resources--backward:before {
-          content: fa-content($fa-var-angle-double-left);
+          @extend .glyphicon-chevron-left;
+          // content: fa-content($fa-var-angle-double-left);
           left: 16px;
         }
       }

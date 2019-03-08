@@ -48,9 +48,10 @@
     }
 
     &:after {
-      @extend .fa;
+      @extend .glyphicon;
+      @extend .glyphicon-remove;
       color: $light-red-color;
-      content: fa-content(map-get($fa-map, fa-var-times));
+      // content: fa-content(map-get($fa-map, fa-var-times));
       display: block;
       height: 16px;
       line-height: 16px;
