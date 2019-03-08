@@ -58,11 +58,11 @@
     display: inline-block;
     position: relative;
 
-    &:after {
+    &:before {
       @if $left_or_right == "left" { left: 0 }
       @if $left_or_right == "right" { right: 0 }
       @extend .glyphicon;
-      @extend #{$icon_font}:before;
+      @extend #{$icon_font};
       color: $light;
       font-size: 9px;
       margin-top: -4px;
@@ -70,14 +70,13 @@
       top: 50%;
     }
 
-    &:hover:after {
+    &:hover:before {
       color: $dark;
     }
   }
 
   &.open > a {
-    &:after {
-      @extend .glyphicon;
+    &:before {
       @extend #{$icon_font_open};
     }
   }

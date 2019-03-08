@@ -168,7 +168,7 @@
         display: table-cell;
         font-size: 14px;
 
-        &:before, &:after {
+        &:before, & span:before {
           display: inline-block;
           font-size: 10px;
           font-weight: lighter;
@@ -177,8 +177,8 @@
           top: 50%;
         }
 
-        &.resources--forward:after {
-          @extend .glyphicon-chevron-right:before;
+        &.resources--forward span:before {
+          @extend .glyphicon-chevron-right;
           right: 16px;
         }
 
