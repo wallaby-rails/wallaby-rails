@@ -64,7 +64,6 @@
       @extend .glyphicon;
       @extend #{$icon_font}:before;
       color: $light;
-      // content: fa-content($icon_font);
       font-size: 9px;
       margin-top: -4px;
       position: absolute;
@@ -80,7 +79,6 @@
     &:after {
       @extend .glyphicon;
       @extend #{$icon_font_open};
-      // content: fa-content($icon_font_open);
     }
   }
 }

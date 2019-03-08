@@ -39,7 +39,6 @@
           @extend .glyphicon;
           @extend .glyphicon-info-sign;
           &:before {
-            // content: fa-content($fa-var-info);
             line-height: 16px;
             width: 16px;
           }
@@ -63,9 +62,6 @@
 
           &.resource__update {
             @extend .glyphicon-pencil;
-            // &:before {
-            //   content: fa-content(map-get($fa-map, fa-var-pencil-alt));
-            // }
             background-color: $light-yellow-color;
 
             &:hover {
@@ -75,9 +71,6 @@
 
           &.resource__destroy {
             @extend .glyphicon-remove;
-            // &:before {
-            //   content: fa-content(map-get($fa-map, fa-var-times));
-            // }
             background-color: $light-red-color;
 
             &:hover {
@@ -128,23 +121,14 @@
           &:hover {
             color: $default-primary-color;
             @extend .glyphicon-sort-by-attributes;
-            // &:before {
-            //   content: fa-content(map-get($fa-map, fa-var-sort-up));
-            // }
           }
         }
 
         &.asc {
           a {
             @extend .glyphicon-sort-by-attributes;
-            // &:before {
-            //   content: fa-content(map-get($fa-map, fa-var-sort-up));
-            // }
             &:hover {
               @extend .glyphicon-sort-by-attributes-alt;
-              // &:before {
-              //   content: fa-content(map-get($fa-map, fa-var-sort-down));
-              // }
             }
           }
         }
@@ -152,14 +136,8 @@
         &.desc {
           a {
             @extend .glyphicon-sort-by-attributes-alt;
-            // &:before {
-            //   content: fa-content(map-get($fa-map, fa-var-sort-down));
-            // }
             &:hover {
               @extend .glyphicon-sort;
-              // &:before {
-              //   content: fa-content($fa-var-sort);
-              // }
             }
           }
         }
@@ -196,13 +174,11 @@
 
         &.resources--forward:after {
           @extend .glyphicon-chevron-right:before;
-          // content: fa-content($fa-var-angle-double-right);
           right: 16px;
         }
 
         &.resources--backward:before {
           @extend .glyphicon-chevron-left;
-          // content: fa-content($fa-var-angle-double-left);
           left: 16px;
         }
       }
