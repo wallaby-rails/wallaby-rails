@@ -164,7 +164,7 @@ To customize popup menu when clicking at user icon, it goes:
     <a id="model_tree" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
       Data <span class="caret"></span>
     </a>
-    <span aria-labelledby="model_tree"><%= model_tree model_classes %></span>
+    <%= model_tree model_classes, 'model_tree' %>
   </li>
 </ul>
 ```
