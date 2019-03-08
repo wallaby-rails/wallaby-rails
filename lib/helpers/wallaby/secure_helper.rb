@@ -15,7 +15,7 @@ module Wallaby
         image_source = "#{https}://www.gravatar.com/avatar/#{email_md5}"
         image_tag image_source, class: 'hidden-xs user-portrait'
       else
-        content_tag :i, nil, class: 'fa fa-user user-portrait'
+        glyph_icon 'user user-portrait'
       end
     end
 

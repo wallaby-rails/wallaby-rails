@@ -47,12 +47,13 @@
       animation: auto_select_highlight 1s;
     }
 
-    &:after {
-      @extend .fa;
+    &:before {
+      @extend .glyphicon;
+      @extend .glyphicon-remove;
       color: $light-red-color;
-      content: fa-content(map-get($fa-map, fa-var-times));
       display: block;
       height: 16px;
+      font-size: 10px;
       line-height: 16px;
       margin-top: -8px;
       position: absolute;
@@ -63,7 +64,7 @@
 
     &:hover{
       color: $light-blue-color;
-      &:after {
+      &:before {
         color: $default-red-color;
       }
     }

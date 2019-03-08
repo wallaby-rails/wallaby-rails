@@ -2,9 +2,7 @@
   <nav class="query__actions">
     <%= index_link(current_model_class, html_classes('query__clear')) {} if index_params.present? %>
     <%= new_link(current_model_class, html_classes('query__create')) {} %>
-    <a id="actions_list" class="query__more"
-      role="button" data-target="#" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="true"></a>
+    <a id="actions_list" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="query__more"></a>
     <%= render 'index_actions' %>
   </nav>
   <%= form_tag index_path(current_model_class), method: :get, class: 'query__search' do %>

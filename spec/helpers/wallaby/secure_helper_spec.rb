@@ -3,8 +3,8 @@ require 'rails_helper'
 describe Wallaby::SecureHelper do
   describe '#user_portrait' do
     it 'returns a general user portrait image' do
-      expect(helper.user_portrait(nil)).to eq '<i class="fa fa-user user-portrait"></i>'
-      expect(helper.user_portrait(double)).to eq '<i class="fa fa-user user-portrait"></i>'
+      expect(helper.user_portrait(nil)).to eq '<i class="glyphicon glyphicon-user user-portrait"></i>'
+      expect(helper.user_portrait(double)).to eq '<i class="glyphicon glyphicon-user user-portrait"></i>'
     end
 
     context 'when email_method is configured' do

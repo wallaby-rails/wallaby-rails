@@ -8,7 +8,7 @@ module Wallaby
           if value.nil?
             null
           else
-            value ? fa_icon('check-square') : fa_icon('square')
+            value ? glyph_icon('check') : glyph_icon('unchecked')
           end
         end
       end

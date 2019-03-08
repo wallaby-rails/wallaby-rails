@@ -15,7 +15,6 @@
 - Rails >= 4.2.0
 - ActiveRecord >= 4.2.0
 - Devise
-- CanCanCan
+- CanCanCan/Pundit
 - Bootstrap 3
-- Font Awesome
 - Turbolinks (disabled by default)

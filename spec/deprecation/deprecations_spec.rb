@@ -33,6 +33,16 @@ describe Wallaby::ResourcesController, type: :controller do
   end
 end
 
+describe Wallaby::StylingHelper, type: :helper do
+  describe '.fa_icon' do
+    it 'shows deprecation message' do
+      expect do
+        helper.fa_icon 'time'
+      end.to output(a_string_starting_with("[DEPRECATION] `#fa_icon` will be removed from 5.3.*. Please use `#glyph_icon` instead.\n")).to_stderr
+    end
+  end
+end
+
 describe Wallaby::Utils do
   describe '.find_filter_name' do
     it 'shows deprecation message' do

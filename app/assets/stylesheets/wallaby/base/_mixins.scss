@@ -51,34 +51,33 @@
   }
 }
 
-@mixin arrow ($icon_font: $fa-var-angle-down, $icon_font_open: $fa-var-angle-up, $light: $light-red-color, $dark: $dark-red-color, $left_or_right: "right", $padding_size: 11px) {
+@mixin arrow ($icon_font: ".glyphicon-chevron-down", $icon_font_open: ".glyphicon-chevron-up", $light: $light-red-color, $dark: $dark-red-color, $left_or_right: "right", $padding_size: 11px) {
   > a {
     @if $left_or_right == "left" { padding-left: $padding_size }
     @if $left_or_right == "right" { padding-right: $padding_size }
     display: inline-block;
     position: relative;
 
-    &:after {
+    &:before {
       @if $left_or_right == "left" { left: 0 }
       @if $left_or_right == "right" { right: 0 }
-      @extend .fa;
+      @extend .glyphicon;
+      @extend #{$icon_font};
       color: $light;
-      content: $icon_font;
-      font-size: 12px;
-      margin-top: -6px;
+      font-size: 9px;
+      margin-top: -4px;
       position: absolute;
       top: 50%;
     }
 
-    &:hover:after {
+    &:hover:before {
       color: $dark;
     }
   }
 
   &.open > a {
-    &:after {
-      @extend .fa;
-      content: $icon_font_open;
+    &:before {
+      @extend #{$icon_font_open};
     }
   }
 }
@@ -115,5 +114,29 @@
 
   &:hover {
     color: $default-blue-color;
+  }
+}
+
+@mixin caret($direction) {
+  @extend .caret;
+  content: "";
+  @if $direction == 'up' {
+    border-top: 0;
+    border-bottom: $caret-width-base dashed;
+    border-bottom: $caret-width-base solid \9; // IE8
+  }
+  @if $direction == 'right' {
+    border-right: 0;
+    border-left: $caret-width-base dashed;
+    border-left: $caret-width-base solid \9; // IE8
+    border-top: $caret-width-base solid transparent;
+    border-bottom: $caret-width-base solid transparent;
+  }
+  @if $direction == 'left' {
+    border-left: 0;
+    border-right: $caret-width-base dashed;
+    border-right: $caret-width-base solid \9; // IE8
+    border-top: $caret-width-base solid transparent;
+    border-bottom: $caret-width-base solid transparent;
   }
 }

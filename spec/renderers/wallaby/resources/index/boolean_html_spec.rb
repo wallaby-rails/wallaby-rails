@@ -11,13 +11,13 @@ describe klass, type: :view do
     skip_general: true do
 
     it 'renders the boolean' do
-      expect(rendered).to include view.fa_icon('check-square')
+      expect(rendered).to include view.glyph_icon('check')
     end
 
     context 'when value is false' do
       let(:value) { false }
       it 'renders the boolean' do
-        expect(rendered).to include view.fa_icon('square')
+        expect(rendered).to include view.glyph_icon('unchecked')
       end
     end
   end

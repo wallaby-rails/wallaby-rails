@@ -22,9 +22,9 @@
       position: relative;
 
       &:before {
-        @extend .fa;
+        @extend .glyphicon;
+        @extend .glyphicon-search;
         color: $default-primary-color;
-        content: fa-content($fa-var-search);
         left: 8px;
         margin-top: -7px;
         position: absolute;
@@ -71,10 +71,8 @@
     }
 
     .query__clear {
-      @extend .fa;
-      &:before {
-        content: fa-content($fa-var-ban);
-      }
+      @extend .glyphicon;
+      @extend .glyphicon-ban-circle;
       background-color: $light-grey-color;
 
       &:hover {
@@ -83,10 +81,8 @@
     }
 
     .query__create {
-      @extend .fa;
-      &:before {
-        content: fa-content($fa-var-plus);
-      }
+      @extend .glyphicon;
+      @extend .glyphicon-plus;
       background-color: $light-green-color;
 
       &:hover {
@@ -95,10 +91,8 @@
     }
 
     .query__more {
-      @extend .fa;
-      &:before {
-        content: fa-content($fa-var-chevron-down);
-      }
+      @extend .glyphicon;
+      @extend .glyphicon-chevron-down;
       background-color: $light-blue-color;
 
       &:hover {

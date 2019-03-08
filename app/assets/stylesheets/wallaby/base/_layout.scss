@@ -69,13 +69,13 @@ header {
 
       &:hover, &:focus {
         background-color: #444;
-        .fa-bars {
+        .glyphicon-menu-hamburger {
           color: white;
           font-size: 20px;
         }
       }
 
-      .fa-bars {
+      .glyphicon-menu-hamburger {
         color: $font-color;
         font-size: 20px;
       }
@@ -98,12 +98,11 @@ header {
             position: relative;
 
             &:before {
-              @extend .fa;
-              content: fa-content($fa-var-caret-right);
+              @include caret("right");
               position: absolute;
               left: 30px;
               top: 50%;
-              margin-top: -7px;
+              margin-top: -5px;
             }
 
             a {
@@ -195,7 +194,7 @@ main {
     }
 
     a {
-      @extend .fa;
+      @extend .glyphicon;
 
       background-color: $light-blue-color;
       display: inline-block;
@@ -215,22 +214,16 @@ main {
     }
 
     .resources__index {
-      &:before {
-        content: fa-content($fa-var-list);
-      }
+      @extend .glyphicon-list;
     }
 
     .resource {
       &__show {
-        &:before {
-          content: fa-content($fa-var-info);
-        }
+        @extend .glyphicon-info-sign;
       }
 
       &__create {
-        &:before {
-          content: fa-content($fa-var-plus);
-        }
+        @extend .glyphicon-plus;
         background-color: $light-green-color;
 
         &:hover {
@@ -239,9 +232,7 @@ main {
       }
 
       &__update {
-        &:before {
-          content: fa-content(map-get($fa-map, fa-var-pencil-alt));
-        }
+        @extend .glyphicon-pencil;
         background-color: $light-yellow-color;
 
         &:hover {
@@ -250,9 +241,7 @@ main {
       }
 
       &__destroy {
-        &:before {
-          content: fa-content(map-get($fa-map, fa-var-times));
-        }
+        @extend .glyphicon-remove;
         background-color: $light-red-color;
 
         &:hover {

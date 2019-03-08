@@ -9,16 +9,27 @@ module Wallaby
       { html_options: options.merge(class: string_or_array) }
     end
 
-    # Shortcut to generate FontAwesome icon using tag <i>.
-    # @overload fa_icon(*names, html_options)
-    #   @param names [Array<String>] names of the icon
-    #   @param html_options [Hash] HTML options for tag <i>
-    # @return [String] HTML I element
+    # @deprecated Use {#glyph_icon} instead. It will be removed from 5.3.*
     def fa_icon(*args, &block)
+      Utils.deprecate 'deprecation.fa_icon', caller: caller
       html_options = args.extract_options!
       html_options[:class] = Array html_options[:class]
       html_options[:class] << 'fa'
       args.each { |suffix| html_options[:class] << "fa-#{suffix}" }
+
+      content_tag :i, nil, html_options, &block
+    end
+
+    # Shortcut to generate Glyph icon using tag <i>.
+    # @overload glyph_icon(*names, html_options)
+    #   @param names [Array<String>] names of the icon
+    #   @param html_options [Hash] HTML options for tag <i>
+    # @return [String] HTML I element
+    def glyph_icon(*args, &block)
+      html_options = args.extract_options!
+      html_options[:class] = Array html_options[:class]
+      html_options[:class] << 'glyphicon'
+      args.each { |suffix| html_options[:class] << "glyphicon-#{suffix}" }
 
       content_tag :i, nil, html_options, &block
     end
@@ -32,7 +43,7 @@ module Wallaby
       html_options[:title] = title
       (html_options[:data] ||= {}).merge! toggle: 'tooltip', placement: 'top'
 
-      fa_icon icon_suffix, html_options
+      glyph_icon icon_suffix, html_options
     end
 
     # Build up modal
@@ -42,7 +53,7 @@ module Wallaby
     # @return [String] modal HTML
     def imodal(title, body, html_options = {})
       label ||= html_options.delete(:label) \
-                  || html_options.delete(:icon) || fa_icon('clone')
+                  || html_options.delete(:icon) || glyph_icon('clone')
       content_tag :span, class: 'modaler' do
         concat link_to(label, '#', data: { target: '#imodal', toggle: 'modal' })
         concat content_tag(:span, title, class: 'modaler__title')

@@ -161,10 +161,10 @@ To customize popup menu when clicking at user icon, it goes:
 <%# app/views/admin/application/_navs.html.erb %>
 <ul class="nav navbar-nav">
   <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+    <a id="model_tree" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
       Data <span class="caret"></span>
     </a>
-    <%= model_tree model_classes %>
+    <%= model_tree model_classes, 'model_tree' %>
   </li>
 </ul>
 ```

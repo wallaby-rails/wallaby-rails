@@ -4,11 +4,10 @@ filter = filter_name_by index_params[:filter], filters
 %>
 <nav class="filters">
   <% if filters.present? %>
-    <a role="button" data-target="#" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="true">
+    <a id="all_filters" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
       <%= filter_label(filter, filters) || all_label %>
     </a>
-    <ul>
+    <ul aria-labelledby="all_filters">
       <li><em><%= t 'filters.title' %></em></li>
       <% filters.keys.unshift(:all).each do |filter_name| %>
         <%= content_tag :li, filter_link(current_model_class, filter_name, filters: filters), { class: filter.to_s == filter_name.to_s && 'filters--current' } %>
