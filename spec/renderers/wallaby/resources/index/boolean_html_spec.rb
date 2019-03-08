@@ -17,7 +17,7 @@ describe klass, type: :view do
     context 'when value is false' do
       let(:value) { false }
       it 'renders the boolean' do
-        expect(rendered).to include view.glyph_icon('uncheck')
+        expect(rendered).to include view.glyph_icon('unchecked')
       end
     end
   end
