@@ -10,7 +10,7 @@ module Wallaby
           else
             self.value = Time.zone.parse value if value.is_a? String
             concat content_tag(:span, I18n.l(value, format: :short))
-            itooltip I18n.l(value), 'clock-o'
+            itooltip I18n.l(value), 'time'
           end
         end
       end

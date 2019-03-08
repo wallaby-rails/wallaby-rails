@@ -49,10 +49,11 @@
 
     &:after {
       @extend .glyphicon;
-      @extend .glyphicon-remove;
+      @extend .glyphicon-remove:before;
       color: $light-red-color;
       display: block;
       height: 16px;
+      font-size: 10px;
       line-height: 16px;
       margin-top: -8px;
       position: absolute;

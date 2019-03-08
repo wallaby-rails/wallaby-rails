@@ -69,13 +69,13 @@ header {
 
       &:hover, &:focus {
         background-color: #444;
-        .fa-bars {
+        .glyphicon-menu-hamburger {
           color: white;
           font-size: 20px;
         }
       }
 
-      .fa-bars {
+      .glyphicon-menu-hamburger {
         color: $font-color;
         font-size: 20px;
       }
