@@ -48,8 +48,8 @@
     }
 
     &:before {
-      @extend .glyphicon;
-      @extend .glyphicon-remove;
+      @extend .fa;
+      @extend .fa-times;
       color: $light-red-color;
       display: block;
       height: 16px;

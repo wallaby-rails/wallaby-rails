@@ -4,6 +4,7 @@
 require 'sass-rails'
 
 require 'bootstrap'
+require 'font-awesome-sass'
 require 'bootstrap4-datetime-picker-rails'
 require 'codemirror-rails'
 require 'jquery-minicolors-rails'

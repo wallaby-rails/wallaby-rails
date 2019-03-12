@@ -194,7 +194,7 @@ main {
     }
 
     a {
-      @extend .glyphicon;
+      @extend .fa;
 
       background-color: $light-blue-color;
       display: inline-block;
@@ -214,16 +214,16 @@ main {
     }
 
     .resources__index {
-      @extend .glyphicon-list;
+      @extend .fa-list;
     }
 
     .resource {
       &__show {
-        @extend .glyphicon-info-sign;
+        @extend .fa-info;
       }
 
       &__create {
-        @extend .glyphicon-plus;
+        @extend .fa-plus;
         background-color: $light-green-color;
 
         &:hover {
@@ -232,7 +232,7 @@ main {
       }
 
       &__update {
-        @extend .glyphicon-pencil;
+        @extend .fa-pen;
         background-color: $light-yellow-color;
 
         &:hover {
@@ -241,7 +241,7 @@ main {
       }
 
       &__destroy {
-        @extend .glyphicon-remove;
+        @extend .fa-times;
         background-color: $light-red-color;
 
         &:hover {

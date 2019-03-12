@@ -9,13 +9,13 @@ describe partial_name do
   before { render partial, value: value, metadata: metadata }
 
   it 'renders the boolean' do
-    expect(rendered).to include view.glyph_icon('check')
+    expect(rendered).to include view.fa_icon('check')
   end
 
   context 'when value is false' do
     let(:value) { false }
     it 'renders the boolean' do
-      expect(rendered).to include view.glyph_icon('unchecked')
+      expect(rendered).to include view.fa_icon('unchecked')
     end
   end
 

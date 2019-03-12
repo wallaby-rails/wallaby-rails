@@ -36,8 +36,8 @@
         text-align: right;
 
         a {
-          @extend .glyphicon;
-          @extend .glyphicon-info-sign;
+          @extend .fa;
+          @extend .fa-info;
           &:before {
             line-height: 16px;
             width: 16px;
@@ -61,7 +61,7 @@
           }
 
           &.resource__update {
-            @extend .glyphicon-pencil;
+            @extend .fa-pen;
             background-color: $light-yellow-color;
 
             &:hover {
@@ -70,7 +70,7 @@
           }
 
           &.resource__destroy {
-            @extend .glyphicon-remove;
+            @extend .fa-times;
             background-color: $light-red-color;
 
             &:hover {
@@ -109,7 +109,7 @@
           transition: 0.5s;
 
           &:before {
-            @extend .glyphicon;
+            @extend .fa;
             color: $light-primary-color;
             margin-top: -6px;
             position: absolute;
@@ -120,24 +120,24 @@
 
           &:hover {
             color: $default-primary-color;
-            @extend .glyphicon-sort-by-attributes;
+            @extend .fa-sort-up;
           }
         }
 
         &.asc {
           a {
-            @extend .glyphicon-sort-by-attributes;
+            @extend .fa-sort-up;
             &:hover {
-              @extend .glyphicon-sort-by-attributes-alt;
+              @extend .fa-sort-down;
             }
           }
         }
 
         &.desc {
           a {
-            @extend .glyphicon-sort-by-attributes-alt;
+            @extend .fa-sort-down;
             &:hover {
-              @extend .glyphicon-sort;
+              @extend .fa-sort;
             }
           }
         }
@@ -151,7 +151,7 @@
         }
       }
 
-      .glyphicon {
+      .fa {
         font-size: 11px;
         margin-left: 3px;
       }
@@ -164,7 +164,7 @@
       width: inherit;
 
       thead tr th {
-        @extend .glyphicon;
+        @extend .fa;
         display: table-cell;
         font-size: 14px;
 
@@ -178,12 +178,12 @@
         }
 
         &.resources--forward span:before {
-          @extend .glyphicon-chevron-right;
+          @extend .fa-chevron-right;
           right: 16px;
         }
 
         &.resources--backward:before {
-          @extend .glyphicon-chevron-left;
+          @extend .fa-chevron-left;
           left: 16px;
         }
       }

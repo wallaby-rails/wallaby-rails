@@ -10,7 +10,7 @@ module Wallaby
           else
             concat content_tag(:code, value)
             link_to(
-              glyph_icon('link'), "http://ip-api.com/##{value}",
+              fa_icon('link'), "http://ip-api.com/##{value}",
               target: :_blank, class: 'text-info'
             )
           end

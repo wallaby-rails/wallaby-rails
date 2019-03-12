@@ -14,14 +14,14 @@ The following params are the variables that can be used in this partial.
       <div class="input-group date" data-init='datetimepicker'>
         <span class="input-group-addon">F</span>
         <%= form.text_field field_name, value: value.try(:first), multiple: true, class: 'form-control' %>
-        <span class="input-group-addon"><%= glyph_icon 'calendar' %></span>
+        <span class="input-group-addon"><%= fa_icon 'calendar' %></span>
       </div>
     </div>
     <div class="col-xs-6 col-sm-4">
       <div class="input-group date" data-init='datetimepicker'>
         <span class="input-group-addon">T</span>
         <%= form.text_field field_name, value: value.try(:last), multiple: true, class: 'form-control' %>
-        <span class="input-group-addon"><%= glyph_icon 'calendar' %></span>
+        <span class="input-group-addon"><%= fa_icon 'calendar' %></span>
       </div>
     </div>
   </div>
