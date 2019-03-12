@@ -1,8 +1,10 @@
 //= require jquery
 //= require jquery_ujs
+//= require popper
 //= require bootstrap-sprockets
 //= require moment
-//= require bootstrap-datetimepicker
+//= require moment-timezone-with-data
+//= require tempusdominus-bootstrap-4
 //= require summernote
 //= require codemirror
 //= require codemirror/addons/mode/overlay

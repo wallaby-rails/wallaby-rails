@@ -21,6 +21,8 @@ Below is animated screenshots of Wallaby:
 - See [Change Logs](CHANGELOG.md)
 - See [Get Started](#get-started)
 
+> NOTE: from 5.2.0, Wallaby has migrated Bootstrap from 3 to 4. Please consult [Migrating to v4](https://v4-alpha.getbootstrap.com/migration/)
+
 Here are examples of sophisticated customization:
 
 - Register the product on e-commence after it is created at controller level (see [Controller](docs/controller.md) for more):

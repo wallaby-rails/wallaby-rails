@@ -117,26 +117,26 @@
   }
 }
 
-@mixin caret($direction) {
-  @extend .caret;
-  content: "";
-  @if $direction == 'up' {
-    border-top: 0;
-    border-bottom: $caret-width-base dashed;
-    border-bottom: $caret-width-base solid \9; // IE8
-  }
-  @if $direction == 'right' {
-    border-right: 0;
-    border-left: $caret-width-base dashed;
-    border-left: $caret-width-base solid \9; // IE8
-    border-top: $caret-width-base solid transparent;
-    border-bottom: $caret-width-base solid transparent;
-  }
-  @if $direction == 'left' {
-    border-left: 0;
-    border-right: $caret-width-base dashed;
-    border-right: $caret-width-base solid \9; // IE8
-    border-top: $caret-width-base solid transparent;
-    border-bottom: $caret-width-base solid transparent;
-  }
-}
+// @mixin caret($direction) {
+//   @extend .caret;
+//   content: "";
+//   @if $direction == 'up' {
+//     border-top: 0;
+//     border-bottom: $caret-width-base dashed;
+//     border-bottom: $caret-width-base solid \9; // IE8
+//   }
+//   @if $direction == 'right' {
+//     border-right: 0;
+//     border-left: $caret-width-base dashed;
+//     border-left: $caret-width-base solid \9; // IE8
+//     border-top: $caret-width-base solid transparent;
+//     border-bottom: $caret-width-base solid transparent;
+//   }
+//   @if $direction == 'left' {
+//     border-left: 0;
+//     border-right: $caret-width-base dashed;
+//     border-right: $caret-width-base solid \9; // IE8
+//     border-top: $caret-width-base solid transparent;
+//     border-bottom: $caret-width-base solid transparent;
+//   }
+// }

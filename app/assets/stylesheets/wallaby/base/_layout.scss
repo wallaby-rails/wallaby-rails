@@ -30,7 +30,7 @@ header {
   }
 
   nav.navbar {
-    @extend .navbar-default, .navbar-fixed-top;
+    @extend .navbar, .fixed-top;
     background-color: white;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
 
@@ -98,7 +98,7 @@ header {
             position: relative;
 
             &:before {
-              @include caret("right");
+              @include caret(right);
               position: absolute;
               left: 30px;
               top: 50%;
