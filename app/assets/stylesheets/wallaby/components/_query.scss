@@ -54,13 +54,14 @@
 
   &__actions {
     @include dropdown($left_or_right: "right");
+    color: $white;
     position: absolute;
     right: 0;
 
     .query__clear, .query__create, .query__more {
       border-radius: 2px;
       border: none;
-      color: white;
+      color: $white;
       float: left;
       height: 30px;
       line-height: 30px;

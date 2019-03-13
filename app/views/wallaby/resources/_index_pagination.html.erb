@@ -16,7 +16,7 @@ paginator = paginator_of current_model_class, collection, index_params
           <a id="all_pers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <%= from_to %>
           </a>
-          <ul aria-labelledby="all_pers">
+          <ul class="dropdown-menu" aria-labelledby="all_pers">
             <li><em><%= t 'pagination.pers' %></em></li>
             <% Wallaby::PERS.each do |per| %>
               <%= content_tag :li, class: paginator.page_size == per && 'pagination__pers--current' do %>
@@ -30,7 +30,7 @@ paginator = paginator_of current_model_class, collection, index_params
           <a id="all_pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <%= total_count %>
           </a>
-          <%= content_tag :form, action: index_path(current_model_class), method: :get, aria: { labelledby: 'all_pages' } do %>
+          <%= content_tag :form, action: index_path(current_model_class), method: :get, class: 'dropdown-menu', aria: { labelledby: 'all_pages' } do %>
             <% index_params.except(:page).each do |permitted, value| %>
               <%= hidden_field_tag permitted, value %>
             <% end %>

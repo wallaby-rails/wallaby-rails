@@ -2,11 +2,6 @@ body {
   background-color: $background-color;
   color: $font-color;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  padding-top: 142px;
-
-  &.index {
-    padding-top: 161px;
-  }
 
   small {
     font-size: 95%;
@@ -24,15 +19,12 @@ body {
 }
 
 header {
-  .container-fluid {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+  @extend .fixed-top;
 
   nav.navbar {
-    @extend .navbar, .fixed-top;
     background-color: white;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
+    position: relative;
 
     img.user-portrait {
       border-radius: 3px;
@@ -47,38 +39,34 @@ header {
     }
   }
 
-  .navbar-header {
-    position: relative;
+  a.navbar-brand {
+    color: $light-red-color;
+    &:hover {
+      color: $default-red-color;
+    }
+  }
 
-    a.navbar-brand {
-      color: $light-red-color;
-      &:hover {
-        color: $default-red-color;
+  button.navbar-toggle {
+    border: none;
+    float: none;
+    line-height: 16px;
+    margin-top: -18px;
+    padding: 8px 9px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+
+    &:hover, &:focus {
+      background-color: #444;
+      .fa-bars {
+        color: white;
+        font-size: 20px;
       }
     }
 
-    button.navbar-toggle {
-      border: none;
-      float: none;
-      line-height: 16px;
-      margin-top: -18px;
-      padding: 8px 9px;
-      position: absolute;
-      right: 0;
-      top: 50%;
-
-      &:hover, &:focus {
-        background-color: #444;
-        .glyphicon-menu-hamburger {
-          color: white;
-          font-size: 20px;
-        }
-      }
-
-      .glyphicon-menu-hamburger {
-        color: $font-color;
-        font-size: 20px;
-      }
+    .fa-bars {
+      color: $font-color;
+      font-size: 20px;
     }
   }
 
@@ -116,7 +104,7 @@ header {
 }
 
 main {
-  margin: 0 10px;
+  margin: 130px 10px 0;
 
   section {
     font-size: 12px;
@@ -143,7 +131,7 @@ main {
     padding: 11px 0 0;
     position: fixed;
     right: 0;
-    top: 51px;
+    top: 49px;
     z-index: 10;
 
     h1 {

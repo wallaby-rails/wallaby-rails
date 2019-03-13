@@ -28,7 +28,7 @@
 
     &__data, &__actions {
       @extend .table;
-      border-collapse: separate;
+      border-collapse: collapse;
       margin-bottom: 0;
 
       tbody td.resource__actions {

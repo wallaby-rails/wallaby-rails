@@ -1,11 +1,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require popper
-//= require bootstrap-sprockets
+//= require bootstrap
 //= require moment
 //= require moment-timezone-with-data
 //= require tempusdominus-bootstrap-4
-//= require summernote
+//= require summernote/summernote-bs4.min
 //= require codemirror
 //= require codemirror/addons/mode/overlay
 //= require codemirror/modes/ruby
