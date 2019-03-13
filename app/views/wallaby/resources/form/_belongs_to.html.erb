@@ -15,7 +15,7 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
     <% if readonly %>
-      <div class="col-xs-12">
+      <div class="col-12">
         <%= decorated.try :to_label %>
       </div>
     <% else %>
@@ -29,11 +29,11 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
         <% # polymorphic class dropdown box
         # with remote url for typeahead to use
         if metadata[:is_polymorphic] %>
-          <div class="col-xs-6 col-sm-4 auto_select--spacing">
+          <div class="col-6 col-sm-4 auto_select--spacing">
             <%= form.select metadata[:polymorphic_type], polymorphic_options(metadata, wildcard, selected: object.public_send(metadata[:polymorphic_type])), { include_blank: true }, { class: 'form-control' } %>
           </div>
         <% end %>
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
           <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: t('labels.auto_select_hint') %>
         </div>
         <ul>

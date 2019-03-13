@@ -45,7 +45,7 @@ describe Wallaby::TypeRenderer, type: :helper do
         end
 
         it 'renders the custom field' do
-          expect(described_class.render(helper, 'string', field_name: 'custom', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_custom\">Custom</label>\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <input class=\"form-control\" type=\"text\" value=\"custom_value\" name=\"product[custom]\" id=\"product_custom\" />\n    </div>\n  </div>\n  \n  \n</div>\n"
+          expect(described_class.render(helper, 'string', field_name: 'custom', form: form)).to eq "<div class=\"form-group \">\n  <label for=\"product_custom\">Custom</label>\n  <div class=\"row\">\n    <div class=\"col-12\">\n      <input class=\"form-control\" type=\"text\" value=\"custom_value\" name=\"product[custom]\" id=\"product_custom\" />\n    </div>\n  </div>\n  \n  \n</div>\n"
         end
       end
     end

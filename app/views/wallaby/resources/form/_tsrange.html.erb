@@ -10,14 +10,14 @@ The following params are the variables that can be used in this partial.
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
   <div class="row">
-    <div class="col-xs-6 col-sm-4">
+    <div class="col-6 col-sm-4">
       <div class="input-group date" data-init='datetimepicker'>
         <span class="input-group-prepend"><span class="input-group-text">F</span></span>
         <%= form.text_field field_name, value: value.try(:first), multiple: true, class: 'form-control' %>
         <span class="input-group-append"><%= fa_icon 'calendar input-group-text' %></span>
       </div>
     </div>
-    <div class="col-xs-6 col-sm-4">
+    <div class="col-6 col-sm-4">
       <div class="input-group date" data-init='datetimepicker'>
         <span class="input-group-prepend"><span class="input-group-text">T</span></span>
         <%= form.text_field field_name, value: value.try(:last), multiple: true, class: 'form-control' %>
