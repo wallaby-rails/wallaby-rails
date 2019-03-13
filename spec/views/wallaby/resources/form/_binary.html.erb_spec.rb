@@ -7,6 +7,6 @@ describe field_name do
     "#{type} partial", field_name,
     value: '001111000001',
     type: 'file',
-    input_selector: 'input.hidden',
+    input_selector: 'input.sr-only',
     skip_value_check: true
 end
