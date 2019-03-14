@@ -11,12 +11,14 @@ The following params are the variables that can be used in this partial.
   <%= form.label field_name, metadata[:label] %>
   <div class="row">
     <div class="col-12">
-      <label class="radio-inline">
-        <%= form.radio_button field_name, true %> Yes
-      </label>
-      <label class="radio-inline">
-        <%= form.radio_button field_name, false %> No
-      </label>
+      <span class="form-check form-check-inline">
+        <%= form.radio_button field_name, true, class: 'form-check-input' %>
+        <%= form.label field_name, 'Yes', value: true, class: 'form-check-label' %>
+      </span>
+      <span class="form-check form-check-inline">
+        <%= form.radio_button field_name, false, class: 'form-check-input' %>
+        <%= form.label field_name, 'No', value: false, class: 'form-check-label' %>
+      </span>
     </div>
   </div>
   <%= form.error_messages field_name %>
