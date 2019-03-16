@@ -16,14 +16,6 @@ describe Wallaby::StylingHelper do
     end
   end
 
-  describe '#glyph_icon' do
-    it 'returns icon HTML' do
-      expect(helper.glyph_icon('info')).to eq '<i class="glyphicon glyphicon-info"></i>'
-      expect(helper.glyph_icon('clock-o', 'clock')).to eq '<i class="glyphicon glyphicon-clock-o glyphicon-clock"></i>'
-      expect(helper.glyph_icon('clock-o', 'clock', title: 'something')).to eq '<i title="something" class="glyphicon glyphicon-clock-o glyphicon-clock"></i>'
-    end
-  end
-
   describe '#itooltip' do
     it 'returns itooltip HTML' do
       expect(helper.itooltip('<this is a title>')).to eq '<i title="&lt;this is a title&gt;" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'

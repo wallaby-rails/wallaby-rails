@@ -13,9 +13,9 @@ module Wallaby
         https = "http#{request.ssl? ? 's' : EMPTY_STRING}"
         email_md5 = ::Digest::MD5.hexdigest email.downcase
         image_source = "#{https}://www.gravatar.com/avatar/#{email_md5}"
-        image_tag image_source, class: 'hidden-xs user-portrait'
+        image_tag image_source, class: 'hidden-xs user'
       else
-        glyph_icon 'user user-portrait'
+        fa_icon 'user'
       end
     end
 
