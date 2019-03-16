@@ -7,13 +7,14 @@ The following params are the variables that can be used in this partial.
 @param value [Object] value of the field
 @param metadata [Hash] metadata of the field
 %>
+<% picker_id = SecureRandom.uuid %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
   <div class="row">
     <div class="col-6 col-sm-4">
-      <div class="input-group date" data-init='timepicker'>
-        <%= form.time_field field_name, value: value, class: 'form-control' %>
-        <span class="input-group-append"><span class="input-group-text"><%= fa_icon 'clock' %></span></span>
+      <div id="<%= picker_id %>" class="input-group date" data-init="timepicker" data-target-input="nearest">
+        <%= form.text_field field_name, class: 'form-control datetimepicker-input', 'data-target': "##{picker_id}" %>
+        <span class="input-group-append" data-target="#<%= picker_id %>" data-toggle="datetimepicker"><span class="input-group-text"><%= fa_icon 'clock' %></span></span>
       </div>
     </div>
   </div>
