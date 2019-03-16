@@ -18,22 +18,22 @@ describe Wallaby::StylingHelper do
 
   describe '#itooltip' do
     it 'returns itooltip HTML' do
-      expect(helper.itooltip('<this is a title>')).to eq '<i title="&lt;this is a title&gt;" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
-      expect(helper.itooltip('"this is a title"')).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
+      expect(helper.itooltip('<this is a title>')).to eq '<i title="&lt;this is a title&gt;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+      expect(helper.itooltip('"this is a title"')).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
     end
 
     context 'when html_safe' do
       it 'escapes quotes' do
-        expect(helper.itooltip('<this is a title>'.html_safe)).to eq '<i title="<this is a title>" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
-        expect(helper.itooltip('"this is a title"'.html_safe)).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
+        expect(helper.itooltip('<this is a title>'.html_safe)).to eq '<i title="<this is a title>" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+        expect(helper.itooltip('"this is a title"'.html_safe)).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
       end
     end
   end
 
   describe '#imodal' do
     it 'returns modal HTML' do
-      expect(helper.imodal('<this is a title>', '<this is the body>')).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="glyphicon glyphicon-clone"></i></a><span class="modaler__title">&lt;this is a title&gt;</span><span class="modaler__body">&lt;this is the body&gt;</span></span>'
-      expect(helper.imodal('<this is a title>'.html_safe, '<this is the body>'.html_safe)).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="glyphicon glyphicon-clone"></i></a><span class="modaler__title"><this is a title></span><span class="modaler__body"><this is the body></span></span>'
+      expect(helper.imodal('<this is a title>', '<this is the body>')).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="fa fa-clone"></i></a><span class="modaler__title">&lt;this is a title&gt;</span><span class="modaler__body">&lt;this is the body&gt;</span></span>'
+      expect(helper.imodal('<this is a title>'.html_safe, '<this is the body>'.html_safe)).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="fa fa-clone"></i></a><span class="modaler__title"><this is a title></span><span class="modaler__body"><this is the body></span></span>'
     end
   end
 

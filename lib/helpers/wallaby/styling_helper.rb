@@ -32,7 +32,7 @@ module Wallaby
       html_options[:title] = title
       (html_options[:data] ||= {}).merge! toggle: 'tooltip', placement: 'top'
 
-      glyph_icon icon_suffix, html_options
+      fa_icon icon_suffix, html_options
     end
 
     # Build up modal
@@ -42,7 +42,7 @@ module Wallaby
     # @return [String] modal HTML
     def imodal(title, body, html_options = {})
       label ||= html_options.delete(:label) \
-                  || html_options.delete(:icon) || glyph_icon('clone')
+                  || html_options.delete(:icon) || fa_icon('clone')
       content_tag :span, class: 'modaler' do
         concat link_to(label, '#', data: { target: '#imodal', toggle: 'modal' })
         concat content_tag(:span, title, class: 'modaler__title')

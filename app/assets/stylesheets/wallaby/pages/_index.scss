@@ -172,18 +172,18 @@
           display: inline-block;
           font-size: 10px;
           font-weight: lighter;
-          margin-top: -10px;
+          margin-top: -5px;
           position: absolute;
           top: 50%;
         }
 
         &.resources--forward span:before {
-          @extend .fa-chevron-right;
+          @extend .fa, .fa-chevron-right;
           right: 16px;
         }
 
         &.resources--backward:before {
-          @extend .fa-chevron-left;
+          @extend .fa, .fa-chevron-left;
           left: 16px;
         }
       }
