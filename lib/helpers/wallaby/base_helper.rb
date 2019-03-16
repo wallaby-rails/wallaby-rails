@@ -51,7 +51,7 @@ module Wallaby
       return EMPTY_STRING.html_safe if array.blank?
       content_tag :ul, class: 'dropdown-menu', 'aria-labelledby': base_class do
         array.sort_by(&:name).each do |node|
-          content = index_link(node.klass).try :<<, model_tree(node.children)
+          content = index_link(node.klass, html_options: { class: 'dropdown-item' }).try :<<, model_tree(node.children)
           concat content_tag(:li, content)
         end
       end
