@@ -13,19 +13,19 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
 %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label metadata[:foreign_key], metadata[:label] %>
-  <div class="row">
-    <% if readonly %>
+  <% if readonly %>
+    <div class="row">
       <div class="col-12">
         <%= decorated.try :to_label %>
       </div>
-    <% else %>
-      <%
-        wildcard = metadata[:wildcard] || Wallaby::WILDCARD
-        url = unless metadata[:is_polymorphic]
-          remote_url(metadata[:remote_url], metadata[:class], wildcard)
-        end || 'url'
-      %>
-      <span class="auto_select" data-init="belongs_to" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
+    </div>
+  <% else %>
+    <%
+      wildcard = metadata[:wildcard] || Wallaby::WILDCARD
+      url = metadata[:is_polymorphic] ? nil : remote_url(metadata[:remote_url], metadata[:class], wildcard)
+    %>
+    <div class="auto_select" data-init="belongs_to" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
+      <div class="row">
         <% # polymorphic class dropdown box
         # with remote url for typeahead to use
         if metadata[:is_polymorphic] %>
@@ -33,9 +33,11 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
             <%= form.select metadata[:polymorphic_type], polymorphic_options(metadata, wildcard, selected: object.public_send(metadata[:polymorphic_type])), { include_blank: true }, { class: 'form-control' } %>
           </div>
         <% end %>
-        <div class="col-12 col-sm-6">
+        <div class="col-6 col-sm-4">
           <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: t('labels.auto_select_hint') %>
         </div>
+      </div>
+      <div class="row">
         <ul>
           <% if decorated.present? %>
             <li>
@@ -44,9 +46,9 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
             </li>
           <% end %>
         </ul>
-      </span>
-    <% end %>
-  </div>
+      </div>
+    </div>
+  <% end %>
   <%= form.error_messages field_name %>
   <%= hint_of metadata %>
   <% unless metadata[:is_polymorphic] %>
@@ -62,11 +64,22 @@ unless @belongs_to_init
   content_for :custom_javascript do
     javascript_tag do %>
       jQuery(document).off(readyPrefix('.belongs_to')).on(readyPrefix('.belongs_to'), function () {
-        jQuery('[data-init="belongs_to"]').on('change', 'select', function () {
-          var $option = jQuery(this.selectedOptions);
-          var $span = $(this).parents('span:first');
-          $span.data('url', $option.data('url')).trigger('reload');
-        }).trigger('change').auto_select();
+        jQuery('[data-init="belongs_to"]').each(function () {
+          var $container = jQuery(this);
+          var $select = $container.find('select');
+          if ($select.length) {
+            $select.on('change.auto_select', function (_, initialising) {
+              var $option = jQuery(this.selectedOptions);
+              var url = $option.data('url');
+              if (!url) { return; }
+              $container.data('url', url).auto_select();
+              if (initialising) { return; }
+              $container.find('ul a').trigger('click.auto_select');
+            }).trigger('change.auto_select', true);
+          } else {
+            $container.auto_select();
+          }
+        });
       });
 <%  end
   end

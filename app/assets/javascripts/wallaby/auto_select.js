@@ -9,7 +9,7 @@
     auto_select: function (typeaheadOptions, engineOptions) {
       jQuery(this).each(function () {
         var $container = jQuery(this),
-            $input = $container.find('div input');
+            $input = $container.find('div input:visible');
 
         setup($container, $input, typeaheadOptions, engineOptions);
 

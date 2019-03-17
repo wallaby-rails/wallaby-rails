@@ -116,7 +116,7 @@ header {
 }
 
 main {
-  margin: 130px 10px 0;
+  margin: 140px 10px 0;
 
   section {
     font-size: 12px;
@@ -130,8 +130,13 @@ main {
 
   .resources, .resource {
     &__container {
-      overflow: auto;
       background-color: $white;
+    }
+  }
+
+  .resources {
+    &__container {
+      overflow: auto;
     }
   }
 

@@ -16,10 +16,10 @@ describe Wallaby::SecureHelper do
 
         version_specific = {
           5 => {
-            2 => '<img class="d-none d-lg-block user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
+            2 => '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
           }
         }
-        expected = minor version_specific, '<img class="d-none d-lg-block user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
+        expected = minor version_specific, '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
         expect(helper.user_portrait(user)).to eq expected
       end
     end
@@ -32,10 +32,10 @@ describe Wallaby::SecureHelper do
 
         version_specific = {
           5 => {
-            2 => '<img class="d-none d-lg-block user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
+            2 => '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
           }
         }
-        expected = minor version_specific, '<img class="d-none d-lg-block user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
+        expected = minor version_specific, '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
         expect(helper.user_portrait(user)).to eq expected
       end
     end
