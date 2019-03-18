@@ -11,8 +11,8 @@ describe Wallaby::StylingHelper do
   describe '#fa_icon' do
     it 'returns icon HTML' do
       expect(helper.fa_icon('info')).to eq '<i class="fa fa-info"></i>'
-      expect(helper.fa_icon('clock-o', 'clock')).to eq '<i class="fa fa-clock-o fa-clock"></i>'
-      expect(helper.fa_icon('clock-o', 'clock', title: 'something')).to eq '<i title="something" class="fa fa-clock-o fa-clock"></i>'
+      expect(helper.fa_icon('see-o', 'see')).to eq '<i class="fa fa-see-o fa-see"></i>'
+      expect(helper.fa_icon('see-o', 'see', title: 'something')).to eq '<i title="something" class="fa fa-see-o fa-see"></i>'
     end
   end
 
