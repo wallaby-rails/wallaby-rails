@@ -18,7 +18,7 @@ module Wallaby
       html_options = args.extract_options!
       html_options[:class] = Array html_options[:class]
       html_options[:class] << 'fa'
-      args.each { |suffix| html_options[:class] << "fa-#{suffix}" }
+      args.each { |suffix| html_options[:class] << "fa-#{fa_map suffix}" }
 
       content_tag :i, nil, html_options, &block
     end
@@ -65,6 +65,16 @@ module Wallaby
     # @return [String] HTML I element
     def muted(text_content)
       content_tag :i, "<#{text_content}>", class: 'text-muted'
+    end
+
+    # @param name [String]
+    # @return [String] FontAwesome icon name
+    def fa_map(name, major = nil)
+      @map ||= begin
+        major ||= Gem.loaded_specs['font-awesome-sass']&.version&.segments&.first
+        t("fa.#{major}").with_indifferent_access
+      end
+      @map[name] || name
     end
   end
 end

@@ -14,6 +14,7 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'cancancan'
+# gem 'font-awesome-sass', '< 5.0'
 gem 'her'
 gem 'pundit'
 gem 'rails', '~>5.2.2'

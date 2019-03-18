@@ -61,7 +61,7 @@
           }
 
           &.resource__update {
-            @extend .fa-pen;
+            @include fa-extend('pencil-alt', false);
             background-color: $light-yellow-color;
 
             &:hover {
@@ -120,22 +120,22 @@
 
           &:hover {
             color: $default-primary-color;
-            @extend .fa-sort-up;
+            @include fa-extend('sort-up', false);
           }
         }
 
         &.asc {
           a {
-            @extend .fa-sort-up;
+            @include fa-extend('sort-up', false);
             &:hover {
-              @extend .fa-sort-down;
+              @include fa-extend('sort-down', false);
             }
           }
         }
 
         &.desc {
           a {
-            @extend .fa-sort-down;
+            @include fa-extend('sort-down', false);
             &:hover {
               @extend .fa-sort;
             }

@@ -237,7 +237,7 @@ main {
       }
 
       &__update {
-        @extend .fa-pen;
+        @include fa-extend('pencil-alt', false);
         background-color: $light-yellow-color;
 
         &:hover {
@@ -246,7 +246,7 @@ main {
       }
 
       &__destroy {
-        @extend .fa-times;
+        @include fa-extend('times', false);
         background-color: $light-red-color;
 
         &:hover {

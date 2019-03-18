@@ -119,3 +119,15 @@ en:
     resource_paginator_inheirtance: "[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit from `Wallaby::ModelPaginator` instead.\n(called from %{from})"
     resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*. Please use `model_paginator=` instead.\n(called from %{from})"
     type_partial_render: "[DEPRECATION] `type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"
+
+  fa:
+    # map fa 5's icon name to version 4
+    # @see this fa migration document https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4
+    4:
+      clock: 'clock-o'
+      bars: 'navicon'
+      calendar: 'calendar-o'
+      check-square: 'check-square-o'
+      square: 'square-o'
+      link: 'chain'
+      user: 'user-o'
