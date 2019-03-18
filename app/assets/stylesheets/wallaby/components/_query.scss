@@ -22,8 +22,8 @@
       position: relative;
 
       &:before {
-        @extend .glyphicon;
-        @extend .glyphicon-search;
+        @extend .fa;
+        @extend .fa-search;
         color: $default-primary-color;
         left: 8px;
         margin-top: -7px;
@@ -54,13 +54,14 @@
 
   &__actions {
     @include dropdown($left_or_right: "right");
+    color: $white;
     position: absolute;
     right: 0;
 
     .query__clear, .query__create, .query__more {
       border-radius: 2px;
       border: none;
-      color: white;
+      color: $white;
       float: left;
       height: 30px;
       line-height: 30px;
@@ -71,8 +72,8 @@
     }
 
     .query__clear {
-      @extend .glyphicon;
-      @extend .glyphicon-ban-circle;
+      @extend .fa;
+      @extend .fa-ban;
       background-color: $light-grey-color;
 
       &:hover {
@@ -81,8 +82,8 @@
     }
 
     .query__create {
-      @extend .glyphicon;
-      @extend .glyphicon-plus;
+      @extend .fa;
+      @extend .fa-plus;
       background-color: $light-green-color;
 
       &:hover {
@@ -91,8 +92,8 @@
     }
 
     .query__more {
-      @extend .glyphicon;
-      @extend .glyphicon-chevron-down;
+      @extend .fa;
+      @extend .fa-chevron-down;
       background-color: $light-blue-color;
 
       &:hover {

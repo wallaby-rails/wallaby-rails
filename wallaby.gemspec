@@ -20,9 +20,10 @@ Gem::Specification.new do |s|
   ]
   s.test_files = Dir['test/**/*']
 
-  s.add_dependency 'bootstrap-sass'
-  s.add_dependency 'bootstrap3-datetimepicker-rails'
+  s.add_dependency 'bootstrap'
+  s.add_dependency 'bootstrap4-datetime-picker-rails'
   s.add_dependency 'codemirror-rails'
+  s.add_dependency 'font-awesome-sass'
   s.add_dependency 'jbuilder'
   s.add_dependency 'jquery-minicolors-rails'
   s.add_dependency 'jquery-rails'

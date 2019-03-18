@@ -1,40 +1,34 @@
 <% # can be overridden %>
 <header>
-  <nav class="navbar">
-    <div class="container-fluid">
-      <%# Brand %>
-      <div class="navbar-header">
-        <%# Mobile Menu Toggler %>
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-menu" aria-expanded="false">
-          <span class="glyphicon glyphicon-menu-hamburger"></span>
-        </button>
-        <%# //Mobile Menu Toggler %>
-        <%= render 'logo' %>
-      </div>
-      <%# //Brand %>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <%= render 'logo' %>
+    <%# Mobile Menu Toggler %>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top-menu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <%= fa_icon 'bars' %>
+    </button>
+    <%# //Mobile Menu Toggler %>
 
-      <div id="top-menu" class="collapse navbar-collapse">
-        <%# Resources navigation %>
-        <%= render 'navs' %>
-        <%# //Resources navigation %>
-        <%# User account %>
-        <ul class="nav navbar-nav navbar-right">
-          <li><span class=""></span></li>
-          <% if current_user.present? %>
-            <li role="separator" class="divider"></li>
-            <li>
-              <a id="user_menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                class="dropdown-toggle">
+    <div id="top-menu" class="collapse navbar-collapse">
+      <%# Resources navigation %>
+      <%= render 'navs' %>
+      <%# //Resources navigation %>
+      <%# User account %>
+      <ul class="navbar-nav ml-auto">
+        <% if current_user.present? %>
+          <li class="nav-item dropdown">
+            <a id="user_menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              class="nav-link dropdown-toggle">
+              <span class="user__portrait">
                 <%= user_portrait %>
-                <span class="visible-xs-inline-block">User</span>
-                <span class="caret"></span>
-              </a>
-              <%= render 'user_menu' %>
-            </li>
-          <% end %>
-        </ul>
-        <%# //User account %>
-      </div>
+                <span class="user__text">User</span>
+              </span>
+              <span class="caret"></span>
+            </a>
+            <%= render 'user_menu' %>
+          </li>
+        <% end %>
+      </ul>
+      <%# //User account %>
     </div>
   </nav>
 </header>

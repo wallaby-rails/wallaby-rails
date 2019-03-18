@@ -3,8 +3,9 @@
 # even if they don't appear in the `Gemfile`
 require 'sass-rails'
 
-require 'bootstrap-sass'
-require 'bootstrap3-datetimepicker-rails'
+require 'bootstrap'
+require 'font-awesome-sass'
+require 'bootstrap4-datetime-picker-rails'
 require 'codemirror-rails'
 require 'jquery-minicolors-rails'
 require 'jquery-rails'

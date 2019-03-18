@@ -114,9 +114,22 @@ en:
     abstract!: "[DEPRECATION] `abstract!` will be removed from 5.3.*. Please use `base_class!` instead.\n(called from %{from})"
     authorizer: "[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.\n(called from %{from})"
     current_model_service: "[DEPRECATION] `current_model_service` will be removed from 5.3.*. Please use `current_servicer` instead.\n(called from %{from})"
-    fa_icon: "[DEPRECATION] `#fa_icon` will be removed from 5.3.*. Please use `#glyph_icon` instead.\n(called from %{from})"
     find_filter_name: "[DEPRECATION] `Wallaby::Utils.find_filter_name` will be removed from 5.3.*. Please use `Wallaby::FilterUtils.filter_name_by` instead.\n(called from %{from})"
     form_type_partial_render: "[DEPRECATION] `form_type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"
     resource_paginator_inheirtance: "[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit from `Wallaby::ModelPaginator` instead.\n(called from %{from})"
     resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*. Please use `model_paginator=` instead.\n(called from %{from})"
     type_partial_render: "[DEPRECATION] `type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"
+
+  fa:
+    # map fa 5's icon name to version 4
+    # @see this fa migration document https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4
+    v4:
+      clock: 'clock-o'
+      bars: 'navicon'
+      calendar: 'calendar-o'
+      check-square: 'check-square-o'
+      square: 'square-o'
+      link: 'chain'
+      user: 'user-o'
+    v5:
+      no-need: 'no-need'

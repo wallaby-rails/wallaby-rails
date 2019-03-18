@@ -10,6 +10,8 @@
 }
 
 .auto_select {
+  width: 100%;
+
   ul, li {
     list-style: none;
     margin: 0;
@@ -48,8 +50,8 @@
     }
 
     &:before {
-      @extend .glyphicon;
-      @extend .glyphicon-remove;
+      @extend .fa;
+      @extend .fa-times;
       color: $light-red-color;
       display: block;
       height: 16px;

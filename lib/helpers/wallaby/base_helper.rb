@@ -49,9 +49,10 @@ module Wallaby
     # @return [String] HTML for the whole tree
     def model_tree(array, base_class = nil)
       return EMPTY_STRING.html_safe if array.blank?
+      options = { html_options: { class: 'dropdown-item' } }
       content_tag :ul, class: 'dropdown-menu', 'aria-labelledby': base_class do
         array.sort_by(&:name).each do |node|
-          content = index_link(node.klass).try :<<, model_tree(node.children)
+          content = index_link(node.klass, options).try :<<, model_tree(node.children)
           concat content_tag(:li, content)
         end
       end

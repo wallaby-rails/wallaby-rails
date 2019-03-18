@@ -11,7 +11,7 @@ module Wallaby
     end
 
     # @return [String] JSON
-    def to_json
+    def to_json(*)
       json_options = { content_type: 'application/vnd.api+json', status: options[:status] }
       if exception?
         render json_options.merge(json: exception_details)

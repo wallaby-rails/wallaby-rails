@@ -8,3 +8,11 @@
     padding-left: 36px;
   }
 }
+
+.bootstrap-datetimepicker-widget {
+  table {
+    td.day, th {
+      border: none;
+    }
+  }
+}

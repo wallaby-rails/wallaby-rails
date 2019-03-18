@@ -12,8 +12,8 @@ The following params are the variables that can be used in this partial.
   <div class="row">
     <div class="col-sm-12">
       <%= form.label field_name, class: 'btn btn-default' do %>
-        <%= form.file_field field_name, class: 'hidden' %>
-        <%= glyph_icon 'upload' %> <%= t 'labels.upload' %>
+        <%= form.file_field field_name, class: 'sr-only' %>
+        <%= fa_icon 'upload' %> <%= t 'labels.upload' %>
       <% end %>
     </div>
   </div>

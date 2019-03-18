@@ -9,7 +9,7 @@ if Rails::VERSION::MAJOR >= 5
       value: '001111000001',
       type: 'file',
       model_class: AllMysqlType,
-      input_selector: 'input.hidden',
+      input_selector: 'input.sr-only',
       skip_value_check: true
   end
 end

@@ -24,7 +24,7 @@ module Wallaby
     end
 
     # @return [String] JSON
-    def to_json
+    def to_json(*)
       set_layout_to_none
       return default_render unless post? || patch? || put? || delete?
       if has_errors? then render :bad_request, options.merge(status: :bad_request)

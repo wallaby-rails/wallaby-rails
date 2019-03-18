@@ -28,7 +28,7 @@
 
     &__data, &__actions {
       @extend .table;
-      border-collapse: separate;
+      border-collapse: collapse;
       margin-bottom: 0;
 
       tbody td.resource__actions {
@@ -36,8 +36,8 @@
         text-align: right;
 
         a {
-          @extend .glyphicon;
-          @extend .glyphicon-info-sign;
+          @extend .fa;
+          @extend .fa-info;
           &:before {
             line-height: 16px;
             width: 16px;
@@ -61,7 +61,7 @@
           }
 
           &.resource__update {
-            @extend .glyphicon-pencil;
+            @include fa-extend('pencil-alt', false);
             background-color: $light-yellow-color;
 
             &:hover {
@@ -70,7 +70,7 @@
           }
 
           &.resource__destroy {
-            @extend .glyphicon-remove;
+            @extend .fa-times;
             background-color: $light-red-color;
 
             &:hover {
@@ -109,7 +109,7 @@
           transition: 0.5s;
 
           &:before {
-            @extend .glyphicon;
+            @extend .fa;
             color: $light-primary-color;
             margin-top: -6px;
             position: absolute;
@@ -120,24 +120,24 @@
 
           &:hover {
             color: $default-primary-color;
-            @extend .glyphicon-sort-by-attributes;
+            @include fa-extend('sort-up', false);
           }
         }
 
         &.asc {
           a {
-            @extend .glyphicon-sort-by-attributes;
+            @include fa-extend('sort-up', false);
             &:hover {
-              @extend .glyphicon-sort-by-attributes-alt;
+              @include fa-extend('sort-down', false);
             }
           }
         }
 
         &.desc {
           a {
-            @extend .glyphicon-sort-by-attributes-alt;
+            @include fa-extend('sort-down', false);
             &:hover {
-              @extend .glyphicon-sort;
+              @extend .fa-sort;
             }
           }
         }
@@ -151,7 +151,7 @@
         }
       }
 
-      .glyphicon {
+      .fa {
         font-size: 11px;
         margin-left: 3px;
       }
@@ -164,7 +164,7 @@
       width: inherit;
 
       thead tr th {
-        @extend .glyphicon;
+        @extend .fa;
         display: table-cell;
         font-size: 14px;
 
@@ -172,18 +172,18 @@
           display: inline-block;
           font-size: 10px;
           font-weight: lighter;
-          margin-top: -10px;
+          margin-top: -5px;
           position: absolute;
           top: 50%;
         }
 
         &.resources--forward span:before {
-          @extend .glyphicon-chevron-right;
+          @extend .fa, .fa-chevron-right;
           right: 16px;
         }
 
         &.resources--backward:before {
-          @extend .glyphicon-chevron-left;
+          @extend .fa, .fa-chevron-left;
           left: 16px;
         }
       }

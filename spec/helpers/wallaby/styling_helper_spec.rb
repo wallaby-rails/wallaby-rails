@@ -11,37 +11,29 @@ describe Wallaby::StylingHelper do
   describe '#fa_icon' do
     it 'returns icon HTML' do
       expect(helper.fa_icon('info')).to eq '<i class="fa fa-info"></i>'
-      expect(helper.fa_icon('clock-o', 'clock')).to eq '<i class="fa fa-clock-o fa-clock"></i>'
-      expect(helper.fa_icon('clock-o', 'clock', title: 'something')).to eq '<i title="something" class="fa fa-clock-o fa-clock"></i>'
-    end
-  end
-
-  describe '#glyph_icon' do
-    it 'returns icon HTML' do
-      expect(helper.glyph_icon('info')).to eq '<i class="glyphicon glyphicon-info"></i>'
-      expect(helper.glyph_icon('clock-o', 'clock')).to eq '<i class="glyphicon glyphicon-clock-o glyphicon-clock"></i>'
-      expect(helper.glyph_icon('clock-o', 'clock', title: 'something')).to eq '<i title="something" class="glyphicon glyphicon-clock-o glyphicon-clock"></i>'
+      expect(helper.fa_icon('see-o', 'see')).to eq '<i class="fa fa-see-o fa-see"></i>'
+      expect(helper.fa_icon('see-o', 'see', title: 'something')).to eq '<i title="something" class="fa fa-see-o fa-see"></i>'
     end
   end
 
   describe '#itooltip' do
     it 'returns itooltip HTML' do
-      expect(helper.itooltip('<this is a title>')).to eq '<i title="&lt;this is a title&gt;" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
-      expect(helper.itooltip('"this is a title"')).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
+      expect(helper.itooltip('<this is a title>')).to eq '<i title="&lt;this is a title&gt;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+      expect(helper.itooltip('"this is a title"')).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
     end
 
     context 'when html_safe' do
       it 'escapes quotes' do
-        expect(helper.itooltip('<this is a title>'.html_safe)).to eq '<i title="<this is a title>" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
-        expect(helper.itooltip('"this is a title"'.html_safe)).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-info-circle"></i>'
+        expect(helper.itooltip('<this is a title>'.html_safe)).to eq '<i title="<this is a title>" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
+        expect(helper.itooltip('"this is a title"'.html_safe)).to eq '<i title="&quot;this is a title&quot;" data-toggle="tooltip" data-placement="top" class="fa fa-info-circle"></i>'
       end
     end
   end
 
   describe '#imodal' do
     it 'returns modal HTML' do
-      expect(helper.imodal('<this is a title>', '<this is the body>')).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="glyphicon glyphicon-clone"></i></a><span class="modaler__title">&lt;this is a title&gt;</span><span class="modaler__body">&lt;this is the body&gt;</span></span>'
-      expect(helper.imodal('<this is a title>'.html_safe, '<this is the body>'.html_safe)).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="glyphicon glyphicon-clone"></i></a><span class="modaler__title"><this is a title></span><span class="modaler__body"><this is the body></span></span>'
+      expect(helper.imodal('<this is a title>', '<this is the body>')).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="fa fa-clone"></i></a><span class="modaler__title">&lt;this is a title&gt;</span><span class="modaler__body">&lt;this is the body&gt;</span></span>'
+      expect(helper.imodal('<this is a title>'.html_safe, '<this is the body>'.html_safe)).to eq '<span class="modaler"><a data-target="#imodal" data-toggle="modal" href="#"><i class="fa fa-clone"></i></a><span class="modaler__title"><this is a title></span><span class="modaler__body"><this is the body></span></span>'
     end
   end
 

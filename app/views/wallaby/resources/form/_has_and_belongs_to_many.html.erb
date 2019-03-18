@@ -16,7 +16,7 @@ readonly = unauthorized? :edit, metadata[:class]
   <%= form.label metadata[:foreign_key], metadata[:label] %>
   <div class="row">
     <% if readonly %>
-      <div class="col-xs-12">
+      <div class="col-12">
         <%= decorated.map(&:to_label).to_sentence %>
       </div>
     <% else %>
@@ -25,7 +25,7 @@ readonly = unauthorized? :edit, metadata[:class]
       url = remote_url(metadata[:remote_url], metadata[:class], wildcard)
       %>
       <span class="auto_select" data-init="has_and_belongs_to_many" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-12 col-sm-6">
           <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', multiple: true, placeholder: t('labels.auto_select_hint') %>
         </div>
         <strong class="auto_select__count"><%= t 'labels.count' %><span></span></strong>
