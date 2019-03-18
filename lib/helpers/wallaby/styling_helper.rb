@@ -72,7 +72,7 @@ module Wallaby
     def fa_map(name, major = nil)
       @map ||= begin
         major ||= Gem.loaded_specs['font-awesome-sass']&.version&.segments&.first
-        t("fa.#{major}").with_indifferent_access
+        t("fa.v#{major}").with_indifferent_access
       end
       @map[name] || name
     end

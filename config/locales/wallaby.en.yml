@@ -123,7 +123,7 @@ en:
   fa:
     # map fa 5's icon name to version 4
     # @see this fa migration document https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4
-    4:
+    v4:
       clock: 'clock-o'
       bars: 'navicon'
       calendar: 'calendar-o'
@@ -131,5 +131,5 @@ en:
       square: 'square-o'
       link: 'chain'
       user: 'user-o'
-    5:
+    v5:
       no-need: 'no-need'
