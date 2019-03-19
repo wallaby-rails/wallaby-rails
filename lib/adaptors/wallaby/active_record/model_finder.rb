@@ -5,8 +5,7 @@ module Wallaby
       # @return [Array<Class>] a list of ActiveRecord subclasses
       def all
         self.class.base.descendants.reject do |model_class|
-          abstract?(model_class) || anonymous?(model_class) \
-            || schema?(model_class) || habtm?(model_class)
+          abstract?(model_class) || anonymous?(model_class) || habtm?(model_class)
         end.sort_by(&:to_s)
       end
 
@@ -29,13 +28,6 @@ module Wallaby
       # @see Wallaby::ModuleUtils.anonymous_class?
       def anonymous?(model_class)
         ModuleUtils.anonymous_class? model_class
-      end
-
-      # Is model class the shcema migration class?
-      # @param model_class [Class] model class
-      # @return [Boolean]
-      def schema?(model_class)
-        model_class.name == 'ActiveRecord::SchemaMigration'
       end
 
       # Check and see if given model class is intermediate class that generated

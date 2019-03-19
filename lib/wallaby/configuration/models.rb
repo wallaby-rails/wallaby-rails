@@ -1,44 +1,43 @@
 module Wallaby
   class Configuration
-    # Models configuration to specify the model classes that Wallaby should handle.
     # @note In `development` environment, Rails recreates module/class constants on reload event.
     #   If constants are cached/stored, they will become stale and Rails will raise conflicts.
     #
-    #   Hence, class name strings should be stored instead of constants.
-    #   When classes are requested, strings will be constantized back into classes.
+    #   Hence, class name strings should be stored instead.
+    #   When classes are requested, strings will be constantized into classes.
+    # Models configuration to specify the model classes that Wallaby should handle.
     class Models
-      # @note Once this is set, models exclusion configuration will be ignored.
+      # @note If models are whitelisted, models exclusion will NOT be applied.
       # To globally configure what model classes that Wallaby should handle.
-      # @example To update the model classes in `config/initializers/wallaby.rb`
+      # @example To whitelist the model classes in `config/initializers/wallaby.rb`
       #   Wallaby.config do |config|
       #     config.models = [Product, Order]
       #   end
-      # @param models [Array<Class>]
+      # @param models [Array<Class, String>]
       def set(*models)
         @models = Array(models).flatten.map(&:to_s)
       end
 
-      # Return the model classes that have been set.
-      # @return [Array<Class>] a list of models
+      # @return [Array<Class>] the models configured
       def presence
         (@models ||= []).map(&:constantize)
       end
 
-      # @note If models are {#set}, it will take precedence over models exclusion.
+      # @note If models are whitelisted using {#set}, models exclusion will NOT be applied.
       # To globally configure what model classes to exclude.
-      # @example To update the model classes exclusion in `config/initializers/wallaby.rb`
+      # @example To exclude models in `config/initializers/wallaby.rb`
       #   Wallaby.config do |config|
       #     config.models.exclude Product, Order
       #   end
-      # @param models [Array<Class>]
+      # @param models [Array<Class, String>]
       def exclude(*models)
         @excludes = Array(models).flatten.map(&:to_s)
       end
 
-      # Return the model classes that should be excluded.
-      # @return [Array<Class>] a list of models
+      # @return [Array<Class>] the list of models to exclude.
+      #   By default, `ActiveRecord::SchemaMigration` is excluded.
       def excludes
-        (@excludes ||= []).map(&:constantize)
+        (@excludes ||= ['ActiveRecord::SchemaMigration']).map(&:constantize)
       end
     end
   end
