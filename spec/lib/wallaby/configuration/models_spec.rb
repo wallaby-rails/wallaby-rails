@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::Configuration::Models do
   describe '#set' do
-    it 'sets the models' do
+    it 'saves the model as string' do
       expect(subject.set(AllPostgresType)).to eq ['AllPostgresType']
       expect(subject.set([AllPostgresType])).to eq ['AllPostgresType']
       expect(subject.set('AllPostgresType')).to eq ['AllPostgresType']
@@ -20,8 +20,7 @@ describe Wallaby::Configuration::Models do
 
   describe 'excludes' do
     it 'returns blank array by default' do
-      expect(subject.excludes).to be_blank
-      expect(subject.excludes).to be_a Array
+      expect(subject.excludes).to eq [ActiveRecord::SchemaMigration]
     end
 
     it 'returns whatever has been assigned' do
@@ -33,6 +32,11 @@ describe Wallaby::Configuration::Models do
 
       subject.exclude(*models_constants)
       expect(subject.excludes).to eq models_constants
+    end
+
+    it 'sets blank array' do
+      subject.exclude([])
+      expect(subject.excludes).to be_blank
     end
   end
 end
