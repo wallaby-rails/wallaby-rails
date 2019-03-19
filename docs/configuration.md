@@ -152,6 +152,8 @@ What models Wallaby should be handling can be configured in the following two wa
 
 ### exclude
 
+> NOTE: when models are whitelisted, models exclusion will NOT be applied.
+
 Blacklist the models that Wallaby shouldn't handle:
 
 ```ruby
@@ -167,11 +169,20 @@ Wallaby.config do |config|
 end
 ```
 
+Since 5.2.0, by default, `ActiveRecord::SchemaMigration` is excluded. If it is required, it can be brought back by configuring:
+
+```ruby
+# config/initializers/wallaby.rb
+Wallaby.config do |config|
+  config.models.exclude []
+end
+```
+
 ### models=
 
-Whitelist the models that Wallaby should handle:
+> NOTE: when models are whitelisted, models exclusion will NOT be applied.
 
-> NOTE: once the whitelist is defined, Wallaby will ignore the blacklist above.
+Whitelist the models that Wallaby should handle:
 
 ```ruby
 # config/initializers/wallaby.rb
