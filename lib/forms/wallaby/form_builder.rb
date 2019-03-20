@@ -38,7 +38,7 @@ module Wallaby
 
     protected
 
-    # Try to delegate method to `@template`
+    # Delegate method to `@template`
     def method_missing(method, *args, &block)
       return super unless @template.respond_to? method
       # Delegate the method so that we don't come in here the next time

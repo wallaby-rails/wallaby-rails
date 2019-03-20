@@ -143,12 +143,12 @@ module Wallaby
       resource.public_send primary_key
     end
 
-    # Missing method will be delegated to {#resource}
+    # Delegated method to {#resource}
     # @param method_id [String,Symbol]
     # @param args [Array]
-    def method_missing(method_id, *args)
+    def method_missing(method_id, *args, &block)
       return super unless resource.respond_to? method_id
-      resource.public_send method_id, *args
+      resource.public_send method_id, *args, &block
     end
 
     # @param method_id [String,Symbol]

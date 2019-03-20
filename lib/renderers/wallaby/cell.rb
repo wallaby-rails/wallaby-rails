@@ -101,12 +101,12 @@ module Wallaby
 
     private
 
-    # We delegate missing methods to context
+    # Delegate missing methods to context
     # @param method_id [String,Symbol]
     # @param args [Array]
-    def method_missing(method_id, *args)
+    def method_missing(method_id, *args, &block)
       return super unless @context.respond_to? method_id
-      @context.public_send method_id, *args
+      @context.public_send method_id, *args, &block
     end
 
     # @param method_id [String,Symbol]
