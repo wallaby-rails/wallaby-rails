@@ -312,66 +312,67 @@ The following resourcesful actions are mapped to the action prefixes:
 
 > NOTE:
 
-| Type Partial        | Available to Action Prefixes  | Metadata Options |
-| ------------------- | ----------------------------- | ---------------- |
-| bigint              | index, show, form             | |
-| bigserial           | index, show, form             | |
-| binary              | index, show, form             | |
-| bit_varying         | index, show, form             | |
-| bit                 | index, show, form             | |
-| blob                | index, show, form             | |
-| boolean             | index, show, form             | |
-| box                 | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| cidr                | index, show, form             | |
-| circle              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| citext              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| color               | index, show, form             | |
-| date                | index, show, form             | |
-| daterange           | index, show, form             | |
-| datetime            | index, show, form             | |
-| decimal             | index, show, form             | |
-| dropdown            | form                          | options for **form**: <br> - `:choices` - choices for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br> - `:options` - options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br>  - `:html_options` - html_options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). |
-| email               | index, show, form             | |
-| file                | form                          | |
-| float               | index, show, form             | options for **form**: <br> - `:options` - options for [ActionView::Helpers::FormHelper#number_field](https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-number_field). |
-| hstore              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| image               | show                          | options for **show**: <br> - `:options` - options for [ActionView::Helpers::AssetTagHelper#image_tag](https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-image_tag). |
-| inet                | index, show, form             | |
-| int4range           | index, show, form             | |
-| int8range           | index, show, form             | |
-| integer             | index, show, form             | |
-| json                | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| jsonb               | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| line                | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| link (since 5.1.9)  | index, show                   | options for **index**, **show**: <br> - `:title` - title of the link. <br> - `:html_options` - options for [ActionView::Helpers::UrlHelper.html#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)|
-| longblob            | index, show, form             | |
-| longtext            | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| lseg                | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| ltree               | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| macaddr             | index, show, form             |
-| markdown            | form                          | |
-| mediumblob          | index, show, form             | |
-| mediumtext          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| money               | index, show, form             | |
-| numrange            | index, show, form             | |
-| password            | index, show, form             | |
-| path                | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| point               | index, show, form             | |
-| polygon             | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| raw                 | index, show                   | |
-| serial              | index, show, form             | |
-| sti                 | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. <br> options for **form**: <br> - `:sti_class_list` - list of STI classes for user to choose. |
-| string              | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| text                | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| time                | index, show, form             | |
-| tinyblob            | index, show, form             | |
-| tinytext            | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| tsrange             | index, show, form             | |
-| tstzrange           | index, show, form             | |
-| tsvector            | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| unsigned_bigint     | index, show, form             | |
-| unsigned_decimal    | index, show, form             | |
-| unsigned_float      | index, show, form             | |
-| unsigned_integer    | index, show, form             | |
-| uuid                | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| xml                 | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| Type Partial                  | Available to Action Prefixes  | Metadata Options |
+| ----------------------------- | ----------------------------- | ---------------- |
+| active_storage (since 5.2.0)  | index, show                   | |
+| bigint                        | index, show, form             | |
+| bigserial                     | index, show, form             | |
+| binary                        | index, show, form             | |
+| bit_varying                   | index, show, form             | |
+| bit                           | index, show, form             | |
+| blob                          | index, show, form             | |
+| boolean                       | index, show, form             | |
+| box                           | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| cidr                          | index, show, form             | |
+| circle                        | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| citext                        | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| color                         | index, show, form             | |
+| date                          | index, show, form             | |
+| daterange                     | index, show, form             | |
+| datetime                      | index, show, form             | |
+| decimal                       | index, show, form             | |
+| dropdown                      | form                          | options for **form**: <br> - `:choices` - choices for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br> - `:options` - options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br>  - `:html_options` - html_options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). |
+| email                         | index, show, form             | |
+| file                          | form                          | |
+| float                         | index, show, form             | options for **form**: <br> - `:options` - options for [ActionView::Helpers::FormHelper#number_field](https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-number_field). |
+| hstore                        | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| image                         | show                          | options for **show**: <br> - `:options` - options for [ActionView::Helpers::AssetTagHelper#image_tag](https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-image_tag). |
+| inet                          | index, show, form             | |
+| int4range                     | index, show, form             | |
+| int8range                     | index, show, form             | |
+| integer                       | index, show, form             | |
+| json                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| jsonb                         | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| line                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| link (since 5.1.9)            | index, show                   | options for **index**, **show**: <br> - `:title` - title of the link. <br> - `:html_options` - options for [ActionView::Helpers::UrlHelper.html#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)|
+| longblob                      | index, show, form             | |
+| longtext                      | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| lseg                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| ltree                         | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| macaddr                       | index, show, form             |
+| markdown                      | form                          | |
+| mediumblob                    | index, show, form             | |
+| mediumtext                    | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| money                         | index, show, form             | |
+| numrange                      | index, show, form             | |
+| password                      | index, show, form             | |
+| path                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| point                         | index, show, form             | |
+| polygon                       | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| raw                           | index, show                   | |
+| serial                        | index, show, form             | |
+| sti                           | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. <br> options for **form**: <br> - `:sti_class_list` - list of STI classes for user to choose. |
+| string                        | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| text                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| time                          | index, show, form             | |
+| tinyblob                      | index, show, form             | |
+| tinytext                      | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| tsrange                       | index, show, form             | |
+| tstzrange                     | index, show, form             | |
+| tsvector                      | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| unsigned_bigint               | index, show, form             | |
+| unsigned_decimal              | index, show, form             | |
+| unsigned_float                | index, show, form             | |
+| unsigned_integer              | index, show, form             | |
+| uuid                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
+| xml                           | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |

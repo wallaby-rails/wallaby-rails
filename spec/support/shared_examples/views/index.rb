@@ -5,7 +5,6 @@ RSpec.shared_examples 'index cell' do |field_name, options = {}|
   let(:object) { model_class.new field_name => value }
   let(:value) { options[:value] }
 
-  let(:partial_name) { options[:partial_name] || field_name }
   let(:content_for) { options[:content_for] }
   let(:metadata) { options[:metadata].to_h }
   let(:model_class) { options[:model_class] || AllPostgresType }
