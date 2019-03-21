@@ -27,6 +27,7 @@ For Cell (since 5.2.0):
 - [context](#context) - view context
 - [local_assigns](#local_assigns) - local variables same as partial `local_assigns`
 - [object, field_name, value, metadata and form](#object-field_name-value-metadata-and-form) - five mostly used local variables
+- [at](#at) - accessing and assigning value of an instance variable in the view context
 
 Cell helper methods (since 5.2.0):
 
@@ -134,6 +135,18 @@ end
 ```
 
 ### Cell Helper Methods
+
+#### at
+
+`at` is used to access and write value to a view instance variable. For example:
+
+```ruby
+def render
+  at('read', true) # set @read to true in view
+  label = at('resource').field_names.first # get @resource from the view
+  form.label label
+end
+```
 
 #### concat
 
