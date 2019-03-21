@@ -30,6 +30,13 @@ describe Wallaby::Cell, type: :helper do
     end
   end
 
+  describe '#at' do
+    it 'sets/gets value' do
+      subject.at 'test', 'something'
+      expect(subject.at('test')).to eq 'something'
+    end
+  end
+
   describe '#concat' do
     it 'buffers the string' do
       subject.concat 'test'

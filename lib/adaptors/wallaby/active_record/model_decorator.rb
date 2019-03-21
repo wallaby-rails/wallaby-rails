@@ -8,6 +8,9 @@ module Wallaby
         .zip(%w(blob text) * 3).map(&:join)
         .concat(%w(binary citext hstore json jsonb tsvector xml)).freeze
 
+      # Class to exclude for show page
+      SHOW_EXCLUSIVE_CLASS_NAMES = %w(ActiveStorage::Attachment ActiveStorage::Blob).freeze
+
       # Data types to exclude for form page
       FORM_EXCLUSIVE_DATA_TYPES = %w(created_at updated_at).freeze
 
@@ -61,7 +64,8 @@ module Wallaby
         @form_fields  ||= Utils.clone fields
       end
 
-      # @return [Array<String>] a list of field names for index page
+      # @return [Array<String>] a list of field names for index page.
+      #   By default, only native SQL types will be included.
       def index_field_names
         @index_field_names ||= begin
           index_fields.reject do |_field_name, metadata|
@@ -71,7 +75,18 @@ module Wallaby
         end
       end
 
+      # @return [Array<String>] a list of field names for show page.
+      #   By default, `ActiveStorage` fields will be excluded.
+      def show_field_names
+        @show_field_names ||= begin
+          show_fields.reject do |_field_name, metadata|
+            SHOW_EXCLUSIVE_CLASS_NAMES.include? metadata[:class].try(:name)
+          end.keys
+        end
+      end
+
       # @return [Array<String>] a list of field names for form (new/edit) page
+      #   By default, complex fields will be excluded.
       def form_field_names
         @form_field_names ||= begin
           form_fields.reject do |field_name, metadata|

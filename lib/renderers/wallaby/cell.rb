@@ -99,18 +99,33 @@ module Wallaby
       (@buffer ||= EMPTY_STRING.html_safe) << string
     end
 
-    private
-
-    # We delegate missing methods to context
-    # @param method_id [String,Symbol]
-    # @param args [Array]
-    def method_missing(method_id, *args)
-      return super unless @context.respond_to? method_id
-      @context.public_send method_id, *args
+    # @overload at(name)
+    #   Get view instance variable value
+    #   @example To get view instance variable value
+    #     at('name') # => get value of `@name` from the view
+    #   @param name [String, Symbol] view instance variable name without `@`
+    # @overload at(name, value)
+    #   Set view instance variable value
+    #   @example To set view instance variable value
+    #     at('name', value) # => set value of `@name` in the view
+    #   @param name [String, Symbol] view instance variable name without `@`
+    #   @param value [object] value
+    # @return [object] view instance variable value
+    def at(*args)
+      raise ArgumentError unless args.length.in? [1, 2]
+      return context.instance_variable_get :"@#{args.first}" if args.length == 1
+      context.instance_variable_set :"@#{args.first}", args.last
     end
 
-    # @param method_id [String,Symbol]
-    # @param _include_private [Boolean]
+    private
+
+    # Delegate missing method to {#context}
+    def method_missing(method_id, *args, &block)
+      return super unless @context.respond_to? method_id
+      @context.public_send method_id, *args, &block
+    end
+
+    # Delegate missing method check to {#context}
     def respond_to_missing?(method_id, _include_private)
       @context.respond_to?(method_id) || super
     end
