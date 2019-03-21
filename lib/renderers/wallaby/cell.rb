@@ -119,16 +119,13 @@ module Wallaby
 
     private
 
-    # Delegate missing methods to context
-    # @param method_id [String,Symbol]
-    # @param args [Array]
+    # Delegate missing method to {#context}
     def method_missing(method_id, *args, &block)
       return super unless @context.respond_to? method_id
       @context.public_send method_id, *args, &block
     end
 
-    # @param method_id [String,Symbol]
-    # @param _include_private [Boolean]
+    # Delegate missing method check to {#context}
     def respond_to_missing?(method_id, _include_private)
       @context.respond_to?(method_id) || super
     end

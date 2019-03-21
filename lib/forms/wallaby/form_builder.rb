@@ -38,7 +38,7 @@ module Wallaby
 
     protected
 
-    # Delegate method to `@template`
+    # Delegate missing method to `@template`
     def method_missing(method, *args, &block)
       return super unless @template.respond_to? method
       # Delegate the method so that we don't come in here the next time
@@ -47,7 +47,7 @@ module Wallaby
       @template.public_send method, *args, &block
     end
 
-    # Pair with #method_missing
+    # Delegate missing method check to `@template`
     def respond_to_missing?(method, _include_private)
       @template.respond_to?(method) || super
     end
