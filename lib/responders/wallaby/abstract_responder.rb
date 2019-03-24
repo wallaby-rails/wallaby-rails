@@ -5,17 +5,6 @@ module Wallaby
 
     delegate :params, :headers, to: :request
 
-    # @return [String] HTML
-    def to_html
-      set_flash_message
-      return render options if exception?
-      if post? then create_action
-      elsif patch? || put? then update_action
-      elsif delete? then destroy_action
-      else default_render
-      end
-    end
-
     # @return [String] CSV
     def to_csv
       set_layout_to_none
