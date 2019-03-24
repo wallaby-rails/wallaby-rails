@@ -138,17 +138,6 @@ describe 'Resources pages using postgresql table' do
       expect(created.string).to eq string
     end
 
-    it 'creates the record in json' do
-      expect(model_class.count).to eq 0
-      http :post, '/admin/all_postgres_types', params: { all_postgres_type: { string: string } }, headers: json_headers
-      created = model_class.first
-      expect(response).to be_successful
-      expect(response).to render_template :form
-      expect(response.body).to include string
-      expect(model_class.count).to eq 1
-      expect(created.string).to eq string
-    end
-
     context 'when form error exists' do
       let(:string) { 'Vincent van Gogh' }
       let(:model_class) { Picture }
@@ -158,14 +147,6 @@ describe 'Resources pages using postgresql table' do
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :new
         expect(response.body).to include "can't be blank"
-      end
-
-      it 'renders errors in json' do
-        expect(model_class.count).to eq 0
-        http :post, '/admin/pictures', params: { picture: { string: string } }, headers: json_headers
-        expect(response.content_type).to eq 'application/json'
-        expect(response.body).to include "can't be blank"
-        expect(response.status).to eq 400
       end
     end
   end
@@ -190,15 +171,6 @@ describe 'Resources pages using postgresql table' do
       expect(record.reload.string).to eq a_string
     end
 
-    it 'updates the record in json' do
-      a_string = 'Claude Monet'
-      http :put, "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }, headers: json_headers
-      expect(record.reload.string).to eq a_string
-      expect(response).to be_successful
-      expect(response).to render_template :form
-      expect(response.body).to include a_string
-    end
-
     context 'when form error exists' do
       let(:string) { 'Vincent van Gogh' }
       let(:model_class) { Picture }
@@ -209,13 +181,6 @@ describe 'Resources pages using postgresql table' do
         expect(flash[:notice]).to be_nil
         expect(response).to render_template :edit
         expect(response.body).to include "can't be blank"
-      end
-
-      it 'renders form error in json' do
-        http :put, "/admin/pictures/#{record.id}", params: { picture: { name: '' } }, headers: json_headers
-        expect(response.content_type).to eq 'application/json'
-        expect(response.body).to include "can't be blank"
-        expect(response.status).to eq 400
       end
     end
   end
@@ -228,15 +193,6 @@ describe 'Resources pages using postgresql table' do
       expect(flash[:notice]).to eq 'All postgres type was successfully destroyed.'
       expect(response).to redirect_to '/admin/all_postgres_types'
       expect(model_class.count).to eq 0
-    end
-
-    it 'destroys the record in json' do
-      expect(model_class.count).to eq 1
-      http :delete, "/admin/all_postgres_types/#{record.id}", headers: json_headers
-      expect(response).to be_successful
-      expect(response).to render_template :form
-      expect(response.content_type).to eq 'application/json'
-      expect(response.body).to include string
     end
   end
 end

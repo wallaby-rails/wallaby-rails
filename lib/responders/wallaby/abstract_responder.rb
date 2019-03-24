@@ -7,14 +7,12 @@ module Wallaby
 
     # @return [String] CSV
     def to_csv
-      set_layout_to_none
       headers['Content-Disposition'] = "attachment; filename=\"#{file_name}\""
       default_render
     end
 
     # @return [String] JSON
     def to_json(*)
-      set_layout_to_none
       return default_render unless post? || patch? || put? || delete?
       if has_errors? then render :bad_request, options.merge(status: :bad_request)
       else render :form, options
@@ -55,11 +53,6 @@ module Wallaby
     def file_name
       timestamp = Time.zone.now.to_s(:number)
       "#{params[:resources]}-exported-#{timestamp}.#{format}"
-    end
-
-    # Set layout to nothing
-    def set_layout_to_none
-      options[:layout] = false
     end
 
     # @see FlashResponder
