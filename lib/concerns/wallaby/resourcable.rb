@@ -64,9 +64,14 @@ module Wallaby
       params[:id]
     end
 
-    # @return [#each] a collection of all the records
-    def collection
-      @collection ||= paginate current_servicer.collection params
+    # @param options [Hash]
+    # @option options [ActionController::Parameters, Hash] :param parameters for collection query
+    # @option options [Boolean] :paginate see {#paginate}
+    # @return [#each] a collection of records
+    def collection(options = {})
+      options[:paginate] = true unless options.key?(:paginate)
+      options[:params] ||= params
+      @collection ||= paginate current_servicer.collection(options.delete :params), options
     end
 
     # @return [Object] either persisted or unpersisted resource instance
@@ -87,11 +92,12 @@ module Wallaby
     # To paginate the collection but only when either `page` or `per` param is given,
     # or HTML response is requested
     # @param query [#each]
+    # @param options [Hash]
+    # @option options [Boolean] :paginate whether collection should be paginated
     # @return [#each]
     # @see Wallaby::ModelServicer#paginate
-    def paginate(query)
-      paginatable = params[:page] || params[:per] || request.format.symbol == :html
-      paginatable ? current_servicer.paginate(query, params) : query
+    def paginate(query, options)
+      options[:paginate] ? current_servicer.paginate(query, params) : query
     end
   end
 end
