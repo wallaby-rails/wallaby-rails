@@ -1,5 +1,5 @@
 module Wallaby
-  # Thteme related methods
+  # Theme related methods
   module Themeable
     # Configurable attributes
     module ClassMethods

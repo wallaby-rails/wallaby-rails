@@ -71,23 +71,34 @@ module Wallaby
     def collection(options = {})
       options[:paginate] = true unless options.key?(:paginate)
       options[:params] ||= params
-      @collection ||= paginate current_servicer.collection(options.delete :params), options
+      @collection ||= paginate current_servicer.collection(options.delete(:params)), options
     end
 
+    # @param options [Hash]
     # @return [Object] either persisted or unpersisted resource instance
-    def resource
+    def resource(options = {})
       @resource ||= begin
         # white-listed params
         whitelisted = action_name.in?(SAVE_ACTIONS) ? resource_params : {}
-        if resource_id.present?
-          current_servicer.find resource_id, whitelisted
-        else
-          current_servicer.new whitelisted
-        end
+        resource_id.present? ? find_resource(whitelisted) : new_resource(whitelisted)
       end
     end
 
     protected
+
+    # @param options [Hash]
+    # @option options [ActionController::Parameters, Hash] :param parameters for collection query
+    # @return [#each] a collection of records
+    def find_resource(options = {})
+      current_servicer.find resource_id, options
+    end
+
+    # @param options [Hash]
+    # @option options [ActionController::Parameters, Hash] :param parameters for collection query
+    # @return [#each] a collection of records
+    def new_resource(options = {})
+      current_servicer.new options
+    end
 
     # To paginate the collection but only when either `page` or `per` param is given,
     # or HTML response is requested

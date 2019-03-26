@@ -2,18 +2,19 @@ module Wallaby
   # Abstract CRUD controller.
   class AbstractResourcesController < ::Wallaby::SecureController
     extend Authorizable::ClassMethods
+    extend Baseable::ClassMethods
     extend Decoratable::ClassMethods
     extend Paginatable::ClassMethods
     extend Resourcable::ClassMethods
     extend Servicable::ClassMethods
-    extend Baseable::ClassMethods
     extend Themeable::ClassMethods
     include Authorizable
     include Decoratable
+    include Defaultable
+    include RailsOverriddenMethods
     include Resourcable
     include Servicable
     include Themeable
-    include RailsOverriddenMethods
 
     self.responder = ResourcesResponder
     respond_to :html
@@ -47,8 +48,9 @@ module Wallaby
     # ```
     # def index
     #   # do something before the origin action
-    #   options = {} # see `options` parameter for more details
-    #   super options do |format| # this block is for `respond_with` which works similar to `respond_to`
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   index! options do |format|
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
@@ -80,16 +82,19 @@ module Wallaby
       respond_with collection, options, &block
     end
 
+    alias index! index
+
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourceful action to show the form to create record.
+    # This is a resourceful action to show the form to create record that user is allowed to.
     #
     # It can be customized as below in subclasses:
     #
     # ```
     # def new
     #   # do something before the origin action
-    #   options = {} # see `options` parameter for more details
-    #   super options do |format| # this block is for `respond_with` which works similar to `respond_to`
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   new! options do |format|
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
@@ -112,14 +117,16 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
-    def new(options = {})
+    def new(options = {}, &block)
       current_authorizer.authorize :new, resource
-      yield if block_given? # after_new
-      respond_with resource, options
+      respond_with resource, options, &block
     end
+
+    alias new! new
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to create a record that user is allowed to.
+    #
     # If record is created successfully, user will be navigated to the record show page.
     # Otherwise, the form will be shown again with error messages.
     #
@@ -128,8 +135,9 @@ module Wallaby
     # ```
     # def create
     #   # do something before the origin action
-    #   options = {} # see `options` parameter for more details
-    #   super options do |format| # this block is for `respond_with` which works similar to `respond_to`
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   create! options do |format|
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
@@ -166,16 +174,19 @@ module Wallaby
       respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses.
-    # This is a resourceful action to display the details of a record.
+    alias create! create
 
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to display the record details that user is allowed to.
+    #
     # It can be customized as below in subclasses:
     #
     # ```
     # def show
     #   # do something before the origin action
-    #   options = {} # see `options` parameter for more details
-    #   super options do |format| # this block is for `respond_with` which works similar to `respond_to`
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   show! options do |format|
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
@@ -203,16 +214,19 @@ module Wallaby
       respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses.
-    # This is a resourceful action to show the form for editing a record.
+    alias show! show
 
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to show the form to edit record that user is allowed to.
+    #
     # It can be customized as below in subclasses:
     #
     # ```
     # def edit
     #   # do something before the origin action
-    #   options = {} # see `options` parameter for more details
-    #   super options do |format| # this block is for `respond_with` which works similar to `respond_to`
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   edit! options do |format|
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
@@ -241,16 +255,22 @@ module Wallaby
       respond_with resource, options
     end
 
-    # @note This is a template method that can be overridden by subclasses.
-    # This is a resourceful action to update a record.
+    alias edit! edit
 
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to update the record that user is allowed to.
+    #
+    # If record is updated successfully, user will be navigated to the record show page.
+    # Otherwise, the form will be shown again with error messages.
+    #
     # It can be customized as below in subclasses:
     #
     # ```
     # def update
     #   # do something before the origin action
-    #   options = {} # see `options` parameter for more details
-    #   super options do |format| # this block is for `respond_with` which works similar to `respond_to`
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   update! options do |format|
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
@@ -288,16 +308,19 @@ module Wallaby
       respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses.
-    # This is a resourceful action to destroy a record.
+    alias update! update
 
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to delete the record that user is allowed to.
+    #
     # It can be customized as below in subclasses:
     #
     # ```
     # def destroy
     #   # do something before the origin action
-    #   options = {} # see `options` parameter for more details
-    #   super options do |format| # this block is for `respond_with` which works similar to `respond_to`
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   destroy! options do |format|
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
@@ -331,9 +354,12 @@ module Wallaby
       respond_with resource, options, &block
     end
 
+    alias destroy! destroy
+
     # @note This is a template method that can be overridden by subclasses.
-    # To whitelist the params for CRUD actions.
-    # If Wallaby cannot generate the correct strong parameters, it can be replaced, for instance:
+    # To whitelist the params for {#create} and {#update} actions.
+    #
+    # If Wallaby cannot generate the correct strong parameters, it can be replaced, for example:
     #
     # ```
     # def resource_params
@@ -343,21 +369,6 @@ module Wallaby
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
       @resource_params ||= current_servicer.permit params, action_name
-    end
-
-    protected
-
-    # Set default options for create action
-    # @param options [Hash]
-    def set_defaults_for(action, options)
-      case action.try(:to_sym)
-      when :create, :update
-        options[:params] ||= resource_params
-        options[:location] ||= -> { helpers.show_path(resource) }
-      when :destroy
-        options[:params] ||= params
-        options[:location] ||= helpers.index_path(current_model_class)
-      end
     end
   end
 end
