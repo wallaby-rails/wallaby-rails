@@ -1,15 +1,9 @@
 module Wallaby
   # Abstract related class methods
   module Baseable
-    # Configurable attributes and class methods for marking a class base and skipping {Wallaby::Map mapping}
+    # Configurable attributes and class methods for marking a class the base class
+    # and skipping {Wallaby::Map Wallaby mapping}
     module ClassMethods
-      # @deprecated Use {#base_class!} instead. It will be removed from 5.3.*
-      def abstract!
-        Utils.deprecate 'deprecation.abstract!', caller: caller
-        super if defined? super
-        base_class!
-      end
-
       # @return [true] if class is a base class
       # @return [false] if class is not a base class
       def base_class?

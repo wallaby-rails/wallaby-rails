@@ -11,6 +11,7 @@ module Wallaby
     include Authorizable
     include Decoratable
     include Defaultable
+    include Paginatable
     include RailsOverriddenMethods
     include Resourcable
     include Servicable
@@ -49,7 +50,7 @@ module Wallaby
     # def index
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   index! options do |format|
+    #   index! options do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -63,7 +64,6 @@ module Wallaby
     #
     # ```
     # def index
-    #   # do something completely different
     #   # NOTE: `@collection` will be used by the view, please ensure it is assigned, for example:
     #   @collection = Product.all
     #   respond_with @collection
@@ -93,7 +93,7 @@ module Wallaby
     # def new
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   new! options do |format|
+    #   new! options do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -104,7 +104,6 @@ module Wallaby
     #
     # ```
     # def new
-    #   # do something completely different
     #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.new new_arrival: true
     # end
@@ -136,7 +135,7 @@ module Wallaby
     # def create
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   create! options do |format|
+    #   create! options do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -147,7 +146,6 @@ module Wallaby
     #
     # ```
     # def create
-    #   # do something completely different
     #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.new resource_params.merge(new_arrival: true)
     #   if @resource.save
@@ -161,7 +159,7 @@ module Wallaby
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
     # @option options [ActionController::Parameters, Hash] :params
-    #   parameters for servicer to create the record
+    #   permitted parameters for servicer to create the record. _(defaults to: {#resource_params})_
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -185,7 +183,7 @@ module Wallaby
     # def show
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   show! options do |format|
+    #   show! options do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -196,7 +194,6 @@ module Wallaby
     #
     # ```
     # def show
-    #   # do something completely different
     #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
     # end
@@ -225,7 +222,7 @@ module Wallaby
     # def edit
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   edit! options do |format|
+    #   edit! options do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -236,7 +233,6 @@ module Wallaby
     #
     # ```
     # def edit
-    #   # do something completely different
     #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
     # end
@@ -249,10 +245,9 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
-    def edit(options = {})
+    def edit(options = {}, &block)
       current_authorizer.authorize :edit, resource
-      yield if block_given? # after_edit
-      respond_with resource, options
+      respond_with resource, options, &block
     end
 
     alias edit! edit
@@ -269,7 +264,7 @@ module Wallaby
     # def update
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   update! options do |format|
+    #   update! options do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -280,7 +275,6 @@ module Wallaby
     #
     # ```
     # def update
-    #   # do something completely different
     #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
     #   @resource.assign_attributes resource_params.merge(new_arrival: true)
@@ -295,7 +289,7 @@ module Wallaby
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
     # @option options [ActionController::Parameters, Hash] :params
-    #   parameters for servicer to create the record
+    #   permitted parameters for servicer to update the record. _(defaults to: {#resource_params})_
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -319,7 +313,7 @@ module Wallaby
     # def destroy
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   destroy! options do |format|
+    #   destroy! options do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -330,7 +324,6 @@ module Wallaby
     #
     # ```
     # def destroy
-    #   # do something completely different
     #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
     #   @resource.destroy
@@ -341,7 +334,7 @@ module Wallaby
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
     # @option options [ActionController::Parameters, Hash] :params
-    #   parameters for servicer to create the record
+    #   permitted parameters for servicer to destroy the record. _(defaults to: {#resource_params})_
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}

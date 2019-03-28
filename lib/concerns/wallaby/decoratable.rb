@@ -57,9 +57,9 @@ module Wallaby
           || Map.model_decorator_map(current_model_class, controller_to_get(:application_decorator))
     end
 
-    # Wrap resource into a decorator
+    # Wrap resource(s) with decorator(s).
     # @param resource [Object, Enumerable]
-    # @return [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator>]
+    # @return [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator>] decorator(s)
     def decorate(resource)
       return resource if resource.is_a? ResourceDecorator
       return resource.map { |item| decorate item } if resource.respond_to? :map
@@ -67,9 +67,8 @@ module Wallaby
       decorator ? decorator.new(resource) : resource
     end
 
-    # Get the origin resource object
     # @param resource [Object, Wallaby::ResourceDecorator]
-    # @return [Object]
+    # @return [Object] the unwrapped resource object
     def extract(resource)
       return resource.resource if resource.is_a? ResourceDecorator
       resource

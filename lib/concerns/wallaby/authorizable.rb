@@ -42,7 +42,9 @@ module Wallaby
       end
     end
 
-    # Model authorizer for current modal class. It comes from:
+    # Model authorizer for current modal class.
+    #
+    #  It can be configured in following class attributes:
     #
     # - controller configuration {Wallaby::Authorizable::ClassMethods#model_authorizer .model_authorizer}
     # - a generic authorizer based on
@@ -52,15 +54,6 @@ module Wallaby
     def current_authorizer
       @current_authorizer ||=
         authorizer_of current_model_class, controller_to_get(__callee__, :model_authorizer)
-    end
-
-    # Get authorizer for given model
-    # @param model_class [Class]
-    # @return [Wallaby::ModelAuthorizer]
-    # @since 5.2.0
-    def authorizer_of(model_class, authorizer_class = nil)
-      authorizer_class ||= Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
-      authorizer_class.new self, model_class
     end
 
     # Check if user is allowed to perform action on given subject
@@ -89,6 +82,16 @@ module Wallaby
     def authorizer
       Utils.deprecate 'deprecation.authorizer', caller: caller
       current_authorizer
+    end
+
+    protected
+
+    # @param model_class [Class]
+    # @return [Wallaby::ModelAuthorizer] model authorizer for given model
+    # @since 5.2.0
+    def authorizer_of(model_class, authorizer_class = nil)
+      authorizer_class ||= Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
+      authorizer_class.new self, model_class
     end
   end
 end

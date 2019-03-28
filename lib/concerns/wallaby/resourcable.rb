@@ -49,10 +49,12 @@ module Wallaby
       end
     end
 
+    # @return [String] resources name for current request
     def current_resources_name
       @current_resources_name ||= params[:resources] || controller_to_get(__callee__, :resources_name)
     end
 
+    # @return [Class] model class for current request
     def current_model_class
       @current_model_class ||=
         controller_to_get(__callee__, :model_class) || Map.model_class_map(current_resources_name)
@@ -89,6 +91,7 @@ module Wallaby
     # @param options [Hash]
     # @option options [ActionController::Parameters, Hash] :param parameters for collection query
     # @return [#each] a collection of records
+    # @since 5.2.0
     def find_resource(options = {})
       current_servicer.find resource_id, options
     end
@@ -96,19 +99,9 @@ module Wallaby
     # @param options [Hash]
     # @option options [ActionController::Parameters, Hash] :param parameters for collection query
     # @return [#each] a collection of records
+    # @since 5.2.0
     def new_resource(options = {})
       current_servicer.new options
-    end
-
-    # To paginate the collection but only when either `page` or `per` param is given,
-    # or HTML response is requested
-    # @param query [#each]
-    # @param options [Hash]
-    # @option options [Boolean] :paginate whether collection should be paginated
-    # @return [#each]
-    # @see Wallaby::ModelServicer#paginate
-    def paginate(query, options)
-      options[:paginate] ? current_servicer.paginate(query, params) : query
     end
   end
 end
