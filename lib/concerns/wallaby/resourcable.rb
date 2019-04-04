@@ -65,43 +65,5 @@ module Wallaby
     def resource_id
       params[:id]
     end
-
-    # @param options [Hash]
-    # @option options [ActionController::Parameters, Hash] :param parameters for collection query
-    # @option options [Boolean] :paginate see {#paginate}
-    # @return [#each] a collection of records
-    def collection(options = {})
-      options[:paginate] = true unless options.key?(:paginate)
-      options[:params] ||= params
-      @collection ||= paginate current_servicer.collection(options.delete(:params)), options
-    end
-
-    # @param options [Hash]
-    # @return [Object] either persisted or unpersisted resource instance
-    def resource(options = {})
-      @resource ||= begin
-        # white-listed params
-        whitelisted = action_name.in?(SAVE_ACTIONS) ? resource_params : {}
-        resource_id.present? ? find_resource(whitelisted) : new_resource(whitelisted)
-      end
-    end
-
-    protected
-
-    # @param options [Hash]
-    # @option options [ActionController::Parameters, Hash] :param parameters for collection query
-    # @return [#each] a collection of records
-    # @since 5.2.0
-    def find_resource(options = {})
-      current_servicer.find resource_id, options
-    end
-
-    # @param options [Hash]
-    # @option options [ActionController::Parameters, Hash] :param parameters for collection query
-    # @return [#each] a collection of records
-    # @since 5.2.0
-    def new_resource(options = {})
-      current_servicer.new options
-    end
   end
 end

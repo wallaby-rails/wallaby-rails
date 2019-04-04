@@ -30,6 +30,13 @@ module Wallaby
         return if child < parent
         raise ::ArgumentError, I18n.t('errors.invalid.inheritance', klass: child, parent: parent)
       end
+
+      # If block is given, run the block. Otherwise, return subject
+      # @param subject [Object]
+      # @yield [subject]
+      def yield_for(subject)
+        block_given? ? yield(subject) : subject
+      end
     end
   end
 end

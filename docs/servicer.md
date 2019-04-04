@@ -415,43 +415,6 @@ To customize how resource should be found, it goes:
   end
   ```
 
-## assign
-
-> since 5.2.0
-
-This is the template method that assigns permitted params to the resource before creating/updating. It works pretty much the same for both ActiveRecord and HER.
-
-To customize how resource should be assigned, it goes:
-
-- if utilizing what Wallaby has implemented:
-
-  ```ruby
-  # app/servicers/admin/product_servicer.rb
-  class Admin::ProductServicer < Admin::ApplicationServicer
-    self.model_class = Product
-
-    def assign(resource, params, action)
-      super.tap do |resource|
-        resource.active = true
-      end
-    end
-  end
-  ```
-
-- or simply replacing this template method:
-
-  ```ruby
-  # app/servicers/admin/product_servicer.rb
-  class Admin::ProductServicer < Admin::ApplicationServicer
-    self.model_class = Product
-
-    def assign(resource, params, action)
-      resource.assign_attributes params.slice(:name)
-      ensure_attributes_for authorizer, action, resource
-    end
-  end
-  ```
-
 ## create
 
 This is the template method that create the resource and save to data source. It works pretty much the same for both ActiveRecord and HER.

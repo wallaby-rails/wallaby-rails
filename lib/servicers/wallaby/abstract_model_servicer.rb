@@ -100,15 +100,6 @@ module Wallaby
       provider.find id, params, authorizer
     end
 
-    # This is the template method to assign params to a record.
-    # @param resource [Object]
-    # @param params [ActionController::Parameters]
-    # @return [Object] resource object
-    # @since 5.2.0
-    def assign(resource, params)
-      provider.assign resource, params, authorizer
-    end
-
     # This is the template method to create a record.
     # @param resource [Object]
     # @param params [ActionController::Parameters]

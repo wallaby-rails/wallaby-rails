@@ -363,5 +363,96 @@ module Wallaby
     def resource_params
       @resource_params ||= current_servicer.permit params, action_name
     end
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a method to return collection for index page.
+    #
+    # It can be customized as below in subclasses:
+    #
+    # ```
+    # def collection
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   collection! options do |query| # NOTE: this is better than using `super`
+    #     # NOTE: make sure a collection is returned
+    #     query.where(active: true)
+    #   end
+    # end
+    # ```
+    #
+    # Otherwise, it can be replaced completely in subclasses:
+    #
+    # ```
+    # def collection
+    #   # NOTE: pagination should happen here if needed
+    #   # NOTE: make sure `@collection` and conditional assignment (the OR EQUAL) operator are used
+    #   @collection ||= paginate Product.active
+    # end
+    # ```
+    # @param options [Hash]
+    # @option options [ActionController::Parameters, Hash] :params parameters for collection query
+    # @option options [Boolean] :paginate see {Wallaby::Paginatable#paginate}
+    # @yield [collection] a block to run to extend collection, e.g. call chain with more queries
+    # @return [#each] a collection of records
+    def collection(options = {}, &block)
+      @collection ||=
+        ModuleUtils.yield_for(
+          begin
+            options[:paginate] = true unless options.key?(:paginate)
+            options[:params] ||= params
+            paginate current_servicer.collection(options.delete(:params)), options
+          end,
+          &block
+        )
+    end
+
+    alias collection! collection
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a method to return resource for pages except `index`.
+    #
+    # `WARN: It does not do mass assignment since 5.2.0.`
+    #
+    # It can be customized as below in subclasses:
+    #
+    # ```
+    # def resource
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   resource! options do |object| # NOTE: this is better than using `super`
+    #     object.preload_status_from_api
+    #     # NOTE: make sure object is returned
+    #     object
+    #   end
+    # end
+    # ```
+    #
+    # Otherwise, it can be replaced completely in subclasses:
+    #
+    # ```
+    # def resource
+    #   # NOTE: make sure `@resource` and conditional assignment (the OR EQUAL) operator are used
+    #   @resource ||= resource_id.present? ? Product.find_by_slug(resource_id) : Product.new(arrival: true)
+    # end
+    # ```
+    # @param options [Hash]
+    # @option options [ActionController::Parameters, Hash] :find_params parameters for resource finding
+    # @option options [ActionController::Parameters, Hash] :new_params parameters for new resource
+    # @yield [resource] a block to run to extend resource, e.g. making change to the resource.
+    #   Please make sure to return the resource at the end of block
+    # @return [Object] either persisted or unpersisted resource instance
+    def resource(options = {}, &block)
+      @resource ||=
+        ModuleUtils.yield_for(
+          if resource_id.present?
+            current_servicer.find resource_id, options[:find_params]
+          else
+            current_servicer.new options[:new_params]
+          end,
+          &block
+        )
+    end
+
+    alias resource! resource
   end
 end

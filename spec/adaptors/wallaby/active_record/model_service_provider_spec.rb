@@ -10,9 +10,12 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
 
     describe '#permit' do
       it 'returns the permitted params' do
+        expect(subject.permit(parameters(all_postgres_type: { string: 'some string' }), :index, authorizer)).to eq parameters!(string: 'some string')
+      end
+
+      it 'raises ActionController::ParameterMissing if parameters is missing' do
         expect { subject.permit(parameters, :index, authorizer) }.to raise_error ActionController::ParameterMissing
         expect { subject.permit(parameters(all_postgres_type: {}), :index, authorizer) }.to raise_error ActionController::ParameterMissing
-        expect(subject.permit(parameters(all_postgres_type: { string: 'some string' }), :index, authorizer)).to eq parameters!(string: 'some string')
       end
     end
 
@@ -20,16 +23,26 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
       it 'returns the collection' do
         condition = { boolean: true }
         record = model_class.create!(condition)
-        false_ability = Ability.new nil
-        false_ability.cannot :manage, model_class, condition
-        false_authorizer = Wallaby::ModelAuthorizer.new cancancan_context(false_ability), model_class
-        expect(subject.collection(parameters, authorizer)).to include record
-        expect(subject.collection(parameters, false_authorizer)).not_to include record
+        expect(subject.collection(parameters, authorizer)).to contain_exactly record
       end
 
       it 'orders the collection' do
-        order = 'boolean asc'
+        order = 'integer desc,boolean asc'
         expect(subject.collection(parameters(sort: order), authorizer).to_sql).to match order
+      end
+
+      it 'filters the collection' do
+        model_decorator.filters[:bingo] = { scope: -> { where integer: 888 } }
+        expect(subject.collection(parameters(filter: 'bingo'), authorizer).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" = 888'
+      end
+
+      context 'when ability restricts' do
+        it 'returns what user has access to' do
+          condition = { boolean: true }
+          ability.cannot :manage, model_class, condition
+          record = model_class.create!(condition)
+          expect(subject.collection(parameters, authorizer)).not_to include record
+        end
       end
     end
 
@@ -49,16 +62,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
         resource = subject.new parameters!(string: 'some string'), authorizer
         expect(resource).to be_a model_class
         expect(resource).to be_new_record
-        expect(resource.attributes.values.compact).not_to be_blank
-        expect(resource.string).to eq 'some string'
-      end
-
-      context 'when unknown attribute' do
-        it 'returns a blank resource' do
-          resource = subject.new parameters!(unknown_attribute: 'unknown'), authorizer
-          expect(resource).to be_a model_class
-          expect(resource.attributes.values.compact).to be_blank
-        end
+        expect(resource.attributes.values.compact).to be_blank
       end
     end
 
@@ -70,7 +74,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
 
         resource = subject.find existing.id, parameters!(string: 'some string'), authorizer
         expect(resource).to be_a model_class
-        expect(resource.string).to eq 'some string'
+        expect(resource.string).not_to eq 'some string'
       end
 
       context 'when it is not found' do
@@ -78,21 +82,13 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
           expect { subject.find 0, parameters, authorizer }.to raise_error Wallaby::ResourceNotFound
         end
       end
-
-      context 'when unknown attribute' do
-        it 'returns a blank resource' do
-          existing = model_class.create!(string: 'some string')
-          resource = subject.find existing.id, parameters!(unknown_attribute: 'unknown'), authorizer
-          expect(resource).to be_a model_class
-          expect(resource).to eq existing
-        end
-      end
     end
 
     describe '#create' do
       it 'returns the resource' do
-        resource = subject.new parameters!(string: 'some string'), authorizer
-        resource = subject.create resource, parameters(all_postgres_type: { string: 'some string' }), authorizer
+        resource = subject.new parameters(all_postgres_type: { string: 'some string' }), authorizer
+        expect(resource.string).to be_blank
+        resource = subject.create resource, parameters!(string: 'some string'), authorizer
         expect(resource).to be_a model_class
         expect(resource.id).not_to be_blank
         expect(resource.errors).to be_blank
@@ -100,23 +96,12 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
 
       context 'when params are not valid' do
         it 'returns the resource and its errors' do
-          resource = subject.new parameters!(daterange: ['', '2016-12-13']), authorizer
-          resource = subject.create resource, parameters(all_postgres_type: { daterange: ['', '2016-12-13'] }), authorizer
+          resource = subject.new parameters(all_postgres_type: { daterange: ['', '2016-12-13'] }), authorizer
+          expect(resource.daterange).to be_blank
+          resource = subject.create resource, parameters!(daterange: ['', '2016-12-13']), authorizer
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
           expect(resource.errors).not_to be_blank
-        end
-      end
-
-      context 'when database throws error' do
-        it 'returns the resource and its errors' do
-          resource = subject.new parameters!(string: 'some string'), authorizer
-          expect(resource).to receive(:save) { raise ActiveRecord::StatementInvalid, 'StatementInvalid' }
-          resource = subject.create resource, parameters(all_postgres_type: { string: 'string' }), authorizer
-          expect(resource).to be_a model_class
-          expect(resource.id).to be_blank
-          expect(resource.errors).not_to be_blank
-          expect(resource.errors[:base]).to eq ['StatementInvalid']
         end
       end
     end
@@ -125,21 +110,10 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
       let!(:existing) { model_class.create! string: 'title' }
       it 'returns the resource' do
         existing.string = 'string'
-        resource = subject.update existing, parameters(all_postgres_type: { string: 'string' }), authorizer
+        resource = subject.update existing, parameters!(string: 'string'), authorizer
         expect(resource).to be_a model_class
         expect(resource.string).to eq 'string'
         expect(resource.errors).to be_blank
-      end
-
-      context 'when database throws error' do
-        it 'returns the resource and its errors' do
-          existing.string = 'string'
-          expect(existing).to receive(:save) { raise ActiveRecord::StatementInvalid, 'StatementInvalid' }
-          resource = subject.update existing, parameters(all_postgres_type: { string: 'string' }), authorizer
-          expect(resource).to be_a model_class
-          expect(resource.errors).not_to be_blank
-          expect(resource.errors[:base]).to eq ['StatementInvalid']
-        end
       end
     end
 

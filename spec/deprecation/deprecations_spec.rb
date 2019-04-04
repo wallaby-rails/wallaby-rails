@@ -1,15 +1,5 @@
 require 'rails_helper'
 
-describe 'abstract!' do
-  it 'shows deprecation message' do
-    expect do
-      class OtherPaingator < Wallaby::ModelPaginator
-        abstract!
-      end
-    end.to output(a_string_starting_with("[DEPRECATION] `abstract!` will be removed from 5.3.*. Please use `base_class!` instead.\n")).to_stderr
-  end
-end
-
 describe Wallaby::ResourcesController, type: :controller do
   describe '#current_model_service' do
     it 'shows deprecation message' do

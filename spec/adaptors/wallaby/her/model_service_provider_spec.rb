@@ -40,16 +40,16 @@ describe Wallaby::Her::ModelServiceProvider do
         resource = subject.new parameters!(name: 'some string'), authorizer
         expect(resource).to be_a model_class
         expect(resource).to be_new
-        expect(resource.attributes.values.compact).not_to be_blank
-        expect(resource.name).to eq 'some string'
+        expect(resource.attributes.values.compact).to be_blank
       end
     end
 
     describe '#find' do
       it 'returns a resource' do
         stub_request(:get, /products/).to_return(body: file_fixture('her/product.json'))
-        resource = subject.find 'id', parameters!, authorizer
+        resource = subject.find 'id', parameters!(name: 'some string'), authorizer
         expect(resource).to be_a model_class
+        expect(resource.name).not_to eq 'some string'
       end
 
       context 'when it is not found' do
@@ -63,8 +63,8 @@ describe Wallaby::Her::ModelServiceProvider do
     describe '#create' do
       it 'returns the resource' do
         stub_request(:post, /products/).with(body: { 'name' => 'string1' }).to_return(status: 200, body: { id: 'id1' }.to_json)
-        resource = model_class.new name: 'string1'
-        resource = subject.create resource, parameters!(her_product: { name: 'string2' }), authorizer
+        resource = subject.new parameters, authorizer
+        resource = subject.create resource, parameters!(name: 'string1'), authorizer
         expect(resource).to be_a model_class
         expect(resource.id).to eq 'id1'
         expect(resource.errors).to be_blank
@@ -72,8 +72,8 @@ describe Wallaby::Her::ModelServiceProvider do
 
       context 'when params are not valid' do
         it 'returns the resource and its errors' do
-          resource = model_class.new
-          resource = subject.create resource, parameters(her_product: { name: 'string1' }), authorizer
+          resource = subject.new parameters, authorizer
+          resource = subject.create resource, parameters!(sku: 'string1'), authorizer
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
           expect(resource.errors).not_to be_blank
@@ -82,9 +82,9 @@ describe Wallaby::Her::ModelServiceProvider do
 
       context 'when server returns error' do
         it 'returns the resource and its errors' do
-          stub_request(:post, /products/).with(body: { 'name' => 'string1' }).to_return(status: 400, body: { errors: { name: 'invalid name' } }.to_json)
+          stub_request(:post, /products/).with(body: { 'name' => 'string2' }).to_return(status: 400, body: { errors: { name: 'invalid name' } }.to_json)
           resource = model_class.new name: 'string1'
-          resource = subject.create resource, parameters(her_product: { name: 'string' }), authorizer
+          resource = subject.create resource, parameters!(name: 'string2'), authorizer
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
           expect(resource.errors).to be_blank
@@ -95,19 +95,19 @@ describe Wallaby::Her::ModelServiceProvider do
 
     describe '#update' do
       it 'returns the resource' do
-        stub_request(:put, /products/).with(body: { 'id' => 'id1', 'name' => 'string1' }).to_return(status: 200, body: { id: 'id1' }.to_json)
+        stub_request(:put, /products/).with(body: { 'id' => 'id1', 'name' => 'string2' }).to_return(status: 200, body: { id: 'id1' }.to_json)
         resource = model_class.new id: 'id1', name: 'string1'
-        resource = subject.update resource, parameters(her_product: { name: 'string2' }), authorizer
+        resource = subject.update resource, parameters!(name: 'string2'), authorizer
         expect(resource).to be_a model_class
-        expect(resource.name).to eq 'string1'
+        expect(resource.name).to eq 'string2'
         expect(resource.errors).to be_blank
       end
 
       context 'when server returns error' do
         it 'returns the resource and its errors' do
-          stub_request(:put, /products/).with(body: { 'id' => 'id1', 'name' => 'string1' }).to_return(status: 400, body: { errors: { name: 'invalid name' } }.to_json)
+          stub_request(:put, /products/).with(body: { 'id' => 'id1', 'name' => 'string2' }).to_return(status: 400, body: { errors: { name: 'invalid name' } }.to_json)
           resource = model_class.new id: 'id1', name: 'string1'
-          resource = subject.update resource, parameters(her_product: { name: 'string2' }), authorizer
+          resource = subject.update resource, parameters!(name: 'string2'), authorizer
           expect(resource).to be_a model_class
           expect(resource.errors).to be_blank
           expect(resource.response_errors).to eq(name: 'invalid name')

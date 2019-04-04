@@ -2,7 +2,7 @@
 
 > NOTE: this is a documentation for 5.2.0 and above, if Wallaby version under 5.2.0 is used, please see this [document for 5.1 and below](controller.5.1.md).
 
-Apart from additional supporting functions, Wallaby controllers are just ordinary Rails controllers that have implemented CRUD actions which can be overridden for customization.
+Apart from additional supporting functions, Wallaby controllers are just ordinary Rails controllers that have implemented resourceful actions which can be overridden for customization.
 
 First of all, it's always recommended to create a base controller class `Admin::ApplicationController` as below, so that devs can have better control of developing global changes/functions:
 

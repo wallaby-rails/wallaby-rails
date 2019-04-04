@@ -3,33 +3,31 @@ module Wallaby
     # Model service provider
     # @see Wallaby::ModelServiceProvider
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
-      # @see Wallaby::ModelServiceProvider#permit
       # @param params [ActionController::Parameters]
       # @param action [String, Symbol]
       # @param authorizer
       # @return [ActionController::Parameters] whitelisted parameters
+      # @see Wallaby::ModelServiceProvider#permit
       def permit(params, action, authorizer)
         authorized_fields = authorizer.permit_params action, @model_class
         params.require(param_key).permit(authorized_fields || permitted_fields)
       end
 
-      # NOTE: pagination free here.
-      # Since somewhere might need the collection without any pagination
-      # @see Wallaby::ModelServiceProvider#collection
+      # @note Pagination free here. Since somewhere might need the collection without any pagination
       # @param params [ActionController::Parameters]
       # @param authorizer [Ability] for now
-      # @return [ActiveRecord::Relation]
+      # @return [ActiveRecord::Relation] relation
+      # @see Wallaby::ModelServiceProvider#collection
       def collection(params, authorizer)
         query = querier.search params
         query = query.order params[:sort] if params[:sort].present?
         authorizer.accessible_for :index, query
       end
 
-      # Paginate
-      # @see Wallaby::ModelServiceProvider#paginate
       # @param query [ActiveRecord::Relation]
       # @param params [ActionController::Parameters]
       # @return [ActiveRecord::Relation] paginated query
+      # @see Wallaby::ModelServiceProvider#paginate
       def paginate(query, params)
         per = params[:per] || Wallaby.configuration.pagination.page_size
         query = query.page params[:page] if query.respond_to? :page
@@ -37,61 +35,65 @@ module Wallaby
         query
       end
 
+      # @note No mass assignment happens here!
+      # @return [Object] new resource object
       # @see Wallaby::ModelServiceProvider#new
-      # @param permitted_params [ActionController::Parameters]
-      def new(permitted_params, _authorizer)
-        @model_class.new normalize permitted_params
-      rescue unknown_attribute_error
+      def new(_params, _authorizer)
         @model_class.new
       end
 
-      # @see Wallaby::ModelServiceProvider#find
+      # @note No mass assignment happens here!
+      # Find the record using id.
       # @param id [Integer, String]
-      # @param permitted_params [ActionController::Parameters]
-      def find(id, permitted_params, _authorizer)
-        resource = @model_class.find id
-        resource.assign_attributes normalize permitted_params
-        resource
+      # @return [Object] persisted resource object
+      # @raise [Wallaby::ResourceNotFound] when record is not found
+      # @see Wallaby::ModelServiceProvider#find
+      def find(id, _params, _authorizer)
+        @model_class.find id
       rescue ::ActiveRecord::RecordNotFound
         raise ResourceNotFound, id
-      rescue unknown_attribute_error
-        resource
       end
 
-      # @see Wallaby::ModelServiceProvider#create
-      # @param resource_with_new_value [Object]
-      # @param params [ActionController::Parameters]
-      def create(resource_with_new_value, params, authorizer)
-        save __callee__, resource_with_new_value, params, authorizer
-      end
-
-      # @see Wallaby::ModelServiceProvider#update
-      # @param resource_with_new_value [Object]
-      # @param params [ActionController::Parameters]
-      def update(resource_with_new_value, params, authorizer)
-        save __callee__, resource_with_new_value, params, authorizer
-      end
-
-      # @see Wallaby::ModelServiceProvider#destroy
+      # Assign resource with new values and store it in database as new record.
       # @param resource [Object]
-      # @param _params [ActionController::Parameters]
+      # @param params [ActionController::Parameters]
+      # @param authorizer [Wallaby::ModelAuthorizer]
+      # @see Wallaby::ModelServiceProvider#create
+      def create(resource, params, authorizer)
+        save __callee__, resource, params, authorizer
+      end
+
+      # Assign resource with new values and store it in database as an update.
+      # @param resource [Object]
+      # @param params [ActionController::Parameters]
+      # @param authorizer [Wallaby::ModelAuthorizer]
+      # @see Wallaby::ModelServiceProvider#update
+      def update(resource, params, authorizer)
+        save __callee__, resource, params, authorizer
+      end
+
+      # Remove a record from database
+      # @param resource [Object]
+      # @see Wallaby::ModelServiceProvider#destroy
       def destroy(resource, _params, _authorizer)
         resource.destroy
       end
 
       protected
 
-      # Save the ActiveRecord
+      # Save the record
       # @param action [String] `create`, `update`
       # @param resource [Object]
-      # @param _params [ActionController::Parameters]
-      # @param authorizer [Object]
+      # @param params [ActionController::Parameters]
+      # @param authorizer [Wallaby::ModelAuthorizer]
       # @return resource itself
-      def save(action, resource, _params, authorizer)
+      # @raise [ActiveRecord::StatementInvalid, ActiveModel::UnknownAttributeError, ActiveRecord::UnknownAttributeError]
+      def save(action, resource, params, authorizer)
+        resource.assign_attributes normalize params
         ensure_attributes_for authorizer, action, resource
         resource.save if valid? resource
         resource
-      rescue ::ActiveRecord::StatementInvalid => e
+      rescue ::ActiveRecord::StatementInvalid, unknown_attribute_error => e
         resource.errors.add :base, e.message
         resource
       end
@@ -120,13 +122,12 @@ module Wallaby
         resource.assign_attributes restricted_conditions
       end
 
-      # The params key
+      # @return [String] param key
       def param_key
         @model_class.model_name.param_key
       end
 
-      # The list of attributes to whitelist
-      # @return [Array]
+      # @return [Array] the list of attributes to whitelist for mass assignment
       def permitted_fields
         @permitted_fields ||=
           permitter.simple_field_names << permitter.compound_hashed_fields
@@ -152,6 +153,8 @@ module Wallaby
         @validator ||= Validator.new @model_decorator
       end
 
+      # @return [Class] ActiveModel::UnknownAttributeError if Rails 4
+      # @return [Class] ActiveRecord::UnknownAttributeError if Rails 5
       def unknown_attribute_error
         (defined?(::ActiveModel::UnknownAttributeError) ? ::ActiveModel : ::ActiveRecord)::UnknownAttributeError
       end
