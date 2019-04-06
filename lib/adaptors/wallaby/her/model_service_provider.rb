@@ -72,7 +72,7 @@ module Wallaby
 
       protected
 
-      # Save the active record
+      # Save the record
       # @param action [String] `create`, `update`
       # @param resource [Object]
       # @param params [ActionController::Parameters]
