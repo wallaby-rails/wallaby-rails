@@ -13,11 +13,11 @@ module Wallaby
       params = env[ActionDispatch::Http::Parameters::PARAMETERS_KEY]
       controller = find_controller_by params
       controller.action(params[:action]).call env
-    rescue ::AbstractController::ActionNotFound, ModelNotFound => exception
-      set_message_for exception, env
+    rescue ::AbstractController::ActionNotFound, ModelNotFound => e
+      set_message_for e, env
       default_controller(params).action(:not_found).call env
-    rescue UnprocessableEntity => exception
-      set_message_for exception, env
+    rescue UnprocessableEntity => e
+      set_message_for e, env
       default_controller(params).action(:unprocessable_entity).call env
     end
 

@@ -47,6 +47,7 @@ module Wallaby
     # - controller configuration {Wallaby::Servicable::ClassMethods#model_servicer .model_servicer}
     # - a generic servicer based on {Wallaby::Servicable::ClassMethods#application_servicer .application_servicer}
     # @return [Wallaby::ModelServicer] model servicer
+    # @since 5.2.0
     def current_servicer
       @current_servicer ||= begin
         klass =

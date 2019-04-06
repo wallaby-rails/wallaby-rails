@@ -12,7 +12,7 @@ describe Wallaby::FormHelper do
     describe 'partials', prefixes: ['wallaby/resources/form'] do
       it 'renders a type partial' do
         helper.params[:action] = 'edit'
-        expect(helper.form_type_partial_render('integer', field_name: 'name', form: form)).to match 'type="number"'
+        expect(helper.type_render('integer', field_name: 'name', form: form)).to match 'type="number"'
       end
     end
   end

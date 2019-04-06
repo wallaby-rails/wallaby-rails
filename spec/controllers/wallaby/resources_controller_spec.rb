@@ -111,14 +111,14 @@ describe Wallaby::ResourcesController do
       end
 
       it 'returns the query' do
-        paginate = controller.send :paginate, query
-        expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products"'
+        paginate = controller.send :paginate, query, paginate: true
+        expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
       end
 
       context 'when page param is provided' do
         it 'paginate the query' do
           controller.params[:page] = 8
-          paginate = controller.send :paginate, query
+          paginate = controller.send :paginate, query, paginate: true
           expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 140'
         end
       end
@@ -126,7 +126,7 @@ describe Wallaby::ResourcesController do
       context 'when per param is provided' do
         it 'paginate the query' do
           controller.params[:per] = 8
-          paginate = controller.send :paginate, query
+          paginate = controller.send :paginate, query, paginate: true
           expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 8 OFFSET 0'
         end
       end
@@ -134,7 +134,7 @@ describe Wallaby::ResourcesController do
       context 'when page param is provided' do
         it 'paginate the query' do
           controller.request.format = :html
-          paginate = controller.send :paginate, query
+          paginate = controller.send :paginate, query, paginate: true
           expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
         end
       end

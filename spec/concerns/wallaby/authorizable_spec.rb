@@ -47,7 +47,7 @@ describe Wallaby::ResourcesController, type: :controller do
 
   describe '#authorizer_of' do
     it 'returns model authorizer' do
-      expect(controller.authorizer_of(Order)).to be_a Wallaby::ModelAuthorizer
+      expect(controller.send(:authorizer_of, Order)).to be_a Wallaby::ModelAuthorizer
     end
   end
 

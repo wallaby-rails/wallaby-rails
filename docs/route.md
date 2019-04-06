@@ -160,6 +160,6 @@ class Admin::ApplicationController < Wallaby::ResourcesController
 end
 ```
 
-> NOTE: All sub classes of `Admin::ApplicationController` will inherit the same engine name when it is set.
+> NOTE: All subclasses of `Admin::ApplicationController` will inherit the same engine name when it is set.
 
 > See more options at [Customizing Controller](controller.md).

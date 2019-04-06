@@ -2,18 +2,20 @@ module Wallaby
   # Abstract CRUD controller.
   class AbstractResourcesController < ::Wallaby::SecureController
     extend Authorizable::ClassMethods
+    extend Baseable::ClassMethods
     extend Decoratable::ClassMethods
     extend Paginatable::ClassMethods
     extend Resourcable::ClassMethods
     extend Servicable::ClassMethods
-    extend Baseable::ClassMethods
     extend Themeable::ClassMethods
     include Authorizable
     include Decoratable
+    include Defaultable
+    include Paginatable
+    include RailsOverriddenMethods
     include Resourcable
     include Servicable
     include Themeable
-    include RailsOverriddenMethods
 
     self.responder = ResourcesResponder
     respond_to :html
@@ -22,8 +24,10 @@ module Wallaby
     helper ResourcesHelper
     before_action :authenticate_user!, except: [:status]
 
-    # @note This is a template method that can be overridden by subclasses
-    # Landing page, it does nothing but just rendering home template. This action can be replaced completely:
+    # @note This is a template method that can be overridden by subclasses.
+    # This is an action for landing page display. It does nothing more than rendering `home` template.
+    #
+    # It can be replaced completely in subclasses as below:
     #
     # ```
     # def home
@@ -34,218 +38,321 @@ module Wallaby
       # do nothing
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to list records.
-    # It is possible to customize this action in sub controller as below:
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to list records that user can access.
+    #
+    # It can be customized as below in subclasses:
+    #
+    # `WARN: Please keep in mind that Wallaby User Interface requires **index**
+    # action to respond to **csv** and **json** format as well.`
     #
     # ```
     # def index
-    #   # do something before the origin `index` action
-    #   super do
-    #     # NOTE: index action responds to `html`, `csv` and `json` format
-    #     # do something after the origin `index` action, but before responder's rendering
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   index! options do |format| # NOTE: this is better than using `super`
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
     # ```
     #
-    # Otherwise, it can be replaced completely:
+    # Otherwise, it can be replaced completely in subclasses:
+    #
+    # `WARN: Please keep in mind that Wallaby User Interface requires **index**
+    # action to respond to **csv** and **json** format as well.`
     #
     # ```
     # def index
-    #   # do something completely different
-    #   # NOTE: please ensure that `@collection` is assigned, for instance
+    #   # NOTE: `@collection` will be used by the view, please ensure it is assigned, for example:
     #   @collection = Product.all
+    #   respond_with @collection
     # end
     # ```
-    def index
+    # @param options [Hash] (since 5.2.0) options for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    # @yield [format] block for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    #   to customize response behaviour.
+    # @raise [Wallaby::Forbidden] if user has no access
+    def index(options = {}, &block)
       current_authorizer.authorize :index, current_model_class
-      yield if block_given? # after_index
-      respond_with collection
+      respond_with collection, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to show the form for creating a record.
-    # It is possible to customize this action in sub controller as below:
+    alias index! index
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to show the form to create record that user is allowed to.
+    #
+    # It can be customized as below in subclasses:
     #
     # ```
     # def new
-    #   # do something before the origin `new` action
-    #   super do
-    #     # do something after the origin `new` action, but before responder's rendering
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   new! options do |format| # NOTE: this is better than using `super`
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
     # ```
     #
-    # Otherwise, it can be replaced completely:
+    # Otherwise, it can be replaced completely in subclasses:
     #
     # ```
     # def new
-    #   # do something completely different
-    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.new new_arrival: true
     # end
     # ```
-    def new
+    # @param options [Hash] (since 5.2.0) options for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    # @yield [format] block for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    #   to customize response behaviour.
+    # @raise [Wallaby::Forbidden] if user has no access
+    def new(options = {}, &block)
       current_authorizer.authorize :new, resource
-      yield if block_given? # after_new
-      respond_with resource
+      respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to create a record.
-    # It is possible to customize this action in sub controller as below:
+    alias new! new
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to create a record that user is allowed to.
+    #
+    # If record is created successfully, user will be navigated to the record show page.
+    # Otherwise, the form will be shown again with error messages.
+    #
+    # It can be customized as below in subclasses:
     #
     # ```
     # def create
-    #   # do something before the origin `create` action
-    #   super do
-    #     # do something after the origin `create` action, but before responder's rendering
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   create! options do |format| # NOTE: this is better than using `super`
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
     # ```
     #
-    # Otherwise, it can be replaced completely:
+    # Otherwise, it can be replaced completely in subclasses:
     #
     # ```
     # def create
-    #   # do something completely different
-    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.new resource_params.merge(new_arrival: true)
-    #   @resource.save
-    #   respond_with @resource
+    #   if @resource.save
+    #     redirect_to helper.index_path(current_model_class)
+    #   else
+    #     render :new
+    #   end
     # end
     # ```
-    # @see Wallaby::ModelServicer#create
-    def create
+    # @param options [Hash] (since 5.2.0) options for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}. In addition, options `:params` is supported, see below
+    # @option options [ActionController::Parameters, Hash] :params
+    #   permitted parameters for servicer to create the record. _(defaults to: {#resource_params})_
+    # @yield [format] block for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    #   to customize response behaviour.
+    # @raise [Wallaby::Forbidden] if user has no access
+    def create(options = {}, &block)
+      set_defaults_for :create, options
       current_authorizer.authorize :create, resource
-      current_servicer.create resource, params
-      yield if block_given? # after_create
-      respond_with resource, location: helpers.show_path(resource)
+      current_servicer.create resource, options.delete(:params)
+      respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to display the details of a record.
-    # It is possible to customize this action in sub controller as below:
+    alias create! create
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to display the record details that user is allowed to.
+    #
+    # It can be customized as below in subclasses:
     #
     # ```
     # def show
-    #   # do something before the origin `show` action
-    #   super do
-    #     # do something after the origin `show` action, but before responder's rendering
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   show! options do |format| # NOTE: this is better than using `super`
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
     # ```
     #
-    # Otherwise, it can be replaced completely:
+    # Otherwise, it can be replaced completely in subclasses:
     #
     # ```
     # def show
-    #   # do something completely different
-    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
     # end
     # ```
-    def show
+    # @param options [Hash] (since 5.2.0) options for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    # @yield [format] block for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    #   to customize response behaviour.
+    # @raise [Wallaby::Forbidden] if user has no access
+    def show(options = {}, &block)
       current_authorizer.authorize :show, resource
-      yield if block_given? # after_show
-      respond_with resource
+      respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to show a form for editing a record.
-    # It is possible to customize this action in sub controller as below:
+    alias show! show
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to show the form to edit record that user is allowed to.
+    #
+    # It can be customized as below in subclasses:
     #
     # ```
     # def edit
-    #   # do something before the origin `edit` action
-    #   super do
-    #     # do something after the origin `edit` action, but before responder's rendering
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   edit! options do |format| # NOTE: this is better than using `super`
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
     # ```
     #
-    # Otherwise, it can be replaced completely:
+    # Otherwise, it can be replaced completely in subclasses:
     #
     # ```
     # def edit
-    #   # do something completely different
-    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
     # end
     # ```
-    def edit
+    # @param options [Hash] (since 5.2.0) options for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    # @yield [format] block for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    #   to customize response behaviour.
+    # @raise [Wallaby::Forbidden] if user has no access
+    def edit(options = {}, &block)
       current_authorizer.authorize :edit, resource
-      yield if block_given? # after_edit
-      respond_with resource
+      respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to update a record.
-    # It is possible to customize this action in sub controller as below:
+    alias edit! edit
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to update the record that user is allowed to.
+    #
+    # If record is updated successfully, user will be navigated to the record show page.
+    # Otherwise, the form will be shown again with error messages.
+    #
+    # It can be customized as below in subclasses:
     #
     # ```
     # def update
-    #   # do something before the origin `update` action
-    #   super do
-    #     # do something after the origin `update` action, but before responder's rendering
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   update! options do |format| # NOTE: this is better than using `super`
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
     # ```
     #
-    # Otherwise, it can be replaced completely:
+    # Otherwise, it can be replaced completely in subclasses:
     #
     # ```
     # def update
-    #   # do something completely different
-    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
-    #   @resource.save
-    #   respond_with @resource
+    #   @resource.assign_attributes resource_params.merge(new_arrival: true)
+    #   if @resource.save
+    #     redirect_to helper.index_path(current_model_class)
+    #   else
+    #     render :new
+    #   end
     # end
     # ```
-    # @see Wallaby::ModelServicer#update
-    def update
+    # @param options [Hash] (since 5.2.0) options for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}. In addition, options `:params` is supported, see below
+    # @option options [ActionController::Parameters, Hash] :params
+    #   permitted parameters for servicer to update the record. _(defaults to: {#resource_params})_
+    # @yield [format] block for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    #   to customize response behaviour.
+    # @raise [Wallaby::Forbidden] if user has no access
+    def update(options = {}, &block)
+      set_defaults_for :update, options
       current_authorizer.authorize :update, resource
-      current_servicer.update resource, params
-      yield if block_given? # after_update
-      respond_with resource, location: helpers.show_path(resource)
+      current_servicer.update resource, options.delete(:params)
+      respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # This is a resourceful action to destroy a record.
-    # It is possible to customize this action in sub controller as below:
+    alias update! update
+
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a resourceful action to delete the record that user is allowed to.
+    #
+    # It can be customized as below in subclasses:
     #
     # ```
     # def destroy
-    #   # do something before the origin `destroy` action
-    #   super do
-    #     # do something after the origin `destroy` action, but before responder's rendering
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   destroy! options do |format| # NOTE: this is better than using `super`
+    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #     # customize response behaviour, or do something before the request is rendered
     #   end
     # end
     # ```
     #
-    # Otherwise, it can be replaced completely:
+    # Otherwise, it can be replaced completely in subclasses:
     #
     # ```
     # def destroy
-    #   # do something completely different
-    #   # NOTE: please ensure that `@resource` is assigned, for instance:
+    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
     #   @resource = Product.find_by_slug params[:id]
     #   @resource.destroy
-    #   respond_with @resource
+    #   redirect_to helper.index_path(current_model_class)
     # end
     # ```
-    # @see Wallaby::ModelServicer#destroy
-    def destroy
+    # @param options [Hash] (since 5.2.0) options for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}. In addition, options `:params` is supported, see below
+    # @option options [ActionController::Parameters, Hash] :params
+    #   permitted parameters for servicer to destroy the record. _(defaults to: {#resource_params})_
+    # @yield [format] block for
+    #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
+    #   respond_with}
+    #   to customize response behaviour.
+    # @raise [Wallaby::Forbidden] if user has no access
+    def destroy(options = {}, &block)
+      set_defaults_for :destroy, options
       current_authorizer.authorize :destroy, resource
-      current_servicer.destroy resource, params
-      yield if block_given? # after_destroy
-      respond_with resource, location: helpers.index_path(current_model_class)
+      current_servicer.destroy resource, options.delete(:params)
+      respond_with resource, options, &block
     end
 
-    # @note This is a template method that can be overridden by subclasses
-    # To whitelist the params for CRUD actions.
-    # If Wallaby cannot generate the correct strong parameters, it can be replaced, for instance:
+    alias destroy! destroy
+
+    # @note This is a template method that can be overridden by subclasses.
+    # To whitelist the params for {#create} and {#update} actions.
+    #
+    # If Wallaby cannot generate the correct strong parameters, it can be replaced, for example:
     #
     # ```
     # def resource_params
@@ -253,9 +360,18 @@ module Wallaby
     # end
     # ```
     # @return [ActionController::Parameters] whitelisted params
-    # @see Wallaby::ModelServicer#permit
     def resource_params
       @resource_params ||= current_servicer.permit params, action_name
     end
+
+    # @!method collection(options = {}, &block)
+    #   (see Wallaby::Resourcable#collection)
+    #   @see Wallaby::Resourcable#collection
+    alias collection! collection
+
+    # @!method resource(options = {}, &block)
+    #   (see Wallaby::Resourcable#resource)
+    #   @see Wallaby::Resourcable#resource
+    alias resource! resource
   end
 end

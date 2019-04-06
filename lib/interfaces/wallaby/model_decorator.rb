@@ -15,7 +15,7 @@ module Wallaby
     attr_reader :model_class
 
     # @!attribute [r] fields
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # Origin fields metadata.
     #
     # Initially, {#index_fields}, {#show_fields} and {#form_fields} are copies of it.
@@ -40,7 +40,7 @@ module Wallaby
     end
 
     # @!attribute [r] index_fields
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # Fields metadata for `index` page.
     # @return [ActiveSupport::HashWithIndifferentAccess]
     def index_fields
@@ -63,7 +63,7 @@ module Wallaby
     end
 
     # @!attribute [r] show_fields
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # Fields metadata for `show` page.
     # @return [ActiveSupport::HashWithIndifferentAccess]
     def show_fields
@@ -86,7 +86,7 @@ module Wallaby
     end
 
     # @!attribute [r] form_fields
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # Fields metadata for form (`new`/`edit`) page.
     # @return [ActiveSupport::HashWithIndifferentAccess]
     def form_fields
@@ -109,14 +109,14 @@ module Wallaby
     end
 
     # @!attribute [r] filters
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # Filter metadata for index page.
     # @return [ActiveSupport::HashWithIndifferentAccess]
     def filters
       @filters ||= ::ActiveSupport::HashWithIndifferentAccess.new
     end
 
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # Validation error for given resource
     # @param _resource [Object]
     # @return [ActiveModel::Errors, Hash]
@@ -124,13 +124,13 @@ module Wallaby
       raise NotImplemented
     end
 
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # @return [String] primary key name
     def primary_key
       raise NotImplemented
     end
 
-    # @note to be implemented in sub classes.
+    # @note to be implemented in subclasses.
     # To guess the title for a resource.
     #
     # This title will be used on the following places:

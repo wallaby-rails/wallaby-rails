@@ -3,7 +3,7 @@ module Wallaby
   module SharedHelpers
     protected
 
-    # Fetch value for an attribute from controller.
+    # Fetch value for given attribute.
     #
     # If it's used in controller, it will fetch it from class attribute.
     # If it's used in view, it will fetch it from controller.

@@ -49,10 +49,12 @@ module Wallaby
       end
     end
 
+    # @return [String] resources name for current request
     def current_resources_name
       @current_resources_name ||= params[:resources] || controller_to_get(__callee__, :resources_name)
     end
 
+    # @return [Class] model class for current request
     def current_model_class
       @current_model_class ||=
         controller_to_get(__callee__, :model_class) || Map.model_class_map(current_resources_name)
@@ -64,34 +66,91 @@ module Wallaby
       params[:id]
     end
 
-    # @return [#each] a collection of all the records
-    def collection
-      @collection ||= paginate current_servicer.collection params
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a method to return collection for index page.
+    #
+    # It can be customized as below in subclasses:
+    #
+    # ```
+    # def collection
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   collection! options do |query| # NOTE: this is better than using `super`
+    #     # NOTE: make sure a collection is returned
+    #     query.where(active: true)
+    #   end
+    # end
+    # ```
+    #
+    # Otherwise, it can be replaced completely in subclasses:
+    #
+    # ```
+    # def collection
+    #   # NOTE: pagination should happen here if needed
+    #   # NOTE: make sure `@collection` and conditional assignment (the OR EQUAL) operator are used
+    #   @collection ||= paginate Product.active
+    # end
+    # ```
+    # @param options [Hash] (since 5.2.0)
+    # @option options [ActionController::Parameters, Hash] :params parameters for collection query
+    # @option options [Boolean] :paginate see {Wallaby::Paginatable#paginate}
+    # @yield [collection] (since 5.2.0) a block to run to extend collection, e.g. call chain with more queries
+    # @return [#each] a collection of records
+    def collection(options = {}, &block)
+      @collection ||=
+        ModuleUtils.yield_for(
+          begin
+            options[:paginate] = true unless options.key?(:paginate)
+            options[:params] ||= params
+            paginate current_servicer.collection(options.delete(:params)), options
+          end,
+          &block
+        )
     end
 
+    # @note This is a template method that can be overridden by subclasses.
+    # This is a method to return resource for pages except `index`.
+    #
+    # `WARN: It does not do mass assignment since 5.2.0.`
+    #
+    # It can be customized as below in subclasses:
+    #
+    # ```
+    # def resource
+    #   # do something before the origin action
+    #   options = {} # NOTE: see `options` parameter for more details
+    #   resource! options do |object| # NOTE: this is better than using `super`
+    #     object.preload_status_from_api
+    #     # NOTE: make sure object is returned
+    #     object
+    #   end
+    # end
+    # ```
+    #
+    # Otherwise, it can be replaced completely in subclasses:
+    #
+    # ```
+    # def resource
+    #   # NOTE: make sure `@resource` and conditional assignment (the OR EQUAL) operator are used
+    #   @resource ||= resource_id.present? ? Product.find_by_slug(resource_id) : Product.new(arrival: true)
+    # end
+    # ```
+    # @param options [Hash] (since 5.2.0)
+    # @option options [ActionController::Parameters, Hash] :find_params parameters/options for resource finding
+    # @option options [ActionController::Parameters, Hash] :new_params parameters/options for new resource
+    # @yield [resource] (since 5.2.0) a block to run to extend resource, e.g. making change to the resource.
+    #   Please make sure to return the resource at the end of block
     # @return [Object] either persisted or unpersisted resource instance
-    def resource
-      @resource ||= begin
-        # white-listed params
-        whitelisted = action_name.in?(SAVE_ACTIONS) ? resource_params : {}
-        if resource_id.present?
-          current_servicer.find resource_id, whitelisted
-        else
-          current_servicer.new whitelisted
-        end
-      end
-    end
-
-    protected
-
-    # To paginate the collection but only when either `page` or `per` param is given,
-    # or HTML response is requested
-    # @param query [#each]
-    # @return [#each]
-    # @see Wallaby::ModelServicer#paginate
-    def paginate(query)
-      paginatable = params[:page] || params[:per] || request.format.symbol == :html
-      paginatable ? current_servicer.paginate(query, params) : query
+    def resource(options = {}, &block)
+      @resource ||=
+        ModuleUtils.yield_for(
+          if resource_id.present?
+            current_servicer.find resource_id, options[:find_params]
+          else
+            current_servicer.new options[:new_params]
+          end,
+          &block
+        )
     end
   end
 end

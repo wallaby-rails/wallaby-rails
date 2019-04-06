@@ -1,7 +1,6 @@
 module Wallaby
   class Her
-    # Model service provider
-    # @see Wallaby::ModelServiceProvider
+    # Model service provider for HER ORM
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
       # Only the general fields will be permitted.
       # It's less possible to guess what nested attributes should be permitted.
@@ -38,33 +37,30 @@ module Wallaby
       end
 
       # @see Wallaby::ModelServiceProvider#new
-      # @param permitted_params [ActionController::Parameters]
-      def new(permitted_params, _authorizer)
-        @model_class.new permitted_params.to_h
+      def new(_params, _authorizer)
+        @model_class.new
       end
 
       # @see Wallaby::ModelServiceProvider#find
       # @param id [String]
-      # @param permitted_params [ActionController::Parameters]
-      def find(id, permitted_params, _authorizer)
+      def find(id, _params, _authorizer)
         resource = @model_class.find id
         raise ResourceNotFound, id unless resource
-        resource.assign_attributes permitted_params.to_h
         resource
       end
 
       # @see Wallaby::ModelServiceProvider#create
-      # @param resource_with_new_value [Object]
+      # @param resource [Object]
       # @param params [ActionController::Parameters]
-      def create(resource_with_new_value, params, authorizer)
-        save __callee__, resource_with_new_value, params, authorizer
+      def create(resource, params, authorizer)
+        save __callee__, resource, params, authorizer
       end
 
       # @see Wallaby::ModelServiceProvider#update
-      # @param resource_with_new_value [Object]
+      # @param resource [Object]
       # @param params [ActionController::Parameters]
-      def update(resource_with_new_value, params, authorizer)
-        save __callee__, resource_with_new_value, params, authorizer
+      def update(resource, params, authorizer)
+        save __callee__, resource, params, authorizer
       end
 
       # @see Wallaby::ModelServiceProvider#destroy
@@ -76,15 +72,19 @@ module Wallaby
 
       protected
 
-      # Save the active record
+      # Save the record
       # @param action [String] `create`, `update`
       # @param resource [Object]
-      # @param _params [ActionController::Parameters]
+      # @param params [ActionController::Parameters]
       # @param authorizer [Object]
       # @return resource itself
-      def save(action, resource, _params, authorizer)
+      def save(action, resource, params, authorizer)
+        resource.assign_attributes params.to_h
         ensure_attributes_for authorizer, action, resource
         resource.save if resource.valid?
+        resource
+      rescue ActionController::UnfilteredParameters => e
+        resource.errors.add :base, e.message
         resource
       end
 

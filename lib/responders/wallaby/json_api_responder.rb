@@ -1,8 +1,6 @@
 module Wallaby
   # Easter egg: simple responder for JSON API
   class JsonApiResponder < ActionController::Responder
-    include ResourcesHelper
-
     delegate :params, :headers, to: :request
 
     # @see #to_json
@@ -59,7 +57,7 @@ module Wallaby
     end
 
     def resource_errors
-      decorated = decorate resource
+      decorated = controller.decorate resource
       {
         errors: decorated.errors.each_with_object([]) do |(field, message), json|
           json.push(
@@ -72,7 +70,7 @@ module Wallaby
     end
 
     def attributes_of(resource)
-      decorated = decorate resource
+      decorated = controller.decorate resource
       field_names = index? ? decorated.index_field_names : decorated.show_field_names
       field_names.each_with_object({}) do |name, attributes|
         attributes[name] = decorated.public_send name
