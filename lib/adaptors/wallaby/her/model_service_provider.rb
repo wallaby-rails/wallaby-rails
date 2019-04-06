@@ -1,7 +1,6 @@
 module Wallaby
   class Her
-    # Model service provider
-    # @see Wallaby::ModelServiceProvider
+    # Model service provider for HER ORM
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
       # Only the general fields will be permitted.
       # It's less possible to guess what nested attributes should be permitted.

@@ -93,7 +93,7 @@ module Wallaby
         ensure_attributes_for authorizer, action, resource
         resource.save if valid? resource
         resource
-      rescue ::ActiveRecord::StatementInvalid, unknown_attribute_error => e
+      rescue ::ActiveRecord::ActiveRecordError, ActiveModel::ForbiddenAttributesError, unknown_attribute_error => e
         resource.errors.add :base, e.message
         resource
       end

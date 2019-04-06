@@ -62,6 +62,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
         resource = subject.new parameters!(string: 'some string'), authorizer
         expect(resource).to be_a model_class
         expect(resource).to be_new_record
+        expect(resource.string).to be_nil
         expect(resource.attributes.values.compact).to be_blank
       end
     end
@@ -74,6 +75,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
 
         resource = subject.find existing.id, parameters!(string: 'some string'), authorizer
         expect(resource).to be_a model_class
+        expect(resource.string).to be_nil
         expect(resource.string).not_to eq 'some string'
       end
 
@@ -86,30 +88,39 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
 
     describe '#create' do
       it 'returns the resource' do
-        resource = subject.new parameters(all_postgres_type: { string: 'some string' }), authorizer
-        expect(resource.string).to be_blank
+        resource = model_class.new
         resource = subject.create resource, parameters!(string: 'some string'), authorizer
         expect(resource).to be_a model_class
         expect(resource.id).not_to be_blank
         expect(resource.errors).to be_blank
       end
 
-      context 'when params are not valid' do
+      context 'when params are not filtered' do
         it 'returns the resource and its errors' do
-          resource = subject.new parameters(all_postgres_type: { daterange: ['', '2016-12-13'] }), authorizer
-          expect(resource.daterange).to be_blank
-          resource = subject.create resource, parameters!(daterange: ['', '2016-12-13']), authorizer
+          resource = model_class.new
+          resource = subject.create resource, parameters(string: 'else'), authorizer
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
-          expect(resource.errors).not_to be_blank
+          expect(resource.errors[:base]).to include 'ActiveModel::ForbiddenAttributesError'
+        end
+      end
+
+      context 'when params are unknown' do
+        it 'returns the resource and its errors' do
+          resource = subject.new parameters, authorizer
+          expect(resource.daterange).to be_blank
+          resource = subject.create resource, parameters!(something: 'else'), authorizer
+          expect(resource).to be_a model_class
+          expect(resource.id).to be_blank
+          expect(resource.errors[:base]).to include "unknown attribute 'something' for AllPostgresType."
         end
       end
     end
 
     describe '#update' do
       let!(:existing) { model_class.create! string: 'title' }
+
       it 'returns the resource' do
-        existing.string = 'string'
         resource = subject.update existing, parameters!(string: 'string'), authorizer
         expect(resource).to be_a model_class
         expect(resource.string).to eq 'string'

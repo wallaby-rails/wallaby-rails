@@ -63,20 +63,20 @@ describe Wallaby::Her::ModelServiceProvider do
     describe '#create' do
       it 'returns the resource' do
         stub_request(:post, /products/).with(body: { 'name' => 'string1' }).to_return(status: 200, body: { id: 'id1' }.to_json)
-        resource = subject.new parameters, authorizer
+        resource = model_class.new
         resource = subject.create resource, parameters!(name: 'string1'), authorizer
         expect(resource).to be_a model_class
         expect(resource.id).to eq 'id1'
         expect(resource.errors).to be_blank
       end
 
-      context 'when params are not valid' do
+      context 'when params are not filtered' do
         it 'returns the resource and its errors' do
-          resource = subject.new parameters, authorizer
-          resource = subject.create resource, parameters!(sku: 'string1'), authorizer
+          resource = model_class.new
+          resource = subject.create resource, parameters(sku: 'string1'), authorizer
           expect(resource).to be_a model_class
           expect(resource.id).to be_blank
-          expect(resource.errors).not_to be_blank
+          expect(resource.errors[:base]).to include 'unable to convert unpermitted parameters to hash'
         end
       end
 

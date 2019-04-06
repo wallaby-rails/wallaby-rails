@@ -17,6 +17,7 @@ module Wallaby
             next unless type
             public_send "normalize_#{type}_values", params, field_name, values
           end
+          params
         end
 
         # Turn values into range

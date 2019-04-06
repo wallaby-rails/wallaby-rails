@@ -4,47 +4,55 @@ module Wallaby
   # that allow subclasses to override.
   class ResourcesController < ::Wallaby::AbstractResourcesController
     # @!method home
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#home
+    #   (see Wallaby::AbstractResourcesController#home)
+    #   @see Wallaby::AbstractResourcesController#home
 
-    # @!method index
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#index
+    # @!method index(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#index)
+    #   @see Wallaby::AbstractResourcesController#index
 
-    # @!method new
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#new
+    # @!method new(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#new)
+    #   @see Wallaby::AbstractResourcesController#new
 
-    # @!method create
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#create
+    # @!method create(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#create)
+    #   @see Wallaby::AbstractResourcesController#create
 
-    # @!method show
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#show
+    # @!method show(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#show)
+    #   @see Wallaby::AbstractResourcesController#show
 
-    # @!method edit
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#edit
+    # @!method edit(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#edit)
+    #   @see Wallaby::AbstractResourcesController#edit
 
-    # @!method update
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#update
+    # @!method update(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#update)
+    #   @see Wallaby::AbstractResourcesController#update
 
-    # @!method destroy
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#destroy
+    # @!method destroy(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#destroy)
+    #   @see Wallaby::AbstractResourcesController#destroy
 
     # @!method resource_params
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::AbstractResourcesController#resource_params
+    #   (see Wallaby::AbstractResourcesController#resource_params)
+    #   @see Wallaby::AbstractResourcesController#resource_params
+
+    # @!method collection(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#collection)
+    #   @see Wallaby::AbstractResourcesController#collection
+
+    # @!method resource(options = {}, &block)
+    #   (see Wallaby::AbstractResourcesController#resource)
+    #   @see Wallaby::AbstractResourcesController#resource
 
     # @!method current_user
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::SecureController#current_user
+    #   (see Wallaby::SecureController#current_user)
+    #   @see Wallaby::SecureController#current_user
 
     # @!method authenticate_user!
-    # @note This is a template method that can be overridden by subclasses
-    # @see Wallaby::SecureController#authenticate_user!
+    #   (see Wallaby::SecureController#authenticate_user!)
+    #   @see Wallaby::SecureController#authenticate_user!
   end
 end

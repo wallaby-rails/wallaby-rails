@@ -1,6 +1,5 @@
 module Wallaby
-  # Resources responder for later usage
-  # @see Wallaby::AbstractResponder
+  # Wallaby resource responder
   class ResourcesResponder < AbstractResponder
   end
 end

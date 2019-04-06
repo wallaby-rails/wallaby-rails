@@ -39,6 +39,7 @@ describe 'Resources pages using postgresql table' do
       http :get, '/admin/all_postgres_types', headers: { 'ACCEPT' => 'text/csv' }
       expect(response).to be_successful
       expect(response).to render_template :index
+      expect(response.headers['Content-Disposition']).to include 'filename="all_postgres_types-exported-'
       expect(response.content_type).to eq 'text/csv'
       expect(response.body).to include string
     end

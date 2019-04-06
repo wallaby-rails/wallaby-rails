@@ -3,65 +3,22 @@ module Wallaby
   class AbstractResponder < ActionController::Responder
     include ::Responders::FlashResponder
 
-    delegate :params, :headers, to: :request
-
     # @return [String] CSV
     def to_csv
-      headers['Content-Disposition'] = "attachment; filename=\"#{file_name}\""
+      controller.headers['Content-Disposition'] = "attachment; filename=\"#{file_name}\""
       default_render
     end
 
-    # @return [String] JSON
-    def to_json(*)
-      return default_render unless post? || patch? || put? || delete?
-      if has_errors? then render :bad_request, options.merge(status: :bad_request)
-      else render :form, options
-      end
-    end
-
-    private
-
-    # For create action
-    # - if has errors, render the form again
-    # - else redirect to show page
-    def create_action
-      if has_errors?
-        render :new, options
-      else
-        redirect_to resource_location
-      end
-    end
-
-    # For update action
-    # - if has errors, render the form again
-    # - else redirect to show page
-    def update_action
-      if has_errors?
-        render :edit, options
-      else
-        redirect_to resource_location
-      end
-    end
-
-    # For destroy action
-    # - redirect to show page
-    def destroy_action
-      redirect_to resource_location
-    end
+    protected
 
     # @return [String] file name
     def file_name
       timestamp = Time.zone.now.to_s(:number)
-      "#{params[:resources]}-exported-#{timestamp}.#{format}"
+      "#{request.params[:resources]}-exported-#{timestamp}.#{format}"
     end
 
-    # @see FlashResponder
-    def set_flash_message
-      set_flash_message! if set_flash_message?
-    end
-
-    def exception?
-      (resource.nil? || resource.is_a?(Exception)) && options[:template] == ERROR_PATH
+    def has_errors? # rubocop:disable Naming/PredicateName
+      resource.nil? || resource.is_a?(Exception) || controller.decorate(resource).errors.present?
     end
   end
 end
