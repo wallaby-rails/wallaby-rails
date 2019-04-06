@@ -74,15 +74,15 @@ describe Wallaby::Her::ModelServiceProvider do
         it 'returns the resource and its errors' do
           unfiltered = parameters(sku: 'string1')
           if version? '< 5.0'
-            class ActionController::UnfilteredParameters < Exception
-              def message
-                'unable to convert unpermitted parameters to hash'
+            class ActionController
+              class UnfilteredParameters < StandardError
+                def message
+                  'unable to convert unpermitted parameters to hash'
+                end
               end
             end
           end
-          if version? '< 5.1'
-            expect(unfiltered).to receive(:to_h).and_raise(ActionController::UnfilteredParameters)
-          end
+          expect(unfiltered).to receive(:to_h).and_raise(ActionController::UnfilteredParameters) if version? '< 5.1'
           resource = model_class.new
           resource = subject.create resource, unfiltered, authorizer
           expect(resource).to be_a model_class
