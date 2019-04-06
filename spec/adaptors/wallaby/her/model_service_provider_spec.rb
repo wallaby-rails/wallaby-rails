@@ -74,7 +74,7 @@ describe Wallaby::Her::ModelServiceProvider do
         it 'returns the resource and its errors' do
           unfiltered = parameters(sku: 'string1')
           if version? '< 5.0'
-            class ActionController
+            module ActionController
               class UnfilteredParameters < StandardError
                 def message
                   'unable to convert unpermitted parameters to hash'
