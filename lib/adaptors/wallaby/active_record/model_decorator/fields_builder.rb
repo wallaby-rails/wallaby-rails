@@ -3,7 +3,7 @@ module Wallaby
     class ModelDecorator
       # To search and build the metadata for fields
       class FieldsBuilder
-        # @param model_class [Class] model class
+        # @param model_class [Class]
         def initialize(model_class)
           @model_class = model_class
         end

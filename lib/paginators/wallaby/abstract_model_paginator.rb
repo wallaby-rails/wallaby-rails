@@ -17,7 +17,7 @@ module Wallaby
     delegate(*(ModelPaginationProvider.instance_methods - ::Object.instance_methods), to: :@provider)
 
     # Paginator constructor
-    # @param model_class [Class] model class
+    # @param model_class [Class]
     # @param collection [#to_a] a collection of all the resources
     # @param params [ActionController::Parameters] parameters
     def initialize(model_class, collection, params)

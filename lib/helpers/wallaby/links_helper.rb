@@ -11,7 +11,7 @@ module Wallaby
     # Return link to index page by a given model class
     #
     # If user's not authorized, nil will be returned
-    # @param model_class [Class] model class
+    # @param model_class [Class]
     # @param url_params [ActionController::Parameters, Hash]
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
@@ -29,7 +29,7 @@ module Wallaby
     # Return link to create page by a given model class
     #
     # If user's not authorized, nil will be returned
-    # @param model_class [Class] model class
+    # @param model_class [Class]
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
     def new_link(model_class, html_options: {}, &block)

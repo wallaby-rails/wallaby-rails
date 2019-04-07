@@ -34,7 +34,7 @@ module Wallaby
               .select { |_, mode| mode == ::Wallaby::ActiveRecord }.keys
           end
 
-          # @param model_class [Class] model class
+          # @param model_class [Class]
           # @param polymorphic_name [String] polymorphic name
           # @return [Boolean] if polymorphism defined?
           def polymorphic_defined?(model_class, polymorphic_name)

@@ -5,7 +5,7 @@ module Wallaby
       class TitleFieldFinder
         TITLE_FIELD_TYPES = %w(string).freeze
 
-        # @param model_class [Class] model class
+        # @param model_class [Class]
         # @param fields [Hash] fields metadata
         def initialize(model_class, fields)
           @model_class  = model_class

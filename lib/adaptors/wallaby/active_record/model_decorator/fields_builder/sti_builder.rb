@@ -4,7 +4,7 @@ module Wallaby
       class FieldsBuilder
         # To build the metadata for sti column
         class StiBuilder
-          # @param model_class [Class] model class
+          # @param model_class [Class]
           def initialize(model_class)
             @model_class = model_class
           end

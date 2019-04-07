@@ -62,7 +62,6 @@ require 'errors/wallaby/unprocessable_entity'
 
 require 'decorators/wallaby/abstract_resource_decorator'
 require 'decorators/wallaby/resource_decorator'
-require 'servicers/wallaby/abstract_model_servicer'
 require 'servicers/wallaby/model_servicer'
 require 'paginators/wallaby/abstract_model_paginator'
 require 'paginators/wallaby/model_paginator'
@@ -99,7 +98,6 @@ require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
 
-require 'responders/wallaby/abstract_responder'
 require 'responders/wallaby/json_api_responder'
 require 'responders/wallaby/resources_responder'
 

@@ -77,7 +77,7 @@ module Wallaby
 
       # Fetch model decorator instance from cached map using keys {.model_class} and {.application_decorator}
       # so that model decorator can be used in class declaration/scope.
-      # @param model_class [Class] model class
+      # @param model_class [Class]
       # @return [Wallaby::ModelDecorator]
       def model_decorator(model_class = self.model_class)
         return unless self < ResourceDecorator || model_class

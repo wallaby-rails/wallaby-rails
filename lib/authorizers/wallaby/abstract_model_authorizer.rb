@@ -36,7 +36,7 @@ module Wallaby
     delegate(*(ModelAuthorizationProvider.instance_methods - ::Object.instance_methods), to: :@provider)
 
     # @!attribute [r] model_class
-    # @return [Class] model class
+    # @return [Class]
     attr_reader :model_class
 
     # @param context [ActionController::Base]

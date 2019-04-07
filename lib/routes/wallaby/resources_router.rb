@@ -43,7 +43,7 @@ module Wallaby
 
     # Find out the model class
     # @param params [Hash]
-    # @return [Class] model class
+    # @return [Class]
     # @raise [Wallaby::ModelNotFound] when model class is not found
     # @raise [Wallaby::UnprocessableEntity] when there is no corresponding mode found for model class
     def find_model_class_by(params)

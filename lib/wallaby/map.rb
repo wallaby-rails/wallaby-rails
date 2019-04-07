@@ -36,7 +36,7 @@ module Wallaby
       # It's a setter when value is given.
       # Otherwise, a getter.
       # @param resources_name [String]
-      # @return [Class] model class
+      # @return [Class]
       def model_class_map(resources_name, value = nil)
         @model_class_map ||= {}
         @model_class_map[resources_name] ||= value || ModelUtils.to_model_class(resources_name)
