@@ -58,7 +58,8 @@ module Wallaby
     # @since 5.2.0
     delegate :user, to: :authorizer
 
-    # During initialization, Wallaby will assign a service provider for this servicer to carry out the actual execution.
+    # During initialization, Wallaby will assign a service provider for this servicer
+    # to carry out the actual execution.
     #
     # Therefore, all its actions can be completely replaced by user's own implemnetation.
     # @param model_class [Class]

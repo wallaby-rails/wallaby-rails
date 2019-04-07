@@ -127,7 +127,7 @@ module Wallaby
       # attribute to track dirty data like ActiveModel
       # @return [Array<String>] a list of fields captured from instance methods
       def her_attributes
-        instance_methods = @model_class.instance_methods
+        instance_methods = @model_class.instance_methods(false)
         possible_attributes =
           instance_methods.grep(/#{ATTRIBUTE_SUFFIX}$/).map do |method_id|
             method_id.to_s[0...-ATTRIBUTE_SUFFIX.length]

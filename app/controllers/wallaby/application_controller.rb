@@ -21,7 +21,7 @@ module Wallaby
     rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
     rescue_from UnprocessableEntity, with: :unprocessable_entity
 
-    delegate(*ConfigurationHelper.instance_methods, :url_for, to: :helpers)
+    delegate(*ConfigurationHelper.instance_methods(false), :url_for, to: :helpers)
 
     # Health check page for e.g. NewRelic
     def healthy

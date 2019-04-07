@@ -33,7 +33,7 @@ module Wallaby
       end
     end
 
-    delegate(*(ModelAuthorizationProvider.instance_methods - ::Object.instance_methods), to: :@provider)
+    delegate(*ModelAuthorizationProvider.instance_methods(false), to: :@provider)
 
     # @!attribute [r] model_class
     # @return [Class]
