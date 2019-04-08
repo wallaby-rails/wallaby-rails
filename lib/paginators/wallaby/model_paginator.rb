@@ -22,6 +22,10 @@ module Wallaby
       #     end
       #   end
       # @return [Class] assoicated model class
+      # @return [nil] if current class is marked as base class
+      # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#model_paginator}
+      # @return [nil] if current class is {Wallaby::ModelPaginator}
+      # @return [nil] if assoicated model class is not found
       def model_class
         return unless self < ModelPaginator
         return if base_class? || self == Wallaby.configuration.mapping.model_paginator

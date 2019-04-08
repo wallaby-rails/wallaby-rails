@@ -1,52 +1,76 @@
 module Wallaby
   # Model Authorizer to provide authorization functions
   # @since 5.2.0
-  class ModelAuthorizer < AbstractModelAuthorizer
-    # @!method authorize(_action, _subject)
-    # @param (see ModelAuthorizationProvider#authorize)
-    # @return (see ModelAuthorizationProvider#authorize)
-    # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
-    # @see ModelAuthorizationProvider#authorize
-    # @since 5.2.0
+  class ModelAuthorizer
+    extend Baseable::ClassMethods
 
-    # @!method authorized?(_action, _subject)
-    # @param (see ModelAuthorizationProvider#authorized?)
-    # @return [true] if user is authorized to perform the action
-    # @return [false] if user is not authorized to perform the action
-    # @see ModelAuthorizationProvider#authorized?
-    # @since 5.2.0
+    class << self
+      # @!attribute [w] model_class
+      attr_writer :model_class
 
-    # @!method unauthorized?(action, subject)
-    # @note It can be overridden in subclasses for customization purpose.
-    # This is the template method to check if user has no permission for given action on given subject.
-    # @param (see ModelAuthorizationProvider#unauthorized?)
-    # @return [true] if user is not authorized to perform the action
-    # @return [false] if user is authorized to perform the action
-    # @see ModelAuthorizationProvider#unauthorized?
-    # @since 5.2.0
+      # @!attribute [r] model_class
+      # Return associated model class, e.g. return **Product** for **ProductAuthorizer**.
+      #
+      # If Wallaby can't recognise the model class for Authorizer, it's required to be configured as below example:
+      # @example To configure model class
+      #   class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
+      #     self.model_class = Product
+      #   end
+      # @example To configure model class for version below 5.2.0
+      #   class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
+      #     def self.model_class
+      #       Product
+      #     end
+      #   end
+      # @return [Class] assoicated model class
+      # @return [nil] if current class is marked as base class
+      # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#model_authorizer}
+      # @return [nil] if current class is {Wallaby::ModelAuthorizer}
+      # @return [nil] if assoicated model class is not found
+      def model_class
+        return unless self < ModelAuthorizer
+        return if base_class? || self == Wallaby.configuration.mapping.model_authorizer
+        @model_class ||= Map.model_class_map(name.gsub('Authorizer', EMPTY_STRING))
+      end
 
-    # @!method accessible_for(_action, _scope)
-    # @note It can be overridden in subclasses for customization purpose.
-    # This is the template method to restrict user's access to certain scope.
-    # @param (see ModelAuthorizationProvider#accessible_for)
-    # @return [Object] filtered scope
-    # @see ModelAuthorizationProvider#accessible_for
-    # @since 5.2.0
+      # @!attribute [w] provider_name
+      attr_writer :provider_name
 
-    # @!method attributes_for(_action, _subject)
-    # @note It can be overridden in subclasses for customization purpose.
-    # This is the template method to restrict user's modification to certain fields of given subject.
-    # @param (see ModelAuthorizationProvider#attributes_for)
-    # @return [Hash] allowed attributes
-    # @see ModelAuthorizationProvider#attributes_for
-    # @since 5.2.0
+      # @!attribute [r] provider_name
+      # @return [String, Symbol] provider name of the authorization framework used
+      def provider_name
+        @provider_name ||= ModuleUtils.try_to superclass, :provider_name
+      end
+    end
 
-    # @!method permit_params(_action, _subject)
-    # @note It can be overridden in subclasses for customization purpose.
-    # This is the template method to restrict user's mass assignment to certain fields of given subject.
-    # @param (see ModelAuthorizationProvider#permit_params)
-    # @return [Array] field list for mass assignment
-    # @see ModelAuthorizationProvider#permit_params
+    delegate(*ModelAuthorizationProvider.instance_methods(false), to: :@provider)
+
+    # @!attribute [r] model_class
+    # @return [Class]
+    attr_reader :model_class
+
+    # @!attribute [r] provider
+    # @return [Wallaby::ModelAuthorizationProvider]
     # @since 5.2.0
+    attr_reader :provider
+
+    # @param context [ActionController::Base]
+    # @param model_class [Class]
+    def initialize(context, model_class)
+      @model_class = model_class || self.class.model_class
+      @provider = init_provider context
+    end
+
+    protected
+
+    # Go through provider list and detect which provider is used.
+    # @param context [ActionController::Base]
+    # @return [Wallaby::Authorizer]
+    def init_provider(context)
+      providers = Map.authorizer_provider_map model_class
+      provider_class = providers[self.class.provider_name]
+      provider_class ||= providers.values.find { |klass| klass.available? context }
+      provider_class.new context
+    end
   end
 end
