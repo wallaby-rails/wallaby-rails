@@ -1,7 +1,7 @@
 Wallaby::Engine.routes.draw do
   # NOTE: For health check if needed
   # @see Wallaby::ApplicationController#healthy
-  get 'status', to: 'wallaby/application#healthy'
+  get 'status', to: 'wallaby/resources#healthy'
 
   with_options to: Wallaby::ResourcesRouter.new do |route|
     # @see `home` action for more
@@ -17,20 +17,20 @@ Wallaby::Engine.routes.draw do
     # To generate general CRUD resourceful routes
     # @see Wallaby::ResourcesRouter
     scope path: ':resources' do
-      # @see Wallaby::AbstractResourcesController#index
+      # @see Wallaby::ResourcesController#index
       route.get '', defaults: { action: 'index' }, as: :resources
-      # @see Wallaby::AbstractResourcesController#new
+      # @see Wallaby::ResourcesController#new
       route.get 'new', defaults: { action: 'new' }, as: :new_resource
-      # @see Wallaby::AbstractResourcesController#edit
+      # @see Wallaby::ResourcesController#edit
       route.get ':id/edit', defaults: { action: 'edit' }, as: :edit_resource
-      # @see Wallaby::AbstractResourcesController#show
+      # @see Wallaby::ResourcesController#show
       route.get ':id', defaults: { action: 'show' }, as: :resource
 
-      # @see Wallaby::AbstractResourcesController#create
+      # @see Wallaby::ResourcesController#create
       route.post '', defaults: { action: 'create' }
-      # @see Wallaby::AbstractResourcesController#update
+      # @see Wallaby::ResourcesController#update
       route.match ':id', via: %i(patch put), defaults: { action: 'update' }
-      # @see Wallaby::AbstractResourcesController#destroy
+      # @see Wallaby::ResourcesController#destroy
       route.delete ':id', defaults: { action: 'destroy' }
     end
   end
