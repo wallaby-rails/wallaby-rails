@@ -1,237 +1,164 @@
 module Wallaby
-  # Resource Decorator
-  # @see Wallaby::AbstractResourceDecorator
+  # Resource Decorator base class, designed for decorator pattern.
   # @see Wallaby::ModelDecorator
-  class ResourceDecorator < AbstractResourceDecorator
-    # @!attribute fields
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#fields)
-    #   @return (see Wallaby::ModelDecorator#fields)
-    #   @see Wallaby::ModelDecorator#fields
+  class ResourceDecorator
+    extend Baseable::ClassMethods
 
-    # @!attribute index_fields
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#index_fields)
-    #   @return (see Wallaby::ModelDecorator#index_fields)
-    #   @see Wallaby::ModelDecorator#index_fields
+    DELEGATE_METHODS =
+      ModelDecorator.public_instance_methods(false) + Fieldable.public_instance_methods(false) - %i(model_class)
 
-    # @!attribute show_fields
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#show_fields)
-    #   @return (see Wallaby::ModelDecorator#show_fields)
-    #   @see Wallaby::ModelDecorator#show_fields
+    class << self
+      delegate(*DELEGATE_METHODS, to: :model_decorator, allow_nil: true)
 
-    # @!attribute form_fields
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#form_fields)
-    #   @return (see Wallaby::ModelDecorator#form_fields)
-    #   @see Wallaby::ModelDecorator#form_fields
+      # @!attribute [w] model_class
+      attr_writer :model_class
 
-    # @!attribute field_names
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#field_names)
-    #   @return (see Wallaby::ModelDecorator#field_names)
-    #   @see Wallaby::ModelDecorator#field_names
+      # @!attribute [r] model_class
+      # Return associated model class, e.g. return **Product** for **ProductDecorator**.
+      #
+      # If Wallaby can't recognise the model class for Decorator, it's required to be configured as below example:
+      # @example To configure model class
+      #   class Admin::ProductDecorator < Admin::ApplicationDecorator
+      #     self.model_class = Product
+      #   end
+      # @example To configure model class for version below 5.2.0
+      #   class Admin::ProductDecorator < Admin::ApplicationDecorator
+      #     def self.model_class
+      #       Product
+      #     end
+      #   end
+      # @return [Class] assoicated model class
+      # @return [nil] if current class is marked as base class
+      # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#resource_decorator}
+      # @return [nil] if current class is {Wallaby::ResourceDecorator}
+      # @return [nil] if assoicated model class is not found
+      def model_class
+        return unless self < ResourceDecorator
+        return if base_class? || self == Wallaby.configuration.mapping.resource_decorator
+        @model_class ||= Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
+      end
 
-    # @!attribute index_field_names
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#index_field_names)
-    #   @return (see Wallaby::ModelDecorator#index_field_names)
-    #   @see Wallaby::ModelDecorator#index_field_names
+      # @!attribute [w] application_decorator
+      def application_decorator=(application_decorator)
+        ModuleUtils.inheritance_check self, application_decorator
+        @application_decorator = application_decorator
+      end
 
-    # @!attribute show_field_names
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#show_field_names)
-    #   @return (see Wallaby::ModelDecorator#show_field_names)
-    #   @see Wallaby::ModelDecorator#show_field_names
+      # @note This attribute have to be the same as the one defined in the controller in order to make things working.
+      #   see {Wallaby::Decoratable::ClassMethods#application_decorator}
+      # @!attribute [r] application_decorator
+      # Assoicated base class.
+      #
+      # Wallaby will try to get the application decorator class from current class's ancestors chain.
+      # For instance, if current class is **ProductDecorator**, and it inherits from **CoreDecorator**,
+      # then Wallaby will return application decorator class **CoreDecorator**.
+      #
+      # However, there is a chance that Wallaby doesn't get it right.
+      # For instance, if **CoreDecorator** in the above example inherits from **Admin::ApplicationDecorator**, and
+      # the controller that needs **ProductDecorator** has set its **application_decorator** to
+      # **Admin::ApplicationDecorator**, then it's needed to configure **application_decorator** as the example
+      # describes
+      # @example To set application decorator class
+      #   class ProductController < Admin::ApplicationController
+      #     self.application_decorator = Admin::ApplicationDecorator
+      #   end
+      #
+      #   class CoreDecorator < Admin::ApplicationDecorator
+      #     base_class!
+      #   end
+      #
+      #   class ProductDecorator < CoreDecorator
+      #     self.application_decorator = Admin::ApplicationDecorator
+      #   end
+      # @return [Class] assoicated base class.
+      # @return [nil] if assoicated base class is not found from its ancestors chain
+      # @raise [ArgumentError] when current class doesn't inherit from given value
+      # @since 5.2.0
+      def application_decorator
+        @application_decorator ||= ancestors.find { |parent| parent < ResourceDecorator && !parent.model_class }
+      end
 
-    # @!attribute form_field_names
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#form_field_names)
-    #   @return (see Wallaby::ModelDecorator#form_field_names)
-    #   @see Wallaby::ModelDecorator#form_field_names
+      # Return associated model decorator.
+      #
+      # Fetch model decorator instance from cached map using keys {.model_class} and {.application_decorator}
+      # so that model decorator can be used in its sub classes declaration/scope.
+      # @param model_class [Class]
+      # @return [Wallaby::ModelDecorator]
+      def model_decorator(model_class = self.model_class)
+        return unless self < ResourceDecorator || model_class
+        Map.model_decorator_map model_class, application_decorator
+      end
 
-    # @!attribute filters
-    #   @scope class
-    #   @param (see Wallaby::ModelDecorator#filters)
-    #   @return (see Wallaby::ModelDecorator#filters)
-    #   @see Wallaby::ModelDecorator#filters
+      # @!attribute [w] h
+      attr_writer :h
 
-    # @!method type_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#type_of)
-    #   @return (see Wallaby::Fieldable#type_of)
-    #   @see Wallaby::Fieldable#type_of
+      # @!attribute [r] h
+      # @return [ActionView::Base]
+      #   {Wallaby::Configuration::Mapping#resources_controller resources controller}'s helpers
+      def h
+        @h ||= Wallaby.configuration.mapping.resources_controller.helpers
+      end
+    end
 
-    # @!method index_type_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#index_type_of)
-    #   @return (see Wallaby::Fieldable#index_type_of)
-    #   @see Wallaby::Fieldable#index_type_of
+    # @!attribute [r] resource
+    # @return [Object]
+    attr_reader :resource
 
-    # @!method show_type_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#show_type_of)
-    #   @return (see Wallaby::Fieldable#show_type_of)
-    #   @see Wallaby::Fieldable#show_type_of
+    # @!attribute [r] model_decorator
+    # @return [Wallaby::ModelDecorator]
+    attr_reader :model_decorator
 
-    # @!method form_type_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#form_type_of)
-    #   @return (see Wallaby::Fieldable#form_type_of)
-    #   @see Wallaby::Fieldable#form_type_of
+    # @return [ActionView::Base]
+    #   {Wallaby::Configuration::Mapping#resources_controller resources controller}'s helpers
+    # @see .h
+    def h
+      self.class.h
+    end
 
-    # @!method metadata_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#metadata_of)
-    #   @return (see Wallaby::Fieldable#metadata_of)
-    #   @see Wallaby::Fieldable#metadata_of
+    delegate(*DELEGATE_METHODS, to: :model_decorator)
+    # NOTE: this delegation is to make url helper method working properly with resource decorator instance
+    delegate :to_s, :to_param, to: :resource
 
-    # @!method index_metadata_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#index_metadata_of)
-    #   @return (see Wallaby::Fieldable#index_metadata_of)
-    #   @see Wallaby::Fieldable#index_metadata_of
+    # @param resource [Object]
+    def initialize(resource)
+      @resource = resource
+      @model_decorator = self.class.model_decorator(model_class)
+    end
 
-    # @!method show_metadata_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#show_metadata_of)
-    #   @return (see Wallaby::Fieldable#show_metadata_of)
-    #   @see Wallaby::Fieldable#show_metadata_of
+    # @return [Class] resource's class
+    def model_class
+      resource.class
+    end
 
-    # @!method form_metadata_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#form_metadata_of)
-    #   @return (see Wallaby::Fieldable#form_metadata_of)
-    #   @see Wallaby::Fieldable#form_metadata_of
+    # Guess the title for given resource.
+    #
+    # It falls back to primary key value when no text field is found.
+    # @return [String] a label
+    def to_label
+      # NOTE: `.to_s` at the end is to ensure String is returned that won't cause any
+      # issue when `#to_label` is used in a link_to block. Coz integer is ignored.
+      (model_decorator.guess_title(resource) || primary_key_value).to_s
+    end
 
-    # @!method label_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#label_of)
-    #   @return (see Wallaby::Fieldable#label_of)
-    #   @see Wallaby::Fieldable#label_of
+    # @return [Hash, Array] validation/result errors
+    def errors
+      model_decorator.form_active_errors(resource)
+    end
 
-    # @!method index_label_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#index_label_of)
-    #   @return (see Wallaby::Fieldable#index_label_of)
-    #   @see Wallaby::Fieldable#index_label_of
+    # @return [Object] primary key value
+    def primary_key_value
+      resource.public_send primary_key
+    end
 
-    # @!method show_label_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#show_label_of)
-    #   @return (see Wallaby::Fieldable#show_label_of)
-    #   @see Wallaby::Fieldable#show_label_of
+    # Delegate missing method to {#resource}
+    def method_missing(method_id, *args, &block)
+      return super unless resource.respond_to? method_id
+      resource.public_send method_id, *args, &block
+    end
 
-    # @!method form_label_of
-    #   @scope class
-    #   @param (see Wallaby::Fieldable#form_label_of)
-    #   @return (see Wallaby::Fieldable#form_label_of)
-    #   @see Wallaby::Fieldable#form_label_of
-
-    # @!attribute fields
-    #   @param (see Wallaby::ModelDecorator#fields)
-    #   @return (see Wallaby::ModelDecorator#fields)
-    #   @see Wallaby::ModelDecorator#fields
-
-    # @!attribute index_fields
-    #   @param (see Wallaby::ModelDecorator#index_fields)
-    #   @return (see Wallaby::ModelDecorator#index_fields)
-    #   @see Wallaby::ModelDecorator#index_fields
-
-    # @!attribute show_fields
-    #   @param (see Wallaby::ModelDecorator#show_fields)
-    #   @return (see Wallaby::ModelDecorator#show_fields)
-    #   @see Wallaby::ModelDecorator#show_fields
-
-    # @!attribute form_fields
-    #   @param (see Wallaby::ModelDecorator#form_fields)
-    #   @return (see Wallaby::ModelDecorator#form_fields)
-    #   @see Wallaby::ModelDecorator#form_fields
-
-    # @!attribute field_names
-    #   @param (see Wallaby::ModelDecorator#field_names)
-    #   @return (see Wallaby::ModelDecorator#field_names)
-    #   @see Wallaby::ModelDecorator#field_names
-
-    # @!attribute index_field_names
-    #   @param (see Wallaby::ModelDecorator#index_field_names)
-    #   @return (see Wallaby::ModelDecorator#index_field_names)
-    #   @see Wallaby::ModelDecorator#index_field_names
-
-    # @!attribute show_field_names
-    #   @param (see Wallaby::ModelDecorator#show_field_names)
-    #   @return (see Wallaby::ModelDecorator#show_field_names)
-    #   @see Wallaby::ModelDecorator#show_field_names
-
-    # @!attribute form_field_names
-    #   @param (see Wallaby::ModelDecorator#form_field_names)
-    #   @return (see Wallaby::ModelDecorator#form_field_names)
-    #   @see Wallaby::ModelDecorator#form_field_names
-
-    # @!attribute filters
-    #   @param (see Wallaby::ModelDecorator#filters)
-    #   @return (see Wallaby::ModelDecorator#filters)
-    #   @see Wallaby::ModelDecorator#filters
-
-    # @!method type_of
-    #   @param (see Wallaby::Fieldable#type_of)
-    #   @return (see Wallaby::Fieldable#type_of)
-    #   @see Wallaby::Fieldable#type_of
-
-    # @!method index_type_of
-    #   @param (see Wallaby::Fieldable#index_type_of)
-    #   @return (see Wallaby::Fieldable#index_type_of)
-    #   @see Wallaby::Fieldable#index_type_of
-
-    # @!method show_type_of
-    #   @param (see Wallaby::Fieldable#show_type_of)
-    #   @return (see Wallaby::Fieldable#show_type_of)
-    #   @see Wallaby::Fieldable#show_type_of
-
-    # @!method form_type_of
-    #   @param (see Wallaby::Fieldable#form_type_of)
-    #   @return (see Wallaby::Fieldable#form_type_of)
-    #   @see Wallaby::Fieldable#form_type_of
-
-    # @!method metadata_of
-    #   @param (see Wallaby::Fieldable#metadata_of)
-    #   @return (see Wallaby::Fieldable#metadata_of)
-    #   @see Wallaby::Fieldable#metadata_of
-
-    # @!method index_metadata_of
-    #   @param (see Wallaby::Fieldable#index_metadata_of)
-    #   @return (see Wallaby::Fieldable#index_metadata_of)
-    #   @see Wallaby::Fieldable#index_metadata_of
-
-    # @!method show_metadata_of
-    #   @param (see Wallaby::Fieldable#show_metadata_of)
-    #   @return (see Wallaby::Fieldable#show_metadata_of)
-    #   @see Wallaby::Fieldable#show_metadata_of
-
-    # @!method form_metadata_of
-    #   @param (see Wallaby::Fieldable#form_metadata_of)
-    #   @return (see Wallaby::Fieldable#form_metadata_of)
-    #   @see Wallaby::Fieldable#form_metadata_of
-
-    # @!method label_of
-    #   @param (see Wallaby::Fieldable#label_of)
-    #   @return (see Wallaby::Fieldable#label_of)
-    #   @see Wallaby::Fieldable#label_of
-
-    # @!method index_label_of
-    #   @param (see Wallaby::Fieldable#index_label_of)
-    #   @return (see Wallaby::Fieldable#index_label_of)
-    #   @see Wallaby::Fieldable#index_label_of
-
-    # @!method show_label_of
-    #   @param (see Wallaby::Fieldable#show_label_of)
-    #   @return (see Wallaby::Fieldable#show_label_of)
-    #   @see Wallaby::Fieldable#show_label_of
-
-    # @!method form_label_of
-    #   @param (see Wallaby::Fieldable#form_label_of)
-    #   @return (see Wallaby::Fieldable#form_label_of)
-    #   @see Wallaby::Fieldable#form_label_of
+    # Delegate missing method check to context
+    def respond_to_missing?(method_id, _include_private)
+      resource.respond_to?(method_id) || super
+    end
   end
 end

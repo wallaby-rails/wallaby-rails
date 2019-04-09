@@ -1,5 +1,5 @@
 module Wallaby
-  # Model paginator
+  # Model paginator to provide support for pagination on index page
   class ModelPaginator
     extend Baseable::ClassMethods
 

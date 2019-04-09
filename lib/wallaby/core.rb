@@ -60,7 +60,6 @@ require 'errors/wallaby/forbidden'
 require 'errors/wallaby/not_authenticated'
 require 'errors/wallaby/unprocessable_entity'
 
-require 'decorators/wallaby/abstract_resource_decorator'
 require 'decorators/wallaby/resource_decorator'
 require 'servicers/wallaby/model_servicer'
 require 'paginators/wallaby/model_paginator'
