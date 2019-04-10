@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'routing' do
   describe 'status', type: :routing do
     routes { Wallaby::Engine.routes }
-    it { expect(get: 'status').to route_to controller: 'wallaby/application', action: 'healthy' }
+    it { expect(get: 'status').to route_to controller: 'wallaby/resources', action: 'healthy' }
   end
 
   # NOTE: this is a spec to specify that the request being dispatched to the correct controler and action

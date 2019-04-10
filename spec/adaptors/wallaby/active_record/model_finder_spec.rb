@@ -3,11 +3,11 @@ require 'rails_helper'
 describe Wallaby::ActiveRecord::ModelFinder do
   describe '#all' do
     before do
-      stub_const 'Airport', (Class.new { def self.base_class?; false; end })
-      stub_const 'Airline', (Class.new { def self.base_class?; false; end })
-      stub_const 'Airplane', (Class.new { def self.base_class?; false; end })
-      stub_const 'Airplane::HABTM_Airports', (Class.new { def self.base_class?; false; end })
-      stub_const 'AbstractAirport', (Class.new { def self.base_class?; true; end })
+      stub_const 'Airport', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'Airline', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'Airplane', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'Airplane::HABTM_Airports', (Class.new { def self.abstract_class?; false; end })
+      stub_const 'AbstractAirport', (Class.new { def self.abstract_class?; true; end })
     end
 
     it 'returns valid model classes in alphabetic order' do
@@ -32,7 +32,7 @@ describe Wallaby::ActiveRecord::ModelFinder do
     context 'when there is anonymous class' do
       it 'filters out anonymous class' do
         anonymous_class = Class.new do
-          def self.base_class?
+          def self.abstract_class?
             false
           end
         end

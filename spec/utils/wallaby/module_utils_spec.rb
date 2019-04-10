@@ -39,12 +39,12 @@ describe Wallaby::ModuleUtils do
 
   describe '.inheritance_check' do
     it 'does not raise error' do
-      expect { described_class.inheritance_check(Wallaby::ResourceDecorator, Wallaby::AbstractResourceDecorator) }.not_to raise_error
+      expect { described_class.inheritance_check(Wallaby::ResourcesController, Wallaby::SecureController) }.not_to raise_error
     end
 
     context 'when class is not a child' do
       it 'raises ArgumentError' do
-        expect { described_class.inheritance_check(Wallaby::ResourceDecorator, Wallaby::AbstractModelServicer) }.to raise_error ArgumentError
+        expect { described_class.inheritance_check(Wallaby::ResourcesController, Wallaby::ResourceDecorator) }.to raise_error ArgumentError
       end
     end
   end

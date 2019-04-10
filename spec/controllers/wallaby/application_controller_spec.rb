@@ -1,16 +1,6 @@
 require 'rails_helper'
 
 describe Wallaby::ApplicationController do
-  describe '#healthy' do
-    it 'returns healthy' do
-      get :healthy
-      expect(response.body).to eq 'healthy'
-
-      get :healthy, format: :json
-      expect(response.body).to eq 'healthy'
-    end
-  end
-
   describe 'configuration shortcuts' do
     describe '#configuration' do
       it { expect(controller.configuration).to be_a Wallaby::Configuration }
@@ -43,6 +33,16 @@ describe Wallaby::ApplicationController do
 end
 
 describe Wallaby::ResourcesController do
+  describe '#healthy' do
+    it 'returns healthy' do
+      get :healthy
+      expect(response.body).to eq 'healthy'
+
+      get :healthy, format: :json
+      expect(response.body).to eq 'healthy'
+    end
+  end
+
   describe 'error handling' do
     describe 'Wallaby::ResourceNotFound' do
       controller do
