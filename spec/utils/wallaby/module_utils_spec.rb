@@ -44,7 +44,7 @@ describe Wallaby::ModuleUtils do
 
     context 'when class is not a child' do
       it 'raises ArgumentError' do
-        expect { described_class.inheritance_check(Wallaby::ResourcesController, Wallaby::ResourceDecorator) }.to raise_error ArgumentError
+        expect { described_class.inheritance_check(Wallaby::ModelDecorator, Wallaby::ResourceDecorator) }.to raise_error ArgumentError
       end
     end
   end
