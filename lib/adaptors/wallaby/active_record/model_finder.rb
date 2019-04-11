@@ -19,7 +19,7 @@ module Wallaby
       private
 
       # Is model class abstract?
-      # @param model_class [Class] model class
+      # @param model_class [Class]
       # @return [Boolean]
       def abstract?(model_class)
         model_class.abstract_class?
@@ -32,7 +32,7 @@ module Wallaby
 
       # Check and see if given model class is intermediate class that generated
       # for has and belongs to many assocation
-      # @param model_class [Class] model class
+      # @param model_class [Class]
       # @return [Boolean]
       def habtm?(model_class)
         model_class.name.index('HABTM')

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 [
-  Wallaby::AbstractModelServicer,
-  Wallaby::AbstractModelAuthorizer,
-  Wallaby::AbstractResourceDecorator,
-  Wallaby::AbstractResourcesController,
-  Wallaby::AbstractModelPaginator
+  Wallaby::ModelServicer,
+  Wallaby::ModelAuthorizer,
+  Wallaby::ResourceDecorator,
+  Wallaby::ResourcesController,
+  Wallaby::ModelPaginator
 ].each do |klass|
   describe klass do
     describe '.base_class!' do

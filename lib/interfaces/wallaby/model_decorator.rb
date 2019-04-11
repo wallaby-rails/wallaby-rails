@@ -5,13 +5,13 @@ module Wallaby
     include Fieldable
 
     # Initialize with model class
-    # @param model_class [Class] model class
+    # @param model_class [Class]
     def initialize(model_class)
       @model_class = model_class
     end
 
     # @!attribute [r] model_class
-    # @return [Class] model class
+    # @return [Class]
     attr_reader :model_class
 
     # @!attribute [r] fields

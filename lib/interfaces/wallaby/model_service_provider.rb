@@ -1,7 +1,7 @@
 module Wallaby
   # Model service provider interface
   class ModelServiceProvider
-    # @param model_class [Class] model class
+    # @param model_class [Class]
     # @param model_decorator [Wallaby::ModelDecorator, nil] model decorator
     def initialize(model_class, model_decorator)
       raise ::ArgumentError, 'model class required' unless model_class

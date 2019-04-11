@@ -13,15 +13,12 @@ module Wallaby
     include SharedHelpers
     helper ApplicationHelper
 
-    self.responder = ActionController::Responder
-    respond_to :html
-
     rescue_from NotFound, with: :not_found
     rescue_from ::ActionController::ParameterMissing, with: :bad_request
     rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
     rescue_from UnprocessableEntity, with: :unprocessable_entity
 
-    delegate(*ConfigurationHelper.instance_methods, :url_for, to: :helpers)
+    delegate(*ConfigurationHelper.instance_methods(false), :url_for, to: :helpers)
 
     # Health check page for e.g. NewRelic
     def healthy

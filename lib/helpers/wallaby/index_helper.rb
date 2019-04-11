@@ -1,7 +1,7 @@
 module Wallaby
   # Helper methods for index action
   module IndexHelper
-    # @param model_class [Class] model class
+    # @param model_class [Class]
     # @param collection [#to_a] a collection of all the resources
     # @param params [ActionController::Parameters] parameters
     # @return [Wallaby::ModelPaginator]
