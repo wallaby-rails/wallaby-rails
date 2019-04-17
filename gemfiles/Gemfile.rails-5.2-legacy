@@ -14,15 +14,15 @@ gemspec path: '../'
 # gem 'byebug', group: [:development, :test]
 gem 'rails', '~> 5.2.2'
 
-gem 'devise'
 gem 'cancancan'
-gem 'pundit', '~> 1.1.0'
+gem 'devise'
+gem 'font-awesome-sass', '< 5.0.0'
 gem 'her'
 gem 'mysql2'
 gem 'pg'
-gem 'sqlite3', '< 1.4.0'
+gem 'pundit', '~> 1.1.0'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
-gem 'font-awesome-sass', '< 5.0.0'
+gem 'sqlite3', '< 1.4.0'
 
 group :test do
   gem 'database_cleaner'

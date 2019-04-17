@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tian-im/simple_blog_theme.git
-  revision: 77d71b09be49d80076122d1aee0e028a7f2e97fe
+  revision: 4c5638c5a3284ddbafcaeb2513c90b87d3b7c6aa
   branch: master
   specs:
     simple_blog_theme (0.1.0)
