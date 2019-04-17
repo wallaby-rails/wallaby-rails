@@ -20,6 +20,7 @@ gem 'her'
 gem 'pundit'
 gem 'rails', '~>5.2.2'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
+# gem 'simple_blog_theme', path: '/simple_blog_theme'
 
 group :development, :test do
   gem 'binding_of_caller'

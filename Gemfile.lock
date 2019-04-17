@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tian-im/simple_blog_theme.git
-  revision: f159b5de3e75b368890c2d2b973505da16806454
+  revision: 77d71b09be49d80076122d1aee0e028a7f2e97fe
   branch: master
   specs:
     simple_blog_theme (0.1.0)
@@ -74,7 +74,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
     ast (2.4.0)
-    autoprefixer-rails (9.5.0)
+    autoprefixer-rails (9.5.1)
       execjs
     backports (3.13.0)
     bcrypt (3.1.12)
@@ -94,7 +94,7 @@ GEM
       momentjs-rails (>= 2.10.5, <= 3.0.0)
     builder (3.2.3)
     byebug (11.0.1)
-    cancancan (3.0.0)
+    cancancan (3.0.1)
     codemirror-rails (5.16.0)
       railties (>= 3.0, < 6.0)
     coderay (1.1.2)
@@ -104,12 +104,12 @@ GEM
     crass (1.0.4)
     database_cleaner (1.7.0)
     debug_inspector (0.0.3)
-    deep-cover (0.7.1)
-      deep-cover-core (= 0.7.1)
+    deep-cover (0.7.3)
+      deep-cover-core (= 0.7.3)
       highline
       thor (>= 0.20.3)
       with_progress
-    deep-cover-core (0.7.1)
+    deep-cover-core (0.7.3)
       backports (>= 3.11.0)
       binding_of_caller
       parser (~> 2.5.0)
@@ -139,7 +139,7 @@ GEM
       activemodel (>= 4.2.1)
       faraday (>= 0.8, < 1.0)
       multi_json (~> 1.7)
-    highline (2.0.1)
+    highline (2.0.2)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.2)
