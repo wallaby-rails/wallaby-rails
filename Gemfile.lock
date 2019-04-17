@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/tian-im/simple_blog_theme.git
+  revision: 4c5638c5a3284ddbafcaeb2513c90b87d3b7c6aa
+  branch: master
+  specs:
+    simple_blog_theme (0.1.0)
+      rails
+
 PATH
   remote: .
   specs:
@@ -66,7 +74,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
     ast (2.4.0)
-    autoprefixer-rails (9.5.0)
+    autoprefixer-rails (9.5.1)
       execjs
     backports (3.13.0)
     bcrypt (3.1.12)
@@ -86,7 +94,7 @@ GEM
       momentjs-rails (>= 2.10.5, <= 3.0.0)
     builder (3.2.3)
     byebug (11.0.1)
-    cancancan (3.0.0)
+    cancancan (3.0.1)
     codemirror-rails (5.16.0)
       railties (>= 3.0, < 6.0)
     coderay (1.1.2)
@@ -96,12 +104,12 @@ GEM
     crass (1.0.4)
     database_cleaner (1.7.0)
     debug_inspector (0.0.3)
-    deep-cover (0.7.1)
-      deep-cover-core (= 0.7.1)
+    deep-cover (0.7.3)
+      deep-cover-core (= 0.7.3)
       highline
       thor (>= 0.20.3)
       with_progress
-    deep-cover-core (0.7.1)
+    deep-cover-core (0.7.3)
       backports (>= 3.11.0)
       binding_of_caller
       parser (~> 2.5.0)
@@ -131,7 +139,7 @@ GEM
       activemodel (>= 4.2.1)
       faraday (>= 0.8, < 1.0)
       multi_json (~> 1.7)
-    highline (2.0.1)
+    highline (2.0.2)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.2)
@@ -262,6 +270,8 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.6)
+    rubocop-performance (1.1.0)
+      rubocop (>= 0.67.0)
     ruby-progressbar (1.10.0)
     safe_yaml (1.0.5)
     sass (3.7.4)
@@ -334,6 +344,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activestorage
   better_errors
   binding_of_caller
   byebug
@@ -353,6 +364,8 @@ DEPENDENCIES
   rails-controller-testing
   rspec-rails
   rubocop
+  rubocop-performance
+  simple_blog_theme!
   simplecov
   sqlite3 (< 1.4.0)
   turbolinks

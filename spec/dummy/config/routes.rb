@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/something/else', to: 'wallaby/resources#index', defaults: { resources: 'products' }
 
   begin # for non-admin usage
+    resources :blogs, defaults: { resources: 'blogs' }, only: [:index, :show]
     resources :orders, defaults: { resources: 'orders' } do
       resources :items, defaults: { resources: 'order::items' }
     end

@@ -18,6 +18,27 @@ ActiveRecord::Schema.define(version: 0) do
   enable_extension "ltree"
   enable_extension "citext"
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
   create_table "all_postgres_types", force: :cascade do |t|
     t.bigint      "bigint"
     t.binary      "binary"
@@ -64,6 +85,17 @@ ActiveRecord::Schema.define(version: 0) do
       t.polygon "polygon"
       t.serial "serial"
     end
+  end
+
+  create_table "blogs", force: :cascade do |t|
+    t.string "author"
+    t.string "subject"
+    t.string "summary"
+    t.string "image"
+    t.text "body"
+    t.datetime "published_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "categories", force: :cascade do |t|

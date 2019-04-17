@@ -33,5 +33,16 @@ module Wallaby
         to_model_label(decorated.model_class), decorated.to_label
       ].compact.join ': '
     end
+
+    # To find the first field that meets given conditions.
+    # @example To find summary field whose name contains _summary_ and type is **string**:
+    #   first_field_by({ name: /summary/, type: 'string' })
+    # @param conditions [Array<Hash>]
+    # @return [String, Symbol] field name when found
+    # @return [nil] when not found
+    def first_field_by(*conditions)
+      fields = block_given? ? yield : current_fields
+      FieldUtils.first_field_by(*conditions, fields)
+    end
   end
 end

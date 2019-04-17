@@ -12,7 +12,7 @@ module Wallaby
         def general_fields
           @model_class.columns.each_with_object({}) do |column, fields|
             metadata = {
-              type: column.type.to_s.freeze,
+              type: to_type(column).freeze,
               label: @model_class.human_attribute_name(column.name)
             }
             sti_builder.update(metadata, column)
@@ -34,6 +34,14 @@ module Wallaby
         end
 
         protected
+
+        # Detect active_storage type
+        # @param column [ActiveRecord::ConnectionAdapters::Column]
+        # @return [String] field type
+        def to_type(column)
+          return 'active_storage' if @model_class.respond_to?("with_attached_#{column.name}")
+          column.type.to_s
+        end
 
         # @see Wallaby::ActiveRecord::ModelDecorator::StiBuilder
         def sti_builder

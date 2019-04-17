@@ -15,9 +15,12 @@ gemspec
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'cancancan'
 # gem 'font-awesome-sass', '< 5.0'
+gem 'activestorage'
 gem 'her'
 gem 'pundit'
 gem 'rails', '~>5.2.2'
+gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
+# gem 'simple_blog_theme', path: '/simple_blog_theme'
 
 group :development, :test do
   gem 'binding_of_caller'
@@ -38,6 +41,7 @@ group :development do
   gem 'massa'
   gem 'memory_profiler'
   gem 'rubocop'
+  gem 'rubocop-performance'
   gem 'turbolinks'
 end
 
