@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/tian-im/simple_blog_theme.git
+  revision: f159b5de3e75b368890c2d2b973505da16806454
+  branch: master
+  specs:
+    simple_blog_theme (0.1.0)
+      rails
+
 PATH
   remote: .
   specs:
@@ -262,6 +270,8 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.6)
+    rubocop-performance (1.1.0)
+      rubocop (>= 0.67.0)
     ruby-progressbar (1.10.0)
     safe_yaml (1.0.5)
     sass (3.7.4)
@@ -334,6 +344,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activestorage
   better_errors
   binding_of_caller
   byebug
@@ -353,6 +364,8 @@ DEPENDENCIES
   rails-controller-testing
   rspec-rails
   rubocop
+  rubocop-performance
+  simple_blog_theme!
   simplecov
   sqlite3 (< 1.4.0)
   turbolinks

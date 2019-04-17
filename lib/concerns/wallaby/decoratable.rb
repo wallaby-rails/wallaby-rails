@@ -57,6 +57,13 @@ module Wallaby
           || Map.model_decorator_map(current_model_class, controller_to_get(:application_decorator))
     end
 
+    # Get current fields metadata for current action name.
+    # @return [Hash] current fields metadata
+    def current_fields
+      @current_fields ||=
+        ModuleUtils.try_to current_model_decorator, :"#{FORM_ACTIONS[action_name] || action_name}_fields"
+    end
+
     # Wrap resource(s) with decorator(s).
     # @param resource [Object, Enumerable]
     # @return [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator>] decorator(s)

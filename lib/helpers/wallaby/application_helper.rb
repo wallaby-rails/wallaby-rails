@@ -58,5 +58,11 @@ module Wallaby
       options = default_options.merge!(sources.extract_options!.stringify_keys)
       super(*sources, options)
     end
+
+    # Delegate {#try_to} to ModuleUtils
+    # @see Wallaby::ModuleUtils.try_to
+    def try_to(subject, method_id, *args, &block)
+      ModuleUtils.try_to subject, method_id, *args, &block
+    end
   end
 end

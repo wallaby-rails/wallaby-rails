@@ -54,4 +54,7 @@ Rails.application.configure do
 
   # Raise an error on unpermitted params in contoller actions.
   config.action_controller.action_on_unpermitted_parameters = :raise
+
+  # Store files locally.
+  config.active_storage.service = :local
 end

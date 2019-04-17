@@ -12,3 +12,4 @@ spec/dummy/.sass-cache
 cc-test-reporter
 coverage/
 deep_cover/
+storage/

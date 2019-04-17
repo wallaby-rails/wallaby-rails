@@ -130,6 +130,13 @@ module Wallaby
       resource.class
     end
 
+    # @param field_name [String, Symbol]
+    # @return [Object] value of given field name
+    def value_of(field_name)
+      return unless field_name
+      resource.public_send field_name
+    end
+
     # Guess the title for given resource.
     #
     # It falls back to primary key value when no text field is found.
