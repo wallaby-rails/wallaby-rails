@@ -16,6 +16,7 @@ module Wallaby
     rescue_from NotFound, with: :not_found
     rescue_from ::ActionController::ParameterMissing, with: :bad_request
     rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
+    rescue_from NotImplemented, with: :not_implemented
     rescue_from UnprocessableEntity, with: :unprocessable_entity
 
     delegate(*ConfigurationHelper.instance_methods(false), :url_for, to: :helpers)
@@ -46,6 +47,12 @@ module Wallaby
     # Internal server error page
     # @param exception [Exception] comes from **rescue_from**
     def internal_server_error(exception = nil)
+      error_rendering exception, __callee__
+    end
+
+    # Not implemented
+    # @param exception [Exception] comes from **rescue_from**
+    def not_implemented(exception = nil)
       error_rendering exception, __callee__
     end
 
