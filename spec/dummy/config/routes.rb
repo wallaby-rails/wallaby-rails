@@ -19,17 +19,19 @@ Rails.application.routes.draw do
       resources :items, defaults: { resources: 'order::items' }
     end
     resources :categories, defaults: { resources: 'categories' }
-    resources :products, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'products' }
-    resources :pictures, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'pictures' }
+    resources :postcodes, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'postcodes' }, constraints: { resources: 'postcodes' }
+    resources :zipcodes, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'zipcodes' }, constraints: { resources: 'zipcodes' }
+    resources :products, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'products' }, constraints: { resources: 'products' }
+    resources :pictures, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'pictures' }, constraints: { resources: 'pictures' }
 
     scope path: '/nested', as: :nested do
-      resources :products, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'products' }
-      resources :pictures, controller: 'wallaby/resources', path: ':resources', constraints: { resources: 'pictures' }
+      resources :products, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'products' }, constraints: { resources: 'products' }
+      resources :pictures, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'pictures' }, constraints: { resources: 'pictures' }
     end
 
     scope path: '/api', as: :api do
-      resources :products, controller: 'json_api', path: ':resources', constraints: { resources: 'products' }
-      resources :pictures, controller: 'json_api', path: ':resources', constraints: { resources: 'pictures' }
+      resources :products, controller: 'json_api', path: ':resources', defaults: { resources: 'products' }, constraints: { resources: 'products' }
+      resources :pictures, controller: 'json_api', path: ':resources', defaults: { resources: 'pictures' }, constraints: { resources: 'pictures' }
     end
   end
 

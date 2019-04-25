@@ -1,3 +1,3 @@
-# Wallaby.config do |config|
-#   config.features.turbolinks_enabled = true
-# end
+Wallaby.config do |config|
+  config.custom_models = ['Postcode', 'Zipcode']
+end
