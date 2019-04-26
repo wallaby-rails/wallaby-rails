@@ -61,7 +61,7 @@ class Postcode
 
     def destroy(resource)
       # ...
-      cache_store.write cache_key, all.without(resource)
+      cache_store.write cache_key, all - [resource]
     end
   end
 end

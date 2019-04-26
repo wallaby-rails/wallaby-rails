@@ -45,7 +45,7 @@ module Wallaby
 
       # @return [Array<String>] a list of field names for form (new/edit) page
       def form_field_names
-        @form_field_names ||= form_fields.keys.without primary_key.to_s
+        @form_field_names ||= form_fields.keys - [primary_key.to_s]
       end
 
       # @return [ActiveModel::Errors]
@@ -59,7 +59,7 @@ module Wallaby
       end
 
       # @return [String]
-      def guess_title(resource)
+      def guess_title(*)
         FieldUtils.first_field_by({ name: /name|title|subject/ }, fields)
       end
     end
