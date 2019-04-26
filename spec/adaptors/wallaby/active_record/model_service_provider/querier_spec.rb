@@ -691,7 +691,6 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
 
       it 'returns search result' do
         keyword = 'keyword integer:!=1 date:>2016-04-30'
-        # byebug
         expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
           {
             5 => {

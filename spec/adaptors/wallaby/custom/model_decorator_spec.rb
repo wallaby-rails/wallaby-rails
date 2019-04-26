@@ -16,7 +16,7 @@ describe Wallaby::Custom::ModelDecorator do
         'postcode' => { 'label' => 'Postcode', 'type' => 'string' },
         'state' => { 'label' => 'State', 'type' => 'string' },
         'status' => { 'label' => 'Status', 'type' => 'string' },
-        'type' => { 'label' => 'Type', 'type' => 'string' },
+        'type' => { 'label' => 'Type', 'type' => 'string' }
       )
       expect(subject.fields).to be_frozen
     end
