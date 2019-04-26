@@ -43,7 +43,7 @@ describe 'custom models' do
     let(:id) { '4478' }
 
     before do
-      PostcodeServicer.cache_store.clear
+      Postcode.cache_store.clear
       Wallaby.configuration.custom_models = ['Postcode']
     end
 
@@ -73,7 +73,6 @@ describe 'custom models' do
         }
       }
 
-      byebug
       http :get, response.redirect_url
       expect(response).to be_successful
       expect(response.body).to include '0000'
@@ -88,6 +87,15 @@ describe 'custom models' do
       http :get, response.redirect_url
       expect(response).to be_successful
       expect(response.body).to include 'Somewhere'
+    end
+
+    it 'deletes a postcode record' do
+      http :delete, postcode_path(id: id)
+
+      http :get, response.redirect_url
+      expect(response).to be_successful
+      expect(response.body).not_to include id
+      expect(response.body).not_to include 'DARLING HARBOUR'
     end
   end
 end
