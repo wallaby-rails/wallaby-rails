@@ -1,6 +1,6 @@
 module Wallaby
   class Custom
-    # Default provider
+    # Default provider for custom mode
     class DefaultProvider < DefaultAuthorizationProvider
     end
   end

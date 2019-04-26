@@ -2,14 +2,17 @@ module Wallaby
   class Custom
     # Custom modal decorator
     class ModelDecorator < ::Wallaby::ModelDecorator
+      # Assume that attributes come from the setter/getter, e.g. `name=`/`name`
+      # @return [Hash] metadata
       def fields
-        @fields ||= ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
-          methods = model_class.public_instance_methods(false).map(&:to_s)
-          methods
-            .grep(/[^=]$/)
-            .select { |method_id| methods.include? "#{method_id}=" }
-            .each { |attribute| hash[attribute] = { label: attribute.humanize, type: 'string' } }
-        end
+        @fields ||=
+          ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
+            methods = model_class.public_instance_methods(false).map(&:to_s)
+            methods
+              .grep(/[^=]$/)
+              .select { |method_id| methods.include? "#{method_id}=" }
+              .each { |attribute| hash[attribute] = { label: attribute.humanize, type: 'string' } }
+          end.freeze
       end
 
       # A copy of `fields` for index page
@@ -45,19 +48,19 @@ module Wallaby
         @form_field_names ||= form_fields.keys.without primary_key.to_s
       end
 
-      # @raise [Wallaby::NotImplemented]
+      # @return [ActiveModel::Errors]
       def form_active_errors(resource)
         @form_active_errors ||= ActiveModel::Errors.new resource
       end
 
-      # @raise [Wallaby::NotImplemented]
+      # @return [String, Symbole] primary key name
       def primary_key
         @primary_key ||= :id
       end
 
-      # @raise [Wallaby::NotImplemented]
+      # @return [String]
       def guess_title(resource)
-        resource.inspect
+        FieldUtils.first_field_by({ name: /name|title|subject/ }, fields)
       end
     end
   end

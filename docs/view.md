@@ -143,7 +143,7 @@ end
 ```ruby
 def render
   at('read', true) # set @read to true in view
-  label = at('resource').field_names.first # get @resource from the view
+  label = at('resource').index_field_names.first # get @resource from the view
   form.label label
 end
 ```

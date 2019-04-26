@@ -23,6 +23,11 @@ describe 'custom models' do
       expect(response).to have_http_status :not_implemented
     end
 
+    it 'renders the not_implemented for edit' do
+      http :get, edit_zipcode_path(id: id)
+      expect(response).to have_http_status :not_implemented
+    end
+
     it 'renders the not_implemented for create' do
       http :post, zipcodes_path
       expect(response).to have_http_status :not_implemented
@@ -60,6 +65,13 @@ describe 'custom models' do
 
     it 'renders show page' do
       http :get, postcode_path(id: id)
+      expect(response).to be_successful
+      expect(response.body).to include '2000'
+      expect(response.body).to include 'DARLING HARBOUR'
+    end
+
+    it 'renders edit page' do
+      http :get, edit_postcode_path(id: id)
       expect(response).to be_successful
       expect(response.body).to include '2000'
       expect(response.body).to include 'DARLING HARBOUR'
