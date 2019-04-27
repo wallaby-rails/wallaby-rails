@@ -43,7 +43,8 @@ en:
     export: 'Export as %{ext}'
 
   http_errors:
-    report_error_html: '<p>And report the error <a href="https://github.com/reinteractive/wallaby/issues/new" target="_blank">here</a>.</p>'
+    report_error_html: 'And report the error <a href="https://github.com/reinteractive/wallaby/issues/new" target="_blank">here</a>.'
+    not_implemented: 'Not implemented.'
     internal_server_error: 'Hope you feel better.'
     bad_request: 'Your request is not supported.'
     not_found: 'Not found.'
@@ -52,7 +53,8 @@ en:
     forbidden: 'You need permission to access this page.'
 
   json_errors:
-    internal_server_error: 'Service unavailable.'
+    not_implemented: 'Not implemented.'
+    internal_server_error: 'Internal server error.'
     bad_request: 'Your request is not supported.'
     not_found: 'Not found.'
     unprocessable_entity: 'Your request cannot be processed.'
@@ -80,6 +82,8 @@ en:
     activerecord:
       paginatable: '%{collection} is not paginatable.'
     required: '%{subject} is required.'
+    not_implemented:
+      model_servicer: 'Custom model servicer method `%{method_name}` is not implemented'
 
   pagination:
     prev: 'Prev'

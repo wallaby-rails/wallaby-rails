@@ -20,6 +20,7 @@ module Wallaby
     forbidden
     internal_server_error
     not_found
+    not_implemented
     unauthorized
     unprocessable_entity
   ).freeze

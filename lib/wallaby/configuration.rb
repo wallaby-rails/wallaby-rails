@@ -19,13 +19,27 @@ module Wallaby
       @base_controller ||= ::ApplicationController
     end
 
+    # @return [Wallaby::Configuration::Models] models configuration for custom mode
+    def custom_models
+      @custom_models ||= Models.new
+    end
+
+    # To globally configure the models for custom mode.
+    # @example To update the model classes in `config/initializers/wallaby.rb`
+    #   Wallaby.config do |config|
+    #     config.custom_models = [Product, Order]
+    #   end
+    # @param models [Array<[Class, String]>] a list of model classes/name strings
+    def custom_models=(models)
+      custom_models.set models
+    end
+
     # @return [Wallaby::Configuration::Models] models configuration
     def models
       @models ||= Models.new
     end
 
     # To globally configure the models that Wallaby should handle.
-    #
     # @example To update the model classes in `config/initializers/wallaby.rb`
     #   Wallaby.config do |config|
     #     config.models = [Product, Order]

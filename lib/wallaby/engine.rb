@@ -5,7 +5,13 @@ module Wallaby
       config.assets.precompile +=
         %w(
           codemirror* codemirror/**/*
-          wallaby/404.png wallaby/422.png wallaby/500.png
+          wallaby/bad_request.png
+          wallaby/forbidden.png
+          wallaby/internal_server_error.png
+          wallaby/not_found.png
+          wallaby/not_implemented.png
+          wallaby/unauthorized.png
+          wallaby/unprocessable_entity.png
           turbolinks
         )
     end

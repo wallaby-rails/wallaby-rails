@@ -87,14 +87,13 @@ module Wallaby
 
       # @return [Hash] a hash containing metadata for general fields
       def general_fields
-        @general_fields ||= begin
+        @general_fields ||=
           her_attributes.each_with_object({}) do |attribute, fields|
             fields[attribute.to_sym] = {
               type: 'string'.freeze,
               label: @model_class.human_attribute_name(attribute)
             }
           end
-        end
       end
 
       # @return [Hash] a hash containing metadata for association fields

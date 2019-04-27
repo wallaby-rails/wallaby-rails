@@ -157,6 +157,15 @@ module Wallaby
       resource.public_send primary_key
     end
 
+    def model_name
+      ModuleUtils.try_to(resource, :model_name) || ActiveModel::Name.new(model_class)
+    end
+
+    def to_key
+      key = ModuleUtils.try_to(resource, primary_key)
+      key ? [key] : nil
+    end
+
     # Delegate missing method to {#resource}
     def method_missing(method_id, *args, &block)
       return super unless resource.respond_to? method_id

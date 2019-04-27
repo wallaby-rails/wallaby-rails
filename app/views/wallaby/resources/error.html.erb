@@ -1,11 +1,22 @@
-<article class="<%= @symbol %>">
-  <h1>
-    <em><%= @code %></em>
-    <span><%= t "http_errors.#{@symbol}" %></span>
-  </h1>
-  <% if @code >= 500 %>
-    <%= t "http_errors.report_error_html" %>
-  <% else %>
-    <p><%= @exception.try(:message) || flash[:alert] %></p>
-  <% end %>
+<article class="card border-light error <%= @symbol %>">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <%= image_tag "wallaby/#{@symbol}.png", class: 'card-img' %>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h1 class="card-title">
+          <em><%= @code %></em>
+          <span><%= t "http_errors.#{@symbol}" %></span>
+        </h1>
+        <p class="card-text">
+          <% if @code >= 500 && @code != 501 %>
+            <%= t "http_errors.report_error_html" %>
+          <% else %>
+            <%= @exception.try(:message) || flash[:alert] %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
 </article>

@@ -67,34 +67,31 @@ module Wallaby
       # @return [Array<String>] a list of field names for index page.
       #   By default, only native SQL types will be included.
       def index_field_names
-        @index_field_names ||= begin
+        @index_field_names ||=
           index_fields.reject do |_field_name, metadata|
             metadata[:is_association] \
               || INDEX_EXCLUSIVE_DATA_TYPES.include?(metadata[:type])
           end.keys
-        end
       end
 
       # @return [Array<String>] a list of field names for show page.
       #   By default, `ActiveStorage` fields will be excluded.
       def show_field_names
-        @show_field_names ||= begin
+        @show_field_names ||=
           show_fields.reject do |_field_name, metadata|
             SHOW_EXCLUSIVE_CLASS_NAMES.include? metadata[:class].try(:name)
           end.keys
-        end
       end
 
       # @return [Array<String>] a list of field names for form (new/edit) page
       #   By default, complex fields will be excluded.
       def form_field_names
-        @form_field_names ||= begin
+        @form_field_names ||=
           form_fields.reject do |field_name, metadata|
             field_name == primary_key \
               || FORM_EXCLUSIVE_DATA_TYPES.include?(field_name) \
               || metadata[:has_scope] || metadata[:is_through]
           end.keys
-        end
       end
 
       # @return [ActiveModel::Errors] errors for resource

@@ -29,16 +29,6 @@ module Wallaby
       @fields = fields.with_indifferent_access
     end
 
-    # @!attribute [w] field_names
-    attr_writer :field_names
-
-    # @!attribute [r] field_names
-    # A list of field names.
-    # @return [Array<String, Symbol>]
-    def field_names
-      @field_names ||= reposition fields.keys, primary_key
-    end
-
     # @!attribute [r] index_fields
     # @note to be implemented in subclasses.
     # Fields metadata for `index` page.
