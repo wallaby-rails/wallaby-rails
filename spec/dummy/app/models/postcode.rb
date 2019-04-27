@@ -61,7 +61,7 @@ class Postcode
 
     def destroy(resource)
       # ...
-      cache_store.write cache_key, all - [resource]
+      cache_store.write cache_key, all.reject { |p| p.id == resource.id }
     end
   end
 end
