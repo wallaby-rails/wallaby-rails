@@ -3,6 +3,8 @@ require 'parslet'
 require 'responders'
 require 'csv'
 
+require 'support/action_dispatch/routing/mapper'
+
 require 'wallaby/version'
 require 'wallaby/constants'
 require 'wallaby/engine'

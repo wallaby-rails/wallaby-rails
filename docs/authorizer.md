@@ -259,7 +259,7 @@ Wallaby has implemented the support for general Rails resourcesful actions (`ind
 # lib/cancan/ability/actions.rb
 def default_alias_actions
   {
-    read: %i[index show],
+    read: %i(index show),
     create: [:new],
     update: [:edit]
   }
