@@ -18,4 +18,26 @@
       padding-top: 8px;
     }
   }
+  .resource {
+    section {
+      margin-bottom: 4px;
+    }
+
+    &__not-found {
+      font-size: 24px;
+      padding-left: 105px;
+      padding-top: 140px;
+      position: relative;
+      text-align: left;
+
+      img {
+        height: 80px;
+        margin-left: -90px;
+        margin-top: 12px;
+        position: absolute;
+      }
+    }
+  }
 }
+
+@import '_show_desktop';
