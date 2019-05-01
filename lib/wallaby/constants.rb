@@ -27,6 +27,7 @@ module Wallaby
   MODEL_ACTIONS = %i(index new create show edit update destroy).freeze
   FORM_ACTIONS = { new: 'form', create: 'form', edit: 'form', update: 'form' }.with_indifferent_access.freeze
   SAVE_ACTIONS = %w(create update).freeze
+  NON_FIND_ACTIONS = %w(index new create).freeze
 
   SCRIPT_NAME = 'SCRIPT_NAME'.freeze
   PATH_INFO = 'PATH_INFO'.freeze

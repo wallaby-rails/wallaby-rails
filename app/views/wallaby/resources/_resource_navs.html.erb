@@ -1,30 +1,31 @@
 <% # can be overridden %>
 <nav>
   <ul>
-    <%# list %>
-    <li role="presentation">
-      <%= index_link(current_model_class, html_options: { class: 'resources__index' }) {} %>
-    </li>
+    <% unless params[:resource] %>
+      <li role="presentation">
+        <%= index_link(current_model_class, html_options: { class: 'resources__index' }) {} %>
+      </li>
+    <% end %>
 
-    <%# show %>
     <% if action_name == 'edit' %>
       <li role="presentation">
-        <%= show_link(resource, html_options: { class: 'resource__show' }) {} %>
+        <%= show_link(resource, options: params.slice(:resource), html_options: { class: 'resource__show' }) {} %>
       </li>
     <% end %>
 
-    <%# edit %>
     <% if action_name == 'show' %>
-      <li role="presentation">
-        <%= edit_link(resource) {} %>
-      </li>
-    <% end %>
-
-    <%# delete %>
-    <% if action_name == 'show' %>
-      <li role="presentation">
-        <%= delete_link(resource) {} %>
-      </li>
+      <% if resource %>
+        <li role="presentation">
+          <%= edit_link(resource, options: params.slice(:resource)) {} %>
+        </li>
+        <li role="presentation">
+          <%= delete_link(resource, options: params.slice(:resource)) {} %>
+        </li>
+      <% else %>
+        <li role="presentation">
+          <%= new_link(current_model_class) {} %>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 </nav>
