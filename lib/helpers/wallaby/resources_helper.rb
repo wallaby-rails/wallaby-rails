@@ -9,6 +9,7 @@ module Wallaby
     include Decoratable
     include Paginatable
     include Resourcable
+    include Servicable
     include Themeable
 
     # @deprecated Use {#type_render} instead. It will be removed from 5.3.*

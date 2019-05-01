@@ -5,8 +5,9 @@ module Wallaby
     # @param collection [#to_a] a collection of all the resources
     # @param params [ActionController::Parameters] parameters
     # @return [Wallaby::ModelPaginator]
-    def paginator_of(model_class, collection, params)
-      current_paginator_class.new(model_class, collection, params)
+    def paginator_of(_model_class, _collection, _params)
+      Utils.deprecate 'deprecation.current_model_service', caller: caller
+      current_paginator
     end
 
     # Just a label

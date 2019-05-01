@@ -63,7 +63,7 @@ module Wallaby
     # @return [false] if not allowed
     # @since 5.2.0
     def authorized?(action, subject)
-      raise ArgumentError, I18n.t('errors.required', subject: 'subject') unless subject
+      return false unless subject
       klass = subject.is_a?(Class) ? subject : subject.class
       authorizer_of(klass).authorized? action, subject
     end

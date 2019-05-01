@@ -24,6 +24,7 @@ module Wallaby
     respond_to :json
     respond_to :csv, only: :index
     helper ResourcesHelper
+    before_action :debug_logging
     before_action :authenticate_user!, except: [:status]
 
     # @note This is a template method that can be overridden by subclasses.
@@ -375,5 +376,17 @@ module Wallaby
     #   (see Wallaby::Resourcable#resource)
     #   @see Wallaby::Resourcable#resource
     alias resource! resource
+
+    protected
+
+    def debug_logging
+      return unless current_model_class
+      Rails.logger.debug %(
+        - Current decorator: #{current_decorator}
+        - Current servicer: #{current_servicer.class}
+        - Current authorizer: #{current_authorizer.class}
+        - Current paginator: #{current_paginator.class if action_name == 'index'}
+      )
+    end
   end
 end

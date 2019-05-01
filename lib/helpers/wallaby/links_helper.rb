@@ -60,7 +60,7 @@ module Wallaby
 
       default = options[:readonly] && block.call || nil
       return default if unauthorized? :show, extract(resource)
-      link_to show_path(resource), html_options, &block
+      link_to show_path(resource, options[:resource]), html_options, &block
     end
 
     # Return link to edit page by a given model class
@@ -79,7 +79,7 @@ module Wallaby
         block: -> { "#{t 'links.edit'} #{decorate(resource).to_label}" }
       )
 
-      link_to edit_path(resource), html_options, &block
+      link_to edit_path(resource, options[:resource]), html_options, &block
     end
 
     # Return link to delete action by a given model class
@@ -88,7 +88,7 @@ module Wallaby
     # @param resource [Object, Wallaby::ResourceDecorator] model class
     # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
     # @return [String, nil] anchor element
-    def delete_link(resource, html_options: {}, &block)
+    def delete_link(resource, options: {}, html_options: {}, &block)
       return if unauthorized? :destroy, extract(resource)
 
       html_options, block = LinkOptionsNormalizer.normalize(
@@ -101,7 +101,7 @@ module Wallaby
       html_options[:data] ||= {}
       html_options[:data][:confirm] ||= t 'links.confirm.delete'
 
-      link_to show_path(resource), html_options, &block
+      link_to show_path(resource, options[:resource]), html_options, &block
     end
 
     # Return link to cancel an action
@@ -123,7 +123,7 @@ module Wallaby
       end
       url_for url_params.to_h.reverse_merge(
         resources: to_resources_name(model_class),
-        action: 'index'
+        action: :index
       )
     end
 
@@ -133,35 +133,43 @@ module Wallaby
     def new_path(model_class)
       url_for(
         resources: to_resources_name(model_class),
-        action: 'new'
+        action: :new
       )
     end
 
     # Url for show page of given resource
     # @param resource [Object]
+    # @param is_resource [Boolean]
     # @return [String]
-    def show_path(resource)
+    def show_path(resource, is_resource = false)
       decorated = decorate resource
       return unless decorated.primary_key_value
 
+      id_param = is_resource ? {} : { id: decorated.primary_key_value }
+
       url_for(
-        id: decorated.primary_key_value,
-        resources: decorated.resources_name,
-        action: 'show'
+        id_param.merge(
+          resources: decorated.resources_name,
+          action: :show
+        )
       )
     end
 
     # Url for edit form page of given resource
     # @param resource [Object]
+    # @param is_resource [Boolean]
     # @return [String]
-    def edit_path(resource)
+    def edit_path(resource, is_resource = false)
       decorated = decorate resource
       return unless decorated.primary_key_value
 
+      id_param = is_resource ? {} : { id: decorated.primary_key_value }
+
       url_for(
-        id: decorated.primary_key_value,
-        resources: decorated.resources_name,
-        action: 'edit'
+        id_param.merge(
+          resources: decorated.resources_name,
+          action: :edit
+        )
       )
     end
   end
