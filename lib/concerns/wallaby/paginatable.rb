@@ -52,7 +52,8 @@ module Wallaby
         paginator_class =
           controller_to_get(__callee__, :model_paginator) \
             || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))
-        paginator_class.new(current_model_class, collection, params)
+        Rails.logger.debug %( - Current paginator: #{paginator_class})
+        paginator_class.try(:new, current_model_class, collection, params)
       end
     end
 

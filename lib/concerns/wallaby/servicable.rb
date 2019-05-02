@@ -50,10 +50,11 @@ module Wallaby
     # @since 5.2.0
     def current_servicer
       @current_servicer ||= begin
-        klass =
+        servicer_class =
           controller_to_get(__callee__, :model_servicer) \
             || Map.servicer_map(current_model_class, controller_to_get(:application_servicer))
-        klass.new current_model_class, current_authorizer, current_model_decorator
+        Rails.logger.debug %( - Current servicer: #{servicer_class})
+        servicer_class.try(:new, current_model_class, current_authorizer, current_model_decorator)
       end
     end
 

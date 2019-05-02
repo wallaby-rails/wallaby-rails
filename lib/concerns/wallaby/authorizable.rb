@@ -53,7 +53,9 @@ module Wallaby
     # @since 5.2.0
     def current_authorizer
       @current_authorizer ||=
-        authorizer_of current_model_class, controller_to_get(__callee__, :model_authorizer)
+        authorizer_of(current_model_class, controller_to_get(__callee__, :model_authorizer)).tap do |authorizer|
+          Rails.logger.debug %( - Current authorizer: #{authorizer.class})
+        end
     end
 
     # Check if user is allowed to perform action on given subject
@@ -91,7 +93,7 @@ module Wallaby
     # @since 5.2.0
     def authorizer_of(model_class, authorizer_class = nil)
       authorizer_class ||= Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
-      authorizer_class.new self, model_class
+      authorizer_class.try(:new, self, model_class)
     end
   end
 end
