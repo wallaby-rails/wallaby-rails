@@ -380,7 +380,7 @@ module Wallaby
     protected
 
     def debug_logging
-      return unless current_model_class
+      return unless current_model_decorator
       Rails.logger.debug %(
         - Current decorator: #{current_decorator}
         - Current servicer: #{current_servicer.class}
