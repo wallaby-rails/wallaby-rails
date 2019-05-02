@@ -53,8 +53,8 @@ module Wallaby
     # @since 5.2.0
     def current_authorizer
       @current_authorizer ||=
-        authorizer_of(current_model_class, controller_to_get(__callee__, :model_authorizer)).tap do |authorizer|
-          Rails.logger.debug %( - Current authorizer: #{authorizer.class})
+        authorizer_of(current_model_class, controller_to_get(:model_authorizer)).tap do |authorizer|
+          Rails.logger.debug %( - Current authorizer: #{authorizer.try(:class)})
         end
     end
 
@@ -89,6 +89,7 @@ module Wallaby
     protected
 
     # @param model_class [Class]
+    # @param authorizer_class [Class, nil]
     # @return [Wallaby::ModelAuthorizer] model authorizer for given model
     # @since 5.2.0
     def authorizer_of(model_class, authorizer_class = nil)

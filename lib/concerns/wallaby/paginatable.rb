@@ -48,13 +48,12 @@ module Wallaby
     # - a generic paginator based on {Wallaby::Paginatable::ClassMethods#application_paginator .application_paginator}
     # @return [Class] model paginator class
     def current_paginator
-      @current_paginator ||= begin
-        paginator_class =
-          controller_to_get(__callee__, :model_paginator) \
-            || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))
-        Rails.logger.debug %( - Current paginator: #{paginator_class})
-        paginator_class.try(:new, current_model_class, collection, params)
-      end
+      @current_paginator ||=
+        (controller_to_get(:model_paginator) \
+          || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))).try do |klass|
+          Rails.logger.debug %( - Current paginator: #{klass})
+          klass.new current_model_class, collection, params
+        end
     end
 
     # To paginate the collection but only when either `page` or `per` param is given,
