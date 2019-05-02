@@ -57,8 +57,9 @@ describe Wallaby::ResourcesController, type: :controller do
       expect(controller.authorized?(:index, AllPostgresType.new)).to be_truthy
       expect(controller.unauthorized?(:index, AllPostgresType)).to be_falsy
       expect(controller.unauthorized?(:index, AllPostgresType.new)).to be_falsy
-      expect { controller.authorized?(:index, nil) }.to raise_error ArgumentError
-      expect { controller.unauthorized?(:index, nil) }.to raise_error ArgumentError
+
+      expect(controller.authorized?(:index, nil)).to be_falsy
+      expect(controller.unauthorized?(:index, nil)).to be_truthy
     end
   end
 end

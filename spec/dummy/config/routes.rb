@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     # testing custom mode purpose
     wresources :postcodes, controller: 'wallaby/resources'
     wresources :zipcodes, controller: 'wallaby/resources'
+    wresource :profile, controller: 'wallaby/resources'
 
     # testing theming purpose
     wresources :blogs, only: [:index, :show]
