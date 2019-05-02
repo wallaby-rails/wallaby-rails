@@ -60,7 +60,7 @@ module Wallaby
 
       default = options[:readonly] && block.call || nil
       return default if unauthorized? :show, extract(resource)
-      link_to show_path(resource, options[:resource]), html_options, &block
+      link_to show_path(resource, HashUtils.slice!(options, :is_resource, :url_params)), html_options, &block
     end
 
     # Return link to edit page by a given model class
@@ -79,7 +79,7 @@ module Wallaby
         block: -> { "#{t 'links.edit'} #{decorate(resource).to_label}" }
       )
 
-      link_to edit_path(resource, options[:resource]), html_options, &block
+      link_to edit_path(resource, HashUtils.slice!(options, :is_resource, :url_params)), html_options, &block
     end
 
     # Return link to delete action by a given model class
@@ -101,7 +101,7 @@ module Wallaby
       html_options[:data] ||= {}
       html_options[:data][:confirm] ||= t 'links.confirm.delete'
 
-      link_to show_path(resource, options[:resource]), html_options, &block
+      link_to show_path(resource, HashUtils.slice!(options, :is_resource, :url_params)), html_options, &block
     end
 
     # Return link to cancel an action
@@ -121,6 +121,7 @@ module Wallaby
         && !url_params.permitted?
         url_params = {}
       end
+
       url_for url_params.to_h.reverse_merge(
         resources: to_resources_name(model_class),
         action: :index
@@ -130,8 +131,8 @@ module Wallaby
     # Url for new resource form page
     # @param model_class [Class]
     # @return [String]
-    def new_path(model_class)
-      url_for(
+    def new_path(model_class, url_params: {})
+      url_for url_params.to_h.reverse_merge(
         resources: to_resources_name(model_class),
         action: :new
       )
@@ -141,17 +142,16 @@ module Wallaby
     # @param resource [Object]
     # @param is_resource [Boolean]
     # @return [String]
-    def show_path(resource, is_resource = false)
+    def show_path(resource, is_resource: false, url_params: {})
       decorated = decorate resource
-      return unless decorated.primary_key_value
-
-      id_param = is_resource ? {} : { id: decorated.primary_key_value }
+      return unless is_resource || decorated.primary_key_value
 
       url_for(
-        id_param.merge(
+        url_params.to_h.reverse_merge(
           resources: decorated.resources_name,
-          action: :show
-        )
+          action: :show,
+          id: decorated.primary_key_value
+        ).delete_if { |_, v| v.blank? }
       )
     end
 
@@ -159,17 +159,17 @@ module Wallaby
     # @param resource [Object]
     # @param is_resource [Boolean]
     # @return [String]
-    def edit_path(resource, is_resource = false)
+    def edit_path(resource, is_resource: false, url_params: {})
       decorated = decorate resource
-      return unless decorated.primary_key_value
 
-      id_param = is_resource ? {} : { id: decorated.primary_key_value }
+      return unless is_resource || decorated.primary_key_value
 
       url_for(
-        id_param.merge(
+        url_params.to_h.reverse_merge(
           resources: decorated.resources_name,
-          action: :edit
-        )
+          action: :edit,
+          id: decorated.primary_key_value
+        ).delete_if { |_, v| v.blank? }
       )
     end
   end
