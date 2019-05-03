@@ -206,7 +206,7 @@ describe 'Resources pages using postgresql table for Product model' do
   end
 
   before do
-    stub_const 'ProductDecorator', (Class.new Wallaby::ResourceDecorator do
+    stub_const 'SomeProductDecorator', (Class.new Wallaby::ResourceDecorator do
       def self.model_class
         Product
       end
