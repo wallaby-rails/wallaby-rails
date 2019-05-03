@@ -1,4 +1,4 @@
-<% if current_paginator.paginatable? %>
+<% if current_paginator.try(:paginatable?) %>
   <%
   # Get variables ready for use
   from_to = t 'pagination.from_to', from: current_paginator.from, to: current_paginator.to

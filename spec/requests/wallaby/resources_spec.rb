@@ -212,12 +212,12 @@ describe 'Resources pages using postgresql table for Product model' do
       end
       self.index_field_names = %i(id name tags)
     end)
-    Tag.create! name: 'Mens'
-    Tag.create! name: 'Women'
   end
 
   describe '#index' do
-    let!(:record) { model_class.create!(name: name, tags: Tag.all) }
+    let!(:tag1) { Tag.create! name: 'Mens' }
+    let!(:tag2) { Tag.create! name: 'Women' }
+    let!(:record) { model_class.create!(name: name, tags: [tag1, tag2]) }
 
     it 'renders collections' do
       http :get, '/admin/products'

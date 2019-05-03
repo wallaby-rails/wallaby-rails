@@ -4,8 +4,7 @@ module Wallaby
     # @return [ActionController::Parameters] whitelisted params used by Wallaby
     def index_params(parameters = params)
       permit_list = :filter, :page, :per, :q, :sort
-      return parameters.slice(*permit_list).permit! if parameters.respond_to?(:permit)
-      parameters.with_indifferent_access.slice(*permit_list)
+      HashUtils.slice!(parameters, *permit_list)
     end
 
     # Return link to index page by a given model class

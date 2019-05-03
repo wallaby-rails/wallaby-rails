@@ -153,6 +153,7 @@ describe 'custom models' do
         }
       }
 
+      expect(response.redirect_url).to include 'http://www.example.com/profile'
       http :get, response.redirect_url
       expect(response).to be_successful
       expect(response.body).to include 'Tian'
@@ -165,6 +166,7 @@ describe 'custom models' do
         profile: { first_name: 'Somewhere' }
       }
 
+      expect(response.redirect_url).to eq 'http://www.example.com/profile'
       http :get, response.redirect_url
       expect(response).to be_successful
       expect(response.body).to include 'Somewhere'
@@ -175,6 +177,7 @@ describe 'custom models' do
 
       http :delete, profile_path
 
+      expect(response.redirect_url).to eq 'http://www.example.com/profile'
       http :get, response.redirect_url
       expect(response).to be_successful
       expect(Profile.find).to be_blank

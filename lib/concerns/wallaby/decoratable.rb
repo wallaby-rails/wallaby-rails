@@ -59,7 +59,7 @@ module Wallaby
 
     def current_decorator
       @current_decorator ||=
-        (controller_to_get(__callee__, :resource_decorator) || \
+        (controller_to_get(:resource_decorator) || \
         Map.resource_decorator_map(current_model_class, controller_to_get(:application_decorator))).tap do |decorator|
           Rails.logger.debug %( - Current decorator: #{decorator})
         end
