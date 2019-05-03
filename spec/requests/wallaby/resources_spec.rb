@@ -242,8 +242,8 @@ describe 'Resources pages using postgresql table for Product model' do
       expect(response).to render_template :index
       expect(response.content_type).to eq 'text/csv'
       expect(response.body).to include name
-      expect(response.body).to include Tag.first.name
-      expect(response.body).to include Tag.last.name
+      expect(response.body).to include tag1.name
+      expect(response.body).to include tag2.name
     end
   end
 end

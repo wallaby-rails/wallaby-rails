@@ -52,7 +52,7 @@ module Wallaby
       @current_servicer ||=
         (controller_to_get(:model_servicer) \
           || Map.servicer_map(current_model_class, controller_to_get(:application_servicer))).try do |klass|
-          Rails.logger.debug %( - Current servicer: #{klass})
+          Rails.logger.info %( - Current servicer: #{klass})
           klass.new current_model_class, current_authorizer, current_model_decorator
         end
     end
