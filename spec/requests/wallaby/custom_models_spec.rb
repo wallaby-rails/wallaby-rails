@@ -44,7 +44,7 @@ describe 'custom models' do
     end
   end
 
-  describe 'postcode' do
+  describe 'resourcesful postcode' do
     let(:id) { '4478' }
 
     before do
@@ -108,6 +108,79 @@ describe 'custom models' do
       expect(response).to be_successful
       expect(response.body).not_to include id
       expect(response.body).not_to include 'DARLING HARBOUR'
+    end
+  end
+
+  describe 'resourceful profile' do
+    let(:id) { '4478' }
+
+    before do
+      Profile.cache_store.clear
+      Wallaby.configuration.custom_models = ['Profile']
+    end
+
+    it 'renders new page' do
+      http :get, new_profile_path
+      expect(response).to be_successful
+    end
+
+    it 'renders show page' do
+      http :get, profile_path
+      expect(response).to be_successful
+    end
+
+    context 'when profile exists' do
+      it 'renders show page' do
+        Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+        http :get, profile_path
+        expect(response).to be_successful
+        expect(response.body).to include 'Tian'
+      end
+    end
+
+    it 'renders edit page' do
+      Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+      http :get, edit_profile_path
+      expect(response).to be_successful
+      expect(response.body).to include 'Tian'
+    end
+
+    it 'creates a profile record' do
+      http :post, profile_path, params: {
+        profile: {
+          first_name: 'Tian',
+          last_name: 'Chen'
+        }
+      }
+
+      expect(response.redirect_url).to include 'http://www.example.com/profile'
+      http :get, response.redirect_url
+      expect(response).to be_successful
+      expect(response.body).to include 'Tian'
+      expect(response.body).to include 'Chen'
+    end
+
+    it 'updates a profile record' do
+      Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+      http :put, profile_path, params: {
+        profile: { first_name: 'Somewhere' }
+      }
+
+      expect(response.redirect_url).to eq 'http://www.example.com/profile'
+      http :get, response.redirect_url
+      expect(response).to be_successful
+      expect(response.body).to include 'Somewhere'
+    end
+
+    it 'deletes a profile record' do
+      Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+
+      http :delete, profile_path
+
+      expect(response.redirect_url).to eq 'http://www.example.com/profile'
+      http :get, response.redirect_url
+      expect(response).to be_successful
+      expect(Profile.find).to be_blank
     end
   end
 end

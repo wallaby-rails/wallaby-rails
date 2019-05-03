@@ -71,7 +71,7 @@ module Wallaby
     # @return [String] FontAwesome icon name
     def fa_map(name, major = nil)
       @map ||= begin
-        major ||= Gem.loaded_specs['font-awesome-sass']&.version&.segments&.first
+        major ||= Gem.loaded_specs['font-awesome-sass'].try(:version).try(:segments).try(:first)
         t("fa.v#{major}").with_indifferent_access
       end
       @map[name] || name

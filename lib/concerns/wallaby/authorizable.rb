@@ -53,7 +53,9 @@ module Wallaby
     # @since 5.2.0
     def current_authorizer
       @current_authorizer ||=
-        authorizer_of current_model_class, controller_to_get(__callee__, :model_authorizer)
+        authorizer_of(current_model_class, controller_to_get(:model_authorizer)).tap do |authorizer|
+          Rails.logger.info %( - Current authorizer: #{authorizer.try(:class)})
+        end
     end
 
     # Check if user is allowed to perform action on given subject
@@ -63,7 +65,7 @@ module Wallaby
     # @return [false] if not allowed
     # @since 5.2.0
     def authorized?(action, subject)
-      raise ArgumentError, I18n.t('errors.required', subject: 'subject') unless subject
+      return false unless subject
       klass = subject.is_a?(Class) ? subject : subject.class
       authorizer_of(klass).authorized? action, subject
     end
@@ -87,11 +89,12 @@ module Wallaby
     protected
 
     # @param model_class [Class]
+    # @param authorizer_class [Class, nil]
     # @return [Wallaby::ModelAuthorizer] model authorizer for given model
     # @since 5.2.0
     def authorizer_of(model_class, authorizer_class = nil)
       authorizer_class ||= Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
-      authorizer_class.new self, model_class
+      authorizer_class.try(:new, self, model_class)
     end
   end
 end

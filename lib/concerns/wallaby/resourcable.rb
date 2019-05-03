@@ -136,15 +136,19 @@ module Wallaby
     # end
     # ```
     # @param options [Hash] (since 5.2.0)
+    # @option options [Array<String>] :non_find_actions action names that shouldn't use resource find.
+    #   (Default to `%w(index new create)`)
     # @option options [ActionController::Parameters, Hash] :find_params parameters/options for resource finding
     # @option options [ActionController::Parameters, Hash] :new_params parameters/options for new resource
     # @yield [resource] (since 5.2.0) a block to run to extend resource, e.g. making change to the resource.
     #   Please make sure to return the resource at the end of block
     # @return [Object] either persisted or unpersisted resource instance
+    # @raise [ResourceNotFound] if resource is nil
     def resource(options = {}, &block)
       @resource ||=
         ModuleUtils.yield_for(
-          if resource_id.present?
+          # this will testify both resource and resources
+          if resource_id.present? || !(options[:non_find_actions] || NON_FIND_ACTIONS).include?(action_name)
             current_servicer.find resource_id, options[:find_params]
           else
             current_servicer.new options[:new_params]

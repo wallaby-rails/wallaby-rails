@@ -53,8 +53,19 @@ module Wallaby
     # @return [Wallaby::ModelDecorator] current model decorator for this request
     def current_model_decorator
       @current_model_decorator ||=
-        controller_to_get(__callee__, :resource_decorator).try(:model_decorator) \
-          || Map.model_decorator_map(current_model_class, controller_to_get(:application_decorator))
+        current_decorator.try(:model_decorator) || \
+        Map.model_decorator_map(current_model_class, controller_to_get(:application_decorator))
+    end
+
+    def current_decorator
+      @current_decorator ||=
+        (controller_to_get(:resource_decorator) || \
+        Map.resource_decorator_map(current_model_class, controller_to_get(:application_decorator))).tap do |decorator|
+          Rails.logger.info %(
+            - Current decorator: #{decorator}
+            - index_field_names: #{decorator.index_field_names}
+          )
+        end
     end
 
     # Get current fields metadata for current action name.

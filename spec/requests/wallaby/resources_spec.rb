@@ -206,18 +206,20 @@ describe 'Resources pages using postgresql table for Product model' do
   end
 
   before do
-    stub_const 'ProductDecorator', (Class.new Wallaby::ResourceDecorator do
+    GC.start
+    hide_const 'ProductDecorator'
+    stub_const 'SomeProductDecorator', (Class.new Wallaby::ResourceDecorator do
       def self.model_class
         Product
       end
       self.index_field_names = %i(id name tags)
     end)
-    Tag.create! name: 'Mens'
-    Tag.create! name: 'Women'
   end
 
   describe '#index' do
-    let!(:record) { model_class.create!(name: name, tags: Tag.all) }
+    let!(:tag1) { Tag.create! name: 'Mens' }
+    let!(:tag2) { Tag.create! name: 'Women' }
+    let!(:record) { model_class.create!(name: name, tags: [tag1, tag2]) }
 
     it 'renders collections' do
       http :get, '/admin/products'
@@ -242,8 +244,8 @@ describe 'Resources pages using postgresql table for Product model' do
       expect(response).to render_template :index
       expect(response.content_type).to eq 'text/csv'
       expect(response.body).to include name
-      expect(response.body).to include Tag.first.name
-      expect(response.body).to include Tag.last.name
+      expect(response.body).to include tag1.name
+      expect(response.body).to include tag2.name
     end
   end
 end

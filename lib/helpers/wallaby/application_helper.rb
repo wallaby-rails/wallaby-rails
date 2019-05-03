@@ -24,7 +24,7 @@ module Wallaby
         engine_name: engine_name, parameters: options, default_url_options: default_url_options
       )
       url ||= main_app.root_path default_url_options.merge(options) if options[:action] == 'home'
-      url || super(ModuleUtils.try_to(options, :permit!) || options)
+      url || super(HashUtils.slice!(options, *options.keys))
     end
 
     # It's required by {#url_for}

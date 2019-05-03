@@ -14,24 +14,30 @@ Rails.application.routes.draw do
   get '/something/else', to: 'wallaby/resources#index', defaults: { resources: 'products' }
 
   begin # for non-admin usage
-    resources :blogs, defaults: { resources: 'blogs' }, only: [:index, :show]
+    # testing custom mode purpose
+    wresources :postcodes, controller: 'wallaby/resources'
+    wresources :zipcodes, controller: 'wallaby/resources'
+    wresource :profile, controller: 'wallaby/resources'
+
+    # testing theming purpose
+    wresources :blogs, only: [:index, :show]
+
+    # others
     resources :orders, defaults: { resources: 'orders' } do
       resources :items, defaults: { resources: 'order::items' }
     end
-    resources :categories, defaults: { resources: 'categories' }
-    resources :postcodes, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'postcodes' }, constraints: { resources: 'postcodes' }
-    resources :zipcodes, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'zipcodes' }, constraints: { resources: 'zipcodes' }
-    resources :products, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'products' }, constraints: { resources: 'products' }
-    resources :pictures, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'pictures' }, constraints: { resources: 'pictures' }
+    wresources :categories
+    wresources :products, controller: 'wallaby/resources'
+    wresources :pictures, controller: 'wallaby/resources'
 
     scope path: '/nested', as: :nested do
-      resources :products, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'products' }, constraints: { resources: 'products' }
-      resources :pictures, controller: 'wallaby/resources', path: ':resources', defaults: { resources: 'pictures' }, constraints: { resources: 'pictures' }
+      wresources :products, controller: 'wallaby/resources'
+      wresources :pictures, controller: 'wallaby/resources'
     end
 
     scope path: '/api', as: :api do
-      resources :products, controller: 'json_api', path: ':resources', defaults: { resources: 'products' }, constraints: { resources: 'products' }
-      resources :pictures, controller: 'json_api', path: ':resources', defaults: { resources: 'pictures' }, constraints: { resources: 'pictures' }
+      wresources :products, controller: 'json_api'
+      wresources :pictures, controller: 'json_api'
     end
   end
 
