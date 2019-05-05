@@ -115,61 +115,59 @@ module Wallaby
     # @param model_class [Class]
     # @param url_params [ActionController::Parameters, Hash]
     # @return [String]
-    def index_path(model_class, url_params: {})
+    def index_path(model_class, url_params: {}, engine: current_engine)
       if url_params.is_a?(::ActionController::Parameters) \
         && !url_params.permitted?
         url_params = {}
       end
 
-      url_for url_params.to_h.reverse_merge(
-        resources: to_resources_name(model_class),
-        action: :index
-      )
+      hash = url_params.to_h.reverse_merge(resources: to_resources_name(model_class), action: :index)
+      engine ? engine.resources_path(hash) : url_for(hash)
     end
 
     # Url for new resource form page
     # @param model_class [Class]
+    # @param url_params [Hash]
+    # @param engine [ActionDispatch::Routing::RoutesProxy, nil]
     # @return [String]
-    def new_path(model_class, url_params: {})
-      url_for url_params.to_h.reverse_merge(
+    def new_path(model_class, url_params: {}, engine: current_engine)
+      hash = url_params.to_h.reverse_merge(
         resources: to_resources_name(model_class),
         action: :new
       )
+      engine ? engine.new_resource_path(hash) : url_for(hash)
     end
 
     # Url for show page of given resource
     # @param resource [Object]
     # @param is_resource [Boolean]
     # @return [String]
-    def show_path(resource, is_resource: false, url_params: {})
+    def show_path(resource, is_resource: false, url_params: {}, engine: current_engine)
       decorated = decorate resource
       return unless is_resource || decorated.primary_key_value
 
-      url_for(
-        url_params.to_h.reverse_merge(
-          resources: decorated.resources_name,
-          action: :show,
-          id: decorated.primary_key_value
-        ).delete_if { |_, v| v.blank? }
-      )
+      hash =
+        url_params
+        .to_h
+        .reverse_merge(resources: decorated.resources_name, action: :show, id: decorated.primary_key_value)
+        .delete_if { |_, v| v.blank? }
+      engine ? engine.resource_path(hash) : url_for(hash)
     end
 
     # Url for edit form page of given resource
     # @param resource [Object]
     # @param is_resource [Boolean]
     # @return [String]
-    def edit_path(resource, is_resource: false, url_params: {})
+    def edit_path(resource, is_resource: false, url_params: {}, engine: current_engine)
       decorated = decorate resource
-
       return unless is_resource || decorated.primary_key_value
 
-      url_for(
-        url_params.to_h.reverse_merge(
-          resources: decorated.resources_name,
-          action: :edit,
-          id: decorated.primary_key_value
-        ).delete_if { |_, v| v.blank? }
-      )
+      hash =
+        url_params
+        .to_h
+        .reverse_merge(resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value)
+        .delete_if { |_, v| v.blank? }
+      engine ? engine.edit_resource_path(hash) : url_for(hash)
     end
   end
 end

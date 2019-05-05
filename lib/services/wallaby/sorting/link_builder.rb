@@ -42,7 +42,7 @@ module Wallaby
         return label unless sortable? field_name, metadata
         sort_field_name = metadata[:sort_field_name] || field_name
         url_params = next_builder.next_params sort_field_name
-        @helper.index_link(model_class, url_params: url_params) { label }
+        @helper.link_to label, @helper.url_for(url_params)
       end
 
       private
