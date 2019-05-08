@@ -21,24 +21,29 @@ module Wallaby
     # Override origin method to handle URL for Wallaby engine.
     #
     # As Wallaby's routes are declared in a
-    # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} style, using ordinary
-    # **url_for** (e.g. `wallaby_engine.url_for`) will raise **ActionController::RoutingError** exception.
-    # Therefore, {Wallaby::EngineUrlFor} is in place to handle this kind of **url_for**.
+    # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} style, this will
+    # lead to **ActionController::RoutingError** exception when using ordinary **url_for**
+    # (e.g. `url_for action: :index`).
+    #
+    # This will handle the URLs for:
+    #
+    # - Wallaby engine, e.g. `mount Wallaby::Engine => '/admin'`
+    # - Nested resource(s), e.g. `scope(path: '/nested', as: :nested) { wresources :products }`
     # @param options [String, Hash, ActionController::Parameters]
     # @option options [Boolean]
     #   :with_query to include `request.query_parameters` values for url generation.
     # @return [String] URL string
     # @see Wallaby::EngineUrlFor.handle
+    # @see Wallaby::CurrentUrlFor.handle
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(options = nil)
       options ||= {}
-      return super(options) unless [Hash, ActionController::Parameters].include?(options.class)
+      return super(options) unless options.is_a?(Hash)
 
       options = request.query_parameters.merge(options) if options.delete(:with_query)
-
-      url = EngineUrlFor.handle(engine: current_engine, parameters: options, script_name: request.env[SCRIPT_NAME])
-      url || super(HashUtils.slice!(options, *options.keys))
+      EngineUrlFor.handle(engine: current_engine, parameters: options, script_name: request.env[SCRIPT_NAME]) \
+        || CurrentUrlFor.handle(context: self, parameters: options) || super(options)
     end
 
     # Override origin method to add turbolinks tracking when it's enabled
@@ -46,9 +51,7 @@ module Wallaby
     # @return [String] stylesheet link tags HTML
     def stylesheet_link_tag(*sources)
       default_options =
-        if features.turbolinks_enabled then { 'data-turbolinks-track' => true }
-        else {}
-        end
+        features.turbolinks_enabled ? { 'data-turbolinks-track' => true } : {}
       options = default_options.merge!(sources.extract_options!.stringify_keys)
       super(*sources, options)
     end
@@ -58,9 +61,7 @@ module Wallaby
     # @return [String] javascript script tags HTML
     def javascript_include_tag(*sources)
       default_options =
-        if features.turbolinks_enabled then { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false }
-        else {}
-        end
+        features.turbolinks_enabled ? { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false } : {}
       options = default_options.merge!(sources.extract_options!.stringify_keys)
       super(*sources, options)
     end

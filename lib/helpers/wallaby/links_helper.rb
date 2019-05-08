@@ -7,30 +7,35 @@ module Wallaby
       HashUtils.slice!(parameters, *permit_list)
     end
 
-    # Return link to index page by a given model class
-    #
-    # If user's not authorized, nil will be returned
+    # Return link to index page for a given model class
     # @param model_class [Class]
+    # @param path [String, nil]
     # @param url_params [ActionController::Parameters, Hash]
-    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
-    # @return [String, nil] anchor element
-    def index_link(model_class, url_params: {}, html_options: {}, &block)
+    # @param html_options [Hash] (see
+    #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+    #   ActionView::Helpers::UrlHelper#link_to})
+    # @yield block to return the link label
+    # @return [String] anchor link to index page for a given model class
+    # @return [nil] if user's not authorized
+    def index_link(model_class, path: nil, url_params: {}, html_options: {}, &block)
       return if unauthorized? :index, model_class
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         block: -> { to_model_label model_class }
       )
 
-      path = index_path model_class, url_params: url_params
+      path ||= index_path model_class, url_params: url_params
       link_to path, html_options, &block
     end
 
-    # Return link to create page by a given model class
-    #
-    # If user's not authorized, nil will be returned
+    # Return link to create page for a given model class
     # @param model_class [Class]
-    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (see
+    #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+    #   ActionView::Helpers::UrlHelper#link_to})
+    # @yield block to return the link label
     # @return [String, nil] anchor element
+    # @return [nil] if user's not authorized
     def new_link(model_class, html_options: {}, &block)
       return if unauthorized? :new, model_class
       html_options, block = LinkOptionsNormalizer.normalize(
@@ -42,11 +47,15 @@ module Wallaby
       link_to new_path(model_class), html_options, &block
     end
 
-    # Return link to show page by a given model class
-    # If user's not authorized, resource label will be returned
+    # Return link to show page for a given model class.
+    #
+    # If user's not authorized, default resource label will be returned.
     # @param resource [Object, Wallaby::ResourceDecorator] model class
     # @param options [Hash]
-    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (see
+    #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+    #   ActionView::Helpers::UrlHelper#link_to})
+    # @yield block to return the link label
     # @return [String] anchor element / text
     def show_link(resource, options: {}, html_options: {}, &block)
       # NOTE: to_s is a must
@@ -62,12 +71,17 @@ module Wallaby
       link_to show_path(resource, HashUtils.slice!(options, :is_resource, :url_params)), html_options, &block
     end
 
-    # Return link to edit page by a given model class
+    # Return link to edit page for a given model class.
+    #
     # If user's not authorized, resource label will be returned
     # @param resource [Object, Wallaby::ResourceDecorator] model class
     # @param options [Hash]
-    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (see
+    #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+    #   ActionView::Helpers::UrlHelper#link_to})
+    # @yield block to return the link label
     # @return [String] anchor element / text
+    # @return [nil] if user's not authorized
     def edit_link(resource, options: {}, html_options: {}, &block)
       default = options[:readonly] && decorate(resource).to_label || nil
       return default if unauthorized? :edit, extract(resource)
@@ -81,12 +95,14 @@ module Wallaby
       link_to edit_path(resource, HashUtils.slice!(options, :is_resource, :url_params)), html_options, &block
     end
 
-    # Return link to delete action by a given model class
-    #
-    # If user's not authorized, nil will be returned
+    # Return link to delete action for a given model class.
     # @param resource [Object, Wallaby::ResourceDecorator] model class
-    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
+    # @param html_options [Hash] (see
+    #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+    #   ActionView::Helpers::UrlHelper#link_to})
+    # @yield block to return the link label
     # @return [String, nil] anchor element
+    # @return [nil] if user's not authorized
     def delete_link(resource, options: {}, html_options: {}, &block)
       return if unauthorized? :destroy, extract(resource)
 
@@ -103,71 +119,61 @@ module Wallaby
       link_to show_path(resource, HashUtils.slice!(options, :is_resource, :url_params)), html_options, &block
     end
 
-    # Return link to cancel an action
-    # @param html_options [Hash] (@see ActionView::Helpers::UrlHelper#link_to)
-    # @return [String] HTML anchor element
-    def cancel_link(html_options = {}, &block)
+    # Return link to cancel action
+    # @param html_options [Hash] (see
+    #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+    #   ActionView::Helpers::UrlHelper#link_to})
+    # @yield block to return the link label
+    # @return [String] anchor link of cancel action
+    def cancel_link(html_options: {}, &block)
       block ||= -> { t 'links.cancel' }
       link_to 'javascript:history.back()', html_options, &block
     end
 
-    # Url for index page
-    # @param model_class [Class]
-    # @param url_params [ActionController::Parameters, Hash]
-    # @return [String]
-    def index_path(model_class, url_params: {}, engine: current_engine)
-      if url_params.is_a?(::ActionController::Parameters) \
-        && !url_params.permitted?
-        url_params = {}
-      end
-
-      hash = url_params.to_h.reverse_merge(resources: to_resources_name(model_class), action: :index)
-      engine ? engine.resources_path(hash) : url_for(hash)
-    end
-
-    # Url for new resource form page
     # @param model_class [Class]
     # @param url_params [Hash]
-    # @param engine [ActionDispatch::Routing::RoutesProxy, nil]
-    # @return [String]
-    def new_path(model_class, url_params: {}, engine: current_engine)
-      hash = url_params.to_h.reverse_merge(
-        resources: to_resources_name(model_class),
-        action: :new
+    # @return [String] index page path
+    def index_path(model_class, url_params: {})
+      hash = { resources: to_resources_name(model_class), action: :index }.merge url_params.to_h
+      current_engine.try(:resources_path, hash) || url_for(hash)
+    end
+
+    # @param model_class [Class]
+    # @param url_params [Hash]
+    # @return [String] new page path
+    def new_path(model_class, url_params: {})
+      hash = { resources: to_resources_name(model_class), action: :new }.merge url_params.to_h
+      current_engine.try(:new_resource_path, hash) || url_for(hash)
+    end
+
+    # @param resource [Object]
+    # @param is_resource [Boolean]
+    # @param url_params [Hash]
+    # @return [String] show page path
+    def show_path(resource, is_resource: false, url_params: {})
+      decorated = decorate resource
+      return unless is_resource || decorated.primary_key_value
+
+      hash = HashUtils.presence(
+        { resources: decorated.resources_name, action: :show, id: decorated.primary_key_value }.merge(url_params.to_h)
       )
-      engine ? engine.new_resource_path(hash) : url_for(hash)
+
+      current_engine.try(:resource_path, hash) || url_for(hash)
     end
 
-    # Url for show page of given resource
     # @param resource [Object]
     # @param is_resource [Boolean]
-    # @return [String]
-    def show_path(resource, is_resource: false, url_params: {}, engine: current_engine)
+    # @param url_params [Hash]
+    # @return [String] edit page path
+    def edit_path(resource, is_resource: false, url_params: {})
       decorated = decorate resource
       return unless is_resource || decorated.primary_key_value
 
-      hash =
-        url_params
-        .to_h
-        .reverse_merge(resources: decorated.resources_name, action: :show, id: decorated.primary_key_value)
-        .delete_if { |_, v| v.blank? }
-      engine ? engine.resource_path(hash) : url_for(hash)
-    end
+      hash = HashUtils.presence(
+        { resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value }.merge(url_params.to_h)
+      )
 
-    # Url for edit form page of given resource
-    # @param resource [Object]
-    # @param is_resource [Boolean]
-    # @return [String]
-    def edit_path(resource, is_resource: false, url_params: {}, engine: current_engine)
-      decorated = decorate resource
-      return unless is_resource || decorated.primary_key_value
-
-      hash =
-        url_params
-        .to_h
-        .reverse_merge(resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value)
-        .delete_if { |_, v| v.blank? }
-      engine ? engine.edit_resource_path(hash) : url_for(hash)
+      current_engine.try(:edit_resource_path, hash) || url_for(hash)
     end
   end
 end
