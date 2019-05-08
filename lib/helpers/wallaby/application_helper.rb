@@ -24,11 +24,6 @@ module Wallaby
     # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} style, this will
     # lead to **ActionController::RoutingError** exception when using ordinary **url_for**
     # (e.g. `url_for action: :index`).
-    #
-    # This will handle the URLs for:
-    #
-    # - Wallaby engine, e.g. `mount Wallaby::Engine => '/admin'`
-    # - Nested resource(s), e.g. `scope(path: '/nested', as: :nested) { wresources :products }`
     # @param options [String, Hash, ActionController::Parameters]
     # @option options [Boolean]
     #   :with_query to include `request.query_parameters` values for url generation.
@@ -42,8 +37,9 @@ module Wallaby
       return super(options) unless options.is_a?(Hash)
 
       options = request.query_parameters.merge(options) if options.delete(:with_query)
+      options = HashUtils.presence options # remove keys that have nil value
       EngineUrlFor.handle(engine: current_engine, parameters: options, script_name: request.env[SCRIPT_NAME]) \
-        || CurrentUrlFor.handle(context: self, parameters: options) || super(options)
+        || super(options)
     end
 
     # Override origin method to add turbolinks tracking when it's enabled
