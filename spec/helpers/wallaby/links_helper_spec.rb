@@ -144,7 +144,7 @@ describe Wallaby::LinksHelper, :current_user do
         ability = helper.current_ability
         ability.cannot :edit, Product
         expect(helper.edit_link(resource)).to be_nil
-        expect(helper.edit_link(resource, options: { readonly: true })).to eq 'iPhone'
+        expect(helper.edit_link(resource, options: { readonly: true })).to eq 'Edit iPhone'
       end
 
       context 'when resource is decorated' do
