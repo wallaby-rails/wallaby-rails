@@ -131,7 +131,7 @@ describe 'custom models' do
 
     context 'when profile exists' do
       it 'renders show page' do
-        Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+        Profile.save Profile.new(first_name: 'Tian', last: 'Chen')
         http :get, profile_path
         expect(response).to be_successful
         expect(response.body).to include 'Tian'
@@ -139,7 +139,7 @@ describe 'custom models' do
     end
 
     it 'renders edit page' do
-      Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+      Profile.save Profile.new(first_name: 'Tian', last: 'Chen')
       http :get, edit_profile_path
       expect(response).to be_successful
       expect(response.body).to include 'Tian'
@@ -149,7 +149,7 @@ describe 'custom models' do
       http :post, profile_path, params: {
         profile: {
           first_name: 'Tian',
-          last_name: 'Chen'
+          last: 'Chen'
         }
       }
 
@@ -161,7 +161,7 @@ describe 'custom models' do
     end
 
     it 'updates a profile record' do
-      Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+      Profile.save Profile.new(first_name: 'Tian', last: 'Chen')
       http :put, profile_path, params: {
         profile: { first_name: 'Somewhere' }
       }
@@ -173,7 +173,7 @@ describe 'custom models' do
     end
 
     it 'deletes a profile record' do
-      Profile.save Profile.new(first_name: 'Tian', last_name: 'Chen')
+      Profile.save Profile.new(first_name: 'Tian', last: 'Chen')
 
       http :delete, profile_path
 

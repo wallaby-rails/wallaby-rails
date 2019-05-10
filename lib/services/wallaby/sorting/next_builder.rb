@@ -20,25 +20,19 @@ module Wallaby
       # @return [ActionController::Parameters]
       #   updated parameters with new sort order for given field
       def next_params(field_name)
-        params = clean_params
-        params[:sort] = complete_sorting_str_with(field_name)
+        params = @params.dup
+        params[:sort] = complete_sorting_str_with field_name
         params
       end
 
       protected
-
-      # @return [ActionController::Parameters] parameters without controller, action info
-      def clean_params
-        @params.except :resources, :controller, :action
-      end
 
       # @param field_name [String] field name
       # @return [String] a sort order string, e.g. `'name asc'`
       def complete_sorting_str_with(field_name)
         hash = @hash.except field_name
         current_sort = @hash[field_name]
-
-        update hash, field_name, next_value_for(current_sort)
+        hash[field_name] = next_value_for current_sort
         rebuild_str_from hash
       end
 
@@ -46,6 +40,7 @@ module Wallaby
       # @return [String] a sort order string, e.g. `'name asc'`
       def rebuild_str_from(hash)
         hash.each_with_object('') do |(name, sort), str|
+          next unless sort
           str << (str == EMPTY_STRING ? str : COMMA)
           str << name.to_s << SPACE << sort
         end
@@ -59,15 +54,6 @@ module Wallaby
         when DESC then nil
         else ASC
         end
-      end
-
-      # Update the value for given key. Remove the key if value is blank
-      # @param hash [Hash] sort order hash
-      # @param key [String]
-      # @param value [String, nil]
-      def update(hash, key, value)
-        return hash.delete key if value.blank?
-        hash[key] = value
       end
     end
   end

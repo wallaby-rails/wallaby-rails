@@ -17,7 +17,7 @@
           <li><em><%= t 'pagination.pers' %></em></li>
           <% Wallaby::PERS.each do |per| %>
             <%= content_tag :li, class: current_paginator.page_size == per && 'pagination__pers--current' do %>
-              <%= index_link(current_model_class, url_params: index_params.merge(per: per)) { per.to_s } %>
+              <%= index_link(current_model_class, url_params: { per: per, with_query: true }) { per.to_s } %>
             <% end %>
           <% end %>
         </ul>
@@ -27,10 +27,7 @@
         <a id="all_pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           <%= total_count %>
         </a>
-        <%= content_tag :form, action: index_path(current_model_class), method: :get, class: 'dropdown-menu', aria: { labelledby: 'all_pages' } do %>
-          <% index_params.except(:page).each do |permitted, value| %>
-            <%= hidden_field_tag permitted, value %>
-          <% end %>
+        <%= content_tag :form, action: url_for(with_query: true), method: :get, class: 'dropdown-menu', aria: { labelledby: 'all_pages' } do %>
           <label for="page_number">
             <%= t 'pagination.pages' %>
           </label>
@@ -40,12 +37,12 @@
     </span>
     <% if current_paginator.prev_page? # has prev page %>
       <span>
-        <%= index_link(current_model_class, url_params: index_params.merge(page: current_paginator.prev_page_number)) { t 'pagination.prev' } %>
+        <%= index_link(current_model_class, url_params: { page: current_paginator.prev_page_number, with_query: true }) { t 'pagination.prev' } %>
       </span>
     <% end %>
     <% if current_paginator.next_page? # has next page %>
       <span>
-        <%= index_link(current_model_class, url_params: index_params.merge(page: current_paginator.next_page_number)) { t 'pagination.next' } %>
+        <%= index_link(current_model_class, url_params: { page: current_paginator.next_page_number, with_query: true }) { t 'pagination.next' } %>
       </span>
     <% end %>
   </nav>

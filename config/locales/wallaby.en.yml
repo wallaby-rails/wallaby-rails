@@ -120,6 +120,8 @@ en:
     current_model_service: "[DEPRECATION] `current_model_service` will be removed from 5.3.*. Please use `current_servicer` instead.\n(called from %{from})"
     find_filter_name: "[DEPRECATION] `Wallaby::Utils.find_filter_name` will be removed from 5.3.*. Please use `Wallaby::FilterUtils.filter_name_by` instead.\n(called from %{from})"
     form_type_partial_render: "[DEPRECATION] `form_type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"
+    index_params: "[DEPRECATION] `index_params` will be removed from 5.3.*.\n(called from %{from})"
+    paginator_of: "[DEPRECATION] `paginator_of` will be removed from 5.3.*. Please use `current_paginator` instead.\n(called from %{from})"
     resource_paginator_inheirtance: "[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit from `Wallaby::ModelPaginator` instead.\n(called from %{from})"
     resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*. Please use `model_paginator=` instead.\n(called from %{from})"
     type_partial_render: "[DEPRECATION] `type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"

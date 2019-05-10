@@ -1,6 +1,6 @@
 <%
 filters = current_model_decorator.filters
-filter = filter_name_by index_params[:filter], filters
+filter = filter_name_by params[:filter], filters
 %>
 <nav class="filters">
   <% if filters.present? %>

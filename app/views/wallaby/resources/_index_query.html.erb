@@ -1,15 +1,13 @@
-<%= content_tag :div, class: index_params.present? ? %w(query query--filtered) : %w(query) do %>
+<%= content_tag :div, class: request.query_parameters.present? ? %w(query query--filtered) : %w(query) do %>
   <nav class="query__actions">
-    <%= index_link(current_model_class, html_classes('query__clear')) {} if index_params.present? %>
+    <%= index_link(current_model_class, html_classes('query__clear')) {} if request.query_parameters.present? %>
     <%= new_link(current_model_class, html_classes('query__create')) {} %>
     <a id="actions_list" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="query__more"></a>
     <%= render 'index_actions' %>
   </nav>
-  <%= form_tag index_path(current_model_class), method: :get, class: 'query__search' do %>
-    <%= hidden_field_tag :sort, index_params[:sort] %>
-    <%= hidden_field_tag :filter, index_params[:filter] %>
+  <%= form_tag url_for(with_query: true, q: nil), method: :get, class: 'query__search' do %>
     <label for="q">
-      <%= text_field_tag :q, index_params[:q], placeholder: t('search.hint') %>
+      <%= text_field_tag :q, params[:q], placeholder: t('search.hint') %>
     </label>
   <% end %>
 <% end %>

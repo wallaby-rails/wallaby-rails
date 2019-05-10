@@ -4,9 +4,9 @@ describe Wallaby::EngineUrlFor, type: :helper do
   describe '.handle' do
     let(:script_name) { '/admin' }
     before { wallaby_engine.default_url_options = { some: 'thing' } }
-    context 'when action is index/create' do
+    context 'when action is index' do
       it 'returns resources_path' do
-        %w(index create).each do |action|
+        %w(index).each do |action|
           expect(described_class.handle(engine: wallaby_engine, parameters: { resources: 'products', action: action }, script_name: script_name)).to eq '/admin/products?some=thing'
           expect(described_class.handle(engine: wallaby_engine, parameters: parameters!(resources: 'products', action: action), script_name: script_name)).to eq '/admin/products?some=thing'
         end
@@ -27,9 +27,9 @@ describe Wallaby::EngineUrlFor, type: :helper do
       end
     end
 
-    context 'when action is show/update/destroy' do
+    context 'when action is show' do
       it 'returns resource_path' do
-        %w(show update destroy).each do |action|
+        %w(show).each do |action|
           expect(described_class.handle(engine: wallaby_engine, parameters: { resources: 'products', action: action, id: 1 }, script_name: script_name)).to eq '/admin/products/1?some=thing'
           expect(described_class.handle(engine: wallaby_engine, parameters: parameters!(resources: 'products', action: action, id: 1), script_name: script_name)).to eq '/admin/products/1?some=thing'
         end

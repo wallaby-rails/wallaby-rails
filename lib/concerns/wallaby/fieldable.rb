@@ -10,7 +10,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String] label for a given field
     def label_of(field_name)
-      metadata_of(field_name)[:label]
+      metadata_of(field_name)[:label] || field_name.to_s.humanize
     end
 
     # @param field_name [String, Symbol] field name
@@ -28,7 +28,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String] index label for a given field
     def index_label_of(field_name)
-      index_metadata_of(field_name)[:label]
+      index_metadata_of(field_name)[:label] || field_name.to_s.humanize
     end
 
     # @param field_name [String, Symbol] field name
@@ -46,7 +46,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String] show label for a given field
     def show_label_of(field_name)
-      show_metadata_of(field_name)[:label]
+      show_metadata_of(field_name)[:label] || field_name.to_s.humanize
     end
 
     # @param field_name [String, Symbol] field name
@@ -64,7 +64,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String] form label for a given field
     def form_label_of(field_name)
-      form_metadata_of(field_name)[:label]
+      form_metadata_of(field_name)[:label] || field_name.to_s.humanize
     end
 
     # @param field_name [String, Symbol] field name
