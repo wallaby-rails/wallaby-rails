@@ -47,12 +47,12 @@ module ActionDispatch
       protected
 
       # Fill in the **resources** options required by Wallaby
-      # @param resource_name [String, Symbol]
+      # @param resources_name [String, Symbol]
       # @param options [Hash]
-      def wallaby_resources_options_for(resource_name, options)
+      def wallaby_resources_options_for(resources_name, options)
         { path: ':resources' }.merge!(options).tap do |new_options|
           %i(defaults constraints).each do |key|
-            new_options[key] = { resources: resource_name }.merge!(new_options[key] || {})
+            new_options[key] = { resources: resources_name }.merge!(new_options[key] || {})
           end
         end
       end

@@ -58,9 +58,11 @@ module Wallaby
         @primary_key ||= :id
       end
 
+      # @param resource [Object]
       # @return [String]
-      def guess_title(*)
-        FieldUtils.first_field_by({ name: /name|title|subject/ }, fields)
+      def guess_title(resource)
+        field_name = FieldUtils.first_field_by({ name: /name|title|subject/ }, fields)
+        ModuleUtils.try_to resource, field_name
       end
     end
   end

@@ -21,7 +21,7 @@ module Wallaby
       #   updated parameters with new sort order for given field
       def next_params(field_name)
         params = clean_params
-        update params, :sort, complete_sorting_str_with(field_name)
+        params[:sort] = complete_sorting_str_with(field_name)
         params
       end
 

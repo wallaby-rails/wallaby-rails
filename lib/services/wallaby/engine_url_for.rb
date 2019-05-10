@@ -8,11 +8,8 @@ module Wallaby
       end.merge(
         home: :root_path,
         index: :resources_path,
-        create: :resources_path,
-        show: :resource_path,
-        update: :resource_path,
-        destroy: :resource_path,
         new: :new_resource_path,
+        show: :resource_path,
         edit: :edit_resource_path
       ).freeze
 
