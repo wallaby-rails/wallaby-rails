@@ -1,12 +1,6 @@
 module Wallaby
   # Links helper
   module LinksHelper
-    # @return [ActionController::Parameters] whitelisted params used by Wallaby
-    def index_params(parameters = params)
-      permit_list = :filter, :page, :per, :q, :sort
-      HashUtils.slice!(parameters, *permit_list)
-    end
-
     # Return link to index page for a given model class
     # @param model_class [Class]
     # @param options [Hash]
@@ -169,7 +163,7 @@ module Wallaby
       decorated = decorate resource
       return unless is_resource || decorated.primary_key_value
 
-      hash = HashUtils.presence(
+      hash = ParamsUtils.presence(
         { resources: decorated.resources_name, action: :show, id: decorated.primary_key_value }.merge(url_params.to_h)
       )
 
@@ -184,7 +178,7 @@ module Wallaby
       decorated = decorate resource
       return unless is_resource || decorated.primary_key_value
 
-      hash = HashUtils.presence(
+      hash = ParamsUtils.presence(
         { resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value }.merge(url_params.to_h)
       )
 

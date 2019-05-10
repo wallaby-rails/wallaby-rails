@@ -10,7 +10,7 @@ module Wallaby
     #   @see Wallaby::ModuleUtils.try_to
     delegate :try_to, to: ModuleUtils
 
-    # Override the origin view_renderer to provide support for cell rendering
+    # Override the origin view_renderer to support {Wallaby::Cell} rendering
     # @!attribute [r] view_renderer
     #   @see Wallaby::CustomRenderer
     def view_renderer
@@ -21,23 +21,34 @@ module Wallaby
     # Override origin method to handle URL for Wallaby engine.
     #
     # As Wallaby's routes are declared in a
-    # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} style, this will
+    # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} fashion, this will
     # lead to **ActionController::RoutingError** exception when using ordinary **url_for**
     # (e.g. `url_for action: :index`).
+    #
+    # Gotcha: Wallaby can't cope well with the following situation.
+    # It's due to the limit of route declaration and matching:
+    #
+    # ```
+    # scope path: '/prefix' do
+    #   wresources :products, controller: 'wallaby/resources'
+    # end
+    # ```
     # @param options [String, Hash, ActionController::Parameters]
     # @option options [Boolean]
     #   :with_query to include `request.query_parameters` values for url generation.
     # @return [String] URL string
     # @see Wallaby::EngineUrlFor.handle
-    # @see Wallaby::CurrentUrlFor.handle
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(options = nil)
       options ||= {}
-      return super(options) unless options.is_a?(Hash)
+      unless options.is_a?(Hash) || options.is_a?(ActionController::Parameters) && options.permitted?
+        return super(options)
+      end
 
+      # merge with all current query parameters
       options = request.query_parameters.merge(options) if options.delete(:with_query)
-      options = HashUtils.presence options # remove keys that have nil value
+      options = ParamsUtils.presence options # remove blank values
       EngineUrlFor.handle(engine: current_engine, parameters: options, script_name: request.env[SCRIPT_NAME]) \
         || super(options)
     end

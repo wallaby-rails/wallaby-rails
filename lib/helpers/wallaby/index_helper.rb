@@ -1,12 +1,15 @@
 module Wallaby
   # Helper methods for index action
   module IndexHelper
-    # @param model_class [Class]
-    # @param collection [#to_a] a collection of all the resources
-    # @param params [ActionController::Parameters] parameters
-    # @return [Wallaby::ModelPaginator]
+    # @deprecated This method is no longer in use. It will be removed from 5.3.*
+    def index_params(parameters = params)
+      Utils.deprecate 'deprecation.index_params', caller: caller
+      parameters
+    end
+
+    # @deprecated Use {Wallaby::Paginatable#current_paginator} instead. It will be removed from 5.3.*
     def paginator_of(_model_class, _collection, _params)
-      Utils.deprecate 'deprecation.current_model_service', caller: caller
+      Utils.deprecate 'deprecation.paginator_of', caller: caller
       current_paginator
     end
 
@@ -29,17 +32,17 @@ module Wallaby
       fields & index_field_names
     end
 
-    # Label for a given name
     # @param filter_name [String, Symbol]
     # @param filters [Hash]
-    # @return [String]
+    # @return [String] filter label for the given field name
     def filter_label(filter_name, filters)
+      # TODO: use locale for filter_name label
       filters[filter_name].try(:[], :label) || filter_name.to_s.humanize
     end
 
     # @param filter_name [String, Symbol]
     # @param filters [Hash]
-    # @return [String, String]
+    # @return [String] filter name
     # @see Wallaby::FilterUtils.filter_name_by
     def filter_name_by(filter_name, filters)
       FilterUtils.filter_name_by filter_name, filters
@@ -55,27 +58,25 @@ module Wallaby
       is_all = filter_name == :all
       config = filters[filter_name] || {}
       label = is_all ? all_label : filter_label(filter_name, filters)
-      url_params =
-        if config[:default] then index_params.except(:filter).merge(url_params)
-        else index_params.merge(filter: filter_name).merge(url_params)
-        end
-      index_link(model_class, url_params: url_params) { label }
+      url_params[:filter] = config[:default] ? nil : filter_name
+      index_link(model_class, options: { url: url_for(url_params.merge(with_query: true)) }) { label }
     end
 
-    # Export link for a given model_class.
-    # It accepts extra url params
     # @param model_class [Class]
     # @param url_params [Hash, ActionController::Parameters] extra URL params
-    # @return [String] HTML anchor link
+    # @return [String] Export link for the given model_class.
     def export_link(model_class, url_params: {})
-      url_params = index_params.except(:page, :per).merge(format: 'csv').merge(url_params)
-      index_link(model_class, url_params: url_params) { t 'links.export', ext: 'CSV' }
+      url_params = { format: 'csv', page: nil, per: nil }.merge(url_params)
+      index_link(model_class, options: { url: url_for(url_params.merge(with_query: true)) }) do
+        t 'links.export', ext: 'CSV'
+      end
     end
 
-    # @return [Sorting::LinkBuilder]
+    # @return [Wallaby::Sorting::LinkBuilder]
+    # @see Wallaby::Sorting::LinkBuilder
     def sort_link_builder
       @sort_link_builder ||=
-        Sorting::LinkBuilder.new current_model_decorator, index_params, self, sorting.strategy
+        Sorting::LinkBuilder.new current_model_decorator, params.slice(:sort).permit!, self, sorting.strategy
     end
   end
 end
