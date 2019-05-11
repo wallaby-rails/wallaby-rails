@@ -8,7 +8,7 @@
   <section>
     <div class="resource__container">
       <%= form_for(
-        decorated, url: url_for(action: (params[:resource] ? :show : :index)),
+        decorated, url: url_for(action: (params[:resource] ? :show : :index), with_query: true),
         method: :post, html: { :multipart => true }, builder: Wallaby::FormBuilder
       ) do |form| %>
         <%= render 'form', form: form, decorated: decorated %>

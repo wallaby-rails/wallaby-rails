@@ -115,7 +115,6 @@ en:
     polygon_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the boundary of the polygon.'
 
   deprecation:
-    abstract!: "[DEPRECATION] `abstract!` will be removed from 5.3.*. Please use `base_class!` instead.\n(called from %{from})"
     authorizer: "[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.\n(called from %{from})"
     current_model_service: "[DEPRECATION] `current_model_service` will be removed from 5.3.*. Please use `current_servicer` instead.\n(called from %{from})"
     find_filter_name: "[DEPRECATION] `Wallaby::Utils.find_filter_name` will be removed from 5.3.*. Please use `Wallaby::FilterUtils.filter_name_by` instead.\n(called from %{from})"

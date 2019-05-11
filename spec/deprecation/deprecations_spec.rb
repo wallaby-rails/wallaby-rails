@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesController, type: :controller do
+  describe '#authorizer' do
+    it 'shows deprecation message' do
+      controller.params[:resources] = 'products'
+      expect do
+        controller.authorizer
+      end.to output(a_string_starting_with("[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.\n")).to_stderr
+      expect(controller.authorizer).to be_a Wallaby::ModelAuthorizer
+    end
+  end
+
   describe '#current_model_service' do
     it 'shows deprecation message' do
       controller.params[:resources] = 'products'
@@ -9,16 +19,6 @@ describe Wallaby::ResourcesController, type: :controller do
       end.to output(a_string_starting_with("[DEPRECATION] `current_model_service` will be removed from 5.3.*. Please use `current_servicer` instead.\n")).to_stderr
       expect(controller.current_model_service).to be_a Wallaby::ModelServicer
       expect(controller.current_model_service).to eq controller.current_servicer
-    end
-  end
-
-  describe '#authorizer' do
-    it 'shows deprecation message' do
-      controller.params[:resources] = 'products'
-      expect do
-        controller.authorizer
-      end.to output(a_string_starting_with("[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.\n")).to_stderr
-      expect(controller.authorizer).to be_a Wallaby::ModelAuthorizer
     end
   end
 end
@@ -50,18 +50,21 @@ describe Wallaby::FormHelper, type: :helper do
         end.to output(a_string_starting_with("[DEPRECATION] `form_type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n")).to_stderr
       end
     end
-  end
-end
 
-describe Wallaby::ResourcesHelper, type: :helper do
-  describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
-    let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
-    before { helper.params[:action] = 'show' }
+    describe 'index_params' do
+      it 'shows deprecation message' do
+        expect do
+          helper.index_params
+        end.to output(a_string_starting_with("[DEPRECATION] `index_params` will be removed from 5.3.*.\n")).to_stderr
+      end
+    end
 
-    it 'shows deprecation message' do
-      expect do
-        helper.type_partial_render('integer', field_name: 'name', object: object)
-      end.to output(a_string_starting_with("[DEPRECATION] `type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n")).to_stderr
+    describe 'paginator_of' do
+      it 'shows deprecation message' do
+        expect do
+          helper.paginator_of Product, Product.all, {}
+        end.to output(a_string_starting_with("[DEPRECATION] `paginator_of` will be removed from 5.3.*. Please use `current_paginator` instead.\n")).to_stderr
+      end
     end
   end
 end
@@ -82,5 +85,18 @@ describe 'Map.resource_paginator' do
       mapping.resource_paginator = String
     end.to output(a_string_starting_with("[DEPRECATION] `resource_paginator=` will be removed from 5.3.*. Please use `model_paginator=` instead.\n")).to_stderr
     expect(mapping.model_paginator).to eq String
+  end
+end
+
+describe Wallaby::ResourcesHelper, type: :helper do
+  describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
+    let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
+    before { helper.params[:action] = 'show' }
+
+    it 'shows deprecation message' do
+      expect do
+        helper.type_partial_render('integer', field_name: 'name', object: object)
+      end.to output(a_string_starting_with("[DEPRECATION] `type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n")).to_stderr
+    end
   end
 end

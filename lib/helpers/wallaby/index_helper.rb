@@ -66,8 +66,8 @@ module Wallaby
     # @param url_params [Hash, ActionController::Parameters] extra URL params
     # @return [String] Export link for the given model_class.
     def export_link(model_class, url_params: {})
-      url_params = { format: 'csv', page: nil, per: nil }.merge(url_params)
-      index_link(model_class, options: { url: url_for(url_params.merge(with_query: true)) }) do
+      url = url_for({ format: 'csv', page: nil, per: nil, with_query: true }.merge(url_params))
+      index_link(model_class, options: { url: url }) do
         t 'links.export', ext: 'CSV'
       end
     end

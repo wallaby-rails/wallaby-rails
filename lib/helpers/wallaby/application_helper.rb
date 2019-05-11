@@ -36,6 +36,8 @@ module Wallaby
     # @param options [String, Hash, ActionController::Parameters]
     # @option options [Boolean]
     #   :with_query to include `request.query_parameters` values for url generation.
+    # @option options [String]
+    #   :engine_name to specify the engine_name to use, default to {Wallaby::Engineable#current_engine_name}
     # @return [String] URL string
     # @see Wallaby::EngineUrlFor.handle
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
@@ -43,7 +45,9 @@ module Wallaby
     def url_for(options = nil)
       if options.is_a?(Hash) || try_to(options, :permitted?)
         # merge with all current query parameters
-        options = request.query_parameters.merge(options) if options.delete(:with_query)
+        if options.delete(:with_query)
+          options = url_options.fetch(:_recall, {}).merge(request.query_parameters).merge(options)
+        end
         options = ParamsUtils.presence options # remove blank values
         EngineUrlFor.handle(
           engine_name: options.delete(:engine_name) || current_engine_name, parameters: options
