@@ -49,8 +49,9 @@ module Wallaby
       # merge with all current query parameters
       options = request.query_parameters.merge(options) if options.delete(:with_query)
       options = ParamsUtils.presence options # remove blank values
-      EngineUrlFor.handle(engine: current_engine, parameters: options, script_name: request.env[SCRIPT_NAME]) \
-        || super(options)
+      EngineUrlFor.handle(
+        engine_name: options.delete(:engine_name) || current_engine_name, parameters: options
+      ) || super(options)
     end
 
     # Override origin method to add turbolinks tracking when it's enabled

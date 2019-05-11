@@ -56,5 +56,5 @@ Rails.application.configure do
   config.action_controller.action_on_unpermitted_parameters = :raise
 
   # Store files locally.
-  config.active_storage.service = :local
+  config.active_storage.service = :local if defined? ActiveStorage
 end

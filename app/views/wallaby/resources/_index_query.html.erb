@@ -5,7 +5,7 @@
     <a id="actions_list" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="query__more"></a>
     <%= render 'index_actions' %>
   </nav>
-  <%= form_tag url_for(with_query: true, q: nil), method: :get, class: 'query__search' do %>
+  <%= form_tag url_for(q: nil, with_query: true), method: :get, class: 'query__search' do %>
     <label for="q">
       <%= text_field_tag :q, params[:q], placeholder: t('search.hint') %>
     </label>

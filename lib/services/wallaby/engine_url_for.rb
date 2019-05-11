@@ -20,17 +20,16 @@ module Wallaby
     # @param script_name [String]
     # @return [String] path string for wallaby engine
     # @return [nil] nil if given engine is nil
-    def self.handle(engine:, parameters:, script_name:)
-      return unless engine
+    def self.handle(engine_name:, parameters:)
+      return if engine_name.blank?
+      route = Rails.application.routes.named_routes[engine_name]
+      return unless route
 
-      options =
-        engine
-        .url_options.except(:_recall).with_indifferent_access
-        .merge(engine.url_options[:_recall] || {})
-        .merge(engine.default_url_options)
-        .merge(script_name: script_name).merge(parameters.to_h)
-      path_method = ACTION_TO_PATH_MAP[options[:action]]
-      ModuleUtils.try_to engine, path_method, options
+      params = { script_name: route.path.spec.to_s }.merge(parameters)
+
+      ModuleUtils.try_to(
+        Engine.routes.url_helpers, ACTION_TO_PATH_MAP[params[:action]], params
+      )
     end
   end
 end

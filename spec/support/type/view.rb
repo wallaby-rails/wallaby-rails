@@ -16,5 +16,10 @@ RSpec.configure do |config|
     view.extend Wallaby::ResourcesHelper
     view.extend ActionView::Helpers::OutputSafetyHelper
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
+    unless view.respond_to? :default_url_options
+      def view.default_url_options
+        @default_url_options ||= {}
+      end
+    end
   end
 end
