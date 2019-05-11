@@ -21,11 +21,10 @@ module Wallaby
     # @return [String] path string for wallaby engine
     # @return [nil] nil if given engine is nil
     def self.handle(engine_name:, parameters:)
-      return if engine_name.blank?
       route = Rails.application.routes.named_routes[engine_name]
       return unless route
 
-      params = { script_name: route.path.spec.to_s }.merge(parameters)
+      params = { script_name: route.path.spec.to_s }.merge(parameters).symbolize_keys
 
       ModuleUtils.try_to(
         Engine.routes.url_helpers, ACTION_TO_PATH_MAP[params[:action]], params

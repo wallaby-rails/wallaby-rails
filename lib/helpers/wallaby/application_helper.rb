@@ -41,17 +41,14 @@ module Wallaby
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(options = nil)
-      options ||= {}
-      unless options.is_a?(Hash) || options.is_a?(ActionController::Parameters) && options.permitted?
-        return super(options)
-      end
-
-      # merge with all current query parameters
-      options = request.query_parameters.merge(options) if options.delete(:with_query)
-      options = ParamsUtils.presence options # remove blank values
-      EngineUrlFor.handle(
-        engine_name: options.delete(:engine_name) || current_engine_name, parameters: options
-      ) || super(options)
+      if options.is_a?(Hash) || try_to(options, :permitted?)
+        # merge with all current query parameters
+        options = request.query_parameters.merge(options) if options.delete(:with_query)
+        options = ParamsUtils.presence options # remove blank values
+        EngineUrlFor.handle(
+          engine_name: options.delete(:engine_name) || current_engine_name, parameters: options
+        )
+      end || super(options)
     end
 
     # Override origin method to add turbolinks tracking when it's enabled
