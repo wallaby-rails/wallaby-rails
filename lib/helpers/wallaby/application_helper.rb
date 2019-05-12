@@ -45,12 +45,10 @@ module Wallaby
     def url_for(options = nil)
       if options.is_a?(Hash) || try_to(options, :permitted?)
         # merge with all current query parameters
-        if options.delete(:with_query)
-          options = url_options.fetch(:_recall, {}).merge(request.query_parameters).merge(options)
-        end
-        options = ParamsUtils.presence options # remove blank values
+        options = request.query_parameters.merge(options) if options.delete(:with_query)
+        options = ParamsUtils.presence url_options, options # remove blank values
         EngineUrlFor.handle(
-          engine_name: options.delete(:engine_name) || current_engine_name, parameters: options
+          engine_name: options.fetch(:engine_name, current_engine_name), parameters: options
         )
       end || super(options)
     end

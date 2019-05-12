@@ -3,13 +3,6 @@ require 'rails_helper'
 describe Wallaby::IndexHelper, :current_user do
   include Wallaby::ApplicationHelper
 
-  describe '#paginator_of' do
-    it 'returns a paginator' do
-      controller.params[:resources] = 'products'
-      expect(helper.paginator_of(Product, Product.where(false), {})).to be_kind_of Wallaby::ModelPaginator
-    end
-  end
-
   describe '#all_label' do
     it 'returns a label' do
       expect(helper.all_label).to eq 'All'

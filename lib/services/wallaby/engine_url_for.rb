@@ -13,22 +13,30 @@ module Wallaby
         edit: :edit_resource_path
       ).freeze
 
-    # Generate URL that Wallaby engine supports (e.g. home/resourceful/errors)
-    # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
-    # @param engine [ActionDispatch::Routing::RoutesProxy, nil]
-    # @param parameters [ActionController::Parameters, Hash]
-    # @param script_name [String]
-    # @return [String] path string for wallaby engine
-    # @return [nil] nil if given engine is nil
-    def self.handle(engine_name:, parameters:)
-      route = Rails.application.routes.named_routes[engine_name]
-      return unless route
+    class << self
+      # Generate URL that Wallaby engine supports (e.g. home/resourceful/errors)
+      # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
+      # @param engine_name [string]
+      # @param parameters [ActionController::Parameters, Hash]
+      # @return [String] path string for wallaby engine
+      # @return [nil] nil if given engine name cannot be found
+      def handle(engine_name:, parameters:)
+        route = Rails.application.routes.named_routes[engine_name]
+        return unless route
 
-      params = { script_name: route.path.spec.to_s }.merge(parameters).symbolize_keys
+        params = { script_name: route.path.spec.to_s }.merge(parameters).symbolize_keys
 
-      ModuleUtils.try_to(
-        Engine.routes.url_helpers, ACTION_TO_PATH_MAP[params[:action]], params
-      )
+        ModuleUtils.try_to(
+          Engine.routes.url_helpers, action_path_from(params), params
+        )
+      end
+
+      protected
+
+      def action_path_from(params)
+        action = params[:action] || params.fetch(:_recall, {})[:action]
+        ACTION_TO_PATH_MAP[action]
+      end
     end
   end
 end
