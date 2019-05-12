@@ -145,7 +145,7 @@ module Wallaby
     # @return [String] index page path
     def index_path(model_class, url_params: {})
       hash = { resources: to_resources_name(model_class), action: :index }.merge url_params.to_h
-      current_engine.try(:resources_path, hash.merge(script_name: request.env[SCRIPT_NAME])) || url_for(hash)
+      current_engine.try(:resources_path, hash.merge(default_path_params)) || url_for(hash)
     end
 
     # @param model_class [Class]
@@ -153,7 +153,7 @@ module Wallaby
     # @return [String] new page path
     def new_path(model_class, url_params: {})
       hash = { resources: to_resources_name(model_class), action: :new }.merge url_params.to_h
-      current_engine.try(:new_resource_path, hash.merge(script_name: request.env[SCRIPT_NAME])) || url_for(hash)
+      current_engine.try(:new_resource_path, hash.merge(default_path_params)) || url_for(hash)
     end
 
     # @param resource [Object]
@@ -168,7 +168,7 @@ module Wallaby
         { resources: decorated.resources_name, action: :show, id: decorated.primary_key_value }.merge(url_params.to_h)
       )
 
-      current_engine.try(:resource_path, hash.merge(script_name: request.env[SCRIPT_NAME])) || url_for(hash)
+      current_engine.try(:resource_path, hash.merge(default_path_params)) || url_for(hash)
     end
 
     # @param resource [Object]
@@ -183,7 +183,11 @@ module Wallaby
         { resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value }.merge(url_params.to_h)
       )
 
-      current_engine.try(:edit_resource_path, hash.merge(script_name: request.env[SCRIPT_NAME])) || url_for(hash)
+      current_engine.try(:edit_resource_path, hash.merge(default_path_params)) || url_for(hash)
+    end
+
+    def default_path_params
+      { script_name: request.env[SCRIPT_NAME], only_path: true }
     end
   end
 end
