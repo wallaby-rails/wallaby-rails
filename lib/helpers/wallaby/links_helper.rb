@@ -186,6 +186,7 @@ module Wallaby
       current_engine.try(:edit_resource_path, hash.merge(default_path_params)) || url_for(hash)
     end
 
+    # @return [Hash] default path params
     def default_path_params
       { script_name: request.env[SCRIPT_NAME], only_path: true }
     end

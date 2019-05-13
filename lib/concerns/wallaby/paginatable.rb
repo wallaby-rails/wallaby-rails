@@ -42,7 +42,7 @@ module Wallaby
       end
     end
 
-    # Resource paginator for current modal class. It comes from:
+    # Model paginator for current modal class. It comes from:
     #
     # - controller configuration {Wallaby::Paginatable::ClassMethods#model_paginator .model_paginator}
     # - a generic paginator based on {Wallaby::Paginatable::ClassMethods#application_paginator .application_paginator}

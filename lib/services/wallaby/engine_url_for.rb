@@ -1,5 +1,5 @@
 module Wallaby
-  # `url_for` helper for Wallaby engine
+  # {Wallaby::ApplicationHelper#url_for} helper for Wallaby engine
   class EngineUrlFor
     # A constant to map actions to their route paths defined in Wallaby routes.
     ACTION_TO_PATH_MAP =
@@ -33,6 +33,8 @@ module Wallaby
 
       protected
 
+      # Find out the named path from given params
+      # @return [Symbol] named path
       def action_path_from(params)
         action = params[:action] || params.fetch(:_recall, {})[:action]
         ACTION_TO_PATH_MAP[action]

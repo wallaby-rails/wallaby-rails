@@ -15,24 +15,27 @@ module Wallaby
       FORM_EXCLUSIVE_DATA_TYPES = %w(created_at updated_at).freeze
 
       # Origin metadata directly coming from ActiveRecord.
+      #
       # It needs to be frozen so that we can keep the metadata integrity
-      # @return [Hash] metadata
-      #   example:
-      #     {
-      #       # general field
-      #       id: { name: 'id', type: 'integer', label: 'Id' },
-      #       # association field
-      #       category: {
-      #         'name' => 'category',
-      #         'type' => 'belongs_to',
-      #         'label' => 'Category',
-      #         'is_association' => true,
-      #         'is_through' => false,
-      #         'has_scope' => false,
-      #         'foreign_key' => 'category_id',
-      #         'class' => Category
-      #       }
+      # @example sample fields:
+      #   model_decorator.fields
+      #   # =>
+      #   {
+      #     # general field
+      #     id: { name: 'id', type: 'integer', label: 'Id' },
+      #     # association field
+      #     category: {
+      #       'name' => 'category',
+      #       'type' => 'belongs_to',
+      #       'label' => 'Category',
+      #       'is_association' => true,
+      #       'is_through' => false,
+      #       'has_scope' => false,
+      #       'foreign_key' => 'category_id',
+      #       'class' => Category
       #     }
+      #   }
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def fields
         @fields ||= ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
           # NOTE: There is a chance that people create ActiveRecord class
@@ -46,26 +49,25 @@ module Wallaby
         end.freeze
       end
 
-      # A copy of `fields` for index page
-      # @return [Hash] metadata
+      # A copy of {#fields} for index page
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def index_fields
         @index_fields ||= Utils.clone fields
       end
 
-      # A copy of `fields` for show page
-      # @return [Hash] metadata
+      # A copy of {#fields} for show page
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def show_fields
         @show_fields  ||= Utils.clone fields
       end
 
-      # A copy of `fields` for form (new/edit) page
-      # @return [Hash] metadata
+      # A copy of {#fields} for form (new/edit) page
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def form_fields
         @form_fields  ||= Utils.clone fields
       end
 
-      # @return [Array<String>] a list of field names for index page.
-      #   By default, only native SQL types will be included.
+      # @return [Array<String>] a list of field names for index page (note: only primitive SQL types are included).
       def index_field_names
         @index_field_names ||=
           index_fields.reject do |_field_name, metadata|
@@ -74,8 +76,7 @@ module Wallaby
           end.keys
       end
 
-      # @return [Array<String>] a list of field names for show page.
-      #   By default, `ActiveStorage` fields will be excluded.
+      # @return [Array<String>] a list of field names for show page (note: **ActiveStorage** fields are excluded).
       def show_field_names
         @show_field_names ||=
           show_fields.reject do |_field_name, metadata|
@@ -83,8 +84,7 @@ module Wallaby
           end.keys
       end
 
-      # @return [Array<String>] a list of field names for form (new/edit) page
-      #   By default, complex fields will be excluded.
+      # @return [Array<String>] a list of field names for form (new/edit) page (note: complex fields are excluded).
       def form_field_names
         @form_field_names ||=
           form_fields.reject do |field_name, metadata|
@@ -118,20 +118,27 @@ module Wallaby
 
       protected
 
-      # @see Wallaby::ModelDecorator::FieldsBuilder
+      # @return [Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder]
       def field_builder
         @field_builder ||= FieldsBuilder.new @model_class
       end
 
-      # @see Wallaby::ModelDecorator::TitleFieldFinder
+      # @return [Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder]
       def title_field_finder
         @title_field_finder ||=
           TitleFieldFinder.new @model_class, general_fields
       end
 
+      # @!method general_fields
+      #   (see Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder#general_fields)
+      #   @see Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder#general_fields
+
+      # @!method association_fields
+      #   (see Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder#association_fields)
+      #   @see Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder#association_fields
       delegate :general_fields, :association_fields, to: :field_builder
 
-      # Find out all the foreign keys for a list of fields
+      # Find out all the foreign keys for association fields
       # @param fields [Hash] metadata of fields
       # @return [Array<String>] a list of foreign keys
       def foreign_keys_from_associations(fields = association_fields)

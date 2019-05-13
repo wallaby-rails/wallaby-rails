@@ -43,17 +43,17 @@ module Wallaby
           column.type.to_s
         end
 
-        # @see Wallaby::ActiveRecord::ModelDecorator::StiBuilder
+        # @return [Wallaby::ActiveRecord::ModelDecorator::StiBuilder]
         def sti_builder
           @sti_builder ||= StiBuilder.new(@model_class)
         end
 
-        # @see Wallaby::ActiveRecord::ModelDecorator::AssociationBuilder
+        # @return [Wallaby::ActiveRecord::ModelDecorator::AssociationBuilder]
         def association_builder
           @association_builder ||= AssociationBuilder.new
         end
 
-        # @see Wallaby::ActiveRecord::ModelDecorator::PolymorphicBuilder
+        # @return [Wallaby::ActiveRecord::ModelDecorator::PolymorphicBuilder]
         def polymorphic_builder
           @polymorphic_builder ||= PolymorphicBuilder.new
         end

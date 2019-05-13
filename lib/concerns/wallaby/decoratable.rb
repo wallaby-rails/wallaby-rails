@@ -57,6 +57,13 @@ module Wallaby
         Map.model_decorator_map(current_model_class, controller_to_get(:application_decorator))
     end
 
+    # Get current resource decorator. It comes from
+    #
+    # - {Wallaby::Decoratable::ClassMethods#resource_decorator resource_decorator}
+    # - otherwise, {Wallaby::Decoratable::ClassMethods#application_decorator application_decorator}
+    #
+    # Resource decorator stores the information of **metadata** and **field_names** for **index**/**show**/**form** action.
+    # @return [Wallaby::ResourceDecorator] current resource decorator for this request
     def current_decorator
       @current_decorator ||=
         (controller_to_get(:resource_decorator) || \
