@@ -14,7 +14,7 @@ describe 'JSON API' do
     expect(json['data'][1]['attributes']).to include 'id' => picture2.id, 'name' => picture2.name
     expect(json['data'][2]).to include 'id' => picture3.id, 'type' => 'pictures'
     expect(json['data'][2]['attributes']).to include 'id' => picture3.id, 'name' => picture3.name
-    expect(json['links']['self']).to eq '/api/pictures'
+    expect(json['links']['self']).to include '/api/pictures'
   end
 
   it 'shows resource' do
@@ -24,7 +24,7 @@ describe 'JSON API' do
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => picture.id, 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => picture.id, 'name' => picture.name
-    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
+    expect(json['links']['self']).to include "/api/pictures/#{picture.id}"
   end
 
   it 'creates resource' do
@@ -34,7 +34,7 @@ describe 'JSON API' do
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => be_an(Integer), 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => be_an(Integer), 'name' => 'beautiful'
-    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
+    expect(json['links']['self']).to include "/api/pictures/#{picture.id}"
   end
 
   context 'when params is missing' do
@@ -64,7 +64,7 @@ describe 'JSON API' do
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => picture.id, 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => picture.id, 'name' => 'splendid'
-    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
+    expect(json['links']['self']).to include "/api/pictures/#{picture.id}"
   end
 
   context 'when params is missing' do
@@ -96,6 +96,6 @@ describe 'JSON API' do
     json = JSON.parse response.body
     expect(json['data']).to include 'id' => picture.id, 'type' => 'pictures'
     expect(json['data']['attributes']).to include 'id' => picture.id, 'name' => 'beautiful'
-    expect(json['links']['self']).to eq "/api/pictures/#{picture.id}"
+    expect(json['links']['self']).to include "/api/pictures/#{picture.id}"
   end
 end

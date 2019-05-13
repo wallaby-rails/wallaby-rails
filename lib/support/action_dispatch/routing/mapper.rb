@@ -1,8 +1,8 @@
 module ActionDispatch
   module Routing
-    # Re-open ActionDispatch::Routing::Mapper to add support for Wallaby
+    # Re-open `ActionDispatch::Routing::Mapper` to add route helpers for Wallaby.
     class Mapper
-      # @param resource_names [Array<String, Symbol>]
+      # Generate **resourcesful** routes that works for Wallaby.
       # @example To generate resourcesful routes that works for Wallaby:
       #   wresources :postcodes
       #   # => same effect as
@@ -12,6 +12,7 @@ module ActionDispatch
       #     defaults: { resources: :postcodes },
       #     constraints: { resources: :postcodes }
       #   )
+      # @param resource_names [Array<String, Symbol>]
       # @see https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-resources
       #   ActionDispatch::Routing::Mapper::Resources#resources
       def wresources(*resource_names, &block)
@@ -22,7 +23,7 @@ module ActionDispatch
         end
       end
 
-      # @param resource_names [Array<String, Symbol>]
+      # Generate **resourceful** routes that works for Wallaby.
       # @example To generate resourceful routes that works for Wallaby:
       #   wresource :profile
       #   # => same effect as
@@ -32,6 +33,7 @@ module ActionDispatch
       #     defaults: { resource: :profile, resources: :profiles },
       #     constraints: { resource: :profile, resources: :profiles }
       #   )
+      # @param resource_names [Array<String, Symbol>]
       # @see https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-resource
       #   ActionDispatch::Routing::Mapper::Resources#resource
       def wresource(*resource_names, &block)
@@ -44,18 +46,18 @@ module ActionDispatch
 
       protected
 
-      # Fill in the resources options required by Wallaby
-      # @param resource_name [String, Symbol]
+      # Fill in the **resources** options required by Wallaby
+      # @param resources_name [String, Symbol]
       # @param options [Hash]
-      def wallaby_resources_options_for(resource_name, options)
+      def wallaby_resources_options_for(resources_name, options)
         { path: ':resources' }.merge!(options).tap do |new_options|
           %i(defaults constraints).each do |key|
-            new_options[key] = { resources: resource_name }.merge!(new_options[key] || {})
+            new_options[key] = { resources: resources_name }.merge!(new_options[key] || {})
           end
         end
       end
 
-      # Fill in the resource options required by Wallaby
+      # Fill in the **resource** options required by Wallaby
       # @param resource_name [String, Symbol]
       # @param options [Hash]
       def wallaby_resource_options_for(resource_name, options)

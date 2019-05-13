@@ -10,8 +10,7 @@ module Wallaby
       def complete_sorting_str_with(field_name)
         hash = {}
         current_sort = @hash[field_name]
-
-        update hash, field_name, next_value_for(current_sort)
+        hash[field_name] = next_value_for current_sort
         rebuild_str_from hash
       end
     end

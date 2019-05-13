@@ -9,4 +9,4 @@
   <%= type_render decorated.form_type_of(field_name), field_name: field_name, form: form %>
 <% end %>
 <%= form.button t('buttons.save'), class: 'btn btn-primary' %>
-<%= cancel_link class: 'btn btn-default' %>
+<%= cancel_link html_options: { class: 'btn btn-default' } %>

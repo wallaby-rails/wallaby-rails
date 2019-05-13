@@ -42,7 +42,7 @@ module Wallaby
       end
     end
 
-    # Resource paginator for current modal class. It comes from:
+    # Model paginator for current modal class. It comes from:
     #
     # - controller configuration {Wallaby::Paginatable::ClassMethods#model_paginator .model_paginator}
     # - a generic paginator based on {Wallaby::Paginatable::ClassMethods#application_paginator .application_paginator}
@@ -51,7 +51,7 @@ module Wallaby
       @current_paginator ||=
         (controller_to_get(:model_paginator) \
           || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))).try do |klass|
-          Rails.logger.info %( - Current paginator: #{klass})
+          Rails.logger.info %(  - Current paginator: #{klass})
           klass.new current_model_class, collection, params
         end
     end

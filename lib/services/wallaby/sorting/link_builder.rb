@@ -5,6 +5,7 @@ module Wallaby
       SORT_STRATEGIES = { single: SingleBuilder }.with_indifferent_access.freeze
 
       delegate :model_class, to: :@model_decorator
+      delegate :index_link, :url_for, to: :@helper
 
       # @param model_decorator [Wallaby::ModelDecorator]
       # @param params [ActionController::Parameters]
@@ -38,31 +39,28 @@ module Wallaby
       # @return [String] link or text
       def build(field_name)
         metadata = @model_decorator.index_metadata_of field_name
-        label = to_field_label field_name, metadata
+        label = @model_decorator.index_label_of field_name
         return label unless sortable? field_name, metadata
+
         sort_field_name = metadata[:sort_field_name] || field_name
         url_params = next_builder.next_params sort_field_name
-        @helper.index_link(model_class, url_params: url_params) { label }
+        url = url_for url_params.merge(with_query: true)
+        index_link(model_class, options: { url: url }) { label }
       end
 
       private
 
       # @return [Wallaby::Sorting::NextBuilder]
       def next_builder
-        @next_builder ||=
-          begin
-            klass = SORT_STRATEGIES[@strategy] || NextBuilder
-            klass.new @params, current_sort
-          end
+        @next_builder ||= begin
+          klass = SORT_STRATEGIES[@strategy] || NextBuilder
+          klass.new @params, current_sort
+        end
       end
 
-      # @return [Boolean] true if sortable
+      # @return [Boolean] true if sortable or `sort_field_name` is provided in the metadata
       def sortable?(field_name, metadata)
         !metadata[:sort_disabled] && (@model_decorator.fields[field_name] || metadata[:sort_field_name])
-      end
-
-      def to_field_label(field_name, metadata)
-        metadata[:label] || field_name.to_s.humanize
       end
     end
   end

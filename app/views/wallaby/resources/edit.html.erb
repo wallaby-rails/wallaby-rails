@@ -10,7 +10,7 @@ decorated = decorate resource
   <%= render 'flash_messages' %>
   <section>
     <div class="resource__container">
-      <%= form_for decorated, url: url_for(params.slice(:resources, :id).merge(action: :show)), method: :put, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
+      <%= form_for decorated, url: url_for(action: :show), method: :put, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
         <%= render 'form', form: form, decorated: decorated %>
       <% end %>
     </div>

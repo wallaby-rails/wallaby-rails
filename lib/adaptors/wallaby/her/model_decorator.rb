@@ -6,19 +6,22 @@ module Wallaby
       ATTRIBUTE_SUFFIX = '_will_change!'.freeze
 
       # Origin metadata directly coming from Her.
+      #
       # It needs to be frozen so that we can keep the metadata integrity
-      # @return [Hash] metadata
-      #   example:
-      #     {
-      #       # general field
-      #       id: { type: 'integer', label: 'Id' },
-      #       # association field
-      #       category: {
-      #         'type' => 'belongs_to',
-      #         'label' => 'Category',
-      #         'is_association' => true
-      #       }
+      # @example sample fields:
+      #   model_decorator.fields
+      #   # =>
+      #   {
+      #     # general field
+      #     id: { type: 'integer', label: 'Id' },
+      #     # association field
+      #     category: {
+      #       'type' => 'belongs_to',
+      #       'label' => 'Category',
+      #       'is_association' => true
       #     }
+      #   }
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def fields
         @fields ||= ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
           hash.merge! general_fields
@@ -26,20 +29,20 @@ module Wallaby
         end.freeze
       end
 
-      # A copy of `fields` for index page
-      # @return [Hash] metadata
+      # A copy of {#fields} for index page
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def index_fields
         @index_fields ||= Utils.clone fields
       end
 
-      # A copy of `fields` for show page
-      # @return [Hash] metadata
+      # A copy of {#fields} for show page
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def show_fields
         @show_fields  ||= Utils.clone fields
       end
 
-      # A copy of `fields` for form (new/edit) page
-      # @return [Hash] metadata
+      # A copy of {#fields} for form (new/edit) page
+      # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def form_fields
         @form_fields  ||= Utils.clone fields
       end
@@ -60,7 +63,8 @@ module Wallaby
       end
 
       # @return [ActiveModel::Errors, Hash] errors for resource
-      # @see Her::Model::Attributes.store_her_data
+      # @see https://www.rubydoc.info/gems/her/Her/Model/Attributes/ClassMethods#store_response_errors-instance_method
+      #   Her::Model::Attributes.store_response_errors
       def form_active_errors(resource)
         resource.errors.presence \
           || resource.instance_variable_get(:@response_errors)
@@ -76,11 +80,10 @@ module Wallaby
       # It will go through the fields and try to find out the one that looks
       # like a name or text to represent this resource. Otherwise, it will fall
       # back to primary key.
-      #
       # @param resource [Object]
       # @return [String] the title of given resource
       def guess_title(resource)
-        resource.public_send possible_title_field
+        ModuleUtils.try_to resource, possible_title_field
       end
 
       protected
@@ -110,8 +113,7 @@ module Wallaby
           end
       end
 
-      # @return [String] a field name that can be used as title
-      #   Will fall back to `primary_key` if none is found.
+      # @return [String] a field name that can be used as title (fall back to {#primary_key}).
       def possible_title_field
         @possible_title_field ||= begin
           target_field = general_fields.keys.find do |field_name|
@@ -121,9 +123,10 @@ module Wallaby
         end
       end
 
-      # @see Her::Model::Attributes.attributes
-      # `Her::Model::Attributes.attributes` will produce seven methods for an
+      # **Her::Model::Attributes.attributes** will produce seven methods for an
       # attribute to track dirty data like ActiveModel
+      # @see https://www.rubydoc.info/gems/her/Her/Model/Attributes/ClassMethods#attributes-instance_method
+      #   Her::Model::Attributes.attributes
       # @return [Array<String>] a list of fields captured from instance methods
       def her_attributes
         instance_methods = @model_class.instance_methods

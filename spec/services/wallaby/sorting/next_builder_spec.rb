@@ -16,7 +16,7 @@ describe Wallaby::Sorting::NextBuilder do
       params = parameters sort: 'name desc'
       subject = described_class.new(params)
       expect { subject.next_params(:name) }.not_to(change { params })
-      expect(subject.next_params(:name)).to eq parameters
+      expect(subject.next_params(:name)).to eq parameters(sort: '')
 
       params = parameters
       subject = described_class.new(params)

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
   let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new Product }
-  let(:params) { parameters.permit(:sort, :q) }
+  let(:params) { parameters!(action: 'index', resources: 'products') }
   let(:strategy) {}
   subject { described_class.new model_decorator, params, helper, strategy }
 

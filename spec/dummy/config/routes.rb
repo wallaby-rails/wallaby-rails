@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     mount Wallaby::Engine, at: '/admin', as: :main_engine
   end
   mount Wallaby::Engine, at: '/admin_else', as: :manager_engine
+  mount Wallaby::Engine, at: '/before_engine', as: :before_engine
   mount Wallaby::Engine, at: '/admin'
+  mount Wallaby::Engine, at: '/after_engine', as: :after_engine
   mount Wallaby::Engine, at: '/inner', as: :inner_engine, defaults: { resources_controller: InnerController }
 
   get '/something/else', to: 'wallaby/resources#index', defaults: { resources: 'products' }
@@ -17,20 +19,28 @@ Rails.application.routes.draw do
     # testing custom mode purpose
     wresources :postcodes, controller: 'wallaby/resources'
     wresources :zipcodes, controller: 'wallaby/resources'
-    wresource :profile, controller: 'wallaby/resources'
+    wresource :profile, controller: 'wallaby/resources' do
+      wresources :postcodes, controller: 'wallaby/resources'
+    end
 
     # testing theming purpose
-    wresources :blogs, only: [:index, :show]
+    wresources :blogs
 
     # others
     resources :orders, defaults: { resources: 'orders' } do
       resources :items, defaults: { resources: 'order::items' }
     end
+
     wresources :categories
     wresources :products, controller: 'wallaby/resources'
     wresources :pictures, controller: 'wallaby/resources'
 
-    scope path: '/nested', as: :nested do
+    scope path: '/before', as: :before do
+      wresources :products, controller: 'wallaby/resources'
+      wresources :pictures, controller: 'wallaby/resources'
+    end
+
+    scope path: '/after', as: :after do
       wresources :products, controller: 'wallaby/resources'
       wresources :pictures, controller: 'wallaby/resources'
     end

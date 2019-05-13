@@ -1,5 +1,5 @@
 class Profile
-  attr_accessor :id, :first_name, :last_name, :email
+  attr_accessor :id, :first_name, :last, :email
 
   def initialize(hash = {})
     assign hash
