@@ -61,8 +61,6 @@ module Wallaby
     #
     # - {Wallaby::Decoratable::ClassMethods#resource_decorator resource_decorator}
     # - otherwise, {Wallaby::Decoratable::ClassMethods#application_decorator application_decorator}
-    #
-    # Resource decorator stores the information of **metadata** and **field_names** for **index**/**show**/**form** action.
     # @return [Wallaby::ResourceDecorator] current resource decorator for this request
     def current_decorator
       @current_decorator ||=
