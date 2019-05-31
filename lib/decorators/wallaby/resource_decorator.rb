@@ -157,10 +157,13 @@ module Wallaby
       resource.public_send primary_key
     end
 
+    # @return [ActiveModel::Name]
     def model_name
       ModuleUtils.try_to(resource, :model_name) || ActiveModel::Name.new(model_class)
     end
 
+    # @return [nil] if no primary key
+    # @return [Array<String>] primary key
     def to_key
       key = ModuleUtils.try_to(resource, primary_key)
       key ? [key] : nil

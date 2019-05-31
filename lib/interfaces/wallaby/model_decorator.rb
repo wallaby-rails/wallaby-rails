@@ -114,6 +114,10 @@ module Wallaby
       raise NotImplemented
     end
 
+    # @!attribute [w] primary_key
+    attr_writer :primary_key
+
+    # @!attribute [r] primary_key
     # @note to be implemented in subclasses.
     # @return [String] primary key name
     def primary_key
