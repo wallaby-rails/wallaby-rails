@@ -7,6 +7,7 @@ else
   SimpleCov.start 'rails' do
     add_filter 'wallaby/version'
     add_filter 'wallaby/engine'
+    add_filter 'lib/generator'
   end
 end
 

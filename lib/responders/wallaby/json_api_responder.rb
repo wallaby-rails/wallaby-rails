@@ -1,6 +1,6 @@
 module Wallaby
   # Easter egg: simple responder for JSON API
-  class JsonApiResponder < ActionController::Responder
+  class JsonApiResponder < ResourcesResponder
     delegate :params, :headers, to: :request
 
     # @see #to_json
