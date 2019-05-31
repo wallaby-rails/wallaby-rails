@@ -52,7 +52,7 @@ module Wallaby
     # def index
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   index! options do |format| # NOTE: this is better than using `super`
+    #   index!(options) do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -95,7 +95,7 @@ module Wallaby
     # def new
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   new! options do |format| # NOTE: this is better than using `super`
+    #   new!(options) do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -137,7 +137,7 @@ module Wallaby
     # def create
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   create! options do |format| # NOTE: this is better than using `super`
+    #   create!(options) do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -185,7 +185,7 @@ module Wallaby
     # def show
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   show! options do |format| # NOTE: this is better than using `super`
+    #   show!(options) do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -224,7 +224,7 @@ module Wallaby
     # def edit
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   edit! options do |format| # NOTE: this is better than using `super`
+    #   edit!(options) do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -266,7 +266,7 @@ module Wallaby
     # def update
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   update! options do |format| # NOTE: this is better than using `super`
+    #   update!(options) do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
@@ -315,7 +315,7 @@ module Wallaby
     # def destroy
     #   # do something before the origin action
     #   options = {} # NOTE: see `options` parameter for more details
-    #   destroy! options do |format| # NOTE: this is better than using `super`
+    #   destroy!(options) do |format| # NOTE: this is better than using `super`
     #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #     # customize response behaviour, or do something before the request is rendered
     #   end
