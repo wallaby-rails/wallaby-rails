@@ -45,8 +45,8 @@ Customize non-resourcesful actions:
 
 Also it is possible to:
 
-- [collection] - to customize how collection should be returned.
-- [resource] - to customize how resource should be returned.
+- [collection](#collection) - to customize how collection should be returned.
+- [resource](#resource) - to customize how resource should be returned.
 - [authenticate_user!](#authenticate_user) - to customize how user should be authenticated.
 - [current_user](#current_user) - to customize how current user record should be returned.
 - [resource_params](#resource_params) - to customize the white-listed parameters for mass assignment.
