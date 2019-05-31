@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     value: Time.parse('Tue, 11 Feb 2014 23:59:59 +0000'),
     skip_general: true do
-
     it 'renders the datetime' do
       expect(rendered).to include '<span>11 Feb 23:59</span>'
       expect(rendered).to include 'title="Tue, 11 Feb 2014 23:59:59 +0000"'

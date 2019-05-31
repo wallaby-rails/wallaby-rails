@@ -9,7 +9,6 @@ describe klass, type: :view, current_user: true do
     model_class: Product,
     partial_name: 'has_one',
     skip_general: true do
-
     it 'renders the has_one' do
       expect(rendered).to include view.show_link(value)
     end

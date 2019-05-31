@@ -7,7 +7,6 @@ describe field_name do
     "#{type} csv partial", field_name,
     value: Date.new(2014, 2, 11),
     expected_value: '2014-02-11' do
-
     context 'when value is a string' do
       let(:value) { 'Tue, 11 Feb 2014 23:59:59 +0000' }
 

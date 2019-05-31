@@ -9,7 +9,6 @@ describe klass, type: :view do
     value: { 'key' => 'very long long long long text' },
     skip_general: true,
     modal_value: true do
-
     context 'when value is less than 20 characters' do
       let(:value) { { 'a' => 1 } }
 

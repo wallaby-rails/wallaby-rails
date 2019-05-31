@@ -9,7 +9,6 @@ describe klass, type: :view, current_user: true do
     model_class: ProductDetail,
     partial_name: 'belongs_to',
     skip_general: true do
-
     it 'renders the belongs_to' do
       expect(rendered).to include view.show_link(value)
     end

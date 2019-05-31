@@ -7,7 +7,6 @@ describe klass, type: :view do
   it_behaves_like \
     "#{type} cell", field_name,
     value: 88.8888 do
-
     context 'when value is 0' do
       let(:value) { 0.0 }
 

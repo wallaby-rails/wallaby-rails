@@ -7,7 +7,6 @@ describe klass, type: :view do
   it_behaves_like \
     "#{type} cell", field_name,
     value: BigDecimal(42)**20 do
-
     context 'when value is 0' do
       let(:value) { 0 }
       it 'renders the serial' do

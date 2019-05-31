@@ -11,7 +11,6 @@ describe field_name do
     content_for: true,
     skip_general: true,
     skip_nil: true do
-
     it 'initializes the summernote' do
       textarea = page.at_css('textarea.form-control')
       expect(textarea['data-init']).to eq 'summernote'

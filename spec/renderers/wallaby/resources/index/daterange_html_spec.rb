@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     value: Date.new(2014, 2, 11)..Date.new(2014, 2, 12),
     skip_general: true do
-
     it 'renders the daterange' do
       expect(rendered).to include '<span class="from">Feb 11</span>'
       expect(rendered).to include '<span class="to">Feb 12</span>'

@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     model_class: AllMysqlType,
     value: BigDecimal(42)**20 do
-
     context 'when value is 0' do
       let(:value) { BigDecimal(0) }
       it 'renders the bigint' do

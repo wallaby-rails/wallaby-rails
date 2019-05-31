@@ -99,8 +99,8 @@ require 'helpers/wallaby/resources_helper'
 require 'helpers/wallaby/secure_helper'
 require 'helpers/wallaby/application_helper'
 
-require 'responders/wallaby/json_api_responder'
 require 'responders/wallaby/resources_responder'
+require 'responders/wallaby/json_api_responder'
 
 require 'renderers/wallaby/cell'
 require 'renderers/wallaby/cell_resolver'

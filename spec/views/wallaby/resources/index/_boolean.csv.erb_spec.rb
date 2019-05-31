@@ -7,7 +7,6 @@ describe field_name do
     "#{type} csv partial", field_name,
     value: true,
     model_class: AllMysqlType do
-
     context 'false' do
       let(:value) { false }
       it 'renders the boolean' do
