@@ -144,7 +144,10 @@ module Wallaby
     # @param url_params [Hash]
     # @return [String] index page path
     def index_path(model_class, url_params: {})
-      hash = { resources: to_resources_name(model_class), action: :index }.merge url_params.to_h
+      hash = ParamsUtils.presence(
+        { resources: to_resources_name(model_class), action: :index },
+        default_path_params, url_params.to_h
+      )
       current_engine.try(:resources_path, hash.merge(default_path_params)) || url_for(hash)
     end
 
@@ -152,7 +155,10 @@ module Wallaby
     # @param url_params [Hash]
     # @return [String] new page path
     def new_path(model_class, url_params: {})
-      hash = { resources: to_resources_name(model_class), action: :new }.merge url_params.to_h
+      hash = ParamsUtils.presence(
+        { resources: to_resources_name(model_class), action: :new },
+        default_path_params, url_params.to_h
+      )
       current_engine.try(:new_resource_path, hash.merge(default_path_params)) || url_for(hash)
     end
 
@@ -165,7 +171,8 @@ module Wallaby
       return unless is_resource || decorated.primary_key_value
 
       hash = ParamsUtils.presence(
-        { resources: decorated.resources_name, action: :show, id: decorated.primary_key_value }.merge(url_params.to_h)
+        { resources: decorated.resources_name, action: :show, id: decorated.primary_key_value },
+        default_path_params, url_params.to_h
       )
 
       current_engine.try(:resource_path, hash.merge(default_path_params)) || url_for(hash)
@@ -180,10 +187,11 @@ module Wallaby
       return unless is_resource || decorated.primary_key_value
 
       hash = ParamsUtils.presence(
-        { resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value }.merge(url_params.to_h)
+        { resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value },
+        default_path_params, url_params.to_h
       )
 
-      current_engine.try(:edit_resource_path, hash.merge(default_path_params)) || url_for(hash)
+      current_engine.try(:edit_resource_path, hash) || url_for(hash)
     end
 
     # @return [Hash] default path params

@@ -16,9 +16,11 @@ RSpec.configure do |config|
     view.extend Wallaby::ResourcesHelper
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
-    unless view.respond_to? :default_url_options
+    if view.respond_to? :default_url_options
+      view.default_url_options = { only_path: true, host: 'test.host' }
+    else
       def view.default_url_options
-        @default_url_options ||= { only_path: true }
+        @default_url_options ||= { only_path: true, host: 'test.host' }
       end
     end
   end
