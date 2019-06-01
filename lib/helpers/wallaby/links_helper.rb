@@ -148,7 +148,7 @@ module Wallaby
         { resources: to_resources_name(model_class), action: :index },
         default_path_params, url_params.to_h
       )
-      current_engine.try(:resources_path, hash.merge(default_path_params)) || url_for(hash)
+      current_engine.try(:resources_path, hash) || url_for(hash)
     end
 
     # @param model_class [Class]
@@ -159,7 +159,7 @@ module Wallaby
         { resources: to_resources_name(model_class), action: :new },
         default_path_params, url_params.to_h
       )
-      current_engine.try(:new_resource_path, hash.merge(default_path_params)) || url_for(hash)
+      current_engine.try(:new_resource_path, hash) || url_for(hash)
     end
 
     # @param resource [Object]
@@ -175,7 +175,7 @@ module Wallaby
         default_path_params, url_params.to_h
       )
 
-      current_engine.try(:resource_path, hash.merge(default_path_params)) || url_for(hash)
+      current_engine.try(:resource_path, hash) || url_for(hash)
     end
 
     # @param resource [Object]
