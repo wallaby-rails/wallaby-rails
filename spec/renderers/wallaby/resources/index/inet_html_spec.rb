@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     value: IPAddr.new('192.168.1.12'),
     skip_general: true do
-
     it 'renders the inet' do
       expect(rendered).to include "<code>#{value}</code>"
       expect(rendered).to include "http://ip-api.com/##{value}"

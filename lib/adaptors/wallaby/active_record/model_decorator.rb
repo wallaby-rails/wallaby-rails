@@ -101,7 +101,7 @@ module Wallaby
 
       # @return [String] primary key for the resource
       def primary_key
-        @model_class.primary_key
+        @primary_key ||= @model_class.primary_key
       end
 
       # To guess the title for resource.

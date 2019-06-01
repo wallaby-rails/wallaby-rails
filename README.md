@@ -50,7 +50,7 @@ Here are some sophisticated customization examples:
     self.model_class = Product
 
     def create
-      super do
+      create! do |format|
         register_product_on_ecommence(resource) if resource.errors.blank?
       end
     end
@@ -66,13 +66,19 @@ Here are some sophisticated customization examples:
   gem 'wallaby'
   ```
 
-2. Mount engine in `routes.rb`:
+2. Install generator:
+
+  ```shell
+  rails g wallaby:install admin
+  ```
+
+  For version below 5.2.0, mount it to the `/admin`:
 
   ```ruby
   # config/routes.rb
   Rails.application.routes.draw do
     # ... other routes
-    mount Wallaby::Engine => "/desired_path"
+    mount Wallaby::Engine, at: '/admin'
     # ... other routes
   end
   ```
@@ -83,9 +89,7 @@ Here are some sophisticated customization examples:
   rails server
   ```
 
-4. Open Wallaby on at http://localhost:3000/desired_path and start exploring!
-
-If authentication rather than Devise is used and security is a must, [Authentication Configuration](docs/configuration.md#authentication) will be needed.
+4. Open Wallaby on at http://localhost:3000/admin and start exploring!
 
 ## Want to contribute?
 

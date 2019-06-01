@@ -78,31 +78,6 @@ module Wallaby
         @model_servicer ||= ModelServicer
       end
 
-      # @!attribute [w] model_paginator
-      attr_writer :model_paginator
-
-      # @!attribute [r] model_paginator
-      # To globally configure the resource paginator.
-      #
-      # If no configuration is given, Wallaby will look up from the following paginator classes
-      # and use the first available one:
-      #
-      # - ::Admin::ApplicationPaginator (only when it inherits from {Wallaby::ModelPaginator})
-      # - {Wallaby::ModelPaginator}
-      # @example To update the resource paginator to `GlobalModelPaginator` in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.mapping.model_paginator = ::GlobalModelPaginator
-      #   end
-      # @return [Class] resource paginator class
-      # @since 5.2.0
-      def model_paginator
-        @model_paginator ||=
-          defined?(::Admin::ApplicationPaginator) \
-            && ::Admin::ApplicationPaginator < ::Wallaby::ModelPaginator \
-            && ::Admin::ApplicationPaginator
-        @model_paginator ||= ModelPaginator
-      end
-
       # @deprecated Use {#model_paginator=} instead. It will be removed from 5.3.*
       def resource_paginator=(resource_paginator)
         Utils.deprecate 'deprecation.resource_paginator=', caller: caller
@@ -132,6 +107,31 @@ module Wallaby
             && ::Admin::ApplicationAuthorizer < ::Wallaby::ModelAuthorizer \
             && ::Admin::ApplicationAuthorizer
         @model_authorizer ||= ModelAuthorizer
+      end
+
+      # @!attribute [w] model_paginator
+      attr_writer :model_paginator
+
+      # @!attribute [r] model_paginator
+      # To globally configure the resource paginator.
+      #
+      # If no configuration is given, Wallaby will look up from the following paginator classes
+      # and use the first available one:
+      #
+      # - ::Admin::ApplicationPaginator (only when it inherits from {Wallaby::ModelPaginator})
+      # - {Wallaby::ModelPaginator}
+      # @example To update the resource paginator to `GlobalModelPaginator` in `config/initializers/wallaby.rb`
+      #   Wallaby.config do |config|
+      #     config.mapping.model_paginator = ::GlobalModelPaginator
+      #   end
+      # @return [Class] resource paginator class
+      # @since 5.2.0
+      def model_paginator
+        @model_paginator ||=
+          defined?(::Admin::ApplicationPaginator) \
+            && ::Admin::ApplicationPaginator < ::Wallaby::ModelPaginator \
+            && ::Admin::ApplicationPaginator
+        @model_paginator ||= ModelPaginator
       end
     end
   end

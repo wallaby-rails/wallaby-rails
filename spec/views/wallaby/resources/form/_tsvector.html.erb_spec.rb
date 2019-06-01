@@ -9,7 +9,6 @@ describe field_name do
     input_selector: 'textarea',
     skip_general: true,
     skip_nil: true do
-
     it 'checks the value' do
       textarea = page.at_css('textarea.form-control')
       expect(textarea['name']).to eq "#{resources_name}[#{field_name}]"

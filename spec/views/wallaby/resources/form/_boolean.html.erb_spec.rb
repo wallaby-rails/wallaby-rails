@@ -9,7 +9,6 @@ describe field_name do
     type: 'radio',
     skip_value_check: true,
     skip_nil: true do
-
     it 'checks the true radio' do
       true_input = page.at_css('input[value=true]')
       false_input = page.at_css('input[value=false]')
@@ -23,7 +22,6 @@ describe field_name do
     value: false,
     type: 'radio',
     skip_all: true do
-
     it 'checks the false radio' do
       true_input = page.at_css('input[value=true]')
       false_input = page.at_css('input[value=false]')
@@ -37,7 +35,6 @@ describe field_name do
     value: nil,
     type: 'radio',
     skip_all: true do
-
     it 'doesnt check any radio' do
       true_input = page.at_css('input[value=true]')
       false_input = page.at_css('input[value=false]')

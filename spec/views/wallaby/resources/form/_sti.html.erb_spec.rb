@@ -13,7 +13,6 @@ describe field_name do
     partial_name: 'sti',
     skip_general: true,
     skip_nil: true do
-
     it 'allows user to select sti models from the list' do
       options = page.css('select option')
       values = options.map { |opt| opt['value'] }

@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     model_class: AllMysqlType,
     value: 100 do
-
     context 'when value is 0' do
       let(:value) { 0 }
 

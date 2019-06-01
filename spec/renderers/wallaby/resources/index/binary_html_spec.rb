@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     value: '010111',
     skip_general: true do
-
     it 'renders the binary' do
       expect(rendered).to include view.muted('binary')
     end

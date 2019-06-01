@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     value: 'Password*****',
     skip_general: true do
-
     it 'renders the password' do
       expect(rendered).to include '<code>********</code>'
     end

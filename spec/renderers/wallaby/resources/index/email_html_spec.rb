@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     value: 'tian@reinteractive.net',
     skip_general: true do
-
     it 'renders the email' do
       expect(rendered).to include "mailto:#{value}"
     end

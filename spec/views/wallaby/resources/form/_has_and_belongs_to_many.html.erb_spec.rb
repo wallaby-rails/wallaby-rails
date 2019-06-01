@@ -10,7 +10,6 @@ describe field_name, :current_user do
     skip_general: true,
     skip_errors: true,
     skip_nil: true do
-
     let(:object) { Product.create! metadata[:name] => value }
     let!(:targets) { [Tag.create!(id: 1, name: 'Toy')] }
     let(:value) { targets }

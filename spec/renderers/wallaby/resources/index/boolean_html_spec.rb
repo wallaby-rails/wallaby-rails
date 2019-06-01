@@ -9,7 +9,6 @@ describe klass, type: :view do
     value: true,
     model_class: AllMysqlType,
     skip_general: true do
-
     it 'renders the boolean' do
       expect(rendered).to include view.fa_icon('check-square')
     end

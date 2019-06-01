@@ -70,8 +70,8 @@ module Wallaby
 
       # To globally configure how to authenicate a user.
       # @example
-      #   Wallaby.config do |c|
-      #     c.security.authenticate do
+      #   Wallaby.config do |config|
+      #     config.security.authenticate do
       #       authenticate_or_request_with_http_basic do |username, password|
       #         username == 'too_simple' && password == 'too_naive'
       #       end

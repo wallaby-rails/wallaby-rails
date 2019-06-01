@@ -8,7 +8,6 @@ describe klass, type: :view do
     "#{type} cell", field_name,
     value: { 'kind' => 'user_renamed', 'change' => %w(jack john) }.to_json,
     skip_general: true do
-
     it 'renders the json' do
       expect(page.at_css('code').inner_html).to eq '{"kind":"user_ren...'
       expect(page.at_css('.modaler__title').inner_html).to eq escape(metadata[:label])

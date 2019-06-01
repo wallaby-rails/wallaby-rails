@@ -14,7 +14,6 @@ describe klass, type: :view, current_user: true do
     partial_name: 'has_many',
     skip_general: true,
     skip_nil: true do
-
     it 'renders the has_many' do
       expect(page.at_css('.modaler > a').content).to eq '1 more'
       expect(page.at_css('.modaler__title').inner_html).to eq escape(metadata[:label])

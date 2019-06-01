@@ -10,7 +10,6 @@ describe field_name, :current_user do
     skip_general: true,
     skip_errors: true,
     skip_nil: true do
-
     let(:object) { Product.create! metadata[:name] => value }
     let!(:target) { Category.create! id: 1, name: 'Mens' }
     let(:value) { target }
@@ -81,7 +80,6 @@ describe field_name, :current_user do
       skip_general: true,
       skip_errors: true,
       skip_nil: true do
-
       let(:object) { Picture.new metadata[:name] => value }
       let!(:target) { Product.new id: 1, name: 'Snowboard' }
       let(:value) { target }
