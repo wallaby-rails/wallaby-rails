@@ -5,6 +5,10 @@ describe Wallaby::ModelAuthorizationProvider do
     it { expect { described_class.available?(nil) }.to raise_error Wallaby::NotImplemented }
   end
 
+  describe '.create' do
+    it { expect { described_class.create(nil) }.to raise_error Wallaby::NotImplemented }
+  end
+
   describe '.provider_name' do
     it { expect(described_class.provider_name).to eq 'model' }
   end
