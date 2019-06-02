@@ -22,10 +22,10 @@ module Wallaby
       end
 
       # @note Factory method to create the authorizer instance
-      # @param _context [ActionController::Base]
+      # @param context [ActionController::Base]
       # @raise [Wallaby::NotImplemented]
-      def create(_context)
-        raise NotImplemented
+      def create(context)
+        new context
       end
     end
 
@@ -33,23 +33,22 @@ module Wallaby
     # @return [ActionController::Base]
     attr_reader :context
 
+    # @!attribute [r] user
+    # @return [Object]
+    attr_reader :user
+
     # @param context [ActionController::Base]
     def initialize(context)
       @context = context
-    end
-
-    # @return [Object] current user
-    def user
-      context.current_user
+      @user = ModuleUtils.try_to context, :current_user
     end
 
     # @note It can be overridden in subclasses for customization purpose.
     # This is the template method to check user's permission for given action on given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
-    # @param _options [Hash]
     # @raise [Wallaby::NotImplemented]
-    def authorize(_action, _subject, _options)
+    def authorize(_action, _subject)
       raise NotImplemented
     end
 
@@ -57,9 +56,8 @@ module Wallaby
     # This is the template method to check if user has permission for given action on given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
-    # @param _options [Hash]
     # @raise [Wallaby::NotImplemented]
-    def authorized?(_action, _subject, _options)
+    def authorized?(_action, _subject)
       raise NotImplemented
     end
 
@@ -67,19 +65,17 @@ module Wallaby
     # This is the template method to check if user has no permission for given action on given subject.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @param options [Hash]
     # @raise [Wallaby::NotImplemented]
-    def unauthorized?(action, subject, options)
-      !authorized?(action, subject, options)
+    def unauthorized?(action, subject)
+      !authorized?(action, subject)
     end
 
     # @note It can be overridden in subclasses for customization purpose.
     # This is the template method to restrict user's access to certain scope.
     # @param _action [Symbol, String]
     # @param _scope [Object]
-    # @param _options [Hash]
     # @raise [Wallaby::NotImplemented]
-    def accessible_for(_action, _scope, _options)
+    def accessible_for(_action, _scope)
       raise NotImplemented
     end
 
@@ -87,9 +83,8 @@ module Wallaby
     # This is the template method to restrict user's modification to certain fields of given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object]
-    # @param _options [Hash]
     # @raise [Wallaby::NotImplemented]
-    def attributes_for(_action, _subject, _options)
+    def attributes_for(_action, _subject)
       raise NotImplemented
     end
 
@@ -97,9 +92,8 @@ module Wallaby
     # This is the template method to restrict user's mass assignment to certain fields of given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object]
-    # @param _options [Hash]
     # @raise [Wallaby::NotImplemented]
-    def permit_params(_action, _subject, _options)
+    def permit_params(_action, _subject)
       raise NotImplemented
     end
   end

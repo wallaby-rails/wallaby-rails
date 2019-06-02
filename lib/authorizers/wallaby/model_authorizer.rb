@@ -70,7 +70,7 @@ module Wallaby
       providers = Map.authorizer_provider_map model_class
       provider_class = providers[self.class.provider_name]
       provider_class ||= providers.values.find { |klass| klass.available? context }
-      provider_class.new context
+      provider_class.create context
     end
   end
 end

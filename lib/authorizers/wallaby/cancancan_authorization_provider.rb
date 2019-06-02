@@ -9,7 +9,20 @@ module Wallaby
       defined?(CanCanCan) && defined?(Ability) && context.respond_to?(:current_ability)
     end
 
-    delegate :current_ability, to: :context
+    # @note Factory method to create the authorizer instance
+    # @param context [ActionController::Base]
+    def self.create(context)
+      new ability: context.current_ability, user: ModuleUtils.try_to(context, :current_user)
+    end
+
+    # @!attribute [r] ability
+    # @return [Ability]
+    attr_reader :ability
+
+    def initialize(ability:, user:)
+      @ability = ability
+      @user = user
+    end
 
     # Check user's permission for an action on given subject.
     # This method will be used in controller.
@@ -17,7 +30,7 @@ module Wallaby
     # @param subject [Object, Class]
     # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
     def authorize(action, subject)
-      current_ability.authorize! action, subject
+      ability.authorize! action, subject
     rescue ::CanCan::AccessDenied
       Rails.logger.info I18n.t('errors.unauthorized', user: user, action: action, subject: subject)
       raise Forbidden
@@ -28,7 +41,7 @@ module Wallaby
     # @param subject [Object, Class]
     # @return [Boolean]
     def authorized?(action, subject)
-      current_ability.can? action, subject
+      ability.can? action, subject
     end
 
     # Restrict user to access certain scope.
@@ -36,7 +49,7 @@ module Wallaby
     # @param scope [Object]
     # @return [Object]
     def accessible_for(action, scope)
-      ModuleUtils.try_to(scope, :accessible_by, current_ability, action) || scope
+      ModuleUtils.try_to(scope, :accessible_by, ability, action) || scope
     end
 
     # Restrict user to assign certain values.
@@ -44,7 +57,7 @@ module Wallaby
     # @param subject [Object]
     # @return nil
     def attributes_for(action, subject)
-      current_ability.attributes_for action, subject
+      ability.attributes_for action, subject
     end
 
     # Just return nil

@@ -19,7 +19,7 @@ describe Wallaby::ActiveRecord::CancancanProvider do
   end
 
   describe 'instance methods' do
-    subject { described_class.new context }
+    subject { described_class.new ability: current_ability, user: nil }
     let(:target) { Product.new }
     let(:target_class) { Product }
     let(:scope) { Product.where(nil) }
