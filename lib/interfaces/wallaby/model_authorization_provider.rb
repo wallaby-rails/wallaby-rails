@@ -24,8 +24,8 @@ module Wallaby
       # @note Factory method to create the authorizer instance
       # @param context [ActionController::Base]
       # @raise [Wallaby::NotImplemented]
-      def create(context)
-        new context
+      def options_for(context)
+        {}
       end
     end
 
@@ -38,9 +38,7 @@ module Wallaby
     attr_reader :user
 
     # @param context [ActionController::Base]
-    def initialize(context)
-      @context = context
-      @user = ModuleUtils.try_to context, :current_user
+    def initialize(*)
     end
 
     # @note It can be overridden in subclasses for customization purpose.

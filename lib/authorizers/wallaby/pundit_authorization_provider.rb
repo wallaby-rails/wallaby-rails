@@ -11,8 +11,8 @@ module Wallaby
 
     # @note Factory method to create the authorizer instance
     # @param context [ActionController::Base]
-    def self.create(context)
-      new user: context.pundit_user
+    def self.options_for(context)
+      { user: context.pundit_user }
     end
 
     # @param user [Object]

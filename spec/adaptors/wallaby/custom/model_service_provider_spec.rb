@@ -5,8 +5,7 @@ describe Wallaby::Custom::ModelServiceProvider do
     subject { described_class.new model_class, model_decorator }
     let(:model_class) { Zipcode }
     let(:model_decorator) { Wallaby::Custom::ModelDecorator.new model_class }
-    let(:ability) { Ability.new nil }
-    let(:authorizer) { Wallaby::ModelAuthorizer.new nil, model_class }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new model_class, :default, {} }
     let(:resource) { model_class.new }
 
     before do

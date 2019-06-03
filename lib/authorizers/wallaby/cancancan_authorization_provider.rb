@@ -11,15 +11,15 @@ module Wallaby
 
     # @note Factory method to create the authorizer instance
     # @param context [ActionController::Base]
-    def self.create(context)
-      new ability: context.current_ability, user: ModuleUtils.try_to(context, :current_user)
+    def self.options_for(context)
+      { ability: context.current_ability, user: ModuleUtils.try_to(context, :current_user) }
     end
 
     # @!attribute [r] ability
     # @return [Ability]
     attr_reader :ability
 
-    def initialize(ability:, user:)
+    def initialize(ability:, user: nil)
       @ability = ability
       @user = user
     end

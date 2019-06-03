@@ -41,6 +41,19 @@ module Wallaby
       def provider_name
         @provider_name ||= ModuleUtils.try_to superclass, :provider_name
       end
+
+      def create(context, model_class)
+        model_class ||= self.model_class
+        provider_class = guess_provider_class context, model_class
+        new model_class, provider_class, provider_class.options_for(context)
+      end
+
+      private
+
+      def guess_provider_class(context, model_class)
+        providers = Map.authorizer_provider_map model_class
+        provider_class = providers[provider_name] || providers.values.find { |klass| klass.available? context }
+      end
     end
 
     delegate(*ModelAuthorizationProvider.instance_methods(false), to: :@provider)
@@ -56,9 +69,9 @@ module Wallaby
 
     # @param context [ActionController::Base]
     # @param model_class [Class]
-    def initialize(context, model_class)
+    def initialize(model_class, provider_name_or_class, options = {})
       @model_class = model_class || self.class.model_class
-      @provider = init_provider context
+      @provider = init_provider provider_name_or_class, options
     end
 
     protected
@@ -66,11 +79,10 @@ module Wallaby
     # Go through provider list and detect which provider is used.
     # @param context [ActionController::Base]
     # @return [Wallaby::Authorizer]
-    def init_provider(context)
+    def init_provider(provider_name_or_class, options)
       providers = Map.authorizer_provider_map model_class
-      provider_class = providers[self.class.provider_name]
-      provider_class ||= providers.values.find { |klass| klass.available? context }
-      provider_class.create context
+      provider_class = provider_name_or_class.is_a?(Class) ? provider_name_or_class : providers[provider_name_or_class]
+      provider_class.new(**options)
     end
   end
 end
