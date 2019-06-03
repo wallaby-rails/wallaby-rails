@@ -21,11 +21,11 @@ module Wallaby
         raise NotImplemented
       end
 
-      # @note Factory method to create the authorizer instance
+      # @note Template method to pull out the args required for contruction from context.
       # @param context [ActionController::Base]
       # @raise [Wallaby::NotImplemented]
-      def options_for(context)
-        {}
+      def args_from(context)
+        raise NotImplemented
       end
     end
 

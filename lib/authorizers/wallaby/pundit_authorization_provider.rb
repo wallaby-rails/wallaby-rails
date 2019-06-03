@@ -9,9 +9,10 @@ module Wallaby
       defined?(Pundit) && context.respond_to?(:pundit_user)
     end
 
-    # @note Factory method to create the authorizer instance
+    # This will pull out the args required for contruction from context
     # @param context [ActionController::Base]
-    def self.options_for(context)
+    # @return [Hash] args for initialize
+    def self.args_from(context)
       { user: context.pundit_user }
     end
 

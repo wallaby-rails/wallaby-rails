@@ -5,8 +5,8 @@ describe Wallaby::ModelAuthorizationProvider do
     it { expect { described_class.available?(nil) }.to raise_error Wallaby::NotImplemented }
   end
 
-  describe '.options_for' do
-    it { expect(described_class.options_for(nil)).to be_a Hash }
+  describe '.args_from' do
+    it { expect { described_class.args_from(nil) }.to raise_error Wallaby::NotImplemented }
   end
 
   describe '.provider_name' do

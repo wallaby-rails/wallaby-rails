@@ -9,10 +9,11 @@ module Wallaby
       defined?(CanCanCan) && defined?(Ability) && context.respond_to?(:current_ability)
     end
 
-    # @note Factory method to create the authorizer instance
+    # This will pull out the args required for contruction from context
     # @param context [ActionController::Base]
-    def self.options_for(context)
-      { ability: context.current_ability, user: ModuleUtils.try_to(context, :current_user) }
+    # @return [Hash] args for initialize
+    def self.args_from(context)
+      { ability: context.current_ability, user: context.current_user }
     end
 
     # @!attribute [r] ability

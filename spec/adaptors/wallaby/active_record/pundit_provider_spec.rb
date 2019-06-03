@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Wallaby::ActiveRecord::PunditProvider do
-  let(:context) { OpenStruct.new pundit_user: current_user }
-  let(:current_user) { Staff.new }
+  let(:context) { OpenStruct.new pundit_user: user }
+  let(:user) { Staff.new }
   before { context.extend Pundit }
 
   describe '.available?' do
@@ -13,6 +13,12 @@ describe Wallaby::ActiveRecord::PunditProvider do
     end
   end
 
+  describe '.args_from' do
+    it 'returns args' do
+      expect(described_class.args_from(context)).to eq user: user
+    end
+  end
+
   describe '.provider_name' do
     it 'returns a string' do
       expect(described_class.provider_name).to eq 'pundit'
@@ -20,7 +26,7 @@ describe Wallaby::ActiveRecord::PunditProvider do
   end
 
   describe 'instance methods' do
-    subject { described_class.new user: current_user }
+    subject { described_class.new user: user }
     let(:target) { Product.new }
     let(:target_class) { Product }
     let(:scope) { Product.where(nil) }

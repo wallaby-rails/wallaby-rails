@@ -45,7 +45,7 @@ module Wallaby
       def create(context, model_class)
         model_class ||= self.model_class
         provider_class = guess_provider_class context, model_class
-        new model_class, provider_class, provider_class.options_for(context)
+        new model_class, provider_class, provider_class.args_from(context)
       end
 
       private
