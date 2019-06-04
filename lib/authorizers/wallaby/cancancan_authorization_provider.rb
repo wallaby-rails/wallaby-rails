@@ -13,7 +13,7 @@ module Wallaby
     # @param context [ActionController::Base]
     # @return [Hash] args for initialize
     def self.args_from(context)
-      { ability: context.current_ability, user: context.current_user }
+      { ability: context.current_ability, user: ModuleUtils.try_to(context, :current_user) }
     end
 
     # @!attribute [r] ability

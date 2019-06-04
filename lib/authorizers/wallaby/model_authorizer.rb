@@ -42,6 +42,10 @@ module Wallaby
         @provider_name ||= ModuleUtils.try_to superclass, :provider_name
       end
 
+      # Factory method to create the model authorizer
+      # @param context [ActionController::Base]
+      # @param model_class [Class]
+      # @return [Wallaby::ModelAuthorizer]
       def create(context, model_class)
         model_class ||= self.model_class
         provider_class = guess_provider_class context, model_class
@@ -50,9 +54,12 @@ module Wallaby
 
       private
 
+      # @param context [ActionController::Base]
+      # @param model_class [Class]
+      # @return [Class] provider class
       def guess_provider_class(context, model_class)
         providers = Map.authorizer_provider_map model_class
-        provider_class = providers[provider_name] || providers.values.find { |klass| klass.available? context }
+        providers[provider_name] || providers.values.find { |klass| klass.available? context }
       end
     end
 
@@ -67,8 +74,9 @@ module Wallaby
     # @since 5.2.0
     attr_reader :provider
 
-    # @param context [ActionController::Base]
     # @param model_class [Class]
+    # @param provider_name_or_class [String, Symbol, Class]
+    # @param options [Hash]
     def initialize(model_class, provider_name_or_class, options = {})
       @model_class = model_class || self.class.model_class
       @provider = init_provider provider_name_or_class, options
@@ -77,7 +85,8 @@ module Wallaby
     protected
 
     # Go through provider list and detect which provider is used.
-    # @param context [ActionController::Base]
+    # @param provider_name_or_class [String, Symbol, Class]
+    # @param options [Hash]
     # @return [Wallaby::Authorizer]
     def init_provider(provider_name_or_class, options)
       providers = Map.authorizer_provider_map model_class

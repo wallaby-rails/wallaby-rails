@@ -22,9 +22,9 @@ module Wallaby
       end
 
       # @note Template method to pull out the args required for contruction from context.
-      # @param context [ActionController::Base]
+      # @param _context [ActionController::Base]
       # @raise [Wallaby::NotImplemented]
-      def args_from(context)
+      def args_from(_context)
         raise NotImplemented
       end
     end
@@ -37,9 +37,8 @@ module Wallaby
     # @return [Object]
     attr_reader :user
 
-    # @param context [ActionController::Base]
-    def initialize(*)
-    end
+    # Empty initialize that accepts all sorts of args
+    def initialize(*); end
 
     # @note It can be overridden in subclasses for customization purpose.
     # This is the template method to check user's permission for given action on given subject.
