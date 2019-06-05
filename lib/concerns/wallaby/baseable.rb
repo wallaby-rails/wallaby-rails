@@ -15,6 +15,15 @@ module Wallaby
       def base_class!
         @base_class = true
       end
+
+      # @!attribute [w] namespace
+      attr_writer :namespace
+
+      # @!attribute [r] namespace
+      # @return [String] namespace
+      def namespace
+        @namespace ||= ModuleUtils.try_to(superclass, :namespace) || name.deconstantize
+      end
     end
   end
 end
