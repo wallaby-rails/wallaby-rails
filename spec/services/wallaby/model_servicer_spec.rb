@@ -29,7 +29,7 @@ describe Wallaby::ModelServicer do
     let(:model_class) { AllPostgresType }
     let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new model_class }
     let(:params) { parameters }
-    let(:authorizer) { Wallaby::ModelAuthorizer.new nil, model_class }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new model_class, :default }
     let(:resource) { model_class.new }
 
     it 'has model_class and model_decorator' do

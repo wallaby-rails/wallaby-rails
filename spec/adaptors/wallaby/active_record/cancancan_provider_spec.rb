@@ -1,14 +1,21 @@
 require 'rails_helper'
 
 describe Wallaby::ActiveRecord::CancancanProvider do
-  let(:context) { OpenStruct.new current_ability: current_ability }
-  let(:current_ability) { Ability.new nil }
+  let(:context) { OpenStruct.new current_ability: ability, current_user: user }
+  let(:ability) { Ability.new user }
+  let(:user) { Staff.new }
 
   describe '.available?' do
     it 'returns true' do
       expect(described_class.available?(nil)).to be_falsy
       expect(described_class.available?(OpenStruct.new)).to be_falsy
       expect(described_class.available?(context)).to be_truthy
+    end
+  end
+
+  describe '.args_from' do
+    it 'returns args' do
+      expect(described_class.args_from(context)).to eq ability: ability, user: user
     end
   end
 
@@ -19,15 +26,15 @@ describe Wallaby::ActiveRecord::CancancanProvider do
   end
 
   describe 'instance methods' do
-    subject { described_class.new context }
+    subject { described_class.new ability: ability, user: nil }
     let(:target) { Product.new }
     let(:target_class) { Product }
     let(:scope) { Product.where(nil) }
 
     before do
-      current_ability.cannot :index, target_class
-      current_ability.cannot :destroy, target
-      current_ability.can :refresh, target_class, featured: true
+      ability.cannot :index, target_class
+      ability.cannot :destroy, target
+      ability.can :refresh, target_class, featured: true
     end
 
     describe '#authorize' do

@@ -94,7 +94,7 @@ module Wallaby
     # @since 5.2.0
     def authorizer_of(model_class, authorizer_class = nil)
       authorizer_class ||= Map.authorizer_map(model_class, controller_to_get(:application_authorizer))
-      authorizer_class.try(:new, self, model_class)
+      authorizer_class.try :create, self, model_class
     end
   end
 end

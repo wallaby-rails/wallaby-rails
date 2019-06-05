@@ -20,7 +20,7 @@ describe Wallaby::Her::PunditProvider do
   end
 
   describe 'instance methods' do
-    subject { described_class.new context }
+    subject { described_class.new user: current_user }
     let(:target) { Her::Product.new }
     let(:target_class) { Her::Product }
     let(:scope) { Her::Product.all }
