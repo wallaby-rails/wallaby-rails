@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe Wallaby::ActiveRecord::PunditProvider do
-  let(:context) { OpenStruct.new pundit_user: user }
+  let(:context) { double pundit_user: user }
   let(:user) { Staff.new }
   before { context.extend Pundit }
 
   describe '.available?' do
     it 'returns true' do
       expect(described_class.available?(nil)).to be_falsy
-      expect(described_class.available?(OpenStruct.new)).to be_falsy
+      expect(described_class.available?(double)).to be_falsy
       expect(described_class.available?(context)).to be_truthy
     end
   end
