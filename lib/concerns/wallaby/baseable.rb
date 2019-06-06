@@ -17,12 +17,15 @@ module Wallaby
       end
 
       # @!attribute [w] namespace
+      # Used by `model_class`
       attr_writer :namespace
 
       # @!attribute [r] namespace
       # @return [String] namespace
       def namespace
-        @namespace ||= ModuleUtils.try_to(superclass, :namespace) || name.deconstantize
+        @namespace ||=
+          ModuleUtils.try_to(superclass, :namespace) \
+          || name.deconstantize.gsub(/Wallaby(::)?/, EMPTY_STRING).presence
       end
     end
   end
