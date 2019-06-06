@@ -7,6 +7,13 @@ describe Wallaby::DefaultAuthorizationProvider do
     end
   end
 
+  describe '.args_from' do
+    it 'returns args' do
+      expect(described_class.args_from(nil)).to eq({})
+      expect(described_class.args_from({})).to eq({})
+    end
+  end
+
   describe '.provider_name' do
     it 'returns a string' do
       expect(described_class.provider_name).to eq 'default'

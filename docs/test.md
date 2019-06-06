@@ -4,14 +4,57 @@ Every customization deserves a test.
 
 In general, Wallaby itself is a typical Rails application. Therefore, writing specs for customization is similar to the way how general Rails spec is written with a few extra setups:
 
+- [Request](#request) - writing request specs.
 - [Controller](#controller) - writing controller specs.
-  - [Request](#request) - writing request specs.
 - [Decorator](#decorator) - writing specs for decorator.
 - [Servicer](#servicer) - writing specs for servicer.
 - [Authorizer](#authorizer) (since 5.2.0) - writing specs for authorizer.
 - [Paginator](#paginator) (since 5.2.0) - writing specs for paginator.
 - [Type Partial](#type-partial) - writing specs for partials (e.g. `index`/`show`).
   - [Form Type Partial](#form-type-partial) - writing specs for form partials (e.g. `new`/`create`/`edit`/`update`).
+
+## Request
+
+For request specs, there is no need to do the same routing setup like controller specs. So it goes as usual:
+
+```ruby
+describe 'Request spec for Wallaby customization' do
+  it 'performs index' do
+    get '/admin/products'
+    # testify against expectation and etc.
+  end
+
+  it 'performs show' do
+    get "/admin/products/#{product.id}"
+    # testify against expectation and etc.
+  end
+
+  it 'performs new' do
+    get '/admin/products/new'
+    # testify against expectation and etc.
+  end
+
+  it 'performs create' do
+    post '/admin/products', params: { products: { name: 'iPhone' } }
+    # testify against expectation and etc.
+  end
+
+  it 'performs edit' do
+    get "/admin/products/#{product.id}/edit"
+    # testify against expectation and etc.
+  end
+
+  it 'performs update' do
+    patch "/admin/products/#{product.id}", params: { products: { name: 'iPhone' } }
+    # testify against expectation and etc.
+  end
+
+  it 'performs destroy' do
+    destroy "/admin/products/#{product.id}"
+    # testify against expectation and etc.
+  end
+end
+```
 
 ## Controller
 
@@ -78,49 +121,6 @@ describe Admin::ProductsController do
 end
 ```
 
-### Request
-
-For request specs, there is no need to do the same routing setup like controller specs. So it goes as usual:
-
-```ruby
-describe 'Request spec for Wallaby customization' do
-  it 'performs index' do
-    get '/admin/products'
-    # testify against expectation and etc.
-  end
-
-  it 'performs show' do
-    get "/admin/products/#{product.id}"
-    # testify against expectation and etc.
-  end
-
-  it 'performs new' do
-    get '/admin/products/new'
-    # testify against expectation and etc.
-  end
-
-  it 'performs create' do
-    post '/admin/products', params: { products: { name: 'iPhone' } }
-    # testify against expectation and etc.
-  end
-
-  it 'performs edit' do
-    get "/admin/products/#{product.id}/edit"
-    # testify against expectation and etc.
-  end
-
-  it 'performs update' do
-    patch "/admin/products/#{product.id}", params: { products: { name: 'iPhone' } }
-    # testify against expectation and etc.
-  end
-
-  it 'performs destroy' do
-    destroy "/admin/products/#{product.id}"
-    # testify against expectation and etc.
-  end
-end
-```
-
 ## Decorator
 
 Decorator is simply a wrapper that holds metadata. Therefore, spec is as simple as below:
@@ -142,7 +142,16 @@ Servicer implements the persistence logics. The only thing to be set up is the i
 describe ProductServicer, type: :helper do
   subject { described_class.new model_class, authorizer }
   let(:model_class) { Product }
-  let(:authorizer) { Admin::ApplicationAuthorizer.new helper, model_class }
+  let(:user) { User.new }
+  let(:ability) { Ability.new }
+  let(:authorizer) do
+    # When no authorization
+    Admin::ApplicationAuthorizer.new model_class, :default
+    # For Cancancan
+    Admin::ApplicationAuthorizer.new model_class, :cancancan, ability: ability
+    # For Pundit
+    Admin::ApplicationAuthorizer.new model_class, :pundit, user: user
+  end
 
   it 'performs actions'
 end
@@ -169,8 +178,17 @@ Authorizer can be tested when it's customized for other authorization framework.
 
 ```ruby
 describe Admin::ApplicationAuthorizer, type: :helper do
-  subject { described_class.new helper, model_class }
+  subject do
+    # When no authorization
+    described_class.new model_class, :default
+    # For Cancancan
+    described_class.new model_class, :cancancan, ability: ability
+    # For Pundit
+    described_class.new model_class, :pundit, user: user
+  end
   let(:model_class) { Product }
+  let(:user) { User.new }
+  let(:ability) { Ability.new }
 
   it 'performs authorization tests'
 end

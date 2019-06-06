@@ -8,6 +8,13 @@ module Wallaby
       true
     end
 
+    # This will pull out the args required for contruction from context
+    # @param _context [ActionController::Base]
+    # @return [Hash] args for initialize
+    def self.args_from(_context)
+      {}
+    end
+
     # Do nothing
     # @param _action [Symbol, String]
     # @param subject [Object, Class]

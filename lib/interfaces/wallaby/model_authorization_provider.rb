@@ -14,10 +14,17 @@ module Wallaby
         @provider_name || name.demodulize.gsub(/(Authorization)?Provider/, EMPTY_STRING).underscore
       end
 
-      # Template method to check and see if current provider is in used.
+      # @note Template method to check and see if current provider is in used.
       # @param _context [ActionController::Base]
       # @raise [Wallaby::NotImplemented]
       def available?(_context)
+        raise NotImplemented
+      end
+
+      # @note Template method to pull out the args required for contruction from context.
+      # @param _context [ActionController::Base]
+      # @raise [Wallaby::NotImplemented]
+      def args_from(_context)
         raise NotImplemented
       end
     end
@@ -26,15 +33,12 @@ module Wallaby
     # @return [ActionController::Base]
     attr_reader :context
 
-    # @param context [ActionController::Base]
-    def initialize(context)
-      @context = context
-    end
+    # @!attribute [r] user
+    # @return [Object]
+    attr_reader :user
 
-    # @return [Object] current user
-    def user
-      context.current_user
-    end
+    # Empty initialize that accepts all sorts of args
+    def initialize(*); end
 
     # @note It can be overridden in subclasses for customization purpose.
     # This is the template method to check user's permission for given action on given subject.
