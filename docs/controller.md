@@ -27,6 +27,7 @@ Starting with:
 Configuration can be set for:
 
 - [.base_class!](#base_class) (since 5.2.0) - flagging as base class.
+- [.namespace](#namespace) (since 5.2.0) - specifying the namespace so that model class can be detected.
 - [.model_class](#model_class) - specifying the model class.
 
 The following resourcesful actions can be customized:
@@ -93,6 +94,29 @@ All controllers will be preloaded and processed by Wallaby in order to build up 
 class Admin::SpecialController < Admin::ApplicationController
   base_class!
 end
+```
+
+## .namespace
+
+> since 5.2.0
+
+If all controllers are going to be placed under a namespace, for example, `Admin`, then namespace can be configured:
+
+```ruby
+# app/controllers/admin/application_controller.rb
+class Admin::ApplicationController < Wallaby::ResourcesController
+  self.namespace = 'Admin'
+end
+```
+
+So that all its subclasses can detect its associated model class correctly and no [.model_class](#model_class) needs to be configured:
+
+```ruby
+class Admin::ProductsController < Admin::ApplicationController
+end
+
+Admin::ProductsController.model_class
+# => Product
 ```
 
 ## .model_class

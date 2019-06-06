@@ -46,6 +46,7 @@ Starting with:
 Configuration can be set for:
 
 - [.base_class!](#base_class) - flagging as base class.
+- [.namespace](#namespace) - specifying the namespace so that model class can be detected.
 - [.model_class](#model_class) - specifying the model class.
 - [.provider_name](#provider_name) - specifying the authorization provider's name.
 
@@ -93,6 +94,29 @@ All authorizers will be preloaded and processed by Wallaby in order to build up 
 class Admin::SpecialAuthorizer < Admin::ApplicationAuthorizer
   base_class!
 end
+```
+
+## .namespace
+
+> since 5.2.0
+
+If all authorizers are going to be placed under a namespace, for example, `Admin`, then namespace can be configured:
+
+```ruby
+# app/authorizers/admin/application_authorizer.rb
+class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
+  self.namespace = 'Admin'
+end
+```
+
+So that all its subclasses can detect its associated model class correctly and no [.model_class](#model_class) needs to be configured:
+
+```ruby
+class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
+end
+
+Admin::ProductAuthorizer.model_class
+# => Product
 ```
 
 ## .model_class
