@@ -27,6 +27,7 @@ Starting with:
 Configuration can be set for:
 
 - [.base_class!](#base_class) (since 5.2.0) - flagging as base class.
+- [.namespace](#namespace) (since 5.2.0) - specifying the namespace so that model class can be detected.
 - [.model_class](#model_class) - specifying the model class.
 
 Accessing helper methods:
@@ -72,6 +73,29 @@ All servicers will be preloaded and processed by Wallaby in order to build up th
 class Admin::SpecialServicer < Admin::ApplicationServicer
   base_class!
 end
+```
+
+## .namespace
+
+> since 5.2.0
+
+If all servicers are going to be placed under a namespace, for example, `Admin`, then namespace can be configured:
+
+```ruby
+# app/servicers/admin/application_servicer.rb
+class Admin::ApplicationServicer < Wallaby::ModelServicer
+  self.namespace = 'Admin'
+end
+```
+
+So that all its subclasses can detect its associated model class correctly and no [.model_class](#model_class) needs to be configured:
+
+```ruby
+class Admin::ProductServicer < Admin::ApplicationServicer
+end
+
+Admin::ProductServicer.model_class
+# => Product
 ```
 
 ## .model_class

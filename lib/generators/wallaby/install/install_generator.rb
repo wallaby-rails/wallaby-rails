@@ -40,7 +40,7 @@ module Wallaby
     private
 
     def commenting
-      file_name == self.class.arguments.first.default && '#' || ''
+      file_name == self.class.arguments.first.default && '# ' || ''
     end
 
     def mount_wallaby_to_given_name

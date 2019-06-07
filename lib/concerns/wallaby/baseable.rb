@@ -15,6 +15,20 @@ module Wallaby
       def base_class!
         @base_class = true
       end
+
+      # @!attribute [w] namespace
+      # Used by `model_class`
+      # @since 5.2.0
+      attr_writer :namespace
+
+      # @!attribute [r] namespace
+      # @return [String] namespace
+      # @since 5.2.0
+      def namespace
+        @namespace ||=
+          ModuleUtils.try_to(superclass, :namespace) \
+          || name.deconstantize.gsub(/Wallaby(::)?/, EMPTY_STRING).presence
+      end
     end
   end
 end

@@ -35,7 +35,7 @@ module Wallaby
       def model_class
         return unless self < ResourceDecorator
         return if base_class? || self == Wallaby.configuration.mapping.resource_decorator
-        @model_class ||= Map.model_class_map(name.gsub('Decorator', EMPTY_STRING))
+        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Decorator$)/, EMPTY_STRING))
       end
 
       # @!attribute [w] application_decorator

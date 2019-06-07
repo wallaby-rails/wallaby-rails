@@ -25,6 +25,7 @@ Starting with:
 Configuration can be set for:
 
 - [.base_class!](#base_class) (since 5.2.0) - flagging as base class.
+- [.namespace](#namespace) (since 5.2.0) - specifying the namespace so that model class can be detected.
 - [.model_class](#model_class) - specifying the model class.
 
 Accessing helper methods:
@@ -102,6 +103,29 @@ All decorators will be preloaded and processed by Wallaby in order to build up t
 class Admin::SpecialDecorator < Admin::ApplicationDecorator
   base_class!
 end
+```
+
+## .namespace
+
+> since 5.2.0
+
+If all decorators are going to be placed under a namespace, for example, `Admin`, then namespace can be configured:
+
+```ruby
+# app/decorators/admin/application_decorator.rb
+class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
+  self.namespace = 'Admin'
+end
+```
+
+So that all its subclasses can detect its associated model class correctly and no [.model_class](#model_class) needs to be configured:
+
+```ruby
+class Admin::ProductDecorator < Admin::ApplicationDecorator
+end
+
+Admin::ProductDecorator.model_class
+# => Product
 ```
 
 ## .model_class

@@ -29,7 +29,7 @@ module Wallaby
       def model_class
         return unless self < ModelPaginator
         return if base_class? || self == Wallaby.configuration.mapping.model_paginator
-        @model_class ||= Map.model_class_map(name.gsub('Paginator', EMPTY_STRING))
+        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Paginator$)/, EMPTY_STRING))
       end
 
       # @!attribute provider_class

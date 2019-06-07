@@ -16,7 +16,8 @@ module Wallaby
       def resources_name
         return unless self < ResourcesController
         return if base_class? || self == Wallaby.configuration.mapping.resources_controller
-        @resources_name ||= Map.resources_name_map(controller_path)
+        @resources_name ||=
+          Map.resources_name_map controller_path.gsub(%r{^#{namespace.try(:underscore)}/}, EMPTY_STRING)
       end
 
       # @!attribute [w] model_class
