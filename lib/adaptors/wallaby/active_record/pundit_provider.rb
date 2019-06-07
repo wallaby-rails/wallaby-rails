@@ -7,7 +7,7 @@ module Wallaby
       # @param scope [Object]
       # @return [Object]
       def accessible_for(_action, scope)
-        context.send :policy_scope, scope
+        Pundit.policy_scope! user, scope
       rescue Pundit::NotDefinedError
         Rails.logger.warn I18n.t('errors.pundit.not_found.scope_policy', scope: scope)
         scope

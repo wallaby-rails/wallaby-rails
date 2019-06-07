@@ -6,7 +6,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
     let(:model_class) { AllPostgresType }
     let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new model_class }
     let(:ability) { Ability.new nil }
-    let(:authorizer) { Wallaby::ModelAuthorizer.new cancancan_context(ability), model_class }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new model_class, :cancancan, ability: ability }
 
     describe '#permit' do
       it 'returns the permitted params' do

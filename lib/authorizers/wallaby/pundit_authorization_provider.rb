@@ -9,6 +9,18 @@ module Wallaby
       defined?(Pundit) && context.respond_to?(:pundit_user)
     end
 
+    # This will pull out the args required for contruction from context
+    # @param context [ActionController::Base]
+    # @return [Hash] args for initialize
+    def self.args_from(context)
+      { user: context.pundit_user }
+    end
+
+    # @param user [Object]
+    def initialize(user:)
+      @user = user
+    end
+
     # Check user's permission for an action on given subject.
     #
     # This method will be used in controller.
@@ -16,7 +28,7 @@ module Wallaby
     # @param subject [Object, Class]
     # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
     def authorize(action, subject)
-      context.send(:authorize, subject, normalize(action)) && subject
+      Pundit.authorize(user, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
       Rails.logger.info I18n.t('errors.unauthorized', user: user, action: action, subject: subject)
       raise Forbidden
@@ -27,7 +39,7 @@ module Wallaby
     # @param subject [Object, Class]
     # @return [Boolean]
     def authorized?(action, subject)
-      policy = context.send :policy, subject
+      policy = Pundit.policy! user, subject
       ModuleUtils.try_to policy, normalize(action)
     end
 
@@ -41,7 +53,7 @@ module Wallaby
     # @param subject [Object]
     # @return [Hash] field value paired hash that user's allowed to assign
     def attributes_for(action, subject)
-      policy = context.send :policy, subject
+      policy = Pundit.policy! user, subject
       value = ModuleUtils.try_to(policy, "attributes_for_#{action}") || ModuleUtils.try_to(policy, 'attributes_for')
       Rails.logger.warn I18n.t('error.pundit.not_found.attributes_for', subject: subject) unless value
       value || {}
@@ -57,7 +69,7 @@ module Wallaby
     # @param subject [Object]
     # @return [Array] field list that user's allowed to change.
     def permit_params(action, subject)
-      policy = context.send :policy, subject
+      policy = Pundit.policy! user, subject
       # @see https://github.com/varvet/pundit/blob/master/lib/pundit.rb#L258
       ModuleUtils.try_to(policy, "permitted_attributes_for_#{action}") \
         || ModuleUtils.try_to(policy, 'permitted_attributes')

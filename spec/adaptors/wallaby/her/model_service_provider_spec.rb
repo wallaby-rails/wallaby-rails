@@ -6,7 +6,7 @@ describe Wallaby::Her::ModelServiceProvider do
     let(:model_class) { Her::Product }
     let(:model_decorator) { Wallaby::Her::ModelDecorator.new model_class }
     let(:ability) { Ability.new nil }
-    let(:authorizer) { Wallaby::ModelAuthorizer.new cancancan_context(ability), model_class }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new model_class, :cancancan, ability: ability }
 
     describe '#permit' do
       it 'returns the permitted params' do
