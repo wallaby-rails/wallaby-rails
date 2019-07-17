@@ -290,12 +290,6 @@ describe Wallaby::ResourcesController do
 
     describe CampervansController do
       describe 'class methods ' do
-        describe '.resources_name' do
-          it 'returns resources name from controller name' do
-            expect(described_class.resources_name).to eq 'campervans'
-          end
-        end
-
         describe '.model_class' do
           it 'returns model class' do
             expect(described_class.model_class).to eq Campervan

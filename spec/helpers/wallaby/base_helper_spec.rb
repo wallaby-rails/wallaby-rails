@@ -11,26 +11,26 @@ describe Wallaby::BaseHelper, :current_user, type: :helper do
 
     it 'returns body class' do
       helper.params[:action] = 'index'
-      expect(helper.body_class).to eq 'index'
+      expect(helper.body_class).to eq 'index wallaby__base'
     end
 
     context 'when resources name is blank' do
       it 'returns body class' do
-        expect(helper.body_class).to eq ''
+        expect(helper.body_class).to eq 'wallaby__base'
       end
     end
 
     context 'when resources name is present' do
       it 'returns body class' do
         helper.params[:resources] = 'wallaby::posts'
-        expect(helper.body_class).to eq 'wallaby__posts'
+        expect(helper.body_class).to eq 'wallaby__base wallaby__posts'
       end
     end
 
     context 'when custom_body_class is present' do
       it 'returns body class' do
         helper.content_for :custom_body_class, 'body'
-        expect(helper.body_class).to eq 'body'
+        expect(helper.body_class).to eq 'wallaby__base body'
       end
     end
   end

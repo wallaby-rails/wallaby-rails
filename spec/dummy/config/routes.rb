@@ -24,14 +24,14 @@ Rails.application.routes.draw do
     end
 
     # testing theming purpose
-    wresources :blogs
+    resources :blogs
 
     # others
-    resources :orders, defaults: { resources: 'orders' } do
-      resources :items, defaults: { resources: 'order::items' }
+    resources :orders, module: :order do
+      resources :items
     end
 
-    wresources :categories
+    resources :categories
     wresources :products, controller: 'wallaby/resources'
     wresources :pictures, controller: 'wallaby/resources'
 
