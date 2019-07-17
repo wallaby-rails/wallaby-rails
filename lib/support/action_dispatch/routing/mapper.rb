@@ -2,8 +2,8 @@ module ActionDispatch
   module Routing
     # Re-open `ActionDispatch::Routing::Mapper` to add route helpers for Wallaby.
     class Mapper
-      # Generate **resourcesful** routes that works for Wallaby.
-      # @example To generate resourcesful routes that works for Wallaby:
+      # Generate **resourceful** routes that works for Wallaby.
+      # @example To generate resourceful routes that works for Wallaby:
       #   wresources :postcodes
       #   # => same effect as
       #   resources(

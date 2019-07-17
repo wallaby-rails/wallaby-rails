@@ -1,7 +1,7 @@
 <% decorated = decorate resource %>
 <article class="resource">
   <div class="resource__header">
-    <h1><%= t 'labels.create', model: to_model_label(current_resources_name) %></h1>
+    <h1><%= t 'labels.create', model: to_model_label(current_model_class) %></h1>
     <%= render 'resource_navs' %>
   </div>
   <%= render 'flash_messages' %>

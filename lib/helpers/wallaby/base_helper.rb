@@ -24,6 +24,7 @@ module Wallaby
     def body_class
       [
         params[:action],
+        controller_path.gsub(SLASH, '__'),
         current_resources_name.try(:gsub, COLONS, '__'),
         content_for(:custom_body_class)
       ].compact.join SPACE
