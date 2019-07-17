@@ -7,89 +7,70 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2abd1165bdae523dd2e1/test_coverage)](https://codeclimate.com/github/reinteractive/wallaby/test_coverage)
 [![Inch CI](https://inch-ci.org/github/reinteractive/wallaby.svg?branch=master)](https://inch-ci.org/github/reinteractive/wallaby)
 
-Wallaby is a Rails engine for data manipulation and display. It can be easily and highly customized in a Rails way using decorators, controllers, and views.
+Wallaby is a Rails engine that provides a default implementation of the resourceful controller and view for a given ORM model (ActiveRecord, HER or others) for admin interface and other purposes.
 
-Below is animated screenshots of Wallaby:
+It can be easily and deeply customized at MVC's different aspects by using [decorators](docs/decorator.md), [controllers](docs/controllers.md), [type partials/cells](docs/view.md), [servicers](docs/servicer.md), [authorizers](docs/authorizer.md), [paginators](docs/paginator.md) and [themes](docs/theme.md). [Try the demo here](https://wallaby-demo.herokuapp.com/admin/).
 
 [![Animated Demo](https://raw.githubusercontent.com/reinteractive/wallaby/master/docs/demo-animated.gif)](https://raw.githubusercontent.com/reinteractive/wallaby/master/docs/demo-animated.gif)
 
-- Try out [Demo](https://wallaby-demo.herokuapp.com/admin/)
-- Check out [API Reference](https://www.rubydoc.info/gems/wallaby)
-- See [Documentation](docs/README.md) for customization guides
-- See [Wiki](/reinteractive/wallaby/wiki) for more HOW-TOs
-- See [Features and Requirements](docs/features.md)
-- See [Change Logs](CHANGELOG.md)
-- [Get Started](#get-started) below
+## Install
 
-> NOTE: from 5.2.0, Wallaby has migrated Bootstrap from 3 to 4. Please consult [Migrating to v4](https://v4-alpha.getbootstrap.com/migration/)
+Add Wallaby to `Gemfile` and re-bundle.
 
-Here are some sophisticated customization examples:
+```ruby
+# Gemfile
+gem 'wallaby'
+```
 
-- To render markdown description into HTML for show page, it is required to configure custom type in the `Decorator` ([read more](docs/decorator.md)) below:
+```shell
+bundle install
+```
 
-  ```ruby
-  # app/decorators/product_decorators.rb
-  class ProductDecorator < Admin::ApplicationDecorator
-    self.show_fields[:description][:type] = 'markdown'
-  end
-  ```
+## Basic Usage
 
-  Then create the `Type Partial` ([read more](docs/view.md)) accordingly:
+### As Admin Interface
 
-  ```erb
-  <% # app/views/admin/products/show/_markdown.html.erb %>
-  <% markdowner = Redcarpet::Markdown.new(Redcarpet::Render::HTML, {}) %>
-  <%= raw markdowner.render(value) %>
-  ```
+Just mount Wallaby engine to desired path, e.g. `/admin` in `config/routes.rb`.
 
-- Register the product on e-commence after it is created at `Controller` ([read more](docs/controller.md)) level:
+```ruby
+# config/routes.rb
+mount Wallaby::Engine, at: '/admin'
+```
 
-  ```ruby
-  # app/controllers/admin/products_controller.rb
-  class Admin::ProductsController < Admin::ApplicationController
-    self.model_class = Product
+Or run installer to generate default application classes/templates under namespace e.g. `Admin` and mount Wallaby engine to path `/admin`.
 
-    def create
-      create! do |format|
-        register_product_on_ecommence(resource) if resource.errors.blank?
-      end
-    end
-  end
-  ```
+```shell
+rails g wallaby:install admin
+```
 
-## Getting Started
+Restart rails server, and visit http://localhost:3000/admin to start exploring!
 
-1. Add wallaby gem to `Gemfile`:
+### For General Purposes
 
-  ```ruby
-  # Gemfile
-  gem 'wallaby'
-  ```
+Instead of using Rails scaffold generator to generate all the boilerplate code, Wallaby can help to quickly get the pages up for typical resourceful actions.
 
-2. Install generator:
+For example, if a model `Blog` is generated:
 
-  ```shell
-  rails g wallaby:install admin
-  ```
+```shell
+rails generate model blog title:string body:text
+rails db:migrate
+```
 
-  For version below 5.2.0, mount it to the `/admin`:
+Add resources route to `config/routes.rb` using `wresources`
 
-  ```ruby
-  # config/routes.rb
-  Rails.application.routes.draw do
-    # ... other routes
-    mount Wallaby::Engine, at: '/admin'
-    # ... other routes
-  end
-  ```
+```ruby
+# config/routes.rb
+wresources :blogs, controller: 'wallaby/resources'
+```
 
-3. Start Rails server
+Restart rails server, and visit http://localhost:3000/blogs to give it a taste!
 
-  ```shell
-  rails server
-  ```
+## Documentation
 
-4. Open Wallaby on at http://localhost:3000/admin and start exploring!
+- [Features and Requirements](docs/features.md)
+- [Documentation](docs/README.md) for more usages and customization guides
+- [API Reference](https://www.rubydoc.info/gems/wallaby)
+- [Change Logs](CHANGELOG.md)
 
 ## Want to contribute?
 
