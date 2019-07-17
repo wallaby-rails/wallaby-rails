@@ -6,8 +6,8 @@ Routes can be declared in the following scenarios:
   - [`:resources_controller` mount option](#resources_controller-mount-option) (since 5.2.0) - to specify the base controller for a given mount path
   - [route for custom action](#route-for-custom-action)
 - [As Non Admin Interface](#as-non-admin-interface) (since 5.2.0)
-  - [Resourcesful](#resourcesful)
-  - [Resourceful](#resourceful)
+  - [Resources](#resources)
+  - [Singular Resources](#singular-resources)
 
 Read more:
 
@@ -75,10 +75,11 @@ mount Wallaby::Engine, at: '/admin'
 
 ## As Non Admin Interface
 
-### Resourcesful
+### Resources
+
 > since 5.2.0
 
-Wallaby can be used beyond being an admin interface. For example, it can be used to quickly generate a page for an existing model (e.g. `Product`) without the need of adding any custom controller, the resourcesful route can be declared as:
+Wallaby can be used beyond being an admin interface. For example, it can be used to quickly generate a page for an existing model (e.g. `Product`) without the need of adding any custom controller, the resourceful route can be declared as:
 
 ```ruby
 # config/routes.rb
@@ -104,10 +105,11 @@ Then the route to declare will just be:
 
 ```ruby
 # config/routes.rb
-wresources :products
+resources :products
 ```
 
-### Resourceful
+### Singular Resources
+
 > since 5.2.0
 
 Wallaby can be also used for singular resourceful actions (new/create/show/edit/update/destroy). For example, for a model `Profile`, singular resource routes can be declared as:
@@ -139,7 +141,7 @@ wresource :profile
 
 ## Path and URL Helpers
 
-Similar to [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.org/routing.html#path-and-url-helpers), Wallaby provides a set of resourcesful path and URL helpers when it is used as an admin interface, for example:
+Similar to [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.org/routing.html#path-and-url-helpers), Wallaby provides a set of resourceful path and URL helpers when it is used as an admin interface, for example:
 
 | HTTP Verb |	Path	                        | Named Helper                                            | Controller#Action         | Mounted Path  | Engine Name     | Resources Name  |
 | --------- | ----------------------------- | ------------------------------------------------------- | ------------------------- | ------------- | --------------- | --------------- |
@@ -155,7 +157,7 @@ Similar to [Rails Resourceful Path and URL helpers ](http://guides.rubyonrails.o
 
 ### Engine Helper
 
-If Wallaby is used as an admin interface and mounted without `:as` option, by default, Rails will generate an engine helper called `wallaby_engine`, so that resourcesful path helper methods can be accessed via this engine helper:
+If Wallaby is used as an admin interface and mounted without `:as` option, by default, Rails will generate an engine helper called `wallaby_engine`, so that resourceful path helper methods can be accessed via this engine helper:
 
 ```ruby
 wallaby_engine.resources_path('order::items') # => /admin/order::items
@@ -168,7 +170,7 @@ When an alias engine name is specified by `:as` option as follows (see [#mount](
 mount Wallaby::Engine, at: '/admin', as: :manager_engine
 ```
 
-Rails will generate the engine helper as `manager_engine` instead. Then resourcesful path helper methods can be accessed:
+Rails will generate the engine helper as `manager_engine` instead. Then resourceful path helper methods can be accessed:
 
 ```ruby
 manager_engine.resources_path('order::items')
