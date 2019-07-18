@@ -1,6 +1,5 @@
 # Documentation
 
-- [Features and requirements](features.md)
 - [Naming conventions](convention.md)
 - [Global configurations](configuration.md)
 - [Declaring routes](route.md)
@@ -15,7 +14,7 @@
 
 # Complicated use cases
 
-- [Use Wallaby for non-ActiveModel resources](custom.md)
+- [Support non-ActiveModel resources](custom.md)
 - [Creating and applying a theme](theme.md) (WIP)
 - [Implementing ORM adaptor](orm_adaptor.md) (WIP)
 - [Implementing authorization adaptor](authorization_adaptor.md) (WIP)

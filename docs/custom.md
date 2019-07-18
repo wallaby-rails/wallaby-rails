@@ -2,7 +2,7 @@
 
 It is possible to support non-ActiveModel resources in Wallaby.
 
-For example, if there is a non-ActiveModel class, which reads CSV file and caches records in memory:
+For example, given the following model that reads CSV file and caches records in memory (TL;DR, [go straight to customization](#customization)):
 
 ```ruby
 class Postcode
@@ -34,7 +34,6 @@ class Postcode
     end
 
     def all
-      # ...
       cache_store.fetch cache_key do
         CSV.read(
           Rails.root.join('app/csv/postcodes.csv'),
@@ -52,13 +51,11 @@ class Postcode
     end
 
     def create(resource)
-      # ...
       resource.id = all.max_by(&:id).try(:id).try(:to_i) + 1
       cache_store.write cache_key, all << resource
     end
 
     def update(resource)
-      # ...
       all.tap do |rows|
         index = rows.index resource
         rows[index] = resource
@@ -67,16 +64,17 @@ class Postcode
     end
 
     def destroy(resource)
-      # ...
       cache_store.write cache_key, all.reject { |p| p.id == resource.id }
     end
   end
 end
 ```
 
-To make Wallaby support it, the following minimum steps will be required:
+## Customization
 
-- Add `Postcode` to the list of custom models in initializer:
+To support it, the following minimum steps will be required:
+
+- Add `Postcode` to the list of custom models in Wallaby initializer:
 
   ```ruby
   # config/initializers/wallaby.rb
@@ -85,13 +83,15 @@ To make Wallaby support it, the following minimum steps will be required:
   end
   ```
 
-- Create a servicer `PostcodeServicer` to implemented the actions used by Wallaby:
+- Create a servicer `PostcodeServicer` to implemented the interface methods used by Wallaby controller:
 
   ```ruby
-  # app/servicers/postcode_servicer.rb
-  class PostcodeServicer < Admin::ApplicationServicer
+  # app/servicers/admin/postcode_servicer.rb
+  class Admin::PostcodeServicer < Admin::ApplicationServicer
     def permit(params, _action)
-      params.fetch(:postcode, params).permit(model_decorator.form_field_names)
+      params.fetch(:postcode, params).permit(
+        :postcode, :locality, :state, :long, :lat, :id, :dc, :type, :status
+      )
     end
 
     def collection(_params)
@@ -126,7 +126,6 @@ To make Wallaby support it, the following minimum steps will be required:
   end
   ```
 
-  > NOTE: all the methods above are interface methods.
-  > If they aren't implemented, Wallaby will raise Wallaby::NotImplemented exception.
+  > NOTE: if the above interface methods aren't implemented, Wallaby will raise `Wallaby::NotImplemented` exception.
 
-Then open up http://localhost:3000/admin/postcodes, and that's it!
+Then visit http://localhost:3000/admin/postcodes, and that's it!

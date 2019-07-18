@@ -145,8 +145,9 @@ module Wallaby
     # @return [String] index page path
     def index_path(model_class, url_params: {})
       hash = ParamsUtils.presence(
-        { resources: to_resources_name(model_class), action: :index },
-        default_path_params, url_params.to_h
+        { action: :index },
+        default_path_params(resources: to_resources_name(model_class)),
+        url_params.to_h
       )
       current_engine.try(:resources_path, hash) || url_for(hash)
     end
@@ -156,8 +157,9 @@ module Wallaby
     # @return [String] new page path
     def new_path(model_class, url_params: {})
       hash = ParamsUtils.presence(
-        { resources: to_resources_name(model_class), action: :new },
-        default_path_params, url_params.to_h
+        { action: :new },
+        default_path_params(resources: to_resources_name(model_class)),
+        url_params.to_h
       )
       current_engine.try(:new_resource_path, hash) || url_for(hash)
     end
@@ -171,8 +173,9 @@ module Wallaby
       return unless is_resource || decorated.primary_key_value
 
       hash = ParamsUtils.presence(
-        { resources: decorated.resources_name, action: :show, id: decorated.primary_key_value },
-        default_path_params, url_params.to_h
+        { action: :show, id: decorated.primary_key_value },
+        default_path_params(resources: decorated.resources_name),
+        url_params.to_h
       )
 
       current_engine.try(:resource_path, hash) || url_for(hash)
@@ -187,16 +190,20 @@ module Wallaby
       return unless is_resource || decorated.primary_key_value
 
       hash = ParamsUtils.presence(
-        { resources: decorated.resources_name, action: :edit, id: decorated.primary_key_value },
-        default_path_params, url_params.to_h
+        { action: :edit, id: decorated.primary_key_value },
+        default_path_params(resources: decorated.resources_name),
+        url_params.to_h
       )
 
       current_engine.try(:edit_resource_path, hash) || url_for(hash)
     end
 
     # @return [Hash] default path params
-    def default_path_params
-      { script_name: request.env[SCRIPT_NAME], only_path: true }
+    def default_path_params(resources: nil)
+      { script_name: request.env[SCRIPT_NAME] }.tap do |default|
+        default[:resources] = resources if current_engine || resources
+        default[:only_path] = true unless default.key?(:only_path)
+      end
     end
   end
 end

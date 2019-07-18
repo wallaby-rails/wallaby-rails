@@ -12,7 +12,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Normalizer do
     describe 'range types' do
       describe 'daterange' do
         it 'turns array into range' do
-          expect(subject.normalize(parameters(daterange: ['2016-04-01', '2016-04-03']))[:daterange]).to eq '2016-04-01'...'2016-04-03'
+          expect(subject.normalize(parameters(daterange: %w(2016-04-01 2016-04-03)))[:daterange]).to eq '2016-04-01'...'2016-04-03'
           expect(subject.normalize(parameters(daterange: ['', '2016-04-03']))[:daterange]).to eq ''...'2016-04-03'
           expect(subject.normalize(parameters(daterange: ['2016-04-01', '']))[:daterange]).to eq '2016-04-01'...''
         end

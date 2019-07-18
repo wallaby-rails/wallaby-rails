@@ -9,7 +9,7 @@ describe Wallaby::LinksHelper, :current_user do
     end
 
     it 'returns index path', script_name: '' do
-      expect(helper.index_path(Product, url_params: { controller: 'wallaby/resources' })).to eq '/products'
+      expect(helper.index_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products'
     end
 
     it 'accepts url_params' do
@@ -24,7 +24,7 @@ describe Wallaby::LinksHelper, :current_user do
     end
 
     it 'returns new path', script_name: '' do
-      expect(helper.new_path(Product, url_params: { controller: 'wallaby/resources' })).to eq '/products/new'
+      expect(helper.new_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/new'
     end
 
     it 'accepts url_params' do
@@ -41,7 +41,7 @@ describe Wallaby::LinksHelper, :current_user do
     end
 
     it 'returns show path', script_name: '' do
-      expect(helper.show_path(product, url_params: { controller: 'wallaby/resources' })).to eq '/products/1'
+      expect(helper.show_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1'
     end
 
     it 'accepts url_params' do
@@ -58,7 +58,7 @@ describe Wallaby::LinksHelper, :current_user do
     end
 
     it 'returns edit path', script_name: '' do
-      expect(helper.edit_path(product, url_params: { controller: 'wallaby/resources' })).to eq '/products/1/edit'
+      expect(helper.edit_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1/edit'
     end
 
     it 'accepts url_params' do

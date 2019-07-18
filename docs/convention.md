@@ -1,6 +1,6 @@
 # Naming Conventions
 
-Models are the only thing that Wallaby uses to connect everything together (controller/decorator/servicer/authorizer/paginator/view). See the following sections to find out how model is associated using naming conventions.
+Models are the ones that Wallaby uses to connect everything together (controller/decorator/servicer/authorizer/paginator/view). See the following sections to find out how model is associated with the following components using naming conventions.
 
 - [URL](#url)
 - [Controller](#controller)
@@ -26,13 +26,24 @@ As the last row illustrated, Wallaby handles namespace slightly different from R
 
 See [Declaring Routes](route.md#for-admin-interface) for how to customize the routes when using Wallaby as admin interface.
 
-### Non Admin Interface
+### For General Purpose
 
 > since 5.2.0
 
-Wallaby can be used as generic Rails controller, for example:
+Wallaby can be used for general purpose, for example:
 
 ```ruby
+# config/routes
+resources :orders do
+  resources :items
+end
+```
+
+```ruby
+# app/controllers/orders_controller.rb
+class OrdersController < Wallaby::ResourcesController
+end
+
 # app/controllers/order/items_controller.rb
 class Order::ItemsController < Wallaby::ResourcesController
 end

@@ -298,7 +298,7 @@ Therefore, the cell/type partial can be created in one of the above paths depend
 
 ### Action Prefix Mapping
 
-The following resourcesful actions are mapped to the action prefixes:
+The following resourceful actions are mapped to the action prefixes:
 
 | Action  | Action Prefix |
 | ------- | ------------- |
