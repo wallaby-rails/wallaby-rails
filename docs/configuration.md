@@ -1,19 +1,21 @@
 # Configuration
 
-This is about all the global configuration that goes into `config/initializers/wallaby.rb`:
+All the global configuration goes into file `config/initializers/wallaby.rb`.
 
 - [Authentication](#authentication)
-  - [authenticate_user! and current_user](#authenticate_user-and-current_user) - customize `authenticate_user!` and `current_user`.
-  - [authenticate, current_user and email_method](#authenticate-current_user-and-email_method) - configure how authentication's done.
-  - [logout_path and logout_method](#logout_path-and-logout_method) (since 5.1.4) - configure what route can be used to log out.
+  - [authenticate](#authenticate) - authenticate a user (by default, it does nothing).
+  - [current_user](#current_user) - returns the signed in user instance (default to return `nil`).
+  - [email_method](#email_method) (since 5.1.4) - specifies the method name which returns the user's email address for avatar display (default to `:email`).
+  - [logout_path](#logout_path) (since 5.1.4) - specifies the url helper name for signing out a user (default to Devise's `"destroy_#{user_scope}_session_path"`).
+  - [logout_method](#logout_method) (since 5.1.4) - specifies the http method for signing out a user (default to Devise's `mapping.sign_out_via`).
 - [Controller](#controller)
-  - [base_controller](#base_controller) - configure the base class that `Wallaby::ResourcesController` inherits from.
-- [Model](#model) - specifying what models to be listed.
-  - [exclude](#exclude) - execluding given models.
-  - [models=](#models) - whitelisting models.
-- [Mapping](#mapping) (since 5.1.6) - specifying the base classes.
-  - [resources_controller](#resources_controller) - how to declare and set base controller class.
-  - [resource_decorator](#resource_decorator) - how to declare and set base decorator class.
+  - [base_controller](#base_controller) - specifies the base class that [Wallaby::ResourcesController](https://www.rubydoc.info/gems/wallaby/Wallaby/ResourcesController) **inherits from**.
+- [Model](#model)
+  - [exclude](#exclude) - excludes models.
+  - [models=](#models) - whitelists models.
+- [Mapping](#mapping) (since 5.1.6)
+  - [resources_controller](#resources_controller) - specifies base controller class that **inherits from** [Wallaby::ResourcesController](https://www.rubydoc.info/gems/wallaby/Wallaby/ResourcesController).
+  - [resource_decorator](#resource_decorator) - specifies base decorator class that **inherits from** .
   - [model_servicer](#model_servicer) - how to declare and set base servicer class.
   - [model_authorizer](#model_authorizer) (since 5.2.0) - how to declare and set base authorizer class.
   - [model_paginator](#model_paginator) - how to declare and set base paginator class.
@@ -28,29 +30,33 @@ This is about all the global configuration that goes into `config/initializers/w
 
 ## Authentication
 
-> NOTE: Wallaby does NOT handle logging in and out.
+> NOTE: Wallaby DOES NOT handle signing in or out. It only checks if user is signed in or not.
 
-### authenticate, current_user and email_method
+### authenticate
 
-Wallaby follows the common authentication practice to execute `authenticate_user!` in `before_action` callbacks and use `current_user` to return the user object. Therefore, there are three ways to set up authentication:
-
-### authenticate_user! and current_user
-
-> since 5.1.6
-
-Declare a base controller [`Admin::ApplicationController`](#mapping), and define methods `authenticate_user!` and `current_user`:
+This is the configuration to check if user has signed in or to authenticate a user. For example, to use HTTP BASIC authentication, it goes:
 
 ```ruby
-# app/controllers/admin/application_controller.rb
-class Admin::ApplicationController < Wallaby::ResourcesController
-  def authenticate_user!
-    # http basic authentication
+# config/initializers/wallaby.rb
+Wallaby.config do |config|
+  config.security.authenticate do
     authenticate_or_request_with_http_basic do |username, password|
       username == 'too_simple' && password == 'too_naive'
     end
   end
+end
+```
 
-  def current_user
+If it's not configured, it does not to authenticate a user.
+
+### current_user
+
+This is the configuration to return the signed-in user instance. For example:
+
+```ruby
+# config/initializers/wallaby.rb
+Wallaby.config do |config|
+  config.security.current_user do
     # user example
     Class.new do
       def email
@@ -61,7 +67,23 @@ class Admin::ApplicationController < Wallaby::ResourcesController
 end
 ```
 
-### authenticate, current_user and email_method
+> NOTE: Wallaby uses default method `email` to display user avatar image from https://en.gravatar.com at top-right corner on every page.
+> see below if `email` is not the target method.
+
+### email_method
+
+> Since 5.1.4
+
+This is the configuration to specify the method to return an email address for user avatar display. For example:
+
+```ruby
+# config/initializers/wallaby.rb
+Wallaby.config do |config|
+  config.security.email_method = :user_email
+end
+```
+
+check if user has signed in. For example, to use HTTP BASIC authentication, it goes:
 
 Authentication can be customized by configuring the `authenticate` and `current_user` (optional: `email_method`) options as per the example below:
 

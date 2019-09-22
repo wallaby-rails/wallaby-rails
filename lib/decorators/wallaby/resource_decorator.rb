@@ -134,7 +134,7 @@ module Wallaby
     # @return [Object] value of given field name
     def value_of(field_name)
       return unless field_name
-      resource.public_send field_name
+      resource.try field_name
     end
 
     # Guess the title for given resource.
@@ -154,7 +154,7 @@ module Wallaby
 
     # @return [Object] primary key value
     def primary_key_value
-      resource.public_send primary_key
+      resource.try primary_key
     end
 
     # @return [ActiveModel::Name]
@@ -172,7 +172,7 @@ module Wallaby
     # Delegate missing method to {#resource}
     def method_missing(method_id, *args, &block)
       return super unless resource.respond_to? method_id
-      resource.public_send method_id, *args, &block
+      resource.try method_id, *args, &block
     end
 
     # Delegate missing method check to context

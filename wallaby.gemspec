@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ['Tianwen Chen']
   s.email = ['me@tian.im']
   s.homepage = "https://github.com/reinteractive/#{app_name}"
-  s.summary = 'Rails way database admin interface'
+  s.summary = 'Autocomplete the resourceful actions and views for ORMs for admin interface and other purposes.'
   s.description = s.summary
   s.license = 'MIT'
 

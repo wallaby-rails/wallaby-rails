@@ -118,7 +118,7 @@ module Wallaby
         def field_search(field_queries, query)
           return query unless field_check? field_queries
           field_queries.each do |exp|
-            sub_query = table[exp[:left]].public_send(exp[:op], exp[:right])
+            sub_query = table[exp[:left]].try(exp[:op], exp[:right])
             query = query.try(:and, sub_query) || sub_query
           end
           query

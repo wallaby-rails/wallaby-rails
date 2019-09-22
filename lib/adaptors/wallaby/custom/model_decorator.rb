@@ -24,13 +24,13 @@ module Wallaby
       # A copy of {#fields} for show page
       # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def show_fields
-        @show_fields  ||= Utils.clone fields
+        @show_fields ||= Utils.clone fields
       end
 
       # A copy of {#fields} for form (new/edit) page
       # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def form_fields
-        @form_fields  ||= Utils.clone fields
+        @form_fields ||= Utils.clone fields
       end
 
       # @return [Array<String>] a list of field names for index page

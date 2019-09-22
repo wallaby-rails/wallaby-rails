@@ -22,9 +22,9 @@ When Wallaby is used as admin interface, Wallaby uses the following naming conve
 | /admin/people       | Person      |
 | /admin/order::items | Order::Item |
 
-As the last row illustrated, Wallaby handles namespace slightly different from Rails. By using `order::items` instead of `order/items`, URL becomes non-nested and can be recognized by Wallaby's [Resources Router](https://www.rubydoc.info/gems/wallaby/Wallaby/ResourcesRouter).
+As the last row illustrated, Wallaby handles namespace slightly different from Rails when used as admin interface. By using `order::items` instead of `order/items`, URL becomes non-nested and can be recognized as a pattern by Wallaby routings.
 
-See [Declaring Routes](route.md#for-admin-interface) for how to customize the routes when using Wallaby as admin interface.
+See [Admin Interface Routing](route.md#for-admin-interface) for how to mount or add routes when using Wallaby as admin interface.
 
 ### For General Purpose
 
@@ -49,7 +49,7 @@ class Order::ItemsController < Wallaby::ResourcesController
 end
 ```
 
-In this case, it works the same as general Rails controller. And URL mapping to model is the same as Rails as well:
+In this case, it works the same as . And URL mapping to controller and model is the same as Rails:
 
 | URL           | Model       |
 | ------------- | ----------- |
@@ -58,7 +58,7 @@ In this case, it works the same as general Rails controller. And URL mapping to 
 | /people       | Person      |
 | /order/items  | Order::Item |
 
-See [Declaring Routes](route.md#for-non-admin-interface) for how to customize the routes when using Wallaby as non admin interface.
+See [Declaring Routes](route.md#for-non-admin-interface) for how to customize the routes when using Wallaby for general purpose.
 
 ## Controller
 
@@ -66,9 +66,13 @@ See [Declaring Routes](route.md#for-non-admin-interface) for how to customize th
 
 Same as Rails, Wallaby also favors **pluralization** of the last word in controller's name.For example, `SiteAdminsController` is preferable over `SitesAdminsController` or `SiteAdminController`
 
-Following this convention will allow Wallaby to automatically connect the model and its controller. For example, for model `SiteAdmin`, Wallaby will use `SiteAdminsController` to process request for it. Otherwise, Wallaby will fall back to use base controller `Admin::ApplicationController` or `Wallaby::ResourcesController` if `Admin::ApplicationController` does not exist.
+This naming convention allows Wallaby to automatically connect the model and its controller. For example, when used as admin interface, for model `SiteAdmin`, Wallaby will look for the controller to dispatch to in the following top-down order:
 
-When there is scenario that controller name can't reflect the model name, for example, `Admin::ProductsController`, it's possible to manually map `Admin::ProductsController` to `Product`, see [Specifying Model Class for Controller](controller.md#model_class).
+- `Admin::SiteAdminsController` under `Admin` namespace
+- admin base controller `Admin::ApplicationController`
+- `Wallaby::ResourcesController`
+
+If the controller name cannot reflect the correct model name, for example, between `Admin::ProductsController` and `ProductItem`, it is possible to [specify associated model class for controller](controller.md#model_class).
 
 ## Decorator
 
@@ -76,9 +80,9 @@ When there is scenario that controller name can't reflect the model name, for ex
 
 Similar to Active Record's naming convention, Wallaby favors **singularization** of the last word in decorator's name. For example, `SiteAdminDecorator` is preferable over `SitesAdminsDecorator` or `SiteAdminsDecorator`.
 
-Following this convention will allow Wallaby to automatically connect the model and its decorator. For example, for model `SiteAdmin`, Wallaby will use `SiteAdminDecorator` to decorate it in the view. Otherwise, Wallaby will fall back to use base controller `Admin::ApplicationDecorator` or `Wallaby::ResourceDecorator` if `Admin::ApplicationDecorator` does not exist.
+Following this convention will allow Wallaby to automatically connect the model and its decorator. For example, for model `SiteAdmin`, Wallaby will use `Admin::SiteAdminDecorator`  to decorate it in the view. Otherwise, Wallaby will fall back to use base controller `Admin::ApplicationDecorator` or `Wallaby::ResourceDecorator` if `Admin::ApplicationDecorator` does not exist.
 
-When there is scenario that decorator name can't reflect the model name, for example, `Admin::ProductDecorator`, it's possible to manually map `Admin::ProductDecorator` to `Product`, see [Specifying Model Class for Decorator](decorator.md#model_class).
+When there is scenario that decorator name cannot reflect associated model name, for example, `Admin::ProductDecorator`, it's possible to manually associate `Admin::ProductDecorator` with `Product`, see [specifying model class for Decorator](decorator.md#model_class).
 
 Also, it's recommended to place decorators under folder `app/decorators` for better file organization.
 
@@ -90,7 +94,7 @@ Similar to Active Record's naming convention, Wallaby favors **singularization**
 
 Following this convention will allow Wallaby to automatically connect the model and its servicer. For example, for model `SiteAdmin`, Wallaby will use `SiteAdminServicer` to perform CRUD operations. Otherwise, Wallaby will fall back to use base controller `Admin::ApplicationServicer` or `Wallaby::ModelServicer` if `Admin::ApplicationServicer` does not exist.
 
-When there is scenario that controller name can't reflect the model name, for example, `Admin::ProductServicer`, it's possible to manually map `Admin::ProductServicer` to `Product`, see [Specifying Model Class for Servicer](servicer.md#model_class).
+When there is scenario that controller name cannot reflect associated model name, for example, `Admin::ProductServicer`, it's possible to manually associate `Admin::ProductServicer` with `Product`, see [specifying model class for Servicer](servicer.md#model_class).
 
 Also, it's recommended to place servicers under folder `app/servicers` for better file organization.
 
@@ -102,7 +106,7 @@ Similar to Active Record's naming convention, Wallaby favors **singularization**
 
 Following this convention will allow Wallaby to automatically connect the model and its servicer. For example, for model `SiteAdmin`, Wallaby will use `SiteAdminAuthorizer` to perform authorization checks. Otherwise, Wallaby will fall back to use base controller `Admin::ApplicationAuthorizer` or `Wallaby::ModelAuthorizer` if `Admin::ApplicationAuthorizer` does not exist.
 
-When there is scenario that controller name can't reflect the model name, for example, `Admin::ProductAuthorizer`, it's possible to manually map `Admin::ProductAuthorizer` to `Product`, see [Specifying Model Class for Authorizer](authorizer.md#model_class).
+When there is scenario that controller name cannot reflect associated model name, for example, `Admin::ProductAuthorizer`, it's possible to manually associate `Admin::ProductAuthorizer` with `Product`, see [specifying model class for Authorizer](authorizer.md#model_class).
 
 Also, it's recommended to place authorizers under folder `app/authorizers` for better file organization.
 
@@ -114,6 +118,6 @@ Similar to Active Record's naming convention, Wallaby favors **singularization**
 
 Following this convention will allow Wallaby to automatically connect the model and its servicer. For example, for model `SiteAdmin`, Wallaby will use `SiteAdminPaginator` to get pagination information for it. Otherwise, Wallaby will fall back to use base controller `Admin::ApplicationPaginator` or `Wallaby::ModelPaginator` if `Admin::ApplicationPaginator` does not exist.
 
-When there is scenario that controller name can't reflect the model name, for example, `Admin::ProductPaginator`, it's possible to manually map `Admin::ProductPaginator` to `Product`, see [Specifying Model Class for Paginator](paginator.md#model_class).
+When there is scenario that controller name cannot reflect associated model name, for example, `Admin::ProductPaginator`, it's possible to manually associate `Admin::ProductPaginator` with `Product`, see [specifying model class for Paginator](paginator.md#model_class).
 
 Also, it's recommended to place paginators under folder `app/paginators` for better file organization.

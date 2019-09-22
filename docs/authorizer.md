@@ -210,7 +210,7 @@ To customize how to check permission for a given subject, it goes:
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def authorized?(action, subject)
-    context.can?(action, subject) && context.policy(subject).public_send("#{action}?")
+    context.can?(action, subject) && context.policy(subject).try("#{action}?")
   end
 end
 ```
@@ -225,7 +225,7 @@ To customize how to check permission for given subject, it goes:
 # app/authorizers/admin/application_authorizer.rb
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def unauthorized?(action, subject)
-    !(context.can?(action, subject) && context.policy(subject).public_send("#{action}?"))
+    !(context.can?(action, subject) && context.policy(subject).try("#{action}?"))
   end
 end
 ```
@@ -257,7 +257,7 @@ To customize how to restrict the assignment, it goes:
 class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
   def attributes_for(action, subject)
     context.current_ability.attributes_for action, subject
-    context.policy(subject).public_send :attributes_for
+    context.policy(subject).try :attributes_for
   end
 end
 ```
