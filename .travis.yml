@@ -11,9 +11,12 @@ gemfile:
   - gemfiles/Gemfile.rails-5.2
   - gemfiles/Gemfile.rails-5.2-legacy
 matrix:
-  exclude:
-  - rvm: 2.6.0
-    gemfile: gemfiles/Gemfile.rails-4.2
+  # exclude:
+  # - rvm: 2.6.0
+  #   gemfile: gemfiles/Gemfile.rails-4.2
+  include:
+  - gemfile: gemfiles/Gemfile.rails-4.2
+    env: RAILS4=true
 env:
   global:
     - DB=postgresql
@@ -24,7 +27,15 @@ services:
 addons:
   postgresql: "9.6"
 before_install:
-  - gem install bundler -v '< 2'
+  # @see https://docs.travis-ci.com/user/languages/ruby/#bundler-20
+  - if $RAILS4; then;
+    gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true;
+    gem install bundler -v '< 2';
+    fi
+  - if !$RAIS4; then;
+    gem update --system;
+    gem install bundler;
+    fi
 script:
   - bundle exec rubocop
   - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
