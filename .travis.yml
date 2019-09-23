@@ -28,11 +28,10 @@ addons:
   postgresql: "9.6"
 before_install:
   # @see https://docs.travis-ci.com/user/languages/ruby/#bundler-20
-  - if $RAILS4; then;
+  - if $RAILS4; then
     gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true;
     gem install bundler -v '< 2';
-    fi
-  - if !$RAIS4; then;
+    else
     gem update --system;
     gem install bundler;
     fi
