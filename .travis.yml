@@ -1,9 +1,9 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.4.5
-  - 2.5.3
-  - 2.6.0
+  - 2.4.7
+  - 2.5.6
+  - 2.6.4
 gemfile:
   - gemfiles/Gemfile.rails-4.2
   - gemfiles/Gemfile.rails-5.0
@@ -11,12 +11,9 @@ gemfile:
   - gemfiles/Gemfile.rails-5.2
   - gemfiles/Gemfile.rails-5.2-legacy
 matrix:
-  # exclude:
-  # - rvm: 2.6.0
-  #   gemfile: gemfiles/Gemfile.rails-4.2
-  include:
-  - gemfile: gemfiles/Gemfile.rails-4.2
-    env: RAILS4=true
+  exclude:
+  - rvm: 2.6.4
+    gemfile: gemfiles/Gemfile.rails-4.2
 env:
   global:
     - DB=postgresql
@@ -27,14 +24,10 @@ services:
 addons:
   postgresql: "9.6"
 before_install:
+  # Rails 4.2 has dependency on bundler < 2 >= 1.3.0
   # @see https://docs.travis-ci.com/user/languages/ruby/#bundler-20
-  - if $RAILS4; then
-    gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true;
-    gem install bundler -v '< 2';
-    else
-    gem update --system;
-    gem install bundler;
-    fi
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2' --no-ri --no-rdoc
 script:
   - bundle exec rubocop
   - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
