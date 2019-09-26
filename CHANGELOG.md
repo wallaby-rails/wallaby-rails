@@ -1,14 +1,11 @@
 # TODOs
 
-- allow access to authorizer and user in servicer
-- extract assign_attributes out from servicer find/new
+- support rails 6
+- Localization support: to be able to use localization for all the model labels
+- extract core, active record mode and her mode into their own gems
 
-- pagination check of collection class
 - documentation for interface
 - documentation for localization
-- bugfix: can autocomplete for integer labels
-- Localization support: to be able to use localization for all the model labels
-- Add lint check for stylesheet (maybe..)
 - Data audit (use papertrail) (maybe..)
 - Batch data action (maybe..)
 
@@ -18,27 +15,72 @@ N/A
 
 # History:
 
+## 5.2.0
+
+- [Feature] Make sure Wallaby still works without specifying resources_name in routes ([issue 154](#154))
+- [Feature] Namespace ([issue 153](#153))
+- [Chore] Change authorizer's initialize to take away the dependence of context ([issue 152](#152))
+- [Feature] wallaby:install generator ([issue 151](#151))
+- [Feature] Remove usage of `index_params` ([issue 150](#150))
+- [Feature] Router helper and support singular resourceful route ([issue 149](#149))
+- [Feature] Custom mode ([issue 148](#148))
+- [Chore] Theme specs ([issue 147](#147))
+- [Chore] Remove abstract classes ([issue 146](#146))
+- [Feature] options for controller and move servicer's mass assignment to create/update ([issue 145](#145))
+- [Feature] Add ActiveStorage partial and `at` cell helper ([issue 144](#144))
+- [Chore] Defult to exclude model ActiveRecord::SchemaMigration ([issue 143](#143))
+- [Feature] Upgrade to bootstrap4 and font-awesome ([issue 142](#142))
+- [Chore] Update dropdown html syntax and remove Font Awesome ([issue 141](#141))
+- [Chore] Update docs and make sure corresponding helper methods exists ([issue 140](#140))
+- [Feature] Add support for single column sorting ([issue 139](#139))
+- [Feature] Move error page to proper place so that it can be customized ([issue 138](#138))
+- [Feature] Base class and JSON API responder ([issue 137](#137))
+- [Chore] Reduce code duplication ([issue 136](#136))
+- [Chore] Refactor utils ([issue 135](#135))
+- [Feature] Support for cell to improve performance ([issue 134](#134))
+- [Chore] HER and auto select ([issue 133](#133))
+- [Support] Rails 4.2 and specs ([issue 131](#131))
+- [Feature] Permitted parameters for has_many-through associations ([issue 129](#129))
+- [Fix] Float form partial options ([issue 128](#128))
+- [Feature] Support Pundit 2.0 ([issue 127](#127))
+- [Feature] Sort disabled ([issue 126](#126))
+- [Feature] Extract frontend partial ([issue 125](#125))
+- [Chore] Resolve conflicts ([issue 124](#124))
+- [Chore] Remove resources helper methods and update documentation ([issue 123](#123))
+- [Feature] Authorizable and resourcable ([issue 122](#122))
+- [Feature] Resourcable and paginatable concerns ([issue 120](#120))
+- [Feature] Servicable ([issue 119](#119))
+- [Feature] Adding link type for links in show and index partials ([issue 118](#118))
+- [Feature] Decoratable ([issue 117](#117))
+- [Chore] Pagination check for ActiveRecord collection ([issue 116](#116))
+- [Chore] Support FontAwesome 5 ([issue 115](#115))
+- [Feature] Remove errors layout ([issue 114](#114))
+- [Feature] Themeable ([issue 113](#113))
+- [Chore] Update engine url/links helper methods ([issue 112](#112))
+- [Chore] Create helper methods to use in both controllers and views ([issue 111](#111))
+- [Feature] Her adapter and pundit ([issue 98](#98))
+
 ## 5.1.8
 
-1. [Fix] Keep filter param for search (#102)
-2. [Feature] Allow custom csv partials (#103)
-3. [Chore] Use mapping configuration for servicer class method `model_class` (#104)
-4. [Feature] Add url_params for index and export link helper methods (#105)
-5. [Security] Remove option `html: true` for bootstrap tooltip to prevent XSS attack (#108). Patch for issue (#107)
+1. [Fix] Keep filter param for search ([issue 102](#102))
+2. [Feature] Allow custom csv partials ([issue 103](#103))
+3. [Chore] Use mapping configuration for servicer class method `model_class` ([issue 104](#104))
+4. [Feature] Add url_params for index and export link helper methods ([issue 105](#105))
+5. [Security] Remove option `html: true` for bootstrap tooltip to prevent XSS attack ([issue 108](#108)). Patch for issue ([issue 107](#107))
 
 ## 5.1.7
 
-1. [Fix] Routes update for configurable `resources_controller` (#99)
-2. [Fix] Update resources router to reflect the resources controller configuration (#100)
+1. [Fix] Routes update for configurable `resources_controller` ([issue 99](#99))
+2. [Fix] Update resources router to reflect the resources controller configuration ([issue 100](#100))
 
 ## 5.1.6
 
-1. [Chore] upgrade to robucop 0.53 standard (#88)
-2. [Feature] Configurable global base controller/decorator/paginator/servicer (#91)
-3. [Feature] Add 'step' to float field (partial view) (#89)
-4. [Chore] Update documentation (#93)
-5. [Feature] Be able to use default base class of controller/decorator/paginator/servicer (#95)
-6. [Feature] Add test helper for controller tests (#96)
+1. [Chore] upgrade to robucop 0.53 standard ([issue 88](#88))
+2. [Feature] Configurable global base controller/decorator/paginator/servicer ([issue 91](#91))
+3. [Feature] Add 'step' to float field (partial view) ([issue 89](#89))
+4. [Chore] Update documentation ([issue 93](#93))
+5. [Feature] Be able to use default base class of controller/decorator/paginator/servicer ([issue 95](#95))
+6. [Feature] Add test helper for controller tests ([issue 96](#96))
 
 ## 5.1.5
 

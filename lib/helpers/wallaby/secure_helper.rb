@@ -41,11 +41,12 @@ module Wallaby
     # @return [String, Symbol] http method to log out
     def logout_method(user = current_user)
       http_method = security.logout_method
-      http_method || if defined? ::Devise
-                       scope = ::Devise::Mapping.find_scope! user
-                       mapping = ::Devise.mappings[scope]
-                       mapping.sign_out_via
-                     end
+      http_method ||
+        if defined? ::Devise
+          scope = ::Devise::Mapping.find_scope! user
+          mapping = ::Devise.mappings[scope]
+          mapping.sign_out_via
+        end
     end
   end
 end
