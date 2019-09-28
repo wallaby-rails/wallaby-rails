@@ -7,7 +7,7 @@ require 'support/action_dispatch/routing/mapper'
 
 require 'wallaby/version'
 require 'wallaby/constants'
-require 'wallaby/engine'
+require 'wallaby/ui_engine'
 require 'wallaby/configuration'
 require 'wallaby/configuration/features'
 require 'wallaby/configuration/mapping'
