@@ -13,6 +13,10 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
+gem 'wallaby-core', path: '/wallaby-core'
+gem 'wallaby-active_record', path: '/wallaby-active_record'
+gem 'wallaby-her', path: '/wallaby-her'
+gem 'kaminari'
 gem 'cancancan'
 # gem 'font-awesome-sass', '< 5.0'
 gem 'activestorage'

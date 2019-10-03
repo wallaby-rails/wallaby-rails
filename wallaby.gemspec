@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.version = Wallaby::VERSION
   s.authors = ['Tianwen Chen']
   s.email = ['me@tian.im']
-  s.homepage = "https://github.com/reinteractive/#{app_name}"
+  s.homepage = "https://github.com/wallaby-rails/#{app_name}"
   s.summary = 'Autocomplete the resourceful actions and views for ORMs for admin interface and other purposes.'
   s.description = s.summary
   s.license = 'MIT'
@@ -20,6 +20,9 @@ Gem::Specification.new do |s|
   ]
   s.test_files = Dir['test/**/*']
 
+  s.add_dependency 'wallaby-core'
+  s.add_dependency 'wallaby-active_record'
+
   s.add_dependency 'bootstrap'
   s.add_dependency 'bootstrap4-datetime-picker-rails'
   s.add_dependency 'codemirror-rails'
@@ -27,11 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jbuilder'
   s.add_dependency 'jquery-minicolors-rails'
   s.add_dependency 'jquery-rails'
-  s.add_dependency 'kaminari'
   s.add_dependency 'momentjs-rails'
-  s.add_dependency 'parslet'
-  s.add_dependency 'rails', '>= 4.2.0'
-  s.add_dependency 'responders'
   s.add_dependency 'sass-rails'
   s.add_dependency 'summernote-rails'
   s.add_dependency 'twitter-typeahead-rails'
