@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.version = Wallaby::VERSION
   s.authors = ['Tianwen Chen']
   s.email = ['me@tian.im']
-  s.homepage = "https://github.com/reinteractive/#{app_name}"
+  s.homepage = "https://github.com/wallaby-rails/#{app_name}"
   s.summary = 'Autocomplete the resourceful actions and views for ORMs for admin interface and other purposes.'
   s.description = s.summary
   s.license = 'MIT'

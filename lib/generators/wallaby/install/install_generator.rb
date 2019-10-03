@@ -28,7 +28,7 @@ module Wallaby
       type: :boolean, default: false,
       desc: 'Include to generate application partials'
 
-    # @see https://github.com/reinteractive/wallaby/blob/master/lib/generators/wallaby/install/USAGE
+    # @see https://github.com/wallaby-rails/wallaby/blob/master/lib/generators/wallaby/install/USAGE
     def install
       mount_wallaby_to_given_name
       return if options[:mount_only]
