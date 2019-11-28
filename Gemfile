@@ -22,7 +22,7 @@ gem 'cancancan'
 gem 'activestorage'
 gem 'her'
 gem 'pundit'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 6.0.0'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
 # gem 'simple_blog_theme', path: '/simple_blog_theme'
 
@@ -36,7 +36,7 @@ group :development, :test do
   gem 'pg', '~> 0.15'
   gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'sqlite3', '< 1.4.0'
+  gem 'sqlite3'
   gem 'yard'
 end
 
