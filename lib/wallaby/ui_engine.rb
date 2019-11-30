@@ -13,7 +13,8 @@ module Wallaby
     initializer 'wallaby.assets.precompile' do |_|
       config.assets.precompile +=
         %w(
-          codemirror* codemirror/**/*
+          wallaby/application.js
+          wallaby/application.css
           wallaby/bad_request.png
           wallaby/forbidden.png
           wallaby/internal_server_error.png
@@ -21,7 +22,6 @@ module Wallaby
           wallaby/not_implemented.png
           wallaby/unauthorized.png
           wallaby/unprocessable_entity.png
-          turbolinks
         )
     end
   end

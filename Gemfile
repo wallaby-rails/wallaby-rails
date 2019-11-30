@@ -29,7 +29,6 @@ gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git'
 group :development, :test do
   gem 'binding_of_caller'
   gem 'byebug'
-  gem 'deep-cover'
   gem 'devise'
   gem 'ffaker'
   gem 'mysql2'
@@ -51,6 +50,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'deep-cover'
   gem 'rails-controller-testing'
   gem 'simplecov'
   gem 'webmock'

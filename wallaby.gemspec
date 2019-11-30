@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-rails'
   s.add_dependency 'momentjs-rails'
   s.add_dependency 'sass-rails'
+  s.add_dependency 'sprockets', '< 4.0'
   s.add_dependency 'summernote-rails'
   s.add_dependency 'twitter-typeahead-rails'
 end
