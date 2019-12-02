@@ -6,7 +6,7 @@ klass = cell_class_from __FILE__
 describe klass, type: :view do
   it_behaves_like \
     "#{type} cell", field_name,
-    value: Time.parse('Tue, 11 Feb 2014 23:59:59 +0000'),
+    value: Time.zone.parse('Tue, 11 Feb 2014 23:59:59 +0000'),
     skip_general: true do
     it 'renders the datetime' do
       expect(rendered).to include '<span>11 Feb 23:59</span>'

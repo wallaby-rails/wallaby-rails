@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir['test/**/*']
 
   s.add_dependency 'wallaby-core'
+
   s.add_dependency 'wallaby-active_record'
 
   s.add_dependency 'bootstrap'
@@ -34,4 +35,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'sprockets', '< 4.0'
   s.add_dependency 'summernote-rails'
   s.add_dependency 'twitter-typeahead-rails'
+
+  s.add_development_dependency 'wallaby-cop'
 end

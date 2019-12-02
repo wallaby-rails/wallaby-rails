@@ -46,7 +46,7 @@ module Wallaby
     def mount_wallaby_to_given_name
       route %(mount Wallaby::Engine, at: '/#{file_name}')
     rescue StandardError => e
-      puts "WARNING: #{e.message}"
+      Rails.logger.error "WARNING: #{e.message}"
     end
 
     def create_wallaby_initializer_file

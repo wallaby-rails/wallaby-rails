@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Declare your gem's dependencies in wallaby.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
-gemspec
+gemspec path: '../'
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
@@ -12,47 +12,22 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-# gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'cancancan'
-gem 'kaminari'
-gem 'wallaby-active_record', path: '/wallaby-active_record'
-gem 'wallaby-cop', path: '/wallaby-cop'
-gem 'wallaby-core', path: '/wallaby-core'
-gem 'wallaby-her', path: '/wallaby-her'
-# gem 'font-awesome-sass', '< 5.0'
-gem 'activestorage'
-gem 'her'
-gem 'pundit'
 gem 'rails', '~> 6.0.0'
+
+gem 'cancancan'
+gem 'devise'
+gem 'her'
+gem 'mysql2'
+gem 'pg'
+gem 'pundit'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
-# gem 'simple_blog_theme', path: '/simple_blog_theme'
-
-group :development, :test do
-  gem 'binding_of_caller'
-  gem 'byebug'
-  gem 'devise'
-  gem 'ffaker'
-  gem 'mysql2'
-  gem 'pg', '~> 0.15'
-  gem 'pry-rails'
-  gem 'rspec-rails', '4.0.0.beta3'
-  gem 'sqlite3'
-  gem 'yard'
-end
-
-group :development do
-  gem 'better_errors'
-  gem 'massa'
-  gem 'memory_profiler'
-  gem 'rubocop'
-  gem 'rubocop-performance'
-  gem 'turbolinks'
-end
+gem 'sqlite3', '< 1.4.0'
 
 group :test do
   gem 'database_cleaner'
-  gem 'deep-cover'
   gem 'rails-controller-testing'
+  gem 'rspec-rails', '4.0.0.beta3'
+  gem 'rubocop'
   gem 'simplecov'
   gem 'webmock'
 end

@@ -6,7 +6,7 @@ klass = cell_class_from __FILE__
 describe klass, type: :view do
   it_behaves_like \
     "#{type} cell", field_name,
-    value: Time.parse('Tue, 11 Feb 2014 23:59:59 +0000'),
+    value: Time.zone.parse('Tue, 11 Feb 2014 23:59:59 +0000'),
     expected_value: '23:59:59' do
     context 'when value is a string' do
       let(:value) { 'Tue, 11 Feb 2014 23:59:59 +0000' }

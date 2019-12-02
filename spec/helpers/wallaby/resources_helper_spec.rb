@@ -37,7 +37,7 @@ describe Wallaby::ResourcesHelper, :current_user do
     end
 
     context 'when resources is not decoratable' do
-      let(:resources) { Time.new }
+      let(:resources) { Time.zone.now }
 
       it 'returns decorators' do
         expect(helper.decorate(resources)).to be_an Time

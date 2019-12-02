@@ -4,6 +4,7 @@ RSpec.configure do |config|
       helper.view_paths, {}, helper.lookup_context.prefixes
     )
     next unless example.metadata[:prefixes]
+
     helper.lookup_context.prefixes = example.metadata[:prefixes]
   end
 end

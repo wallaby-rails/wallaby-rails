@@ -1,4 +1,5 @@
 module Wallaby
+  # UI engine
   class UiEngine < ::Rails::Engine
     initializer 'wallaby.autoload_paths', before: :set_load_path do |_|
       # NOTE: this needs to be run before `set_load_path`
@@ -6,6 +7,7 @@ module Wallaby
       # and therefore, Wallaby's renderer can function properly
       [config].each do |conf|
         next if conf.paths['app/views'].eager_load?
+
         conf.paths.add 'app/views', eager_load: true
       end
     end
