@@ -18,12 +18,13 @@ gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-acti
 gem 'wallaby-her', git: 'https://github.com/wallaby-rails/wallaby-her.git', branch: 'master'
 gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'master'
 
-gem 'devise'
 gem 'cancancan'
-gem 'pundit'
+gem 'devise'
 gem 'her'
+gem 'kaminari'
 gem 'mysql2'
 gem 'pg'
+gem 'pundit'
 gem 'sqlite3', '< 1.4.0'
 
 group :test do

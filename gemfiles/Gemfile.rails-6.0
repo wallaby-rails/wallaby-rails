@@ -21,6 +21,7 @@ gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', bran
 gem 'cancancan'
 gem 'devise'
 gem 'her'
+gem 'kaminari'
 gem 'mysql2'
 gem 'pg'
 gem 'pundit'
