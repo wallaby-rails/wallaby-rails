@@ -4,13 +4,13 @@ describe Wallaby::SecureHelper do
   describe '#user_portrait' do
     it 'returns a general user portrait image' do
       expect(helper.user_portrait(nil)).to include '<i class="fa fa-user'
-      expect(helper.user_portrait(double)).to include '<i class="fa fa-user'
+      expect(helper.user_portrait(instance_double('instance'))).to include '<i class="fa fa-user'
     end
 
     context 'when email_method is configured' do
       it 'returns user gravatar ' do
         Wallaby.configuration.security.email_method = 'email_address'
-        user = double email_address: 'tian@example.com'
+        user = instance_double 'user', email_address: 'tian@example.com'
         expect(helper.user_portrait(user)).to match(/<img /)
         expect(helper.user_portrait(user)).to match(%r{www.gravatar.com/avatar/})
 
@@ -22,9 +22,9 @@ describe Wallaby::SecureHelper do
       end
     end
 
-    context 'user object respond_to email' do
+    context 'when user object respond_to email' do
       it 'returns user gravatar ' do
-        user = double email: 'tian@example.com'
+        user = instance_double 'user', email: 'tian@example.com'
         expect(helper.user_portrait(user)).to match(/<img /)
         expect(helper.user_portrait(user)).to match(%r{www.gravatar.com/avatar/})
 
@@ -46,7 +46,7 @@ describe Wallaby::SecureHelper do
     context 'when logout_path is configured' do
       it 'returns logout_path' do
         Wallaby.configuration.security.logout_path = 'logout_path'
-        main_app = double logout_path: '/logout_path'
+        main_app = instance_double 'app', logout_path: '/logout_path'
         hide_const 'Devise'
         expect(helper.logout_path(nil, main_app)).to eq '/logout_path'
       end
@@ -56,7 +56,7 @@ describe Wallaby::SecureHelper do
       it 'returns devise path' do
         stub_const('ManagementUser', Class.new)
         Devise.add_mapping(:management_user, {})
-        main_app = double destroy_management_user_session_path: '/destroy_management_user_session_path'
+        main_app = instance_double 'app', destroy_management_user_session_path: '/destroy_management_user_session_path'
         expect(helper.logout_path(ManagementUser.new, main_app)).to eq '/destroy_management_user_session_path'
         Devise.mappings.clear
       end

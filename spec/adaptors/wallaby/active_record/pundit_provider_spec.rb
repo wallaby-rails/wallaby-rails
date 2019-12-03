@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Wallaby::ActiveRecord::PunditProvider do
-  let(:context) { double pundit_user: user }
+  let(:context) { OpenStruct.new pundit_user: user }
   let(:user) { Staff.new }
 
   before { context.extend Pundit }

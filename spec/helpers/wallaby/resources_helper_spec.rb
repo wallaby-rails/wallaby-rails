@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ResourcesHelper, :current_user do
   describe '#decorate' do
-    context 'single object' do
+    context 'when single object' do
       it 'returns a decorator' do
         resource = Product.new
         expect(helper.decorate(resource)).to be_a Wallaby::ResourceDecorator
@@ -91,7 +91,7 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
       end
 
-      context 'for custom show fields' do
+      context 'when for custom show fields' do
         let(:decorator_class) do
           stub_const 'FormProductDecorator', (Class.new(Wallaby::ResourceDecorator) do
             def self.model_class; Product; end
@@ -113,7 +113,7 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
       end
 
-      context 'for custom index fields' do
+      context 'when for custom index fields' do
         let(:decorator_class) do
           stub_const 'FormProductDecorator', (Class.new(Wallaby::ResourceDecorator) do
             def self.model_class; Product; end

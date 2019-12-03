@@ -17,7 +17,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
       expect { subject.update(metadata, id_column) }.not_to(change { metadata })
     end
 
-    context 'or not the sti column' do
+    context 'when or not the sti column' do
       let(:model_class) do
         Class.new(ActiveRecord::Base) do
           def self.name; 'Person'; end
@@ -50,7 +50,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
       expect(metadata).to eq(type: 'sti', sti_class_list: [HumanResource::Manager, model_class, Staff])
     end
 
-    context 'sti column is different' do
+    context 'when sti column is different' do
       let(:model_class) do
         Class.new(ActiveRecord::Base) do
           def self.name; 'Thing'; end
@@ -69,7 +69,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
       end
     end
 
-    context 'descendants' do
+    context 'with descendants' do
       let(:model_class) { Staff }
 
       it 'does not change metadata' do

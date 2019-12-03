@@ -8,7 +8,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier::Transformer do
       expect(subject.apply([{ keyword: 'something' }, { keyword: 'else' }])).to eq(%w(something else))
     end
 
-    context 'no rules found' do
+    context 'when no rules found' do
       it 'returns nil' do
         expect(subject.apply(keyword: [])).to be_nil
         expect(subject.apply([{ keyword: [] }, { keyword: [] }])).to eq([nil, nil])

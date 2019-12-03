@@ -13,7 +13,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
     end
 
     describe 'filtering' do
-      context 'default scope' do
+      context 'when default scope' do
         it 'queries default scope if no filter is specified' do
           model_decorator.filters[:text] = { scope: proc { where text: text } }
           model_decorator.filters[:boolean] = { scope: proc { where boolean: true }, default: true }
@@ -132,8 +132,8 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
       end
 
       describe 'expressions' do
-        context ':, :=' do
-          context 'number' do
+        describe ':, :=' do
+          context 'with number' do
             it 'returns eq/in query' do
               keyword = 'integer:1'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" = 1'
@@ -149,7 +149,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             end
           end
 
-          context 'boolean' do
+          context 'with boolean' do
             it 'returns eq/in query' do
               keyword = 'boolean:true'
               if version? '>= 5.2.1'
@@ -188,7 +188,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             end
           end
 
-          context 'string' do
+          context 'with string' do
             it 'returns eq/in query' do
               keyword = 'string:name'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" = 'name'"
@@ -204,7 +204,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             end
           end
 
-          context 'date' do
+          context 'with date' do
             it 'returns eq/in query' do
               keyword = 'date:2017-06-30'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" = '2017-06-30'"
@@ -221,8 +221,8 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':!,:!=,:<>' do
-          context 'number' do
+        describe ':!,:!=,:<>' do
+          context 'with number' do
             it 'returns not_eq/in query' do
               keyword = 'integer:!1'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -274,7 +274,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             end
           end
 
-          context 'boolean' do
+          context 'with boolean' do
             it 'returns not_eq/in query' do
               keyword = 'boolean:!true'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -350,7 +350,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             end
           end
 
-          context 'string' do
+          context 'with string' do
             it 'returns not_eq/in query' do
               keyword = 'string:!name'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -402,7 +402,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             end
           end
 
-          context 'date' do
+          context 'with date' do
             it 'returns not_eq/in query' do
               keyword = 'date:!2017-06-30'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -455,7 +455,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':~' do
+        context 'with :~' do
           it 'returns the matcing query' do
             keyword = 'string:~something'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -467,7 +467,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':^' do
+        context 'with :^' do
           it 'returns the matcing query' do
             keyword = 'string:^starting'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -479,7 +479,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':$' do
+        context 'with :$' do
           it 'returns the matcing query' do
             keyword = 'string:$ending'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -491,7 +491,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':!~' do
+        context 'with :!~' do
           it 'returns the matcing query' do
             keyword = 'string:!~something'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -503,7 +503,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':!^' do
+        context 'with :!^' do
           it 'returns the matcing query' do
             keyword = 'string:!^starting'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -515,7 +515,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':!$' do
+        context 'with :!$' do
           it 'returns the matcing query' do
             keyword = 'string:!$ending'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -527,7 +527,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':>' do
+        context 'with :>' do
           it 'returns the comparing query' do
             keyword = 'integer:>100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -539,7 +539,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':>=' do
+        context 'with :>=' do
           it 'returns the comparing query' do
             keyword = 'integer:>=100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -551,7 +551,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':<' do
+        context 'with :<' do
           it 'returns the comparing query' do
             keyword = 'integer:<100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -563,7 +563,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':<=' do
+        context 'with :<=' do
           it 'returns the comparing query' do
             keyword = 'integer:<=100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -575,7 +575,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':()' do
+        context 'with :()' do
           it 'returns the comparing query' do
             keyword = 'integer:()100,999'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
@@ -587,7 +587,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           end
         end
 
-        context ':!()' do
+        context 'with :!()' do
           it 'returns the comparing query' do
             keyword = 'integer:!()100,999'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" < 100 OR "all_postgres_types"."integer" > 999)'

@@ -7,7 +7,7 @@ describe Wallaby::ResourcesController, type: :controller do
       expect(described_class.application_decorator).to be_nil
     end
 
-    context 'subclass' do
+    context 'when subclass' do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
       let!(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(Wallaby::ResourceDecorator) }

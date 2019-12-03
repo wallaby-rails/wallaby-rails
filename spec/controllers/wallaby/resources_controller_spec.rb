@@ -178,9 +178,11 @@ describe Wallaby::ResourcesController do
         expect(controller.send(:resource)).to be_new_record
       end
 
-      it 'returns new resource' do
-        controller.action_name = 'create'
-        expect(controller.send(:resource)).to be_new_record
+      context 'when action is create' do
+        it 'returns new resource' do
+          controller.action_name = 'create'
+          expect(controller.send(:resource)).to be_new_record
+        end
       end
 
       context 'when resource id is provided' do
@@ -221,7 +223,7 @@ describe Wallaby::ResourcesController do
         end
       end
 
-      context 'for descendants' do
+      context 'with descendants' do
         describe Space::PlanetsController do
           it 'returns prefixes' do
             controller.params[:resources] = 'space/planets'
@@ -256,7 +258,7 @@ describe Wallaby::ResourcesController do
       end
 
       %w(new create edit update).each do |action_name|
-        context 'action is new' do
+        context 'when action is new' do
           before { controller.params[:action] = action_name }
 
           it 'returns prefixes' do
@@ -271,7 +273,7 @@ describe Wallaby::ResourcesController do
             end
           end
 
-          context 'for descendants' do
+          context 'with descendants' do
             describe Space::PlanetsController do
               it 'returns prefixes' do
                 controller.params[:resources] = 'space/planets'

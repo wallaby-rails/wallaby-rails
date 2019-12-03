@@ -12,7 +12,7 @@ describe Wallaby::TypeRenderer, type: :helper do
     it 'checks the arguments', prefixes: ['wallaby/resources/form'] do
       expect { described_class.render helper }.to raise_error ArgumentError
       expect { described_class.render helper, 'integer', field_name: 'name' }.to raise_error ArgumentError
-      expect { described_class.render helper, 'integer', field_name: 'name', form: double(object: Product.new) }.to raise_error ArgumentError
+      expect { described_class.render helper, 'integer', field_name: 'name', form: instance_double('form', object: Product.new) }.to raise_error ArgumentError
       expect { described_class.render helper, 'integer', field_name: 'name', form: form }.not_to raise_error
     end
 
@@ -27,7 +27,7 @@ describe Wallaby::TypeRenderer, type: :helper do
         end
       end
 
-      context 'for custom fields' do
+      context 'with custom fields' do
         let(:decorator_class) do
           stub_const 'FormProductDecorator', (Class.new Wallaby::ResourceDecorator do
             def self.model_class; Product; end

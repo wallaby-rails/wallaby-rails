@@ -48,7 +48,7 @@ describe Wallaby::ApplicationHelper do
       end
     end
 
-    context 'otherwise' do
+    context 'when options is neither hash or permitted parameters' do
       it 'generates URL for strings' do
         expect(helper.url_for('')).to eq ''
         expect(helper.url_for('/products')).to eq '/products'

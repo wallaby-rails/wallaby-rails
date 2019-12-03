@@ -9,7 +9,7 @@ describe Wallaby::ModelPaginator do
     end
   end
 
-  context 'descendants' do
+  context 'with descendants' do
     let(:model_class) { Product }
     let(:klass) { stub_const 'ProductPaginator', Class.new(described_class) }
 

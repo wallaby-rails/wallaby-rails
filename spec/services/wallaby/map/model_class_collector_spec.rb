@@ -11,7 +11,7 @@ describe Wallaby::Map::ModelClassCollector do
       expect(subject).to eq [AllPostgresType, AllMysqlType, AllSqliteType]
     end
 
-    context 'there are excludes' do
+    context 'when there are excludes' do
       before do
         configuration.models.exclude AllPostgresType
       end
@@ -20,7 +20,7 @@ describe Wallaby::Map::ModelClassCollector do
         expect(subject).to eq [AllMysqlType, AllSqliteType]
       end
 
-      context 'models are set' do
+      context 'when models are set' do
         before do
           configuration.models.set AllSqliteType
         end
@@ -29,7 +29,7 @@ describe Wallaby::Map::ModelClassCollector do
           expect(subject).to eq [AllSqliteType]
         end
 
-        context 'some of the models being set are invalid' do
+        context 'when some of the models being set are invalid' do
           before do
             configuration.models.set Wallaby, AllSqliteType
           end
@@ -41,7 +41,7 @@ describe Wallaby::Map::ModelClassCollector do
       end
     end
 
-    context 'models are set' do
+    context 'when models are set' do
       before do
         configuration.models.set AllSqliteType
       end
@@ -50,7 +50,7 @@ describe Wallaby::Map::ModelClassCollector do
         expect(subject).to eq [AllSqliteType]
       end
 
-      context 'some of the models being set are invalid' do
+      context 'when some of the models being set are invalid' do
         before do
           configuration.models.set Wallaby, AllSqliteType
         end
@@ -60,7 +60,7 @@ describe Wallaby::Map::ModelClassCollector do
         end
       end
 
-      context 'there are excludes' do
+      context 'when there are excludes' do
         before do
           configuration.models.exclude AllPostgresType
         end

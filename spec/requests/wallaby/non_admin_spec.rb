@@ -56,7 +56,7 @@ describe 'non admin usage' do
       end
     end
 
-    it 'shows new form' do
+    it 'shows edit form' do
       record = model_class.create name: 'beautiful'
       http :get, "/pictures/#{record.id}/edit"
       expect(response).to be_successful

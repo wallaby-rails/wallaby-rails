@@ -40,7 +40,7 @@ describe 'PostgreSQL Types' do
 
   let(:expected) { minor version_expected }
 
-  it 'supports the following types' do
+  it 'supports the following column and native types' do
     column_methods = ActiveRecord::ConnectionAdapters::PostgreSQL::ColumnMethods.instance_methods.map(&:to_s)
     native_types = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::NATIVE_DATABASE_TYPES.keys.map(&:to_s)
     all_types = column_methods | native_types
@@ -117,7 +117,7 @@ describe 'PostgreSQL Types' do
         expect { AllPostgresType.create point: ['3.0', '4.0'] }.not_to raise_error
       end
 
-      context 'legacy point' do
+      context 'with legacy point' do
         before { AllPostgresType.attribute :point, :legacy_point }
 
         it 'raises if legacy point value is invalid' do

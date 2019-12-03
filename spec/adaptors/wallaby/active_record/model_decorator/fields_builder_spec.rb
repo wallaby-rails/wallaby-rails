@@ -52,7 +52,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
   end
 
   describe '#association_fields' do
-    context 'not polymorphic' do
+    context 'when not polymorphic' do
       let(:model_class) do
         Class.new ActiveRecord::Base do
           def self.name
@@ -65,7 +65,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         expect(subject.association_fields).to be_blank
       end
 
-      context 'for belongs_to' do
+      context 'when for belongs_to' do
         it 'returns association_fields that has a belongs_to association' do
           model_class.belongs_to :category
           expect(subject.association_fields['category']).to eq(
@@ -81,7 +81,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         end
       end
 
-      context 'for has_one' do
+      context 'when for has_one' do
         it 'returns association_fields' do
           model_class.has_one :product_detail
           expect(subject.association_fields['product_detail']).to eq(
@@ -96,7 +96,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           )
         end
 
-        context 'and as' do
+        context 'when as' do
           it 'returns association_fields' do
             model_class.has_one :picture, as: :imageable
             expect(subject.association_fields['picture']).to eq(
@@ -113,7 +113,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         end
       end
 
-      context 'for has_many' do
+      context 'when for has_many' do
         it 'returns association_fields' do
           model_class.has_many :items, class_name: 'Order::Item'
           expect(subject.association_fields['items']).to eq(
@@ -140,7 +140,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           )
         end
 
-        context 'and through' do
+        context 'when through' do
           it 'returns association_fields' do
             model_class.has_many :items, class_name: 'Order::Item'
             model_class.has_many :orders, through: :items
@@ -157,7 +157,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
           end
         end
 
-        context 'and as' do
+        context 'when as' do
           it 'returns association_fields' do
             model_class.has_many :pictures, as: :imageable
             expect(subject.association_fields['pictures']).to eq(
@@ -174,7 +174,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         end
       end
 
-      context 'for has_and_belongs_to_many' do
+      context 'when for has_and_belongs_to_many' do
         it 'returns association_fields' do
           model_class.has_and_belongs_to_many :tags
           expect(subject.association_fields['tags']).to eq(
@@ -200,7 +200,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder do
         end
       end
 
-      context 'belongs_to' do
+      context 'when belongs_to' do
         it 'returns association_fields' do
           model_class.belongs_to :imageable, polymorphic: true
           imageable = subject.association_fields['imageable']

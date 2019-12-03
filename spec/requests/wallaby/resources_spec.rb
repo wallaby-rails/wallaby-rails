@@ -44,7 +44,7 @@ describe 'Resources pages using postgresql table' do
       expect(response.body).to include string
     end
 
-    context 'sorting' do
+    context 'with sorting' do
       it 'renders collections' do
         http :get, '/admin/all_postgres_types?sort=string%20desc'
         expect(response).to be_successful
@@ -53,7 +53,7 @@ describe 'Resources pages using postgresql table' do
       end
     end
 
-    context 'keyword' do
+    context 'with keyword' do
       it 'renders collections' do
         http :get, '/admin/all_postgres_types?q=van'
         expect(response).to be_successful
@@ -76,7 +76,7 @@ describe 'Resources pages using postgresql table' do
       end
     end
 
-    context 'pagination' do
+    context 'with pagination' do
       it 'renders collections' do
         http :get, '/admin/all_postgres_types?per=100'
         expect(response).to be_successful

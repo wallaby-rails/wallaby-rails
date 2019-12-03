@@ -31,24 +31,24 @@ describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
       expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=name+asc">Name</a>'
     end
 
-    it 'returns a sort link' do
+    it 'returns a sort link for name asc' do
       params[:sort] = 'name asc'
       expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=name+desc">Name</a>'
     end
 
-    it 'returns a sort link' do
+    it 'returns a sort link for name desc' do
       params[:sort] = 'name desc'
       expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products">Name</a>'
     end
 
-    it 'returns a sort link' do
+    it 'returns a sort link for name desc and published_at asc' do
       model_decorator.index_fields[:published_at] = { sort_field_name: 'published_at' }
       params[:sort] = 'name desc,published_at asc'
       expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=published_at+asc">Name</a>'
       expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products?sort=name+desc%2Cpublished_at+desc">Published at</a>'
     end
 
-    it 'returns a sort link' do
+    it 'returns a sort link for name desc and published_at desc' do
       params[:sort] = 'name desc,published_at desc'
       expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=published_at+desc">Name</a>'
       expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products?sort=name+desc">Published at</a>'
@@ -80,29 +80,29 @@ describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
         expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=name+asc">Name</a>'
       end
 
-      it 'returns a sort link' do
+      it 'returns a sort link for name asc' do
         params[:sort] = 'name asc'
         expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=name+desc">Name</a>'
       end
 
-      it 'returns a sort link' do
+      it 'returns a sort link for name desc' do
         params[:sort] = 'name desc'
         expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products">Name</a>'
       end
 
-      it 'returns a sort link' do
+      it 'returns a sort link for name desc and published_at' do
         params[:sort] = 'name desc'
         expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products?sort=published_at+asc">Published at</a>'
       end
 
-      it 'returns a sort link' do
+      it 'returns a sort link for name desc and published_at asc' do
         model_decorator.index_fields[:published_at] = { sort_field_name: 'published_at' }
         params[:sort] = 'name desc,published_at asc'
         expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products">Name</a>'
         expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products?sort=published_at+desc">Published at</a>'
       end
 
-      it 'returns a sort link' do
+      it 'returns a sort link for name desc and published_at desc' do
         params[:sort] = 'name desc,published_at desc'
         expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products">Name</a>'
         expect(subject.build(:published_at)).to eq '<a title="Product" href="/admin/products">Published at</a>'
@@ -116,12 +116,12 @@ describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
       expect(subject.current_sort).to eq 'name' => 'asc'
     end
 
-    it 'returns a sorting hash' do
+    it 'returns a sorting hash for name asc and published_at asc' do
       params[:sort] = 'name asc,published_at desc'
       expect(subject.current_sort).to eq 'name' => 'asc', 'published_at' => 'desc'
     end
 
-    it 'returns a sorting hash' do
+    it 'returns a sorting hash for name asc and published_at desc' do
       params[:sort] = 'name  asc , published_at  desc'
       expect(subject.current_sort).to eq 'name' => 'asc', 'published_at' => 'desc'
     end

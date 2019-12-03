@@ -26,7 +26,7 @@ describe Wallaby::Her::ModelDecorator do
       expect(subject.index_fields).to eq subject.fields
     end
 
-    context 'changing index_fields' do
+    context 'when changing index_fields' do
       it 'doesnt modify fields' do
         expect { subject.index_fields['id'][:label] = 'ID' }.not_to(change { subject.fields['id'][:label] })
       end
@@ -39,7 +39,7 @@ describe Wallaby::Her::ModelDecorator do
       expect(subject.show_fields).to eq subject.fields
     end
 
-    context 'changing show_fields' do
+    context 'when changing show_fields' do
       it 'doesnt modify fields' do
         expect { subject.show_fields['id'][:label] = 'ID' }.not_to(change { subject.fields['id'][:label] })
       end
@@ -52,7 +52,7 @@ describe Wallaby::Her::ModelDecorator do
       expect(subject.form_fields).to eq subject.fields
     end
 
-    context 'changing form_fields' do
+    context 'when changing form_fields' do
       it 'doesnt modify fields' do
         expect { subject.form_fields['id'][:label] = 'ID' }.not_to(change { subject.fields['id'][:label] })
       end
@@ -101,7 +101,7 @@ describe Wallaby::Her::ModelDecorator do
 
   describe '#form_active_errors' do
     it 'returns the form errors' do
-      resource = double errors: ActiveModel::Errors.new({})
+      resource = model_class.new
       resource.errors.add :name, 'cannot be nil'
       resource.errors.add :base, 'has error'
       expect(subject.form_active_errors(resource)).to be_a ActiveModel::Errors

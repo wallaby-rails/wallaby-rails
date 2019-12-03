@@ -188,7 +188,7 @@ describe Wallaby::ResourceDecorator do
     end
   end
 
-  context 'descendants' do
+  context 'with descendants' do
     let(:model_class) { Product }
     let(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(described_class) }
     let(:klass) { stub_const 'ProductDecorator', Class.new(application_decorator) }
