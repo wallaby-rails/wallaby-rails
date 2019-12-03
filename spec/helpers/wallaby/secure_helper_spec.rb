@@ -15,9 +15,7 @@ describe Wallaby::SecureHelper do
         expect(helper.user_portrait(user)).to match(%r{www.gravatar.com/avatar/})
 
         version_specific = {
-          5 => {
-            2 => '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
-          }
+          '>= 5.2' => '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
         }
         expected = minor version_specific, '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
         expect(helper.user_portrait(user)).to eq expected
@@ -31,9 +29,7 @@ describe Wallaby::SecureHelper do
         expect(helper.user_portrait(user)).to match(%r{www.gravatar.com/avatar/})
 
         version_specific = {
-          5 => {
-            2 => '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
-          }
+          '>= 5.2' => '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" />'
         }
         expected = minor version_specific, '<img class="user" src="http://www.gravatar.com/avatar/4f6994f5bafb573ca145d9e62e5fdfae" alt="4f6994f5bafb573ca145d9e62e5fdfae" />'
         expect(helper.user_portrait(user)).to eq expected

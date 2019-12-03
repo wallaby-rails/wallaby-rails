@@ -3,13 +3,11 @@ require 'rails_helper'
 describe 'Sqlite Types' do
   let(:version_expected) do
     {
-      5 => {
-        2 => {
-          size_of_native_types: 12,
-          native_types: %w(binary boolean date datetime decimal float integer json primary_key string text time),
-          size_of_supporting_types: 17,
-          supporting_types: %w(binary blob boolean char clob date datetime decimal double float int json number numeric text time timestamp)
-        }
+      '>= 5.2' => {
+        size_of_native_types: 12,
+        native_types: %w(binary boolean date datetime decimal float integer json primary_key string text time),
+        size_of_supporting_types: 17,
+        supporting_types: %w(binary blob boolean char clob date datetime decimal double float int json number numeric text time timestamp)
       }
     }
   end

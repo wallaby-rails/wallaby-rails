@@ -8,10 +8,10 @@ describe Wallaby::CellUtils, type: :helper do
     end
   end
 
-  describe '.cell?' do
+  describe '.find_cell' do
     it 'checks if file ends with `.rb`' do
-      expect(described_class.cell?('/wallaby/app/views/wallaby/resources/index/integer_html.rb')).to be_truthy
-      expect(described_class.cell?('/wallaby/app/views/wallaby/resources/index/integer.html.erb')).to be_falsy
+      expect(described_class.find_cell('/wallaby/app/views/wallaby/resources/index/integer_html.rb')).to be_present
+      expect(described_class.find_cell('/wallaby/app/views/wallaby/resources/index/integer.html.erb')).to be_nil
     end
   end
 

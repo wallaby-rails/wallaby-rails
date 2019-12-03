@@ -19,9 +19,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           keyword = ''
           expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
             {
-              5 => {
-                2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = TRUE'
-              }
+              '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = TRUE'
             },
             'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = \'t\''
           )
@@ -36,9 +34,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
         it 'returns search with given scope' do
           expect(subject.search(parameters(filter: 'boolean')).to_sql).to eq minor(
             {
-              5 => {
-                2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = TRUE'
-              }
+              '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = TRUE'
             },
             'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = \'t\''
           )
@@ -56,9 +52,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
         it 'returns search with given scope' do
           expect(subject.search(parameters(filter: 'boolean')).to_sql).to eq minor(
             {
-              5 => {
-                2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = FALSE'
-              }
+              '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = FALSE'
             },
             "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'f'"
           )
@@ -157,35 +151,35 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
           context 'boolean' do
             it 'returns eq/in query' do
               keyword = 'boolean:true'
-              if version? '~> 5.2.1'
+              if version? '>= 5.2.1'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = TRUE'
               else
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'true'"
               end
 
               keyword = 'boolean:false'
-              if version? '~> 5.2.1'
+              if version? '>= 5.2.1'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = FALSE'
               else
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'false'"
               end
 
               keyword = 'boolean:=true'
-              if version? '~> 5.2.1'
+              if version? '>= 5.2.1'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = TRUE'
               else
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'true'"
               end
 
               keyword = 'boolean:=false'
-              if version? '~> 5.2.1'
+              if version? '>= 5.2.1'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" = FALSE'
               else
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" = 'false'"
               end
 
               keyword = 'boolean:=true,false'
-              if version? '~> 5.2.1'
+              if version? '>= 5.2.1'
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" IN (TRUE, FALSE)'
               else
                 expect(subject.search(parameters(q: keyword)).to_sql).to eq "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"boolean\" IN ('true', 'false')"
@@ -232,9 +226,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'integer:!1'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" != 1'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" != 1'
                 },
                 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" != 1)'
               )
@@ -242,9 +234,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'integer:!=1'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" != 1'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" != 1'
                 },
                 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" != 1)'
               )
@@ -252,9 +242,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'integer:<>1'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" != 1'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" != 1'
                 },
                 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" != 1)'
               )
@@ -262,9 +250,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'integer:!1,2'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" NOT IN (1, 2)'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" NOT IN (1, 2)'
                 },
                 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" NOT IN (1, 2))'
               )
@@ -272,9 +258,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'integer:!=1,2'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" NOT IN (1, 2)'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" NOT IN (1, 2)'
                 },
                 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" NOT IN (1, 2))'
               )
@@ -282,9 +266,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'integer:<>1,2'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" NOT IN (1, 2)'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" NOT IN (1, 2)'
                 },
                 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" NOT IN (1, 2))'
               )
@@ -296,9 +278,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:!true'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != TRUE'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != TRUE'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'true')"
               )
@@ -306,9 +286,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:!false'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != FALSE'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != FALSE'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'false')"
               )
@@ -316,9 +294,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:!=true'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != TRUE'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != TRUE'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'true')"
               )
@@ -326,9 +302,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:!=false'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != FALSE'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != FALSE'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'false')"
               )
@@ -336,9 +310,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:<>true'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != TRUE'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != TRUE'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'true')"
               )
@@ -346,9 +318,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:<>false'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != FALSE'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" != FALSE'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" != 'false')"
               )
@@ -356,9 +326,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:!true,false'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" NOT IN (TRUE, FALSE)'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" NOT IN (TRUE, FALSE)'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" NOT IN ('true', 'false'))"
               )
@@ -366,9 +334,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:!=true,false'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" NOT IN (TRUE, FALSE)'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" NOT IN (TRUE, FALSE)'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" NOT IN ('true', 'false'))"
               )
@@ -376,9 +342,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'boolean:<>true,false'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" NOT IN (TRUE, FALSE)'
-                  }
+                  '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."boolean" NOT IN (TRUE, FALSE)'
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"boolean\" NOT IN ('true', 'false'))"
               )
@@ -390,9 +354,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'string:!name'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" != 'name'"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" != 'name'"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" != 'name')"
               )
@@ -400,9 +362,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'string:!=name'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" != 'name'"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" != 'name'"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" != 'name')"
               )
@@ -410,9 +370,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'string:<>name'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" != 'name'"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" != 'name'"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" != 'name')"
               )
@@ -420,9 +378,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'string:!something,else'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT IN ('something', 'else')"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT IN ('something', 'else')"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT IN ('something', 'else'))"
               )
@@ -430,9 +386,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'string:!=something,else'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT IN ('something', 'else')"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT IN ('something', 'else')"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT IN ('something', 'else'))"
               )
@@ -440,9 +394,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'string:<>something,else'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT IN ('something', 'else')"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT IN ('something', 'else')"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT IN ('something', 'else'))"
               )
@@ -454,9 +406,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'date:!2017-06-30'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" != '2017-06-30'"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" != '2017-06-30'"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" != '2017-06-30')"
               )
@@ -464,9 +414,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'date:!=2017-06-30'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" != '2017-06-30'"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" != '2017-06-30'"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" != '2017-06-30')"
               )
@@ -474,9 +422,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'date:<>2017-06-30'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" != '2017-06-30'"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" != '2017-06-30'"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" != '2017-06-30')"
               )
@@ -484,9 +430,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'date:!2017-06-30,2017-07-01'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01')"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01')"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01'))"
               )
@@ -494,9 +438,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'date:!=2017-06-30,2017-07-01'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01')"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01')"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01'))"
               )
@@ -504,9 +446,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
               keyword = 'date:<>2017-06-30,2017-07-01'
               expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
                 {
-                  5 => {
-                    2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01')"
-                  }
+                  '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01')"
                 },
                 "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"date\" NOT IN ('2017-06-30', '2017-07-01'))"
               )
@@ -519,9 +459,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'string:~something'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE '%something%'"
-                }
+                '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE '%something%'"
               },
               "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%something%')"
             )
@@ -533,9 +471,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'string:^starting'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE 'starting%'"
-                }
+                '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE 'starting%'"
               },
               "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE 'starting%')"
             )
@@ -547,9 +483,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'string:$ending'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE '%ending'"
-                }
+                '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" ILIKE '%ending'"
               },
               "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" ILIKE '%ending')"
             )
@@ -561,9 +495,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'string:!~something'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE '%something%'"
-                }
+                '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE '%something%'"
               },
               "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT ILIKE '%something%')"
             )
@@ -575,9 +507,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'string:!^starting'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE 'starting%'"
-                }
+                '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE 'starting%'"
               },
               "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT ILIKE 'starting%')"
             )
@@ -589,9 +519,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'string:!$ending'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE '%ending'"
-                }
+                '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE \"all_postgres_types\".\"string\" NOT ILIKE '%ending'"
               },
               "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (\"all_postgres_types\".\"string\" NOT ILIKE '%ending')"
             )
@@ -603,9 +531,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'integer:>100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" > 100'
-                }
+                '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" > 100'
               },
               'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" > 100)'
             )
@@ -617,9 +543,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'integer:>=100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" >= 100'
-                }
+                '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" >= 100'
               },
               'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" >= 100)'
             )
@@ -631,9 +555,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'integer:<100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" < 100'
-                }
+                '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" < 100'
               },
               'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" < 100)'
             )
@@ -645,9 +567,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'integer:<=100'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" <= 100'
-                }
+                '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" <= 100'
               },
               'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" <= 100)'
             )
@@ -659,9 +579,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
             keyword = 'integer:()100,999'
             expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
               {
-                5 => {
-                  2 => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" BETWEEN 100 AND 999'
-                }
+                '>=5.2' => 'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE "all_postgres_types"."integer" BETWEEN 100 AND 999'
               },
               'SELECT "all_postgres_types".* FROM "all_postgres_types" WHERE ("all_postgres_types"."integer" BETWEEN 100 AND 999)'
             )
@@ -693,9 +611,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Querier do
         keyword = 'keyword integer:!=1 date:>2016-04-30'
         expect(subject.search(parameters(q: keyword)).to_sql).to eq minor(
           {
-            5 => {
-              2 => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (((\"all_postgres_types\".\"color\" ILIKE '%keyword%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%') AND \"all_postgres_types\".\"integer\" != 1 AND \"all_postgres_types\".\"date\" > '2016-04-30'"
-            }
+            '>=5.2' => "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE (((\"all_postgres_types\".\"color\" ILIKE '%keyword%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%') AND \"all_postgres_types\".\"integer\" != 1 AND \"all_postgres_types\".\"date\" > '2016-04-30'"
           },
           "SELECT \"all_postgres_types\".* FROM \"all_postgres_types\" WHERE ((((\"all_postgres_types\".\"color\" ILIKE '%keyword%' OR \"all_postgres_types\".\"email\" ILIKE '%keyword%') OR \"all_postgres_types\".\"password\" ILIKE '%keyword%') OR \"all_postgres_types\".\"string\" ILIKE '%keyword%') AND \"all_postgres_types\".\"integer\" != 1 AND \"all_postgres_types\".\"date\" > '2016-04-30')"
         )
