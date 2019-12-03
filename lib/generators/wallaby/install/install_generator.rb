@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # `wallaby:install` generator
   class InstallGenerator < Rails::Generators::NamedBase

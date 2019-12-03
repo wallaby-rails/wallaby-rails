@@ -8,6 +8,7 @@ describe field_name do
     value: 88.8888 do
     context 'when value is 0' do
       let(:value) { 0.0 }
+
       it 'renders the money' do
         expect(rendered).to eq '0.0'
       end

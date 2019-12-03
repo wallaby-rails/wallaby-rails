@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ModelServiceProvider do
   subject { described_class.new model_class, model_decorator }
+
   let(:model_class) { AllPostgresType }
   let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new model_class }
 

@@ -16,6 +16,7 @@ if Rails::VERSION::MAJOR >= 5
 
     context 'when value is nil' do
       let(:value) { nil }
+
       it 'renders null' do
         expect(rendered).to include view.null
       end

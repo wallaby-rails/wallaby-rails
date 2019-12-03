@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
   subject { described_class.new model_decorator }
+
   let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new AllPostgresType }
 
   describe 'model that has all postgres types' do
@@ -76,6 +77,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
 
   describe 'model that has associations' do
     let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new Product }
+
     describe '#simple_field_names' do
       it 'returns non-range fields' do
         expect(subject.simple_field_names).to match_array %w(sku name description stock price featured available_to_date available_to_time published_at category_id)
@@ -127,6 +129,7 @@ describe Wallaby::ActiveRecord::ModelServiceProvider::Permitter do
 
   describe 'model that has polymorphic belongs-to' do
     let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new Picture }
+
     describe '#simple_field_names' do
       it 'returns non-range fields' do
         expect(subject.simple_field_names).to match_array %w(name file imageable_id imageable_type)

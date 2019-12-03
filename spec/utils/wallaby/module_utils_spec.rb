@@ -21,18 +21,18 @@ describe Wallaby::ModuleUtils do
 
   describe '.anonymous_class?' do
     it 'returns true when class is anonymous' do
-      expect(described_class.anonymous_class?(Class.new)).to be_truthy
+      expect(described_class).to be_anonymous_class(Class.new)
       klass = Class.new do
         def self.name
           'not_blank'
         end
       end
-      expect(described_class.anonymous_class?(klass)).to be_truthy
+      expect(described_class).to be_anonymous_class(klass)
     end
 
     context 'when class is not anonymous' do
       it 'returns false' do
-        expect(described_class.anonymous_class?(Product)).to be_falsy
+        expect(described_class).not_to be_anonymous_class(Product)
       end
     end
   end

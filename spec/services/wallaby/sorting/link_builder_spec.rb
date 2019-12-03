@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
+  subject { described_class.new model_decorator, params, helper, strategy }
+
   let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new Product }
   let(:params) { parameters!(action: 'index', resources: 'products') }
   let(:strategy) {}
-  subject { described_class.new model_decorator, params, helper, strategy }
 
   describe '#build' do
     it 'returns a sort link for non-association field' do
@@ -74,6 +75,7 @@ describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
 
     context 'when strategy is single' do
       let(:strategy) { :single }
+
       it 'returns a sort link' do
         expect(subject.build(:name)).to eq '<a title="Product" href="/admin/products?sort=name+asc">Name</a>'
       end

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Wallaby::DefaultAuthorizationProvider do
   describe '.available?' do
     it 'returns true' do
-      expect(described_class.available?(nil)).to be_truthy
+      expect(described_class).to be_available(nil)
     end
   end
 
@@ -22,6 +22,7 @@ describe Wallaby::DefaultAuthorizationProvider do
 
   describe 'instance methods' do
     subject { described_class.new context }
+
     let(:context) { nil }
     let(:target_class) { Product }
     let(:target) { Product.new }
@@ -42,14 +43,14 @@ describe Wallaby::DefaultAuthorizationProvider do
 
     describe '#authorized?' do
       it 'returns true' do
-        expect(subject.authorized?(:index, target_class)).to be_truthy
-        expect(subject.authorized?(:index, target)).to be_truthy
-        expect(subject.authorized?(:show, target)).to be_truthy
-        expect(subject.authorized?(:new, target)).to be_truthy
-        expect(subject.authorized?(:create, target)).to be_truthy
-        expect(subject.authorized?(:edit, target)).to be_truthy
-        expect(subject.authorized?(:update, target)).to be_truthy
-        expect(subject.authorized?(:destroy, target)).to be_truthy
+        expect(subject).to be_authorized(:index, target_class)
+        expect(subject).to be_authorized(:index, target)
+        expect(subject).to be_authorized(:show, target)
+        expect(subject).to be_authorized(:new, target)
+        expect(subject).to be_authorized(:create, target)
+        expect(subject).to be_authorized(:edit, target)
+        expect(subject).to be_authorized(:update, target)
+        expect(subject).to be_authorized(:destroy, target)
       end
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The very beginning of Wallaby
 module Wallaby
 end

@@ -15,6 +15,7 @@ describe Wallaby::ModelAuthorizationProvider do
 
   describe 'instance methods' do
     subject { described_class.new nil }
+
     %w(authorize authorized? unauthorized? accessible_for attributes_for permit_params).each do |method|
       describe "##{method}" do
         it 'raises not implemented' do

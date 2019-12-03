@@ -9,6 +9,7 @@ describe field_name do
     model_class: AllMysqlType do
     context 'false' do
       let(:value) { false }
+
       it 'renders the boolean' do
         expect(rendered).to eq 'false'
       end

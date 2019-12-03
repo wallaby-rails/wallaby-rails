@@ -91,6 +91,7 @@ end
 describe Wallaby::ResourcesHelper, type: :helper do
   describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
+
     before { helper.params[:action] = 'show' }
 
     it 'shows deprecation message' do

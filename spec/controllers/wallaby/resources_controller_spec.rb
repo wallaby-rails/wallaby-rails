@@ -106,6 +106,7 @@ describe Wallaby::ResourcesController do
 
     describe '#paginate' do
       let(:query) { Product.where(nil) }
+
       before do
         controller.request.format = :json
       end
@@ -235,8 +236,10 @@ describe Wallaby::ResourcesController do
           end
 
           context 'when theme name is give' do
-            before { Space::PlanetsController.theme_name = 'theme1' }
-            after { Space::PlanetsController.theme_name = nil }
+            before { described_class.theme_name = 'theme1' }
+
+            after { described_class.theme_name = nil }
+
             it 'returns prefixes' do
               controller.params[:resources] = 'space/planets'
               expect(controller.send(:_prefixes)).to eq ['space/planets/index', 'space/planets', 'theme1/index', 'theme1', 'wallaby/resources/index', 'wallaby/resources']
@@ -283,8 +286,10 @@ describe Wallaby::ResourcesController do
               end
 
               context 'when theme name is give' do
-                before { Space::PlanetsController.theme_name = 'theme1' }
-                after { Space::PlanetsController.theme_name = nil }
+                before { described_class.theme_name = 'theme1' }
+
+                after { described_class.theme_name = nil }
+
                 it 'returns prefixes' do
                   controller.params[:resources] = 'space/planets'
                   expect(controller.send(:_prefixes)).to eq ['space/planets/form', 'space/planets', 'theme1/form', 'theme1', 'wallaby/resources/form', 'wallaby/resources']

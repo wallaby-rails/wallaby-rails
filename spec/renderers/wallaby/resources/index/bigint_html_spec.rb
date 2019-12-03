@@ -9,6 +9,7 @@ describe klass, type: :view do
     value: BigDecimal(42)**20 do
     context 'when value is 0' do
       let(:value) { BigDecimal(0) }
+
       it 'renders the bigint' do
         expect(rendered).to include value.to_i.to_s
       end

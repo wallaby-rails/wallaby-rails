@@ -9,6 +9,7 @@ describe klass, type: :view do
     value: BigDecimal(42)**13 / 10**20 do
     context 'when value is 0' do
       let(:value) { BigDecimal(0) }
+
       it 'renders the decimal' do
         expect(rendered).to include value.to_s
       end

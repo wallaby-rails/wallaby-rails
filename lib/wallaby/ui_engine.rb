@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # UI engine
   class UiEngine < ::Rails::Engine

@@ -11,7 +11,7 @@ describe Wallaby::ModelPaginator do
 
   context 'descendants' do
     let(:model_class) { Product }
-    let(:klass) { stub_const 'ProductPaginator', Class.new(Wallaby::ModelPaginator) }
+    let(:klass) { stub_const 'ProductPaginator', Class.new(described_class) }
 
     describe 'class methods' do
       describe '.model_class' do

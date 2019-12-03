@@ -3,13 +3,14 @@ require 'rails_helper'
 describe Wallaby::ActiveRecord::PunditProvider do
   let(:context) { double pundit_user: user }
   let(:user) { Staff.new }
+
   before { context.extend Pundit }
 
   describe '.available?' do
     it 'returns true' do
-      expect(described_class.available?(nil)).to be_falsy
-      expect(described_class.available?(double)).to be_falsy
-      expect(described_class.available?(context)).to be_truthy
+      expect(described_class).not_to be_available(nil)
+      expect(described_class).not_to be_available(double)
+      expect(described_class).to be_available(context)
     end
   end
 
@@ -27,6 +28,7 @@ describe Wallaby::ActiveRecord::PunditProvider do
 
   describe 'instance methods' do
     subject { described_class.new user: user }
+
     let(:target) { Product.new }
     let(:target_class) { Product }
     let(:scope) { Product.where(nil) }
@@ -85,27 +87,27 @@ describe Wallaby::ActiveRecord::PunditProvider do
 
     describe '#authorized?' do
       it 'returns a boolean' do
-        expect(subject.authorized?(:index, target_class)).to be_falsy
-        expect(subject.authorized?(:index, target)).to be_falsy
-        expect(subject.authorized?(:show, target)).to be_truthy
-        expect(subject.authorized?(:new, target)).to be_truthy
-        expect(subject.authorized?(:create, target)).to be_truthy
-        expect(subject.authorized?(:edit, target)).to be_truthy
-        expect(subject.authorized?(:update, target)).to be_truthy
-        expect(subject.authorized?(:destroy, target)).to be_falsy
+        expect(subject).not_to be_authorized(:index, target_class)
+        expect(subject).not_to be_authorized(:index, target)
+        expect(subject).to be_authorized(:show, target)
+        expect(subject).to be_authorized(:new, target)
+        expect(subject).to be_authorized(:create, target)
+        expect(subject).to be_authorized(:edit, target)
+        expect(subject).to be_authorized(:update, target)
+        expect(subject).not_to be_authorized(:destroy, target)
       end
     end
 
     describe '#unauthorized?' do
       it 'returns a boolean' do
-        expect(subject.unauthorized?(:index, target_class)).to be_truthy
-        expect(subject.unauthorized?(:index, target)).to be_truthy
-        expect(subject.unauthorized?(:show, target)).to be_falsy
-        expect(subject.unauthorized?(:new, target)).to be_falsy
-        expect(subject.unauthorized?(:create, target)).to be_falsy
-        expect(subject.unauthorized?(:edit, target)).to be_falsy
-        expect(subject.unauthorized?(:update, target)).to be_falsy
-        expect(subject.unauthorized?(:destroy, target)).to be_truthy
+        expect(subject).to be_unauthorized(:index, target_class)
+        expect(subject).to be_unauthorized(:index, target)
+        expect(subject).not_to be_unauthorized(:show, target)
+        expect(subject).not_to be_unauthorized(:new, target)
+        expect(subject).not_to be_unauthorized(:create, target)
+        expect(subject).not_to be_unauthorized(:edit, target)
+        expect(subject).not_to be_unauthorized(:update, target)
+        expect(subject).to be_unauthorized(:destroy, target)
       end
     end
 

@@ -14,6 +14,7 @@ describe partial_name do
 
   context 'when value is 0' do
     let(:value) { 0 }
+
     it 'renders the bigserial' do
       expect(rendered).to include value.to_s
     end
@@ -21,6 +22,7 @@ describe partial_name do
 
   context 'when value is nil' do
     let(:value) { nil }
+
     it 'renders null' do
       expect(rendered).to include view.null
     end

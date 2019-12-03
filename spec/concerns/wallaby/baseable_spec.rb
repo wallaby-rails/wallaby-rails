@@ -10,9 +10,9 @@ require 'rails_helper'
   describe klass do
     describe '.base_class!' do
       it 'marks base class to true' do
-        expect(described_class.base_class?).to be_falsy
+        expect(described_class).not_to be_base_class
         described_class.base_class!
-        expect(described_class.base_class?).to be_truthy
+        expect(described_class).to be_base_class
       end
     end
   end

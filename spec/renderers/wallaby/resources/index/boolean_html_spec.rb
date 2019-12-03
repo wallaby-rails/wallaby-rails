@@ -15,6 +15,7 @@ describe klass, type: :view do
 
     context 'when value is false' do
       let(:value) { false }
+
       it 'renders the boolean' do
         expect(rendered).to include view.fa_icon('square')
       end

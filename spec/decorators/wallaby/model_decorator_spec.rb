@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ModelDecorator do
   subject { described_class.new model_class }
+
   let(:model_class) { nil }
 
   describe '#resources_name' do

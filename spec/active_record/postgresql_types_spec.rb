@@ -98,6 +98,7 @@ describe 'PostgreSQL Types' do
   if Rails::VERSION::MAJOR >= 5
     describe 'point' do
       after { AllPostgresType.attribute :point, :point }
+
       it 'raises if point value is invalid' do
         record = nil
 
@@ -118,6 +119,7 @@ describe 'PostgreSQL Types' do
 
       context 'legacy point' do
         before { AllPostgresType.attribute :point, :legacy_point }
+
         it 'raises if legacy point value is invalid' do
           record = nil
 

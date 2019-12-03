@@ -41,7 +41,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
       end
     end
 
-    before { allow(model_class).to receive(:descendants) { [Staff, HumanResource::Manager] } }
+    before { allow(model_class).to receive(:descendants).and_return([Staff, HumanResource::Manager]) }
 
     it 'does not change metadata' do
       metadata = {}
@@ -59,7 +59,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::FieldsBuilder::StiBuilder do
         end
       end
 
-      before { allow(model_class).to receive(:descendants) { [Apple] } }
+      before { allow(model_class).to receive(:descendants).and_return([Apple]) }
 
       it 'does not change metadata' do
         metadata = {}

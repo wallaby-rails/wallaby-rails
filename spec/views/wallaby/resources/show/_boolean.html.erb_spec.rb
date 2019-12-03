@@ -14,6 +14,7 @@ describe partial_name do
 
   context 'when value is false' do
     let(:value) { false }
+
     it 'renders the boolean' do
       expect(rendered).to include view.fa_icon('square')
     end
@@ -21,6 +22,7 @@ describe partial_name do
 
   context 'when value is nil' do
     let(:value) { nil }
+
     it 'renders null' do
       expect(rendered).to include view.null
     end

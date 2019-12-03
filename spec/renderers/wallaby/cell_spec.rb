@@ -49,15 +49,16 @@ describe Wallaby::Cell, type: :helper do
 
   describe '#respond_to_missing?' do
     it 'responds to view methods' do
-      expect(subject.respond_to?(:raw)).to be_truthy
-      expect(subject.respond_to?(:local_assigns)).to be_truthy
-      expect(subject.respond_to?(:unknown)).to be_falsy
+      expect(subject).to respond_to(:raw)
+      expect(subject).to respond_to(:local_assigns)
+      expect(subject).not_to respond_to(:unknown)
     end
   end
 end
 
 describe Wallaby::Resources::Index::StringHtml, type: :helper do
   subject { described_class.new helper, object: AllPostgresType.new, value: value, metadata: {}, field_name: 'string' }
+
   let(:value) { 'test' }
 
   describe '#render_complete' do

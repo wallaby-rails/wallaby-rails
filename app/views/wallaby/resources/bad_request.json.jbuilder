@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # returned error object if frontend needs it
 decorated = decorate resource
 json.error do

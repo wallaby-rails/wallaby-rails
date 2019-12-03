@@ -15,7 +15,7 @@ describe Wallaby::ResourcesController, type: :controller do
     end
 
     context 'when it responds to model_class' do
-      CampervansController = Class.new Wallaby::ResourcesController
+      CampervansController = Class.new described_class
       Campervan = Class.new ActiveRecord::Base
 
       describe CampervansController do

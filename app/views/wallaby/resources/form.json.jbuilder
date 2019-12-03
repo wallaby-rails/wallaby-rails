@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # returned the changed resource if frontend needs it
 decorated = decorate resource
 all_field_names =

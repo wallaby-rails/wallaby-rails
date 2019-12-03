@@ -4,14 +4,14 @@ describe Wallaby::ActiveRecord::ModelPaginationProvider do
   describe '#paginatable?' do
     it 'returns true when it uses kaminari' do
       subject = described_class.new Product.page(1), parameters
-      expect(subject.paginatable?).to be_truthy
+      expect(subject).to be_paginatable
     end
 
     it 'returns false when it doesnt use ka' do
       subject = described_class.new Product.where(nil), parameters
-      expect(subject.paginatable?).to be_falsy
+      expect(subject).not_to be_paginatable
       subject = described_class.new nil, parameters
-      expect(subject.paginatable?).to be_falsy
+      expect(subject).not_to be_paginatable
     end
   end
 

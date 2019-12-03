@@ -8,7 +8,7 @@ describe Wallaby::ResourcesController, type: :controller do
     end
 
     context 'subclass' do
-      let!(:subclass1) { stub_const 'ApplesController', Class.new(Wallaby::ResourcesController) }
+      let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
       let!(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(Wallaby::ResourceDecorator) }
       let!(:another_decorator) { stub_const 'AnotherDecorator', Class.new(Wallaby::ResourceDecorator) }

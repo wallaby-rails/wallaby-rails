@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::Her::ModelDecorator do
   subject { described_class.new model_class }
+
   let(:model_class) { Her::Product }
 
   describe '#fields' do

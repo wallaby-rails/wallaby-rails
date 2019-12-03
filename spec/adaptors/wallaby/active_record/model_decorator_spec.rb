@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ActiveRecord::ModelDecorator do
   subject { described_class.new model_class }
+
   let(:model_class) { AllPostgresType }
 
   describe 'General fields' do
@@ -203,6 +204,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
   describe 'Association fields' do
     let(:model_class) { Product }
+
     describe '#fields' do
       it 'returns a hash of all keys' do
         expect(subject.fields.select { |_k, v| v['is_association'] }).to eq(
@@ -237,6 +239,7 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
   describe 'Polymorphic fields' do
     let(:model_class) { Picture }
+
     describe '#fields' do
       it 'returns a hash of all keys' do
         expect(subject.fields).to eq(

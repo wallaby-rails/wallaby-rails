@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::Custom::ModelDecorator do
   subject { described_class.new model_class }
+
   let(:model_class) { Postcode }
 
   describe '#fields' do

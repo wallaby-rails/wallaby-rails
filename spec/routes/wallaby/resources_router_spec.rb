@@ -21,6 +21,7 @@ describe Wallaby::ResourcesRouter do
     context 'when model class exists' do
       context 'when controller not exists' do
         let(:resources_name) { 'kings' }
+
         before { stub_const 'King', Class.new(ActiveRecord::Base) }
 
         it 'shows index page' do

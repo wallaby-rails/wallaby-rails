@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe Wallaby::Map::ModelClassCollector do
   describe '#collect' do
+    subject { described_class.new(configuration, all_models).collect }
+
     let(:configuration) { Wallaby::Configuration.new }
     let(:all_models) { [AllPostgresType, AllMysqlType, AllSqliteType] }
-    subject { described_class.new(configuration, all_models).collect }
 
     it 'returns all models' do
       expect(subject).to eq [AllPostgresType, AllMysqlType, AllSqliteType]

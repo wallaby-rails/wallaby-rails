@@ -20,6 +20,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
     context 'when resources is enumerable' do
       before { AllPostgresType.create string: 'string' }
+
       let(:resources) { AllPostgresType.where(nil) }
 
       it 'returns decorators' do
@@ -68,6 +69,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
   describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
+
     before { helper.params[:action] = 'show' }
 
     it 'checks the arguments' do

@@ -15,7 +15,7 @@ describe Wallaby::ModelAuthorizer do
 
   describe '.new' do
     it 'returns authorizer' do
-      expect(described_class.new(Product, :default)).to be_a Wallaby::ModelAuthorizer
+      expect(described_class.new(Product, :default)).to be_a described_class
     end
 
     it 'has attributes' do

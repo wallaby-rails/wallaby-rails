@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Wallaby::Her::ModelServiceProvider do
   describe 'actions' do
     subject { described_class.new model_class, model_decorator }
+
     let(:model_class) { Her::Product }
     let(:model_decorator) { Wallaby::Her::ModelDecorator.new model_class }
     let(:ability) { Ability.new nil }

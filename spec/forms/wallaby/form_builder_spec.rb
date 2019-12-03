@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe 'Wallaby::FormBuilder', type: :helper do
   subject { Wallaby::FormBuilder.new object_name, object, helper, {} }
+
   let(:object_name) { object.model_name.param_key }
   let(:object) { Product.new }
 

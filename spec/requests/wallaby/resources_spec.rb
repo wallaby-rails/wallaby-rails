@@ -154,6 +154,7 @@ describe 'Resources pages using postgresql table' do
 
   describe '#edit' do
     let!(:record) { model_class.create!(string: string) }
+
     it 'renders edit' do
       http :get, "/admin/all_postgres_types/#{record.id}/edit"
       expect(response).to be_successful
@@ -164,6 +165,7 @@ describe 'Resources pages using postgresql table' do
 
   describe '#update' do
     let!(:record) { model_class.create!(string: string) }
+
     it 'updates the record' do
       a_string = 'Claude Monet'
       http :put, "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }
@@ -188,6 +190,7 @@ describe 'Resources pages using postgresql table' do
 
   describe '#destroy' do
     let!(:record) { model_class.create!(string: string) }
+
     it 'destroys the record' do
       expect(model_class.count).to eq 1
       http :delete, "/admin/all_postgres_types/#{record.id}"
