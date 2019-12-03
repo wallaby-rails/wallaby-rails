@@ -15,6 +15,8 @@ matrix:
   exclude:
   - rvm: 2.6.4
     gemfile: gemfiles/Gemfile.rails-4.2
+  - rvm: 2.4.7
+    gemfile: gemfiles/Gemfile.rails-6.0
 env:
   global:
     - DB=postgresql
