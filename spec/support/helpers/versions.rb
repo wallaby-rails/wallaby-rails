@@ -1,12 +1,10 @@
 module Versions
   def minor(results, other = nil)
-    tiny results, other
-    # results[Rails::VERSION::MAJOR].try(:[], Rails::VERSION::MINOR) || other || {}
+    results[Rails::VERSION::MAJOR].try(:[], Rails::VERSION::MINOR) || tiny(results, other)
   end
 
   def tiny(results, other = nil)
-    results.find { |ver, _| version? ver }.try(:last) || other || {}
-    # results[Rails::VERSION::MAJOR].try(:[], Rails::VERSION::MINOR).try(:[], Rails::VERSION::TINY) || other || {}
+    results[Rails::VERSION::MAJOR].try(:[], Rails::VERSION::MINOR).try(:[], Rails::VERSION::TINY) || results.find { |ver, _| version? ver.to_s }.try(:last) || other || {}
   end
 
   def version?(string)
