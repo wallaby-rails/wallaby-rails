@@ -2,5 +2,5 @@
 
 module Wallaby
   # Semantic version number
-  VERSION = '5.1.8'
+  VERSION = '6.0.0'
 end
