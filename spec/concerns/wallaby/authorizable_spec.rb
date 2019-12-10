@@ -7,8 +7,8 @@ describe Wallaby::ResourcesController, type: :controller do
       expect(described_class.application_authorizer).to be_nil
     end
 
-    context 'subclass' do
-      let!(:subclass1) { stub_const 'ApplesController', Class.new(Wallaby::ResourcesController) }
+    context 'when subclass' do
+      let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
       let!(:application_authorizer) { stub_const 'ApplicationAuthorizer', Class.new(Wallaby::ModelAuthorizer) }
       let!(:another_authorizer) { stub_const 'AnotherAuthorizer', Class.new(Wallaby::ModelAuthorizer) }
@@ -53,13 +53,13 @@ describe Wallaby::ResourcesController, type: :controller do
 
   describe '#authorized? & #unauthorized?' do
     it 'returns boolean' do
-      expect(controller.authorized?(:index, AllPostgresType)).to be_truthy
-      expect(controller.authorized?(:index, AllPostgresType.new)).to be_truthy
-      expect(controller.unauthorized?(:index, AllPostgresType)).to be_falsy
-      expect(controller.unauthorized?(:index, AllPostgresType.new)).to be_falsy
+      expect(controller).to be_authorized(:index, AllPostgresType)
+      expect(controller).to be_authorized(:index, AllPostgresType.new)
+      expect(controller).not_to be_unauthorized(:index, AllPostgresType)
+      expect(controller).not_to be_unauthorized(:index, AllPostgresType.new)
 
-      expect(controller.authorized?(:index, nil)).to be_falsy
-      expect(controller.unauthorized?(:index, nil)).to be_truthy
+      expect(controller).not_to be_authorized(:index, nil)
+      expect(controller).to be_unauthorized(:index, nil)
     end
   end
 end

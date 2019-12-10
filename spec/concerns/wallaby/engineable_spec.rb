@@ -6,8 +6,8 @@ describe Wallaby::ResourcesController, type: :controller do
       expect(described_class.engine_name).to be_nil
     end
 
-    context 'subclass' do
-      let!(:subclass1) { stub_const 'ApplesController', Class.new(Wallaby::ResourcesController) }
+    context 'when subclass' do
+      let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
 
       it 'inherits the configuration' do

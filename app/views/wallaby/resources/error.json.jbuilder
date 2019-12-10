@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.error do
   json.code @code
   if @code < 500 && @exception.present?

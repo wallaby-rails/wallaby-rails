@@ -106,20 +106,29 @@ describe Wallaby::ResourcesController do
 
     describe '#paginate' do
       let(:query) { Product.where(nil) }
+
       before do
         controller.request.format = :json
       end
 
       it 'returns the query' do
         paginate = controller.send :paginate, query, paginate: true
-        expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
+        if version? '>= 6'
+          expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 0'
+        else
+          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
+        end
       end
 
       context 'when page param is provided' do
         it 'paginate the query' do
           controller.params[:page] = 8
           paginate = controller.send :paginate, query, paginate: true
-          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 140'
+          if version? '>= 6'
+            expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 140'
+          else
+            expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 140'
+          end
         end
       end
 
@@ -127,7 +136,11 @@ describe Wallaby::ResourcesController do
         it 'paginate the query' do
           controller.params[:per] = 8
           paginate = controller.send :paginate, query, paginate: true
-          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 8 OFFSET 0'
+          if version? '>= 6'
+            expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 8 OFFSET 0'
+          else
+            expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 8 OFFSET 0'
+          end
         end
       end
 
@@ -135,7 +148,11 @@ describe Wallaby::ResourcesController do
         it 'paginate the query' do
           controller.request.format = :html
           paginate = controller.send :paginate, query, paginate: true
-          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
+          if version? '>= 6'
+            expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 0'
+          else
+            expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
+          end
         end
       end
     end
@@ -147,7 +164,11 @@ describe Wallaby::ResourcesController do
 
         collection = controller.send :collection
         expect(assigns(:collection)).to eq collection
-        expect(collection.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 10 OFFSET 10'
+        if version? '>= 6'
+          expect(collection.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 10 OFFSET 10'
+        else
+          expect(collection.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 10 OFFSET 10'
+        end
       end
     end
 
@@ -157,9 +178,11 @@ describe Wallaby::ResourcesController do
         expect(controller.send(:resource)).to be_new_record
       end
 
-      it 'returns new resource' do
-        controller.action_name = 'create'
-        expect(controller.send(:resource)).to be_new_record
+      context 'when action is create' do
+        it 'returns new resource' do
+          controller.action_name = 'create'
+          expect(controller.send(:resource)).to be_new_record
+        end
       end
 
       context 'when resource id is provided' do
@@ -200,7 +223,7 @@ describe Wallaby::ResourcesController do
         end
       end
 
-      context 'for descendants' do
+      context 'with descendants' do
         describe Space::PlanetsController do
           it 'returns prefixes' do
             controller.params[:resources] = 'space/planets'
@@ -215,8 +238,10 @@ describe Wallaby::ResourcesController do
           end
 
           context 'when theme name is give' do
-            before { Space::PlanetsController.theme_name = 'theme1' }
-            after { Space::PlanetsController.theme_name = nil }
+            before { described_class.theme_name = 'theme1' }
+
+            after { described_class.theme_name = nil }
+
             it 'returns prefixes' do
               controller.params[:resources] = 'space/planets'
               expect(controller.send(:_prefixes)).to eq ['space/planets/index', 'space/planets', 'theme1/index', 'theme1', 'wallaby/resources/index', 'wallaby/resources']
@@ -233,7 +258,7 @@ describe Wallaby::ResourcesController do
       end
 
       %w(new create edit update).each do |action_name|
-        context 'action is new' do
+        context 'when action is new' do
           before { controller.params[:action] = action_name }
 
           it 'returns prefixes' do
@@ -248,7 +273,7 @@ describe Wallaby::ResourcesController do
             end
           end
 
-          context 'for descendants' do
+          context 'with descendants' do
             describe Space::PlanetsController do
               it 'returns prefixes' do
                 controller.params[:resources] = 'space/planets'
@@ -263,8 +288,10 @@ describe Wallaby::ResourcesController do
               end
 
               context 'when theme name is give' do
-                before { Space::PlanetsController.theme_name = 'theme1' }
-                after { Space::PlanetsController.theme_name = nil }
+                before { described_class.theme_name = 'theme1' }
+
+                after { described_class.theme_name = nil }
+
                 it 'returns prefixes' do
                   controller.params[:resources] = 'space/planets'
                   expect(controller.send(:_prefixes)).to eq ['space/planets/form', 'space/planets', 'theme1/form', 'theme1', 'wallaby/resources/form', 'wallaby/resources']

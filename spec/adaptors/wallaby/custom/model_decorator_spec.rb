@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::Custom::ModelDecorator do
   subject { described_class.new model_class }
+
   let(:model_class) { Postcode }
 
   describe '#fields' do
@@ -28,7 +29,7 @@ describe Wallaby::Custom::ModelDecorator do
       expect(subject.index_fields).to eq subject.fields
     end
 
-    context 'changing index_fields' do
+    context 'when changing index_fields' do
       it 'doesnt modify fields' do
         expect { subject.index_fields['id'][:label] = 'ID' }.not_to(change { subject.fields['id'][:label] })
       end
@@ -41,7 +42,7 @@ describe Wallaby::Custom::ModelDecorator do
       expect(subject.show_fields).to eq subject.fields
     end
 
-    context 'changing show_fields' do
+    context 'when changing show_fields' do
       it 'doesnt modify fields' do
         expect { subject.show_fields['id'][:label] = 'ID' }.not_to(change { subject.fields['id'][:label] })
       end
@@ -54,7 +55,7 @@ describe Wallaby::Custom::ModelDecorator do
       expect(subject.form_fields).to eq subject.fields
     end
 
-    context 'changing form_fields' do
+    context 'when changing form_fields' do
       it 'doesnt modify fields' do
         expect { subject.form_fields['id'][:label] = 'ID' }.not_to(change { subject.fields['id'][:label] })
       end

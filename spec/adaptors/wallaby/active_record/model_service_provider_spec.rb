@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Wallaby::ActiveRecord::ModelServiceProvider do
   describe 'actions' do
     subject { described_class.new model_class, model_decorator }
+
     let(:model_class) { AllPostgresType }
     let(:model_decorator) { Wallaby::ActiveRecord::ModelDecorator.new model_class }
     let(:ability) { Ability.new nil }
@@ -48,7 +49,11 @@ describe Wallaby::ActiveRecord::ModelServiceProvider do
 
     describe '#paginate' do
       it 'paginates the query' do
-        expect(subject.paginate(model_class.where(nil), parameters(page: 10, per: 8)).to_sql).to eq 'SELECT  "all_postgres_types".* FROM "all_postgres_types" LIMIT 8 OFFSET 72'
+        if version? '>= 6'
+          expect(subject.paginate(model_class.where(nil), parameters(page: 10, per: 8)).to_sql).to eq 'SELECT "all_postgres_types".* FROM "all_postgres_types" LIMIT 8 OFFSET 72'
+        else
+          expect(subject.paginate(model_class.where(nil), parameters(page: 10, per: 8)).to_sql).to eq 'SELECT  "all_postgres_types".* FROM "all_postgres_types" LIMIT 8 OFFSET 72'
+        end
       end
     end
 

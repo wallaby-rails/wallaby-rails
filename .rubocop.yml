@@ -1,3 +1,6 @@
+inherit_gem:
+  wallaby-cop: rubocop.yml
+
 AllCops:
   Exclude:
     - 'vendor/**/*'
@@ -9,65 +12,5 @@ AllCops:
     - 'spec/views/wallaby/resources/*/_xml.html.erb_spec.rb'
     - 'gemfiles/**/*'
 
-Style/FrozenStringLiteralComment:
+Rails/OutputSafety:
   Enabled: false
-
-Style/RedundantFreeze:
-  Enabled: false
-
-Style/RedundantBegin:
-  Exclude:
-    - 'lib/utils/wallaby/utils.rb'
-
-Metrics/BlockLength:
-  CountComments: false  # count full line comments?
-  Max: 25
-  ExcludedMethods: []
-  Exclude:
-    - '*.gemspec'
-    - 'spec/**/*.rb'
-    - 'wallaby.gemspec'
-
-Metrics/AbcSize:
-  Exclude:
-    - 'app/views/**/*'
-
-Metrics/MethodLength:
-  Exclude:
-    - 'app/views/**/*'
-
-Style/Documentation:
-  Exclude:
-    - 'app/views/**/*'
-    - 'spec/**/*'
-
-Style/SingleLineMethods:
-  Exclude:
-    - 'spec/**/*_spec.rb'
-
-Metrics/LineLength:
-  Max: 120
-  Exclude:
-    - 'spec/**/*'
-
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    default: ()
-    '%i': ()
-    '%w': ()
-    '%W': ()
-
-Style/FormatStringToken:
-  Exclude:
-    - 'spec/**/*_spec.rb'
-
-Layout/EmptyLinesAroundArguments:
-  Exclude:
-    - 'spec/**/*_spec.rb'
-
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-Layout/AlignHash:
-  Exclude:
-    - 'spec/**/*_spec.rb'

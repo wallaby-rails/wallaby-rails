@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Declare your gem's dependencies in wallaby.gemspec.
@@ -13,30 +15,33 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'wallaby-core', path: '/wallaby-core'
-gem 'wallaby-active_record', path: '/wallaby-active_record'
-gem 'wallaby-her', path: '/wallaby-her'
-gem 'kaminari'
-gem 'cancancan'
-# gem 'font-awesome-sass', '< 5.0'
+gem 'wallaby-cop', path: '/wallaby-cop'
+# gem 'wallaby-core', path: '/wallaby-core'
+
+# gem 'wallaby-active_record', path: '/wallaby-active_record'
+gem 'wallaby-active_record', '0.1.1'
+# gem 'wallaby-her', path: '/wallaby-her'
+
 gem 'activestorage'
+gem 'cancancan'
 gem 'her'
 gem 'pundit'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 6.0.0'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
 # gem 'simple_blog_theme', path: '/simple_blog_theme'
+
+# gem 'font-awesome-sass', '< 5.0'
 
 group :development, :test do
   gem 'binding_of_caller'
   gem 'byebug'
-  gem 'deep-cover'
   gem 'devise'
   gem 'ffaker'
   gem 'mysql2'
   gem 'pg', '~> 0.15'
   gem 'pry-rails'
-  gem 'rspec-rails'
-  gem 'sqlite3', '< 1.4.0'
+  gem 'rspec-rails', '4.0.0.beta3'
+  gem 'sqlite3'
   gem 'yard'
 end
 
@@ -51,6 +56,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'deep-cover'
   gem 'rails-controller-testing'
   gem 'simplecov'
   gem 'webmock'

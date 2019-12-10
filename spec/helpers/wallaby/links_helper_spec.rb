@@ -8,8 +8,10 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.index_path(Product)).to eq '/admin/products'
     end
 
-    it 'returns index path', script_name: '' do
-      expect(helper.index_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products'
+    context 'when script name is blank' do
+      it 'returns index path', script_name: '' do
+        expect(helper.index_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products'
+      end
     end
 
     it 'accepts url_params' do
@@ -23,8 +25,10 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.new_path(Product)).to eq '/admin/products/new'
     end
 
-    it 'returns new path', script_name: '' do
-      expect(helper.new_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/new'
+    context 'when script name is blank' do
+      it 'returns new path', script_name: '' do
+        expect(helper.new_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/new'
+      end
     end
 
     it 'accepts url_params' do
@@ -40,8 +44,10 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.show_path(product)).to eq '/admin/products/1'
     end
 
-    it 'returns show path', script_name: '' do
-      expect(helper.show_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1'
+    context 'when script name is blank' do
+      it 'returns show path', script_name: '' do
+        expect(helper.show_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1'
+      end
     end
 
     it 'accepts url_params' do
@@ -57,8 +63,10 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.edit_path(product)).to eq '/admin/products/1/edit'
     end
 
-    it 'returns edit path', script_name: '' do
-      expect(helper.edit_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1/edit'
+    context 'when script name is blank' do
+      it 'returns edit path', script_name: '' do
+        expect(helper.edit_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1/edit'
+      end
     end
 
     it 'accepts url_params' do
@@ -139,9 +147,11 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.show_link(resource, options: { url: '/before/products/1' }, url_params: { sort: 'name asc' })).to eq '<a title="iPhone" href="/before/products/1">iPhone</a>'
     end
 
-    it 'accepts options for singular resource', script_name: '' do
-      Wallaby.configuration.custom_models = ['Profile']
-      expect(helper.show_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Tian" href="/profile?sort=name+asc">Tian</a>'
+    context 'when script name is blank' do
+      it 'accepts options for singular resource', script_name: '' do
+        Wallaby.configuration.custom_models = ['Profile']
+        expect(helper.show_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Tian" href="/profile?sort=name+asc">Tian</a>'
+      end
     end
 
     it 'accepts url_params' do
@@ -187,9 +197,11 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.edit_link(resource, options: { url: '/before/products/1' }, url_params: { sort: 'name asc' })).to eq '<a title="Edit iPhone" class="resource__update" href="/before/products/1">Edit iPhone</a>'
     end
 
-    it 'accepts options for singular resource', script_name: '' do
-      Wallaby.configuration.custom_models = ['Profile']
-      expect(helper.edit_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Edit Tian" class="resource__update" href="/profile/edit?sort=name+asc">Edit Tian</a>'
+    context 'when script name is blank' do
+      it 'accepts options for singular resource', script_name: '' do
+        Wallaby.configuration.custom_models = ['Profile']
+        expect(helper.edit_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Edit Tian" class="resource__update" href="/profile/edit?sort=name+asc">Edit Tian</a>'
+      end
     end
 
     it 'accepts url_params' do
@@ -236,9 +248,11 @@ describe Wallaby::LinksHelper, :current_user do
       expect(helper.delete_link(resource, options: { url: '/before/products/1' }, url_params: { sort: 'name asc' })).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/before/products/1">Delete</a>'
     end
 
-    it 'accepts options for singular resource', script_name: '' do
-      Wallaby.configuration.custom_models = ['Profile']
-      expect(helper.delete_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/profile?sort=name+asc">Delete</a>'
+    context 'when script name is blank' do
+      it 'accepts options for singular resource', script_name: '' do
+        Wallaby.configuration.custom_models = ['Profile']
+        expect(helper.delete_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/profile?sort=name+asc">Delete</a>'
+      end
     end
 
     it 'accepts url_params' do

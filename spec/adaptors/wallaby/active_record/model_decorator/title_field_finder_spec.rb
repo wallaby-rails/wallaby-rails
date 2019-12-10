@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder do
   subject { described_class.new model_class, fields }
+
   let(:model_class) do
     Class.new ActiveRecord::Base do
       def self.name
@@ -17,6 +18,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder do
           'stock' => { name: 'stock', type: 'integer', label: 'Stock' }
         }
       end
+
       it 'returns primary_key' do
         expect(model_class.primary_key).to eq 'id'
         expect(subject.find).to eq model_class.primary_key
@@ -32,6 +34,7 @@ describe Wallaby::ActiveRecord::ModelDecorator::TitleFieldFinder do
           'title' => { name: 'title',  type: 'string',  label: 'Title' }
         }
       end
+
       it 'returns only the first string column name' do
         expect(subject.find).to eq 'name'
       end

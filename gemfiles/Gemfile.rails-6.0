@@ -1,0 +1,38 @@
+source 'https://rubygems.org'
+
+# Declare your gem's dependencies in wallaby.gemspec.
+# Bundler will treat runtime dependencies like base dependencies, and
+# development dependencies will be added by default to the :development group.
+gemspec path: '../'
+
+# Declare any dependencies that are still in development here instead of in
+# your gemspec. These might include edge Rails or gems from your path or
+# Git. Remember to move these dependencies to your gemspec before releasing
+# your gem to rubygems.org.
+
+# To use a debugger
+# gem 'byebug', group: [:development, :test]
+gem 'rails', '~> 6.0.0'
+gem 'wallaby-core'
+gem 'wallaby-active_record'
+gem 'wallaby-her'
+gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'master'
+
+gem 'cancancan'
+gem 'devise'
+gem 'her'
+gem 'kaminari'
+gem 'mysql2'
+gem 'pg'
+gem 'pundit'
+gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
+gem 'sqlite3'
+
+group :test do
+  gem 'database_cleaner'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '4.0.0.beta3'
+  gem 'rubocop'
+  gem 'simplecov'
+  gem 'webmock'
+end

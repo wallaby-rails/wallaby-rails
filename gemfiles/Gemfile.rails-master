@@ -13,13 +13,18 @@ gemspec path: '../'
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
+gem 'wallaby-core'
+gem 'wallaby-active_record'
+gem 'wallaby-her'
+gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'master'
 
-gem 'devise'
 gem 'cancancan'
-gem 'pundit'
+gem 'devise'
 gem 'her'
+gem 'kaminari'
 gem 'mysql2'
 gem 'pg'
+gem 'pundit'
 gem 'sqlite3', '< 1.4.0'
 
 group :test do

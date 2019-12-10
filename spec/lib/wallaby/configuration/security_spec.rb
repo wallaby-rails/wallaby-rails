@@ -24,13 +24,13 @@ describe Wallaby::Configuration::Security do
 
   describe '#current_user?' do
     it 'returns false' do
-      expect(subject.current_user?).to be_falsy
+      expect(subject).not_to be_current_user
     end
 
     context 'when current_user is changed' do
       it 'returns true' do
         subject.current_user { 'custom user' }
-        expect(subject.current_user?).to be_truthy
+        expect(subject).to be_current_user
       end
     end
   end
@@ -49,13 +49,13 @@ describe Wallaby::Configuration::Security do
 
   describe '#authenticate?' do
     it 'returns false' do
-      expect(subject.authenticate?).to be_falsy
+      expect(subject).not_to be_authenticate
     end
 
     context 'when authenticate is changed' do
       it 'returns true' do
         subject.authenticate { false }
-        expect(subject.authenticate?).to be_truthy
+        expect(subject).to be_authenticate
       end
     end
   end

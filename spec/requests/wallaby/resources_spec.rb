@@ -44,7 +44,7 @@ describe 'Resources pages using postgresql table' do
       expect(response.body).to include string
     end
 
-    context 'sorting' do
+    context 'with sorting' do
       it 'renders collections' do
         http :get, '/admin/all_postgres_types?sort=string%20desc'
         expect(response).to be_successful
@@ -53,7 +53,7 @@ describe 'Resources pages using postgresql table' do
       end
     end
 
-    context 'keyword' do
+    context 'with keyword' do
       it 'renders collections' do
         http :get, '/admin/all_postgres_types?q=van'
         expect(response).to be_successful
@@ -76,7 +76,7 @@ describe 'Resources pages using postgresql table' do
       end
     end
 
-    context 'pagination' do
+    context 'with pagination' do
       it 'renders collections' do
         http :get, '/admin/all_postgres_types?per=100'
         expect(response).to be_successful
@@ -154,6 +154,7 @@ describe 'Resources pages using postgresql table' do
 
   describe '#edit' do
     let!(:record) { model_class.create!(string: string) }
+
     it 'renders edit' do
       http :get, "/admin/all_postgres_types/#{record.id}/edit"
       expect(response).to be_successful
@@ -164,6 +165,7 @@ describe 'Resources pages using postgresql table' do
 
   describe '#update' do
     let!(:record) { model_class.create!(string: string) }
+
     it 'updates the record' do
       a_string = 'Claude Monet'
       http :put, "/admin/all_postgres_types/#{record.id}", params: { all_postgres_type: { string: a_string } }
@@ -188,6 +190,7 @@ describe 'Resources pages using postgresql table' do
 
   describe '#destroy' do
     let!(:record) { model_class.create!(string: string) }
+
     it 'destroys the record' do
       expect(model_class.count).to eq 1
       http :delete, "/admin/all_postgres_types/#{record.id}"

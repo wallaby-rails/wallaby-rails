@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Wallaby::ResourcesHelper, :current_user do
   describe '#decorate' do
-    context 'single object' do
+    context 'when single object' do
       it 'returns a decorator' do
         resource = Product.new
         expect(helper.decorate(resource)).to be_a Wallaby::ResourceDecorator
@@ -20,6 +20,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
     context 'when resources is enumerable' do
       before { AllPostgresType.create string: 'string' }
+
       let(:resources) { AllPostgresType.where(nil) }
 
       it 'returns decorators' do
@@ -37,7 +38,7 @@ describe Wallaby::ResourcesHelper, :current_user do
     end
 
     context 'when resources is not decoratable' do
-      let(:resources) { Time.new }
+      let(:resources) { Time.zone.now }
 
       it 'returns decorators' do
         expect(helper.decorate(resources)).to be_an Time
@@ -68,6 +69,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
   describe '#type_partial_render', prefixes: ['wallaby/resources/index'] do
     let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
+
     before { helper.params[:action] = 'show' }
 
     it 'checks the arguments' do
@@ -89,7 +91,7 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
       end
 
-      context 'for custom show fields' do
+      context 'when for custom show fields' do
         let(:decorator_class) do
           stub_const 'FormProductDecorator', (Class.new(Wallaby::ResourceDecorator) do
             def self.model_class; Product; end
@@ -111,7 +113,7 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
       end
 
-      context 'for custom index fields' do
+      context 'when for custom index fields' do
         let(:decorator_class) do
           stub_const 'FormProductDecorator', (Class.new(Wallaby::ResourceDecorator) do
             def self.model_class; Product; end

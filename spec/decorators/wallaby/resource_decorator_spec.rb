@@ -32,6 +32,7 @@ describe Wallaby::ResourceDecorator do
         describe ".#{prefix}field_names" do
           it 'returns nil' do
             next if prefix == ''
+
             expect(described_class.send("#{prefix}field_names")).to be_nil
           end
         end
@@ -58,7 +59,7 @@ describe Wallaby::ResourceDecorator do
   end
 
   describe 'instance methods' do
-    let(:subject) { Wallaby::ResourceDecorator.new resource }
+    let(:subject) { described_class.new resource }
     let(:resource) { model_class.new }
     let(:model_class) { Product }
 
@@ -121,6 +122,7 @@ describe Wallaby::ResourceDecorator do
           describe "##{prefix}field_names" do
             it 'returns field names array' do
               next if prefix == ''
+
               if prefix == 'form_'
                 expect(subject.send("#{prefix}field_names")).to eq(%w(title published_at))
               else
@@ -171,6 +173,7 @@ describe Wallaby::ResourceDecorator do
 
     describe '#to_s' do
       let(:resource) { 'A String' }
+
       it 'returns resource string' do
         expect(subject.to_s).to eq 'A String'
       end
@@ -178,15 +181,16 @@ describe Wallaby::ResourceDecorator do
 
     describe '#to_param' do
       let(:resource) { { key: 'value' } }
+
       it 'returns resource string' do
         expect(subject.to_param).to eq 'key=value'
       end
     end
   end
 
-  context 'descendants' do
+  context 'with descendants' do
     let(:model_class) { Product }
-    let(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(Wallaby::ResourceDecorator) }
+    let(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(described_class) }
     let(:klass) { stub_const 'ProductDecorator', Class.new(application_decorator) }
     let(:model_fields) do
       {
@@ -226,10 +230,11 @@ describe Wallaby::ResourceDecorator do
       end
 
       describe '.application_decorator=' do
-        let(:another_decorator) { stub_const 'AnotherDecorator', Class.new(Wallaby::ResourceDecorator) }
+        let(:another_decorator) { stub_const 'AnotherDecorator', Class.new(described_class) }
+
         it 'returns application decorator class' do
-          klass.application_decorator = Wallaby::ResourceDecorator
-          expect(klass.application_decorator).to eq Wallaby::ResourceDecorator
+          klass.application_decorator = described_class
+          expect(klass.application_decorator).to eq described_class
           expect { klass.application_decorator = another_decorator }.to raise_error ArgumentError
         end
       end
@@ -273,6 +278,7 @@ describe Wallaby::ResourceDecorator do
 
               it 'returns field names array' do
                 next if prefix == ''
+
                 if prefix == 'form_'
                   expect(klass.send("#{prefix}field_names")).to eq(%w(title published_at))
                 else
@@ -282,6 +288,7 @@ describe Wallaby::ResourceDecorator do
 
               it 'caches the field names array' do
                 next if prefix == ''
+
                 if prefix == 'form_'
                   expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w(title published_at)).to(['published_at'])
                 else

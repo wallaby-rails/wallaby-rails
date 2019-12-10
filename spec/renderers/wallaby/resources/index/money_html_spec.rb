@@ -9,6 +9,7 @@ describe klass, type: :view do
     value: 100.88 do
     context 'when value is 0' do
       let(:value) { 0 }
+
       it 'renders the money' do
         expect(rendered).to include h(value)
       end

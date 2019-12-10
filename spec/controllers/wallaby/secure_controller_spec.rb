@@ -30,7 +30,7 @@ describe Wallaby::SecureController do
 
       it 'returns a cached current_user' do
         security_config = Wallaby.configuration.security
-        expect(security_config.current_user?).to be_falsy
+        expect(security_config).not_to be_current_user
         controller.send :current_user
         expect(assigns(:current_user)).to eq(email: 'admin@wallaby.org.au')
       end
@@ -64,7 +64,7 @@ describe Wallaby::SecureController do
 
       it 'returns a cached authenticate_user' do
         security_config = Wallaby.configuration.security
-        expect(security_config.current_user?).to be_falsy
+        expect(security_config).not_to be_current_user
         expect { controller.send :authenticate_user! }.to raise_error 'custom authentication error'
       end
     end

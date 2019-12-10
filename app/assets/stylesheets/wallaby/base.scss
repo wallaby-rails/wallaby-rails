@@ -8,8 +8,8 @@
 @import 'tempusdominus-bootstrap-4';
 @import 'jquery.minicolors';
 @import "summernote-bs4";
-@import 'codemirror';
-@import 'codemirror/themes/mdn-like';
+@import 'codemirror/5.49.2/lib/codemirror';
+@import 'codemirror/5.49.2/theme/mdn-like';
 @import 'base/functions';
 @import 'base/mixins';
 @import 'base/layout';

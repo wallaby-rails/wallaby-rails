@@ -14,12 +14,14 @@ describe partial_name, :current_user do
 
   context 'when value is nil' do
     let(:value) { nil }
+
     it 'renders new_link' do
       expect(rendered).to include view.new_link(metadata[:class])
     end
 
     context 'when value is polymorphic' do
       let(:metadata) { Hash is_polymorphic: true }
+
       it 'renders new_link' do
         expect(rendered).to include view.null
       end

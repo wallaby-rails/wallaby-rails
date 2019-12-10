@@ -9,14 +9,14 @@ describe Wallaby::ModelServicer do
 
       describe 'descendants' do
         it 'returns a default model class' do
-          stub_const 'JacketServicer', Class.new(Wallaby::ModelServicer)
+          stub_const 'JacketServicer', Class.new(described_class)
           stub_const 'Jacket', Class.new
           expect(JacketServicer.model_class).to eq Jacket
         end
 
         context 'when model class is not found' do
           it 'raises not found' do
-            stub_const 'NotFoundServicer', Class.new(Wallaby::ModelServicer)
+            stub_const 'NotFoundServicer', Class.new(described_class)
             expect(NotFoundServicer.model_class).to be_nil
           end
         end
@@ -26,6 +26,7 @@ describe Wallaby::ModelServicer do
 
   describe 'instance methods' do
     subject { described_class.new model_class, authorizer, model_decorator }
+
     let(:model_class) { AllPostgresType }
     let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new model_class }
     let(:params) { parameters }
@@ -47,7 +48,7 @@ describe Wallaby::ModelServicer do
       it 'returns new object' do
         new_record = subject.new(params)
         expect(new_record).to be_a AllPostgresType
-        expect(new_record.persisted?).to be_falsy
+        expect(new_record).not_to be_persisted
       end
     end
 
@@ -65,7 +66,7 @@ describe Wallaby::ModelServicer do
         subject.create record, subject.permit(params)
         expect(record).to be_a AllPostgresType
         expect(record.string).to eq 'today'
-        expect(record.persisted?).to be_truthy
+        expect(record).to be_persisted
       end
     end
 
@@ -82,7 +83,7 @@ describe Wallaby::ModelServicer do
     describe '#destroy' do
       it 'removes record' do
         record = AllPostgresType.create
-        expect { subject.destroy record, params }.to change { AllPostgresType.count }.from(1).to(0)
+        expect { subject.destroy record, params }.to change(AllPostgresType, :count).from(1).to(0)
       end
     end
   end

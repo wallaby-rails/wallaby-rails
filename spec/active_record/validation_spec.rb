@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe 'Validation module' do
+  # rubocop:disable Rails/SkipsModelValidations, Rails/ActiveRecordAliases
   it 'clears exisiting validation errors when valid? is called' do
     resource = AllPostgresType.new
     resource.errors.add :base, 'errors'
@@ -48,4 +49,5 @@ describe 'Validation module' do
     expect(resource.errors[:base]).to eq ['errors']
     expect(resource.string).to eq '6'
   end
+  # rubocop:enable Rails/SkipsModelValidations, Rails/ActiveRecordAliases
 end

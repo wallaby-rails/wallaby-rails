@@ -15,7 +15,7 @@ RSpec.shared_examples 'form partial' do |field_name, options = {}|
   let(:expected_value) { (options[:expected_value] || value).to_s }
 
   before do
-    expect(view).to receive :content_for if content_for
+    expect(view).to receive :content_for if content_for # rubocop:disable RSpec/ExpectInHook
     render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
   end
 

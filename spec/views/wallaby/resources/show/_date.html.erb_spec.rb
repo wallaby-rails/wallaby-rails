@@ -21,7 +21,7 @@ describe partial_name do
   end
 
   context 'when value is a time' do
-    let(:value) { Time.parse 'Tue, 11 Feb 2014 23:59:59 +0000' }
+    let(:value) { Time.zone.parse 'Tue, 11 Feb 2014 23:59:59 +0000' }
 
     it 'renders the date' do
       expect(rendered).to include '2014-02-11'
@@ -30,6 +30,7 @@ describe partial_name do
 
   context 'when value is nil' do
     let(:value) { nil }
+
     it 'renders null' do
       expect(rendered).to include view.null
     end

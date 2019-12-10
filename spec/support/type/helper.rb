@@ -17,6 +17,10 @@ RSpec.configure do |config|
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
 
+    def view.lookup_context
+      @view_lookup_context ||= Wallaby::CustomLookupContext.normalize(super)
+    end
+
     if view.respond_to? :default_url_options
       view.default_url_options = { only_path: true, host: 'test.host' }
     else
