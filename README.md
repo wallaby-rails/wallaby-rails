@@ -99,4 +99,4 @@ Raise an issue, discuss and resolve!
 
 ## License
 
-This project rocks and uses MIT-LICENSE.
+This project uses [MIT License](LICENSE).

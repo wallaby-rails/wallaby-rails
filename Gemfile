@@ -16,19 +16,21 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'wallaby-cop', path: '/wallaby-cop'
-gem 'wallaby-core', path: '/wallaby-core'
+# gem 'wallaby-core', path: '/wallaby-core'
 
-gem 'cancancan'
-gem 'kaminari'
-gem 'wallaby-active_record', path: '/wallaby-active_record'
-gem 'wallaby-her', path: '/wallaby-her'
-# gem 'font-awesome-sass', '< 5.0'
+# gem 'wallaby-active_record', path: '/wallaby-active_record'
+gem 'wallaby-active_record', '0.1.1'
+# gem 'wallaby-her', path: '/wallaby-her'
+
 gem 'activestorage'
+gem 'cancancan'
 gem 'her'
 gem 'pundit'
 gem 'rails', '~> 6.0.0'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
 # gem 'simple_blog_theme', path: '/simple_blog_theme'
+
+# gem 'font-awesome-sass', '< 5.0'
 
 group :development, :test do
   gem 'binding_of_caller'
