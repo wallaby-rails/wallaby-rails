@@ -15,8 +15,11 @@ N/A
 
 # History:
 
-## 5.2.0
+## 6.0.0
 
+- feat: Rails 6 support ([issue 158](#158))
+- chore: extract files to separate gems (wallaby-core/wallaby-active_record/wallaby-her) ([issue 156](#156))
+- [Chore] Document update for 5.2 ([issue 155](#155))
 - [Feature] Make sure Wallaby still works without specifying resources_name in routes ([issue 154](#154))
 - [Feature] Namespace ([issue 153](#153))
 - [Chore] Change authorizer's initialize to take away the dependence of context ([issue 152](#152))

@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.files = Dir[
-    '{app,config,db,lib}/**/*',
+    '{app,config,db,lib,vendor}/**/*',
     'LICENSE',
     'README.rdoc'
   ]
