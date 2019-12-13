@@ -28,11 +28,12 @@ The following params are the variables that can be used in this partial.
     <% javascript_tag do %>
       jQuery(document).off(readyPrefix('.date')).on(readyPrefix('.date'), function () {
         $('[data-init="datepicker"]').each(function() {
-          var $input = $('input', this)
-          $input.val(moment($input.attr('value')).format('YYYY-MM-DD'))
+          var $input = $('input', this),
+            val = ($input.attr('value') || '').split(' ').slice(0,1).join(' ');
+          $input.val(moment(val).format('YYYY-MM-DD'));
           $(this).datetimepicker({
             format: 'YYYY-MM-DD'
-          })
+          });
         })
       })
     <% end %>

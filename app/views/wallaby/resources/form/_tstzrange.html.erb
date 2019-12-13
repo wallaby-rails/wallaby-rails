@@ -37,12 +37,13 @@ The following params are the variables that can be used in this partial.
     <% javascript_tag do %>
       jQuery(document).off(readyPrefix('.tstzrange')).on(readyPrefix('.tstzrange'), function () {
         $('[data-init="datetimepicker"]').each(function() {
-          var $input = $('input', this)
-          $input.val(moment($input.attr('value')).format('YYYY-MM-DD HH:mm'))
+          var $input = $('input', this),
+            val = ($input.attr('value') || '').split(' ').slice(0,2).join(' ');
+          $input.val(moment(val).format('YYYY-MM-DD HH:mm'));
           $(this).datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
             sideBySide: true
-          })
+          });
         })
       })
     <% end %>
