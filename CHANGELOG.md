@@ -1,8 +1,6 @@
 # TODOs
 
-- support rails 6
 - Localization support: to be able to use localization for all the model labels
-- extract core, active record mode and her mode into their own gems
 
 - documentation for interface
 - documentation for localization
@@ -14,6 +12,15 @@
 N/A
 
 # History:
+
+## 6.0.2
+
+- chore(css): get rid of bootstrap deprecation warning ([issue 161](#161))
+- fix(js): remove the warning of moment by format the date string properly ([issue 160](#160))
+
+## 6.0.1
+
+- fix(gemspec): include vendor folder ([issue 159](#159))
 
 ## 6.0.0
 
