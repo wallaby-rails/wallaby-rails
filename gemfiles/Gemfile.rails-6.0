@@ -28,6 +28,10 @@ gem 'pundit'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
 gem 'sqlite3'
 
+# @see https://github.com/sass/sassc-ruby/issues/146
+# TODO: remove this line when it's resolved
+gem 'sassc', '< 2.2.0'
+
 group :test do
   gem 'database_cleaner'
   gem 'rails-controller-testing'

@@ -121,3 +121,18 @@
   @if $included { @extend .fa; }
   @extend .#{map-get($fa-class-map, $name)};
 }
+
+// TODO: remove or update this mixin and `components/_text.scss`
+// when upgrading to Bootstrap 5
+@mixin text-emphasis-variant($parent, $color, $ignore-warning: false) {
+  #{$parent} {
+    color: $color !important;
+  }
+  @if $emphasized-link-hover-darken-percentage != 0 {
+    a#{$parent} {
+      @include hover-focus() {
+        color: darken($color, $emphasized-link-hover-darken-percentage) !important;
+      }
+    }
+  }
+}

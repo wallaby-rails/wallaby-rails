@@ -16,7 +16,7 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'wallaby-cop', path: '/wallaby-cop'
-# gem 'wallaby-core', path: '/wallaby-core'
+gem 'wallaby-core', path: '/wallaby-core'
 
 # gem 'wallaby-active_record', path: '/wallaby-active_record'
 gem 'wallaby-active_record', '0.1.1'
@@ -53,6 +53,10 @@ group :development do
   gem 'rubocop-performance'
   gem 'turbolinks'
 end
+
+# @see https://github.com/sass/sassc-ruby/issues/146
+# TODO: remove this line when it's resolved
+gem 'sassc', '< 2.2.0'
 
 group :test do
   gem 'database_cleaner'
