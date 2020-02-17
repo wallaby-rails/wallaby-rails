@@ -1,6 +1,6 @@
 # Features
 
-- It allows developer to customize things in different aspects (e.g. Decorator/Controller/Servicer/Authorizer/Paginator/View/Cell)
+- It allows developer to customize things in different aspects (e.g. Decorator/Controller/Servicer/Authorizer/Paginator/View)
 - In a decorator, field type can be customized and filters can be set for index page.
 - It applies Devise authentication and allows custom authentication to be made.
 - It applies CanCanCan/Pundit authorization across the admin section and allows custom authorization to be in place.

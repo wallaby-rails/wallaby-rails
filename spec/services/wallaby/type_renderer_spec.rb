@@ -49,15 +49,5 @@ describe Wallaby::TypeRenderer, type: :helper do
         end
       end
     end
-
-    describe 'cells', prefixes: ['wallaby/resources/index'] do
-      it 'renders a cell' do
-        expect(described_class.render(helper, 'string', field_name: 'name', object: object)).to eq value
-      end
-
-      it 'renders a cell using absolute path' do
-        expect(described_class.render(helper, 'wallaby/resources/index/string', field_name: 'name', object: object)).to eq value
-      end
-    end
   end
 end

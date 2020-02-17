@@ -5,7 +5,3 @@ end
 def type_from(file_name)
   file_name.split('/')[-2]
 end
-
-def cell_class_from(file_name)
-  file_name[%r{/spec/[^/]+/(.+)_spec\.rb$}, 1].camelize.constantize
-end

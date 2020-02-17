@@ -8,7 +8,7 @@
 - [Declare routes](route.md)
 - [Customize resourceful controller actions](controller.md)
 - [Use Decorator to define Wallaby's view behavior](decorator.md)
-- [Create Cell/Type Partials for custom type defined in Decorator](view.md)
+- [Create Type Partials for custom type defined in Decorator](view.md)
 - [Customize model life cycle with Servicer](servicer.md)
 - [Customize access control with Authorizer](authorizer.md)
 - [Customize collection pagination with Paginator](paginator.md)

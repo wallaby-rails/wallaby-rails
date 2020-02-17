@@ -9,7 +9,7 @@
 
 Wallaby is a Rails engine that autocompletes the resourceful controller and view for a given ORM model (ActiveRecord, HER) for admin interface and other purposes.
 
-It can be extended to support any ORM model and can be easily and deeply customized at MVC's different aspects by using [decorators](docs/decorator.md), [controllers](docs/controllers.md), [type partials/cells](docs/view.md), [servicers](docs/servicer.md), [authorizers](docs/authorizer.md), [paginators](docs/paginator.md) and [themes](docs/theme.md).
+It can be extended to support any ORM model and can be easily and deeply customized at MVC's different aspects by using [decorators](docs/decorator.md), [controllers](docs/controllers.md), [type partials](docs/view.md), [servicers](docs/servicer.md), [authorizers](docs/authorizer.md), [paginators](docs/paginator.md) and [themes](docs/theme.md).
 
 [Try the demo here](https://wallaby-demo.herokuapp.com/admin/).
 
