@@ -40,7 +40,7 @@ describe 'non admin usage' do
       expect(record.name).to eq 'beautiful'
     end
 
-    context 'when params is missing' do
+    context 'when params is missing for create' do
       it 'shows error' do
         http :post, '/pictures'
         expect(response).to have_http_status :bad_request
@@ -48,7 +48,7 @@ describe 'non admin usage' do
       end
     end
 
-    context 'when name is missing' do
+    context 'when name is missing for create' do
       it 'shows error' do
         http :post, '/pictures', params: { picture: { test: 'test' } }
         expect(response).to render_template :new
@@ -70,7 +70,7 @@ describe 'non admin usage' do
       expect(flash[:notice]).to eq 'Picture was successfully updated.'
     end
 
-    context 'when params is missing' do
+    context 'when params is missing for update' do
       it 'shows error' do
         record = model_class.create name: 'beautiful'
         http :put, "/pictures/#{record.id}"
@@ -79,7 +79,7 @@ describe 'non admin usage' do
       end
     end
 
-    context 'when name is missing' do
+    context 'when name is missing for update' do
       it 'shows error' do
         record = model_class.create name: 'beautiful'
         http :put, "/pictures/#{record.id}", params: { picture: { name: '' } }

@@ -10,7 +10,7 @@ describe Wallaby::ResourceDecorator do
 
     describe '.model_decorator' do
       it 'returns nil' do
-        expect(described_class.model_class).to be_nil
+        expect(described_class.model_decorator).to be_nil
       end
     end
 

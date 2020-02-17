@@ -144,7 +144,7 @@ describe Wallaby::ResourcesController do
         end
       end
 
-      context 'when page param is provided' do
+      context 'when request format is html' do
         it 'paginate the query' do
           controller.request.format = :html
           paginate = controller.send :paginate, query, paginate: true

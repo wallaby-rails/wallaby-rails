@@ -1,9 +1,10 @@
 RSpec.shared_examples 'index partial' do |field_name, options = {}|
-  let(:partial) { "wallaby/resources/index/#{partial_name}.html.erb" }
+  let(:partial) { "wallaby/resources/#{action}#{partial_name}.html.erb" }
   let(:page) { Nokogiri::HTML rendered }
   let(:object) { model_class.new field_name => value }
   let(:value) { options[:value] }
 
+  let(:action) { options[:action] || 'index/' }
   let(:partial_name) { options[:partial_name] || field_name }
   let(:content_for) { options[:content_for] }
   let(:metadata) { options[:metadata].to_h }

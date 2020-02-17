@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 field_name = 'binary'
-type = type_from __FILE__
-describe klass do
+describe field_name do
   it_behaves_like \
-    "#{type} partial", field_name,
+    "index partial", field_name,
+    action: '',
     partial_name: 'active_storage',
     value: true,
     model_class: AllPostgresType,
