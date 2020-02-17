@@ -17,18 +17,20 @@ gemspec
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'wallaby-cop', path: '/wallaby-cop'
 gem 'wallaby-core', path: '/wallaby-core'
+gem 'wallaby-view', path: '/wallaby-view'
 
-# gem 'wallaby-active_record', path: '/wallaby-active_record'
-gem 'wallaby-active_record', '0.1.1'
+gem 'wallaby-active_record', path: '/wallaby-active_record'
 # gem 'wallaby-her', path: '/wallaby-her'
 
-gem 'activestorage'
+# gem 'activestorage'
 gem 'cancancan'
 gem 'her'
+gem 'kaminari'
 gem 'pundit'
 gem 'rails', '~> 6.0.0'
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
 # gem 'simple_blog_theme', path: '/simple_blog_theme'
+gem 'will_paginate'
 
 # gem 'font-awesome-sass', '< 5.0'
 
@@ -38,7 +40,8 @@ group :development, :test do
   gem 'devise'
   gem 'ffaker'
   gem 'mysql2'
-  gem 'pg', '~> 0.15'
+  # gem 'pg', '~> 0.15'
+  gem 'pg'
   gem 'pry-rails'
   gem 'rspec-rails', '4.0.0.beta3'
   gem 'sqlite3'
