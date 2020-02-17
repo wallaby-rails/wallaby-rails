@@ -82,7 +82,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
     describe 'partials' do
       it 'renders a type partial' do
-        expect(helper.type_render('integer', object: object, field_name: 'name')).to eq '0'
+        expect(helper.type_render('integer', object: object, field_name: 'name')).to eq "0\n"
       end
 
       context 'when partial does not exists' do

@@ -18,18 +18,4 @@ describe Wallaby::ResourcesController, type: :controller do
       end
     end
   end
-
-  describe '#current_theme_name' do
-    it 'returns theme name' do
-      expect(controller.current_theme_name).to be_nil
-    end
-
-    context 'when theme name is set' do
-      it 'returns theme name' do
-        controller.class.theme_name = 'something'
-        expect(controller.current_theme_name).to eq 'something'
-        controller.class.theme_name = nil
-      end
-    end
-  end
 end
