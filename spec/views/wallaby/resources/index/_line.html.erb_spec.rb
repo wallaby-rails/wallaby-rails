@@ -6,6 +6,7 @@ describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
     value: '{1,2,5}',
+    partial_name: 'line',
     skip_general: true,
     code_value: true,
     max_length: 20,

@@ -6,6 +6,7 @@ describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
     value: '010111',
+    partial_name: 'tinyblob',
     model_class: AllMysqlType,
     skip_general: true do
     it 'renders the tinyblob' do

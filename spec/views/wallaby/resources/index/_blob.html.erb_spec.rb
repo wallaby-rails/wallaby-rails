@@ -5,6 +5,7 @@ type = type_from __FILE__
 describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
+    partial_name: 'blob',
     value: '010111',
     model_class: AllMysqlType,
     skip_general: true do

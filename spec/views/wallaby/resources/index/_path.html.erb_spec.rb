@@ -5,6 +5,7 @@ type = type_from __FILE__
 describe field_name do
   it_behaves_like \
     "#{type} partial", field_name,
+    partial_name: 'path',
     value: '((1,2),(3,4))',
     skip_general: true,
     code_value: true,
