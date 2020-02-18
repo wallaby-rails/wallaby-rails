@@ -13,7 +13,7 @@ For example, for index view, the core looks like the following pseudocode:
 
 It extends Rails' partial lookup order (see [Rails Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance)) and supports [Type Partial](#type-partial).
 
-> NOTE: Cell (since 5.2.0 is removed from 6.1.0)
+> NOTE: Cell (since 5.2.0) is removed from 6.1.0
 
 From 5.2.0, `type_render` is used to extend `render` helper method to provide support for Wallaby partial rendering.
 

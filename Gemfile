@@ -45,6 +45,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '4.0.0.beta3'
   gem 'sqlite3'
+  # gem 'sqlite3', '< 1.4.0'
   gem 'yard'
 end
 

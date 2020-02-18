@@ -1,15 +1,15 @@
-# Wallaby
+# [Wallaby](https://github.com/wallaby-rails/wallaby)
 
 [![Gem Version](https://badge.fury.io/rb/wallaby.svg)](https://badge.fury.io/rb/wallaby)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Travis CI](https://travis-ci.org/wallaby-rails/wallaby.svg?branch=master)](https://travis-ci.org/wallaby-rails/wallaby)
-[![Maintainability](https://api.codeclimate.com/v1/badges/2abd1165bdae523dd2e1/maintainability)](https://codeclimate.com/github/wallaby-rails/wallaby/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/2abd1165bdae523dd2e1/test_coverage)](https://codeclimate.com/github/wallaby-rails/wallaby/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5b94a30d79f3b6d8c4ce/maintainability)](https://codeclimate.com/github/wallaby-rails/wallaby/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/5b94a30d79f3b6d8c4ce/test_coverage)](https://codeclimate.com/github/wallaby-rails/wallaby/test_coverage)
 [![Inch CI](https://inch-ci.org/github/wallaby-rails/wallaby.svg?branch=master)](https://inch-ci.org/github/wallaby-rails/wallaby)
 
 Wallaby is a Rails engine that autocompletes the resourceful controller and view for a given ORM model (ActiveRecord, HER) for admin interface and other purposes.
 
-It can be extended to support any ORM model and can be easily and deeply customized at MVC's different aspects by using [decorators](docs/decorator.md), [controllers](docs/controllers.md), [type partials](docs/view.md), [servicers](docs/servicer.md), [authorizers](docs/authorizer.md), [paginators](docs/paginator.md) and [themes](docs/theme.md).
+It can be extended to support any ORM model and can be easily and deeply customized at MVC's different aspects by using [decorators](https://github.com/wallaby-rails/wallaby/blob/master/docs/decorator.md), [controllers](https://github.com/wallaby-rails/wallaby/blob/master/docs/controllers.md), [type partials](https://github.com/wallaby-rails/wallaby/blob/master/docs/view.md), [servicers](https://github.com/wallaby-rails/wallaby/blob/master/docs/servicer.md), [authorizers](https://github.com/wallaby-rails/wallaby/blob/master/docs/authorizer.md), [paginators](https://github.com/wallaby-rails/wallaby/blob/master/docs/paginator.md) and [themes](https://github.com/wallaby-rails/wallaby/blob/master/docs/theme.md).
 
 [Try the demo here](https://wallaby-demo.herokuapp.com/admin/).
 
@@ -88,10 +88,10 @@ Restart rails server, and visit http://localhost:3000/blogs to give it a taste!
 
 ## Documentation
 
-- [Features and Requirements](docs/features.md)
-- [Documentation](docs/README.md) for more usages and customization guides
+- [Features and Requirements](https://github.com/wallaby-rails/wallaby/blob/master/docs/features.md)
+- [Documentation](https://github.com/wallaby-rails/wallaby/blob/master/docs/README.md) for more usages and customization guides
 - [API Reference](https://www.rubydoc.info/gems/wallaby)
-- [Change Logs](CHANGELOG.md)
+- [Change Logs](https://github.com/wallaby-rails/wallaby/blob/master/CHANGELOG.md)
 
 ## Want to contribute?
 
@@ -99,4 +99,4 @@ Raise an issue, discuss and resolve!
 
 ## License
 
-This project uses [MIT License](LICENSE).
+This project uses [MIT License](https://github.com/wallaby-rails/wallaby/blob/master/LICENSE).
