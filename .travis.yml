@@ -20,7 +20,7 @@ matrix:
 env:
   global:
     - DB=postgresql
-    - CC_TEST_REPORTER_ID=a726345933825a3e95f72dcfd646929ecb76eb02c7f7dcd5c28b8c7246167e26
+    - CC_TEST_REPORTER_ID=0170b911947a17e2b978075a6f33ba73e107446a9a38e08cfeadc8d5dd1df941
 services:
   - mysql
   - postgresql
@@ -37,9 +37,10 @@ script:
 before_script:
   - mysql -e 'CREATE DATABASE dummy_test;' -uroot
   - psql -c 'CREATE DATABASE dummy_test;' -U postgres
-  # setup code climate test coverage
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  # setup code climate test coverage only for `master` branch
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then chmod +x ./cc-test-reporter; fi
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then ./cc-test-reporter before-build; fi
 after_script:
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+  # send code climate the test coverage
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi

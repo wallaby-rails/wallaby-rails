@@ -37,7 +37,7 @@ describe 'JSON API' do
     expect(json['links']['self']).to include "/api/pictures/#{picture.id}"
   end
 
-  context 'when params is missing' do
+  context 'when params is missing for create' do
     it 'shows error' do
       http :post, '/api/pictures'
       expect(response).to have_http_status :bad_request
@@ -47,7 +47,7 @@ describe 'JSON API' do
     end
   end
 
-  context 'when name is missing' do
+  context 'when name is missing for create' do
     it 'shows error' do
       http :post, '/api/pictures', params: { picture: { test: 'test' } }
       expect(response).to have_http_status :unprocessable_entity
@@ -67,7 +67,7 @@ describe 'JSON API' do
     expect(json['links']['self']).to include "/api/pictures/#{picture.id}"
   end
 
-  context 'when params is missing' do
+  context 'when params is missing for update' do
     it 'shows error' do
       picture = Picture.create name: 'beautiful'
       http :put, "/api/pictures/#{picture.id}"
@@ -78,7 +78,7 @@ describe 'JSON API' do
     end
   end
 
-  context 'when name is missing' do
+  context 'when name is missing for update' do
     it 'shows error' do
       picture = Picture.create name: 'beautiful'
       http :put, "/api/pictures/#{picture.id}", params: { picture: { name: '' } }

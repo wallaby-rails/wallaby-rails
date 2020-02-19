@@ -45,8 +45,8 @@ describe Wallaby::IndexHelper, :current_user do
     it 'returns filter name' do
       default_url_options = { script_name: '/admin', resources: 'products', action: 'index' }
       expect(helper.export_link(Product, url_params: default_url_options)).to eq '<a title="Product" href="/admin/products.csv">Export as CSV</a>'
-      helper.index_params[:page] = 8
-      helper.index_params[:per] = 10
+      helper.params[:page] = 8
+      helper.params[:per] = 10
       expect(helper.export_link(Product, url_params: default_url_options)).to eq '<a title="Product" href="/admin/products.csv">Export as CSV</a>'
       expect(helper.export_link(Product, url_params: default_url_options.merge(date_from: '2018-06-11'))).to eq '<a title="Product" href="/admin/products.csv?date_from=2018-06-11">Export as CSV</a>'
       expect(helper.export_link(Product, url_params: parameters!(default_url_options.merge(date_from: '2018-06-11')))).to eq '<a title="Product" href="/admin/products.csv?date_from=2018-06-11">Export as CSV</a>'

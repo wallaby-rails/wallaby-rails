@@ -43,7 +43,7 @@ Configuring the metadata for fields:
 
 Common options for metadata:
 
-- [:type](#type-metadata-option) - mandatory option to associate [cell/type partial](view.md) with the field.
+- [:type](#type-metadata-option) - mandatory option to associate [type partial](view.md) with the field.
 - [:label](#label-metadata-option) - customizing text for a field
 
 Configuring the fields to display:
@@ -275,7 +275,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 <code><%= raw value %></code>
 ```
 
-> See [Cell/Type Partial](view.md) to learn more about how type connects with cell/type partial and how to create one.
+> See [Type Partial](view.md) to learn more about how type connects with type partial and how to create one.
 
 It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
 
@@ -389,7 +389,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 <code><%= raw value %></code>
 ```
 
-> See [Cell/Type Partial](view.md) to learn more about how type connects with cell/type partial and how to create one.
+> See [Type Partial](view.md) to learn more about how type connects with type partial and how to create one.
 
 It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
 
@@ -476,7 +476,7 @@ In order for custom type `:custom_description` to work, a type partial must be c
 <code class="preview" data-bind-to-form-name="<%= field_name %>"></code>
 ```
 
-> See [Cell/Type Partial](view.md) to learn more about how type connects with cell/type partial and how to create one.
+> See [Type Partial](view.md) to learn more about how type connects with type partial and how to create one.
 
 It's also possible to create metadata for custom fields. For example, to set up metadata for custom method `slug`:
 

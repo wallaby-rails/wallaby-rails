@@ -1,10 +1,11 @@
 require 'rails_helper'
 
-field_name = field_name_from __FILE__
+field_name = Rails::VERSION::MAJOR >= 5 ? field_name_from(__FILE__) : 'string'
 type = type_from __FILE__
 describe field_name do
   it_behaves_like \
     "#{type} csv partial", field_name,
+    partial_name: 'mediumblob',
     value: '010111',
     model_class: AllMysqlType,
     expected_value: '<mediumblob>'

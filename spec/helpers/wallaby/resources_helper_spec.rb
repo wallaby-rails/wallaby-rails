@@ -82,7 +82,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
     describe 'partials' do
       it 'renders a type partial' do
-        expect(helper.type_render('integer', object: object, field_name: 'name')).to eq '0'
+        expect(helper.type_render('integer', object: object, field_name: 'name')).to eq "0\n"
       end
 
       context 'when partial does not exists' do
@@ -109,7 +109,7 @@ describe Wallaby::ResourcesHelper, :current_user do
         end
 
         it 'renders the custom field' do
-          expect(helper.type_render('string', object: object, field_name: 'custom')).to eq 'custom_value'
+          expect(helper.type_render('string', object: object, field_name: 'custom')).to eq "custom_value\n"
         end
       end
 
@@ -132,7 +132,7 @@ describe Wallaby::ResourcesHelper, :current_user do
 
         it 'renders the custom field' do
           helper.params[:action] = 'index'
-          expect(helper.type_render('string', object: object, field_name: 'custom')).to eq 'custom_value'
+          expect(helper.type_render('string', object: object, field_name: 'custom')).to eq "custom_value\n"
         end
       end
     end
