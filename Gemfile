@@ -66,6 +66,6 @@ group :test do
   gem 'database_cleaner'
   gem 'deep-cover'
   gem 'rails-controller-testing'
-  gem 'simplecov'
+  gem 'simplecov', '~> 0.17.0'
   gem 'webmock'
 end
