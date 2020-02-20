@@ -36,6 +36,6 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rubocop'
-  gem 'simplecov'
+  gem 'simplecov', '~> 0.17.0'
   gem 'webmock'
 end
