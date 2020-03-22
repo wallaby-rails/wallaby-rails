@@ -5,6 +5,6 @@ json.error do
   if @code < 500 && @exception.present?
     json.message @exception.message
   else
-    json.message t("json_errors.#{@symbol}")
+    json.message wt("json_errors.#{@symbol}")
   end
 end

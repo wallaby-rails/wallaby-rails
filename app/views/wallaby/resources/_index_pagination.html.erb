@@ -1,11 +1,11 @@
 <% if current_paginator.try(:paginatable?) %>
   <%
   # Get variables ready for use
-  from_to = t 'pagination.from_to', from: current_paginator.from, to: current_paginator.to
-  of = t 'pagination.of'
-  total_count = t 'pagination.total_count', total: current_paginator.total
-  pers_title = t 'pagination.pers'
-  pages_title = t 'pagination.pages'
+  from_to = wt 'pagination.from_to', from: current_paginator.from, to: current_paginator.to
+  of = wt 'pagination.of'
+  total_count = wt 'pagination.total_count', total: current_paginator.total
+  pers_title = wt 'pagination.pers'
+  pages_title = wt 'pagination.pages'
   %>
   <nav class="pagination">
     <span class="pagination__metadata">
@@ -14,7 +14,7 @@
           <%= from_to %>
         </a>
         <ul class="dropdown-menu" aria-labelledby="all_pers">
-          <li><em><%= t 'pagination.pers' %></em></li>
+          <li><em><%= wt 'pagination.pers' %></em></li>
           <% Wallaby::PERS.each do |per| %>
             <%= content_tag :li, class: current_paginator.page_size == per && 'pagination__pers--current' do %>
               <%= index_link(current_model_class, url_params: { per: per, with_query: true }) { per.to_s } %>
@@ -22,7 +22,7 @@
           <% end %>
         </ul>
       </span>
-      <%= t 'pagination.of' %>
+      <%= wt 'pagination.of' %>
       <span class="pagination__pages">
         <a id="all_pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           <%= total_count %>
@@ -32,7 +32,7 @@
             <%= hidden_field_tag key, value %>
           <% end %>
           <label for="page_number">
-            <%= t 'pagination.pages' %>
+            <%= wt 'pagination.pages' %>
           </label>
           <%= number_field_tag 'page', current_paginator.page_number, id: 'page_number' %>
         <% end %>
@@ -40,12 +40,12 @@
     </span>
     <% if current_paginator.prev_page? # has prev page %>
       <span>
-        <%= index_link(current_model_class, url_params: { page: current_paginator.prev_page_number, with_query: true }) { t 'pagination.prev' } %>
+        <%= index_link(current_model_class, url_params: { page: current_paginator.prev_page_number, with_query: true }) { wt 'pagination.prev' } %>
       </span>
     <% end %>
     <% if current_paginator.next_page? # has next page %>
       <span>
-        <%= index_link(current_model_class, url_params: { page: current_paginator.next_page_number, with_query: true }) { t 'pagination.next' } %>
+        <%= index_link(current_model_class, url_params: { page: current_paginator.next_page_number, with_query: true }) { wt 'pagination.next' } %>
       </span>
     <% end %>
   </nav>

@@ -8,7 +8,7 @@ filter = filter_name_by params[:filter], filters
       <%= filter_label(filter, filters) || all_label %>
     </a>
     <ul class="dropdown-menu" aria-labelledby="all_filters">
-      <li><em><%= t 'filters.title' %></em></li>
+      <li><em><%= wt 'filters.title' %></em></li>
       <% filters.keys.unshift(:all).each do |filter_name| %>
         <%= content_tag :li, filter_link(current_model_class, filter_name, filters: filters), { class: filter.to_s == filter_name.to_s && 'filters--current' } %>
       <% end %>

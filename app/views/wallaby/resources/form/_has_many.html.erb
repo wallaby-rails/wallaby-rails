@@ -25,9 +25,9 @@ readonly = unauthorized? :edit, metadata[:class]
       %>
       <span class="auto_select" data-init="has_many" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
         <div class="col-12 col-sm-6">
-          <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', multiple: true, placeholder: t('labels.auto_select_hint') %>
+          <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', multiple: true, placeholder: wt('labels.auto_select_hint') %>
         </div>
-        <strong class="auto_select__count"><%= t 'labels.count' %><span></span></strong>
+        <strong class="auto_select__count"><%= wt 'labels.count' %><span></span></strong>
         <ul>
           <% decorated.each do |v| %>
             <li>
