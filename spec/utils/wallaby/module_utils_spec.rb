@@ -39,7 +39,7 @@ describe Wallaby::ModuleUtils do
 
   describe '.inheritance_check' do
     it 'does not raise error' do
-      expect { described_class.inheritance_check(Wallaby::ResourcesController, Wallaby::SecureController) }.not_to raise_error
+      expect { described_class.inheritance_check(Wallaby::Custom, Wallaby::Mode) }.not_to raise_error
     end
 
     context 'when class is not a child' do

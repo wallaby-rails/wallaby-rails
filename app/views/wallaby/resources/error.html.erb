@@ -7,11 +7,11 @@
       <div class="card-body">
         <h1 class="card-title">
           <em><%= @code %></em>
-          <span><%= t "http_errors.#{@symbol}" %></span>
+          <span><%= wt "http_errors.#{@symbol}" %></span>
         </h1>
         <p class="card-text">
           <% if @code >= 500 && @code != 501 %>
-            <%= t "http_errors.report_error_html" %>
+            <%= wt "http_errors.report_error_html" %>
           <% else %>
             <%= @exception.try(:message) || flash[:alert] %>
           <% end %>

@@ -6,12 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## TODOs
 
-- Localization support: to be able to use localization for all the model labels
+- Make Wallaby::ResourcesConcern with with general controllers
+- Localization support: to be able to use localization for all the model labels (maybe a new gem)
+- Move generator to wallaby-core
+- Move documentation to wallaby-core
 
 - documentation for interface
 - documentation for localization
 - Data audit (use papertrail) (maybe..)
 - Batch data action (maybe..)
+
+## [6.1.1](https://github.com/wallaby-rails/wallaby-core/releases/tag/6.1.1) - 2020-03-24
+
+- chore: use wt for I18n ([#184](https://github.com/wallaby-rails/wallaby/pull/184))
+- chore: use simplecov 0.17 for codeclimate report ([#163](https://github.com/wallaby-rails/wallaby/pull/163))
 
 ## [6.1.0](https://github.com/wallaby-rails/wallaby-core/releases/tag/6.1.0) - 2020-02-19
 

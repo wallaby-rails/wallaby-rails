@@ -46,7 +46,7 @@ describe Wallaby::FormHelper do
       expect(helper.hint_of(metadata)).to include 'this is a hint'
 
       metadata = { type: 'box' }
-      expect(helper.hint_of(metadata)).to include I18n.t('hints.box_html')
+      expect(helper.hint_of(metadata)).to include I18n.t('wallaby.hints.box_html')
     end
   end
 end

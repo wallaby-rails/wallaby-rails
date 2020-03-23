@@ -34,7 +34,7 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
           </div>
         <% end %>
         <div class="col-6 col-sm-4">
-          <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: t('labels.auto_select_hint') %>
+          <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: wt('labels.auto_select_hint') %>
         </div>
       </div>
       <div class="row">

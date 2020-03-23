@@ -9,7 +9,7 @@ describe 'Error pages' do
         get "/admin/#{status}"
         expect(response.status).to eq code
         expect(response).to render_template :error
-        expect(response.body).to include I18n.t("http_errors.#{status}")
+        expect(response.body).to include I18n.t("wallaby.http_errors.#{status}")
       end
     end
 
@@ -18,7 +18,7 @@ describe 'Error pages' do
         get "/admin/#{code}"
         expect(response.status).to eq code
         expect(response).to render_template :error
-        expect(response.body).to include I18n.t("http_errors.#{status}")
+        expect(response.body).to include I18n.t("wallaby.http_errors.#{status}")
       end
     end
   end
