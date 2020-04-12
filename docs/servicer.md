@@ -126,7 +126,7 @@ end
 
 > since 5.2.0
 
-It's the reference of `current_user` from controller. To access `user`, it goes:
+It's the reference of `wallaby_user` from controller. To access `user`, it goes:
 
 ```ruby
 # app/servicers/admin/product_servicer.rb

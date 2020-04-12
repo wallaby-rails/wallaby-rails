@@ -49,7 +49,7 @@ For non-resourceful actions:
 And it is possible:
 
 - [authenticate_user!](#authenticate_user) - authenticates the current user.
-- [current_user](#current_user) - returns the object for the signed-in user.
+- [wallaby_user](#wallaby_user) - returns the object for the signed-in user.
 - [collection](#collection) - returns the paginated collection.
 - [resource](#resource) - returns the resource by given ID.
 - [resource_params](#resource_params) - returns the white-listed parameters for mass assignment.
@@ -438,9 +438,9 @@ def authenticate_user!
 end
 ```
 
-Or it can be customized via [authenticate_user configuration](configuration.md#authenticate_user-and-current_user).
+Or it can be customized via [authenticate_user configuration](configuration.md#authenticate_user-and-wallaby_user).
 
-## current_user
+## wallaby_user
 
 This is the method that Wallaby uses to return the object of the signed-in user.
 
@@ -449,9 +449,9 @@ This is the method that Wallaby uses to return the object of the signed-in user.
 To customize, override it:
 
 ```ruby
-def current_user
+def wallaby_user
   # user example
-  @current_user ||= Class.new do
+  @wallaby_user ||= Class.new do
     def email
       'user@example.com'
     end
@@ -459,7 +459,7 @@ def current_user
 end
 ```
 
-Or it can be customized via [current_user configuration](configuration.md#authenticate_user-and-current_user).
+Or it can be customized via [wallaby_user configuration](configuration.md#authenticate_user-and-wallaby_user).
 
 ## collection
 
