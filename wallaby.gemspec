@@ -21,9 +21,10 @@ Gem::Specification.new do |s|
     'README.rdoc'
   ]
 
-  s.add_dependency 'wallaby-core', '0.2.1'
+  s.add_dependency 'wallaby-core'
 
-  s.add_dependency 'wallaby-active_record', '0.2.4'
+  # This will determine wallaby-core's version
+  s.add_dependency 'wallaby-active_record', '0.2.5'
 
   # assets gems
   s.add_dependency 'bootstrap'
