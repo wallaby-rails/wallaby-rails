@@ -438,7 +438,7 @@ def authenticate_user!
 end
 ```
 
-Or it can be customized via [authenticate_user configuration](configuration.md#authenticate_user-and-wallaby_user).
+Or it can be customized via [authenticate_user configuration](configuration.md#authenticate_user-and-current_user).
 
 ## wallaby_user
 
@@ -459,7 +459,7 @@ def wallaby_user
 end
 ```
 
-Or it can be customized via [wallaby_user configuration](configuration.md#authenticate_user-and-wallaby_user).
+Or it can be customized via [current_user configuration](configuration.md#authenticate_user-and-current_user).
 
 ## collection
 
