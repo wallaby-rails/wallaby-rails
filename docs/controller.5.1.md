@@ -241,7 +241,7 @@ that it can be completely replaced, just need to bear in mind that `@resource` i
         # to access the record, use `resource`
         resource
         # to re-assign the resource, assign to `@resource`
-        @resource = Product.find_by(id: param[:id], owner_id: current_user.id)
+        @resource = Product.find_by(id: param[:id], owner_id: wallaby_user.id)
         super
       end
     end

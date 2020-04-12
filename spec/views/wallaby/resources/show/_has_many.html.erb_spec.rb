@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 partial_name = 'show/has_many'
-describe partial_name, :current_user do
+describe partial_name, :wallaby_user do
   let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:metadata)  { Hash label: 'Products', class: Product }
   let(:value) do

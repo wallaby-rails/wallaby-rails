@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 field_name = 'order_items'
-describe field_name, :current_user do
+describe field_name, :wallaby_user do
   it_behaves_like \
     'form partial', field_name,
     model_class: Product,
