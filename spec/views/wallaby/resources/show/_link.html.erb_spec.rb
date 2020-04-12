@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 partial_name = 'show/link'
-describe partial_name, :current_user do
+describe partial_name, :wallaby_user do
   let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
   let(:value)     { 'https://reinteractive.com/' }
   let(:metadata)  { { title: 'Rails Developers', html_options: { target: '_blank' } } }
