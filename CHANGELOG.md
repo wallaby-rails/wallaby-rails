@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Data audit (use papertrail) (maybe..)
 - Batch data action (maybe..)
 
+## [6.1.3](https://github.com/wallaby-rails/wallaby-core/releases/tag/6.1.3) - 2020-04-19
+
+- chore: bump to use wallaby-active_record 0.2.6 ([#186](https://github.com/wallaby-rails/wallaby/pull/186))
+
 ## [6.1.2](https://github.com/wallaby-rails/wallaby-core/releases/tag/6.1.2) - 2020-04-12
 
 - chore: use wallaby_user instead, will take out current_user in the future ([#185](https://github.com/wallaby-rails/wallaby/pull/185))
