@@ -14,7 +14,7 @@ gemspec path: '../'
 # gem 'byebug', group: [:development, :test]
 gem 'rails', '~> 5.0.7'
 gem 'wallaby-core', git: 'https://github.com/wallaby-rails/wallaby-core.git', branch: 'master'
-gem 'wallaby-active_record'
+gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: 'master'
 gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'master'
 
 gem 'cancancan'
