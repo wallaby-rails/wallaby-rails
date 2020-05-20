@@ -1,4 +1,4 @@
 <% # can be overridden %>
-<%= stylesheet_link_tag 'wallaby/application', media: 'all' %>
-<%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
-<%= javascript_include_tag 'wallaby/application' %>
+<%= stylesheet_link_tag 'wallaby/application', media: 'all', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'turbolinks', 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false if Gem.loaded_specs['turbolinks'] %>
+<%= javascript_include_tag 'wallaby/application', 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false %>
