@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+ruby '2.7.1'
+
 # Declare your gem's dependencies in wallaby.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
@@ -20,15 +22,13 @@ gem 'wallaby-core', path: '../wallaby-core'
 gem 'wallaby-view', path: '../wallaby-view'
 
 gem 'wallaby-active_record', path: '../wallaby-active_record'
-# gem 'wallaby-her', path: '../wallaby-her'
 
 # gem 'activestorage'
 gem 'cancancan'
-gem 'her'
 gem 'kaminari'
 gem 'pundit'
 gem 'rails', '~> 6.0.0'
-gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
+gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_theme.git', branch: 'master'
 # gem 'simple_blog_theme', path: '../simple_blog_theme'
 gem 'will_paginate'
 
@@ -50,7 +50,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'better_errors'
   gem 'massa'
   gem 'memory_profiler'
   gem 'rubocop'
