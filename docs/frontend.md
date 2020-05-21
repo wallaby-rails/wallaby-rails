@@ -18,6 +18,8 @@ Learn more about the customization for frontend:
 - [Stylesheet](#stylesheet) - extending and customizing the look and feel by CSS stylesheet.
 - [Javascript](#Javascript) - extending and customizing user interaction by JS.
 
+  - [Turbolinks](#turbolinks) - enable turbolinks
+
 > NOTE: If a third party theme is used, its frontend implementation might be different from Wallaby, please check out its document to find out how to do customization for its frontend.
 
 # Partials
@@ -63,11 +65,11 @@ For example, given that Wallaby is mounted under path `/admin` (see how Wallaby 
 
 > since 5.2.0
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
-To customize CSS and JS libraries, it goes:
+To customize CSS and JS libraries in the HTML `<head>` section, it goes:
 
 ```erb
 <%# app/views/admin/application/_frontend.html.erb %>
@@ -78,7 +80,7 @@ To customize CSS and JS libraries, it goes:
 
 ## title
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
@@ -91,11 +93,11 @@ Page Title
 
 ## header
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
-To customize header section, it goes:
+To customize `<header>` section, it goes:
 
 ```erb
 <%# app/views/admin/application/_header.html.erb %>
@@ -108,11 +110,11 @@ To customize header section, it goes:
 
 ## footer
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
-To customize footer section, it goes:
+To customize `<footer>` section, it goes:
 
 ```erb
 <%# app/views/admin/application/_footer.html.erb %>
@@ -121,7 +123,7 @@ To customize footer section, it goes:
 
 ## logo
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
@@ -134,7 +136,7 @@ To customize logo/slogan, it goes:
 
 ## user_menu
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
@@ -151,7 +153,7 @@ To customize popup menu when clicking at user icon, it goes:
 
 ## navs
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
@@ -171,7 +173,7 @@ To customize popup menu when clicking at user icon, it goes:
 
 ## index_actions
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
@@ -188,7 +190,7 @@ To customize links/items for dropdown button next to search form, it goes:
 
 ## resource_actions
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
@@ -205,7 +207,7 @@ To customize action links for a resource row in data table, it goes:
 
 ## resource_navs
 
-Following example will create partial under `admin/application` controller path.
+Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
 
@@ -229,38 +231,7 @@ To customize action links for resource navigation, it goes:
 
 There are a couple of ways to customize stylesheet:
 
-- (since 5.2.0) Create `frontend` partial mentioned [above](#partials). For example:
-
-  ```erb
-  <%# app/views/admin/application/_frontend.html.erb %>
-  <%= stylesheet_link_tag 'admin/application', media: 'all' %>
-  <%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
-  <%= javascript_include_tag 'admin/application' %>
-  ```
-
-  Then create custom stylesheet asset file (e.g. `admin/application`), import Wallaby's base stylesheet and develop custom stylesheet:
-
-  ```scss
-  // app/assets/stylesheets/admin/application.scss
-  @import 'wallaby/base';
-
-  // Start customization from here
-  header {
-    font-size: 14px;
-  }
-  ```
-
-- To inject more CSS libraries to the `<head>` section, it can be written in anywhere as needed as below:
-
-  ```erb
-  <% content_for :custom_stylesheet do %>
-    <%= stylesheet_link_tag 'theme/new_year' %>
-  <% end %>
-  ```
-
-  > NOTE: it is possible to use `custom_stylesheet` to add JS libraries as well.
-
-- LAST RESORT: To extend and override Wallaby CSS, the file `app/assets/stylesheets/wallaby/application.scss` can be created with overridden content. For example:
+- To extend and override Wallaby CSS, the file `app/assets/stylesheets/wallaby/application.scss` can be created with overridden content. For example:
 
   ```scss
   // app/assets/stylesheets/wallaby/application.scss
@@ -272,31 +243,31 @@ There are a couple of ways to customize stylesheet:
   }
   ```
 
+- To inject more CSS libraries to the `<head>` section, it can be written in anywhere in the template/partials as needed as below:
+
+  ```erb
+  <% content_for :custom_stylesheet do %>
+    <%= stylesheet_link_tag 'theme/new_year' %>
+  <% end %>
+  ```
+
+  > NOTE: it is possible to use `custom_stylesheet` to add JS libraries as well.
+
 # Javascript
 
 There are a couple of ways to customize javascript:
 
-- (since 5.2.0) Create `frontend` partial mentioned [above](#partials). For example:
-
-  ```erb
-  <%# app/views/admin/application/_frontend.html.erb %>
-  <%= stylesheet_link_tag 'admin/application', media: 'all' %>
-  <%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
-  <%= javascript_include_tag 'admin/application' %>
-  ```
-
-  Then create custom javascript asset file (e.g. `admin/application`), import Wallaby's base javascript and develop custom javascript:
+- To extend and override Wallaby javascript, the file `app/assets/javascripts/wallaby/application.js` can be created with overridden content. For example:
 
   ```javascript
-  // app/assets/javascripts/admin/application.js
+  // app/assets/javascripts/wallaby/application.js
   //= require wallaby/base
 
   // Start customization from here
-  //= require turbolinks
-  alert('Turbolinks is loaded');
+  alert('All is good');
   ```
 
-- To inject more JS libraries to the `<head>` section, it can be written in anywhere as needed as below:
+- To inject more JS libraries to the `<head>` section, it can be written in anywhere in the template/partials as needed as below:
 
   ```erb
   <% content_for :custom_stylesheet do %>
@@ -304,13 +275,22 @@ There are a couple of ways to customize javascript:
   <% end %>
   ```
 
-- LAST RESORT: To extend and override Wallaby javascript, the file `app/assets/javascripts/wallaby/application.js` can be created with overridden content. For example:
+- To inject more JS libraries to the bottom of `<body>` section, it can be written in anywhere in the template/partials as needed as below:
 
-  ```javascript
-  // app/assets/javascripts/wallaby/application.scss
-  //= require wallaby/base
-
-  // Start customization from here
-  //= require turbolinks
-  alert('Turbolinks is loaded');
+  ```erb
+  <% content_for :custom_javascript do %>
+    <%= javascript_tag "alert('All is good')" %>
+  <% end %>
   ```
+
+# Turbolinks
+
+To enable turbolinks for Wallaby, it is simple as overridding the `app/assets/javascripts/wallaby/application.js` as below:
+
+```javascript
+// app/assets/javascripts/wallaby/application.js
+//= require wallaby/base
+
+// Start customization from here
+//= require turbolinks
+```
