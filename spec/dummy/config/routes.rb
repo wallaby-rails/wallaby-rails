@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   end
   mount Wallaby::Engine, at: '/admin_else', as: :manager_engine
   mount Wallaby::Engine, at: '/before_engine', as: :before_engine
-  mount Wallaby::Engine, at: '/admin'
+  wallaby_mount at: '/admin' do
+    resources :categories, module: :admin do
+      get :member_edit
+      put :member_update
+    end
+  end
   mount Wallaby::Engine, at: '/after_engine', as: :after_engine
   mount Wallaby::Engine, at: '/inner', as: :inner_engine, defaults: { resources_controller: InnerController }
 

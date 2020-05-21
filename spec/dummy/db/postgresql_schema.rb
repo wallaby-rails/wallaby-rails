@@ -113,7 +113,8 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "customer"
+    t.string "customer"
+    t.string "order_number"
     t.datetime "ordered_at"
   end
 
