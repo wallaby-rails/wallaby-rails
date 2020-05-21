@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-type = type_from __FILE__
 field_name = 'binary'
 describe field_name do
   it_behaves_like \
