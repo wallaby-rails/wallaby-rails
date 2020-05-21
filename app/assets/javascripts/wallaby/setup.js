@@ -3,13 +3,15 @@
 (function (jQuery) {
   'use strict';
 
-  window.readyPrefix = function readyPrefix(eventName) {
-    return '<%= Wallaby.configuration.features.turbolinks_enabled ? "turbolinks:load" : "ready" %>' + eventName;
+  window.readyPrefix = function readyPrefix(namespace) {
+    if (typeof Turbolinks === "object") {
+      return "turbolinks:load" + namespace;
+    } else {
+      return "ready" + namespace;
+    }
   }
 
   jQuery(document).off(readyPrefix('.wallaby')).on(readyPrefix('.wallaby'), function () {
-    'use strict';
-
     // for tooltip
     jQuery('[data-toggle="tooltip"]').tooltip({ container: 'body' })
 
