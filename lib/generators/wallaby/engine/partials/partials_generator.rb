@@ -14,7 +14,10 @@ module Wallaby
           _footer _frontend _logo _navs _title _user_menu
           _index_actions _index_filters _index_pagination _index_query _resource_navs
         ).each do |name|
-          copy_file "#{source_paths.first}/app/views/wallaby/resources/#{name}.html.erb", "#{destination_prefix}/#{name}.html.erb"
+          copy_file(
+            "#{source_paths.first}/app/views/wallaby/resources/#{name}.html.erb",
+            "#{destination_prefix}/#{name}.html.erb"
+          )
         end
       end
     end
