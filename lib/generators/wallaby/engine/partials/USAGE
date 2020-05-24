@@ -1,0 +1,23 @@
+Description:
+    Copy the main partials and templates for the given NAME (default to 'admin').
+
+Example:
+    rails generate wallaby:engine:partials admin
+
+    This will create:
+    - app/views/admin/application/_footer.html.erb
+    - app/views/admin/application/_frontend.html.erb
+    - app/views/admin/application/_logo.html.erb
+    - app/views/admin/application/_navs.html.erb
+    - app/views/admin/application/_title.html.erb
+    - app/views/admin/application/_user_menu.html.erb
+    - app/views/admin/application/_index_actions.html.erb
+    - app/views/admin/application/_index_filters.html.erb
+    - app/views/admin/application/_index_pagination.html.erb
+    - app/views/admin/application/_index_query.html.erb
+    - app/views/admin/application/_resource_navs.html.erb
+    - app/views/admin/application/index.html.erb
+    - app/views/admin/application/new.html.erb
+    - app/views/admin/application/show.html.erb
+    - app/views/admin/application/edit.html.erb
+    - app/views/admin/application/_form.html.erb

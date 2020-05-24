@@ -3,7 +3,6 @@
 module Wallaby
   # `wallaby:install` generator
   class InstallGenerator < Rails::Generators::NamedBase
-    source_root File.expand_path('templates', __dir__)
     argument :name, type: :string, default: 'admin'
 
     class_option \
@@ -32,59 +31,7 @@ module Wallaby
 
     # @see https://github.com/wallaby-rails/wallaby/blob/master/lib/generators/wallaby/install/USAGE
     def install
-      mount_wallaby_to_given_name
-      return if options[:mount_only]
-
-      create_wallaby_initializer_file
-      create_application_files
-    end
-
-    private
-
-    def commenting
-      file_name == self.class.arguments.first.default && '# ' || ''
-    end
-
-    def mount_wallaby_to_given_name
-      route %(mount Wallaby::Engine, at: '/#{file_name}')
-    rescue StandardError => e
-      Rails.logger.error "WARNING: #{e.message}"
-    end
-
-    def create_wallaby_initializer_file
-      template 'initializer.rb.erb', 'config/initializers/wallaby.rb'
-    end
-
-    def create_application_files
-      create_basic_files
-      create_application_authorizer if options[:include_authorizer]
-      create_application_paginator if options[:include_paginator]
-      create_application_partials if options[:include_partials]
-    end
-
-    def create_basic_files
-      template 'application_controller.rb.erb', "app/controllers/#{file_name}/application_controller.rb"
-      template 'application_decorator.rb.erb', "app/decorators/#{file_name}/application_decorator.rb"
-      template 'application_servicer.rb.erb', "app/servicers/#{file_name}/application_servicer.rb"
-    end
-
-    def create_application_authorizer
-      template 'application_authorizer.rb.erb', "app/authorizers/#{file_name}/application_authorizer.rb"
-    end
-
-    def create_application_paginator
-      template 'application_paginator.rb.erb', "app/paginators/#{file_name}/application_paginator.rb"
-    end
-
-    def create_application_partials
-      source_prefix = '../../../../../app/views/wallaby/resources'
-      destination_prefix = "app/views/#{file_name}/application"
-      %w(
-        footer frontend logo navs title user_menu
-        index_actions index_filters index_pagination index_query resource_navs
-      ).each do |name|
-        copy_file "#{source_prefix}/_#{name}.html.erb", "#{destination_prefix}/_#{name}.html.erb"
-      end
+      invoke 'wallaby:engine:install', [name], options.dup
     end
   end
 end
