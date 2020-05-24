@@ -29,11 +29,11 @@ readonly = unauthorized? :edit, metadata[:class]
           <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', multiple: true, placeholder: wt('labels.auto_select_hint') %>
         </div>
         <strong class="auto_select__count"><%= wt 'labels.count' %><span></span></strong>
-        <ul>
+        <ul class="auto_select__list">
           <% decorated.each do |v| %>
-            <li>
+            <li class="auto_select__item">
               <%= form.hidden_field metadata[:foreign_key], value: v.primary_key_value, multiple: true, id: nil %>
-              <a href="javascript:;"><%= v.to_label %></a>
+              <a class="auto_select__link" href="javascript:;"><%= v.to_label %></a>
             </li>
           <% end %>
         </ul>

@@ -38,11 +38,11 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
         </div>
       </div>
       <div class="row">
-        <ul>
+        <ul class="auto_select__list">
           <% if decorated.present? %>
-            <li>
+            <li class="auto_select__item">
               <%= form.hidden_field metadata[:foreign_key], value: decorated.primary_key_value, id: nil %>
-              <a href="javascript:;"><%= decorated.to_label %></a>
+              <a class="auto_select__link" href="javascript:;"><%= decorated.to_label %></a>
             </li>
           <% end %>
         </ul>
