@@ -1,13 +1,13 @@
 @mixin dropdown ($left_or_right: "left") {
   position: relative;
 
-  &.open {
-    > ul, > form {
-      display: block;
-    }
+  &.open &__list, &.open &__form,
+  &.show &__list, &.show &__form
+  {
+    display: block;
   }
 
-  > ul, > form {
+  &__list, &__form {
     @if $left_or_right == "left" { left: 0 }
     @if $left_or_right == "right" { right: 0 }
     @if $left_or_right == "middle" { left: -93px; }
@@ -26,28 +26,28 @@
     text-align: left;
     top: 100%;
     z-index: 100000;
+  }
 
-    em, label {
-      color: $light-grey-color;
-      display: block;
-      font-style: normal;
-      font-weight: normal;
-      padding: 3px 20px;
-      text-decoration: none;
-    }
+  &__label {
+    color: $light-grey-color;
+    display: block;
+    font-style: normal;
+    font-weight: normal;
+    padding: 3px 20px;
+    text-decoration: none;
+  }
 
-    a {
-      color: $font-color;
-      display: block;
-      font-style: normal;
-      font-weight: normal;
-      padding: 3px 20px;
-      text-decoration: none;
+  &__link {
+    color: $font-color;
+    display: block;
+    font-style: normal;
+    font-weight: normal;
+    padding: 3px 20px;
+    text-decoration: none;
+  }
 
-      &:hover {
-        background-color: #f5f5f5;
-      }
-    }
+  &__link:hover {
+    background-color: #f5f5f5;
   }
 }
 

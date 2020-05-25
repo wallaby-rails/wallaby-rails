@@ -1,14 +1,12 @@
-.filters {
+.filters
+{
   @include dropdown;
   @include arrow;
   color: $light-grey-color;
   display: inline-block;
+}
 
-  > a {
-    @include light_link;
-  }
-
-  > ul li.filters--current a {
-    color: $light-blue-color;
-  }
+.filters__link--current
+{
+  color: $light-blue-color;
 }
