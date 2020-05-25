@@ -7,15 +7,13 @@ filter = filter_name_by params[:filter], filters
     <a id="all_filters" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
       <%= filter_label(filter, filters) || all_label %>
     </a>
-    <ul class="dropdown-menu filters__list" aria-labelledby="all_filters">
-      <li class="filters__item"><em class="filters__label"><%= wt 'filters.title' %></em></li>
+    <div class="dropdown-menu" aria-labelledby="all_filters">
+      <h5 class="dropdown-header"><%= wt 'filters.title' %></h5>
       <% filters.keys.unshift(:all).each do |filter_name| %>
         <% is_current = filter.to_s == filter_name.to_s %>
-        <%= content_tag :li, class: 'filters__item' do
-              filter_link current_model_class, filter_name, filters: filters, html_options: { class: ['filters__link', is_current && 'filters__link--current'] }
-            end %>
+        <%= filter_link current_model_class, filter_name, filters: filters, html_options: { class: ['dropdown-item', is_current && 'filters__link--current'] } %>
       <% end %>
-    </ul>
+    </div>
   <% else %>
     <%= all_label %>
   <% end %>
