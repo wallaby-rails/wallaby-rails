@@ -1,50 +1,44 @@
-.pagination {
+.pagination
+{
   display: inline-block;
-  margin-left: 6px;
-  margin-top: 0;
-  margin-bottom: 0;
+  color: $light-grey-color;
+}
 
-  &__metadata, &__pers {
-    @include dropdown;
-  }
+.pagination__pers,
+.pagination__pages
+{
+  display: inline-block;
+}
 
-  &__pages {
-    @include dropdown($left_or_right: "middle");
-  }
+#all_pers,
+#all_pages,
+.pagination__pers--current,
+.pagination__prev,
+.pagination__next
+{
+  color: $light-blue-color;
+}
 
-  &__metadata, &__pers, &__pages {
-    @include arrow;
-    color: $light-grey-color;
-    display: inline-block;
+// divider
+.pagination__pers,
+.pagination__prev,
+.pagination__next
+{
+  position: relative;
+  margin-left: 7px;
+  padding-left: 11px;
+}
 
-    > ul, > form {
-      input {
-        background-color: $background-color;
-        border: 0;
-        border-top: 0;
-        color: $font-color;
-        display: block;
-        margin: 3px 20px;
-        padding: 3px 10px;
-      }
-
-      li.pagination__pers--current a {
-        color: $light-blue-color;
-      }
-    }
-  }
-
-  &__prev {
-    @include arrow($icon_font: ".fa-chevron-left", $left_or_right: 'left', $padding_size: 9px);
-  }
-
-  &__next {
-    @include arrow($icon_font: ".fa-chevron-right", $padding_size: 9px);
-  }
-
-  > span {
-    @include divider;
-    display: inline-block;
-    margin-left: 6px;
-  }
+.pagination__pers:before,
+.pagination__prev:before,
+.pagination__next:before
+{
+  background-color: $light-grey-color;
+  content: '';
+  height: 10px;
+  left: 0;
+  margin-top: -5px;
+  position: absolute;
+  top: 50%;
+  width: 1px;
 }

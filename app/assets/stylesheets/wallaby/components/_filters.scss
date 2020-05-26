@@ -1,10 +1,10 @@
 .filters
 {
-  @include arrow;
   color: $light-grey-color;
   display: inline-block;
 }
 
+#all_filters,
 .filters__link--current
 {
   color: $light-blue-color;

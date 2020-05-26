@@ -1,11 +1,4 @@
 .index {
-  .resources__header {
-    > nav {
-      @include divider;
-      margin-left: 6px;
-    }
-  }
-
   .resources {
     section {
       margin-bottom: 4px;

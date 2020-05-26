@@ -4,7 +4,7 @@ filter = filter_name_by params[:filter], filters
 %>
 <nav class="filters">
   <% if filters.present? %>
-    <a id="all_filters" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <a id="all_filters" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
       <%= filter_label(filter, filters) || all_label %>
     </a>
     <div class="dropdown-menu" aria-labelledby="all_filters">

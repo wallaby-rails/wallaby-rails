@@ -8,45 +8,35 @@
   pages_title = wt 'pagination.pages'
   %>
   <nav class="pagination">
-    <span class="pagination__metadata">
-      <span class="pagination__pers">
-        <a id="all_pers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <%= from_to %>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="all_pers">
-          <li><em><%= wt 'pagination.pers' %></em></li>
-          <% Wallaby::PERS.each do |per| %>
-            <%= content_tag :li, class: current_paginator.page_size == per && 'pagination__pers--current' do %>
-              <%= index_link(current_model_class, url_params: { per: per, with_query: true }) { per.to_s } %>
-            <% end %>
-          <% end %>
-        </ul>
-      </span>
-      <%= wt 'pagination.of' %>
-      <span class="pagination__pages">
-        <a id="all_pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <%= total_count %>
-        </a>
-        <%= form_tag index_path(current_model_class), method: :get, class: 'dropdown-menu', aria: { labelledby: 'all_pages' } do %>
-          <% request.query_parameters.except(:page, :utf8).each do |key, value| %>
-            <%= hidden_field_tag key, value %>
-          <% end %>
-          <label for="page_number">
-            <%= wt 'pagination.pages' %>
-          </label>
-          <%= number_field_tag 'page', current_paginator.page_number, id: 'page_number' %>
+    <span class="pagination__pers">
+      <a id="all_pers" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <%= from_to %>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="all_pers">
+        <h5 class="dropdown-header"><%= wt 'pagination.pers' %></h5>
+        <% Wallaby::PERS.each do |per| %>
+          <%= index_link(current_model_class, url_params: { per: per, with_query: true }, html_options: { class: ['dropdown-item', current_paginator.page_size == per && 'pagination__pers--current']}) { per.to_s } %>
         <% end %>
-      </span>
+      </div>
+    </span>
+    <%= wt 'pagination.of' %>
+    <span class="pagination__pages">
+      <a id="all_pages" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <%= total_count %>
+      </a>
+      <%= form_tag index_path(current_model_class), method: :get, class: 'dropdown-menu', aria: { labelledby: 'all_pages' } do %>
+        <% request.query_parameters.except(:page, :utf8).each do |key, value| %>
+          <%= hidden_field_tag key, value %>
+        <% end %>
+        <h5 class="dropdown-header"><%= wt 'pagination.pages' %></h5>
+        <span class="dropdown-item"><%= number_field_tag 'page', current_paginator.page_number, id: 'page_number' %></span>
+      <% end %>
     </span>
     <% if current_paginator.prev_page? # has prev page %>
-      <span>
-        <%= index_link(current_model_class, url_params: { page: current_paginator.prev_page_number, with_query: true }) { wt 'pagination.prev' } %>
-      </span>
+      <%= index_link(current_model_class, url_params: { page: current_paginator.prev_page_number, with_query: true }, html_options: { class: 'pagination__prev' }) { wt 'pagination.prev' } %>
     <% end %>
     <% if current_paginator.next_page? # has next page %>
-      <span>
-        <%= index_link(current_model_class, url_params: { page: current_paginator.next_page_number, with_query: true }) { wt 'pagination.next' } %>
-      </span>
+      <%= index_link(current_model_class, url_params: { page: current_paginator.next_page_number, with_query: true }, html_options: { class: 'pagination__next' }) { wt 'pagination.next' } %>
     <% end %>
   </nav>
 <% end %>

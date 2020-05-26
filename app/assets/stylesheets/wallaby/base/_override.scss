@@ -16,3 +16,40 @@
     }
   }
 }
+
+// Bootstrap Dropdown
+.dropdown-toggle
+{
+  display: inline-block;
+  margin-right: 2px;
+  position: relative;
+  padding-right: 12px;
+}
+
+.dropdown-toggle:after
+{
+  display: none;
+}
+
+.dropdown-toggle:before
+{
+  @extend .fa;
+  @extend .fa-chevron-down;
+  border: none;
+  color: $light-red-color;
+  font-size: 9px;
+  margin-top: -4px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+}
+
+.dropdown-toggle:hover:before
+{
+  color: $dark-red-color;
+}
+
+.show .dropdown-toggle:before
+{
+  @extend .fa-chevron-up;
+}
