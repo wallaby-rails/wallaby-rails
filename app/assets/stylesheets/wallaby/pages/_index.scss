@@ -1,187 +1,242 @@
-.index {
-  .resources {
-    section {
-      margin-bottom: 4px;
-    }
-
-    &__not-found {
-      font-size: 24px;
-      padding-left: 105px;
-      padding-top: 140px;
-      position: relative;
-      text-align: left;
-
-      img {
-        height: 80px;
-        margin-left: -90px;
-        margin-top: 12px;
-        position: absolute;
-      }
-    }
-
-    &__data, &__actions {
-      @extend .table;
-      border-collapse: collapse;
-      margin-bottom: 0;
-
-      tbody td.resource__actions {
-        min-width: 85px;
-        text-align: right;
-
-        a {
-          @extend .fa;
-          @extend .fa-info;
-          &:before {
-            line-height: 16px;
-            width: 16px;
-          }
-
-          background-color: $light-primary-color;
-          border-radius: 2px;
-          border: none;
-          color: $white;
-          display: inline-block;
-          height: 16px;
-          line-height: 16px;
-          margin-right: 3px;
-          text-align: center;
-          text-decoration: none;
-          width: 16px;
-
-          &:hover {
-            background-color: $default-primary-color;
-            color: $white;
-          }
-
-          &.resource__update {
-            @include fa-extend('pencil-alt', false);
-            background-color: $light-yellow-color;
-
-            &:hover {
-              background-color: $default-yellow-color;
-            }
-          }
-
-          &.resource__destroy {
-            @extend .fa-times;
-            background-color: $light-red-color;
-
-            &:hover {
-              background-color: $default-red-color;
-            }
-          }
-
-          &:last-child {
-            margin-right: 0px;
-          }
-        }
-      }
-
-      thead tr th, tbody tr td {
-        background-color: white;
-        border: none;
-        border-bottom: 6px solid $background-color;
-        font-weight: normal;
-        height: 40px;
-        padding: 8px 12px;
-        white-space: nowrap;
-      }
-
-      thead tr th {
-        color: $light-grey-color;
-        font-weight: bold;
-        line-height: 20px;
-        position: relative;
-        text-transform: uppercase;
-
-        a {
-          border-bottom: none;
-          display: block;
-          padding-right: 11px;
-          position: relative;
-          transition: 0.5s;
-
-          &:before {
-            @extend .fa;
-            color: $light-primary-color;
-            margin-top: -6px;
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transition: 0.5s;
-          }
-
-          &:hover {
-            color: $default-primary-color;
-            @include fa-extend('sort-up', false);
-          }
-        }
-
-        &.asc {
-          a {
-            @include fa-extend('sort-up', false);
-            &:hover {
-              @include fa-extend('sort-down', false);
-            }
-          }
-        }
-
-        &.desc {
-          a {
-            @include fa-extend('sort-down', false);
-            &:hover {
-              @extend .fa-sort;
-            }
-          }
-        }
-      }
-
-      tbody tr {
-        td {
-          a {
-            display: inline-block;
-          }
-        }
-      }
-
-      .fa {
-        font-size: 11px;
-        margin-left: 3px;
-      }
-    }
-
-    &__actions {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: inherit;
-
-      thead tr th {
-        @extend .fa;
-        display: table-cell;
-        font-size: 14px;
-
-        &:before, & span:before {
-          display: inline-block;
-          font-size: 10px;
-          font-weight: lighter;
-          margin-top: -5px;
-          position: absolute;
-          top: 50%;
-        }
-
-        &.resources--forward span:before {
-          @extend .fa, .fa-chevron-right;
-          right: 16px;
-        }
-
-        &.resources--backward:before {
-          @extend .fa, .fa-chevron-left;
-          left: 16px;
-        }
-      }
-    }
-  }
+.resources
+{
+  margin-bottom: 4px;
 }
 
-@import '_index_desktop';
+.resources__not-found
+{
+  font-size: 24px;
+  padding-top: 140px;
+  text-align: center;
+}
+
+.not-found__image
+{
+  height: 40px;
+}
+
+.resource__actions
+{
+  min-width: 85px;
+  text-align: right;
+}
+
+.index .resource__show,
+.index .resource__update,
+.index .resource__destroy
+{
+  @extend .fa;
+  background-color: $light-primary-color;
+  border-radius: 2px;
+  border: none;
+  color: $white;
+  display: inline-block;
+  height: 16px;
+  line-height: 16px;
+  margin-right: 3px;
+  text-align: center;
+  text-decoration: none;
+  width: 16px;
+}
+
+.index .resource__show:before,
+.index .resource__update:before,
+.index .resource__destroy:before
+{
+  line-height: 16px;
+  width: 16px;
+}
+
+.index .resource__show:hover,
+.index .resource__update:hover,
+.index .resource__destroy:hover
+{
+  color: $white;
+}
+
+.index .resource__show
+{
+  @extend .fa-info;
+  background-color: $light-primary-color;
+}
+
+.index .resource__show:hover
+{
+  background-color: $default-primary-color;
+}
+
+.index .resource__update
+{
+  @include fa-extend('pencil-alt', false);
+  background-color: $light-yellow-color;
+}
+
+.index .resource__update:hover
+{
+  background-color: $default-yellow-color;
+}
+
+.index .resource__destroy
+{
+  @extend .fa-times;
+  background-color: $light-red-color;
+  margin-right: 0;
+}
+
+.index .resource__destroy:hover
+{
+  background-color: $default-red-color;
+}
+
+.resources__data,
+.resources__actions
+{
+  @extend .table;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+
+.resources__data th,
+.resources__data td,
+.resources__actions th,
+.resources__actions td
+{
+  background-color: white;
+  font-weight: normal;
+  height: 40px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+.resources__data thead th,
+.resources__data tbody td,
+.resources__actions thead th,
+.resources__actions tbody td
+{
+  border-bottom: 6px solid $background-color;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.resources__data th,
+.resources__actions th
+{
+  color: $light-grey-color;
+  font-weight: bold;
+  line-height: 20px;
+  position: relative;
+  text-transform: uppercase;
+}
+
+// th sorting
+.resources__data th a,
+.resources__actions th a
+{
+  border-bottom: none;
+  display: block;
+  padding-right: 11px;
+  position: relative;
+  transition: 0.5s;
+}
+
+.resources__data th a:before,
+.resources__actions th a:before
+{
+  @extend .fa;
+  color: $light-primary-color;
+  margin-top: -6px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transition: 0.5s;
+}
+
+.resources__data th a:hover,
+.resources__actions th a:hover
+{
+  color: $default-primary-color;
+  @include fa-extend('sort-up', false);
+}
+
+// asc sorting
+.resources__data .asc a,
+.resources__actions .asc a
+{
+  @include fa-extend('sort-up', false);
+}
+
+.resources__data .asc a:hover,
+.resources__actions .asc a:hover
+{
+  @include fa-extend('sort-down', false);
+}
+
+// desc sorting
+.resources__data .desc a,
+.resources__actions .desc a
+{
+  @include fa-extend('sort-down', false);
+}
+
+.resources__data .desc a:hover,
+.resources__actions .desc a:hover
+{
+  @extend .fa-sort;
+}
+
+.resources__data td a,
+.resources__actions td a
+{
+  display: inline-block;
+}
+
+.resources__data .fa,
+.resources__actions .fa
+{
+  font-size: 12px;
+  margin-left: 3px;
+}
+
+.resources__actions
+{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: inherit;
+}
+
+.resources__actions th
+{
+  display: table-cell;
+}
+
+.resources__actions th,
+.resources__actions span
+{
+  @extend .fa;
+  font-size: 14px;
+}
+
+.resources__actions th:before,
+.resources__actions span:before
+{
+  display: inline-block;
+  font-size: 10px;
+  font-weight: lighter;
+  margin-top: -5px;
+  position: absolute;
+  top: 50%;
+}
+
+.resources--forward span:before
+{
+  @extend .fa, .fa-chevron-right;
+  right: 16px;
+}
+
+.resources__actions .resources--backward:before
+{
+  @extend .fa, .fa-chevron-left;
+  left: 16px;
+}

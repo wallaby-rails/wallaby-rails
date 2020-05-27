@@ -49,7 +49,7 @@
   color: $dark-red-color;
 }
 
-.show .dropdown-toggle:before
+.dropdown.show .dropdown-toggle:before
 {
   @extend .fa-chevron-up;
 }

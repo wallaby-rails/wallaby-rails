@@ -50,7 +50,7 @@ decorated_collection = decorate collection
       </div>
     <% else %>
       <div class="resources__not-found">
-        <%= image_tag 'wallaby/not_found.png' %>
+        <%= image_tag 'wallaby/not_found.png', class: 'not-found__image' %>
         <%= wt 'errors.not_found.collection' %>
       </div>
     <% end %>

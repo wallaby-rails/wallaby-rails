@@ -16,14 +16,14 @@
     <% if action_name == 'show' %>
       <% if resource %>
         <li role="presentation">
-          <%= edit_link(resource, options: params.slice(:resource)) {} %>
+          <%= edit_link(resource, options: params.slice(:resource), html_options: { class: 'resource__update' }) {} %>
         </li>
         <li role="presentation">
-          <%= delete_link(resource, options: params.slice(:resource)) {} %>
+          <%= delete_link(resource, options: params.slice(:resource), html_options: { class: 'resource__destroy' }) {} %>
         </li>
       <% else %>
         <li role="presentation">
-          <%= new_link(current_model_class) {} %>
+          <%= new_link(current_model_class, html_options: { class: 'resource__create' }) {} %>
         </li>
       <% end %>
     <% end %>

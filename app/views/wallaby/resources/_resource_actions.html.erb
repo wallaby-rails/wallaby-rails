@@ -1,3 +1,3 @@
-<%= show_link(local_assigns[:decorated]) {} %>
-<%= edit_link(local_assigns[:decorated]) {} %>
-<%= delete_link(local_assigns[:decorated]) {} %>
+<%= show_link(local_assigns[:decorated], html_options: { class: 'resource__show' }) {} %>
+<%= edit_link(local_assigns[:decorated], html_options: { class: 'resource__update' }) {} %>
+<%= delete_link(local_assigns[:decorated], html_options: { class: 'resource__destroy' }) {} %>
