@@ -1,105 +1,133 @@
-.query {
-  bottom: 10px;
-  float: none !important;
-  left: 0;
-  position: absolute;
-  right: 0;
-  z-index: 10;
-
-  &--filtered {
-    form {
-      margin-right: 108px;
-    }
-  }
-
-  &__search {
-    display: block;
-    margin-right: 72px;
-
-    label {
-      display: block;
-      margin: 0;
-      position: relative;
-
-      &:before {
-        @extend .fa;
-        @extend .fa-search;
-        color: $default-primary-color;
-        left: 8px;
-        margin-top: -7px;
-        position: absolute;
-        top: 50%;
-        z-index: 10;
-      }
-
-      input {
-        @extend .form-control;
-
-        &::placeholder {
-          color: $light-grey-color;
-        }
-
-        border-radius: 2px;
-        border: none;
-        box-shadow: none;
-        color: $default-primary-color;
-        font-weight: normal;
-        height: 30px;
-        padding: 4px 5px 4px 27px;
-        position: relative;
-        width: 100%;
-      }
-    }
-  }
-
-  &__actions {
-    @include dropdown($left_or_right: "right");
-    color: $white;
-    position: absolute;
-    right: 0;
-
-    .query__clear, .query__create, .query__more {
-      border-radius: 2px;
-      border: none;
-      color: $white;
-      float: left;
-      height: 30px;
-      line-height: 30px;
-      margin-left: 6px;
-      text-align: center;
-      text-decoration: none;
-      width: 30px;
-    }
-
-    .query__clear {
-      @extend .fa;
-      @extend .fa-ban;
-      background-color: $light-grey-color;
-
-      &:hover {
-        background-color: $default-grey-color;
-      }
-    }
-
-    .query__create {
-      @extend .fa;
-      @extend .fa-plus;
-      background-color: $light-green-color;
-
-      &:hover {
-        background-color: $default-green-color;
-      }
-    }
-
-    .query__more {
-      @extend .fa;
-      @extend .fa-chevron-down;
-      background-color: $light-blue-color;
-
-      &:hover {
-        background-color: $default-blue-color;
-      }
-    }
-  }
+.query
+{
+  margin-top: 6px;
 }
 
+.query__actions
+{
+  float: right;
+}
+
+.query__search
+{
+  overflow: hidden;
+}
+
+.query__box
+{
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.query__box:before
+{
+  @extend .fa;
+  @extend .fa-search;
+  color: $default-primary-color;
+  left: 8px;
+  margin-top: -5px;
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+}
+
+.query__input
+{
+  @extend .form-control;
+  border-radius: 2px;
+  border: none;
+  box-shadow: none;
+  color: $default-primary-color;
+  display: block;
+  font-weight: normal;
+  height: 30px;
+  padding: 4px 5px 4px 27px;
+  position: relative;
+  width: 100%;
+  width: 100%;
+}
+
+.query__input:focus
+{
+  box-shadow: none;
+}
+
+.query__input::placeholder
+{
+  color: $light-grey-color;
+}
+
+.query__clear,
+.query__create,
+.query__more
+{
+  @extend .fa;
+  border-radius: 2px;
+  border: none;
+  color: $white;
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 6px;
+  text-align: center;
+  text-decoration: none;
+  width: 30px;
+}
+
+.query__clear:hover,
+.query__create:hover,
+.query__more:hover
+{
+  color: $white;
+}
+.query__clear
+{
+  @extend .fa-ban;
+  background-color: $light-grey-color;
+}
+
+.query__clear:hover
+{
+  background-color: $default-grey-color;
+}
+
+.query__create
+{
+  @extend .fa-plus;
+  background-color: $light-green-color;
+}
+
+.query__create:hover
+{
+  background-color: $default-green-color;
+}
+
+.query__more
+{
+  @extend .fa-chevron-down;
+  background-color: $light-blue-color;
+}
+
+.query__more:hover
+{
+  background-color: $default-blue-color;
+}
+
+// desktop
+@media (min-width: $screen-sm-min) {
+  .query
+  {
+    position: absolute;
+    right: 0;
+    bottom: auto;
+    left: 65%;
+    top: 50%;
+    margin-top: -15px;
+    transition: 0.5s;
+  }
+
+  .query--focus {
+    left: 50%;
+  }
+}

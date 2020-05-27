@@ -2,15 +2,15 @@
   <nav class="query__actions">
     <%= index_link(current_model_class, html_classes('query__clear')) {} if request.query_parameters.present? %>
     <%= new_link(current_model_class, html_classes('query__create')) {} %>
-    <a id="actions_list" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="query__more"></a>
+    <a id="actions_list" class="query__more" href="javascript:;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
     <%= render 'index_actions' %>
   </nav>
   <%= form_tag index_path(current_model_class), method: :get, class: 'query__search' do %>
     <% request.query_parameters.except(:q, :utf8).each do |key, value| %>
       <%= hidden_field_tag key, value %>
     <% end %>
-    <label for="q">
-      <%= text_field_tag :q, params[:q], placeholder: wt('search.hint') %>
+    <label for="q" class="query__box">
+      <%= text_field_tag :q, params[:q], placeholder: wt('search.hint'), class: 'query__input' %>
     </label>
   <% end %>
 <% end %>

@@ -1,4 +1,4 @@
 <% # can be overridden %>
-<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="actions_list">
-  <li><%= export_link current_model_class %></li>
-</ul>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="actions_list">
+  <%= export_link current_model_class, html_options: { class: 'dropdown-item' } %>
+</div>

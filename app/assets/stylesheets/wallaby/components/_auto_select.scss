@@ -132,4 +132,9 @@
 }
 // Typeahead:end
 
-@import '_auto_select_desktop';
+// desktop
+@media (min-width: $screen-sm-min) {
+  .auto_select--spacing {
+    margin-bottom: 0;
+  }
+}

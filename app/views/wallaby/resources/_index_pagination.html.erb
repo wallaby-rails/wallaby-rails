@@ -9,7 +9,7 @@
   %>
   <nav class="pagination">
     <span class="pagination__pers">
-      <a id="all_pers" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <a id="all_pers" href="#dropdown" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <%= from_to %>
       </a>
       <div class="dropdown-menu" aria-labelledby="all_pers">
@@ -21,7 +21,7 @@
     </span>
     <%= wt 'pagination.of' %>
     <span class="pagination__pages">
-      <a id="all_pages" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <a id="all_pages" href="#dropdown" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <%= total_count %>
       </a>
       <%= form_tag index_path(current_model_class), method: :get, class: 'dropdown-menu', aria: { labelledby: 'all_pages' } do %>

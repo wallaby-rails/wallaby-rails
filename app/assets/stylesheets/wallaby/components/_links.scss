@@ -1,25 +1,29 @@
-.resource {
-  &__create {
-    color: $light-green-color;
+.resource__create
+{
+  color: $light-green-color;
+}
 
-    &:hover {
-      color: $default-green-color;
-    }
-  }
+.resource__create:hover
+{
+  color: $default-green-color;
+}
 
-  &__update {
-    color: $light-yellow-color;
+.resource__update
+{
+  color: $light-yellow-color;
+}
 
-    &:hover {
-      color: $default-yellow-color;
-    }
-  }
+.resource__update:hover
+{
+  color: $default-yellow-color;
+}
 
-  &__destroy {
-    color: $light-red-color;
+.resource__destroy
+{
+  color: $light-red-color;
+}
 
-    &:hover {
-      color: $default-red-color;
-    }
-  }
+.resource__destroy:hover
+{
+  color: $default-red-color;
 }

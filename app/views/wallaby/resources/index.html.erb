@@ -5,9 +5,9 @@ decorated_collection = decorate collection
 <article class="resources">
   <div class="resources__header">
     <h1><%= to_model_label(current_model_class) %></h1>
-    <%= render 'index_query' %>
     <%= render 'index_filters' %>
     <%= render 'index_pagination' %>
+    <%= render 'index_query' %>
   </div>
   <%= render 'flash_messages' %>
 
