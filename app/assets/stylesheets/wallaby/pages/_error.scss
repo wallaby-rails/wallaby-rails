@@ -1,5 +1,4 @@
-.not_found, .forbidden, .unauthorized {
-  .card-img {
-    padding: 10px;
-  }
+.http-error .card-img {
+  padding: 10px;
+  max-width: 280px;
 }
