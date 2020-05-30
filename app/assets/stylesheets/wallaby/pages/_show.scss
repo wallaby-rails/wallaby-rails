@@ -1,43 +1,55 @@
-.show {
-  section {
-    dl {
-      margin: 0;
-      padding: 15px 20px;
-    }
-
-    dt {
-      border-bottom: 1px solid $background-color;
-      color: $default-primary-color;
-      font-style: italic;
-      font-weight: bold;
-      padding-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    dd {
-      padding-top: 8px;
-    }
-  }
-  .resource {
-    section {
-      margin-bottom: 4px;
-    }
-
-    &__not-found {
-      font-size: 24px;
-      padding-left: 105px;
-      padding-top: 140px;
-      position: relative;
-      text-align: left;
-
-      img {
-        height: 80px;
-        margin-left: -90px;
-        margin-top: 12px;
-        position: absolute;
-      }
-    }
-  }
+.resource
+{
+  margin-bottom: 4px;
 }
 
-@import '_show_desktop';
+.resource__field
+{
+  margin: 0;
+  padding: 15px 20px;
+}
+
+.resource__label
+{
+  border-bottom: 1px solid $background-color;
+  color: $default-primary-color;
+  font-style: italic;
+  font-weight: bold;
+  padding-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.resource__value
+{
+  padding-top: 8px;
+}
+
+.resource__not-found
+{
+  font-size: 24px;
+  padding-left: 105px;
+  padding-top: 140px;
+  position: relative;
+  text-align: left;
+}
+
+.resource__not-found-image
+{
+  height: 80px;
+  margin-left: -90px;
+  margin-top: 12px;
+  position: absolute;
+}
+
+// desktop
+@media (min-width: $screen-sm-min) {
+  .resource {
+    margin-bottom: 24px;
+  }
+
+  .resource__not-found-image
+  {
+    margin-left: -95px;
+    margin-top: -21px;
+  }
+}

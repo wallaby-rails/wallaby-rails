@@ -1,5 +1,8 @@
-<% decorated = decorate resource %>
-<article class="resource">
+<%
+# decorate first on every page or partial
+decorated = decorate resource
+%>
+<article class="resource resource__form">
   <div class="resource__header">
     <h1><%= wt 'labels.create', model: to_model_label(current_model_class) %></h1>
     <%= render 'resource_navs' %>

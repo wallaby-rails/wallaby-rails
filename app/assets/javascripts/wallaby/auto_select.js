@@ -3,7 +3,7 @@
 (function (jQuery, Bloodhound) {
   'use strict';
 
-  var  $template = jQuery('<li><input type="hidden" /><a href="javascript:;"></a></li>');
+  var $template = jQuery('<li class="auto_select__item"><input type="hidden" /><a href="javascript:;" class="auto_select__link"></a></li>');
 
   jQuery.fn.extend({
     auto_select: function (typeaheadOptions, engineOptions) {
