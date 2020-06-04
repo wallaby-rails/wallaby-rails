@@ -17,6 +17,29 @@
   }
 }
 
+// Bootstrap navbar
+.navbar
+{
+  background-color: white;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
+  position: relative;
+}
+
+.navbar .navbar-nav .dropdown-toggle
+{
+  padding-right: 13px;
+}
+
+.navbar .navbar-brand
+{
+  color: $light-red-color;
+}
+
+.navbar .navbar-brand:hover
+{
+  color: $default-red-color;
+}
+
 // Bootstrap Dropdown
 .dropdown-toggle
 {
@@ -49,7 +72,13 @@
   color: $dark-red-color;
 }
 
-.dropdown.show .dropdown-toggle:before
+.show > .dropdown-toggle:before
 {
   @extend .fa-chevron-up;
+}
+
+// btn-primary
+.btn-primary
+{
+  color: $white;
 }

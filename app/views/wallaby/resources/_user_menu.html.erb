@@ -1,6 +1,6 @@
 <% # can be overridden %>
-<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="user_menu">
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_menu">
   <% if logout_path.present? %>
-    <li><%= link_to 'Sign out', logout_path, method: logout_method, class: 'dropdown-item' %></li>
+    <%= link_to 'Sign out', logout_path, method: logout_method, class: 'dropdown-item' %>
   <% end %>
-</ul>
+</div>

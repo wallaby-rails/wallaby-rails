@@ -1,3 +1,8 @@
+.index main
+{
+  margin-top: 159px;
+}
+
 .resources
 {
   margin-bottom: 4px;
@@ -239,4 +244,11 @@
 {
   @extend .fa, .fa-chevron-left;
   left: 16px;
+}
+
+@media (min-width: $screen-sm-min) {
+  .index main
+  {
+    margin-top: 130px;
+  }
 }
