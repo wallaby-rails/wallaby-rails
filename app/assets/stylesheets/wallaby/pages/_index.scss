@@ -1,11 +1,38 @@
 .index main
 {
-  margin-top: 159px;
+  padding-top: 159px;
 }
 
-.resources
+.resources__container
 {
-  margin-bottom: 4px;
+  background-color: $white;
+  overflow: auto;
+}
+
+.resources__header
+{
+  background-color: $background-color;
+  border-bottom: none;
+  height: 109px;
+  left: 0;
+  margin: 0 10px;
+  padding: 11px 0 0;
+  position: fixed;
+  right: 0;
+  top: 49px;
+  z-index: 510;
+}
+
+.resources__title
+{
+  color: $default-primary-color;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  line-height: 30px;
+  margin: 0 0 6px -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .resources__not-found
@@ -249,6 +276,13 @@
 @media (min-width: $screen-sm-min) {
   .index main
   {
-    margin-top: 130px;
+    padding-top: 130px;
+  }
+
+  .resources__header
+  {
+    height: 80px;
+    margin: 0 30px;
+    padding-top: 17px;
   }
 }

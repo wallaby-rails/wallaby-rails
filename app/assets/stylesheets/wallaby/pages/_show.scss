@@ -1,17 +1,136 @@
 .resource
 {
-  margin-bottom: 4px;
+  padding-top: 70px;
 }
 
-.resource main
+.resource__container
 {
-  margin-top: 139px;
+  background-color: $white;
+  padding: 10px;
 }
 
+// header
+.resource__header
+{
+  background-color: $background-color;
+  border-bottom: none;
+  height: 90px;
+  left: 0;
+  margin: 0 10px;
+  padding: 11px 0 0;
+  position: fixed;
+  right: 0;
+  top: 49px;
+  z-index: 510;
+}
+
+.resource__title
+{
+  color: $default-primary-color;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  line-height: 30px;
+  margin: 0 0 6px -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resource__nav
+{
+  bottom: 10px;
+  left: 0;
+  position: absolute;
+}
+
+.resource__nav .resources__index,
+.resource__nav .resource__show,
+.resource__nav .resource__create,
+.resource__nav .resource__update,
+.resource__nav .resource__destroy
+{
+  @extend .fa;
+
+  background-color: $light-blue-color;
+  border-radius: 2px;
+  color: $white;
+  display: block;
+  float: left;
+  line-height: 20px;
+  margin-right: 6px;
+  padding: 5px 8px;
+  text-align: center;
+  text-decoration: none;
+  width: 30px;
+}
+
+.resource__nav .resources__index:hover,
+.resource__nav .resource__show:hover,
+.resource__nav .resource__create:hover,
+.resource__nav .resource__update:hover,
+.resource__nav .resource__destroy:hover
+{
+  color: $white;
+}
+
+.resource__nav .resources__index
+{
+  @extend .fa-list;
+}
+
+.resource__nav .resources__index:hover
+{
+  background-color: $default-blue-color;
+}
+
+.resource__nav .resource__show
+{
+  @extend .fa-info;
+}
+
+.resource__nav .resource__show:hover
+{
+  background-color: $default-blue-color;
+}
+
+.resource__nav .resource__create
+{
+  @extend .fa-plus;
+  background-color: $light-green-color;
+}
+
+.resource__nav .resource__create:hover
+{
+  background-color: $default-green-color;
+}
+
+.resource__nav .resource__update
+{
+  @include fa-extend('pencil-alt', false);
+  background-color: $light-yellow-color;
+}
+
+.resource__nav .resource__update:hover
+{
+  background-color: $default-yellow-color;
+}
+
+.resource__nav .resource__destroy
+{
+  @include fa-extend('times', false);
+  background-color: $light-red-color;
+}
+
+.resource__nav .resource__destroy:hover
+{
+  background-color: $default-red-color;
+}
+
+// content
 .resource__field
 {
   margin: 0;
-  padding: 15px 20px;
+  padding: 5px 0px;
 }
 
 .resource__label
@@ -49,13 +168,38 @@
 // desktop
 @media (min-width: $screen-sm-min) {
   .resource {
-    margin-bottom: 24px;
+    padding-top: 40px;
   }
 
-  .resource main
+  .resource__container
   {
-    margin-top: 130px;
+    padding: 30px;
   }
+
+  .resource__header
+  {
+    height: 80px;
+    margin: 0 30px;
+    padding-top: 25px;
+  }
+
+  .resource__title
+  {
+    margin-right: 122px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .resource__nav
+  {
+    bottom: auto;
+    left: auto;
+    margin-top: -15px;
+    right: -6px;
+    top: 50%;
+    transition: 0.5s;
+  }
+
   .resource__not-found-image
   {
     margin-left: -95px;

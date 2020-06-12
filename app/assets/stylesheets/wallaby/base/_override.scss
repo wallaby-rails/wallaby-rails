@@ -1,20 +1,26 @@
-.minicolors-theme-bootstrap {
-  .minicolors-swatch {
-    width: 25px;
-    height: 25px;
-  }
-
-  .minicolors-input {
-    padding-left: 36px;
-  }
+// Minicolors
+.minicolors-theme-bootstrap .minicolors-swatch
+{
+  width: 25px;
+  height: 25px;
 }
 
-.bootstrap-datetimepicker-widget {
-  table {
-    td.day, th {
-      border: none;
-    }
-  }
+.minicolors-theme-bootstrap .minicolors-input
+{
+  padding-left: 36px;
+}
+
+// Bootstrap datetimepicker
+.bootstrap-datetimepicker-widget th,
+.bootstrap-datetimepicker-widget td
+{
+  border: none;
+}
+
+// Bootstrap datetimepicker
+.note-editor.note-frame {
+  border-color: #ced4da;
+  border-radius: 0;
 }
 
 // Bootstrap navbar
@@ -77,8 +83,12 @@
   @extend .fa-chevron-up;
 }
 
-// btn-primary
+// Bootstrap others
 .btn-primary
 {
   color: $white;
+}
+
+.alert {
+  margin-bottom: 10px;
 }
