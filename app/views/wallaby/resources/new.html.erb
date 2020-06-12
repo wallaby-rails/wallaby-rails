@@ -4,7 +4,7 @@ decorated = decorate resource
 %>
 <article class="resource resource__form">
   <div class="resource__header">
-    <h1><%= wt 'labels.create', model: to_model_label(current_model_class) %></h1>
+    <h1 class="resource__title"><%= wt 'labels.create', model: to_model_label(current_model_class) %></h1>
     <%= render 'resource_navs' %>
   </div>
   <%= render 'flash_messages' %>
