@@ -6,19 +6,22 @@
   text-transform: uppercase;
 }
 
-.CodeMirror {
+.CodeMirror
+{
   border: 1px solid #eeeeee;
   height: 348px;
 }
 
-.help-block {
+.help-block
+{
   clear: both;
   font-size: 11px;
   margin: 0;
   padding: 5px 1px;
 }
 
-.errors {
+.errors
+{
   @extend .text-danger;
   margin-top: 5px;
   margin-bottom: 5px;

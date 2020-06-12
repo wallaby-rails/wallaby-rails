@@ -1,20 +1,24 @@
 // common elements
-body {
+body
+{
   background-color: $background-color;
   color: $font-color;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
-small {
+small
+{
   font-size: 95%;
 }
 
-a {
+a
+{
   color: $light-primary-color;
   text-decoration: none;
 }
 
-a:hover {
+a:hover
+{
   color: $default-primary-color;
   text-decoration: none;
 }
@@ -25,7 +29,8 @@ header
   @extend .fixed-top;
 }
 
-#model_tree + .dropdown-menu {
+#model_tree + .dropdown-menu
+{
     max-height: 500px;
     overflow: auto;
 }
@@ -42,18 +47,21 @@ header
   @extend .d-md-none, .d-lg-block;
 }
 
-.user__text {
+.user__text
+{
   @extend .d-none, .d-md-block, .d-lg-none;
 }
 
-img.user {
+img.user
+{
   border-radius: 3px;
   height: 30px;
   margin-top: -5px;
   width: 30px;
 }
 
-.navbar .fa-user {
+.navbar .fa-user
+{
   font-size: 15px;
   vertical-align: bottom;
 }
