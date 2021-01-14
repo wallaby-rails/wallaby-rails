@@ -8,7 +8,7 @@ class ProfileServicer < Wallaby::ModelServicer
   end
 
   def find(id, params)
-    Profile.find
+    Profile.find || Profile.new
   end
 
   def create(resource, params)

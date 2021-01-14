@@ -111,7 +111,7 @@ describe 'custom models' do
     end
   end
 
-  describe 'resourceful profile' do
+  describe 'resourcesful profile' do
     let(:id) { '4478' }
 
     before do
