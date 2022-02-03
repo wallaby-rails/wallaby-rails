@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'wallaby-core'
 
   # This will determine wallaby-core's version
-  s.add_dependency 'wallaby-active_record', '0.2.6'
+  s.add_dependency 'wallaby-active_record', '~> 0.2.7'
 
   # assets gems
   s.add_dependency 'bootstrap'
