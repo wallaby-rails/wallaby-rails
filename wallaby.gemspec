@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'wallaby-active_record', '~> 0.2.7'
 
   # assets gems
-  s.add_dependency 'bootstrap'
+  s.add_dependency 'bootstrap', '~> 4.6'
   s.add_dependency 'bootstrap4-datetime-picker-rails'
   s.add_dependency 'font-awesome-sass'
   s.add_dependency 'jbuilder'

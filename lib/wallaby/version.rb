@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Wallaby
-  VERSION = '6.1.4' # :nodoc:
+  VERSION = '6.1.5' # :nodoc:
 end
