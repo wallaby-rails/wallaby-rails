@@ -16,7 +16,7 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-# gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
+# gem 'rails', git: 'https://github.com/rails/rails', branch: 'main'
 gem 'wallaby-cop', path: '../wallaby-cop'
 gem 'wallaby-core', path: '../wallaby-core'
 gem 'wallaby-view', path: '../wallaby-view'
@@ -28,7 +28,7 @@ gem 'cancancan'
 gem 'kaminari'
 gem 'pundit'
 gem 'rails', '~> 6.0.0'
-gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_theme.git', branch: 'master'
+gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_theme.git', branch: 'main'
 # gem 'simple_blog_theme', path: '../simple_blog_theme'
 gem 'will_paginate'
 
