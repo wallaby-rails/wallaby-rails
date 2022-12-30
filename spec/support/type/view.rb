@@ -14,8 +14,9 @@ RSpec.configure do |config|
 
   config.before :each, type: :view do |example|
     view.extend Wallaby::ResourcesHelper
+    view.extend WallabyControllerHelper
     view.extend ActionView::Helpers::OutputSafetyHelper
-    view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
+    view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin/products'
 
     unless view.respond_to? :default_url_options
       def view.default_url_options

@@ -12,31 +12,30 @@ gemspec path: '../'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-gem 'rails', '~> 5.1.6'
-gem 'wallaby-core', git: 'https://github.com/wallaby-rails/wallaby-core.git', branch: 'master'
-gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: 'master'
-gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'master'
 
-gem 'activestorage'
+target_branch = !ENV['GITHUB_BASE_REF']&.empty? && ENV['GITHUB_BASE_REF']
+target_branch ||= !ENV['GITHUB_REF_NAME']&.empty? && ENV['GITHUB_REF_NAME']
+
+gem 'rails', '~> 7.0.0'
+gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: target_branch
+gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'main'
+
+gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'main'
+
 gem 'cancancan'
 gem 'devise'
-gem 'her'
 gem 'kaminari'
 gem 'mysql2'
 gem 'pg'
 gem 'pundit'
-gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
-gem 'sqlite3', '< 1.4.0'
-
-# @see https://github.com/sass/sassc-ruby/issues/146
-# TODO: remove this line when it's resolved
-gem 'sassc', '< 2.2.0'
+gem 'sqlite3'
 
 group :test do
   gem 'database_cleaner'
+  gem 'ffaker'
+  gem 'generator_spec'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
-  gem 'rubocop'
-  gem 'simplecov', '~> 0.17.0'
+  gem 'simplecov'
   gem 'webmock'
 end

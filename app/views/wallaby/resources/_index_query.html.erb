@@ -1,7 +1,7 @@
 <%= content_tag :div, class: request.query_parameters.present? ? %w(query query--filtered) : %w(query) do %>
   <nav class="query__actions">
-    <%= index_link(current_model_class, html_classes('query__clear')) {} if request.query_parameters.present? %>
-    <%= new_link(current_model_class, html_classes('query__create')) {} %>
+    <%= index_link(current_model_class, **html_classes('query__clear')) {} if request.query_parameters.present? %>
+    <%= new_link(current_model_class, **html_classes('query__create')) {} %>
     <a id="actions_list" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="query__more"></a>
     <%= render 'index_actions' %>
   </nav>

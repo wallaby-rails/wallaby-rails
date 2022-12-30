@@ -31,7 +31,7 @@ describe 'Resources pages using postgresql table' do
       http :get, '/admin/all_postgres_types', headers: json_headers
       expect(response).to be_successful
       expect(response).to render_template :index
-      expect(response.content_type).to eq 'application/json'
+      expect(response.media_type).to eq 'application/json'
       expect(response.body).to include string
     end
 
@@ -40,7 +40,7 @@ describe 'Resources pages using postgresql table' do
       expect(response).to be_successful
       expect(response).to render_template :index
       expect(response.headers['Content-Disposition']).to include 'filename="all_postgres_types-exported-'
-      expect(response.content_type).to eq 'text/csv'
+      expect(response.media_type).to eq 'text/csv'
       expect(response.body).to include string
     end
 
@@ -114,7 +114,7 @@ describe 'Resources pages using postgresql table' do
       http :get, "/admin/all_postgres_types/#{record.id}", headers: json_headers
       expect(response).to be_successful
       expect(response).to render_template :show
-      expect(response.content_type).to eq 'application/json'
+      expect(response.media_type).to eq 'application/json'
       expect(response.body).to include string
     end
   end
@@ -237,7 +237,7 @@ describe 'Resources pages using postgresql table for Product model' do
       http :get, '/admin/products', headers: json_headers
       expect(response).to be_successful
       expect(response).to render_template :index
-      expect(response.content_type).to eq 'application/json'
+      expect(response.media_type).to eq 'application/json'
       expect(response.body).to include name
     end
 
@@ -245,7 +245,7 @@ describe 'Resources pages using postgresql table for Product model' do
       http :get, '/admin/products', headers: { 'ACCEPT' => 'text/csv' }
       expect(response).to be_successful
       expect(response).to render_template :index
-      expect(response.content_type).to eq 'text/csv'
+      expect(response.media_type).to eq 'text/csv'
       expect(response.body).to include name
       expect(response.body).to include tag1.name
       expect(response.body).to include tag2.name

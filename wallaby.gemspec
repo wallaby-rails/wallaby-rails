@@ -39,5 +39,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'twitter-typeahead-rails'
 
   s.add_development_dependency 'wallaby-cop'
-  s.add_development_dependency 'wallaby-her'
+  # s.add_development_dependency 'wallaby-her'
 end

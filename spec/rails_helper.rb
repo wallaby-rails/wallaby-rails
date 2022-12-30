@@ -21,7 +21,7 @@ require 'rspec/rails'
 require 'webmock/rspec'
 require 'cancancan'
 require 'pundit'
-require 'wallaby/her'
+# require 'wallaby/her'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

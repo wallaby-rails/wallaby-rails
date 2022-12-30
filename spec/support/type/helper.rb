@@ -14,6 +14,7 @@ RSpec.configure do |config|
 
   config.before :each, type: :helper do |example|
     view.extend Wallaby::ResourcesHelper
+    view.extend WallabyControllerHelper
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
 
