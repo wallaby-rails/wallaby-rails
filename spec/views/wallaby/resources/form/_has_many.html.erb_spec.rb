@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 field_name = 'order_items'
@@ -38,6 +39,7 @@ describe field_name, :wallaby_user do
           record.errors.add field_name, error_message
         end
       end
+
       let(:error_message) { 'something wrong' }
 
       it 'renders the errors' do

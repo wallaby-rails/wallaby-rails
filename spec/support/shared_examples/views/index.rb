@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.shared_examples 'index partial' do |field_name, options = {}|
   let(:partial) { "wallaby/resources/#{action}#{partial_name}.html.erb" }
   let(:page) { Nokogiri::HTML rendered }
@@ -11,7 +12,9 @@ RSpec.shared_examples 'index partial' do |field_name, options = {}|
   let(:model_class) { options[:model_class] || AllPostgresType }
   let(:expected_value) { (options[:expected_value] || value).to_s }
 
-  before { render partial, object: view.decorate(object), value: value, metadata: metadata }
+  before do
+    render partial, object: view.decorate(object), value: value, metadata: metadata
+  end
 
   unless options[:skip_general] || options[:skip_all]
     it 'renders the index partial' do
@@ -37,6 +40,7 @@ RSpec.shared_examples 'index partial' do |field_name, options = {}|
         else
           expect(rendered).to include h(value.to_s.truncate(options[:max_length]))
         end
+
         expect(rendered).to include "title=\"#{h value}\"" if options[:max_title]
       end
     end
@@ -65,7 +69,9 @@ RSpec.shared_examples 'index csv partial' do |field_name, options = {}|
   let(:model_class) { options[:model_class] || AllPostgresType }
   let(:expected_value) { (options[:expected_value] || value).to_s }
 
-  before { render partial, object: view.decorate(object), value: value, metadata: metadata }
+  before do
+    render partial, object: view.decorate(object), value: value, metadata: metadata
+  end
 
   unless options[:skip_general] || options[:skip_all]
     it 'renders the index csv partial' do

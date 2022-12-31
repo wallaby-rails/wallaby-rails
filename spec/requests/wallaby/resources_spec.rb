@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'general routes' do
@@ -215,7 +216,7 @@ describe 'Resources pages using postgresql table for Product model' do
       def self.model_class
         Product
       end
-      self.index_field_names = %i(id name tags)
+      self.index_field_names = %i[id name tags]
     end)
   end
 

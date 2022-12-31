@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 if Rails::VERSION::MAJOR >= 5
@@ -6,7 +7,7 @@ if Rails::VERSION::MAJOR >= 5
   describe field_name do
     it_behaves_like \
       "#{type} partial", field_name,
-      value: BigDecimal(42)**28,
+      value: BigDecimal('42')**28,
       type: 'number'
   end
 end

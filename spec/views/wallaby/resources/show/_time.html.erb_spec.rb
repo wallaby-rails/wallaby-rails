@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/time'
@@ -6,7 +7,9 @@ describe partial_name do
   let(:value)     { Time.new(2014, 2, 11, 23, 59, 59, '+00:00') }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the time' do
     expect(rendered).to eq "  23:59:59\n"

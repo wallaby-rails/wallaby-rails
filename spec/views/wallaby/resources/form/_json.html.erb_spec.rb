@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 field_name = field_name_from __FILE__
@@ -7,7 +8,7 @@ describe field_name do
     "#{type} partial", field_name,
     value: {
       'kind' => 'user_renamed',
-      'change' => %w(jack john)
+      'change' => %w[jack john]
     },
     expected_value: "\n{\n  \"kind\": \"user_renamed\",\n  \"change\": [\n    \"jack\",\n    \"john\"\n  ]\n}",
     input_selector: 'textarea',

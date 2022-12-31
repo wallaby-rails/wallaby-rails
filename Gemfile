@@ -28,7 +28,7 @@ gem 'cancancan'
 gem 'kaminari'
 gem 'pundit'
 gem 'rails', '~> 6.0.0'
-gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_theme.git', branch: 'main'
+gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_theme.git', branch: 'main' # rubocop:disable Cop/GemFetcher
 # gem 'simple_blog_theme', path: '../simple_blog_theme'
 gem 'will_paginate'
 

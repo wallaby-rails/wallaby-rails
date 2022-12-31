@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/jsonb'
@@ -7,7 +8,7 @@ describe partial_name do
   let(:value) do
     {
       'kind' => 'user_renamed',
-      'change' => %w(jack john)
+      'change' => %w[jack john]
     }.to_json
   end
 

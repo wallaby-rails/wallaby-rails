@@ -16,7 +16,9 @@ XML
   end
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the text' do
     expect(rendered).to include "<pre>#{h value}</pre>"

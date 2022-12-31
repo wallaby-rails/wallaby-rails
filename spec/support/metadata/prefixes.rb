@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.configure do |config|
   config.before(type: :helper) do |example|
     next unless example.metadata[:prefixes]

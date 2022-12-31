@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/bit_varying'
@@ -6,7 +7,9 @@ describe partial_name do
   let(:value)     { '1101' }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders bit_varying' do
     expect(rendered).to include "<code>#{value}</code>"

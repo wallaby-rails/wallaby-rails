@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 if Rails::VERSION::MAJOR >= 5
@@ -8,7 +9,9 @@ if Rails::VERSION::MAJOR >= 5
     let(:resource) { AllPostgresType.new polygon: '((1,2),(3,4))' }
     let(:metadata) { { label: 'Polygon' } }
 
-    before { render partial, value: value, metadata: metadata }
+    before do
+      render partial, value: value, metadata: metadata
+    end
 
     it 'renders the polygon' do
       expect(rendered).to include "<code>#{value}</code>"

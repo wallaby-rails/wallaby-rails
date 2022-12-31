@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.configure do |config|
   config.around :each, type: :view do |example|
     RequestStore.store[:wallaby_controller] = example.metadata[:wallaby_controller] || Wallaby::ResourcesController

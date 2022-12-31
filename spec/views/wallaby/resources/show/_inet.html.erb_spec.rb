@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/inet'
@@ -6,7 +7,9 @@ describe partial_name do
   let(:value)     { IPAddr.new '192.168.1.12' }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the inet' do
     expect(rendered).to include "<code>#{value}</code>"

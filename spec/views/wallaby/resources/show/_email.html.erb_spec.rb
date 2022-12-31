@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/email'
@@ -6,7 +7,9 @@ describe partial_name do
   let(:value)     { 'tian@reinteractive.net' }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the email' do
     expect(rendered).to include "mailto:#{value}"
