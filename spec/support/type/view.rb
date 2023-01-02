@@ -22,12 +22,12 @@ RSpec.configure do |config|
         @default_url_options ||= { only_path: true, host: 'www.example.com' }
       end
     end
+
     unless controller.respond_to? :current_user
       controller.instance_variable_set('@current_user', example.metadata[:current_user])
-      def controller.current_user
+      def controller.current_user # rubocop:disable Style/TrivialAccessors
         @current_user
       end
-    else
     end
   end
 
