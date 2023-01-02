@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/json'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:metadata)  { {} }
   let(:value) do
     {

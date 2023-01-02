@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/int8range'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { BigDecimal('10')**13..BigDecimal('9') * 10**14 }
   let(:metadata)  { {} }
 

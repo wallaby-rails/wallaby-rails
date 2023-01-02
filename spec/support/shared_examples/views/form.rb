@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 RSpec.shared_examples 'form partial' do |field_name, options = {}|
-  let(:partial) { "wallaby/resources/form/#{partial_name}.html.erb" }
+  let(:partial) { "wallaby/resources/form/#{partial_name}" }
   let(:page) { Nokogiri::HTML rendered }
   let(:form) { Wallaby::FormBuilder.new object.model_name.param_key, object, view, {} }
   let(:object) { model_class.new field_name => value }
@@ -17,7 +17,11 @@ RSpec.shared_examples 'form partial' do |field_name, options = {}|
 
   before do
     expect(view).to receive :content_for if content_for # rubocop:disable RSpec/ExpectInHook
-    render partial, form: form, object: object, field_name: field_name, value: value, metadata: metadata
+    render(
+      partial: partial,
+      locals: { form: form, object: object, field_name: field_name, value: value, metadata: metadata },
+      formats: [:html]
+    )
   end
 
   unless options[:skip_general] || options[:skip_all]

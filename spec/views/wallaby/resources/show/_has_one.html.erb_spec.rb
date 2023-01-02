@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/has_one'
 describe partial_name, :wallaby_user do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { Product.new id: 1, name: 'Hiking shoes' }
   let(:metadata)  { Hash class: Product }
 

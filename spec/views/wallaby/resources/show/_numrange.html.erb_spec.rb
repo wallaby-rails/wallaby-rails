@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/numrange'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { 1..100 }
   let(:metadata)  { {} }
 

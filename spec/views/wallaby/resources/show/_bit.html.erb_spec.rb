@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/bit'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { '1' }
   let(:metadata)  { {} }
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/blob'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { '010111' }
   let(:metadata)  { {} }
 

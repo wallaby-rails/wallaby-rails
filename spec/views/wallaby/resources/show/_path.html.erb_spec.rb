@@ -4,7 +4,7 @@ require 'rails_helper'
 if Rails::VERSION::MAJOR >= 5
   partial_name = 'show/path'
   describe partial_name do
-    let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+    let(:partial) { "wallaby/resources/#{partial_name}" }
     let(:value) { resource.path }
     let(:resource) { AllPostgresType.new path: '((1,2),(3,4))' }
     let(:metadata) { { label: 'Path' } }

@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/tsvector'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { "'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'" }
   let(:metadata)  { {} }
 

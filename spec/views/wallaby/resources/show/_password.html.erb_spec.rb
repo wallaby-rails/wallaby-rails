@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/password'
 describe partial_name do
-  let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial) { "wallaby/resources/#{partial_name}" }
   let(:value) { resource.password }
   let(:resource) { AllPostgresType.new password: 'password12356' }
   let(:metadata) { { label: 'Password' } }

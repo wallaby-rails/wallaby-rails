@@ -3,7 +3,7 @@ require 'rails_helper'
 
 partial_name = 'show/sti'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { 'Wallaby::ActiveRecord::ExampleClass' }
   let(:metadata)  { {} }
 
