@@ -20,7 +20,7 @@ RSpec.configure do |config|
 
   config.before :each, type: :helper do |example|
     view.extend Wallaby::ResourcesHelper
-    view.instance_variable_set('@wallaby_controller', example.metadata[:wallaby_controller] || Wallaby::ResourcesController)
+    view.instance_variable_set(:@wallaby_controller, example.metadata[:wallaby_controller] || Wallaby::ResourcesController)
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
     helper.extend HelperSupport
@@ -35,6 +35,6 @@ RSpec.configure do |config|
   end
 
   config.after :each, type: :helper do |_example|
-    view.instance_variable_get('@wallaby_controller').clear
+    view.instance_variable_get(:@wallaby_controller).clear
   end
 end
