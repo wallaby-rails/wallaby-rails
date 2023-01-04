@@ -1,13 +1,14 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/jsonb'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:metadata)  { {} }
   let(:value) do
     {
       'kind' => 'user_renamed',
-      'change' => %w(jack john)
+      'change' => %w[jack john]
     }.to_json
   end
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 type = type_from __FILE__

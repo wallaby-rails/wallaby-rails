@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 if Rails::VERSION::MAJOR == 4
   def file_fixture(fixture_name)
     file_fixture_path = 'spec/fixtures/files'

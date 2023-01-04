@@ -2,7 +2,7 @@ require 'rails_helper'
 
 partial_name = 'show/xml'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     do
 <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -16,7 +16,9 @@ XML
   end
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the text' do
     expect(rendered).to include "<pre>#{h value}</pre>"

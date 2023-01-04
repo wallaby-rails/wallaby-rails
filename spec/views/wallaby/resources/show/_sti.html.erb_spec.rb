@@ -1,12 +1,15 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/sti'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { 'Wallaby::ActiveRecord::ExampleClass' }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the sti' do
     expect(rendered).to include value

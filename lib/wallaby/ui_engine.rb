@@ -16,7 +16,7 @@ module Wallaby
 
     initializer 'wallaby.assets.precompile' do |_|
       config.assets.precompile +=
-        %w(
+        %w[
           wallaby/application.js
           wallaby/application.css
           wallaby/bad_request.png
@@ -26,7 +26,7 @@ module Wallaby
           wallaby/not_implemented.png
           wallaby/unauthorized.png
           wallaby/unprocessable_entity.png
-        )
+        ]
     end
   end
 end

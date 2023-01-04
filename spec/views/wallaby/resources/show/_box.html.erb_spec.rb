@@ -1,14 +1,17 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 if Rails::VERSION::MAJOR >= 5
   partial_name = 'show/box'
   describe partial_name do
-    let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+    let(:partial) { "wallaby/resources/#{partial_name}" }
     let(:value) { resource.box }
     let(:resource) { AllPostgresType.new box: '(1,2),(3,4)' }
     let(:metadata) { { label: 'Box' } }
 
-    before { render partial, value: value, metadata: metadata }
+    before do
+      render partial, value: value, metadata: metadata
+    end
 
     it 'renders the box' do
       expect(rendered).to include "<code>#{value}</code>"

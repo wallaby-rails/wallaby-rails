@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 module Auth
   def cancancan_context(ability)
-    OpenStruct.new current_ability: ability
+    instance_double('Context', current_ability: ability)
   end
 
   def cancancan_authorzier(ability, model_class)

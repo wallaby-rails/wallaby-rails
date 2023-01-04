@@ -1,19 +1,22 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/unsigned_decimal'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
-  let(:value)     { BigDecimal(42)**13 / 10**20 }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
+  let(:value)     { BigDecimal('42')**13 / 10**20 }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the unsigned_decimal' do
     expect(rendered).to include value.to_s
   end
 
   context 'when value is 0' do
-    let(:value) { BigDecimal(0) }
+    let(:value) { BigDecimal('0') }
 
     it 'renders the unsigned_decimal' do
       expect(rendered).to include value.to_s

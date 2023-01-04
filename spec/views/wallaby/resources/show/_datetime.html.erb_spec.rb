@@ -1,12 +1,15 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/datetime'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { Time.new(2014, 2, 11, 23, 59, 59, '+00:00') }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the datetime' do
     expect(rendered).to include 'Tue, 11 Feb 2014 23:59:59 +0000'

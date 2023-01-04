@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -29,14 +30,14 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
     [AllMysqlType, AllSqliteType].each do |model_klass|
-      DatabaseCleaner[:active_record, model: model_klass].clean_with :truncation
+      DatabaseCleaner[:active_record, db: model_klass].clean_with :truncation
     end
   end
 
   config.before do
     DatabaseCleaner.strategy = :transaction
     [AllMysqlType, AllSqliteType].each do |model_klass|
-      DatabaseCleaner[:active_record, model: model_klass].strategy = :transaction
+      DatabaseCleaner[:active_record, db: model_klass].strategy = :transaction
     end
   end
 
@@ -58,14 +59,14 @@ RSpec.configure do |config|
   config.before do
     DatabaseCleaner.start
     [AllMysqlType, AllSqliteType].each do |model_klass|
-      DatabaseCleaner[:active_record, model: model_klass].start
+      DatabaseCleaner[:active_record, db: model_klass].start
     end
   end
 
   config.after do
     DatabaseCleaner.clean
     [AllMysqlType, AllSqliteType].each do |model_klass|
-      DatabaseCleaner[:active_record, model: model_klass].clean
+      DatabaseCleaner[:active_record, db: model_klass].clean
     end
   end
 end

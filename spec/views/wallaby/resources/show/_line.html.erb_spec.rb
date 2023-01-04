@@ -1,14 +1,17 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 if Rails::VERSION::MAJOR >= 5
   partial_name = 'show/line'
   describe partial_name do
-    let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+    let(:partial) { "wallaby/resources/#{partial_name}" }
     let(:value) { resource.line }
     let(:resource) { AllPostgresType.new line: '{1,2,5}' }
     let(:metadata) { { label: 'Line' } }
 
-    before { render partial, value: value, metadata: metadata }
+    before do
+      render partial, value: value, metadata: metadata
+    end
 
     it 'renders the line' do
       expect(rendered).to include "<code>#{value}</code>"

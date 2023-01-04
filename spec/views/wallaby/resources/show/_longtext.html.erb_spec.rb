@@ -1,12 +1,15 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/longtext'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { '<b>this is a text for more than 20 characters</b>' }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the longtext' do
     expect(rendered).to include h(value)

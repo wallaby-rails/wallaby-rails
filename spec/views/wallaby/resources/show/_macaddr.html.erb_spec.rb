@@ -1,12 +1,15 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/macaddr'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     { '32:01:16:6d:05:ef' }
   let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the macaddr' do
     expect(rendered).to include '<code>32:01:16:6d:05:ef</code>'

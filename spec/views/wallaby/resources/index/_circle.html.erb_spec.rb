@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 field_name = Rails::VERSION::MAJOR >= 5 ? field_name_from(__FILE__) : 'string'

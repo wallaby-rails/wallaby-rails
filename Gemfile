@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.1'
+ruby '2.7.5'
 
 # Declare your gem's dependencies in wallaby.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -16,7 +16,7 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-# gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
+# gem 'rails', git: 'https://github.com/rails/rails', branch: 'main'
 gem 'wallaby-cop', path: '../wallaby-cop'
 gem 'wallaby-core', path: '../wallaby-core'
 gem 'wallaby-view', path: '../wallaby-view'
@@ -28,11 +28,11 @@ gem 'cancancan'
 gem 'kaminari'
 gem 'pundit'
 gem 'rails', '~> 6.0.0'
-# gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_theme.git', branch: 'master'
-gem 'simple_blog_theme', path: '../simple_blog_theme'
+gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_theme.git', branch: 'main' # rubocop:disable Cop/GemFetcher
+# gem 'simple_blog_theme', path: '../simple_blog_theme'
 gem 'will_paginate'
 
-# gem 'font-awesome-sass', '< 5.0'
+gem 'font-awesome-sass', '< 5.0'
 
 group :development, :test do
   gem 'binding_of_caller'
@@ -43,6 +43,7 @@ group :development, :test do
   # gem 'pg', '~> 0.15'
   gem 'pg'
   gem 'pry-rails'
+  gem 'request_store'
   gem 'rspec-rails', '4.0.0.beta3'
   gem 'sqlite3'
   # gem 'sqlite3', '< 1.4.0'
@@ -59,7 +60,7 @@ end
 
 # @see https://github.com/sass/sassc-ruby/issues/146
 # TODO: remove this line when it's resolved
-gem 'sassc', '< 2.2.0'
+# gem 'sassc', '< 2.2.0'
 
 group :test do
   gem 'database_cleaner'

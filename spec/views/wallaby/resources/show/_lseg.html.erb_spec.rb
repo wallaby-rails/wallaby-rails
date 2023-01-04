@@ -1,14 +1,17 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 if Rails::VERSION::MAJOR >= 5
   partial_name = 'show/lseg'
   describe partial_name do
-    let(:partial) { "wallaby/resources/#{partial_name}.html.erb" }
+    let(:partial) { "wallaby/resources/#{partial_name}" }
     let(:value) { resource.lseg }
     let(:resource) { AllPostgresType.new lseg: '[(1,2),(3,4)]' }
     let(:metadata) { { label: 'Lseg' } }
 
-    before { render partial, value: value, metadata: metadata }
+    before do
+      render partial, value: value, metadata: metadata
+    end
 
     it 'renders the lseg' do
       expect(rendered).to include "<code>#{value}</code>"

@@ -29,14 +29,19 @@ sqlite: &sqlite
   database: db/<%= Rails.env %>.sqlite3
 
 mysql: &mysql
+  host: 127.0.0.1
+  port: 3306
   adapter: mysql2
   username: root
-  password:
+  password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
   database: <%= Rails.root.basename.to_s %>_<%= Rails.env %>
 
 postgresql: &postgresql
+  host: 127.0.0.1
   adapter: postgresql
   database: <%= Rails.root.basename.to_s %>_<%= Rails.env %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
   min_messages: ERROR
 
 defaults: &defaults

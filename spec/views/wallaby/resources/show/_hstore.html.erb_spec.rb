@@ -1,16 +1,20 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 partial_name = 'show/hstore'
 describe partial_name do
-  let(:partial)   { "wallaby/resources/#{partial_name}.html.erb" }
+  let(:partial)   { "wallaby/resources/#{partial_name}" }
   let(:value)     do
     {
       'key' => 'very long long text'
     }
   end
-  let(:metadata)  { {} }
 
-  before { render partial, value: value, metadata: metadata }
+  let(:metadata) { {} }
+
+  before do
+    render partial, value: value, metadata: metadata
+  end
 
   it 'renders the hstore' do
     expect(rendered).to include "<pre>#{h value}</pre>"

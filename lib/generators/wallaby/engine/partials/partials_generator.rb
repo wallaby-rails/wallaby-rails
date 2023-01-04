@@ -10,10 +10,10 @@ module Wallaby
       # @see https://github.com/wallaby-rails/wallaby/blob/master/lib/generators/wallaby/engine/partials/USAGE
       def install
         destination_prefix = "app/views/#{file_name}/application"
-        %w(
+        %w[
           _footer _frontend _logo _navs _title _user_menu
           _index_actions _index_filters _index_pagination _index_query _resource_navs
-        ).each do |name|
+        ].each do |name|
           copy_file(
             "#{source_paths.first}/app/views/wallaby/resources/#{name}.html.erb",
             "#{destination_prefix}/#{name}.html.erb"
