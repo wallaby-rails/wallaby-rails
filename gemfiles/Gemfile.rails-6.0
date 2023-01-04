@@ -30,10 +30,6 @@ gem 'pg'
 gem 'pundit'
 gem 'sqlite3'
 
-# @see https://github.com/sass/sassc-ruby/issues/146
-# TODO: remove this line when it's resolved
-gem 'sassc', '< 2.2.0'
-
 # @see https://stackoverflow.com/a/71192990
 gem 'psych', '< 4'
 
