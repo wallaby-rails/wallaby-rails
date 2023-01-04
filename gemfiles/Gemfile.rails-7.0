@@ -25,7 +25,6 @@ gem 'rails', '~> 7.0.0'
 
 gem 'cancancan'
 gem 'devise'
-gem 'kaminari'
 gem 'mysql2'
 gem 'pg'
 gem 'pundit'
@@ -41,8 +40,6 @@ gem 'net-pop', require: false
 
 group :test do
   gem 'database_cleaner'
-  gem 'ffaker'
-  gem 'generator_spec'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'simplecov'
