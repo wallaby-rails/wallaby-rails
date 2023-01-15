@@ -1,0 +1,15 @@
+import './globals';
+import 'jquery-ujs';
+import 'moment-timezone';
+import 'popper.js';
+import 'bootstrap';
+import 'tempusdominus-bootstrap-4';
+import 'summernote/dist/summernote-bs4';
+import 'codemirror/addon/mode/overlay';
+import 'codemirror/mode/ruby/ruby';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/markdown/markdown';
+import 'codemirror/mode/gfm/gfm';
+import 'codemirror/mode/xml/xml';
+import 'typeahead.js/dist/typeahead.bundle';
+import 'jquery-minicolors';

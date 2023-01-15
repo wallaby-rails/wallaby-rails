@@ -3,15 +3,17 @@
 (function (jQuery) {
   'use strict';
 
-  window.readyPrefix = function readyPrefix(namespace) {
+  window.documentReady = function documentReady(namespace, handler) {
     if (typeof Turbolinks === "object") {
-      return "turbolinks:load" + namespace;
+      const turbolinksReady = "turbolinks:load" + namespace
+      return jQuery(document).off(turbolinksReady).on(handler);
     } else {
-      return "ready" + namespace;
+      return jQuery(handler);
     }
   }
 
-  jQuery(document).off(readyPrefix('.wallaby')).on(readyPrefix('.wallaby'), function () {
+  documentReady('.wallaby', function () {
+    console.log('ready here')
     // for tooltip
     jQuery('[data-toggle="tooltip"]').tooltip({ container: 'body' })
 
@@ -69,4 +71,4 @@
       CodeMirror.defaults.lineNumbers = true;
     }
   })
-})(jQuery);
+})(window.jQuery);
