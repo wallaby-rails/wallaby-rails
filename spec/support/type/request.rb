@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module RequestSupport
   def http(verb, url, hash = {})
     if Rails::VERSION::MAJOR == 4

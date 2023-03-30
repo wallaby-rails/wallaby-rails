@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 partial_name = 'show/decimal'
 describe partial_name do
   let(:partial)   { "wallaby/resources/#{partial_name}" }
-  let(:value)     { BigDecimal('42')**13 / 10**20 }
+  let(:value)     { (BigDecimal('42')**13) / (10**20) }
   let(:metadata)  { {} }
 
   before do

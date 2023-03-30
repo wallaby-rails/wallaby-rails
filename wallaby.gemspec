@@ -29,7 +29,8 @@ Gem::Specification.new do |s|
   # assets gems
   s.add_dependency 'jbuilder'
   s.add_dependency 'sass-rails'
+  s.add_dependency 'sprockets-rails'
 
-  s.add_development_dependency 'wallaby-cop'
   s.add_development_dependency 'foreman'
+  s.add_development_dependency 'wallaby-cop'
 end

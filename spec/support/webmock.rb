@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module WebmockHelpers
   def parse_params_for(request)
     Rack::Utils.parse_nested_query request.uri.query
