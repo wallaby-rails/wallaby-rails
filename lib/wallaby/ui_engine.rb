@@ -27,6 +27,7 @@ module Wallaby
           wallaby/unauthorized.png
           wallaby/unprocessable_entity.png
         ]
+      config.assets.paths << config.root.join("app", "assets", "fonts")
     end
   end
 end

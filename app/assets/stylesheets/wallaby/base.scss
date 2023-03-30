@@ -1,17 +1,11 @@
 
 // NOTE: "bootstrap-sprockets" must be imported
 // before "bootstrap" and "bootstrap/variables"
+@import 'core';
 @import 'base/vars';
-@import 'bootstrap';
-@import "font-awesome-sprockets";
-@import "font-awesome";
-@import 'tempusdominus-bootstrap-4';
-@import 'jquery.minicolors';
-@import "summernote-bs4";
-@import 'codemirror/5.49.2/lib/codemirror';
-@import 'codemirror/5.49.2/theme/mdn-like';
 @import 'base/functions';
 @import 'base/mixins';
+@import 'base/fonts';
 @import 'base/layout';
 @import 'components/text';
 @import 'components/links';

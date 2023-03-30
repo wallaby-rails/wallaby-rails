@@ -27,17 +27,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'wallaby-active_record', '0.3.0'
 
   # assets gems
-  s.add_dependency 'bootstrap'
-  s.add_dependency 'bootstrap4-datetime-picker-rails'
-  s.add_dependency 'font-awesome-sass', '< 5.0.0'
   s.add_dependency 'jbuilder'
-  s.add_dependency 'jquery-minicolors-rails'
-  s.add_dependency 'jquery-rails'
-  s.add_dependency 'momentjs-rails'
   s.add_dependency 'sass-rails'
-  s.add_dependency 'summernote-rails'
-  s.add_dependency 'twitter-typeahead-rails'
 
   s.add_development_dependency 'wallaby-cop'
-  s.add_development_dependency 'jsbundling-rails'
+  s.add_development_dependency 'foreman'
 end

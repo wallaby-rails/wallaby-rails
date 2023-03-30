@@ -1,4 +1,5 @@
 # folders
+/.sass-cache/
 /.bundle/
 /.yardoc/
 /_yardoc/
@@ -24,3 +25,4 @@ Gemfile.lock
 *.sqlite3
 *.sqlite3-journal
 yarn-error.log
+app/assets/javascripts/wallaby/core.js.map

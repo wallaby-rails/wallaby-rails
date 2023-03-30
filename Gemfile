@@ -32,8 +32,6 @@ gem 'simple_blog_theme', git: 'https://github.com/wallaby-rails/simple_blog_them
 # gem 'simple_blog_theme', path: '../simple_blog_theme'
 gem 'will_paginate'
 
-gem 'font-awesome-sass', '< 5.0'
-
 group :development, :test do
   gem 'binding_of_caller'
   gem 'byebug'
