@@ -1,4 +1,5 @@
 # folders
+/.sass-cache/
 /.bundle/
 /.yardoc/
 /_yardoc/
@@ -13,6 +14,7 @@ log/
 coverage/
 deep_cover/
 storage/
+node_modules/
 
 # files
 cc-test-reporter
@@ -22,3 +24,5 @@ Gemfile.lock
 *.gem
 *.sqlite3
 *.sqlite3-journal
+yarn-error.log
+app/assets/javascripts/wallaby/core.js.map

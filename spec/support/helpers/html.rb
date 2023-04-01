@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Html
   def h(str)
     ERB::Util.h str

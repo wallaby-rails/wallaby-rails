@@ -18,7 +18,7 @@ The following params are the variables that can be used in this partial.
   <% @summernote_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(document).off(readyPrefix('.summernote')).on(readyPrefix('.summernote'), function () {
+      documentReady('.summernote', function () {
         $('textarea[data-init="summernote"]').summernote({
           height: 150,
           codemirror: { // codemirror options

@@ -1,0 +1,29 @@
+{
+  "name": "app",
+  "private": "true",
+  "scripts": {
+    "build:js": "CORE_JS_OUTPUT_DIR=app/assets/javascripts/wallaby yarn build:js-bundle",
+    "build:js-bundle": "esbuild app/javascript/wallaby/core.js --outdir=$CORE_JS_OUTPUT_DIR --bundle --sourcemap --public-path=assets",
+    "build:font": "cp -rp node_modules/font-awesome/fonts/* node_modules/summernote/dist/font/* app/assets/fonts",
+    "build:scss": "CORE_SCSS_OUTPUT_PATH=app/assets/stylesheets/wallaby/core.scss yarn build:scss-bundle",
+    "build:scss-bundle": "scss-bundle -o $CORE_SCSS_OUTPUT_PATH -e app/stylesheets/wallaby/core.scss --includePaths node_modules"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.2",
+    "codemirror": "^5.49.2",
+    "font-awesome": "^4.7.0",
+    "jquery-minicolors": "^2.1.10",
+    "jquery-ujs": "^1.2.3",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.40",
+    "popper.js": "^1.16.1",
+    "summernote": "^0.8.20",
+    "tempusdominus-bootstrap-4": "^5.1.2",
+    "typeahead.js": "^0.11.1"
+  },
+  "devDependencies": {
+    "bundle-scss": "^1.5.1",
+    "esbuild": "^0.16.15",
+    "scss-bundle": "^3.1.2"
+  }
+}

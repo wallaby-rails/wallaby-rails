@@ -35,7 +35,7 @@ The following params are the variables that can be used in this partial.
   <% @datepicker_init = true %>
   <% content_for :custom_javascript do %>
     <% javascript_tag do %>
-      jQuery(document).off(readyPrefix('.daterange')).on(readyPrefix('.daterange'), function () {
+      documentReady('.daterange', function () {
         $('[data-init="datepicker"]').each(function() {
           var $input = $('input', this),
             val = ($input.attr('value') || '').split(' ').slice(0,1).join(' ');

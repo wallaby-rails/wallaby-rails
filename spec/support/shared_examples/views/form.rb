@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.shared_examples 'form partial' do |field_name, options = {}|
   let(:partial) { "wallaby/resources/form/#{partial_name}" }
   let(:page) { Nokogiri::HTML rendered }

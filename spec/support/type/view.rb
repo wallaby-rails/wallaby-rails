@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.configure do |config|
   config.around :each, type: :view do |example|
     config.mock_with :rspec do |mocks|

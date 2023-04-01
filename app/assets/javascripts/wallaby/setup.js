@@ -11,7 +11,17 @@
     }
   }
 
-  jQuery(document).off(readyPrefix('.wallaby')).on(readyPrefix('.wallaby'), function () {
+  window.documentReady = function documentReady(namespace, handler) {
+    if (typeof Turbolinks === "object") {
+      const turbolinksReady = "turbolinks:load" + namespace
+      return jQuery(document).off(turbolinksReady).on(handler);
+    } else {
+      return jQuery(handler);
+    }
+  }
+
+  documentReady('.wallaby', function () {
+    console.log('ready here')
     // for tooltip
     jQuery('[data-toggle="tooltip"]').tooltip({ container: 'body' })
 
@@ -69,4 +79,4 @@
       CodeMirror.defaults.lineNumbers = true;
     }
   })
-})(jQuery);
+})(window.jQuery);

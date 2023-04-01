@@ -3,32 +3,16 @@
   @return unquote("\"#{ $fa-var }\"");
 }
 
-@if variable-exists(fa-var-pencil) {
-  // FontAwesome 4
-  $fa-var-map: (
-    pencil-alt: $fa-var-pencil,
-    times: $fa-var-remove,
-    sort-up: $fa-var-sort-asc,
-    sort-down: $fa-var-sort-desc,
-  ) !global;
-  $fa-class-map: (
-    pencil-alt: "fa-pencil",
-    times: "fa-remove",
-    sort-up: "fa-sort-asc",
-    sort-down: "fa-sort-desc",
-  ) !global;
-} @else {
-  // FontAwesome 5
-  $fa-var-map: (
-    pencil-alt: $fa-var-pencil-alt,
-    times: $fa-var-times,
-    sort-up: $fa-var-sort-up,
-    sort-down: $fa-var-sort-down,
-  ) !global;
-  $fa-class-map: (
-    pencil-alt: "fa-pencil-alt",
-    times: "fa-times",
-    sort-up: "fa-sort-up",
-    sort-down: "fa-sort-down",
-  ) !global;
-}
+// FontAwesome 4
+$fa-var-map: (
+  pencil-alt: $fa-var-pencil,
+  times: $fa-var-remove,
+  sort-up: $fa-var-sort-asc,
+  sort-down: $fa-var-sort-desc,
+) !global;
+$fa-class-map: (
+  pencil-alt: "fa-pencil",
+  times: "fa-remove",
+  sort-up: "fa-sort-asc",
+  sort-down: "fa-sort-desc",
+) !global;

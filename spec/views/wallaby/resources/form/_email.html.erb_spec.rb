@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 partial_name = 'email'
@@ -10,6 +11,5 @@ describe field_name do
     value: 'tian@reinteractive.net',
     type: 'email',
     partial_name: partial_name,
-    input_selector: 'input.form-control' do
-  end
+    input_selector: 'input.form-control'
 end

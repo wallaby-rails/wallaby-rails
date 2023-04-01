@@ -52,7 +52,7 @@ unless @has_and_belongs_to_many_init
   @has_and_belongs_to_many_init = true
   content_for :custom_javascript do
     javascript_tag do %>
-      jQuery(document).off(readyPrefix('.has_and_belongs_to_many')).on(readyPrefix('.has_and_belongs_to_many'), function () {
+      documentReady('.has_and_belongs_to_many', function () {
         $('[data-init="has_and_belongs_to_many"]').auto_select();
       });
 <%  end

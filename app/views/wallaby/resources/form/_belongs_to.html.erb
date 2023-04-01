@@ -63,7 +63,7 @@ unless @belongs_to_init
   @belongs_to_init = true
   content_for :custom_javascript do
     javascript_tag do %>
-      jQuery(document).off(readyPrefix('.belongs_to')).on(readyPrefix('.belongs_to'), function () {
+      documentReady('.belongs_to', function () {
         jQuery('[data-init="belongs_to"]').each(function () {
           var $container = jQuery(this);
           var $select = $container.find('select');

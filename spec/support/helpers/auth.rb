@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Auth
   def cancancan_context(ability)
     instance_double('Context', current_ability: ability)
