@@ -59,6 +59,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -67,12 +69,13 @@ jobs:
           bundler-cache: true
 
       - name: Rubocop Check
-        run: bundle exec rubocop
+        if: ${{ github.event_name == 'pull_request' }}
+        run: git diff --name-only ${{ github.event.pull_request.base.sha }} --diff-filter AMT | xargs bundle exec rubocop --force-exclusion
 
       - name: Rspec
         run: |
-          if [ "$GITHUB_REF_NAME" = "main" ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi
-          if [ "$GITHUB_REF_NAME" = "main" ]; then chmod +x ./cc-test-reporter; fi
-          if [ "$GITHUB_REF_NAME" = "main" ]; then ./cc-test-reporter before-build; fi
+          if [ "$GITHUB_BASE_REF" = "main" ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi
+          if [ "$GITHUB_BASE_REF" = "main" ]; then chmod +x ./cc-test-reporter; fi
+          if [ "$GITHUB_BASE_REF" = "main" ]; then ./cc-test-reporter before-build; fi
           bundle exec rake --trace db:test:prepare spec
-          if [ "$GITHUB_REF_NAME" = "main" ]; then ./cc-test-reporter after-build -r ${{ env.CC_TEST_REPORTER_ID }}; fi
+          if [ "$GITHUB_BASE_REF" = "main" ]; then ./cc-test-reporter after-build -r ${{ env.CC_TEST_REPORTER_ID }}; fi
