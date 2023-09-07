@@ -7,7 +7,7 @@ describe 'Error pages' do
     get '/admin/unknown_model'
     expect(response).to have_http_status :not_found
     expect(response).to render_template :error
-    expect(response.body).to include 'Model unknown_model cannot be found.'
+    expect(response.body).to include 'Model UnknownModel cannot be found.'
   end
 
   it 'shows not found page for array' do
