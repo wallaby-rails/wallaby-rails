@@ -1,0 +1,10 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<%= if value.nil?
+  null
+else
+  "%.#{ metadata[:precision] || 2 }f%%" %
+    (value.to_f * (metadata[:is_percent] ? 1 : 100))
+end %>

@@ -34,12 +34,12 @@ mysql: &mysql
   adapter: mysql2
   username: root
   password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
-  database: <%= Rails.root.basename.to_s %>_<%= Rails.env %>
+  database: wallaby_<%= Rails.root.basename.to_s %>_<%= Rails.env %>
 
 postgresql: &postgresql
   host: 127.0.0.1
   adapter: postgresql
-  database: <%= Rails.root.basename.to_s %>_<%= Rails.env %>
+  database: wallaby_<%= Rails.root.basename.to_s %>_<%= Rails.env %>
   username: <%= ENV['POSTGRES_USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   min_messages: ERROR
