@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "people", force: :cascade do |t|
     t.string "type"
+    t.integer "picture_id"
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -138,6 +139,7 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "products", force: :cascade do |t|
     t.integer "category_id"
+    t.integer "picture_id"
     t.string "sku"
     t.string "name"
     t.text "description"

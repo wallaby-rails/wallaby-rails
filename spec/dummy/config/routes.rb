@@ -10,9 +10,10 @@ Rails.application.routes.draw do
   mount Wallaby::Engine, at: '/admin_else', as: :manager_engine
   mount Wallaby::Engine, at: '/before_engine', as: :before_engine
   wallaby_mount at: '/admin' do
-    resources :categories, module: :admin do
-      get :member_edit
-      put :member_update
+    resources :categories do
+      get :member_edit, on: :member
+      put :member_update, on: :member
+      get :collection_list, on: :collection
     end
   end
   mount Wallaby::Engine, at: '/after_engine', as: :after_engine

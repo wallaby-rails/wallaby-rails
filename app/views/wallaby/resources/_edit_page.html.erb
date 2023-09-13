@@ -11,7 +11,7 @@ decorated = decorate resource
   <section>
     <div class="resource__container">
       <%= form_for decorated,
-        url: url_for(action: :member_update), method: :put,
+        url: url_for(action: :show), method: :put,
         html: { :multipart => true } do |form| %>
         <%= render 'form', form: form, decorated: decorated %>
       <% end %>

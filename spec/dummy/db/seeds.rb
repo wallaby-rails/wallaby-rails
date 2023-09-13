@@ -96,7 +96,7 @@ end
   picture = Picture.new
   picture.name = FFaker::Name.name
   picture.imageable = [Product, Category].sample.all.sample
-  picture.file.attach(io: open('https://picsum.photos/100'), filename: "#{FFaker::Name.name}.jpg")
+  picture.file.attach(io: URI.open('https://picsum.photos/100'), filename: "#{FFaker::Name.name}.jpg")
   picture.save
 end
 
@@ -106,7 +106,7 @@ end
   blog.subject = FFaker::Lorem.sentence
   blog.summary = FFaker::Lorem.paragraph
   blog.body = FFaker::Lorem.paragraph(rand 100)
-  blog.image.attach(io: open('https://picsum.photos/100'), filename: "#{FFaker::Name.name}.jpg")
+  blog.image.attach(io: URI.open('https://picsum.photos/100'), filename: "#{FFaker::Name.name}.jpg")
   blog.published_at = Time.zone.now - rand(100).days
   blog.save
 end
