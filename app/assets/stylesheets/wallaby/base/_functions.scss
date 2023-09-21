@@ -1,3 +1,5 @@
+$fa-class-map: null;
+
 @function fa-content($fa-var) {
   // Make sure FA value is wrapped in quotes
   @return unquote("\"#{ $fa-var }\"");
