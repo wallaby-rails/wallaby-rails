@@ -16,7 +16,7 @@ gemspec path: '../'
 target_branch = !ENV['GITHUB_BASE_REF']&.empty? && ENV['GITHUB_BASE_REF']
 target_branch ||= !ENV['GITHUB_REF_NAME']&.empty? && ENV['GITHUB_REF_NAME']
 
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.1.0'
 gem 'wallaby-core', git: 'https://github.com/wallaby-rails/wallaby-core.git', branch: target_branch
 gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: target_branch
 gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'main'
@@ -28,6 +28,9 @@ gem 'mysql2'
 gem 'pg'
 gem 'pundit'
 gem 'sqlite3'
+
+# @see https://stackoverflow.com/a/71192990
+gem 'psych', '< 4'
 
 group :test do
   gem 'database_cleaner'

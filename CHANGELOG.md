@@ -16,9 +16,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Data audit (use papertrail) (maybe..)
 - Batch data action (maybe..)
 
+## [7.0.0.beta2](https://github.com/wallaby-rails/wallaby-core/releases/tag/7.0.0.beta2) -
+
+## [7.0.0.beta1](https://github.com/wallaby-rails/wallaby-core/releases/tag/7.0.0.beta1) - 2023-09-22
+
+- chore: update keyword syntax to support Ruby 3.0 ([#210](https://github.com/wallaby-rails/wallaby/pull/210))
+- feat: extract pages into templates for better overwriting ([#209](https://github.com/wallaby-rails/wallaby/pull/209))
+- chore: pdate rubocop to run on changed files ([#207](https://github.com/wallaby-rails/wallaby/pull/207))
+- feat: use esbuild and scss-bundle to bundle js and scss ([#206](https://github.com/wallaby-rails/wallaby/pull/206))
+- chore: setup github action ([#205](https://github.com/wallaby-rails/wallaby/pull/205))
+- chore: change wallaby:install to call wallaby:engine:install and implement wallaby:engine:partials ([#196](https://github.com/wallaby-rails/wallaby/pull/196))
+- chore: remove type_renderer and update activestorage partial ([#195](https://github.com/wallaby-rails/wallaby/pull/195))
+- chore: use max_text_length helper method ([#194](https://github.com/wallaby-rails/wallaby/pull/194))
+- chore: detect turbolinks instead of configuration ([#193](https://github.com/wallaby-rails/wallaby/pull/193))
+- chore: upgrade to latest wallaby-core & wallaby-active_record ([#192](https://github.com/wallaby-rails/wallaby/pull/192))
+
 ## [6.1.3](https://github.com/wallaby-rails/wallaby-core/releases/tag/6.1.3) - 2020-04-19
 
-- chore: bump to use wallaby-active_record 0.2.6 ([#186](https://github.com/wallaby-rails/wallaby/pull/186))
+- chore: bump to use wallaby-active_record 0.2.6 ([#188](https://github.com/wallaby-rails/wallaby/pull/188))
 
 ## [6.1.2](https://github.com/wallaby-rails/wallaby-core/releases/tag/6.1.2) - 2020-04-12
 
