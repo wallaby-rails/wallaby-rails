@@ -1,0 +1,37 @@
+inherit_gem:
+  gitlab-styles:
+    - rubocop-default.yml
+
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+CodeReuse/ActiveRecord:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+
+# Since Rails 6.0
+Rails/IndexWith:
+  Enabled: false
+
+# Since Rails 5.0
+Rails/Pluck:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'

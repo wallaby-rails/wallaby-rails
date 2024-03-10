@@ -1,0 +1,20 @@
+Description:
+    Generate authorizer for Wallaby Engine usage by given NAME.
+    It also takes the PARENT name and makes the generated authorizer inherit from the PARENT.
+
+    For example, if 'apple' is provided as the NAME, this generator will carry out the following items:
+    - Generate AppleAuthorizer that inherits from Wallaby Engine's application authorizer.
+
+Example:
+    rails generate wallaby:engine:authorizer admin/user
+
+    This will create:
+    - app/authorizers/admin/user_authorizer.rb
+
+Example:
+    rails generate wallaby:engine:authorizer admin/user admin/application
+
+    This will create:
+    - app/authorizers/admin/user_authorizer.rb
+
+    And it makes Admin::UserAuthorizer class inherit from Admin::ApplicationAuthorizer

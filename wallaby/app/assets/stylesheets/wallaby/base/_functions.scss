@@ -1,0 +1,20 @@
+$fa-class-map: null;
+
+@function fa-content($fa-var) {
+  // Make sure FA value is wrapped in quotes
+  @return unquote("\"#{ $fa-var }\"");
+}
+
+// FontAwesome 4
+$fa-var-map: (
+  pencil-alt: $fa-var-pencil,
+  times: $fa-var-remove,
+  sort-up: $fa-var-sort-asc,
+  sort-down: $fa-var-sort-desc,
+) !global;
+$fa-class-map: (
+  pencil-alt: "fa-pencil",
+  times: "fa-remove",
+  sort-up: "fa-sort-asc",
+  sort-down: "fa-sort-desc",
+) !global;

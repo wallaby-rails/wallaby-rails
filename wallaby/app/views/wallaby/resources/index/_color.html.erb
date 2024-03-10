@@ -1,0 +1,10 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<%= if value.nil?
+  null
+else
+  concat content_tag(:span, nil, style: "background-color: #{value};", class: 'color-square')
+  content_tag(:span, value, class: 'text-uppercase')
+end %>

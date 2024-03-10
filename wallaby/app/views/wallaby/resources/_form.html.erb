@@ -1,0 +1,18 @@
+<% decorated.errors[:base].try do |messages| %>
+  <% Array(messages).each do |message| %>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <%= raw message %>
+    </div>
+  <% end %>
+<% end %>
+<% decorated.form_field_names.each do |field_name| %>
+  <%= render decorated.form_type_of(field_name),
+    form: form,
+    object: decorated,
+    field_name: field_name,
+    value: decorated.try(field_name),
+    metadata: decorated.form_metadata_of(field_name)
+  %>
+<% end %>
+<%= form.button wt('buttons.save'), class: 'btn btn-primary' %>
+<%= cancel_link html_options: { class: 'btn btn-default' } %>

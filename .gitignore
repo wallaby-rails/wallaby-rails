@@ -1,0 +1,27 @@
+# folders
+.bundle/
+.yardoc/
+.sass-cache/
+_yardoc/
+coverage/
+doc/
+pkg/
+spec/reports/
+doc/
+tmp/
+log/
+deep_cover/
+storage/
+node_modules/
+
+# files
+cc-test-reporter
+.rspec_status
+.byebug_history
+Gemfile.lock
+*.gem
+*.sqlite3
+*.sqlite3-journal
+*/.gitignore
+yarn-error.log
+app/assets/javascripts/wallaby/core.js.map

@@ -1,0 +1,86 @@
+<%#
+The following params are the variables that can be used in this partial.
+
+@param form [Wallaby::FormBuilder] custom form object that adds a few helper methods and delegate missing methods to the view
+@param object [Wallaby::ResourceDecorator] decorator instance which wraps the resource (e.g. ActiveRecord) instance
+@param field_name [String] name of the field
+@param value [Object] value of the field
+@param metadata [Hash] metadata of the field
+%>
+<%
+decorated = decorate value
+readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
+%>
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label metadata[:foreign_key], metadata[:label] %>
+  <% if readonly %>
+    <div class="row">
+      <div class="col-12">
+        <%= decorated.try :to_label %>
+      </div>
+    </div>
+  <% else %>
+    <%
+      wildcard = metadata[:wildcard] || Wallaby::WILDCARD
+      url = metadata[:is_polymorphic] ? nil : remote_url(metadata[:remote_url], metadata[:class], wildcard)
+    %>
+    <div class="auto_select" data-init="belongs_to" data-url="<%= url %>" data-wildcard="<%= wildcard %>">
+      <div class="row">
+        <% # polymorphic class dropdown box
+        # with remote url for typeahead to use
+        if metadata[:is_polymorphic] %>
+          <div class="col-6 col-sm-4 auto_select--spacing">
+            <%= form.select metadata[:polymorphic_type], polymorphic_options(metadata, wildcard, selected: object.public_send(metadata[:polymorphic_type])), { include_blank: true }, { class: 'form-control' } %>
+          </div>
+        <% end %>
+        <div class="col-6 col-sm-4">
+          <%= form.text_field metadata[:foreign_key], value: nil, class: 'form-control', placeholder: wt('labels.auto_select_hint') %>
+        </div>
+      </div>
+      <div class="row">
+        <ul>
+          <% if decorated.present? %>
+            <li>
+              <%= form.hidden_field metadata[:foreign_key], value: decorated.primary_key_value, id: nil %>
+              <a href="javascript:;"><%= decorated.to_label %></a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <%= form.error_messages field_name %>
+  <%= hint_of metadata %>
+  <% unless metadata[:is_polymorphic] %>
+    <p class="help-block">
+      <%= new_link metadata[:class] %>
+    </p>
+  <% end %>
+</div>
+
+<% # load script for only once
+unless @belongs_to_init
+  @belongs_to_init = true
+  content_for :custom_javascript do
+    javascript_tag do %>
+      documentReady('.belongs_to', function () {
+        jQuery('[data-init="belongs_to"]').each(function () {
+          var $container = jQuery(this);
+          var $select = $container.find('select');
+          if ($select.length) {
+            $select.on('change.auto_select', function (_, initialising) {
+              var $option = jQuery(this.selectedOptions);
+              var url = $option.data('url');
+              if (!url) { return; }
+              $container.data('url', url).auto_select();
+              if (initialising) { return; }
+              $container.find('ul a').trigger('click.auto_select');
+            }).trigger('change.auto_select', true);
+          } else {
+            $container.auto_select();
+          }
+        });
+      });
+<%  end
+  end
+end %>

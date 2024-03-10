@@ -1,0 +1,21 @@
+<%
+  headers = current_model_decorator.index_field_names.map do |field_name|
+    current_model_decorator.index_label_of(field_name)
+  end
+  decorated_collection = decorate collection
+%>
+<%= ::CSV.generate_line(headers).strip.html_safe %>
+<%
+decorated_collection.each do |decorated|
+  data = current_model_decorator.index_field_names.map do |field_name|
+    render(
+      decorated.index_type_of(field_name),
+      object: decorated,
+      field_name: field_name,
+      value: decorated.try(field_name),
+      metadata: decorated.index_metadata_of(field_name)
+    )
+  end
+%>
+<%= ::CSV.generate_line(data).strip.html_safe %>
+<% end %>

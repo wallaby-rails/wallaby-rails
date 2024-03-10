@@ -1,0 +1,20 @@
+Description:
+    Generate paginator for Wallaby Engine usage by given NAME.
+    It also takes the PARENT name and makes the generated paginator inherit from the PARENT.
+
+    For example, if 'apple' is provided as the NAME, this generator will carry out the following items:
+    - Generate ApplePaginator that inherits from Wallaby Engine's application paginator.
+
+Example:
+    rails generate wallaby:engine:paginator admin/user
+
+    This will create:
+    - app/paginators/admin/user_paginator.rb
+
+Example:
+    rails generate wallaby:engine:paginator admin/user admin/application
+
+    This will create:
+    - app/paginators/admin/user_paginator.rb
+
+    And it makes Admin::UserPaginator class inherit from Admin::ApplicationPaginator

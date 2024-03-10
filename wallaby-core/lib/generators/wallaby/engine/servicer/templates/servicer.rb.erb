@@ -1,0 +1,45 @@
+# @see https://github.com/wallaby-rails/wallaby/blob/master/docs/servicer.md
+class <%= base_class %> < <%= parent_base_class %>
+  # Specify the model class if Wallaby doesn't get it right
+  # self.model_class = <%= model_name %>
+
+  # Allowlist parameters for mass assignment
+  # def permit(params, action)
+  #   super # do something
+  # end
+
+  # Fetch collection by given params
+  # def collection(params)
+  #   super # do something
+  # end
+
+  # Paginate the collection
+  # def paginate(query, params)
+  #   super # do something
+  # end
+
+  # Initialize the model class using given params
+  # def new(params)
+  #   super # do something
+  # end
+
+  # Find a resource using id
+  # def find(id, params)
+  #   super # do something
+  # end
+
+  # Save the newly initialized resource
+  # def create(resource, params)
+  #   super # do something
+  # end
+
+  # Update the persisted resource
+  # def update(resource, params)
+  #   super # do something
+  # end
+
+  # Destroy the given resource
+  # def destroy(resource, params)
+  #   super # do something
+  # end
+end

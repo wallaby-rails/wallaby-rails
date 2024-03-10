@@ -1,0 +1,14 @@
+// TODO: remove or update this text and `base/_mixin.scss`
+// when upgrading to Bootstrap 5
+
+@include text-emphasis-variant('.text-primary', $primary-text-color);
+
+@include text-emphasis-variant('.text-success', $default-green-color);
+
+@include text-emphasis-variant('.text-info', $default-blue-color);
+
+@include text-emphasis-variant('.text-warning', $default-yellow-color);
+
+@include text-emphasis-variant('.text-danger', $default-red-color);
+
+@include text-emphasis-variant('.text-muted', $secondary-text-color);

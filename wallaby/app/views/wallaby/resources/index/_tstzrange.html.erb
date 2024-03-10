@@ -1,0 +1,12 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<%= if value.nil?
+  null
+else
+  concat content_tag(:span, I18n.l(value.first, format: :short), class: 'from')
+  concat '...'
+  concat content_tag(:span, I18n.l(value.last, format: :short), class: 'to')
+  itooltip "#{I18n.l value.first} ... #{I18n.l value.last}", 'time'
+end %>

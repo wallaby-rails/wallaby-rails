@@ -1,0 +1,104 @@
+en:
+  wallaby:
+    labels:
+      count: 'Count: '
+      auto_select_hint: 'Type to select...'
+      upload: 'Upload'
+      empty: 'null'
+      na: 'n/a'
+      edit: 'Edit # %{id}'
+      create: 'Create a %{model}'
+
+    buttons:
+      save: 'Save'
+
+    links:
+      new: 'Create %{model}'
+      show: 'Show'
+      edit: 'Edit'
+      delete: 'Delete'
+      cancel: 'Cancel'
+      confirm:
+        delete: 'Please confirm to delete'
+      export: 'Export as %{ext}'
+
+    http_errors:
+      report_error_html: 'And report the error <a href="https://github.com/reinteractive/wallaby/issues/new" target="_blank">here</a>.'
+      not_implemented: 'Not implemented.'
+      internal_server_error: 'Hope you feel better.'
+      bad_request: 'Your request is not supported.'
+      not_found: 'Not found.'
+      unprocessable_entity: 'Your request cannot be processed.'
+      unauthorized: 'You need to sign in to access this page.'
+      forbidden: 'You need permission to access this page.'
+
+    json_errors:
+      not_implemented: 'Not implemented.'
+      internal_server_error: 'Internal server error.'
+      bad_request: 'Your request is not supported.'
+      not_found: 'Not found.'
+      unprocessable_entity: 'Your request cannot be processed.'
+      unauthorized: 'You need to sign in to access this page.'
+      forbidden: 'You need permission to access this page.'
+
+    errors:
+      invalid:
+        models: '%{models} are invalid models.'
+        inheritance: '%{klass} does not inherit from %{parent}.'
+        type_required: 'Type is required for %{field_name}.'
+      not_found:
+        collection: 'Records cannot be found. Click + button to add one.'
+        model: 'Model %{model} cannot be found.'
+        resource: 'Record %{resource} cannot be found.'
+      unprocessable_entity:
+        keyword_search: 'Unable to perform keyword search when no text fields can be used.'
+        field_colon_search: 'Unable to perform field colon search for %{invalid_fields}.'
+        model: 'Unable to handle model %{model}.'
+      unauthorized: 'User %{user} is trying to perform %{action} on %{subject}'
+      pundit:
+        not_found:
+          scope_policy: 'Cannot find scope policy for %{scope}.'
+          attributes_for: 'Cannot find attributes for %{subject}.'
+      required: '%{subject} is required.'
+      not_implemented:
+        model_servicer: 'Custom model servicer method `%{method_name}` is not implemented'
+
+    pagination:
+      prev: 'Prev'
+      next: 'Next'
+      from_to: '%{from} to %{to}'
+      of: ' of '
+      total_count: '%{total}'
+      pers: 'Page Size'
+      pages: 'Page Number'
+
+    filters:
+      title: 'Filters'
+      all: 'All'
+
+    search:
+      hint: 'Press enter to search.'
+
+    hints:
+      box_html: 'Format: <code>(x1, y1), (x2, y2)</code> where <i>(x1,y1)</i> and <i>(x2,y2)</i> are any two opposite corners of the box.'
+      cidr_html: 'Example: <code>192.168.1.1/24</code> which holds an IPv4 or IPv6 network specification.'
+      circle_html: 'Format: <code><(x, y), r></code> where <i>(x,y)</i> is the center point and <i>r</i> is the radius of the circle.'
+      hstore_html: 'Format: <code>"Key1" => "Value1", "Key2" => "Value2"</code> is used for input and output, includes zero or more <i>key => value</i> pairs separated by commas.'
+      inet_html: 'Example: <code>192.168.1.1/24</code> which holds an IPv4 or IPv6 network specification.'
+      line_html: 'Format: <code>{ A, B, C }</code> which are represented by the linear equation <i>Ax + By + C = 0</i>.'
+      lseg_html: 'Format: <code>[(x1, y1), (x2, y2)]</code> where <i>(x1,y1)</i> and <i>(x2,y2)</i> are the end points of the line segment.'
+      ltree_html: 'Example: <code>Top.Countries.Europe.Russia</code> which is a sequence of zero or more labels separated by dots.'
+      macaddr_html: 'Example: <code>08:00:2b:01:02:03</code> which stores MAC addresses.'
+      path_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the path.'
+      polygon_html: 'Format: <code>((x1, y1) , ... , (xn, yn))</code> where the points are the end points of the line segments comprising the boundary of the polygon.'
+
+    deprecation:
+      authorizer: "[DEPRECATION] `authorizer` will be removed from 5.3.*. Please use `current_authorizer` instead.\n(called from %{from})"
+      current_model_service: "[DEPRECATION] `current_model_service` will be removed from 5.3.*. Please use `current_servicer` instead.\n(called from %{from})"
+      find_filter_name: "[DEPRECATION] `Wallaby::Utils.find_filter_name` will be removed from 5.3.*. Please use `Wallaby::FilterUtils.filter_name_by` instead.\n(called from %{from})"
+      form_type_partial_render: "[DEPRECATION] `form_type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"
+      index_params: "[DEPRECATION] `index_params` will be removed from 5.3.*.\n(called from %{from})"
+      paginator_of: "[DEPRECATION] `paginator_of` will be removed from 5.3.*. Please use `current_paginator` instead.\n(called from %{from})"
+      resource_paginator_inheirtance: "[DEPRECATION] `Wallaby::ResourcePaginator` will be removed from 5.3.*. Please inherit from `Wallaby::ModelPaginator` instead.\n(called from %{from})"
+      resource_paginator=: "[DEPRECATION] `resource_paginator=` will be removed from 5.3.*. Please use `model_paginator=` instead.\n(called from %{from})"
+      type_partial_render: "[DEPRECATION] `type_partial_render` will be removed from 5.3.*. Please use `type_render` instead.\n(called from %{from})"

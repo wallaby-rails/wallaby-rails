@@ -1,0 +1,37 @@
+module <%= class_name %>
+  # @see https://github.com/wallaby-rails/wallaby/blob/master/docs/authorizer.md
+  class ApplicationAuthorizer < Wallaby::ModelAuthorizer
+    # Mark current class as base/abstract
+    base_class!
+
+    # Specify which provider (:cancancan, :pundit or :default) to use.
+    # :default means no authorization will be in use.
+    # self.provider_name = :cancancan
+
+    # Check user's permission for given action on given subject.
+    # Raise Wallaby::Forbidden if user doesn't have permission
+    # def authorize(action, subject)
+    #   super # do something for all the subclasses
+    # end
+
+    # Check and see if user is allowed to perform an action on given subject.
+    # def authorized?(action, subject)
+    #   super # do something for all the subclasses
+    # end
+
+    # Filter the scope based on user's permission.
+    # def accessible_for(action, scope)
+    #   super # do something for all the subclasses
+    # end
+
+    # Assign the values based on user's permission.
+    # def attributes_for(action, subject)
+    #   super # do something for all the subclasses
+    # end
+
+    # Allowlist the parameters based on user's permission.
+    # def permit_params(action, subject)
+    #   super # do something for all the subclasses
+    # end
+  end
+end

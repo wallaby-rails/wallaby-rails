@@ -1,0 +1,42 @@
+<article class="resource">
+  <%
+  if resource
+    # decorate first on every page or partial
+    decorated = decorate resource
+  %>
+    <div class="resource__header">
+      <h1><%= show_title decorated %></h1>
+      <%= render 'resource_navs' %>
+    </div>
+    <%= render 'flash_messages' %>
+    <section>
+      <div class="resource__container">
+        <% decorated.show_field_names.each do |field_name| %>
+          <dl>
+            <dt><%= decorated.show_label_of field_name %></dt>
+            <dd>
+              <%= render decorated.show_type_of(field_name),
+                object: decorated,
+                field_name: field_name,
+                value: decorated.try(field_name),
+                metadata: decorated.show_metadata_of(field_name)
+              %>
+            </dd>
+          </dl>
+        <% end %>
+      </div>
+    </section>
+  <% else %>
+    <div class="resource__header">
+      <h1><%= to_model_label(current_model_class) %></h1>
+      <%= render 'resource_navs' %>
+    </div>
+    <%= render 'flash_messages' %>
+    <section>
+      <div class="resource__not-found">
+        <%= image_tag 'wallaby/not_found.png' %>
+        <%= wt 'errors.not_found.resource', resource: to_model_label(current_model_class) %>
+      </div>
+    </section>
+  <% end %>
+</article>

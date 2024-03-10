@@ -1,0 +1,19 @@
+Description:
+    Install Wallaby Engine at the given NAME (default to 'admin').
+
+    For example, if 'admin' is provided as the NAME, this generator will carry out the following items:
+    - Mounting Wallaby Engine to `/admin` in `config/routes.rb`.
+    - Create initializer file `config/initializers/wallaby.rb`.
+    - Create basic application controller/decorator/servicer under camelized namespace `Admin`.
+    - Optionally, application authorizer and paginator can be created as well.
+
+Example:
+    rails generate wallaby:engine:install admin --include-authorizer --include-paginator
+
+    This will create:
+    - config/initializer/wallaby.rb
+    - app/controllers/admin/application_controller.rb
+    - app/decorators/admin/application_decorator.rb
+    - app/servicers/admin/application_servicer.rb
+    - app/authorizers/admin/application_authorizer.rb
+    - app/paginators/admin/application_paginator.rb

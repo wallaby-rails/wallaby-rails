@@ -1,0 +1,40 @@
+inherit_gem:
+  wallaby-cop: rubocop.yml
+
+AllCops:
+  Exclude:
+    - 'bin/rails'
+    - 'gemfiles/**/*'
+    - 'spec/rails_helper.rb'
+    - 'spec/spec_helper.rb'
+    - 'spec/dummy/**/*'
+    - 'spec/dummy/*'
+    - 'spec/views/wallaby/resources/*/_xml.html.erb_spec.rb'
+    - '*/vendor/**/*'
+
+CodeReuse/ActiveRecord:
+  Exclude:
+    - 'spec/**/*'
+
+GitlabSecurity/PublicSend:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/LineLength:
+  Exclude:
+    - 'spec/**/*'
+
+Naming/FileName:
+  Exclude:
+    - wallaby-cop/lib/wallaby-cop.rb
+
+Rails/OutputSafety:
+  Enabled: false
+
+RSpec/FilePath:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - 'spec/**/*'

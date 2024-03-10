@@ -1,0 +1,43 @@
+.show {
+  section {
+    dl {
+      margin: 0;
+      padding: 15px 20px;
+    }
+
+    dt {
+      border-bottom: 1px solid $background-color;
+      color: $default-primary-color;
+      font-style: italic;
+      font-weight: bold;
+      padding-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    dd {
+      padding-top: 8px;
+    }
+  }
+  .resource {
+    section {
+      margin-bottom: 4px;
+    }
+
+    &__not-found {
+      font-size: 24px;
+      padding-left: 105px;
+      padding-top: 140px;
+      position: relative;
+      text-align: left;
+
+      img {
+        height: 80px;
+        margin-left: -90px;
+        margin-top: 12px;
+        position: absolute;
+      }
+    }
+  }
+}
+
+@import '_show_desktop';

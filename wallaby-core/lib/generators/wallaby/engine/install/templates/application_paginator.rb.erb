@@ -1,0 +1,27 @@
+module <%= class_name %>
+  # @see https://github.com/wallaby-rails/wallaby/blob/master/docs/paginator.md
+  class ApplicationPaginator < Wallaby::ModelPaginator
+    # Mark current class as base/abstract
+    base_class!
+
+    # Check if the collection can be paginated
+    # def paginatable?
+    #   super # do something for all the subclasses
+    # end
+
+    # Total count of the collection
+    # def total
+    #   super # do something for all the subclasses
+    # end
+
+    # Page size
+    # def page_size
+    #   super # do something for all the subclasses
+    # end
+
+    # Page number
+    # def page_number
+    #   super # do something for all the subclasses
+    # end
+  end
+end

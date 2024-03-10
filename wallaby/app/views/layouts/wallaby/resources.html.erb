@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="turbolinks-cache-control" content="no-cache">
+    <%= csrf_meta_tags %>
+
+    <title><%= render 'title' %></title>
+
+    <%= render 'frontend' %>
+    <%= yield :custom_stylesheet %>
+  </head>
+  <body class="application <%= body_class %>">
+    <%= render 'header' %>
+    <main>
+      <%= yield %>
+    </main>
+    <%= render 'footer' %>
+    <%= render 'imodal' %>
+    <%= yield :custom_javascript %>
+  </body>
+</html>

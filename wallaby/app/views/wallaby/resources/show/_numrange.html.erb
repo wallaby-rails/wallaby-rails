@@ -1,0 +1,11 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<% if value.nil? %>
+  <%= null %>
+<% else %>
+  <span class="from"><%= value.first %></span>
+  ...
+  <span class="to"><%= value.last %></span>
+<% end %>

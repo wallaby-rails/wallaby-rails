@@ -1,0 +1,13 @@
+<% flash_classes = {
+  'alert'   => 'danger',
+  'error'   => 'danger',
+  'notice'  => 'success',
+  'success' => 'success',
+  'warning' => 'warning'
+} %>
+<% flash.each do |type, message| %>
+  <div class="alert alert-<%= flash_classes[type.to_s] || type %> alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <%= raw message %>
+  </div>
+<% end %>

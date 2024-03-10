@@ -1,0 +1,11 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<% if value.present? %>
+  <%= show_link value, options: { readonly: true } %>
+<% elsif !metadata[:is_polymorphic] %>
+  <%= new_link metadata[:class] %>
+<% else %>
+  <%= null %>
+<% end %>

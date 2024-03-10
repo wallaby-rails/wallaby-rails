@@ -1,0 +1,34 @@
+<% # can be overridden %>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <%= render 'logo' %>
+    <%# Mobile Menu Toggler %>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top-menu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <%= fa_icon 'bars' %>
+    </button>
+    <%# //Mobile Menu Toggler %>
+
+    <div id="top-menu" class="collapse navbar-collapse">
+      <%# Resources navigation %>
+      <%= render 'navs' %>
+      <%# //Resources navigation %>
+      <%# User account %>
+      <ul class="navbar-nav ml-auto">
+        <% if wallaby_user.present? %>
+          <li class="nav-item dropdown">
+            <a id="user_menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              class="nav-link dropdown-toggle">
+              <span class="user__portrait">
+                <%= user_portrait %>
+                <span class="user__text">User</span>
+              </span>
+              <span class="caret"></span>
+            </a>
+            <%= render 'user_menu' %>
+          </li>
+        <% end %>
+      </ul>
+      <%# //User account %>
+    </div>
+  </nav>
+</header>

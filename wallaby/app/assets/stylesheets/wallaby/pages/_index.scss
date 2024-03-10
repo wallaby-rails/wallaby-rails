@@ -1,0 +1,194 @@
+.index {
+  .resources__header {
+    > nav {
+      @include divider;
+      margin-left: 6px;
+    }
+  }
+
+  .resources {
+    section {
+      margin-bottom: 4px;
+    }
+
+    &__not-found {
+      font-size: 24px;
+      padding-left: 105px;
+      padding-top: 140px;
+      position: relative;
+      text-align: left;
+
+      img {
+        height: 80px;
+        margin-left: -90px;
+        margin-top: 12px;
+        position: absolute;
+      }
+    }
+
+    &__data, &__actions {
+      @extend .table;
+      border-collapse: collapse;
+      margin-bottom: 0;
+
+      tbody td.resource__actions {
+        min-width: 85px;
+        text-align: right;
+
+        a {
+          @extend .fa;
+          @extend .fa-info;
+          &:before {
+            line-height: 16px;
+            width: 16px;
+          }
+
+          background-color: $light-primary-color;
+          border-radius: 2px;
+          border: none;
+          color: $white;
+          display: inline-block;
+          height: 16px;
+          line-height: 16px;
+          margin-right: 3px;
+          text-align: center;
+          text-decoration: none;
+          width: 16px;
+
+          &:hover {
+            background-color: $default-primary-color;
+            color: $white;
+          }
+
+          &.resource__update {
+            @include fa-extend('pencil-alt', false);
+            background-color: $light-yellow-color;
+
+            &:hover {
+              background-color: $default-yellow-color;
+            }
+          }
+
+          &.resource__destroy {
+            @extend .fa-times;
+            background-color: $light-red-color;
+
+            &:hover {
+              background-color: $default-red-color;
+            }
+          }
+
+          &:last-child {
+            margin-right: 0px;
+          }
+        }
+      }
+
+      thead tr th, tbody tr td {
+        background-color: white;
+        border: none;
+        border-bottom: 6px solid $background-color;
+        font-weight: normal;
+        height: 41px;
+        padding: 8px 12px;
+        white-space: nowrap;
+      }
+
+      thead tr th {
+        color: $light-grey-color;
+        font-weight: bold;
+        line-height: 20px;
+        position: relative;
+        text-transform: uppercase;
+
+        a {
+          border-bottom: none;
+          display: block;
+          padding-right: 11px;
+          position: relative;
+          transition: 0.5s;
+
+          &:before {
+            @extend .fa;
+            color: $light-primary-color;
+            margin-top: -6px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transition: 0.5s;
+          }
+
+          &:hover {
+            color: $default-primary-color;
+            @include fa-extend('sort-up', false);
+          }
+        }
+
+        &.asc {
+          a {
+            @include fa-extend('sort-up', false);
+            &:hover {
+              @include fa-extend('sort-down', false);
+            }
+          }
+        }
+
+        &.desc {
+          a {
+            @include fa-extend('sort-down', false);
+            &:hover {
+              @extend .fa-sort;
+            }
+          }
+        }
+      }
+
+      tbody tr {
+        td {
+          a {
+            display: inline-block;
+          }
+        }
+      }
+
+      .fa {
+        font-size: 11px;
+        margin-left: 3px;
+      }
+    }
+
+    &__actions {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: inherit;
+
+      thead tr th {
+        @extend .fa;
+        display: table-cell;
+        font-size: 14px;
+
+        &:before, & span:before {
+          display: inline-block;
+          font-size: 10px;
+          font-weight: lighter;
+          margin-top: -5px;
+          position: absolute;
+          top: 50%;
+        }
+
+        &.resources--forward span:before {
+          @extend .fa, .fa-chevron-right;
+          right: 16px;
+        }
+
+        &.resources--backward:before {
+          @extend .fa, .fa-chevron-left;
+          left: 16px;
+        }
+      }
+    }
+  }
+}
+
+@import '_index_desktop';

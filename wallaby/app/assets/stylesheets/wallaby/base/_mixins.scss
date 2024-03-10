@@ -1,0 +1,138 @@
+@mixin dropdown ($left_or_right: "left") {
+  position: relative;
+
+  &.open {
+    > ul, > form {
+      display: block;
+    }
+  }
+
+  > ul, > form {
+    @if $left_or_right == "left" { left: 0 }
+    @if $left_or_right == "right" { right: 0 }
+    @if $left_or_right == "middle" { left: -93px; }
+    background-clip: padding-box;
+    background-color: $white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    display: none;
+    float: left;
+    list-style: none;
+    margin: 2px 0 0;
+    min-width: 160px;
+    padding: 5px 0;
+    position: absolute;
+    text-align: left;
+    top: 100%;
+    z-index: 100000;
+
+    em, label {
+      color: $light-grey-color;
+      display: block;
+      font-style: normal;
+      font-weight: normal;
+      padding: 3px 20px;
+      text-decoration: none;
+    }
+
+    a {
+      color: $font-color;
+      display: block;
+      font-style: normal;
+      font-weight: normal;
+      padding: 3px 20px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+}
+
+@mixin arrow ($icon_font: ".fa-chevron-down", $icon_font_open: ".fa-chevron-up", $light: $light-red-color, $dark: $dark-red-color, $left_or_right: "right", $padding_size: 11px) {
+  > a {
+    @if $left_or_right == "left" { padding-left: $padding_size }
+    @if $left_or_right == "right" { padding-right: $padding_size }
+    display: inline-block;
+    position: relative;
+
+    &:before {
+      @if $left_or_right == "left" { left: 0 }
+      @if $left_or_right == "right" { right: 0 }
+      @extend .fa;
+      @extend #{$icon_font};
+      color: $light;
+      font-size: 9px;
+      margin-top: -4px;
+      position: absolute;
+      top: 50%;
+    }
+
+    &:hover:before {
+      color: $dark;
+    }
+  }
+
+  &.open > a {
+    &:before {
+      @extend #{$icon_font_open};
+    }
+  }
+}
+
+@mixin divider ($color: $light-grey-color) {
+  position: relative;
+  margin-left: 10px;
+  padding-left: 10px;
+
+  &:before {
+    background-color: $color;
+    content: '';
+    height: 10px;
+    left: 0;
+    margin-top: -5px;
+    position: absolute;
+    top: 50%;
+    width: 1px;
+  }
+
+  &:first-of-type {
+    margin: 0;
+    padding: 0;
+
+    &:before {
+      display: none;
+    }
+  }
+}
+
+@mixin light_link {
+  color: $light-blue-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $default-blue-color;
+  }
+}
+
+@mixin fa-extend ($name, $included: true) {
+  @if $included { @extend .fa; }
+  @extend .#{map-get($fa-class-map, $name)};
+}
+
+// TODO: remove or update this mixin and `components/_text.scss`
+// when upgrading to Bootstrap 5
+@mixin text-emphasis-variant($parent, $color, $ignore-warning: false) {
+  #{$parent} {
+    color: $color !important;
+  }
+  // @if $emphasized-link-hover-darken-percentage != 0 {
+  //   a#{$parent} {
+  //     @include hover-focus() {
+  //       color: darken($color, $emphasized-link-hover-darken-percentage) !important;
+  //     }
+  //   }
+  // }
+}

@@ -1,0 +1,16 @@
+Wallaby.config do |config|
+  # Specify the relative folders where model resides.
+  # Please checkout `Rails.configuration.eager_load_paths` for the folders that can be set.
+  # config.model_paths = %w(app/models)
+
+  # Specify the base controller class that Wallaby::ResourcesController should inherit from.
+  # config.base_controller = ::ApplicationController
+
+  # Specify admin application controller for Wallaby::Engine
+  <%= commenting %>config.resources_controller = <%= class_name %>::ApplicationController
+
+  # Specify the non ActiveModel-like (ActiveRecord/Her) models that Wallaby should treat as Custom.
+  # Once it's set, you will need to implement an servicer for the Custom models.
+  # @see https://github.com/wallaby-rails/wallaby/blob/master/docs/custom.md#customization
+  # config.custom_models = [Array]
+end

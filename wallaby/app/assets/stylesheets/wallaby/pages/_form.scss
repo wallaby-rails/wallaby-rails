@@ -1,0 +1,40 @@
+.edit, .new, .create, .update {
+  section {
+    .resource__container {
+      padding: 20px;
+    }
+
+    label {
+      color: $default-primary-color;
+      font-style: italic;
+      text-transform: uppercase;
+    }
+
+    .CodeMirror {
+      border: 1px solid #eeeeee;
+      height: 348px;
+    }
+
+    .form-group {
+      .resource {
+        &__create, &__update {
+          display: inline-block;
+        }
+      }
+
+      .help-block {
+        clear: both;
+        font-size: 11px;
+        margin: 0;
+        padding: 5px 1px;
+      }
+    }
+
+    ul.errors {
+      @extend .text-danger;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding-left: 25px;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+<%#
+The following params are the variables that can be used in this partial.
+
+@param form [Wallaby::FormBuilder] custom form object that adds a few helper methods and delegate missing methods to the view
+@param object [Wallaby::ResourceDecorator] decorator instance which wraps the resource (e.g. ActiveRecord) instance
+@param field_name [String] name of the field
+@param value [Object] value of the field
+@param metadata [Hash] metadata of the field
+%>
+<% picker_id1 = SecureRandom.uuid %>
+<% picker_id2 = SecureRandom.uuid %>
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label field_name, metadata[:label] %>
+  <div class="row">
+    <div class="col-6 col-sm-4">
+      <div id="<%= picker_id1 %>" class="input-group date" data-init="datetimepicker" data-target-input="nearest">
+        <span class="input-group-prepend" data-target="#<%= picker_id1 %>" data-toggle="datetimepicker"><span class="input-group-text">F</span></span>
+        <%= form.text_field field_name, value: value.try(:first), multiple: true, class: 'form-control datetimepicker-input', 'data-target': "##{picker_id1}" %>
+        <span class="input-group-append" data-target="#<%= picker_id1 %>" data-toggle="datetimepicker"><span class="input-group-text"><%= fa_icon 'calendar' %></span></span>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4">
+      <div id="<%= picker_id2 %>" class="input-group date" data-init="datetimepicker" data-target-input="nearest">
+        <span class="input-group-prepend" data-target="#<%= picker_id2 %>" data-toggle="datetimepicker"><span class="input-group-text">T</span></span>
+        <%= form.text_field field_name, value: value.try(:last), multiple: true, class: 'form-control datetimepicker-input', 'data-target': "##{picker_id2}" %>
+        <span class="input-group-append" data-target="#<%= picker_id2 %>" data-toggle="datetimepicker"><span class="input-group-text"><%= fa_icon 'calendar' %></span></span>
+      </div>
+    </div>
+  </div>
+  <%= form.error_messages field_name %>
+  <%= hint_of metadata %>
+</div>
+
+<% unless @datetimepicker_init %>
+  <% @datetimepicker_init = true %>
+  <% content_for :custom_javascript do %>
+    <% javascript_tag do %>
+      documentReady('.tsrange', function () {
+        $('[data-init="datetimepicker"]').each(function() {
+          var $input = $('input', this),
+            val = ($input.attr('value') || '').split(' ').slice(0,2).join(' ');
+          $input.val(moment(val).format('YYYY-MM-DD HH:mm'));
+          $(this).datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            sideBySide: true
+          });
+        })
+      })
+    <% end %>
+  <% end %>
+<% end %>

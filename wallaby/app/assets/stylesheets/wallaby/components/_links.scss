@@ -1,0 +1,25 @@
+.resource {
+  &__create {
+    color: $light-green-color;
+
+    &:hover {
+      color: $default-green-color;
+    }
+  }
+
+  &__update {
+    color: $light-yellow-color;
+
+    &:hover {
+      color: $default-yellow-color;
+    }
+  }
+
+  &__destroy {
+    color: $light-red-color;
+
+    &:hover {
+      color: $default-red-color;
+    }
+  }
+}

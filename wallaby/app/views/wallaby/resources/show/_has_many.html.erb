@@ -1,0 +1,9 @@
+<%# @param object [model] model instance %>
+<%# @param field_name [String] name of the field %>
+<%# @param value [Object] value of the field %>
+<%# @param metadata [Hash] metadata of the field %>
+<% unique_collection = value.uniq %>
+<% if unique_collection.present? %>
+  <%= raw unique_collection.map { |item| show_link item, options: { readonly: true } }.to_sentence %>
+<% end %>
+<%= new_link metadata[:class] %>

@@ -1,0 +1,50 @@
+.pagination {
+  display: inline-block;
+  margin-left: 6px;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  &__metadata, &__pers {
+    @include dropdown;
+  }
+
+  &__pages {
+    @include dropdown($left_or_right: "middle");
+  }
+
+  &__metadata, &__pers, &__pages {
+    @include arrow;
+    color: $light-grey-color;
+    display: inline-block;
+
+    > ul, > form {
+      input {
+        background-color: $background-color;
+        border: 0;
+        border-top: 0;
+        color: $font-color;
+        display: block;
+        margin: 3px 20px;
+        padding: 3px 10px;
+      }
+
+      li.pagination__pers--current a {
+        color: $light-blue-color;
+      }
+    }
+  }
+
+  &__prev {
+    @include arrow($icon_font: ".fa-chevron-left", $left_or_right: 'left', $padding_size: 9px);
+  }
+
+  &__next {
+    @include arrow($icon_font: ".fa-chevron-right", $padding_size: 9px);
+  }
+
+  > span {
+    @include divider;
+    display: inline-block;
+    margin-left: 6px;
+  }
+}

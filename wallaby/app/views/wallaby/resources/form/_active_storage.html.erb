@@ -1,0 +1,27 @@
+<%#
+The following params are the variables that can be used in this partial.
+
+@param form [Wallaby::FormBuilder] custom form object that adds a few helper methods and delegate missing methods to the view
+@param object [Wallaby::ResourceDecorator] decorator instance which wraps the resource (e.g. ActiveRecord) instance
+@param field_name [String] name of the field
+@param value [Object] value of the field
+@param metadata [Hash] metadata of the field
+%>
+<div class="form-group <%= form.error_class field_name %>">
+  <%= form.label field_name, metadata[:label] %>
+  <div class="row">
+    <% if value.try(:attachment) %>
+      <div class="col-sm-12">
+        <%= link_to value.attachment.blob.filename, rails_blob_path(value) %>
+      </div>
+    <% end %>
+    <div class="col-sm-12">
+      <%= form.label field_name, class: 'btn btn-default' do %>
+        <%= form.file_field field_name, class: 'sr-only' %>
+        <%= fa_icon 'upload' %> <%= wt 'labels.upload' %>
+      <% end %>
+    </div>
+  </div>
+  <%= form.error_messages field_name %>
+  <%= hint_of metadata %>
+</div>
