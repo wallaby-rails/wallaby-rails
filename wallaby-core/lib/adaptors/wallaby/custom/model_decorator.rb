@@ -9,9 +9,9 @@ module Wallaby
       def fields
         @fields ||=
           ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
-            methods = model_class.public_instance_methods(false).map(&:to_s)
+            methods = model_class.public_instance_methods.map(&:to_s)
             methods
-              .grep(/[^=]$/).select { |method_id| methods.include? "#{method_id}=" }
+              .grep(/(\A[^!=]|[^!=]\Z)/).select { |method_id| methods.include? "#{method_id}=" }
               .each { |attribute| hash[attribute] = { label: attribute.humanize, type: 'string' } }
           end.freeze
       end

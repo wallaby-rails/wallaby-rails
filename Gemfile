@@ -6,6 +6,7 @@ ruby '3.2.2'
 
 gem 'rails', '~> 7.1.0'
 
+gem 'wallaby', path: './wallaby'
 gem 'wallaby-core', path: './wallaby-core'
 gem 'wallaby-active_record', path: './wallaby-active_record'
 gem 'wallaby-view', path: './wallaby-view'

@@ -1,0 +1,3 @@
+
+class SingleProfileServicer < ProfileServicer
+end
