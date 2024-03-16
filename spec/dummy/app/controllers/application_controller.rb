@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def prefixes
-    render json: _prefixes.to_json
+    render json: _prefixes
   end
 end

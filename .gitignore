@@ -21,7 +21,7 @@ cc-test-reporter
 Gemfile.lock
 *.gem
 *.sqlite3
-*.sqlite3-journal
+*.sqlite3-*
 */.gitignore
 yarn-error.log
 app/assets/javascripts/wallaby/core.js.map
