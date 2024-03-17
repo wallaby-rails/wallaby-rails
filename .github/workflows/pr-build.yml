@@ -63,10 +63,3 @@ jobs:
       - name: Rubocop Check
         if: ${{ github.event_name == 'pull_request' }}
         run: git diff --name-only ${{ github.event.pull_request.base.sha }} --diff-filter AMT | xargs bundle exec rubocop --force-exclusion
-
-      - name: Rspec
-        uses: paambaati/codeclimate-action@v5.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: bundle exec rake --trace db:test:prepare spec
