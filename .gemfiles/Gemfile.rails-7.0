@@ -1,10 +1,5 @@
 source 'https://rubygems.org'
 
-# Declare your gem's dependencies in wallaby.gemspec.
-# Bundler will treat runtime dependencies like base dependencies, and
-# development dependencies will be added by default to the :development group.
-gemspec path: '../'
-
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
@@ -13,12 +8,13 @@ gemspec path: '../'
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
-target_branch = !ENV['GITHUB_BASE_REF']&.empty? && ENV['GITHUB_BASE_REF']
-target_branch ||= !ENV['GITHUB_REF_NAME']&.empty? && ENV['GITHUB_REF_NAME']
-
 gem 'rails', '~> 7.0.0'
-gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: target_branch
-gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'main'
+
+gem 'wallaby-cop', path: '../wallaby-cop'
+gem 'wallaby', path: '../wallaby'
+gem 'wallaby-core', path: '../wallaby-core'
+gem 'wallaby-view', path: '../wallaby-view'
+gem 'wallaby-active_record', path: '../wallaby-active_record'
 
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'main'
 
