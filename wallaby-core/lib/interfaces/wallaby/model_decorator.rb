@@ -7,7 +7,7 @@ module Wallaby
     include Fieldable
 
     MISSING_METHODS_RELATED_TO_FIELDS =
-      /\A(?<prefix>[a-zA-Z]\w*_)(?<method_partial>fields=?|field_names=?|metadata_of|label_of|type_of)\Z/.freeze
+      /\A(?<method_prefix>[a-zA-Z]\w*_)(?<method_suffix>fields=?|field_names=?|metadata_of|label_of|type_of)\Z/.freeze
 
     # Initialize with model class
     # @param model_class [Class]
@@ -123,7 +123,7 @@ module Wallaby
       return super unless method_name.match?(MISSING_METHODS_RELATED_TO_FIELDS)
 
       matched = MISSING_METHODS_RELATED_TO_FIELDS.match(method_name)
-      try("prefix_#{matched[:method_partial]}", *args, matched[:prefix], &block)
+      try("prefix_#{matched[:method_suffix]}", *args, matched[:method_prefix], &block)
     end
 
     # Check if method looks like: `_fields`, `_field_names` that can be processed by {Fieldable}
@@ -150,19 +150,20 @@ module Wallaby
     # @return [String, Symbol] type
     # @raise [ArgumentError] when type is nil
     def ensure_type_is_present(field_name, type, prefix = '')
-      type || raise(::ArgumentError, <<~INSTRUCTION
-        The type for field `#{field_name}` is missing in metadata `#{prefix}_fields`.
-        The possible causes are:
+      type || raise(::ArgumentError, <<~INSTRUCTION)
+        The field `#{field_name}` is missing its type definition. Potential causes include:
 
-        1. Check type's value from metadata `#{prefix}_fields[:#{field_name}][:type]`.
-          If it is missing, specify the type as below:
+        1. Check the type value from the metadata `#{prefix}fields[:#{field_name}][:type]`.
+          If it is absent, specify the type as shown in the example below:
 
-          #{prefix}fields[:#{field_name}][:type] = 'string'
+          #{prefix}fields[:#{field_name}][:type] = 'string' # or the specified type
 
-        2. If metadata `#{prefix}_fields` is blank, maybe table hasn't be created yet
-          or there is some error in the decorator class declaration.
+        2. If the metadata `#{prefix}fields[:#{field_name}]` is empty, the field may not exist.
+          Search for `index_field_names` and `#{field_name}` to determine if `#{field_name}` is inserted elsewhere.
+
+        3. If the metadata `#{prefix}fields` is empty, the table may not have been created yet,
+          or there may be an error in the decorator class declaration.
       INSTRUCTION
-      )
     end
   end
 end
