@@ -45,7 +45,7 @@ module Wallaby
 
       # @return [String, Symbole] default to `:id`
       def primary_key
-        @primary_key ||= :id
+        @primary_key ||= fields.key?(:id) ? :id : fields.keys.first.try(:to_sym)
       end
 
       # @param resource [Object]
