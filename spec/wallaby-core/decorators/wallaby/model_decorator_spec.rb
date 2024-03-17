@@ -11,7 +11,7 @@ describe Wallaby::ModelDecorator do
     let(:model_class) { instance_double 'model', to_s: 'Core::Post' }
 
     it 'returns resources name for model class' do
-      expect(subject.resources_name).to eq 'core::posts'
+      expect(subject.resources_name).to eq 'core/posts'
     end
   end
 
