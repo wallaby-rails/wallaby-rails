@@ -61,11 +61,11 @@ module Wallaby
 
     # @param name [Class, String]
     # @return [String] resources name
-    def to_resources_name(name)
+    def to_resources_name(name, dividor: COLONS)
       return EMPTY_STRING if name.blank?
 
       name = name.to_s unless name.is_a?(String)
-      name.tableize.gsub(SLASH, COLONS)
+      name.tableize.gsub(SLASH, dividor)
     end
 
     # @param name [Class, String]

@@ -82,7 +82,9 @@ describe 'routing' do
         delete "#{script_name}/#{resources}/1"
         expect(response.body).to eq 'destroy_body'
 
-        expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+        expect(controller).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+        get "#{script_name}/#{resources}/1/history"
+        expect(response.body).to eq 'not_found_body'
 
         expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
         get "#{script_name}/#{resources}/history"
@@ -151,7 +153,9 @@ describe 'routing' do
           delete "#{script_name}/#{resources}/1"
           expect(response.body).to eq 'destroy_body'
 
-          expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+          expect(controller).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+          get "#{script_name}/#{resources}/1/history"
+          expect(response.body).to eq 'not_found_body'
 
           expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
           get "#{script_name}/#{resources}/history"
@@ -222,7 +226,9 @@ describe 'routing' do
         delete "#{script_name}/#{resources}/1"
         expect(response.body).to eq 'destroy_body'
 
-        expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+        expect(controller).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+        get "#{script_name}/#{resources}/1/history"
+        expect(response.body).to eq 'not_found_body'
 
         expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
         get "#{script_name}/#{resources}/history"
@@ -278,7 +284,9 @@ describe 'routing' do
           delete "#{script_name}/#{resources}/1"
           expect(response.body).to eq 'destroy_body'
 
-          expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+          expect(controller).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+          get "#{script_name}/#{resources}/1/history"
+          expect(response.body).to eq 'not_found_body'
 
           expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
           get "#{script_name}/#{resources}/history"
@@ -338,7 +346,9 @@ describe 'routing' do
         delete "#{script_name}/#{resources}/1"
         expect(response.body).to eq 'destroy_body'
 
-        expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+        expect(Admin::ApplicationController).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+        get "#{script_name}/#{resources}/1/history"
+        expect(response.body).to eq 'not_found_body'
 
         expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
         get "#{script_name}/#{resources}/history"
@@ -346,11 +356,10 @@ describe 'routing' do
       end
     end
 
-    context 'when resources controller could not be found' do
-      it 'routes to model not found' do
-        expect(Admin::ApplicationController).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+    context 'when model not found' do
+      specify do
         get "#{script_name}/unknown_models"
-        expect(response.body).to eq 'not_found_body'
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

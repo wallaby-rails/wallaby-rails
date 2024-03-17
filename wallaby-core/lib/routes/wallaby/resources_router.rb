@@ -31,7 +31,7 @@ module Wallaby
       controller_class = find_controller_class_by(options)
       controller_class.action(options[:action]).call(env)
     rescue ::AbstractController::ActionNotFound, ModelNotFound => e
-      set_flash_error_for(e, env)
+      Wallaby::Logger.warn(e, sourcing: 1)
       default_controller(options).action(:not_found).call(env)
     rescue UnprocessableEntity => e
       set_flash_error_for(e, env)

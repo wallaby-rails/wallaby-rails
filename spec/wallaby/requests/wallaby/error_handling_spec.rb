@@ -3,11 +3,10 @@
 require 'rails_helper'
 
 describe 'Error pages', type: :request do
-  it 'shows not found page for unknown model' do
+  it 'shows not found for unknown model' do
     get '/admin/unknown_model'
     expect(response).to have_http_status :not_found
     expect(response).to render_template :error
-    expect(response.body).to include 'Model UnknownModel cannot be found.'
   end
 
   it 'shows not found page for array' do
