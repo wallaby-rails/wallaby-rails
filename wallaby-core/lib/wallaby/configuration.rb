@@ -113,6 +113,11 @@ module Wallaby
       self.models.set models
     end
 
+    # @return [Configuration::Constraints] constraints configuration
+    def constraints
+      @constraints ||= Constraints.new
+    end
+
     # @return [Configuration::Security] security configuration
     def security
       @security ||= Security.new
