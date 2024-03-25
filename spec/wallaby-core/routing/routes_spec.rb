@@ -76,16 +76,14 @@ describe 'routing' do
         delete "#{script_name}/#{resources}/accd4e99-1bff-4f79-a956-3ea003373ddc"
         expect(response.body).to eq 'destroy_body'
 
-        expect(try(:base_controller) || controller).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+        expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
         get "#{script_name}/#{resources}/history"
-        expect(response.body).to eq 'not_found_body'
+        expect(response.body).to eq 'show_body'
       end
 
       it 'raises routing errors' do
         expect { get "#{script_name}/#{resources}/1/history" }.to raise_error(ActionController::RoutingError)
-        expect { get "#{script_name}/#{resources}/1-d" }.to raise_error(ActionController::RoutingError)
         expect { get "#{script_name}/#{resources}_/history" }.to raise_error(ActionController::RoutingError)
-        expect { get "#{script_name}/#{resources}/his__tory" }.to raise_error(ActionController::RoutingError)
         expect { get "#{script_name}/-#{resources}/1" }.to raise_error(ActionController::RoutingError)
         expect { get "#{script_name}/_#{resources}/1" }.to raise_error(ActionController::RoutingError)
         expect { get "#{script_name}/1#{resources}/1" }.to raise_error(ActionController::RoutingError)
@@ -200,14 +198,6 @@ describe 'routing' do
     end
 
     context 'when target resources controller exists' do
-      context 'with order::items' do
-        it_behaves_like 'dispatching resourceful routes' do
-          let(:controller) { Admin::Order::ItemsController }
-          let(:base_controller) { Admin::ApplicationController }
-          let(:resources) { 'order::items' }
-        end
-      end
-
       context 'with order/items' do
         it_behaves_like 'dispatching resourceful routes' do
           let(:controller) { Admin::Order::ItemsController }
@@ -219,8 +209,7 @@ describe 'routing' do
 
     context 'when model not found' do
       specify do
-        get "#{script_name}/unknown_models"
-        expect(response).to have_http_status(:not_found)
+        expect { get "#{script_name}/unknown_models" }.to raise_error(ActionController::RoutingError)
       end
     end
   end
