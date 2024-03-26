@@ -91,6 +91,18 @@ module Wallaby
     end
 
     class << self
+      # @return [Regexp] regexp to match data for param `:resources`
+      def resources_regexp
+        @resources_regexp ||= ResourcesRegexp.new.execute
+      end
+
+      # @return [Regexp] regexp to match data for param `:id`
+      def id_regexp
+        @id_regexp ||= IdRegexp.new.execute
+      end
+    end
+
+    class << self
       # Reset all the instance variables to nil
       def clear
         instance_variables.each { |name| instance_variable_set name, nil }

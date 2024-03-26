@@ -65,7 +65,7 @@ module Wallaby
       return EMPTY_STRING if name.blank?
 
       name = name.to_s unless name.is_a?(String)
-      name.tableize.gsub(SLASH, COLONS)
+      name.tableize
     end
 
     # @param name [Class, String]

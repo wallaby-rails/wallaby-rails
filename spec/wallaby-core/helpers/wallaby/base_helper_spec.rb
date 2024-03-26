@@ -72,7 +72,7 @@ describe Wallaby::BaseHelper, :wallaby_user, type: :helper do
 
   describe '#to_resources_name' do
     it 'returns resource name' do
-      expect(helper.to_resources_name(Order::Item)).to eq 'order::items'
+      expect(helper.to_resources_name(Order::Item)).to eq 'order/items'
     end
   end
 end

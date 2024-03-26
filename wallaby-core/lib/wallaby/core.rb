@@ -30,6 +30,9 @@ require 'wallaby/map'
 
 require 'support/action_dispatch/routing/mapper'
 
+require 'routes/wallaby/lazy_regexp'
+require 'routes/wallaby/resources_regexp'
+require 'routes/wallaby/id_regexp'
 require 'routes/wallaby/resources_router'
 require 'routes/wallaby/engines/base_route'
 require 'routes/wallaby/engines/engine_route'

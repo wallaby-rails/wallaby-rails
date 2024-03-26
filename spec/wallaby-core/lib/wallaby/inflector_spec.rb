@@ -33,13 +33,13 @@ describe Wallaby::Inflector do
   describe '.to_resources_name' do
     it 'handles the namespace and returns resources name for a class name' do
       expect(described_class.to_resources_name('Post')).to eq 'posts'
-      expect(described_class.to_resources_name('Wallaby::Post')).to eq 'wallaby::posts'
-      expect(described_class.to_resources_name('wallaby/posts')).to eq 'wallaby::posts'
+      expect(described_class.to_resources_name('Wallaby::Post')).to eq 'wallaby/posts'
+      expect(described_class.to_resources_name('wallaby/posts')).to eq 'wallaby/posts'
       expect(described_class.to_resources_name('Person')).to eq 'people'
-      expect(described_class.to_resources_name('Wallaby::Person')).to eq 'wallaby::people'
-      expect(described_class.to_resources_name('wallaby/person')).to eq 'wallaby::people'
-      expect(described_class.to_resources_name('Wallabies::Person')).to eq 'wallabies::people'
-      expect(described_class.to_resources_name('wallabies/person')).to eq 'wallabies::people'
+      expect(described_class.to_resources_name('Wallaby::Person')).to eq 'wallaby/people'
+      expect(described_class.to_resources_name('wallaby/person')).to eq 'wallaby/people'
+      expect(described_class.to_resources_name('Wallabies::Person')).to eq 'wallabies/people'
+      expect(described_class.to_resources_name('wallabies/person')).to eq 'wallabies/people'
     end
 
     context 'when model_class is blank' do

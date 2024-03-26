@@ -25,7 +25,7 @@ describe field_name, :wallaby_user, type: :helper do
     it 'renders the has_many form' do
       init = page.at_css('[data-init]')
       expect(init['data-wildcard']).to eq 'QUERY'
-      expect(init['data-url']).to eq '/admin/order::items?per=20&q=QUERY'
+      expect(init['data-url']).to eq '/admin/order/items?per=20&q=QUERY'
 
       selected = page.at_css('[data-init] ul li input')
       expect(selected['id']).to be_blank

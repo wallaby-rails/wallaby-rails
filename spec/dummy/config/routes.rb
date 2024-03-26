@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     mount Wallaby::Engine, at: '/before_engine', as: :before_engine
     # NOTE this is the part that we should focus
     wallaby_mount at: '/admin' do
-      resources :items, path: 'order:\:items', module: :order
+      resources :items, module: :order do
+        get :member_only
+      end
 
       # ordinary categories resources
       resources :categories do
