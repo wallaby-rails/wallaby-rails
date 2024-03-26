@@ -66,4 +66,47 @@ describe Wallaby::Map do
       end
     end
   end
+
+  describe 'regexp' do
+    describe '.resources_regexp' do
+      it 'returns a regexp' do
+        expect(described_class.resources_regexp).to be_a Regexp
+        expect(described_class.instance_variable_get(:@resources_regexp)).to be_a Regexp
+      end
+
+      it 'matches valid url' do
+        expect(described_class.resources_regexp).to be_match('/admin/orders/items')
+      end
+
+      it 'does not match invalid url' do
+        expect(described_class.resources_regexp).not_to be_match('/admin/unknown_model')
+      end
+    end
+
+    describe '.id_regexp' do
+      it 'returns a regexp' do
+        expect(described_class.id_regexp).to be_a Regexp
+        expect(described_class.instance_variable_get(:@id_regexp)).to be_a Regexp
+      end
+
+      it 'matches valid url' do
+        expect(described_class.id_regexp).to be_match('/admin/orders/items/1')
+        expect(described_class.id_regexp).to be_match('/admin/orders/items/not_integer_id')
+        expect(described_class.id_regexp).to be_match('/admin/orders/items/1/edit')
+        expect(described_class.id_regexp).to be_match('/admin/orders/items/1/unknown_action')
+        expect(described_class.id_regexp).to be_match('/admin/orders/items/not_integer_id/edit')
+        expect(described_class.id_regexp).to be_match('/admin/orders/items/not_integer_id/unknown_action')
+        expect(described_class.id_regexp).to be_match('1')
+        expect(described_class.id_regexp).to be_match('not_integer_id')
+      end
+
+      it 'does not match invalid url' do
+        expect(described_class.id_regexp).not_to be_match('/admin/unknown_model')
+        expect(described_class.id_regexp).not_to be_match('/admin/unknown_model/1')
+        expect(described_class.id_regexp).not_to be_match('/admin/unknown_model/not_integer_id')
+        expect(described_class.id_regexp).not_to be_match('/1')
+        expect(described_class.id_regexp).not_to be_match('/not_integer_id')
+      end
+    end
+  end
 end

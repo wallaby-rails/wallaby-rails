@@ -25,15 +25,27 @@ Wallaby::Engine.routes.draw do
     #
     # @see Wallaby::ResourcesRouter
     constraints = {
-      id: Wallaby::ConstraintRegexp.new(:id_regexp),
-      resources: Wallaby::ConstraintRegexp.new(:resources_regexp)
+      id: Wallaby::LazyRegexp.new(:id_regexp),
+      resources: Wallaby::LazyRegexp.new(:resources_regexp)
     }
 
     scope path: '*resources' do
       with_options(constraints: constraints) do
         # NOTE: DO NOT change the order of the following routes!!!
+
+        # Exact match for `*resources/new`
         # @see Wallaby::ResourcesConcern#new
         get 'new', defaults: { action: 'new' }, as: :new_resource
+
+        # Match `*resources`
+        # `''` needs to be before `':id'` so that the resourcesful route will match `orders/items` with:
+        # `resources: 'orders/items'` instead of `resources: 'orders', id: 'items'`
+        # @see Wallaby::ResourcesConcern#index
+        get '', defaults: { action: 'index' }, as: :resources
+        # @see Wallaby::ResourcesConcern#create
+        post '', defaults: { action: 'create' }
+
+        # Match `*resources/:id`
         # @see Wallaby::ResourcesConcern#edit
         get ':id/edit', defaults: { action: 'edit' }, as: :edit_resource
         # @see Wallaby::ResourcesConcern#show
@@ -42,10 +54,6 @@ Wallaby::Engine.routes.draw do
         match ':id', via: %i[patch put], defaults: { action: 'update' }
         # @see Wallaby::ResourcesConcern#destroy
         delete ':id', defaults: { action: 'destroy' }
-        # @see Wallaby::ResourcesConcern#index
-        get '', defaults: { action: 'index' }, as: :resources
-        # @see Wallaby::ResourcesConcern#create
-        post '', defaults: { action: 'create' }
       end
     end
   end

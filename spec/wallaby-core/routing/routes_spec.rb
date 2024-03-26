@@ -205,6 +205,13 @@ describe 'routing' do
           let(:resources) { 'order/items' }
         end
       end
+
+      context 'with orders/items' do
+        it_behaves_like 'dispatching resourceful routes' do
+          let(:controller) { Admin::ApplicationController }
+          let(:resources) { 'orders/items' }
+        end
+      end
     end
 
     context 'when model not found' do
