@@ -8,18 +8,18 @@ require 'wallaby/core/version'
 Gem::Specification.new do |spec|
   spec.name          = 'wallaby-core'
   spec.version       = Wallaby::Core::VERSION
-  spec.authors       = ['Tian Chen']
+  spec.authors       = ['Tianwen Chen']
   spec.email         = ['me@tian.im']
   spec.license       = 'MIT'
 
   spec.summary       = 'The core of Wallaby'
   spec.description   = spec.summary
-  spec.homepage      = 'https://github.com/wallaby-rails/wallaby-core'
+  spec.homepage      = 'https://github.com/wallaby-rails/wallaby-rails/blob/main/wallaby-core'
 
   spec.metadata = {
     'homepage_uri' => spec.homepage,
     'source_code_uri' => spec.homepage,
-    'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md",
+    'changelog_uri' => "#{spec.homepage}/CHANGELOG.md",
     'rubygems_mfa_required' => 'true'
   }
 
@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
     'README.md'
   ]
 
-  spec.add_dependency 'activemodel', '>= 6.0.0'
+  spec.add_dependency 'activemodel', '>= 6.0.0', '< 8.0.0'
   spec.add_dependency 'railties', '>= 6.0.0', '< 8.0.0'
 
   spec.add_dependency 'parslet'
