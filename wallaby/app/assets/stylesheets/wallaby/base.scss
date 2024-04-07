@@ -1,8 +1,9 @@
 
 // NOTE: "bootstrap-sprockets" must be imported
 // before "bootstrap" and "bootstrap/variables"
-@import 'core';
 @import 'base/vars';
+@import 'core';
+@import 'base/override_vars';
 @import 'base/functions';
 @import 'base/mixins';
 @import 'base/fonts';
