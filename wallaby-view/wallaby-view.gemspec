@@ -9,19 +9,19 @@ require 'wallaby/view/version'
 Gem::Specification.new do |spec|
   spec.name          = 'wallaby-view'
   spec.version       = Wallaby::View::VERSION
-  spec.authors       = ['Tian Chen']
+  spec.authors       = ['Tianwen Chen']
   spec.email         = ['me@tian.im']
   spec.license       = 'MIT'
 
   spec.summary       = 'Wallaby View to extend Rails layout/template/partial inheritance chain.'
   spec.description   = spec.summary
-  spec.homepage      = 'https://github.com/wallaby-rails/wallaby-view'
+  spec.homepage      = 'https://github.com/wallaby-rails/wallaby-rails/blob/main/wallaby-view'
 
   spec.metadata = {
-    'rubygems_mfa_required' => 'true',
     'homepage_uri' => spec.homepage,
     'source_code_uri' => spec.homepage,
-    'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md"
+    'changelog_uri' => "#{spec.homepage}/CHANGELOG.md",
+    'rubygems_mfa_required' => 'true'
   }
 
   spec.files = Dir[
