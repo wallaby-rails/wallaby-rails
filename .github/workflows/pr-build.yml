@@ -59,6 +59,8 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+          # @see https://github.com/openstreetmap/openstreetmap-website/issues/4364
+          rubygems: latest
 
       - name: Rubocop Check
         if: ${{ github.event_name == 'pull_request' }}

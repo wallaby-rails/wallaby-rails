@@ -9,6 +9,12 @@ describe Wallaby::Configuration do
       :base_controller, ::ApplicationController, ::ActionController::Base
   end
 
+  describe '#raise_on_name_error' do
+    it_behaves_like \
+      'has attribute with default value',
+      :raise_on_name_error, nil, true
+  end
+
   describe '#security' do
     it 'returns the configuration of security' do
       expect(subject.security).to be_a described_class::Security

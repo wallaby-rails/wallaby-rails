@@ -6,6 +6,9 @@ module Wallaby
   class Configuration
     include Classifier
 
+    # @!attribute [w] raise_on_name_error
+    attr_accessor :raise_on_name_error
+
     # @!attribute [w] logger
     attr_writer :logger
 
@@ -101,6 +104,7 @@ module Wallaby
       Deprecator.alert 'config.models.presence', from: '0.3.0', alternative: <<~INSTRUCTION
         Please use controller_class.models instead.
       INSTRUCTION
+      @models ||= Models.new
     end
 
     # To globally configure the models that Wallaby should handle.
