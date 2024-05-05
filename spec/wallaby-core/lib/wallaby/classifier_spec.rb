@@ -62,21 +62,45 @@ describe Wallaby::Classifier do
       it { is_expected.to eq(Product) }
 
       context 'when class has missing method error' do
-        let(:class_name) { 'BrokenProduct' }
+        let(:class_name) { +'BrokenProduct' }
 
-        it { expect { subject }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class") }
+        it 'always raises error' do
+          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+          expect(class_name).to receive(:constantize).and_call_original
+          expect { subject }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+
+          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+          expect(class_name).to receive(:constantize).and_call_original
+          expect { subject }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+        end
       end
     end
 
     context 'when class not exists' do
-      let(:class_name) { 'UnknownProduct' }
+      let(:class_name) { +'UnknownProduct' }
 
-      it { is_expected.to be_nil }
+      it 'returns nil and cache the result' do
+        expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+        expect(class_name).to receive(:constantize).and_call_original
+        expect(subject).to be_nil
+
+        expect(Wallaby::Map.class_name_error_map[class_name]).to eq(true)
+        expect(class_name).not_to receive(:constantize)
+        expect(subject).to be_nil
+      end
 
       context 'when raising is true' do
         let(:raising) { true }
 
-        it { expect { subject }.to raise_error(NameError, /uninitialized constant/) }
+        it 'always raises error' do
+          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+          expect(class_name).to receive(:constantize).and_call_original
+          expect { subject }.to raise_error(NameError, /uninitialized constant/)
+
+          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+          expect(class_name).to receive(:constantize).and_call_original
+          expect { subject }.to raise_error(NameError, /uninitialized constant/)
+        end
       end
     end
 

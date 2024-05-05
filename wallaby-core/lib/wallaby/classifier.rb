@@ -23,6 +23,9 @@ module Wallaby
       # blank string will lead to NameError `wrong constant name`
       return if name.blank?
 
+      # [Performance] Caching the result for uninitialized constant
+      return (yield(name) if block_given?) if Map.class_name_error_map[name]
+
       # NOTE: DO NOT try to use `const_defined?` and `const_get` EVER.
       # Rails does all the class loading magics using `constantize`
       name.constantize
@@ -32,6 +35,7 @@ module Wallaby
       uninitialized = e.message.start_with?('uninitialized constant')
       raise unless uninitialized
 
+      Map.class_name_error_map[name] = true
       # block to handle this missing constant, e.g. use a default class or log useful instruction
       yield(name) if block_given?
     end

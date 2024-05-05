@@ -103,6 +103,14 @@ module Wallaby
     end
 
     class << self
+      # @!attribute [r] class_name_error_map
+      # Cache the class name error
+      def class_name_error_map
+        @class_name_error_map ||= {}
+      end
+    end
+
+    class << self
       # Reset all the instance variables to nil
       def clear
         instance_variables.each { |name| instance_variable_set name, nil }
