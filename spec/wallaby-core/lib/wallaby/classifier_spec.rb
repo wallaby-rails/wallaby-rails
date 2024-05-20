@@ -52,26 +52,38 @@ describe Wallaby::Classifier do
   end
 
   describe '.to_class' do
-    subject(:klass) { described_class.to_class(class_name, raising: raising) }
-
     let(:raising) { false }
 
     context 'when class exists' do
       let(:class_name) { 'Product' }
 
-      it { is_expected.to eq(Product) }
+      it { expect(described_class.to_class(class_name, raising: raising)).to eq(Product) }
 
       context 'when class has missing method error' do
         let(:class_name) { +'BrokenProduct' }
 
-        it 'always raises error' do
+        it 'does not raise error nor cache the result' do
           expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
           expect(class_name).to receive(:constantize).and_call_original
-          expect { subject }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+          expect { described_class.to_class(class_name, raising: raising) }.not_to raise_error
 
           expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
           expect(class_name).to receive(:constantize).and_call_original
-          expect { subject }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+          expect { described_class.to_class(class_name, raising: raising) }.not_to raise_error
+        end
+
+        context 'when raising is true' do
+          let(:raising) { true }
+
+          it 'always raises error' do
+            expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+            expect(class_name).to receive(:constantize).and_call_original
+            expect { described_class.to_class(class_name, raising: raising) }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+
+            expect(Wallaby::Map.class_name_error_map[class_name]).to eq(:name_error)
+            expect(class_name).to receive(:constantize).and_call_original
+            expect { described_class.to_class(class_name, raising: raising) }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+          end
         end
       end
     end
@@ -79,27 +91,27 @@ describe Wallaby::Classifier do
     context 'when class not exists' do
       let(:class_name) { +'UnknownProduct' }
 
-      it 'returns nil and cache the result' do
+      it 'returns nil but does not cache the result' do
         expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
         expect(class_name).to receive(:constantize).and_call_original
-        expect(subject).to be_nil
+        expect(described_class.to_class(class_name, raising: raising)).to be_nil
 
-        expect(Wallaby::Map.class_name_error_map[class_name]).to eq(true)
-        expect(class_name).not_to receive(:constantize)
-        expect(subject).to be_nil
+        expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+        expect(class_name).to receive(:constantize).and_call_original
+        expect(described_class.to_class(class_name, raising: raising)).to be_nil
       end
 
       context 'when raising is true' do
         let(:raising) { true }
 
-        it 'always raises error' do
+        it 'returns nil and caches the result' do
           expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
           expect(class_name).to receive(:constantize).and_call_original
-          expect { subject }.to raise_error(NameError, /uninitialized constant/)
+          expect { described_class.to_class(class_name, raising: raising) }.not_to raise_error
 
-          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
-          expect(class_name).to receive(:constantize).and_call_original
-          expect { subject }.to raise_error(NameError, /uninitialized constant/)
+          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(:uninitialized)
+          expect(class_name).not_to receive(:constantize)
+          expect { described_class.to_class(class_name, raising: raising) }.not_to raise_error
         end
       end
     end
@@ -107,7 +119,7 @@ describe Wallaby::Classifier do
     context 'when class name is empty string' do
       let(:class_name) { '' }
 
-      it { is_expected.to be_nil }
+      it { expect(described_class.to_class(class_name, raising: raising)).to be_nil }
     end
   end
 end
