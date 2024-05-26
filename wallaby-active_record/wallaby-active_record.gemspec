@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   ]
 
   spec.add_dependency 'activerecord', '>= 6.0.0', '< 8.0.0'
-  spec.add_dependency 'wallaby-core', '0.3.0'
+  spec.add_dependency 'wallaby-core', '~> 0.3.1'
 
   spec.add_development_dependency 'cancancan'
   spec.add_development_dependency 'pundit'
