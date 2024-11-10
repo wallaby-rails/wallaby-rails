@@ -28,7 +28,8 @@ Gem::Specification.new do |spec|
     'README.md'
   ]
 
-  spec.add_dependency 'activerecord', '>= 6.0.0', '< 8.0.0'
+  # @see the dependency definition for railties in wallaby-core
+  spec.add_dependency 'activerecord'
   spec.add_dependency 'wallaby-core', '~> 0.3.1'
 
   spec.add_development_dependency 'cancancan'
