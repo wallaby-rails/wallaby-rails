@@ -31,7 +31,7 @@ Naming/FileName:
 Rails/OutputSafety:
   Enabled: false
 
-RSpec/FilePath:
+Rails/FilePath:
   Exclude:
     - 'spec/**/*'
 
