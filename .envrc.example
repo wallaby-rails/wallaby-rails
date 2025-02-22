@@ -1,0 +1,2 @@
+export POSTGRES_PASSWORD=example
+export MYSQL_ROOT_PASSWORD=example

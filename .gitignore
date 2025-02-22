@@ -25,3 +25,4 @@ Gemfile.lock
 */.gitignore
 yarn-error.log
 app/assets/javascripts/wallaby/core.js.map
+.envrc

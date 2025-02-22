@@ -1,0 +1,51 @@
+services:
+  # Ruby on Rails Web App
+  web:
+    build: .
+    container_name: rails_app
+    command:
+      - /bin/bash
+      - -c
+      - |
+        bundle && bundle exec rails db:setup && rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'
+    depends_on:
+      - postgres
+      - mysql
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST_POSTGRES: postgres
+      DATABASE_HOST_MYSQL: mysql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/myapp
+
+  # PostgreSQL Service
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # MySQL Service
+  mysql:
+    image: mysql:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  postgres_data:
+  mysql_data:

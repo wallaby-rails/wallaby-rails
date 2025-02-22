@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+ruby '3.4.1'
 
 gem 'rails', '~> 8.0.0'
 
@@ -33,6 +33,8 @@ group :development do
   gem 'better_errors'
   gem 'massa'
   gem 'memory_profiler'
+  # gems/massa-0.6.0/lib/massa/analyzer.rb:4: warning: ostruct was loaded from the standard library, but will no longer be part of the default gems starting from Ruby 3.5.0.
+  gem 'ostruct'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'turbolinks'

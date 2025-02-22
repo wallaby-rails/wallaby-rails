@@ -29,7 +29,7 @@ sqlite: &sqlite
   database: db/<%= Rails.env %>.sqlite3
 
 mysql: &mysql
-  host: 127.0.0.1
+  host: <%= ENV['DATABASE_HOST_MYSQL'] || '127.0.0.1' %>
   port: 3306
   adapter: mysql2
   username: root
@@ -37,7 +37,7 @@ mysql: &mysql
   database: wallaby_rails_<%= Rails.root.basename.to_s %>_<%= Rails.env %>
 
 postgresql: &postgresql
-  host: 127.0.0.1
+  host: <%= ENV['DATABASE_HOST_POSTGRES'] || '127.0.0.1' %>
   adapter: postgresql
   database: wallaby_rails_<%= Rails.root.basename.to_s %>_<%= Rails.env %>
   username: <%= ENV['POSTGRES_USER'] || 'postgres' %>

@@ -32,6 +32,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activemodel'
   spec.add_dependency 'railties', '>= 7.0.0', '< 9.0.0'
 
+  # warning: csv was loaded from the standard library, but is not part of the default gems starting from Ruby 3.4.0.
+  spec.add_dependency 'csv'
   spec.add_dependency 'parslet'
   spec.add_dependency 'responders'
   spec.add_dependency 'wallaby-view', '~> 0.1.2'
