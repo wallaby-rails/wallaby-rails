@@ -1,3 +1,15 @@
+x-common-env: &common-env
+  RAILS_ENV: development
+  # Postgres
+  POSTGRES_HOST: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  POSTGRES_DB: wallaby_rails_dummy_development
+  # MySQL
+  MYSQL_HOST: mysql
+  MYSQL_ROOT_PASSWORD: password
+  MYSQL_DATABASE: wallaby_rails_dummy_development
+
 services:
   # Ruby on Rails Web App
   web:
@@ -12,12 +24,7 @@ services:
       - postgres
       - mysql
     environment:
-      RAILS_ENV: development
-      DATABASE_HOST_POSTGRES: postgres
-      DATABASE_HOST_MYSQL: mysql
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
+      <<: *common-env
     ports:
       - "3000:3000"
     volumes:
@@ -28,8 +35,7 @@ services:
     image: postgres:latest
     container_name: postgres_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      <<: *common-env
     ports:
       - "5432:5432"
     volumes:
@@ -40,7 +46,7 @@ services:
     image: mysql:latest
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      <<: *common-env
     ports:
       - "3306:3306"
     volumes:
