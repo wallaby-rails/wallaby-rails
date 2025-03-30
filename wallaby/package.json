@@ -9,7 +9,7 @@
     "build:scss-bundle": "scss-bundle -o $CORE_SCSS_OUTPUT_PATH -e app/stylesheets/wallaby/core.scss --includePaths node_modules"
   },
   "dependencies": {
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "codemirror": "^5.49.2",
     "font-awesome": "^4.7.0",
     "jquery-minicolors": "^2.1.10",
