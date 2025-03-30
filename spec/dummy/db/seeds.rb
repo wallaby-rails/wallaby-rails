@@ -77,7 +77,7 @@ products = Product.all
   order = Order.new
   order.customer = FFaker::Name.name
   order.ordered_at = FFaker::Time.date
-  order.order_number = "N#{order.ordered_at.to_s(:number)}"
+  order.order_number = "N#{order.ordered_at.to_fs(:number)}"
   order.save!
 
   product = products.sample

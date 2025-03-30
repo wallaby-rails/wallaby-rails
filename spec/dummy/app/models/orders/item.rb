@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Orders
-  class Item < ActiveRecord::Base
+  class Item < ApplicationRecord
   end
 end

@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class AllPostgresType < ActiveRecord::Base
+class AllPostgresType < ApplicationRecord
 end

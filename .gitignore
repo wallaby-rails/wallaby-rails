@@ -17,6 +17,7 @@ node_modules/
 # files
 cc-test-reporter
 .rspec_status
+.bash_history
 .byebug_history
 Gemfile.lock
 *.gem

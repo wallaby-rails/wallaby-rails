@@ -12,6 +12,7 @@ gem 'wallaby-active_record', path: './wallaby-active_record'
 gem 'wallaby-view', path: './wallaby-view'
 gem 'wallaby-cop', path: './wallaby-cop'
 
+gem 'puma'
 gem 'cancancan'
 gem 'devise'
 gem 'mysql2'

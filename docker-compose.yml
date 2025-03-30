@@ -1,5 +1,5 @@
 x-common-env: &common-env
-  RAILS_ENV: development
+  HISTFILE: ".bash_history"
   # Postgres
   POSTGRES_HOST: postgres
   POSTGRES_USER: postgres
@@ -19,7 +19,14 @@ services:
       - /bin/bash
       - -c
       - |
-        bundle && bundle exec rails db:setup && rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'
+        if [ ! -f ./tmp/db-setup ]; then
+          bundle exec rails db:create db:setup
+          touch ./tmp/db-setup
+        fi
+
+        bundle && \
+        rm -f tmp/pids/server.pid && \
+        bundle exec rails s -b '0.0.0.0'
     depends_on:
       - postgres
       - mysql
@@ -28,11 +35,12 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/myapp
+      - .:/app
+      - ~/.bash_history:/root/.bash_history
 
   # PostgreSQL Service
   postgres:
-    image: postgres:latest
+    image: postgres:16
     container_name: postgres_db
     environment:
       <<: *common-env
