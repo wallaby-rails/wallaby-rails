@@ -43,13 +43,15 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         # NOTE: check the versions that Ruby supports at https://www.ruby-lang.org/en/downloads/branches/
-        ruby: ['3.3', '3.2', '3.1']
+        ruby: ['4.0', '3.4', '3.3']
         # NOTE: check the versions that Rails supports at https://guides.rubyonrails.org/maintenance_policy.html
-        rails: ['8.0', '7.2', '7.1', '7.0']
-        # NOTE: .keep
+        rails: ['8.1', '8.0', '7.2', '7.1']
+        # NOTE: Ruby 4.0 may not be compatible with older Rails series
         exclude:
-          - ruby: '3.1'
-            rails: '8.0'
+          - ruby: '4.0'
+            rails: '7.2'
+          - ruby: '4.0'
+            rails: '7.1'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
