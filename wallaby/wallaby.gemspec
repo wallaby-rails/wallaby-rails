@@ -36,9 +36,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'wallaby-active_record', '~> 0.3.0'
 
   # assets gems
-  spec.add_dependency 'jbuilder'
+  spec.add_dependency 'jbuilder', '~> 2.15'
+  # NOTE: sass-rails is deprecated; consider migrating to cssbundling-rails or dartsass-rails in the future
   spec.add_dependency 'sass-rails'
-  spec.add_dependency 'sprockets-rails'
+  spec.add_dependency 'sprockets-rails', '~> 3.5'
 
   spec.add_development_dependency 'foreman'
   spec.add_development_dependency 'wallaby-cop'
