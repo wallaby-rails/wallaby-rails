@@ -25,5 +25,8 @@
     "bundle-scss": "^1.5.1",
     "esbuild": "^0.25.0",
     "scss-bundle": "^3.1.2"
+  },
+  "resolutions": {
+    "immutable": "^4.3.8"
   }
 }
