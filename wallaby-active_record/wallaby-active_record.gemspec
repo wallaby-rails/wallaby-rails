@@ -11,6 +11,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['me@tian.im']
   spec.license       = 'MIT'
 
+  spec.required_ruby_version = '>= 3.3.0'
+
   spec.summary       = "Wallaby's ActiveRecord ORM adapter"
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/wallaby-rails/wallaby-rails/blob/main/wallaby-active_record'
@@ -29,7 +31,7 @@ Gem::Specification.new do |spec|
   ]
 
   # @see the dependency definition for railties in wallaby-core
-  spec.add_dependency 'activerecord'
+  spec.add_dependency 'activerecord', '>= 8.0.0', '< 9.0.0'
   spec.add_dependency 'wallaby-core', '~> 0.3.1'
 
   spec.add_development_dependency 'cancancan'
