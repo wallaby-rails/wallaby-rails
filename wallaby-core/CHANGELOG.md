@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Require Rails 8.0+ and Ruby 3.3+ (drop EOL Rails 7.1/7.2, Ruby <= 3.2)
 
+### Fixed
+
+- Add missing `csv` dependency (`csv` is no longer a default gem since Ruby 3.4)
+
 ## TODOs
 
 - change to all lables to be prefixed with controller/name
