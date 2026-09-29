@@ -11,6 +11,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['me@tian.im']
   spec.license       = 'MIT'
 
+  spec.required_ruby_version = '>= 3.3.0'
+
   spec.summary       = 'Rubocop configuration for Wallaby projects'
   spec.description   = spec.summary
   spec.homepage      = "https://github.com/wallaby-rails/wallaby-rails/blob/main/#{app_name}"

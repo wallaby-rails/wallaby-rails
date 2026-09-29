@@ -13,6 +13,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['me@tian.im']
   spec.license       = 'MIT'
 
+  spec.required_ruby_version = '>= 3.3.0'
+
   spec.summary       = 'Wallaby View to extend Rails layout/template/partial inheritance chain.'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/wallaby-rails/wallaby-rails/blob/main/wallaby-view'
@@ -31,7 +33,7 @@ Gem::Specification.new do |spec|
   ]
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'railties', '>= 7.1.0'
+  spec.add_dependency 'railties', '>= 8.0.0', '< 9.0.0'
 
   spec.add_development_dependency 'github-markup'
   spec.add_development_dependency 'redcarpet'

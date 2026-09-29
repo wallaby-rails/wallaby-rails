@@ -12,6 +12,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['me@tian.im']
   spec.license       = 'MIT'
 
+  spec.required_ruby_version = '>= 3.3.0'
+
   spec.summary       =
     'Autocomplete the resourceful actions and views for ORMs for admin interface and other purposespec.'
   spec.description   = spec.summary
