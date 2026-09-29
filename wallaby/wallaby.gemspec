@@ -34,6 +34,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'wallaby-core'
 
+  # csv stopped being a default gem in Ruby 3.4.
+  spec.add_dependency 'csv'
+
   # This will determine wallaby-core's version
   spec.add_dependency 'wallaby-active_record', '~> 0.3.0'
 
