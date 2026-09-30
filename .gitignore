@@ -14,6 +14,10 @@ deep_cover/
 storage/
 node_modules/
 
+# Jekyll (just-the-docs)
+.jekyll-cache/
+_site/
+
 # files
 cc-test-reporter
 .rspec_status
