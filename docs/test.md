@@ -8,8 +8,8 @@ In general, Wallaby itself is a typical Rails application. Therefore, writing sp
 - [Controller](#controller) - writing controller specs.
 - [Decorator](#decorator) - writing specs for decorator.
 - [Servicer](#servicer) - writing specs for servicer.
-- [Authorizer](#authorizer) (since 5.2.0) - writing specs for authorizer.
-- [Paginator](#paginator) (since 5.2.0) - writing specs for paginator.
+- [Authorizer](#authorizer) - writing specs for authorizer.
+- [Paginator](#paginator) - writing specs for paginator.
 - [Type Partial](#type-partial) - writing specs for partials (e.g. `index`/`show`).
   - [Form Type Partial](#form-type-partial) - writing specs for form partials (e.g. `new`/`create`/`edit`/`update`).
 
@@ -62,11 +62,6 @@ Because Wallaby delegates the request dispatching to a router instance, there is
 
 ```ruby
 describe Admin::ProductsController do
-  # Since 5.1.6 : begin
-  Wallaby::TestUtils.around_crud(self)
-  # Since 5.1.6 : end
-
-  # Before 5.1.6 : begin
   before do
     routes.draw do
       get ':resources', to: 'admin/products#index', as: :resources
@@ -82,7 +77,6 @@ describe Admin::ProductsController do
   after do
     Rails.application.reload_routes!
   end
-  # Before 5.1.6 : end
 
   it 'performs index' do
     get :index, params: { resources: 'products' }
@@ -136,7 +130,7 @@ end
 
 ## Servicer
 
-Servicer implements the persistence logics. The only thing to be set up is the intiailization:
+Servicer implements the persistence logics. The only thing to be set up is the initialization:
 
 ```ruby
 describe ProductServicer, type: :helper do
@@ -159,22 +153,9 @@ end
 
 > NOTE: helper is needed to provide the context for authorizer
 
-For version 5.2 below:
-
-```ruby
-describe ProductServicer do
-  subject { described_class.new Product, authorizer }
-  let(:authorizer) { Ability.new user }
-
-  it 'performs actions'
-end
-```
-
 ## Authorizer
 
-> since 5.2.0
-
-Authorizer can be tested when it's customized for other authorization framework. The only thing to be set up is the intiailization:
+Authorizer can be tested when it's customized for other authorization framework. The only thing to be set up is the initialization:
 
 ```ruby
 describe Admin::ApplicationAuthorizer, type: :helper do
@@ -198,9 +179,7 @@ end
 
 ## Paginator
 
-> since 5.2.0
-
-Paginator can be tested when it's customized for the models. The only thing to be set up is the intiailization:
+Paginator can be tested when it's customized for the models. The only thing to be set up is the initialization:
 
 ```ruby
 describe Admin::ApplicationPaginator do

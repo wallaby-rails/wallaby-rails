@@ -3,9 +3,10 @@
 Routes can be declared in the following scenarios:
 
 - [As Admin Interface](#as-admin-interface)
-  - [`:resources_controller` mount option](#resources_controller-mount-option) (since 5.2.0) - to specify the base controller for a given mount path
+  - [`:resources_controller` mount option](#resources_controller-mount-option) - to specify the base controller for a given mount path
   - [route for custom action](#route-for-custom-action)
-- [As Non Admin Interface](#as-non-admin-interface) (since 5.2.0)
+  - [wallaby_mount](#wallaby_mount)
+- [As Non Admin Interface](#as-non-admin-interface)
   - [Resources](#resources)
   - [Singular Resources](#singular-resources)
 
@@ -26,25 +27,25 @@ Once it is mounted at `/admin`, all URLs prefixed with `/admin` will be handled 
 
 ### `:resources_controller` mount option
 
-> since 5.2.0
-
 When mounting Wallaby at different path, it's possible to specify different base controller class for different mount path using `:resources_controller` defaults option. For example:
 
 ```ruby
 # app/controllers/super_admin/application_controller.rb
 class SuperAdmin::ApplicationController < Wallaby::ResourcesController
+  base_class!
 end
 
 # app/controllers/advisor_only/application_controller.rb
 class AdvisorOnly::ApplicationController < Wallaby::ResourcesController
+  base_class!
 end
 
 # config/routes.rb
-mount Wallab::Engine,
+mount Wallaby::Engine,
   at: '/super_admin', as: :super_admin,
   defaults: { resources_controller: SuperAdmin::ApplicationController }
 
-mount Wallab::Engine,
+mount Wallaby::Engine,
   at: '/advisor', as: :advisor,
   defaults: { resources_controller: AdvisorOnly::ApplicationController }
 ```
@@ -73,11 +74,27 @@ get 'admin/products/:id/mark_shipped', to: 'admin/products#mark_shipped'
 mount Wallaby::Engine, at: '/admin'
 ```
 
+### wallaby_mount
+
+To mount Wallaby together with a set of resourceful routes inside a namespace, the `wallaby_mount` helper can be used:
+
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  wallaby_mount at: '/admin' do
+    resources :custom_products
+    resources :products do
+      get :export, on: :collection
+    end
+  end
+end
+```
+
+> See [Guides - Admin Interface](guides/admin-interface.md) for concrete examples.
+
 ## As Non Admin Interface
 
 ### Resources
-
-> since 5.2.0
 
 Wallaby can be used beyond being an admin interface. For example, it can be used to quickly generate a page for an existing model (e.g. `Product`) without the need of adding any custom controller, the resourcesful route can be declared as:
 
@@ -109,8 +126,6 @@ resources :products
 ```
 
 ### Singular Resources
-
-> since 5.2.0
 
 Wallaby can be also used for singular resourcesful actions (new/create/show/edit/update/destroy). For example, for a model `Profile`, singular resource routes can be declared as:
 
@@ -176,7 +191,7 @@ Rails will generate the engine helper as `manager_engine` instead. Then resource
 manager_engine.resources_path('order::items')
 ```
 
-Most of the time, Wallaby should be able to determine what engine name to use. But if Wallaby can't detect the engine name, it can be configured in controller (also see [Controller - Advanced Customization -> engine_name](advanced_controller.md#engine_name)):
+Most of the time, Wallaby should be able to determine what engine name to use. But if Wallaby can't detect the engine name, it can be configured in controller (also see [Controller - Advanced Customization -> engine_name](api-references/controller.md#engine_name)):
 
 ```ruby
 # app/controllers/admin/application_controller.rb
@@ -187,4 +202,4 @@ end
 
 > NOTE: All subclasses of `Admin::ApplicationController` will inherit the same engine name when it is set.
 
-> See more options at [Customizing Controller](controller.md).
+> See more options at [Customizing Controller](api-references/controller.md).

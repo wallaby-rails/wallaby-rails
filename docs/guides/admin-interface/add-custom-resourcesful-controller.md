@@ -36,7 +36,7 @@ To add custom resourcesful controller `Admin::CustomProductsController`, the ste
   end
   ```
 
-  > NOTE: `Admin::ApplicationController` can be replaced with `Wallaby::ResourcesController` if it doesn't not exist.
+  > NOTE: `Admin::ApplicationController` can be replaced with `Wallaby::ResourcesController` if it doesn't exist.
 
 - Tell controller that its model class is `Product` if Wallaby doesn't know which model class to use for this controller:
 

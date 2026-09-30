@@ -143,18 +143,18 @@ This colon expression means `name` doesn't start with `first_name`.
 
 #### End-with/Not
 
-**End-with** colon operator is `:^`. It can be used to match string/text that ends with given value.
+**End-with** colon operator is `:$`. It can be used to match string/text that ends with given value.
 
 ```
-name:^first_name
+name:$first_name
 ```
 
 This colon expression means `name` ends with `first_name`.
 
-**Not-end-with** colon operator is `:!^`. It can be used to exclude the records that end with the value.
+**Not-end-with** colon operator is `:!$`. It can be used to exclude the records that end with the value.
 
 ```
-name:!^first_name
+name:!$first_name
 ```
 
 This colon expression means `name` doesn't end with `first_name`.

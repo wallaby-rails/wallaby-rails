@@ -5,17 +5,16 @@ In Wallaby, the core of view layer is to iterate decorator's **\*_field_names** 
 For example, for index view, the core looks like the following pseudocode:
 
 ```erb
-<%= index_field_names.each do |field_name| %>
-  <%= type_render index_fields[field_name][:type],
-    object: object, field_name: field_name, value: value %>
+<% index_field_names.each do |field_name| %>
+  <%= render decorated.index_type_of(field_name),
+    object: decorated, field_name: field_name,
+    value: decorated.try(field_name), metadata: decorated.index_metadata_of(field_name) %>
 <% end %>
 ```
 
 It extends Rails' partial lookup order (see [Rails Template Inheritance](https://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance)) and supports [Type Partial](#type-partial).
 
 > NOTE: Cell (since 5.2.0) is removed from 6.1.0
-
-From 5.2.0, `type_render` is used to extend `render` helper method to provide support for Wallaby partial rendering.
 
 Starting with these concepts:
 
@@ -73,8 +72,8 @@ On top of [Rails' lookup order](https://guides.rubyonrails.org/layouts_and_rende
 - app/views/**$CONTROLLER_PATH**
 - app/views/**$PARENT_CONTROLLER_PATH**/**$ACTION_PREFIX** (it will keep going if there are more ancestor controllers)
 - app/views/**$PARENT_CONTROLLER_PATH**
-- app/views/**$THEME_NAME**/**$ACTION_PREFIX** - (since 5.2.0)
-- app/views/**$THEME_NAME** - (since 5.2.0)
+- app/views/**$THEME_NAME**/**$ACTION_PREFIX**
+- app/views/**$THEME_NAME**
 - app/views/wallaby/resources/**$ACTION_PREFIX** - (will not be applicable when **$THEME_NAME** is set)
 - app/views/wallaby/resources - (will not be applicable when **$THEME_NAME** is set)
 
@@ -97,10 +96,10 @@ In this case, variables become:
 
 - **$MOUNTED_PATH** is `manage` (from mount path `/manage`)
 - **$ACTION_PREFIX** is `index` (converted from [action_name](https://api.rubyonrails.org/classes/AbstractController/Base.html#method-i-action_name), see below [Action Prefix Mapping](#action-prefix-mapping))
-- **$RESOURCES** is `products` (plural model name of `Product`, see [URL naming convention](convention.md#url))
+- **$RESOURCES** is `products` (plural model name of `Product`, see [URL naming convention](convention.md#url-naming))
 - **$CONTROLLER_PATH** is `backend/goods` ([controller_name](https://api.rubyonrails.org/classes/ActionController/Metal.html#method-c-controller_name) of `Backend::GoodsController`)
 - **$PARENT_CONTROLLER_PATH** is `admin/application` ([controller_name](https://api.rubyonrails.org/classes/ActionController/Metal.html#method-c-controller_name) of `Admin::ApplicationController`)
-- **$THEME_NAME** (since 5.2.0) is `foundation`
+- **$THEME_NAME** is `foundation`
 
 Then the partial lookup order becomes:
 
@@ -166,11 +165,9 @@ The following resourcesful actions are mapped to the action prefixes:
 
 ### General Type Partials
 
-> NOTE:
-
 | Type Partial                  | Available to Action Prefixes  | Metadata Options |
 | ----------------------------- | ----------------------------- | ---------------- |
-| active_storage (since 5.2.0)  | index, show                   | |
+| active_storage                 | index, show, form             | |
 | bigint                        | index, show, form             | |
 | bigserial                     | index, show, form             | |
 | binary                        | index, show, form             | |
@@ -187,6 +184,7 @@ The following resourcesful actions are mapped to the action prefixes:
 | daterange                     | index, show, form             | |
 | datetime                      | index, show, form             | |
 | decimal                       | index, show, form             | |
+| dollar                        | index                         | |
 | dropdown                      | form                          | options for **form**: <br> - `:choices` - choices for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br> - `:options` - options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). <br>  - `:html_options` - html_options for [ActionView::Helpers::FormBuilder#select](https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-select). |
 | email                         | index, show, form             | |
 | file                          | form                          | |
@@ -200,7 +198,7 @@ The following resourcesful actions are mapped to the action prefixes:
 | json                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
 | jsonb                         | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
 | line                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
-| link (since 5.1.9)            | index, show                   | options for **index**, **show**: <br> - `:title` - title of the link. <br> - `:html_options` - options for [ActionView::Helpers::UrlHelper.html#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)|
+| link                            | index, show                   | options for **index**, **show**: <br> - `:title` - title of the link. <br> - `:html_options` - options for [ActionView::Helpers::UrlHelper.html#link_to](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)|
 | longblob                      | index, show, form             | |
 | longtext                      | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
 | lseg                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
@@ -212,6 +210,7 @@ The following resourcesful actions are mapped to the action prefixes:
 | money                         | index, show, form             | |
 | numrange                      | index, show, form             | |
 | password                      | index, show, form             | |
+| percent                       | index                         | |
 | path                          | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |
 | point                         | index, show, form             | |
 | polygon                       | index, show, form             | options for **index**: <br> - `:max` - truncate text at max length. |

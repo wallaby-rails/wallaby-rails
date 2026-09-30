@@ -1,7 +1,5 @@
 # Theme
 
-> since 5.2.0
-
 Wallaby utilizes both controller inheritance and [Rails Template Inheritance](http://guides.rubyonrails.org/layouts_and_rendering.html#template-inheritance) and makes theming possible to apply different look and feel, and even different frontend/backend implementation.
 
 There are two ways to apply a theme:
