@@ -24,6 +24,9 @@ include: [
   "index.md", "docs/**/*"
 ]
 
+# Keep the root README out of the generated docs site
+exclude: ["README.md"]
+
 # Regression tests
 # By default, the pages in /docs/tests are excluded when the ste is built.
 # To include them, comment-out the relevant line above.
