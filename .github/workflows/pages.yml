@@ -2,7 +2,7 @@
 #
 # The Jekyll site root is the repository root: `_config.yml`, `index.md` and
 # `docs/` are picked up and built by the same environment GitHub Pages uses,
-# keeping the `remote_theme: pmarsceill/just-the-docs` setup working.
+# keeping the `remote_theme: just-the-docs/just-the-docs` setup working.
 name: Deploy Jekyll site to Pages
 
 on:
