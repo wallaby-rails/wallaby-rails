@@ -4,7 +4,7 @@ Learn more about the customization for frontend:
 
 - [Partials](#partials) - customizing the components on the page, e.g. title, logo, header.
 
-  - [frontend](#frontend) (since 5.2.0) - customizing CSS and JS libraries in `<head>` tag.
+  - [frontend](#frontend) - customizing CSS and JS libraries in `<head>` tag.
   - [title](#title) - customizing page title.
   - [header](#header) - customizing header section.
   - [footer](#footer) - customizing footer section.
@@ -17,8 +17,6 @@ Learn more about the customization for frontend:
 
 - [Stylesheet](#stylesheet) - extending and customizing the look and feel by CSS stylesheet.
 - [Javascript](#Javascript) - extending and customizing user interaction by JS.
-
-  - [Turbolinks](#turbolinks) - enable turbolinks
 
 > NOTE: If a third party theme is used, its frontend implementation might be different from Wallaby, please check out its document to find out how to do customization for its frontend.
 
@@ -63,8 +61,6 @@ For example, given that Wallaby is mounted under path `/admin` (see how Wallaby 
 
 ## frontend
 
-> since 5.2.0
-
 Following example will create partial at admin application controller level under `admin/application` controller path.
 
 > See [Partials](#partials) and [Wallaby lookup order](view.md#partial-lookup-order) for where the partial should be created.
@@ -74,7 +70,6 @@ To customize CSS and JS libraries in the HTML `<head>` section, it goes:
 ```erb
 <%# app/views/admin/application/_frontend.html.erb %>
 <%= stylesheet_link_tag 'admin/application', media: 'all' %>
-<%= javascript_include_tag 'turbolinks' if features.turbolinks_enabled %>
 <%= javascript_include_tag 'admin/application' %>
 ```
 
@@ -285,12 +280,4 @@ There are a couple of ways to customize javascript:
 
 # Turbolinks
 
-To enable turbolinks for Wallaby, it is simple as overridding the `app/assets/javascripts/wallaby/application.js` as below:
-
-```javascript
-// app/assets/javascripts/wallaby/application.js
-//= require wallaby/base
-
-// Start customization from here
-//= require turbolinks
-```
+Wallaby detects Turbolinks automatically if the `turbolinks` gem is present in the host app's `Gemfile` — no configuration is required. To disable it, either remove the `turbolinks` gem from the `Gemfile`, or override the `frontend` partial to take the Turbolinks javascript tags out.

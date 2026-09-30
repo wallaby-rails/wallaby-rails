@@ -26,7 +26,7 @@ To customize the resourcesful action `show`, the steps are:
   end
   ```
 
-  > NOTE: `Admin::ApplicationController` can be replaced with `Wallaby::ResourcesController` if it doesn't not exist.
+  > NOTE: `Admin::ApplicationController` can be replaced with `Wallaby::ResourcesController` if it doesn't exist.
 
 - Create the action method `show`:
 
