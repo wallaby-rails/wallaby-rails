@@ -17,8 +17,11 @@ title: Wallaby
 description: Documentation for Wallaby
 # baseurl: "/wallaby-core" # the subpath of your site, e.g. /blog
 # url: "https://wallaby-rails.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-theme: "just-the-docs"
-remote_theme: pmarsceill/just-the-docs
+# The just-the-docs theme is used as a remote theme because GitHub Pages
+# (actions/jekyll-build-pages) only bundles the github-pages gem themes and
+# does not have the just-the-docs gem installed. `remote_theme` is fetched
+# at build time via jekyll-remote-theme (bundled with the github-pages gem).
+remote_theme: just-the-docs/just-the-docs
 
 include: [
   "index.md", "docs/**/*"
