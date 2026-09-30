@@ -89,9 +89,11 @@ BUNDLE_GEMFILE=.gemfiles/Gemfile.rails-8.0 bundle exec rspec
 
 ## Gotchas
 
-- **Docs are not in this repo.** The `docs/*.md` links in `wallaby/README.md`
-  point at <https://github.com/wallaby-rails/wallaby-docs>, which is expected to
-  move into this repo in the near future. Do not create `docs/` here yet.
+- **Docs live in this repo.** The documentation site (just-the-docs/Jekyll) is
+  built from the root `_config.yml` and the markdown under `docs/`. The
+  `docs/*.md` links in `wallaby/README.md` point at these local files. When
+  adding or updating documentation, edit the markdown in `docs/` and add Jekyll
+  build artifacts (`.jekyll-cache/`, `_site/`) to `.gitignore`, not the repo.
 - `wallaby-cop`'s version constant is in `lib/wallaby-cop.rb`
   (`Wallaby::Cop::VERSION`), not a `version.rb`.
 - `wallaby` has a separate JS/asset build (`package.json`, `yarn.lock`);

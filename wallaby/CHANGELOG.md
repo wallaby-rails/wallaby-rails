@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Require Rails 8.0+ and Ruby 3.3+ (drop EOL Rails 7.1/7.2, Ruby <= 3.2)
+- Point README documentation links at the in-repo `docs/` site
+  (migrated just-the-docs documentation)
 
 ### Fixed
 

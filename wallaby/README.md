@@ -9,11 +9,9 @@
 
 Wallaby is a Rails engine that autocompletes the resourceful controller and view for a given ORM model (ActiveRecord, HER) for admin interface and other purposes.
 
-It can be extended to support any ORM model and can be easily and deeply customized at MVC's different aspects by using [decorators](https://github.com/wallaby-rails/wallaby/blob/master/docs/decorator.md), [controllers](https://github.com/wallaby-rails/wallaby/blob/master/docs/controllers.md), [type partials](https://github.com/wallaby-rails/wallaby/blob/master/docs/view.md), [servicers](https://github.com/wallaby-rails/wallaby/blob/master/docs/servicer.md), [authorizers](https://github.com/wallaby-rails/wallaby/blob/master/docs/authorizer.md), [paginators](https://github.com/wallaby-rails/wallaby/blob/master/docs/paginator.md) and [themes](https://github.com/wallaby-rails/wallaby/blob/master/docs/theme.md).
+It can be extended to support any ORM model and can be easily and deeply customized at MVC's different aspects by using [decorators](../docs/decorator.md), [controllers](../docs/api-references/controller.md), [type partials](../docs/view.md), [servicers](../docs/servicer.md), [authorizers](../docs/authorizer.md), [paginators](../docs/paginator.md) and [themes](../docs/theme.md).
 
 [Try the demo here](https://wallaby-demo.herokuapp.com/admin/).
-
-[![Animated Demo](https://raw.githubusercontent.com/wallaby-rails/wallaby/master/docs/demo-animated.gif)](https://raw.githubusercontent.com/wallaby-rails/wallaby/master/docs/demo-animated.gif)
 
 ## Install
 
@@ -88,10 +86,9 @@ Restart rails server, and visit http://localhost:3000/blogs to give it a taste!
 
 ## Documentation
 
-- [Features and Requirements](https://github.com/wallaby-rails/wallaby/blob/master/docs/features.md)
-- [Documentation](https://github.com/wallaby-rails/wallaby/blob/master/docs/README.md) for more usages and customization guides
+- [Documentation](../index.md) for more usages and customization guides
 - [API Reference](https://www.rubydoc.info/gems/wallaby)
-- [Change Logs](https://github.com/wallaby-rails/wallaby/blob/master/CHANGELOG.md)
+- [Change Logs](CHANGELOG.md)
 
 ## Want to contribute?
 
