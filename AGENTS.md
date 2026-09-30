@@ -5,7 +5,8 @@ controllers and views for an ORM (ActiveRecord) to build admin interfaces.
 
 ## Repository layout
 
-This is a monorepo of five gems. Dependency direction (low → high):
+Monorepo of five gems plus the documentation site. Dependency direction
+(low → high):
 
 | Gem | Path | Role |
 | --- | --- | --- |
@@ -15,11 +16,27 @@ This is a monorepo of five gems. Dependency direction (low → high):
 | `wallaby` | `wallaby/` | Rails engine (`app/`), assets, generators, JS |
 | `wallaby-cop` | `wallaby-cop/` | Shared RuboCop config, standalone |
 
+Supporting structure at the repository root:
+
+| Area | Path | Role |
+| --- | --- | --- |
+| Documentation site | `docs/`, `index.md`, `_config.yml` | just-the-docs (Jekyll) site covering the whole project; home page is `index.md`, pages under `docs/` |
+| Docs deployment | `.github/workflows/pages.yml` | Builds the Jekyll site and deploys to GitHub Pages on pushes to `main` (also `workflow_dispatch`) |
+| CI (lint) | `.github/workflows/pr-build.yml` | RuboCop only, on changed files (does not run specs) |
+| Test harness | `spec/` | Host dummy app at `spec/dummy`; `spec/support/` holds helpers/shared examples |
+| Version matrix | `.gemfiles/` | `Gemfile.rails-8.0` / `Gemfile.rails-8.1` for the CI matrix; do not pin Ruby |
+| Agent files | `.opencode/` | Skills for running specs and releasing gems (see [Skills](#skills)) |
+
 - `wallaby-core` is the bulk of the logic under `lib/wallaby/`; the `wallaby`
   gem is mostly the mountable engine in `app/` plus `lib/wallaby/generators/`.
 - Gem versions are independent. `wallaby`'s gemspec comment
   (`This will determine wallaby-core's version`) means the dependency
   constraints in the gemspecs must stay in sync when releasing.
+- The docs site is built by GitHub Pages with the `github-pages` gem, which
+  only bundles its own themes — so `_config.yml` must keep using
+  `remote_theme: just-the-docs/just-the-docs` (fetched at build time), not
+  `theme: just-the-docs`. Jekyll build artifacts (`.jekyll-cache/`, `_site/`)
+  are gitignored.
 
 ## Toolchain
 
