@@ -32,7 +32,7 @@ module Wallaby
 
     # Status names Rack has since renamed and removed from
     # `Rack::Utils::SYMBOL_TO_STATUS_CODE` (e.g. `:unprocessable_entity` became
-    # `:unprocessable_content` in Rack 3.2). Wallaby keeps its historical names
+    # `:unprocessable_content` in Rack 3.1). Wallaby keeps its historical names
     # for routes and locale keys, so it resolves them here rather than through
     # Rack's deprecated, warning-emitting `status_code`.
     # NOTE: Rack keeps its own obsolete-symbol map private, and reading it would
