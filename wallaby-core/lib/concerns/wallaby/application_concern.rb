@@ -73,7 +73,7 @@ module Wallaby
 
       @exception = exception
       @symbol = symbol
-      @code = Wallaby::Utils.status_code(symbol).to_i
+      @code = Wallaby::Utils.status_code(symbol)
       respond_with @exception, status: @code, template: ERROR_PATH, prefixes: _prefixes
     end
   end

@@ -30,7 +30,15 @@ db_namespace = namespace :db do
   namespace :test do
     desc "Empty the test database"
     task purge: %w[environment load_config] do
-      ActiveRecord::Tasks::DatabaseTasks.purge_all
+      # NOTE: `DatabaseTasks.purge_all` skips configurations whose host is not
+      # local (e.g. the `postgres`/`mysql` service names used by docker-compose)
+      # and logs a warning for each. Purge the three dummy databases explicitly
+      # instead, whether or not their host counts as local.
+      %w[postgresql mysql sqlite].each do |type|
+        ActiveRecord::Tasks::DatabaseTasks.purge(
+          ActiveRecord::Base.configurations.configs_for(env_name: type).first
+        )
+      end
     end
 
     desc "Recreate the test database from an existent schema.rb file"

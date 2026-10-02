@@ -30,13 +30,20 @@ module Wallaby
       object.inspect
     end
 
-    # Statuses that Rack 3.2 moved out of `Rack::Utils::SYMBOL_TO_STATUS_CODE`.
-    # Wallaby keeps using its historical names (routes and locale keys), so it
-    # resolves them here instead of relying on Rack's deprecated `status_code`.
-    OBSOLETE_STATUS_CODES = { unprocessable_entity: 422 }.freeze
+    # Status names Rack has since renamed (e.g. `:unprocessable_entity` became
+    # `:unprocessable_content` in Rack 3.2) and dropped from
+    # `Rack::Utils::SYMBOL_TO_STATUS_CODE`. Wallaby keeps its historical names
+    # for routes and locale keys, so it resolves them here rather than through
+    # Rack's deprecated, warning-emitting `status_code`. Seeded from Rack's own
+    # obsolete map so future renames keep working.
+    OBSOLETE_STATUS_CODES = {
+      **Rack::Utils.const_get(:OBSOLETE_SYMBOLS_TO_STATUS_CODES),
+      unprocessable_entity: 422
+    }.freeze
 
-    # @param symbol [Symbol, Integer]
+    # @param symbol [Symbol] a Rack status name, e.g. a member of {Wallaby::ERRORS}
     # @return [Integer] HTTP status code
+    # @raise [KeyError] if the status name is unknown to Rack
     def self.status_code(symbol)
       Rack::Utils::SYMBOL_TO_STATUS_CODE[symbol] || OBSOLETE_STATUS_CODES.fetch(symbol)
     end

@@ -123,5 +123,11 @@ describe Wallaby::Utils do
         expect(described_class.status_code(:unprocessable_entity)).to eq 422
       end
     end
+
+    context 'when the symbol is unknown' do
+      it 'raises' do
+        expect { described_class.status_code(:unknown) }.to raise_error(KeyError)
+      end
+    end
   end
 end
