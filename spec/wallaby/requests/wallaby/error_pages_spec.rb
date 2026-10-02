@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Error pages', type: :request do
   Wallaby::ERRORS.each do |status|
-    code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+    code = Wallaby::Utils.status_code(status)
 
     describe status do
       it 'responses' do

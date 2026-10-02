@@ -4,11 +4,12 @@ require 'rails_helper'
 
 field_name = field_name_from __FILE__
 type = type_from __FILE__
+value = { 'key' => 'very long text' }
 describe field_name, type: :helper do
   it_behaves_like \
     "#{type} partial", field_name,
-    value: { 'key' => 'very long text' },
-    expected_value: "\n\"key\"=>\"very long text\"",
+    value: value,
+    expected_value: "\n#{value.to_s[1..-2]}",
     input_selector: 'textarea',
     content_for: true,
     skip_general: true,

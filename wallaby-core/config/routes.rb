@@ -11,7 +11,7 @@ Wallaby::Engine.routes.draw do
 
     # Error pages for all supported HTTP status in {Wallaby::ERRORS}
     Wallaby::ERRORS.each do |status|
-      code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+      code = Wallaby::Utils.status_code(status)
       get status, defaults: { action: status.to_s }
       get code.to_s, defaults: { action: status.to_s }
     end

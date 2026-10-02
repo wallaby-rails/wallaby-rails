@@ -1,0 +1,6 @@
+# The build only needs the Dockerfile and the entrypoint; the application code
+# is supplied at runtime by the bind mount in docker-compose.yml.
+*
+!Dockerfile
+!docker
+!docker/**

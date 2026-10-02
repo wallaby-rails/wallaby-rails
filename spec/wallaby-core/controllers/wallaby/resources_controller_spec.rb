@@ -3,6 +3,12 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesController, type: :controller do
+  # MySQL quotes identifiers with backticks; normalise so the SQL expectations
+  # below can be written once for every adapter.
+  def sql_of(query)
+    query.to_sql.tr('`', '"')
+  end
+
   describe 'instance methods' do
     let!(:model_class) { Product }
 
@@ -37,9 +43,9 @@ describe Wallaby::ResourcesController, type: :controller do
       it 'returns the query' do
         paginate = controller.send :paginate, query, paginate: true
         if version? '>= 6'
-          expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 0'
+          expect(sql_of(paginate)).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 0'
         else
-          expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
+          expect(sql_of(paginate)).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
         end
       end
 
@@ -48,9 +54,9 @@ describe Wallaby::ResourcesController, type: :controller do
           controller.params[:page] = 8
           paginate = controller.send :paginate, query, paginate: true
           if version? '>= 6'
-            expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 140'
+            expect(sql_of(paginate)).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 140'
           else
-            expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 140'
+            expect(sql_of(paginate)).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 140'
           end
         end
       end
@@ -60,9 +66,9 @@ describe Wallaby::ResourcesController, type: :controller do
           controller.params[:per] = 8
           paginate = controller.send :paginate, query, paginate: true
           if version? '>= 6'
-            expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 8 OFFSET 0'
+            expect(sql_of(paginate)).to eq 'SELECT "products".* FROM "products" LIMIT 8 OFFSET 0'
           else
-            expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 8 OFFSET 0'
+            expect(sql_of(paginate)).to eq 'SELECT  "products".* FROM "products" LIMIT 8 OFFSET 0'
           end
         end
       end
@@ -72,9 +78,9 @@ describe Wallaby::ResourcesController, type: :controller do
           controller.request.format = :html
           paginate = controller.send :paginate, query, paginate: true
           if version? '>= 6'
-            expect(paginate.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 0'
+            expect(sql_of(paginate)).to eq 'SELECT "products".* FROM "products" LIMIT 20 OFFSET 0'
           else
-            expect(paginate.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
+            expect(sql_of(paginate)).to eq 'SELECT  "products".* FROM "products" LIMIT 20 OFFSET 0'
           end
         end
       end
@@ -89,9 +95,9 @@ describe Wallaby::ResourcesController, type: :controller do
         expect(assigns(:collection)).to eq collection
 
         if version? '>= 6'
-          expect(collection.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 10 OFFSET 10'
+          expect(sql_of(collection)).to eq 'SELECT "products".* FROM "products" LIMIT 10 OFFSET 10'
         else
-          expect(collection.to_sql).to eq 'SELECT  "products".* FROM "products" LIMIT 10 OFFSET 10'
+          expect(sql_of(collection)).to eq 'SELECT  "products".* FROM "products" LIMIT 10 OFFSET 10'
         end
       end
     end

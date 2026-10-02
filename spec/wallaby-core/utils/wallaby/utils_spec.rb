@@ -112,4 +112,16 @@ describe Wallaby::Utils do
       expect(described_class.inspect(Person.new(id: 1))).to eq 'Person#1'
     end
   end
+
+  describe '.status_code' do
+    it 'returns the status code' do
+      expect(described_class.status_code(:not_found)).to eq 404
+    end
+
+    context 'when the symbol is obsolete in Rack' do
+      it 'returns the status code' do
+        expect(described_class.status_code(:unprocessable_entity)).to eq 422
+      end
+    end
+  end
 end

@@ -1,3 +1,5 @@
+require 'open-uri'
+
 [ AllPostgresType, Category, Order, Order::Item, Picture, Product, Tag, Blog ].each do |model|
   ActiveRecord::Base.connection.execute("TRUNCATE #{ model.table_name } RESTART IDENTITY")
 end
@@ -77,7 +79,6 @@ products = Product.all
   order = Order.new
   order.customer = FFaker::Name.name
   order.ordered_at = FFaker::Time.date
-  order.order_number = "N#{order.ordered_at.to_s(:number)}"
   order.save!
 
   product = products.sample
@@ -96,7 +97,7 @@ end
   picture = Picture.new
   picture.name = FFaker::Name.name
   picture.imageable = [Product, Category].sample.all.sample
-  picture.file.attach(io: URI.open('https://picsum.photos/100'), filename: "#{FFaker::Name.name}.jpg")
+  picture.file = URI.open('https://picsum.photos/100').read
   picture.save
 end
 

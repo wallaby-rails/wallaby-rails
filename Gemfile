@@ -31,8 +31,12 @@ end
 
 group :development do
   gem 'better_errors'
+  # `massa` requires `ostruct`, which is no longer a default gem in Ruby 4.0.
   gem 'massa'
   gem 'memory_profiler'
+  gem 'ostruct'
+  # Needed to boot the dummy app (`bin/rails server`); not required by the specs.
+  gem 'puma'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'turbolinks'

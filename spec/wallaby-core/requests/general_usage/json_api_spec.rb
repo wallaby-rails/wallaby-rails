@@ -46,7 +46,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
+        expect(json['errors']).to include('detail' => a_string_matching(/param is missing or the value is empty(?: or invalid)?: picture/), 'status' => 400)
       end
     end
 
@@ -77,7 +77,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
+        expect(json['errors']).to include('detail' => a_string_matching(/param is missing or the value is empty(?: or invalid)?: picture/), 'status' => 400)
       end
     end
 
@@ -146,7 +146,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
+        expect(json['errors']).to include('detail' => a_string_matching(/param is missing or the value is empty(?: or invalid)?: picture/), 'status' => 400)
       end
     end
 
@@ -177,7 +177,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
+        expect(json['errors']).to include('detail' => a_string_matching(/param is missing or the value is empty(?: or invalid)?: picture/), 'status' => 400)
       end
     end
 
@@ -247,7 +247,7 @@ describe 'for Json API', type: :request do
           expect(response).to have_http_status :bad_request
           expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
           json = JSON.parse response.body
-          expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
+          expect(json['errors']).to include('detail' => a_string_matching(/param is missing or the value is empty(?: or invalid)?: picture/), 'status' => 400)
         end
       end
 
@@ -278,7 +278,7 @@ describe 'for Json API', type: :request do
           expect(response).to have_http_status :bad_request
           expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
           json = JSON.parse response.body
-          expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
+          expect(json['errors']).to include('detail' => a_string_matching(/param is missing or the value is empty(?: or invalid)?: picture/), 'status' => 400)
         end
       end
 

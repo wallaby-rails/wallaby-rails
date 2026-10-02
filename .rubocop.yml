@@ -38,3 +38,9 @@ Rails/FilePath:
 RSpec/MultipleMemoizedHelpers:
   Exclude:
     - 'spec/**/*'
+
+RSpec/SpecFilePathFormat:
+  # Specs are grouped by gem directory (`spec/wallaby-active_record/`), which
+  # does not mirror the `Wallaby::ActiveRecord` namespace this cop expects.
+  Exclude:
+    - 'spec/wallaby-active_record/**/*'
