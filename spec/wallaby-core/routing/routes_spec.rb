@@ -99,7 +99,7 @@ describe 'routing' do
 
       it 'dispatches error routes to Admin::ApplicationController' do
         Wallaby::ERRORS.each do |status|
-          code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+          code = Wallaby::Utils.status_code(status)
           expect(Admin::ApplicationController).to receive(:action).with(status.to_s) { mock_response_with(code.to_s) }
           get "#{script_name}/#{code}"
           expect(response.body).to eq code.to_s
@@ -126,7 +126,7 @@ describe 'routing' do
 
         it 'dispatches error routes to CoreController' do
           Wallaby::ERRORS.each do |status|
-            code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+            code = Wallaby::Utils.status_code(status)
             expect(CoreController).to receive(:action).with(status.to_s) { mock_response_with(code.to_s) }
             get "#{script_name}/#{code}"
             expect(response.body).to eq code.to_s
@@ -155,7 +155,7 @@ describe 'routing' do
 
       it 'dispatches error routes to InnerController' do
         Wallaby::ERRORS.each do |status|
-          code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+          code = Wallaby::Utils.status_code(status)
           expect(InnerController).to receive(:action).with(status.to_s) { mock_response_with(code.to_s) }
           get "#{script_name}/#{code}"
           expect(response.body).to eq code.to_s

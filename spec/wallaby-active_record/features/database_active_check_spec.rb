@@ -8,7 +8,7 @@ describe 'Database active check' do
 
   context 'when database does not exist' do
     it 'returns empty hash' do
-      allow(model_class).to receive(:connection).and_raise(::ActiveRecord::NoDatabaseError, 'database not exist')
+      allow(model_class).to receive(:table_exists?).and_raise(::ActiveRecord::NoDatabaseError, 'database not exist')
       expect(model_decorator.index_fields).to eq({})
       expect(model_decorator.index_fields[:any_field]).to eq({})
     end

@@ -30,6 +30,23 @@ module Wallaby
       object.inspect
     end
 
+    # Status names Rack has since renamed and removed from
+    # `Rack::Utils::SYMBOL_TO_STATUS_CODE` (e.g. `:unprocessable_entity` became
+    # `:unprocessable_content` in Rack 3.1). Wallaby keeps its historical names
+    # for routes and locale keys, so it resolves them here rather than through
+    # Rack's deprecated, warning-emitting `status_code`.
+    # NOTE: Rack keeps its own obsolete-symbol map private, and reading it would
+    # both couple us to its internals and break Rack < 3.1 (where it is absent),
+    # so only the names Wallaby itself uses are listed.
+    OBSOLETE_STATUS_CODES = { unprocessable_entity: 422 }.freeze
+
+    # @param symbol [Symbol] a Rack status name, e.g. a member of {Wallaby::ERRORS}
+    # @return [Integer] HTTP status code
+    # @raise [KeyError] if the status name is unknown to Rack
+    def self.status_code(symbol)
+      Rack::Utils::SYMBOL_TO_STATUS_CODE[symbol] || OBSOLETE_STATUS_CODES.fetch(symbol)
+    end
+
     # Service object to clone Hash
     class HashCloner
       def self.execute(object)

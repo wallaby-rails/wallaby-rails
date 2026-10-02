@@ -1,0 +1,81 @@
+# Development environment for the Wallaby monorepo.
+#
+#   docker compose build              # build the app image
+#   docker compose up -d              # start app + Postgres + MySQL
+#   docker compose exec app bundle exec rspec
+#
+# Database ports are intentionally NOT published to the host: the `app`
+# container reaches the services over the compose network, so the stack does
+# not clash with a local Postgres/MySQL. Publish them yourself if you need to
+# connect from a host client.
+name: wallaby-rails
+
+x-app: &app
+  build:
+    context: .
+    dockerfile: Dockerfile
+  image: wallaby-rails-dev
+  working_dir: /app
+  volumes:
+    - .:/app
+    # Persist installed gems across image rebuilds / container recreation.
+    - bundle:/usr/local/bundle
+    # Keep the container's node_modules out of the bind mount.
+    - node_modules:/app/wallaby/node_modules
+  environment: &app_environment
+    BUNDLE_GEMFILE: /app/Gemfile
+    POSTGRES_HOST: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: password
+    MYSQL_HOST: mysql
+    MYSQL_ROOT_PASSWORD: password
+    # The spec suite reads RAILS_ENV; CI uses `test` too.
+    RAILS_ENV: test
+
+services:
+  app:
+    <<: *app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    tty: true
+    stdin_open: true
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: wallaby_rails_dummy_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      # postgres:18+ wants a single mount at /var/lib/postgresql (see
+      # https://github.com/docker-library/postgres/pull/1259).
+      - postgres_data:/var/lib/postgresql
+
+  mysql:
+    image: mysql:9
+    environment:
+      MYSQL_DATABASE: wallaby_rails_dummy_test
+      MYSQL_ROOT_PASSWORD: password
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  bundle:
+  node_modules:
+  postgres_data:
+  mysql_data:

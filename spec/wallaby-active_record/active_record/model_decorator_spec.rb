@@ -118,7 +118,12 @@ describe Wallaby::ActiveRecord::ModelDecorator do
 
         context 'when database does not exist' do
           before do
-            allow(model_class).to receive(:table_exists?).and_raise(ActiveRecord::NoDatabaseError)
+            # NOTE: A verifying double would make RSpec call
+            # `define_attribute_methods` on this table-less model and query the
+            # missing table, so stub the class method directly instead.
+            model_class.define_singleton_method(:table_exists?) do
+              raise ActiveRecord::NoDatabaseError
+            end
           end
 
           it_behaves_like 'returning empty hash'

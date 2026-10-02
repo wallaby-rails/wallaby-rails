@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Add missing `csv` dependency (`csv` is no longer a default gem since Ruby 3.4)
+- Resolve error page status codes (e.g. 422) on Rack 3.1, which renamed
+  `:unprocessable_entity` to `:unprocessable_content`
 
 ## TODOs
 

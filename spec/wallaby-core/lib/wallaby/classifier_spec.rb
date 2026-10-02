@@ -63,11 +63,11 @@ describe Wallaby::Classifier do
         let(:class_name) { +'BrokenProduct' }
 
         it 'does not raise error nor cache the result' do
-          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+          expect(Wallaby::Map.class_name_error_map[class_name]).to be_nil
           expect(class_name).to receive(:constantize).and_call_original
           expect { described_class.to_class(class_name, raising: raising) }.not_to raise_error
 
-          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+          expect(Wallaby::Map.class_name_error_map[class_name]).to be_nil
           expect(class_name).to receive(:constantize).and_call_original
           expect { described_class.to_class(class_name, raising: raising) }.not_to raise_error
         end
@@ -76,13 +76,13 @@ describe Wallaby::Classifier do
           let(:raising) { true }
 
           it 'always raises error' do
-            expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+            expect(Wallaby::Map.class_name_error_map[class_name]).to be_nil
             expect(class_name).to receive(:constantize).and_call_original
-            expect { described_class.to_class(class_name, raising: raising) }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+            expect { described_class.to_class(class_name, raising: raising) }.to raise_error(NameError, /undefined local variable or method [`']missing_class_method_called'/)
 
             expect(Wallaby::Map.class_name_error_map[class_name]).to eq(:name_error)
             expect(class_name).to receive(:constantize).and_call_original
-            expect { described_class.to_class(class_name, raising: raising) }.to raise_error(NameError, "undefined local variable or method `missing_class_method_called' for BrokenProduct:Class")
+            expect { described_class.to_class(class_name, raising: raising) }.to raise_error(NameError, /undefined local variable or method [`']missing_class_method_called'/)
           end
         end
       end
@@ -92,11 +92,11 @@ describe Wallaby::Classifier do
       let(:class_name) { +'UnknownProduct' }
 
       it 'returns nil but does not cache the result' do
-        expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+        expect(Wallaby::Map.class_name_error_map[class_name]).to be_nil
         expect(class_name).to receive(:constantize).and_call_original
         expect(described_class.to_class(class_name, raising: raising)).to be_nil
 
-        expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+        expect(Wallaby::Map.class_name_error_map[class_name]).to be_nil
         expect(class_name).to receive(:constantize).and_call_original
         expect(described_class.to_class(class_name, raising: raising)).to be_nil
       end
@@ -105,7 +105,7 @@ describe Wallaby::Classifier do
         let(:raising) { true }
 
         it 'returns nil and caches the result' do
-          expect(Wallaby::Map.class_name_error_map[class_name]).to eq(nil)
+          expect(Wallaby::Map.class_name_error_map[class_name]).to be_nil
           expect(class_name).to receive(:constantize).and_call_original
           expect { described_class.to_class(class_name, raising: raising) }.not_to raise_error
 

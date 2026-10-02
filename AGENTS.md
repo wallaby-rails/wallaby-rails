@@ -67,6 +67,48 @@ BUNDLE_GEMFILE=.gemfiles/Gemfile.rails-8.0 bundle exec rspec
 # same with .gemfiles/Gemfile.rails-8.1
 ```
 
+## Docker
+
+`Dockerfile`, `docker-compose.yml` and `docker/entrypoint.sh` provide a
+self-contained dev environment (Ruby 4.0.7, Node/Yarn, Postgres 18, MySQL 9) so
+the suite and the dummy app can run without a local toolchain. SQLite is
+file-based and needs no service.
+
+```shell
+docker compose build                                 # build the app image
+docker compose up -d                                 # app + Postgres + MySQL
+docker compose exec app bin/rails db:schema:load     # load the test schemas
+docker compose exec app bundle exec rspec            # full suite
+docker compose exec app bundle exec rspec spec/foo_spec.rb:42
+```
+
+- Gems are installed into the `bundle` named volume; the entrypoint runs
+  `bundle install` on first boot and whenever the Gemfile changes.
+- The `app` service defaults to `RAILS_ENV=test`, like CI. To boot the dummy app
+  (the service publishes `${APP_PORT:-3000}`), override the environment:
+
+  ```shell
+  docker compose exec -e RAILS_ENV=development app bin/rails db:schema:load
+  docker compose exec -e RAILS_ENV=development app bin/rails server -b 0.0.0.0
+  ```
+
+- Database ports are intentionally not published, so the stack does not clash
+  with a local Postgres/MySQL. Publish them per service if a host client needs
+  access. `postgres:18` mounts its data at `/var/lib/postgresql` (not `.../data`).
+- Node 20 / Yarn 1 are in the image for the `wallaby` gem's asset build, kept in
+  the `node_modules` volume:
+
+  ```shell
+  docker compose exec app bash -lc 'cd wallaby && yarn install'
+  docker compose exec app bash -lc 'cd wallaby && yarn build:js && yarn build:scss'
+  ```
+- `db:seed` populates demo data for the dummy app (products, categories, orders,
+  blogs with Active Storage images). It downloads placeholder images from
+  `picsum.photos`, so it needs network access.
+- `ostruct` and `puma` were added as development dependencies so the dummy app
+  boots on Ruby 4.0 (`massa` requires `ostruct`, which is no longer a default
+  gem) and so `bin/rails server` has a server gem. The specs need neither.
+
 ## Testing
 
 - Specs boot the **host dummy app** at `spec/dummy`, not the gems in isolation.
@@ -79,7 +121,10 @@ BUNDLE_GEMFILE=.gemfiles/Gemfile.rails-8.0 bundle exec rspec
   DB=sqlite bundle exec rspec
   ```
 
-  Schemas live in `spec/dummy/db/{sqlite,postgresql,mysql}_schema.rb`.
+  Schemas live in `spec/dummy/db/{sqlite,postgresql,mysql}_schema.rb` and all
+  three carry the shared tables. `AllPostgresType` is pinned to the `postgresql`
+  connection (like `AllMysqlType`/`AllSqliteType`), so its PostgreSQL-only
+  columns work regardless of which adapter `DB` selects.
 - **All three databases must be running**, regardless of `DB`. The dummy app
   overrides `db:test:load_schema` and `db:test:purge` in
   `spec/dummy/lib/tasks/database.rake` to loop over `postgresql`, `mysql` and
