@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [8.0.1](https://github.com/wallaby-rails/wallaby/releases/tag/8.0.1) - 2026-10-03
+
 ### Changed
 
 - Require Rails 8.0+ and Ruby 3.3+ (drop EOL Rails 7.1/7.2, Ruby <= 3.2)
