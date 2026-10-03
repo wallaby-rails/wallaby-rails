@@ -28,4 +28,4 @@ Gemfile.lock
 *.sqlite3-*
 */.gitignore
 yarn-error.log
-app/assets/javascripts/wallaby/core.js.map
+**/app/assets/javascripts/wallaby/core.js.map
