@@ -6,6 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- **Fail closed on authentication.** `authenticate_wallaby_user!` now rejects a
+  request unless authentication is explicitly provided (previously a missing
+  `authenticate_user!` was treated as success). Define `authenticate_user!` or
+  override `authenticate_wallaby_user!` in your base controller.
+- **Warn when the default authorizer is used.** The default authorization
+  provider allows every action on every resource; a one-off warning is now
+  emitted so operators notice a missing CanCanCan/Pundit setup.
+- **Avoid unsafe constant resolution.** `ResourcesRouter` resolves the model
+  with `safe_constantize` instead of `constantize`, so arbitrary request input
+  cannot raise unexpected errors or load unexpected constants.
+- **Escape flash messages and validation errors** in the UI (they were rendered
+  with `raw`), preventing script injection through error text.
+- **Filter sensitive parameters.** The install generator now writes a
+  `filter_parameter_logging.rb` initializer covering common credential/secret
+  fields.
+- **Guard CSV exports against formula injection.** Exported cells beginning with
+  `=`, `+`, `-`, `@`, tab or carriage return are prefixed with `'`.
+- **Sanitize `raw`-type fields** on show/index pages to prevent stored XSS.
+
 ## [0.3.3](https://github.com/wallaby-rails/wallaby/releases/tag/0.3.3) - 2026-10-03
 
 ### Changed

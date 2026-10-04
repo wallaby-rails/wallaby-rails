@@ -12,6 +12,7 @@ module Wallaby
   # @since wallaby-5.2.0
   class ModelAuthorizer
     extend Baseable::ClassMethods
+
     base_class!
 
     class << self
@@ -64,6 +65,40 @@ module Wallaby
       Map.authorizer_provider_map(model_class)
     end
 
+    # Go through the provider list and find out the one is
+    # {Wallaby::ModelAuthorizationProvider.available? .available?}
+    # @param model_class [Class]
+    # @param context [ActionController::Base, ActionView::Base]
+    # @return [Class] provider class
+    def self.guess_and_set_provider_from(model_class, context)
+      providers = providers_of(model_class)
+      provider_class =
+        providers[provider_name] \
+          || providers.values.find { |klass| klass.available? context } \
+          || providers[:default] # fallback to default
+      self.provider_name ||= provider_class.provider_name
+      warn_on_default_provider(provider_class)
+      provider_class
+    end
+
+    # SECURITY: The default provider authorizes every action on every subject.
+    # Emit a one-off warning so operators notice when no real authorization
+    # framework (CanCanCan/Pundit) has been detected for a model.
+    # @param provider_class [Class]
+    # @return [void]
+    def self.warn_on_default_provider(provider_class)
+      return unless provider_class == DefaultAuthorizationProvider
+      return if @default_provider_warned
+
+      @default_provider_warned = true
+      Logger.warn <<~MESSAGE
+        Wallaby is falling back to the default authorization provider, which
+        allows every action on every resource for every user. Install and
+        configure CanCanCan or Pundit, or define a custom authorizer, before
+        exposing the interface.
+      MESSAGE
+    end
+
     # @param model_class [Class]
     # @param provider_name [String]
     # @param provider [Wallaby::ModelAuthorizationProvider]
@@ -81,21 +116,6 @@ module Wallaby
       @context = context
       @provider = provider \
         || self.class.providers_of(@model_class)[provider_name].new(options)
-    end
-
-    # Go through the provider list and find out the one is
-    # {Wallaby::ModelAuthorizationProvider.available? .available?}
-    # @param model_class [Class]
-    # @param context [ActionController::Base, ActionView::Base]
-    # @return [Class] provider class
-    def self.guess_and_set_provider_from(model_class, context)
-      providers = providers_of(model_class)
-      provider_class =
-        providers[provider_name] \
-          || providers.values.find { |klass| klass.available? context } \
-          || providers[:default] # fallback to default
-      self.provider_name ||= provider_class.provider_name
-      provider_class
     end
   end
 end

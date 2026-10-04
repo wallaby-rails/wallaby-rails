@@ -4,6 +4,11 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches: [main, develop]
+
+# SECURITY: default to the least privilege. The job only needs to read the repo.
+permissions:
+  contents: read
+
 jobs:
   pr-build:
     runs-on: ${{ matrix.os }}
@@ -15,7 +20,9 @@ jobs:
       MYSQL_ROOT_PASSWORD: password
     services:
       postgres:
-        image: postgres:latest
+        # Pin the major version so CI does not silently pick up a new, untested
+        # image (supply-chain / reproducibility).
+        image: postgres:18-alpine
         env:
           POSTGRES_DB: wallaby_rails_dummy_test
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
@@ -28,7 +35,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       mysql:
-        image: mysql:latest
+        image: mysql:9
         env:
           MYSQL_DATABASE: wallaby_rails_dummy_test
           MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
@@ -48,7 +55,7 @@ jobs:
         rails: ['8.1', '8.0']
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
@@ -63,3 +70,12 @@ jobs:
       - name: Rubocop Check
         if: ${{ github.event_name == 'pull_request' }}
         run: git diff --name-only ${{ github.event.pull_request.base.sha }} --diff-filter AMT | xargs bundle exec rubocop --force-exclusion
+
+      # SECURITY: fail the build on known-vulnerable dependencies. Runs on a
+      # single matrix entry to keep the job count reasonable.
+      - name: Dependency vulnerability audit
+        if: ${{ matrix.ruby == '4.0' && matrix.rails == '8.1' }}
+        run: |
+          gem install bundler-audit --no-document
+          bundle audit check --update
+

@@ -43,8 +43,16 @@ module Wallaby
     # @return [true] when user is authenticated successfully
     # @raise [NotAuthenticated] when user fails to authenticate
     def authenticate_wallaby_user!
+      # NOTE: allow the base controller (e.g. the host app's ApplicationController)
+      # to provide its own implementation, since this module is included after it.
+      return super if defined?(super)
+
+      # SECURITY: fail closed. If the host controller does not define
+      # `authenticate_user!`, `try` returns `nil`. Treating that as success would
+      # expose the whole admin interface anonymously, so only an explicit
+      # truthy return value authenticates the request.
       authenticated = try :authenticate_user!
-      raise NotAuthenticated if authenticated == false
+      raise NotAuthenticated unless authenticated
 
       true
     end

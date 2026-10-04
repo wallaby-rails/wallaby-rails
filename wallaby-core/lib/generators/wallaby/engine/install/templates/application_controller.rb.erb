@@ -54,6 +54,23 @@ module <%= class_name %>
     # config.sorting_strategy = :single
 
     # Customize how to authenticate a user. If a user is not authenticated, redirect them to the sign in page.
+    #
+    # SECURITY: Wallaby is fail-closed. If the superclass does not define
+    # `authenticate_user!` (or it returns a falsy value), the request is denied.
+    # Provide your authentication here, for example with Devise:
+    #
+    #   def authenticate_wallaby_user!
+    #     authenticate_user!
+    #   end
+    #
+    # or with HTTP Basic:
+    #
+    #   def authenticate_wallaby_user!
+    #     authenticate_or_request_with_http_basic do |username, password|
+    #       ActiveSupport::SecurityUtils.secure_compare(username, ENV.fetch('ADMIN_USER')) &
+    #         ActiveSupport::SecurityUtils.secure_compare(password, ENV.fetch('ADMIN_PASSWORD'))
+    #     end
+    #   end
     # def authenticate_wallaby_user!
     #   super # do something for all the subclasses
     # end

@@ -62,26 +62,42 @@ module Wallaby
         # - scope from metadata
         # - defined scope from the model
         # - unscoped
+        #
+        # SECURITY: `filter_name` comes straight from the request (`params[:filter]`).
+        # It must never be used as an arbitrary method name to call on the model
+        # class. It is only honoured when the decorator has explicitly declared a
+        # filter (and optional scope) for it.
         # @param filter_name [String] filter name
         # @return [ActiveRecord::Relation]
         def filtered_by(filter_name)
           valid_filter_name =
             FilterUtils.filter_name_by(filter_name, @model_decorator.filters)
+          return unscoped unless valid_filter?(valid_filter_name)
+
           scope = find_scope(valid_filter_name)
           return unscoped if scope.blank?
 
           if scope.is_a?(Proc) then @model_class.instance_exec(&scope)
-          elsif @model_class.respond_to?(scope)
+          elsif valid_filter_name.to_s == scope.to_s && @model_class.respond_to?(scope)
             @model_class.try(scope)
           else
             unscoped
           end
         end
 
+        # A filter is only valid when it is a key explicitly declared by the
+        # decorator. This prevents `?filter=<any_model_method>` from invoking
+        # arbitrary (possibly destructive, e.g. `delete_all`) model class methods.
+        # @param filter_name [String, Symbol]
+        # @return [Boolean]
+        def valid_filter?(filter_name)
+          filter_name.present? && @model_decorator.filters.key?(filter_name)
+        end
+
         # Find out the scope for given filter
         # - from filter metadata
         # - filter name itself
-        # @param filter_name [String] filter name
+        # @param filter_name [String]
         # @return [String]
         def find_scope(filter_name)
           @model_decorator.filters[filter_name].try(:[], :scope) || filter_name

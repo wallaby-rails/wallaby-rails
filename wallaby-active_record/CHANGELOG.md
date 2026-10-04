@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- **`?filter=` can no longer invoke arbitrary model methods.** A filter is only
+  honoured when the decorator has explicitly declared it, and its `:scope` may
+  not point at a method name other than the filter itself. Previously a crafted
+  `filter` value could call any public model class method (e.g. `delete_all`).
+
 ## [0.3.3](https://github.com/wallaby-rails/wallaby/releases/tag/0.3.3) - 2026-10-03
 
 ### Changed

@@ -45,3 +45,6 @@ RSpec/SpecFilePathFormat:
   Exclude:
     - 'spec/wallaby-active_record/**/*'
     - 'spec/wallaby-core/**/*'
+    # Security regression specs are grouped by concern, not by namespace, so the
+    # path/description mapping the cop wants does not apply.
+    - 'spec/security/**/*'

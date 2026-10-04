@@ -21,6 +21,10 @@ nav_order: 1
 - [Customize frontend (html/js/css)](docs/frontend.md)
 - [Write RSpec tests for your customization](docs/test.md)
 
+# Security
+
+- [Security defaults and hardening](docs/security.md)
+
 # Sophisticated use cases
 
 - Support non-ActiveModel resources

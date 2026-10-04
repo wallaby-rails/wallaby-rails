@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- **Escaped flash messages and validation errors** (previously rendered with
+  `raw`), preventing script injection through error text.
+- **Sanitized `raw`-type fields** on show/index pages to prevent stored XSS.
+- **Guarded CSV exports against formula injection.**
+
 ## [8.0.1](https://github.com/wallaby-rails/wallaby/releases/tag/8.0.1) - 2026-10-03
 
 ### Changed

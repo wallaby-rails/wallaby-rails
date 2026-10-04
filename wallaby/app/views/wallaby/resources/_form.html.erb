@@ -1,7 +1,7 @@
 <% decorated.errors[:base].try do |messages| %>
   <% Array(messages).each do |message| %>
     <div class="alert alert-danger alert-dismissible" role="alert">
-      <%= raw message %>
+      <%= message %>
     </div>
   <% end %>
 <% end %>

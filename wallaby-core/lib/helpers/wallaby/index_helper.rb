@@ -9,6 +9,21 @@ module Wallaby
       wt 'filters.all'
     end
 
+    # Sanitise a value for CSV export to prevent formula injection.
+    #
+    # Spreadsheet applications treat cells beginning with `=`, `+`, `-`, `@`,
+    # tab or carriage return as formulas. Prefixing them with a single quote
+    # neutralises the formula while keeping the original text visible.
+    # @see https://owasp.org/www-community/attacks/CSV_Injection
+    # @param value [Object]
+    # @return [Object] escaped value (non-strings are returned unchanged)
+    def csv_escape(value)
+      return value unless value.is_a?(String)
+      return value unless value.match?(/\A[=+\-@\t\r]/)
+
+      "'#{value}"
+    end
+
     # If `:fields` parameter is given, only display fields that is in `index_field_names`
     # Otherwise, `index_field_names`
     # @param decorated_collection [Array<Wallaby::ResourceDecorator>]

@@ -55,6 +55,16 @@ module Wallaby
 
       def create_wallaby_initializer_file # :nodoc:
         template 'initializer.rb.erb', 'config/initializers/wallaby.rb'
+        create_filter_parameter_logging_file
+      end
+
+      # SECURITY: Wallaby forms submit arbitrary model attributes. Make sure the
+      # host app filters common credential/secret parameters from logs.
+      def create_filter_parameter_logging_file # :nodoc:
+        template(
+          'filter_parameter_logging.rb.erb',
+          'config/initializers/filter_parameter_logging.rb'
+        )
       end
 
       def create_application_files # :nodoc:
