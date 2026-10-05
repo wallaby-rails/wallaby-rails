@@ -9,6 +9,12 @@
     "build:scss-bundle": "scss-bundle -o $CORE_SCSS_OUTPUT_PATH -e app/stylesheets/wallaby/core.scss --includePaths node_modules"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/lang-markdown": "^6.5.2",
+    "@codemirror/lang-xml": "^6.1.0",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/legacy-modes": "^6.5.4",
+    "@codemirror/state": "^6.7.6",
     "bootstrap": "^4.6.2",
     "codemirror": "^6.0.2",
     "font-awesome": "^4.7.0",

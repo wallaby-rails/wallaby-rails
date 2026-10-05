@@ -73,10 +73,5 @@
         }).trigger('scroll');
       })
     })
-
-    if (CodeMirror) {
-      CodeMirror.defaults.theme = "mdn-like";
-      CodeMirror.defaults.lineNumbers = true;
-    }
   })
 })(window.jQuery);
