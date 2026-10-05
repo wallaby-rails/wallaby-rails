@@ -30,10 +30,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '4.0'
-          bundler-cache: true
           rubygems: latest
 
       - name: Audit dependencies
         run: |
+          # Gemfile.lock is gitignored, so resolve one for the matrix Gemfile.
+          bundle lock
+          # bundler-audit reads a `Gemfile.lock` from a directory; audit a copy
+          # of the resolved lockfile.
+          audit_dir="$(mktemp -d)"
+          cp "${BUNDLE_GEMFILE}.lock" "${audit_dir}/Gemfile.lock"
           gem install bundler-audit --no-document
-          bundle audit check --update
+          bundle-audit update
+          bundle-audit check "${audit_dir}"
