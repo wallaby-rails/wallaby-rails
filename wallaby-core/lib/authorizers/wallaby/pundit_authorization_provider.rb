@@ -33,6 +33,12 @@ module Wallaby
         #{Utils.inspect user} is forbidden to perform #{action} on #{Utils.inspect subject}
       MESSAGE
       raise Forbidden
+    rescue ::Pundit::NotDefinedError => e
+      # SECURITY: a missing policy must not leak as a 500. Fail closed.
+      Logger.error <<~MESSAGE
+        No Pundit policy defined for #{Utils.inspect subject}: #{e.message}
+      MESSAGE
+      raise Forbidden
     end
 
     # Check and see if user is allowed to perform an action on given subject
@@ -43,6 +49,8 @@ module Wallaby
     def authorized?(action, subject)
       policy = Pundit.policy!(user, subject)
       policy.try normalize(action)
+    rescue ::Pundit::NotDefinedError
+      false
     end
 
     # Restrict user to access certain scope/query.
@@ -51,6 +59,9 @@ module Wallaby
     # @return [Object]
     def accessible_for(_action, scope)
       Pundit.policy_scope!(user, scope)
+    rescue ::Pundit::NotDefinedError
+      Logger.warn "Cannot find scope policy for `#{scope}`."
+      scope
     end
 
     # Restrict user to assign certain values.

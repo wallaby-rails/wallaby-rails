@@ -1,4 +1,21 @@
 require 'open-uri'
+require 'uri'
+
+# Fetch a placeholder image for demo data.
+#
+# SECURITY: this is test/demo seed data only. Restrict fetching to the single
+# expected host, cap the response size, and use an explicit HTTPS URL so a
+# poisoned record cannot turn seeding into an SSRF primitive.
+PLACEHOLDER_IMAGE_HOST = 'picsum.photos'
+PLACEHOLDER_IMAGE_URL = "https://#{PLACEHOLDER_IMAGE_HOST}/100"
+PLACEHOLDER_IMAGE_MAX_BYTES = 5 * 1024 * 1024
+
+def placeholder_image
+  uri = URI.parse(PLACEHOLDER_IMAGE_URL)
+  raise "Unexpected image host: #{uri.host}" unless uri.host == PLACEHOLDER_IMAGE_HOST
+
+  URI.open(uri, read_timeout: 10) { |io| io.read(PLACEHOLDER_IMAGE_MAX_BYTES) }
+end
 
 [ AllPostgresType, Category, Order, Order::Item, Picture, Product, Tag, Blog ].each do |model|
   ActiveRecord::Base.connection.execute("TRUNCATE #{ model.table_name } RESTART IDENTITY")
@@ -97,7 +114,7 @@ end
   picture = Picture.new
   picture.name = FFaker::Name.name
   picture.imageable = [Product, Category].sample.all.sample
-  picture.file = URI.open('https://picsum.photos/100').read
+  picture.file = placeholder_image
   picture.save
 end
 
@@ -107,7 +124,7 @@ end
   blog.subject = FFaker::Lorem.sentence
   blog.summary = FFaker::Lorem.paragraph
   blog.body = FFaker::Lorem.paragraph(rand 100)
-  blog.image.attach(io: URI.open('https://picsum.photos/100'), filename: "#{FFaker::Name.name}.jpg")
+  blog.image.attach(io: StringIO.new(placeholder_image), filename: "#{FFaker::Name.name}.jpg")
   blog.published_at = Time.zone.now - rand(100).days
   blog.save
 end

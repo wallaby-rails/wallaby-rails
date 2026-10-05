@@ -6,7 +6,8 @@
   'warning' => 'warning'
 } %>
 <% flash.each do |type, message| %>
-  <div class="alert alert-<%= flash_classes[type.to_s] || type %> alert-dismissible" role="alert">
+  <% alert_type = flash_classes[type.to_s] || type.to_s.gsub(/[^a-zA-Z0-9_-]/, '') %>
+  <div class="alert alert-<%= alert_type %> alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <%= message %>
   </div>

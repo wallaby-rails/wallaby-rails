@@ -9,9 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - **Escaped flash messages and validation errors** (previously rendered with
-  `raw`), preventing script injection through error text.
+  `raw`), preventing script injection through error text. Flash alert type
+  tokens are also sanitized before being placed in the CSS class attribute.
 - **Sanitized `raw`-type fields** on show/index pages to prevent stored XSS.
 - **Guarded CSV exports against formula injection.**
+- **`imodal` modal titles/bodies** (json/jsonb/hstore/xml cells) are built with
+  escaping helpers instead of `html_safe` string interpolation.
 
 ## [8.0.1](https://github.com/wallaby-rails/wallaby/releases/tag/8.0.1) - 2026-10-03
 

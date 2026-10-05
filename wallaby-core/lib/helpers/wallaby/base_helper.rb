@@ -23,6 +23,10 @@ module Wallaby
     # - `:action` parameter
     # - converted current resources name (e.g. `order__item` from `Order::Item`)
     # - `:custom_body_class` content
+    #
+    # SECURITY: only emit conservative CSS-class tokens. Values derived from
+    # request params are filtered so they cannot break out of the `class`
+    # attribute (attribute injection).
     # @return [String] css classes for body tag
     def body_class
       [
@@ -30,7 +34,18 @@ module Wallaby
         controller_path.gsub(SLASH, '__'),
         current_resources_name.try(:gsub, COLONS, '__'),
         content_for(:custom_body_class)
-      ].compact.join SPACE
+      ].compact.flat_map { |token| token.to_s.split(SPACE) }
+        .map { |token| safe_class_token token }
+        .reject(&:blank?)
+        .join(SPACE)
+    end
+
+    # Keep only characters that are valid in a CSS class name and cannot break
+    # out of an HTML attribute.
+    # @param token [Object]
+    # @return [String]
+    def safe_class_token(token)
+      token.to_s.gsub(/[^a-zA-Z0-9_-]/, EMPTY_STRING)
     end
 
     # Turn a list of model classes into an inheritance tree.

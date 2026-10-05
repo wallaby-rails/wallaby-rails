@@ -7,6 +7,10 @@ module Wallaby
       class Querier
         TEXT_FIELDS = %w[string text citext longtext tinytext mediumtext].freeze
 
+        # SECURITY: upper bound on the keyword/query string length to bound
+        # parser work (denial-of-service mitigation).
+        MAX_QUERY_LENGTH = 1000
+
         # @param model_decorator [Wallaby::ModelDecorator]
         def initialize(model_decorator)
           @model_decorator = model_decorator
@@ -51,11 +55,23 @@ module Wallaby
         # @param params [ActionController::Parameters]
         # @return [Array<String, Array, Array>] filter_name, keywords, field_queries
         def extract(params)
-          expressions = Transformer.execute params[:q]
+          expressions = Transformer.execute query_string(params)
           keywords = expressions.select { |v| v.is_a? String }
           field_queries = expressions.select { |v| v.is_a? Wrapper }
           filter_name = params[:filter]
           [filter_name, keywords, field_queries]
+        end
+
+        # Guard against pathologically large queries that could make the parser
+        # consume excessive CPU (a denial-of-service vector).
+        # @param params [ActionController::Parameters]
+        # @return [String]
+        # @raise [Wallaby::UnprocessableEntity] when the query is too long
+        def query_string(params)
+          query = params[:q].to_s
+          return query if query.length <= MAX_QUERY_LENGTH
+
+          raise UnprocessableEntity, "Query string is too long (maximum is #{MAX_QUERY_LENGTH} characters)."
         end
 
         # Use the filter name to find out the scope in the following precedents:
@@ -197,10 +213,15 @@ module Wallaby
           query
         end
 
+        # SECURITY: build the ORDER BY string from a strict allowlist so that
+        # `Arel.sql` can never receive attacker-controlled SQL. Field names must
+        # be declared index fields with a plain identifier name; the direction
+        # is validated by {Sorting::HashBuilder.to_str}.
         def normalize_sort(hash)
           sanitized =
             hash.reject do |name, _sort|
-              @model_decorator.fields[name].blank? || # not a column or association?
+              !plain_identifier?(name) || # must be a simple identifier
+                @model_decorator.fields[name].blank? || # not a column or association?
                 @model_decorator.index_fields[name][:sort_disabled] || # sort disabled?
                 @model_decorator.index_field_names.exclude?(name) # not included?
             end
@@ -214,6 +235,12 @@ module Wallaby
                 value
               end.upcase
           end
+        end
+
+        # @param name [Object]
+        # @return [Boolean] whether the name is a plain identifier
+        def plain_identifier?(name)
+          name.to_s.match?(/\A[a-zA-Z_][a-zA-Z0-9_]*\z/)
         end
 
         # @return [Array<String>]

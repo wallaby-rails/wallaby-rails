@@ -18,14 +18,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Avoid unsafe constant resolution.** `ResourcesRouter` resolves the model
   with `safe_constantize` instead of `constantize`, so arbitrary request input
   cannot raise unexpected errors or load unexpected constants.
-- **Escape flash messages and validation errors** in the UI (they were rendered
-  with `raw`), preventing script injection through error text.
 - **Filter sensitive parameters.** The install generator now writes a
   `filter_parameter_logging.rb` initializer covering common credential/secret
   fields.
-- **Guard CSV exports against formula injection.** Exported cells beginning with
-  `=`, `+`, `-`, `@`, tab or carriage return are prefixed with `'`.
-- **Sanitize `raw`-type fields** on show/index pages to prevent stored XSS.
+- **Guard CSV exports against formula injection.** `IndexHelper#csv_escape`
+  prefixes exported cells beginning with `=`, `+`, `-`, `@`, tab or carriage
+  return with `'`.
+- **Pundit: fail closed on missing policies.** `Pundit::NotDefinedError` now
+  results in `403` (`authorize`), `false` (`authorized?`) or an unfiltered scope
+  with a warning (`accessible_for`) instead of an unhandled 500.
+- **Sanitize CSS class tokens** derived from request input in `body_class` and
+  flash message classes (attribute-injection hardening).
+- **Gravatar portraits are opt-in.** `self.gravatar_enabled = true` on the
+  controller is now required before the user's email hash is sent to
+  gravatar.com; by default the local icon is rendered.
 
 ## [0.3.3](https://github.com/wallaby-rails/wallaby/releases/tag/0.3.3) - 2026-10-03
 

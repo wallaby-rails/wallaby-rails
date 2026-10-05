@@ -74,11 +74,34 @@ your authorizer (Pundit) or use CanCanCan's attribute restrictions.
 
 ## Query input
 
-- Keyword search (`q`) is escaped before it is used in `LIKE` clauses.
-- `sort` is restricted to the decorator's index fields; unknown fields and
-  unsupported directions are dropped.
+- Keyword search (`q`) is escaped before it is used in `LIKE` clauses, and the
+  query string is capped at 1000 characters (`Querier::MAX_QUERY_LENGTH`);
+  longer queries are rejected with `422 Unprocessable Entity`.
+- `sort` is restricted to the decorator's index fields whose names are plain
+  identifiers (`[a-zA-Z_][a-zA-Z0-9_]*`); unsupported directions are dropped.
 - `filter` is only honoured for filters **explicitly declared by the decorator**.
   An undeclared filter value never becomes a method call on the model class.
+
+## Missing policies fail closed
+
+With the Pundit provider, a resource without a policy class (or scope policy)
+responds `403 Forbidden` (action) or is reported by `authorized?` as `false`
+instead of raising a `500`. Scope lists fall back to the unfiltered scope with
+a logged warning, so remember to define `ApplicationScope`/per-model scopes.
+
+## Gravatar portraits are opt-in
+
+`user_portrait` sends an MD5 hash of the user's email address to gravatar.com
+only when you explicitly enable it:
+
+```ruby
+class Admin::ApplicationController < Wallaby::ResourcesController
+  self.gravatar_enabled = true
+end
+```
+
+By default the local FontAwesome user icon is rendered; no email-derived data
+leaves your server.
 
 ## Output encoding
 
@@ -93,6 +116,12 @@ your authorizer (Pundit) or use CanCanCan's attribute restrictions.
 The install generator writes a `config/initializers/filter_parameter_logging.rb`
 that filters common credential/secret parameters. Extend the list with any
 sensitive attributes specific to your models.
+
+## Rate limiting and resource enumeration
+
+Wallaby `find`s records by id or slug without throttling. Exposed mounts should
+be protected at the application or infrastructure layer (e.g. `rack-attack` or a
+reverse-proxy rate limit). This is a host responsibility.
 
 ## Reporting a vulnerability
 
