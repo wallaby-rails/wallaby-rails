@@ -2,6 +2,6 @@
 
 module Wallaby
   module ActiveRecordGem
-    VERSION = '0.3.3' # :nodoc:
+    VERSION = '0.4.0' # :nodoc:
   end
 end

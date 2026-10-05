@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'csv'
 
   # This will determine wallaby-core's version
-  spec.add_dependency 'wallaby-active_record', '~> 0.3.0'
+  spec.add_dependency 'wallaby-active_record', '~> 0.4.0'
 
   # assets gems
   spec.add_dependency 'jbuilder', '~> 2.15'
