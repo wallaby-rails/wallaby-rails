@@ -15,7 +15,7 @@
     "jquery-minicolors": "^2.1.10",
     "jquery-ujs": "^1.2.3",
     "moment": "^2.31.0",
-    "moment-timezone": "^0.5.40",
+    "moment-timezone": "^0.5.48",
     "popper.js": "^1.16.1",
     "summernote": "^0.9.1",
     "tempusdominus-bootstrap-4": "^5.1.2",
