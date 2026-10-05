@@ -17,3 +17,16 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+
+  # Ruby dependency updates are not enabled because `Gemfile.lock` is not
+  # committed (see the note above and AGENTS.md). To turn them on:
+  #   1. stop ignoring `Gemfile.lock` in `.gitignore` and commit it;
+  #   2. uncomment the entry below.
+  # A single root entry is enough: the root `Gemfile` `path:`-includes all five
+  # gems, so per-gem directories would be redundant.
+  #
+  # - package-ecosystem: bundler
+  #   directory: '/'
+  #   schedule:
+  #     interval: weekly
+  #   open-pull-requests-limit: 5
