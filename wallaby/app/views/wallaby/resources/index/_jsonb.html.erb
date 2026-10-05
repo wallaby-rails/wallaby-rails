@@ -9,7 +9,7 @@ else
   value = value.to_s
   if value.length > max
     concat content_tag(:code, value.truncate(max))
-    imodal metadata[:label], "<pre>#{h value}</pre>".html_safe
+    imodal metadata[:label].to_s, content_tag(:pre, value)
   else
     content_tag :code, value
   end

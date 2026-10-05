@@ -4,9 +4,9 @@
 
 # Configure sensitive parameters which will be filtered from the log file.
 #
-# SECURITY: Wallaby forms submit arbitrary model attributes, so filter the
-# common credential/secret field names in addition to `:password` to avoid
-# leaking them into logs, exception pages and error reports.
+# SECURITY: Wallaby exposes generic form submission for your models. Make sure
+# credential/secret attributes are filtered so they are not written to logs or
+# exception reports.
 Rails.application.config.filter_parameters += %i[
   password password_confirmation passwd secret token
   api_key apikey access_token refresh_token

@@ -307,6 +307,29 @@ module Wallaby
           raise ArgumentError, 'Please provide a String/Symbol value or nil'
         end
       end
+
+      # @!attribute [r] gravatar_enabled
+      # Whether to display a Gravatar portrait for the current user.
+      #
+      # Gravatar requires sending an MD5 hash of the user's email address to
+      # gravatar.com, which leaks the email to a third party. For privacy this is
+      # disabled by default; enable it explicitly to opt in.
+      # @example To enable Gravatar in `Admin::ApplicationController`
+      #   class Admin::ApplicationController < Wallaby::ResourcesController
+      #     self.gravatar_enabled = true
+      #   end
+      # @return [Boolean] default to false
+      # @since 0.3.4
+      def gravatar_enabled
+        return @gravatar_enabled unless @gravatar_enabled.nil?
+
+        superclass.try(:gravatar_enabled) || false
+      end
+
+      # @!attribute [w] gravatar_enabled
+      def gravatar_enabled=(gravatar_enabled)
+        @gravatar_enabled = !!gravatar_enabled
+      end
     end
 
     # Metadata configurables

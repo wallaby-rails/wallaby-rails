@@ -9,8 +9,16 @@ describe Wallaby::SecureHelper, type: :helper do
       expect(helper.user_portrait(user: instance_double('instance'))).to include '<i class="fa fa-user'
     end
 
-    context 'when email_method is configured' do
+    context 'when gravatar is not enabled (default)' do
+      it 'does not contact gravatar and returns the user icon' do
+        user = instance_double 'user', email: 'tian@example.com'
+        expect(helper.user_portrait(user: user)).to include '<i class="fa fa-user'
+      end
+    end
+
+    context 'when email_method is configured and gravatar is enabled' do
       it 'returns user gravatar' do
+        helper.wallaby_controller.gravatar_enabled = true
         helper.wallaby_controller.email_method = 'email_address'
         user = instance_double 'user', email_address: 'tian@example.com'
         expect(helper.user_portrait(user: user)).to match(/<img /)
@@ -24,8 +32,9 @@ describe Wallaby::SecureHelper, type: :helper do
       end
     end
 
-    context 'when user object respond_to email' do
+    context 'when user object responds to email and gravatar is enabled' do
       it 'returns user gravatar' do
+        helper.wallaby_controller.gravatar_enabled = true
         user = instance_double 'user', email: 'tian@example.com'
         expect(helper.user_portrait(user: user)).to match(/<img /)
         expect(helper.user_portrait(user: user)).to match(%r{www.gravatar.com/avatar/})

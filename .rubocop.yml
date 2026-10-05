@@ -39,9 +39,18 @@ RSpec/MultipleMemoizedHelpers:
   Exclude:
     - 'spec/**/*'
 
+RSpec/VerifiedDoubleReference:
+  # Specs across the repo reference fictional doubles by string
+  # (e.g. `instance_double 'user'`); converting them all is out of scope.
+  Exclude:
+    - 'spec/**/*'
+
 RSpec/SpecFilePathFormat:
   # Specs are grouped by gem directory (`spec/wallaby-active_record/`,
   # `spec/wallaby-core/`), which does not mirror the namespace this cop expects.
   Exclude:
     - 'spec/wallaby-active_record/**/*'
     - 'spec/wallaby-core/**/*'
+    # Security regression specs are grouped by concern, not by namespace, so the
+    # path/description mapping the cop wants does not apply.
+    - 'spec/security/**/*'

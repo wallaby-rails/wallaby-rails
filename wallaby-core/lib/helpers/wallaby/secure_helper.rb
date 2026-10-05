@@ -5,12 +5,15 @@ module Wallaby
   module SecureHelper
     # Image portrait for given user.
     #
-    # - if email is present, a gravatar image tag will be returned
-    # - otherwise, an user icon will be returned
+    # - if a Gravatar is enabled and an email is present, a gravatar image tag
+    #   will be returned
+    # - otherwise, a user icon will be returned
     # @param user [Object]
     # @param method_name [Symbol, String]
     # @return [String] IMG or I element
     def user_portrait(user: wallaby_user, method_name: wallaby_controller.email_method)
+      return fa_icon 'user' unless wallaby_controller.gravatar_enabled
+
       method_name ||= user.methods.grep(/email/i).min || :email
       email = user.try method_name
       return fa_icon 'user' if email.blank?

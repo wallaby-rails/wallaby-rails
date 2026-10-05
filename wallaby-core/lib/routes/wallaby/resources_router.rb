@@ -102,11 +102,14 @@ module Wallaby
     def validate_model_by(resources_name)
       return unless resources_name # maybe it's for landing page or error page
 
-      # now this is for our lovely resourceful actions
+      # SECURITY: resolve the constant with `safe_constantize` so that arbitrary
+      # request input can never raise unexpected errors or load classes outside
+      # of the Rails autoload/eager-load paths.
       model_name = Inflector.to_model_name(resources_name)
-      model_class = Classifier.to_class(model_name)
+      model_class = model_name.safe_constantize
       raise ModelNotFound, model_name unless model_class
-      return if Map.mode_map[model_class]
+
+      return if Wallaby::Map.mode_map[model_class]
 
       Wallaby::Logger.warn <<~MESSAGE
         Cannot find the mode for #{model_name} and don't know how to handle it.
