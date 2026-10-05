@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.8](https://github.com/wallaby-rails/wallaby/releases/tag/0.1.8) - 2026-10-03
+## [0.1.8](https://github.com/wallaby-rails/wallaby-rails/releases/tag/wallaby-view/0.1.8) - 2026-10-03
 
 ### Changed
 
