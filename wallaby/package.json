@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.6.2",
-    "codemirror": "^5.49.2",
+    "codemirror": "^6.0.2",
     "font-awesome": "^4.7.0",
     "jquery-minicolors": "^2.1.10",
     "jquery-ujs": "^1.2.3",
