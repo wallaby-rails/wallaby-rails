@@ -8,7 +8,6 @@ describe field_name, :wallaby_user, type: :helper do
     'form partial', field_name,
     model_class: Product,
     partial_name: 'belongs_to',
-    content_for: true,
     skip_general: true,
     skip_errors: true,
     skip_nil: true do

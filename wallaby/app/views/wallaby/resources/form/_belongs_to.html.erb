@@ -57,30 +57,3 @@ readonly = metadata[:class] && unauthorized?(:edit, metadata[:class])
     </p>
   <% end %>
 </div>
-
-<% # load script for only once
-unless @belongs_to_init
-  @belongs_to_init = true
-  content_for :custom_javascript do
-    javascript_tag do %>
-      documentReady('.belongs_to', function () {
-        jQuery('[data-init="belongs_to"]').each(function () {
-          var $container = jQuery(this);
-          var $select = $container.find('select');
-          if ($select.length) {
-            $select.on('change.auto_select', function (_, initialising) {
-              var $option = jQuery(this.selectedOptions);
-              var url = $option.data('url');
-              if (!url) { return; }
-              $container.data('url', url).auto_select();
-              if (initialising) { return; }
-              $container.find('ul a').trigger('click.auto_select');
-            }).trigger('change.auto_select', true);
-          } else {
-            $container.auto_select();
-          }
-        });
-      });
-<%  end
-  end
-end %>

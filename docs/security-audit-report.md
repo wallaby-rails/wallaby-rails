@@ -58,7 +58,7 @@ Notes:
 | H4 | High | A09 | Sensitive params not filtered from logs | **Fixed** |
 | M1 | Medium | A01 | `constantize` of user-controlled resource names | **Fixed** |
 | M2 | Medium | A03 | Method invocation by name from metadata | Hardened (no user-controlled names left) |
-| M3 | Medium | A03 | Inline JS with server data | Accepted (server-controlled) |
+| M3 | Medium | A03 | Inline JS with server data | **Fixed** (external asset) |
 | M4 | Medium | A03 | `Arel.sql` sort built from request input | **Fixed** |
 | M5 | Medium | A03 | `ClassHash`/`ClassArray` strings→classes | Accepted, internal |
 | M6 | Medium | A10 | `URI.open` in seeds (SSRF primitive) | **Fixed** |
@@ -193,11 +193,15 @@ Notes:
 
 ### M3 — Inline JS with server data
 - **Category:** A03
-- **Evidence:** `form/_belongs_to.html.erb`, `form/_has_many.html.erb`
-  (`javascript_tag` with `metadata[:remote_url]`, class names).
-- **Assessment:** Server-controlled; low practical risk. Optional hardening:
-  move data to `data-` attributes + external JS (the element already carries
-  `data-url`).
+- **Evidence:** `form/_belongs_to.html.erb`, `form/_has_many.html.erb`,
+  `form/_has_and_belongs_to_many.html.erb` (`javascript_tag`).
+- **Assessment:** Server data was rendered into `data-*` attributes (escaped),
+  not interpolated into the script text, so practical risk was low.
+- **Fix (committed):** the auto-select setup moved to an external asset
+  (`wallaby/app/assets/javascripts/wallaby/auto_select_init.js`, required from
+  `base.js`); the three partials emit no inline `<script>`. The remaining
+  type-partial inline scripts (summernote/codemirror/date widgets) are static
+  and were left as-is to bound risk.
 
 ### M4 — `Arel.sql` sort built from request input
 - **Category:** A03
@@ -357,16 +361,17 @@ Working tree at the time of writing → committed as the **second commit**
 
 ## Remaining work / suggested next steps
 
-1. **CHANGELOG entries** — done for both commits (wallaby-core,
-   wallaby-active_record, wallaby).
-2. **Docs** — `docs/security.md` now covers gravatar opt-in (L1), query length
+1. **CHANGELOG entries** — done (wallaby-core, wallaby-active_record, wallaby).
+2. **Docs** — `docs/security.md` covers gravatar opt-in (L1), query length
    (L8), missing-policy behavior (L6), and rate limiting (L7).
-3. **Optional follow-ups (not started):**
-   - M3: replace inline `javascript_tag` in `form/_belongs_to.html.erb` and
-     `form/_has_many.html.erb` with external JS + `data-` attributes.
-   - Add a root `SECURITY.md` pointing at `docs/security.md` with a disclosure
-     address.
-   - Consider a Dependabot config and bundler-audit schedule.
+3. **Follow-ups — done:**
+   - M3: auto-select setup moved to
+     `wallaby/app/assets/javascripts/wallaby/auto_select_init.js`; the
+     `belongs_to` / `has_many` / `has_and_belongs_to_many` partials no longer
+     emit inline `<script>`.
+   - Root `SECURITY.md` added (supported versions, private reporting, scope).
+   - `.github/dependabot.yml` (github-actions + npm) and a scheduled
+     `.github/workflows/dependency-audit.yml` (weekly bundler-audit) added.
 4. **Do not** commit a `Gemfile.lock` (gitignored by convention).
 
 ---

@@ -46,15 +46,3 @@ readonly = unauthorized? :edit, metadata[:class]
     <%= new_link metadata[:class] %>
   </p>
 </div>
-
-<% #load script for only once
-unless @has_and_belongs_to_many_init
-  @has_and_belongs_to_many_init = true
-  content_for :custom_javascript do
-    javascript_tag do %>
-      documentReady('.has_and_belongs_to_many', function () {
-        $('[data-init="has_and_belongs_to_many"]').auto_select();
-      });
-<%  end
-  end
-end %>

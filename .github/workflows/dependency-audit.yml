@@ -1,0 +1,39 @@
+# Weekly vulnerability audit of the Ruby dependencies.
+#
+# Complements Dependabot (which cannot watch bundler here because Gemfile.lock
+# is not committed) and the per-PR `bundler-audit` step in `pr-build.yml`: this
+# job runs on a schedule so newly published advisories are caught even when no
+# pull request is open.
+name: dependency-audit
+
+on:
+  schedule:
+    # Every Monday at 00:00 UTC.
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bundler-audit:
+    runs-on: ubuntu-latest
+    env:
+      # Use a matrix Gemfile: unlike the root Gemfile it does not pin an exact
+      # Ruby patch version, so it resolves on the runner's Ruby.
+      BUNDLE_GEMFILE: ${{ github.workspace }}/.gemfiles/Gemfile.rails-8.1
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '4.0'
+          bundler-cache: true
+          rubygems: latest
+
+      - name: Audit dependencies
+        run: |
+          gem install bundler-audit --no-document
+          bundle audit check --update

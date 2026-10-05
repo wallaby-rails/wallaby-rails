@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Guarded CSV exports against formula injection.**
 - **`imodal` modal titles/bodies** (json/jsonb/hstore/xml cells) are built with
   escaping helpers instead of `html_safe` string interpolation.
+- **Auto-select setup moved to an external asset.** `belongs_to` / `has_many` /
+  `has_and_belongs_to_many` no longer emit inline `<script>`; the behaviour is
+  initialised from `data-*` attributes by
+  `app/assets/javascripts/wallaby/auto_select_init.js`.
 
 ## [8.0.1](https://github.com/wallaby-rails/wallaby/releases/tag/8.0.1) - 2026-10-03
 

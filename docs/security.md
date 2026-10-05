@@ -126,4 +126,4 @@ reverse-proxy rate limit). This is a host responsibility.
 ## Reporting a vulnerability
 
 Please report security issues privately to the maintainers rather than opening a
-public issue.
+public issue. See the [security policy](../SECURITY.md) for details.
