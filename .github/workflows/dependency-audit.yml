@@ -24,7 +24,7 @@ jobs:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.gemfiles/Gemfile.rails-8.1
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
