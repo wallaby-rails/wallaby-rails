@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
 
   # @see the dependency definition for railties in wallaby-core
   spec.add_dependency 'activerecord', '>= 8.0.0', '< 9.0.0'
-  spec.add_dependency 'wallaby-core', '~> 0.3.1'
+  spec.add_dependency 'wallaby-core', '~> 0.4.0'
 
   spec.add_development_dependency 'cancancan'
   spec.add_development_dependency 'pundit'

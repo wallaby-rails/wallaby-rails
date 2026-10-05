@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0](https://github.com/wallaby-rails/wallaby/releases/tag/0.4.0) - 2026-10-05
+
 ### Security
 
-- **Fail closed on authentication.** `authenticate_wallaby_user!` now rejects a
+- **BREAKING — Fail closed on authentication.** `authenticate_wallaby_user!` now rejects a
   request unless authentication is explicitly provided (previously a missing
   `authenticate_user!` was treated as success). Define `authenticate_user!` or
   override `authenticate_wallaby_user!` in your base controller.
@@ -29,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   with a warning (`accessible_for`) instead of an unhandled 500.
 - **Sanitize CSS class tokens** derived from request input in `body_class` and
   flash message classes (attribute-injection hardening).
-- **Gravatar portraits are opt-in.** `self.gravatar_enabled = true` on the
+- **BREAKING — Gravatar portraits are opt-in.** `self.gravatar_enabled = true` on the
   controller is now required before the user's email hash is sent to
   gravatar.com; by default the local icon is rendered.
 

@@ -90,6 +90,17 @@ Restart rails server, and visit http://localhost:3000/blogs to give it a taste!
 - [API Reference](https://www.rubydoc.info/gems/wallaby)
 - [Change Logs](CHANGELOG.md)
 
+## Security
+
+Wallaby ships **fail-closed**: a mount rejects requests with `401` unless the
+host provides authentication — either an `authenticate_user!` method (e.g. from
+Devise) or an `authenticate_wallaby_user!` override on your base controller.
+Authorization falls back to an allow-all provider when neither CanCanCan nor
+Pundit is detected, so configure one for anything beyond local use.
+
+See [docs/security.md](../docs/security.md) for the full guidance and
+[SECURITY.md](../SECURITY.md) for how to report vulnerabilities.
+
 ## Want to contribute?
 
 Raise an issue, discuss and resolve!
