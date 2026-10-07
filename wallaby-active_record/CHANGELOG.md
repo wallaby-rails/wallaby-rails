@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Cap search query length.** Queries longer than 1000 characters are rejected
   with `Wallaby::UnprocessableEntity`, bounding parser work (DoS hardening).
 
-## [0.3.3](https://github.com/wallaby-rails/wallaby/releases/tag/0.3.3) - 2026-10-03
+## [0.3.3](https://github.com/wallaby-rails/wallaby-rails/releases/tag/wallaby-active_record/0.3.3) - 2026-10-03
 
 ### Changed
 
