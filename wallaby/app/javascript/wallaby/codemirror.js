@@ -1,9 +1,9 @@
 // CodeMirror 6 integration.
 //
 // Wallaby's form templates are plain `<textarea data-init="codemirror"
-// data-mode="...">` elements that expect a `CodeMirror.fromTextArea(el, opts)`
-// helper (the CodeMirror 5 API). This module keeps that template-level API but
-// is implemented with CodeMirror 6.
+// data-mode="...">` elements that expect a `WallabyCodeMirror.fromTextArea(el,
+// opts)` helper. This module implements that helper (mirroring the CodeMirror
+// 5 template-level API) on top of CodeMirror 6.
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
