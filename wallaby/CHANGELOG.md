@@ -20,6 +20,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   initialised from `data-*` attributes by
   `app/assets/javascripts/wallaby/auto_select_init.js`.
 
+### Changed
+
+- Migrate the code editors used by the `json` / `jsonb` / `hstore` / `xml` /
+  `markdown` form partials from CodeMirror 5 to CodeMirror 6. The
+  `data-init="codemirror"` textareas and `data-mode` values are unchanged, but
+  the helper global is now `WallabyCodeMirror` (was `CodeMirror`) and the editor
+  chrome selector is `.cm-editor` (was `.CodeMirror`). Summernote's Code View
+  falls back to a plain textarea because `window.CodeMirror` is no longer
+  provided.
+
 ## [8.0.1](https://github.com/wallaby-rails/wallaby-rails/releases/tag/8.0.1) - 2026-10-03
 
 ### Changed

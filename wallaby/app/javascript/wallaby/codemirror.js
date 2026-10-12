@@ -62,4 +62,4 @@ function fromTextArea(textArea, options = {}) {
   };
 }
 
-export default { fromTextArea, EditorState, EditorView };
+export default { fromTextArea };

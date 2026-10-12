@@ -20,10 +20,7 @@ The following params are the variables that can be used in this partial.
     <% javascript_tag do %>
       documentReady('.summernote', function () {
         $('textarea[data-init="summernote"]').summernote({
-          height: 150,
-          codemirror: { // codemirror options
-            theme: 'base16-dark'
-          }
+          height: 150
         })
       })
     <% end %>

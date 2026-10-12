@@ -61559,13 +61559,13 @@
       }
     };
   }
-  var codemirror_default = { fromTextArea, EditorState, EditorView };
+  var codemirror_default = { fromTextArea };
 
   // app/javascript/wallaby/globals.js
   window.jQuery = window.$ = import_jquery.default;
   window.moment = import_moment.default;
   window.Bloodhound = import_bloodhound.default;
-  window.CodeMirror = codemirror_default;
+  window.WallabyCodeMirror = codemirror_default;
 
   // app/javascript/wallaby/core.js
   var import_jquery_ujs = __toESM(require_rails());
