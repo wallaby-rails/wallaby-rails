@@ -322,6 +322,28 @@ Per-field options can also be passed through
 `WallabyCodeMirror.fromTextArea(element, { mode, extensions })` when a form
 partial is overridden.
 
+> NOTE: **Summernote's Code View falls back to a plain textarea.** Summernote
+> 0.9.1 drives its Code View with the CodeMirror 5 API, and `window.CodeMirror`
+> is no longer provided by Wallaby, so the button toggles an unhighlighted
+> textarea instead of a second editor. To restore it, supply your own
+> CodeMirror 5 constructor (a separately loaded `codemirror` 5.x build) through
+> Summernote's `codemirror` option in the partial that initialises it:
+>
+> ```javascript
+> $('textarea[data-init="summernote"]').summernote({
+>   height: 150,
+>   codemirror: { CodeMirrorConstructor: window.CodeMirror }
+> })
+> ```
+
+> NOTE: **Register the config before the editors are created.** The form partials
+> register their editor initialisation through `content_for :custom_javascript`
+> using a DOM-ready handler. A config injected through the same
+> `content_for` and wrapped in a ready handler (`documentReady` /
+> `jQuery(fn)`) may therefore run after the editors already exist and have no
+> effect. Use the `_frontend` approach above, or keep the `content_for` script
+> synchronous (no ready wrapper).
+
 # Turbolinks
 
 Wallaby detects Turbolinks automatically if the `turbolinks` gem is present in the host app's `Gemfile` — no configuration is required. To disable it, either remove the `turbolinks` gem from the `Gemfile`, or override the `frontend` partial to take the Turbolinks javascript tags out.

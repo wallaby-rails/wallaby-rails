@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   chrome selector is `.cm-editor` (was `.CodeMirror`). Summernote's Code View
   falls back to a plain textarea because `window.CodeMirror` is no longer
   provided.
+- The CodeMirror editors now use CodeMirror 6's default light theme; the
+  CodeMirror 5 `mdn-like` theme is no longer bundled.
+- `WallabyCodeMirror.fromTextArea(element, options)` returns only `view`,
+  `getValue()` and `setValue()`. The CodeMirror 5 helpers `on`, `getDoc`,
+  `save`, `toTextArea` and `setSize` are not provided.
 
 ### Security
 
