@@ -61520,7 +61520,9 @@
 
   // app/javascript/wallaby/codemirror.js
   var languages = {
-    gfm: () => markdown(),
+    // `gfm` mirrors the CodeMirror 5 `gfm` mode: GFM extensions (tables, ...) on
+    // top of CommonMark. The plain `markdown` mode stays CommonMark-only.
+    gfm: () => markdown({ base: markdownLanguage }),
     markdown: () => markdown(),
     javascript: () => javascript(),
     json: () => javascript(),

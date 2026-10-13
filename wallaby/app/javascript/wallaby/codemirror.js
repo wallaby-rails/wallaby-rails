@@ -15,14 +15,16 @@
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
-import { markdown } from '@codemirror/lang-markdown';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { xml } from '@codemirror/lang-xml';
 import { StreamLanguage } from '@codemirror/language';
 import { ruby } from '@codemirror/legacy-modes/mode/ruby';
 
 // Map the `data-mode` values used by the templates to CodeMirror 6 languages.
 const languages = {
-  gfm: () => markdown(),
+  // `gfm` mirrors the CodeMirror 5 `gfm` mode: GFM extensions (tables, ...) on
+  // top of CommonMark. The plain `markdown` mode stays CommonMark-only.
+  gfm: () => markdown({ base: markdownLanguage }),
   markdown: () => markdown(),
   javascript: () => javascript(),
   json: () => javascript(),

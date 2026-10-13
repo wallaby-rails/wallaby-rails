@@ -8,7 +8,7 @@ describe field_name, type: :helper do
   it_behaves_like \
     "#{type} partial", field_name,
     value: '001111000001',
-    partial: 'file',
+    partial_name: 'file',
     type: 'file',
     model_class: AllMysqlType,
     input_selector: 'input.sr-only',
