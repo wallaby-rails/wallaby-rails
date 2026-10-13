@@ -6567,9 +6567,9 @@
           }
           return to2;
         }
-        function Moment(config2) {
-          copyConfig(this, config2);
-          this._d = new Date(config2._d != null ? config2._d.getTime() : NaN);
+        function Moment(config3) {
+          copyConfig(this, config3);
+          this._d = new Date(config3._d != null ? config3._d.getTime() : NaN);
           if (!this.isValid()) {
             this._d = /* @__PURE__ */ new Date(NaN);
           }
@@ -6814,11 +6814,11 @@
             return isStrict && strictRegex ? strictRegex : regex;
           };
         }
-        function getParseRegexForToken(token2, config2) {
+        function getParseRegexForToken(token2, config3) {
           if (!hasOwnProp(regexes, token2)) {
             return new RegExp(unescapeFormat(token2));
           }
-          return regexes[token2](config2._strict, config2._locale);
+          return regexes[token2](config3._strict, config3._locale);
         }
         function unescapeFormat(s) {
           return regexEscape(
@@ -6864,14 +6864,14 @@
           }
         }
         function addWeekParseToken(token2, callback) {
-          addParseToken(token2, function(input, array, config2, token3) {
-            config2._w = config2._w || {};
-            callback(input, config2._w, config2, token3);
+          addParseToken(token2, function(input, array, config3, token3) {
+            config3._w = config3._w || {};
+            callback(input, config3._w, config3, token3);
           });
         }
-        function addTimeToArrayFromToken(token2, input, config2) {
+        function addTimeToArrayFromToken(token2, input, config3) {
           if (input != null && hasOwnProp(tokens, token2)) {
-            tokens[token2](input, config2._a, config2, token2);
+            tokens[token2](input, config3._a, config3, token2);
           }
         }
         function isLeapYear(year) {
@@ -7051,12 +7051,12 @@
         addParseToken(["M", "MM"], function(input, array) {
           array[MONTH] = toInt(input) - 1;
         });
-        addParseToken(["MMM", "MMMM"], function(input, array, config2, token2) {
-          var month = config2._locale.monthsParse(input, token2, config2._strict);
+        addParseToken(["MMM", "MMMM"], function(input, array, config3, token2) {
+          var month = config3._locale.monthsParse(input, token2, config3._strict);
           if (month != null) {
             array[MONTH] = month;
           } else {
-            getParsingFlags(config2).invalidMonth = input;
+            getParsingFlags(config3).invalidMonth = input;
           }
         });
         var defaultLocaleMonths = "January_February_March_April_May_June_July_August_September_October_November_December".split(
@@ -7070,11 +7070,11 @@
           "monthsStrictRegex",
           "monthsShortStrictRegex"
         ];
-        function clearMonthsParseCache(locale2, config2) {
+        function clearMonthsParseCache(locale2, config3) {
           var i2, prop;
           for (i2 = 0; i2 < monthsParseProperties.length; i2++) {
             prop = monthsParseProperties[i2];
-            if (!hasOwnProp(config2, prop)) {
+            if (!hasOwnProp(config3, prop)) {
               delete locale2["_" + prop];
             }
           }
@@ -7288,22 +7288,22 @@
         addRegexToken("dddd", function(isStrict, locale2) {
           return locale2.weekdaysRegex(isStrict);
         });
-        addWeekParseToken(["dd", "ddd", "dddd"], function(input, week, config2, token2) {
-          var weekday = config2._locale.weekdaysParse(input, token2, config2._strict);
+        addWeekParseToken(["dd", "ddd", "dddd"], function(input, week, config3, token2) {
+          var weekday = config3._locale.weekdaysParse(input, token2, config3._strict);
           if (weekday != null) {
             week.d = weekday;
           } else {
-            getParsingFlags(config2).invalidWeekday = input;
+            getParsingFlags(config3).invalidWeekday = input;
           }
         });
-        addWeekParseToken(["d", "e", "E"], function(input, week, config2, token2) {
+        addWeekParseToken(["d", "e", "E"], function(input, week, config3, token2) {
           week[token2] = toInt(input);
         });
-        addWeekParseToken("eHHmm", function(input, week, config2) {
+        addWeekParseToken("eHHmm", function(input, week, config3) {
           var weekdayEnd = input.length - 4;
           week.e = toInt(input.substr(0, weekdayEnd));
-          config2._a[HOUR] = toInt(input.substr(weekdayEnd, 2));
-          config2._a[MINUTE] = toInt(input.substr(weekdayEnd + 2));
+          config3._a[HOUR] = toInt(input.substr(weekdayEnd, 2));
+          config3._a[MINUTE] = toInt(input.substr(weekdayEnd + 2));
         });
         function parseWeekday(input, locale2) {
           if (typeof input !== "string") {
@@ -7339,11 +7339,11 @@
           "weekdaysShortStrictRegex",
           "weekdaysMinStrictRegex"
         ];
-        function clearWeekdaysParseCache(locale2, config2) {
+        function clearWeekdaysParseCache(locale2, config3) {
           var i2, prop;
           for (i2 = 0; i2 < weekdaysParseProperties.length; i2++) {
             prop = weekdaysParseProperties[i2];
-            if (!hasOwnProp(config2, prop)) {
+            if (!hasOwnProp(config3, prop)) {
               delete locale2["_" + prop];
             }
           }
@@ -7585,13 +7585,13 @@
             "i"
           );
         }
-        function set(config2) {
+        function set(config3) {
           var prop, i2;
-          clearMonthsParseCache(this, config2);
-          clearWeekdaysParseCache(this, config2);
-          for (i2 in config2) {
-            if (hasOwnProp(config2, i2)) {
-              prop = config2[i2];
+          clearMonthsParseCache(this, config3);
+          clearWeekdaysParseCache(this, config3);
+          for (i2 in config3) {
+            if (hasOwnProp(config3, i2)) {
+              prop = config3[i2];
               if (isFunction(prop)) {
                 this[i2] = prop;
               } else {
@@ -7599,7 +7599,7 @@
               }
             }
           }
-          this._config = config2;
+          this._config = config3;
           this._dayOfMonthOrdinalParseLenient = new RegExp(
             (this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) + "|" + /\d{1,2}/.source
           );
@@ -7626,9 +7626,9 @@
           }
           return res;
         }
-        function Locale(config2) {
-          if (config2 != null) {
-            this.set(config2);
+        function Locale(config3) {
+          if (config3 != null) {
+            this.set(config3);
           }
         }
         var keys2;
@@ -7823,7 +7823,7 @@
         addRegexToken("WW", match1to2, match2);
         addWeekParseToken(
           ["w", "ww", "W", "WW"],
-          function(input, week, config2, token2) {
+          function(input, week, config3, token2) {
             week[token2.substr(0, 1)] = toInt(input);
           }
         );
@@ -7898,37 +7898,37 @@
         addRegexToken("Hmm", match3to4);
         addRegexToken("Hmmss", match5to6);
         addParseToken(["H", "HH"], HOUR);
-        addParseToken(["k", "kk"], function(input, array, config2) {
+        addParseToken(["k", "kk"], function(input, array, config3) {
           var kInput = toInt(input);
           array[HOUR] = kInput === 24 ? 0 : kInput;
         });
-        addParseToken(["a", "A"], function(input, array, config2) {
-          config2._isPm = config2._locale.isPM(input);
-          config2._meridiem = input;
+        addParseToken(["a", "A"], function(input, array, config3) {
+          config3._isPm = config3._locale.isPM(input);
+          config3._meridiem = input;
         });
-        addParseToken(["h", "hh"], function(input, array, config2) {
+        addParseToken(["h", "hh"], function(input, array, config3) {
           array[HOUR] = toInt(input);
-          getParsingFlags(config2).bigHour = true;
+          getParsingFlags(config3).bigHour = true;
         });
-        addParseToken("hmm", function(input, array, config2) {
+        addParseToken("hmm", function(input, array, config3) {
           var pos = input.length - 2;
           array[HOUR] = toInt(input.substr(0, pos));
           array[MINUTE] = toInt(input.substr(pos));
-          getParsingFlags(config2).bigHour = true;
+          getParsingFlags(config3).bigHour = true;
         });
-        addParseToken("hmmss", function(input, array, config2) {
+        addParseToken("hmmss", function(input, array, config3) {
           var pos1 = input.length - 4, pos2 = input.length - 2;
           array[HOUR] = toInt(input.substr(0, pos1));
           array[MINUTE] = toInt(input.substr(pos1, 2));
           array[SECOND] = toInt(input.substr(pos2));
-          getParsingFlags(config2).bigHour = true;
+          getParsingFlags(config3).bigHour = true;
         });
-        addParseToken("Hmm", function(input, array, config2) {
+        addParseToken("Hmm", function(input, array, config3) {
           var pos = input.length - 2;
           array[HOUR] = toInt(input.substr(0, pos));
           array[MINUTE] = toInt(input.substr(pos));
         });
-        addParseToken("Hmmss", function(input, array, config2) {
+        addParseToken("Hmmss", function(input, array, config3) {
           var pos1 = input.length - 4, pos2 = input.length - 2;
           array[HOUR] = toInt(input.substr(0, pos1));
           array[MINUTE] = toInt(input.substr(pos1, 2));
@@ -8040,36 +8040,36 @@
           }
           return globalLocale._abbr;
         }
-        function defineLocale(name2, config2) {
-          if (config2 !== null) {
+        function defineLocale(name2, config3) {
+          if (config3 !== null) {
             var locale2, parentConfig = baseConfig;
-            config2.abbr = name2;
+            config3.abbr = name2;
             if (locales[name2] != null) {
               deprecateSimple(
                 "defineLocaleOverride",
                 "use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."
               );
               parentConfig = locales[name2]._config;
-            } else if (config2.parentLocale != null) {
-              if (locales[config2.parentLocale] != null) {
-                parentConfig = locales[config2.parentLocale]._config;
+            } else if (config3.parentLocale != null) {
+              if (locales[config3.parentLocale] != null) {
+                parentConfig = locales[config3.parentLocale]._config;
               } else {
-                locale2 = loadLocale(config2.parentLocale);
+                locale2 = loadLocale(config3.parentLocale);
                 if (locale2 != null) {
                   parentConfig = locale2._config;
                 } else {
-                  if (!localeFamilies[config2.parentLocale]) {
-                    localeFamilies[config2.parentLocale] = [];
+                  if (!localeFamilies[config3.parentLocale]) {
+                    localeFamilies[config3.parentLocale] = [];
                   }
-                  localeFamilies[config2.parentLocale].push({
+                  localeFamilies[config3.parentLocale].push({
                     name: name2,
-                    config: config2
+                    config: config3
                   });
                   return null;
                 }
               }
             }
-            locales[name2] = new Locale(mergeConfigs(parentConfig, config2));
+            locales[name2] = new Locale(mergeConfigs(parentConfig, config3));
             if (localeFamilies[name2]) {
               localeFamilies[name2].forEach(function(x) {
                 defineLocale(x.name, x.config);
@@ -8082,23 +8082,23 @@
             return null;
           }
         }
-        function updateLocale(name2, config2) {
+        function updateLocale(name2, config3) {
           var locale2, tmpLocale = loadLocale(name2), parentConfig = baseConfig;
           if (tmpLocale != null) {
             name2 = tmpLocale._abbr;
           }
-          if (config2 != null) {
+          if (config3 != null) {
             if (locales[name2] != null && locales[name2].parentLocale != null) {
-              locales[name2].set(mergeConfigs(locales[name2]._config, config2));
+              locales[name2].set(mergeConfigs(locales[name2]._config, config3));
             } else {
               if (tmpLocale != null) {
                 parentConfig = tmpLocale._config;
               }
-              config2 = mergeConfigs(parentConfig, config2);
+              config3 = mergeConfigs(parentConfig, config3);
               if (tmpLocale == null) {
-                config2.abbr = name2;
+                config3.abbr = name2;
               }
-              locale2 = new Locale(config2);
+              locale2 = new Locale(config3);
               locale2.parentLocale = locales[name2];
               locales[name2] = locale2;
             }
@@ -8190,10 +8190,10 @@
           PDT: -7 * 60,
           PST: -8 * 60
         };
-        function configFromISO(config2) {
-          var i2, l, string2 = config2._i, match = extendedIsoRegex.exec(string2) || basicIsoRegex.exec(string2), allowTime, dateFormat, timeFormat, tzFormat, isoDatesLen = isoDates.length, isoTimesLen = isoTimes.length;
+        function configFromISO(config3) {
+          var i2, l, string2 = config3._i, match = extendedIsoRegex.exec(string2) || basicIsoRegex.exec(string2), allowTime, dateFormat, timeFormat, tzFormat, isoDatesLen = isoDates.length, isoTimesLen = isoTimes.length;
           if (match) {
-            getParsingFlags(config2).iso = true;
+            getParsingFlags(config3).iso = true;
             for (i2 = 0, l = isoDatesLen; i2 < l; i2++) {
               if (isoDates[i2][1].exec(match[1])) {
                 dateFormat = isoDates[i2][0];
@@ -8202,7 +8202,7 @@
               }
             }
             if (dateFormat == null) {
-              config2._isValid = false;
+              config3._isValid = false;
               return;
             }
             if (match[3]) {
@@ -8213,26 +8213,26 @@
                 }
               }
               if (timeFormat == null) {
-                config2._isValid = false;
+                config3._isValid = false;
                 return;
               }
             }
             if (!allowTime && timeFormat != null) {
-              config2._isValid = false;
+              config3._isValid = false;
               return;
             }
             if (match[4]) {
               if (tzRegex.exec(match[4])) {
                 tzFormat = "Z";
               } else {
-                config2._isValid = false;
+                config3._isValid = false;
                 return;
               }
             }
-            config2._f = dateFormat + (timeFormat || "") + (tzFormat || "");
-            configFromStringAndFormat(config2);
+            config3._f = dateFormat + (timeFormat || "") + (tzFormat || "");
+            configFromStringAndFormat(config3);
           } else {
-            config2._isValid = false;
+            config3._isValid = false;
           }
         }
         function extractFromRFC2822Strings(yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
@@ -8260,7 +8260,7 @@
         function preprocessRFC2822(s) {
           return s.replace(/\([^()]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, "");
         }
-        function checkWeekday(weekdayStr, parsedInput, config2) {
+        function checkWeekday(weekdayStr, parsedInput, config3) {
           if (weekdayStr) {
             var weekdayProvided = defaultLocaleWeekdaysShort.indexOf(weekdayStr), weekdayActual = new Date(
               parsedInput[0],
@@ -8268,8 +8268,8 @@
               parsedInput[2]
             ).getDay();
             if (weekdayProvided !== weekdayActual) {
-              getParsingFlags(config2).weekdayMismatch = true;
-              config2._isValid = false;
+              getParsingFlags(config3).weekdayMismatch = true;
+              config3._isValid = false;
               return false;
             }
           }
@@ -8285,8 +8285,8 @@
             return h * 60 + m;
           }
         }
-        function configFromRFC2822(config2) {
-          var match = rfc2822.exec(preprocessRFC2822(config2._i)), parsedArray;
+        function configFromRFC2822(config3) {
+          var match = rfc2822.exec(preprocessRFC2822(config3._i)), parsedArray;
           if (match) {
             parsedArray = extractFromRFC2822Strings(
               match[4],
@@ -8296,46 +8296,46 @@
               match[6],
               match[7]
             );
-            if (!checkWeekday(match[1], parsedArray, config2)) {
+            if (!checkWeekday(match[1], parsedArray, config3)) {
               return;
             }
-            config2._a = parsedArray;
-            config2._tzm = calculateOffset(match[8], match[9], match[10]);
-            config2._d = createUTCDate.apply(null, config2._a);
-            config2._d.setUTCMinutes(config2._d.getUTCMinutes() - config2._tzm);
-            getParsingFlags(config2).rfc2822 = true;
+            config3._a = parsedArray;
+            config3._tzm = calculateOffset(match[8], match[9], match[10]);
+            config3._d = createUTCDate.apply(null, config3._a);
+            config3._d.setUTCMinutes(config3._d.getUTCMinutes() - config3._tzm);
+            getParsingFlags(config3).rfc2822 = true;
           } else {
-            config2._isValid = false;
+            config3._isValid = false;
           }
         }
-        function configFromString(config2) {
-          var matched = aspNetJsonRegex.exec(config2._i);
+        function configFromString(config3) {
+          var matched = aspNetJsonRegex.exec(config3._i);
           if (matched !== null) {
-            config2._d = /* @__PURE__ */ new Date(+matched[1]);
+            config3._d = /* @__PURE__ */ new Date(+matched[1]);
             return;
           }
-          configFromISO(config2);
-          if (config2._isValid === false) {
-            delete config2._isValid;
+          configFromISO(config3);
+          if (config3._isValid === false) {
+            delete config3._isValid;
           } else {
             return;
           }
-          configFromRFC2822(config2);
-          if (config2._isValid === false) {
-            delete config2._isValid;
+          configFromRFC2822(config3);
+          if (config3._isValid === false) {
+            delete config3._isValid;
           } else {
             return;
           }
-          if (config2._strict) {
-            config2._isValid = false;
+          if (config3._strict) {
+            config3._isValid = false;
           } else {
-            hooks.createFromInputFallback(config2);
+            hooks.createFromInputFallback(config3);
           }
         }
         hooks.createFromInputFallback = deprecate(
           "value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",
-          function(config2) {
-            config2._d = /* @__PURE__ */ new Date(config2._i + (config2._useUTC ? " UTC" : ""));
+          function(config3) {
+            config3._d = /* @__PURE__ */ new Date(config3._i + (config3._useUTC ? " UTC" : ""));
           }
         );
         function defaults3(a, b, c) {
@@ -8347,24 +8347,24 @@
           }
           return c;
         }
-        function currentDateArray(config2, now2, forWeek) {
+        function currentDateArray(config3, now2, forWeek) {
           var hadWeekContext = Object.prototype.hasOwnProperty.call(
-            config2,
+            config3,
             "_isDefaultDatePartsForWeek"
-          ), weekContext = config2._isDefaultDatePartsForWeek;
-          config2._isDefaultDatePartsForWeek = !!forWeek;
+          ), weekContext = config3._isDefaultDatePartsForWeek;
+          config3._isDefaultDatePartsForWeek = !!forWeek;
           try {
-            return hooks._getDefaultDateParts(config2, now2, forWeek);
+            return hooks._getDefaultDateParts(config3, now2, forWeek);
           } finally {
             if (hadWeekContext) {
-              config2._isDefaultDatePartsForWeek = weekContext;
+              config3._isDefaultDatePartsForWeek = weekContext;
             } else {
-              delete config2._isDefaultDatePartsForWeek;
+              delete config3._isDefaultDatePartsForWeek;
             }
           }
         }
-        function currentDateNow(config2) {
-          var now2 = config2._defaultDatePartsNow;
+        function currentDateNow(config3) {
+          var now2 = config3._defaultDatePartsNow;
           if (!now2) {
             return hooks.now();
           }
@@ -8374,12 +8374,12 @@
           }
           return now2.value;
         }
-        function getDefaultDateParts(config2, now2, forWeek) {
-          var useWeekDefaults = forWeek || config2._isDefaultDatePartsForWeek, nowValue = useWeekDefaults ? createLocal(now2) : new Date(now2);
+        function getDefaultDateParts(config3, now2, forWeek) {
+          var useWeekDefaults = forWeek || config3._isDefaultDatePartsForWeek, nowValue = useWeekDefaults ? createLocal(now2) : new Date(now2);
           if (useWeekDefaults) {
             return [nowValue.year(), nowValue.month(), nowValue.date()];
           }
-          if (config2._useUTC) {
+          if (config3._useUTC) {
             return [
               nowValue.getUTCFullYear(),
               nowValue.getUTCMonth(),
@@ -8389,62 +8389,62 @@
           return [nowValue.getFullYear(), nowValue.getMonth(), nowValue.getDate()];
         }
         hooks._getDefaultDateParts = getDefaultDateParts;
-        function configFromArray(config2) {
+        function configFromArray(config3) {
           var i2, date, input = [], now2, currentDate, expectedWeekday, yearToUse, dateIsDefaulted;
-          if (config2._d) {
+          if (config3._d) {
             return;
           }
-          if (config2._a[YEAR] == null || config2._a[MONTH] == null || config2._a[DATE] == null) {
-            now2 = currentDateNow(config2);
-            currentDate = currentDateArray(config2, now2);
+          if (config3._a[YEAR] == null || config3._a[MONTH] == null || config3._a[DATE] == null) {
+            now2 = currentDateNow(config3);
+            currentDate = currentDateArray(config3, now2);
           }
-          if (config2._w && config2._a[DATE] == null && config2._a[MONTH] == null) {
-            dayOfYearFromWeekInfo(config2, currentDateArray(config2, now2, true));
+          if (config3._w && config3._a[DATE] == null && config3._a[MONTH] == null) {
+            dayOfYearFromWeekInfo(config3, currentDateArray(config3, now2, true));
           }
-          if (config2._dayOfYear != null) {
-            yearToUse = config2._a[YEAR] != null ? config2._a[YEAR] : currentDate[YEAR];
-            if (config2._dayOfYear > daysInYear(yearToUse) || config2._dayOfYear === 0) {
-              getParsingFlags(config2)._overflowDayOfYear = true;
+          if (config3._dayOfYear != null) {
+            yearToUse = config3._a[YEAR] != null ? config3._a[YEAR] : currentDate[YEAR];
+            if (config3._dayOfYear > daysInYear(yearToUse) || config3._dayOfYear === 0) {
+              getParsingFlags(config3)._overflowDayOfYear = true;
             }
-            date = createUTCDate(yearToUse, 0, config2._dayOfYear);
-            config2._a[MONTH] = date.getUTCMonth();
-            config2._a[DATE] = date.getUTCDate();
+            date = createUTCDate(yearToUse, 0, config3._dayOfYear);
+            config3._a[MONTH] = date.getUTCMonth();
+            config3._a[DATE] = date.getUTCDate();
           }
-          dateIsDefaulted = config2._a[YEAR] == null || config2._a[MONTH] == null || config2._a[DATE] == null;
-          for (i2 = 0; i2 < 3 && config2._a[i2] == null; ++i2) {
-            config2._a[i2] = input[i2] = currentDate[i2];
+          dateIsDefaulted = config3._a[YEAR] == null || config3._a[MONTH] == null || config3._a[DATE] == null;
+          for (i2 = 0; i2 < 3 && config3._a[i2] == null; ++i2) {
+            config3._a[i2] = input[i2] = currentDate[i2];
           }
           for (; i2 < 7; i2++) {
-            config2._a[i2] = input[i2] = config2._a[i2] == null ? i2 === 2 ? 1 : 0 : config2._a[i2];
+            config3._a[i2] = input[i2] = config3._a[i2] == null ? i2 === 2 ? 1 : 0 : config3._a[i2];
           }
-          if (config2._a[HOUR] === 24 && config2._a[MINUTE] === 0 && config2._a[SECOND] === 0 && config2._a[MILLISECOND] === 0) {
-            config2._nextDay = true;
-            config2._a[HOUR] = 0;
+          if (config3._a[HOUR] === 24 && config3._a[MINUTE] === 0 && config3._a[SECOND] === 0 && config3._a[MILLISECOND] === 0) {
+            config3._nextDay = true;
+            config3._a[HOUR] = 0;
           }
-          config2._d = (config2._useUTC ? createUTCDate : createDate).apply(
+          config3._d = (config3._useUTC ? createUTCDate : createDate).apply(
             null,
             input
           );
-          expectedWeekday = config2._useUTC ? config2._d.getUTCDay() : config2._d.getDay();
-          if (config2._tzm != null) {
-            config2._d.setUTCMinutes(config2._d.getUTCMinutes() - config2._tzm);
+          expectedWeekday = config3._useUTC ? config3._d.getUTCDay() : config3._d.getDay();
+          if (config3._tzm != null) {
+            config3._d.setUTCMinutes(config3._d.getUTCMinutes() - config3._tzm);
           }
-          if (config2._nextDay) {
-            config2._a[HOUR] = 24;
+          if (config3._nextDay) {
+            config3._a[HOUR] = 24;
           }
-          if (config2._w && typeof config2._w.d !== "undefined" && !dateIsDefaulted && config2._w.d !== expectedWeekday) {
-            getParsingFlags(config2).weekdayMismatch = true;
+          if (config3._w && typeof config3._w.d !== "undefined" && !dateIsDefaulted && config3._w.d !== expectedWeekday) {
+            getParsingFlags(config3).weekdayMismatch = true;
           }
         }
-        function dayOfYearFromWeekInfo(config2, currentDate) {
+        function dayOfYearFromWeekInfo(config3, currentDate) {
           var w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek;
-          w = config2._w;
+          w = config3._w;
           if (w.GG != null || w.W != null || w.E != null) {
             dow = 1;
             doy = 4;
             weekYear = defaults3(
               w.GG,
-              config2._a[YEAR],
+              config3._a[YEAR],
               weekOfYearFromDate(
                 currentDate[YEAR],
                 currentDate[MONTH],
@@ -8459,8 +8459,8 @@
               weekdayOverflow = true;
             }
           } else {
-            dow = config2._locale._week.dow;
-            doy = config2._locale._week.doy;
+            dow = config3._locale._week.dow;
+            doy = config3._locale._week.doy;
             curWeek = weekOfYearFromDate(
               currentDate[YEAR],
               currentDate[MONTH],
@@ -8468,7 +8468,7 @@
               dow,
               doy
             );
-            weekYear = defaults3(w.gg, config2._a[YEAR], curWeek.year);
+            weekYear = defaults3(w.gg, config3._a[YEAR], curWeek.year);
             week = defaults3(w.w, curWeek.week);
             if (w.d != null) {
               weekday = w.d;
@@ -8485,40 +8485,40 @@
             }
           }
           if (week < 1 || week > weeksInYear(weekYear, dow, doy)) {
-            getParsingFlags(config2)._overflowWeeks = true;
+            getParsingFlags(config3)._overflowWeeks = true;
           } else if (weekdayOverflow != null) {
-            getParsingFlags(config2)._overflowWeekday = true;
+            getParsingFlags(config3)._overflowWeekday = true;
           } else {
             temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy);
-            config2._a[YEAR] = temp.year;
-            config2._dayOfYear = temp.dayOfYear;
+            config3._a[YEAR] = temp.year;
+            config3._dayOfYear = temp.dayOfYear;
           }
         }
         hooks.ISO_8601 = function() {
         };
         hooks.RFC_2822 = function() {
         };
-        function configFromStringAndFormat(config2) {
-          if (config2._f === hooks.ISO_8601) {
-            configFromISO(config2);
+        function configFromStringAndFormat(config3) {
+          if (config3._f === hooks.ISO_8601) {
+            configFromISO(config3);
             return;
           }
-          if (config2._f === hooks.RFC_2822) {
-            configFromRFC2822(config2);
+          if (config3._f === hooks.RFC_2822) {
+            configFromRFC2822(config3);
             return;
           }
-          config2._a = [];
-          getParsingFlags(config2).empty = true;
-          var string2 = "" + config2._i, i2, parsedInput, tokens2, token2, skipped, stringLength = string2.length, totalParsedInputLength = 0, era, tokenLen;
-          tokens2 = expandFormat(config2._f, config2._locale).match(formattingTokens) || [];
+          config3._a = [];
+          getParsingFlags(config3).empty = true;
+          var string2 = "" + config3._i, i2, parsedInput, tokens2, token2, skipped, stringLength = string2.length, totalParsedInputLength = 0, era, tokenLen;
+          tokens2 = expandFormat(config3._f, config3._locale).match(formattingTokens) || [];
           tokenLen = tokens2.length;
           for (i2 = 0; i2 < tokenLen; i2++) {
             token2 = tokens2[i2];
-            parsedInput = (string2.match(getParseRegexForToken(token2, config2)) || [])[0];
+            parsedInput = (string2.match(getParseRegexForToken(token2, config3)) || [])[0];
             if (parsedInput) {
               skipped = string2.substr(0, string2.indexOf(parsedInput));
               if (skipped.length > 0) {
-                getParsingFlags(config2).unusedInput.push(skipped);
+                getParsingFlags(config3).unusedInput.push(skipped);
               }
               string2 = string2.slice(
                 string2.indexOf(parsedInput) + parsedInput.length
@@ -8527,35 +8527,35 @@
             }
             if (formatTokenFunctions[token2]) {
               if (parsedInput) {
-                getParsingFlags(config2).empty = false;
+                getParsingFlags(config3).empty = false;
               } else {
-                getParsingFlags(config2).unusedTokens.push(token2);
+                getParsingFlags(config3).unusedTokens.push(token2);
               }
-              addTimeToArrayFromToken(token2, parsedInput, config2);
-            } else if (config2._strict && !parsedInput) {
-              getParsingFlags(config2).unusedTokens.push(token2);
+              addTimeToArrayFromToken(token2, parsedInput, config3);
+            } else if (config3._strict && !parsedInput) {
+              getParsingFlags(config3).unusedTokens.push(token2);
             }
           }
-          getParsingFlags(config2).charsLeftOver = stringLength - totalParsedInputLength;
+          getParsingFlags(config3).charsLeftOver = stringLength - totalParsedInputLength;
           if (string2.length > 0) {
-            getParsingFlags(config2).unusedInput.push(string2);
+            getParsingFlags(config3).unusedInput.push(string2);
           }
-          if (config2._a[HOUR] <= 12 && getParsingFlags(config2).bigHour === true && config2._a[HOUR] > 0) {
-            getParsingFlags(config2).bigHour = void 0;
+          if (config3._a[HOUR] <= 12 && getParsingFlags(config3).bigHour === true && config3._a[HOUR] > 0) {
+            getParsingFlags(config3).bigHour = void 0;
           }
-          getParsingFlags(config2).parsedDateParts = config2._a.slice(0);
-          getParsingFlags(config2).meridiem = config2._meridiem;
-          config2._a[HOUR] = meridiemFixWrap(
-            config2._locale,
-            config2._a[HOUR],
-            config2._meridiem
+          getParsingFlags(config3).parsedDateParts = config3._a.slice(0);
+          getParsingFlags(config3).meridiem = config3._meridiem;
+          config3._a[HOUR] = meridiemFixWrap(
+            config3._locale,
+            config3._a[HOUR],
+            config3._meridiem
           );
-          era = getParsingFlags(config2).era;
+          era = getParsingFlags(config3).era;
           if (era !== null) {
-            config2._a[YEAR] = config2._locale.erasConvertYear(era, config2._a[YEAR]);
+            config3._a[YEAR] = config3._locale.erasConvertYear(era, config3._a[YEAR]);
           }
-          configFromArray(config2);
-          checkOverflow(config2);
+          configFromArray(config3);
+          checkOverflow(config3);
         }
         function meridiemFixWrap(locale2, hour, meridiem2) {
           var isPm;
@@ -8577,22 +8577,22 @@
             return hour;
           }
         }
-        function configFromStringAndArray(config2) {
-          var tempConfig, bestMoment, scoreToBeat, i2, currentScore, validFormatFound, bestFormatIsValid = false, defaultDatePartsNow = {}, configfLen = config2._f.length;
+        function configFromStringAndArray(config3) {
+          var tempConfig, bestMoment, scoreToBeat, i2, currentScore, validFormatFound, bestFormatIsValid = false, defaultDatePartsNow = {}, configfLen = config3._f.length;
           if (configfLen === 0) {
-            getParsingFlags(config2).invalidFormat = true;
-            config2._d = /* @__PURE__ */ new Date(NaN);
+            getParsingFlags(config3).invalidFormat = true;
+            config3._d = /* @__PURE__ */ new Date(NaN);
             return;
           }
           for (i2 = 0; i2 < configfLen; i2++) {
             currentScore = 0;
             validFormatFound = false;
-            tempConfig = copyConfig({}, config2);
-            if (config2._useUTC != null) {
-              tempConfig._useUTC = config2._useUTC;
+            tempConfig = copyConfig({}, config3);
+            if (config3._useUTC != null) {
+              tempConfig._useUTC = config3._useUTC;
             }
             tempConfig._defaultDatePartsNow = defaultDatePartsNow;
-            tempConfig._f = config2._f[i2];
+            tempConfig._f = config3._f[i2];
             configFromStringAndFormat(tempConfig);
             if (isValid$2(tempConfig)) {
               validFormatFound = true;
@@ -8615,73 +8615,73 @@
               }
             }
           }
-          extend(config2, bestMoment || tempConfig);
+          extend(config3, bestMoment || tempConfig);
         }
-        function configFromObject(config2) {
-          if (config2._d) {
+        function configFromObject(config3) {
+          if (config3._d) {
             return;
           }
-          var i2 = normalizeObjectUnits(config2._i), dayOrDate = i2.day === void 0 ? i2.date : i2.day;
-          config2._a = map(
+          var i2 = normalizeObjectUnits(config3._i), dayOrDate = i2.day === void 0 ? i2.date : i2.day;
+          config3._a = map(
             [i2.year, i2.month, dayOrDate, i2.hour, i2.minute, i2.second, i2.millisecond],
             function(obj) {
               return obj && parseInt(obj, 10);
             }
           );
-          configFromArray(config2);
+          configFromArray(config3);
         }
-        function createFromConfig(config2) {
-          var res = new Moment(checkOverflow(prepareConfig(config2)));
+        function createFromConfig(config3) {
+          var res = new Moment(checkOverflow(prepareConfig(config3)));
           if (res._nextDay) {
             res.add(1, "d");
             res._nextDay = void 0;
           }
           return res;
         }
-        function prepareConfig(config2) {
-          var input = config2._i, format2 = config2._f;
-          config2._locale = config2._locale || getLocale(config2._l);
+        function prepareConfig(config3) {
+          var input = config3._i, format2 = config3._f;
+          config3._locale = config3._locale || getLocale(config3._l);
           if (input === null || format2 === void 0 && input === "") {
             return createInvalid$1({ nullInput: true });
           }
           if (typeof input === "string") {
-            config2._i = input = config2._locale.preparse(input);
+            config3._i = input = config3._locale.preparse(input);
           }
           if (isMoment(input)) {
             return new Moment(checkOverflow(input));
           } else if (isDate(input)) {
-            config2._d = input;
+            config3._d = input;
           } else if (isArray(format2)) {
-            configFromStringAndArray(config2);
+            configFromStringAndArray(config3);
           } else if (format2) {
-            configFromStringAndFormat(config2);
+            configFromStringAndFormat(config3);
           } else {
-            configFromInput(config2);
+            configFromInput(config3);
           }
-          if (!isValid$2(config2)) {
-            config2._d = null;
+          if (!isValid$2(config3)) {
+            config3._d = null;
           }
-          return config2;
+          return config3;
         }
-        function configFromInput(config2) {
-          var input = config2._i;
+        function configFromInput(config3) {
+          var input = config3._i;
           if (isUndefined(input)) {
-            config2._d = new Date(hooks.now());
+            config3._d = new Date(hooks.now());
           } else if (isDate(input)) {
-            config2._d = new Date(input.valueOf());
+            config3._d = new Date(input.valueOf());
           } else if (typeof input === "string") {
-            configFromString(config2);
+            configFromString(config3);
           } else if (isArray(input)) {
-            config2._a = map(input.slice(0), function(obj) {
+            config3._a = map(input.slice(0), function(obj) {
               return parseInt(obj, 10);
             });
-            configFromArray(config2);
+            configFromArray(config3);
           } else if (isObject(input)) {
-            configFromObject(config2);
+            configFromObject(config3);
           } else if (isNumber(input)) {
-            config2._d = new Date(input);
+            config3._d = new Date(input);
           } else {
-            hooks.createFromInputFallback(config2);
+            hooks.createFromInputFallback(config3);
           }
         }
         function createLocalOrUTC(input, format2, locale2, strict, isUTC) {
@@ -8845,12 +8845,12 @@
         offset("ZZ", "");
         addRegexToken("Z", matchShortOffset);
         addRegexToken("ZZ", matchShortOffset);
-        addParseToken(["Z", "ZZ"], function(input, array, config2) {
+        addParseToken(["Z", "ZZ"], function(input, array, config3) {
           var offset2 = offsetFromString(matchShortOffset, input);
-          config2._useUTC = true;
-          config2._tzm = offset2;
+          config3._useUTC = true;
+          config3._tzm = offset2;
           if (offset2 === null) {
-            getParsingFlags(config2).invalidOffset = input;
+            getParsingFlags(config3).invalidOffset = input;
           }
         });
         var chunkOffset = /([\+\-]|\d\d)/gi;
@@ -9621,12 +9621,12 @@
         addRegexToken("NNNNN", matchEraNarrow);
         addParseToken(
           ["N", "NN", "NNN", "NNNN", "NNNNN"],
-          function(input, array, config2, token2) {
-            var era = config2._locale.erasParse(input, token2, config2._strict);
+          function(input, array, config3, token2) {
+            var era = config3._locale.erasParse(input, token2, config3._strict);
             if (era) {
-              getParsingFlags(config2).era = era;
+              getParsingFlags(config3).era = era;
             } else {
-              getParsingFlags(config2).invalidEra = input;
+              getParsingFlags(config3).invalidEra = input;
             }
           }
         );
@@ -9636,13 +9636,13 @@
         addRegexToken("yyyy", matchUnsigned);
         addRegexToken("yo", matchEraYearOrdinal);
         addParseToken(["y", "yy", "yyy", "yyyy"], YEAR);
-        addParseToken(["yo"], function(input, array, config2, token2) {
+        addParseToken(["yo"], function(input, array, config3, token2) {
           var match;
-          if (config2._locale._eraYearOrdinalRegex) {
-            match = input.match(config2._locale._eraYearOrdinalRegex);
+          if (config3._locale._eraYearOrdinalRegex) {
+            match = input.match(config3._locale._eraYearOrdinalRegex);
           }
-          if (config2._locale.eraYearOrdinalParse) {
-            array[YEAR] = config2._locale.eraYearOrdinalParse(input, match);
+          if (config3._locale.eraYearOrdinalParse) {
+            array[YEAR] = config3._locale.eraYearOrdinalParse(input, match);
           } else {
             array[YEAR] = parseInt(input, 10);
           }
@@ -9832,11 +9832,11 @@
         addRegexToken("ggggg", match1to6, match6);
         addWeekParseToken(
           ["gggg", "ggggg", "GGGG", "GGGGG"],
-          function(input, week, config2, token2) {
+          function(input, week, config3, token2) {
             week[token2.substr(0, 2)] = toInt(input);
           }
         );
-        addWeekParseToken(["gg", "GG"], function(input, week, config2, token2) {
+        addWeekParseToken(["gg", "GG"], function(input, week, config3, token2) {
           week[token2] = hooks.parseTwoDigitYear(input);
         });
         function getSetWeekYear(input) {
@@ -9914,8 +9914,8 @@
         addFormatToken("DDD", ["DDDD", 3], "DDDo", "dayOfYear");
         addRegexToken("DDD", match1to3);
         addRegexToken("DDDD", match3);
-        addParseToken(["DDD", "DDDD"], function(input, array, config2) {
-          config2._dayOfYear = toInt(input);
+        addParseToken(["DDD", "DDDD"], function(input, array, config3) {
+          config3._dayOfYear = toInt(input);
         });
         function getSetDayOfYear(input) {
           var dayOfYear = Math.round(
@@ -10493,11 +10493,11 @@
         addFormatToken("x", 0, 0, "valueOf");
         addRegexToken("x", matchSigned);
         addRegexToken("X", matchTimestamp);
-        addParseToken("X", function(input, array, config2) {
-          config2._d = new Date(parseFloat(input) * 1e3);
+        addParseToken("X", function(input, array, config3) {
+          config3._d = new Date(parseFloat(input) * 1e3);
         });
-        addParseToken("x", function(input, array, config2) {
-          config2._d = new Date(toInt(input));
+        addParseToken("x", function(input, array, config3) {
+          config3._d = new Date(toInt(input));
         });
         hooks.version = "2.31.0";
         setHookCallback(createLocal);
@@ -14965,11 +14965,11 @@
           isElement: function isElement(obj) {
             return (obj[0] || obj).nodeType;
           },
-          typeCheckConfig: function typeCheckConfig(componentName, config2, configTypes) {
+          typeCheckConfig: function typeCheckConfig(componentName, config3, configTypes) {
             for (var property in configTypes) {
               if (Object.prototype.hasOwnProperty.call(configTypes, property)) {
                 var expectedTypes = configTypes[property];
-                var value = config2[property];
+                var value = config3[property];
                 var valueType = value && Util.isElement(value) ? "element" : toType(value);
                 if (!new RegExp(expectedTypes).test(valueType)) {
                   throw new Error(componentName.toUpperCase() + ": " + ('Option "' + property + '" provided type "' + valueType + '" ') + ('but expected type "' + expectedTypes + '".'));
@@ -15074,7 +15074,7 @@
           _proto._destroyElement = function _destroyElement(element) {
             $__default["default"](element).detach().trigger(EVENT_CLOSED).remove();
           };
-          Alert2._jQueryInterface = function _jQueryInterface(config2) {
+          Alert2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var $element = $__default["default"](this);
               var data2 = $element.data(DATA_KEY$a);
@@ -15082,8 +15082,8 @@
                 data2 = new Alert2(this);
                 $element.data(DATA_KEY$a, data2);
               }
-              if (config2 === "close") {
-                data2[config2](this);
+              if (config3 === "close") {
+                data2[config3](this);
               }
             });
           };
@@ -15177,7 +15177,7 @@
             $__default["default"].removeData(this._element, DATA_KEY$9);
             this._element = null;
           };
-          Button2._jQueryInterface = function _jQueryInterface(config2, avoidTriggerChange) {
+          Button2._jQueryInterface = function _jQueryInterface(config3, avoidTriggerChange) {
             return this.each(function() {
               var $element = $__default["default"](this);
               var data2 = $element.data(DATA_KEY$9);
@@ -15186,8 +15186,8 @@
                 $element.data(DATA_KEY$9, data2);
               }
               data2.shouldAvoidTriggerChange = avoidTriggerChange;
-              if (config2 === "toggle") {
-                data2[config2]();
+              if (config3 === "toggle") {
+                data2[config3]();
               }
             });
           };
@@ -15312,7 +15312,7 @@
           PEN: "pen"
         };
         var Carousel = /* @__PURE__ */ (function() {
-          function Carousel2(element, config2) {
+          function Carousel2(element, config3) {
             this._items = null;
             this._interval = null;
             this._activeElement = null;
@@ -15321,7 +15321,7 @@
             this.touchTimeout = null;
             this.touchStartX = 0;
             this.touchDeltaX = 0;
-            this._config = this._getConfig(config2);
+            this._config = this._getConfig(config3);
             this._element = element;
             this._indicatorsElement = this._element.querySelector(SELECTOR_INDICATORS);
             this._touchSupported = "ontouchstart" in document.documentElement || navigator.maxTouchPoints > 0;
@@ -15402,10 +15402,10 @@
             this._activeElement = null;
             this._indicatorsElement = null;
           };
-          _proto._getConfig = function _getConfig(config2) {
-            config2 = _extends({}, Default$7, config2);
-            Util.typeCheckConfig(NAME$8, config2, DefaultType$7);
-            return config2;
+          _proto._getConfig = function _getConfig(config3) {
+            config3 = _extends({}, Default$7, config3);
+            Util.typeCheckConfig(NAME$8, config3, DefaultType$7);
+            return config3;
           };
           _proto._handleSwipe = function _handleSwipe() {
             var absDeltax = Math.abs(this.touchDeltaX);
@@ -15625,20 +15625,20 @@
               this.cycle();
             }
           };
-          Carousel2._jQueryInterface = function _jQueryInterface(config2) {
+          Carousel2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var data2 = $__default["default"](this).data(DATA_KEY$8);
               var _config = _extends({}, Default$7, $__default["default"](this).data());
-              if (typeof config2 === "object") {
-                _config = _extends({}, _config, config2);
+              if (typeof config3 === "object") {
+                _config = _extends({}, _config, config3);
               }
-              var action = typeof config2 === "string" ? config2 : _config.slide;
+              var action = typeof config3 === "string" ? config3 : _config.slide;
               if (!data2) {
                 data2 = new Carousel2(this, _config);
                 $__default["default"](this).data(DATA_KEY$8, data2);
               }
-              if (typeof config2 === "number") {
-                data2.to(config2);
+              if (typeof config3 === "number") {
+                data2.to(config3);
               } else if (typeof action === "string") {
                 if (typeof data2[action] === "undefined") {
                   throw new TypeError('No method named "' + action + '"');
@@ -15659,12 +15659,12 @@
             if (!target || !$__default["default"](target).hasClass(CLASS_NAME_CAROUSEL)) {
               return;
             }
-            var config2 = _extends({}, $__default["default"](target).data(), $__default["default"](this).data());
+            var config3 = _extends({}, $__default["default"](target).data(), $__default["default"](this).data());
             var slideIndex = this.getAttribute("data-slide-to");
             if (slideIndex) {
-              config2.interval = false;
+              config3.interval = false;
             }
-            Carousel2._jQueryInterface.call($__default["default"](target), config2);
+            Carousel2._jQueryInterface.call($__default["default"](target), config3);
             if (slideIndex) {
               $__default["default"](target).data(DATA_KEY$8).to(slideIndex);
             }
@@ -15725,10 +15725,10 @@
           parent: "(string|element)"
         };
         var Collapse = /* @__PURE__ */ (function() {
-          function Collapse2(element, config2) {
+          function Collapse2(element, config3) {
             this._isTransitioning = false;
             this._element = element;
-            this._config = this._getConfig(config2);
+            this._config = this._getConfig(config3);
             this._triggerArray = [].slice.call(document.querySelectorAll('[data-toggle="collapse"][href="#' + element.id + '"],' + ('[data-toggle="collapse"][data-target="#' + element.id + '"]')));
             var toggleList = [].slice.call(document.querySelectorAll(SELECTOR_DATA_TOGGLE$3));
             for (var i2 = 0, len = toggleList.length; i2 < len; i2++) {
@@ -15859,11 +15859,11 @@
             this._triggerArray = null;
             this._isTransitioning = null;
           };
-          _proto._getConfig = function _getConfig(config2) {
-            config2 = _extends({}, Default$6, config2);
-            config2.toggle = Boolean(config2.toggle);
-            Util.typeCheckConfig(NAME$7, config2, DefaultType$6);
-            return config2;
+          _proto._getConfig = function _getConfig(config3) {
+            config3 = _extends({}, Default$6, config3);
+            config3.toggle = Boolean(config3.toggle);
+            Util.typeCheckConfig(NAME$7, config3, DefaultType$6);
+            return config3;
           };
           _proto._getDimension = function _getDimension() {
             var hasWidth = $__default["default"](this._element).hasClass(DIMENSION_WIDTH);
@@ -15897,23 +15897,23 @@
             var selector = Util.getSelectorFromElement(element);
             return selector ? document.querySelector(selector) : null;
           };
-          Collapse2._jQueryInterface = function _jQueryInterface(config2) {
+          Collapse2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var $element = $__default["default"](this);
               var data2 = $element.data(DATA_KEY$7);
-              var _config = _extends({}, Default$6, $element.data(), typeof config2 === "object" && config2 ? config2 : {});
-              if (!data2 && _config.toggle && typeof config2 === "string" && /show|hide/.test(config2)) {
+              var _config = _extends({}, Default$6, $element.data(), typeof config3 === "object" && config3 ? config3 : {});
+              if (!data2 && _config.toggle && typeof config3 === "string" && /show|hide/.test(config3)) {
                 _config.toggle = false;
               }
               if (!data2) {
                 data2 = new Collapse2(this, _config);
                 $element.data(DATA_KEY$7, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2]();
+                data2[config3]();
               }
             });
           };
@@ -15940,8 +15940,8 @@
           $__default["default"](selectors).each(function() {
             var $target = $__default["default"](this);
             var data2 = $target.data(DATA_KEY$7);
-            var config2 = data2 ? "toggle" : $trigger.data();
-            Collapse._jQueryInterface.call($target, config2);
+            var config3 = data2 ? "toggle" : $trigger.data();
+            Collapse._jQueryInterface.call($target, config3);
           });
         });
         $__default["default"].fn[NAME$7] = Collapse._jQueryInterface;
@@ -16006,10 +16006,10 @@
           popperConfig: "(null|object)"
         };
         var Dropdown = /* @__PURE__ */ (function() {
-          function Dropdown2(element, config2) {
+          function Dropdown2(element, config3) {
             this._element = element;
             this._popper = null;
-            this._config = this._getConfig(config2);
+            this._config = this._getConfig(config3);
             this._menu = this._getMenuElement();
             this._inNavbar = this._detectNavbar();
             this._addEventListeners();
@@ -16111,10 +16111,10 @@
               _this.toggle();
             });
           };
-          _proto._getConfig = function _getConfig(config2) {
-            config2 = _extends({}, this.constructor.Default, $__default["default"](this._element).data(), config2);
-            Util.typeCheckConfig(NAME$6, config2, this.constructor.DefaultType);
-            return config2;
+          _proto._getConfig = function _getConfig(config3) {
+            config3 = _extends({}, this.constructor.Default, $__default["default"](this._element).data(), config3);
+            Util.typeCheckConfig(NAME$6, config3, this.constructor.DefaultType);
+            return config3;
           };
           _proto._getMenuElement = function _getMenuElement() {
             if (!this._menu) {
@@ -16175,19 +16175,19 @@
             }
             return _extends({}, popperConfig, this._config.popperConfig);
           };
-          Dropdown2._jQueryInterface = function _jQueryInterface(config2) {
+          Dropdown2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var data2 = $__default["default"](this).data(DATA_KEY$6);
-              var _config = typeof config2 === "object" ? config2 : null;
+              var _config = typeof config3 === "object" ? config3 : null;
               if (!data2) {
                 data2 = new Dropdown2(this, _config);
                 $__default["default"](this).data(DATA_KEY$6, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2]();
+                data2[config3]();
               }
             });
           };
@@ -16354,8 +16354,8 @@
           show: "boolean"
         };
         var Modal = /* @__PURE__ */ (function() {
-          function Modal2(element, config2) {
-            this._config = this._getConfig(config2);
+          function Modal2(element, config3) {
+            this._config = this._getConfig(config3);
             this._element = element;
             this._dialog = element.querySelector(SELECTOR_DIALOG);
             this._backdrop = null;
@@ -16456,10 +16456,10 @@
           _proto.handleUpdate = function handleUpdate() {
             this._adjustDialog();
           };
-          _proto._getConfig = function _getConfig(config2) {
-            config2 = _extends({}, Default$4, config2);
-            Util.typeCheckConfig(NAME$5, config2, DefaultType$4);
-            return config2;
+          _proto._getConfig = function _getConfig(config3) {
+            config3 = _extends({}, Default$4, config3);
+            Util.typeCheckConfig(NAME$5, config3, DefaultType$4);
+            return config3;
           };
           _proto._triggerBackdropTransition = function _triggerBackdropTransition() {
             var _this3 = this;
@@ -16698,19 +16698,19 @@
             document.body.removeChild(scrollDiv);
             return scrollbarWidth;
           };
-          Modal2._jQueryInterface = function _jQueryInterface(config2, relatedTarget) {
+          Modal2._jQueryInterface = function _jQueryInterface(config3, relatedTarget) {
             return this.each(function() {
               var data2 = $__default["default"](this).data(DATA_KEY$5);
-              var _config = _extends({}, Default$4, $__default["default"](this).data(), typeof config2 === "object" && config2 ? config2 : {});
+              var _config = _extends({}, Default$4, $__default["default"](this).data(), typeof config3 === "object" && config3 ? config3 : {});
               if (!data2) {
                 data2 = new Modal2(this, _config);
                 $__default["default"](this).data(DATA_KEY$5, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2](relatedTarget);
+                data2[config3](relatedTarget);
               } else if (_config.show) {
                 data2.show(relatedTarget);
               }
@@ -16736,7 +16736,7 @@
           if (selector) {
             target = document.querySelector(selector);
           }
-          var config2 = $__default["default"](target).data(DATA_KEY$5) ? "toggle" : _extends({}, $__default["default"](target).data(), $__default["default"](this).data());
+          var config3 = $__default["default"](target).data(DATA_KEY$5) ? "toggle" : _extends({}, $__default["default"](target).data(), $__default["default"](this).data());
           if (this.tagName === "A" || this.tagName === "AREA") {
             event.preventDefault();
           }
@@ -16750,7 +16750,7 @@
               }
             });
           });
-          Modal._jQueryInterface.call($__default["default"](target), config2, this);
+          Modal._jQueryInterface.call($__default["default"](target), config3, this);
         });
         $__default["default"].fn[NAME$5] = Modal._jQueryInterface;
         $__default["default"].fn[NAME$5].Constructor = Modal;
@@ -16921,7 +16921,7 @@
           MOUSELEAVE: "mouseleave" + EVENT_KEY$4
         };
         var Tooltip = /* @__PURE__ */ (function() {
-          function Tooltip2(element, config2) {
+          function Tooltip2(element, config3) {
             if (typeof Popper__default["default"] === "undefined") {
               throw new TypeError("Bootstrap's tooltips require Popper (https://popper.js.org)");
             }
@@ -16931,7 +16931,7 @@
             this._activeTrigger = {};
             this._popper = null;
             this.element = element;
-            this.config = this._getConfig(config2);
+            this.config = this._getConfig(config3);
             this.tip = null;
             this._setListeners();
           }
@@ -17280,42 +17280,42 @@
             }
             return false;
           };
-          _proto._getConfig = function _getConfig(config2) {
+          _proto._getConfig = function _getConfig(config3) {
             var dataAttributes = $__default["default"](this.element).data();
             Object.keys(dataAttributes).forEach(function(dataAttr) {
               if (DISALLOWED_ATTRIBUTES.indexOf(dataAttr) !== -1) {
                 delete dataAttributes[dataAttr];
               }
             });
-            config2 = _extends({}, this.constructor.Default, dataAttributes, typeof config2 === "object" && config2 ? config2 : {});
-            if (typeof config2.delay === "number") {
-              config2.delay = {
-                show: config2.delay,
-                hide: config2.delay
+            config3 = _extends({}, this.constructor.Default, dataAttributes, typeof config3 === "object" && config3 ? config3 : {});
+            if (typeof config3.delay === "number") {
+              config3.delay = {
+                show: config3.delay,
+                hide: config3.delay
               };
             }
-            if (typeof config2.title === "number") {
-              config2.title = config2.title.toString();
+            if (typeof config3.title === "number") {
+              config3.title = config3.title.toString();
             }
-            if (typeof config2.content === "number") {
-              config2.content = config2.content.toString();
+            if (typeof config3.content === "number") {
+              config3.content = config3.content.toString();
             }
-            Util.typeCheckConfig(NAME$4, config2, this.constructor.DefaultType);
-            if (config2.sanitize) {
-              config2.template = sanitizeHtml(config2.template, config2.whiteList, config2.sanitizeFn);
+            Util.typeCheckConfig(NAME$4, config3, this.constructor.DefaultType);
+            if (config3.sanitize) {
+              config3.template = sanitizeHtml(config3.template, config3.whiteList, config3.sanitizeFn);
             }
-            return config2;
+            return config3;
           };
           _proto._getDelegateConfig = function _getDelegateConfig() {
-            var config2 = {};
+            var config3 = {};
             if (this.config) {
               for (var key in this.config) {
                 if (this.constructor.Default[key] !== this.config[key]) {
-                  config2[key] = this.config[key];
+                  config3[key] = this.config[key];
                 }
               }
             }
-            return config2;
+            return config3;
           };
           _proto._cleanTipClass = function _cleanTipClass() {
             var $tip = $__default["default"](this.getTipElement());
@@ -17341,23 +17341,23 @@
             this.show();
             this.config.animation = initConfigAnimation;
           };
-          Tooltip2._jQueryInterface = function _jQueryInterface(config2) {
+          Tooltip2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var $element = $__default["default"](this);
               var data2 = $element.data(DATA_KEY$4);
-              var _config = typeof config2 === "object" && config2;
-              if (!data2 && /dispose|hide/.test(config2)) {
+              var _config = typeof config3 === "object" && config3;
+              if (!data2 && /dispose|hide/.test(config3)) {
                 return;
               }
               if (!data2) {
                 data2 = new Tooltip2(this, _config);
                 $element.data(DATA_KEY$4, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2]();
+                data2[config3]();
               }
             });
           };
@@ -17473,22 +17473,22 @@
               $tip.removeClass(tabClass.join(""));
             }
           };
-          Popover2._jQueryInterface = function _jQueryInterface(config2) {
+          Popover2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var data2 = $__default["default"](this).data(DATA_KEY$3);
-              var _config = typeof config2 === "object" ? config2 : null;
-              if (!data2 && /dispose|hide/.test(config2)) {
+              var _config = typeof config3 === "object" ? config3 : null;
+              if (!data2 && /dispose|hide/.test(config3)) {
                 return;
               }
               if (!data2) {
                 data2 = new Popover2(this, _config);
                 $__default["default"](this).data(DATA_KEY$3, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2]();
+                data2[config3]();
               }
             });
           };
@@ -17571,11 +17571,11 @@
           target: "(string|element)"
         };
         var ScrollSpy = /* @__PURE__ */ (function() {
-          function ScrollSpy2(element, config2) {
+          function ScrollSpy2(element, config3) {
             var _this = this;
             this._element = element;
             this._scrollElement = element.tagName === "BODY" ? window : element;
-            this._config = this._getConfig(config2);
+            this._config = this._getConfig(config3);
             this._selector = this._config.target + " " + SELECTOR_NAV_LINKS + "," + (this._config.target + " " + SELECTOR_LIST_ITEMS + ",") + (this._config.target + " " + SELECTOR_DROPDOWN_ITEMS);
             this._offsets = [];
             this._targets = [];
@@ -17629,18 +17629,18 @@
             this._activeTarget = null;
             this._scrollHeight = null;
           };
-          _proto._getConfig = function _getConfig(config2) {
-            config2 = _extends({}, Default$1, typeof config2 === "object" && config2 ? config2 : {});
-            if (typeof config2.target !== "string" && Util.isElement(config2.target)) {
-              var id2 = $__default["default"](config2.target).attr("id");
+          _proto._getConfig = function _getConfig(config3) {
+            config3 = _extends({}, Default$1, typeof config3 === "object" && config3 ? config3 : {});
+            if (typeof config3.target !== "string" && Util.isElement(config3.target)) {
+              var id2 = $__default["default"](config3.target).attr("id");
               if (!id2) {
                 id2 = Util.getUID(NAME$2);
-                $__default["default"](config2.target).attr("id", id2);
+                $__default["default"](config3.target).attr("id", id2);
               }
-              config2.target = "#" + id2;
+              config3.target = "#" + id2;
             }
-            Util.typeCheckConfig(NAME$2, config2, DefaultType$1);
-            return config2;
+            Util.typeCheckConfig(NAME$2, config3, DefaultType$1);
+            return config3;
           };
           _proto._getScrollTop = function _getScrollTop() {
             return this._scrollElement === window ? this._scrollElement.pageYOffset : this._scrollElement.scrollTop;
@@ -17703,19 +17703,19 @@
               return node.classList.remove(CLASS_NAME_ACTIVE$1);
             });
           };
-          ScrollSpy2._jQueryInterface = function _jQueryInterface(config2) {
+          ScrollSpy2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var data2 = $__default["default"](this).data(DATA_KEY$2);
-              var _config = typeof config2 === "object" && config2;
+              var _config = typeof config3 === "object" && config3;
               if (!data2) {
                 data2 = new ScrollSpy2(this, _config);
                 $__default["default"](this).data(DATA_KEY$2, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2]();
+                data2[config3]();
               }
             });
           };
@@ -17875,7 +17875,7 @@
               callback();
             }
           };
-          Tab2._jQueryInterface = function _jQueryInterface(config2) {
+          Tab2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var $this = $__default["default"](this);
               var data2 = $this.data(DATA_KEY$1);
@@ -17883,11 +17883,11 @@
                 data2 = new Tab2(this);
                 $this.data(DATA_KEY$1, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2]();
+                data2[config3]();
               }
             });
           };
@@ -17935,9 +17935,9 @@
           delay: "number"
         };
         var Toast = /* @__PURE__ */ (function() {
-          function Toast2(element, config2) {
+          function Toast2(element, config3) {
             this._element = element;
-            this._config = this._getConfig(config2);
+            this._config = this._getConfig(config3);
             this._timeout = null;
             this._setListeners();
           }
@@ -17994,10 +17994,10 @@
             this._element = null;
             this._config = null;
           };
-          _proto._getConfig = function _getConfig(config2) {
-            config2 = _extends({}, Default, $__default["default"](this._element).data(), typeof config2 === "object" && config2 ? config2 : {});
-            Util.typeCheckConfig(NAME, config2, this.constructor.DefaultType);
-            return config2;
+          _proto._getConfig = function _getConfig(config3) {
+            config3 = _extends({}, Default, $__default["default"](this._element).data(), typeof config3 === "object" && config3 ? config3 : {});
+            Util.typeCheckConfig(NAME, config3, this.constructor.DefaultType);
+            return config3;
           };
           _proto._setListeners = function _setListeners() {
             var _this2 = this;
@@ -18023,20 +18023,20 @@
             clearTimeout(this._timeout);
             this._timeout = null;
           };
-          Toast2._jQueryInterface = function _jQueryInterface(config2) {
+          Toast2._jQueryInterface = function _jQueryInterface(config3) {
             return this.each(function() {
               var $element = $__default["default"](this);
               var data2 = $element.data(DATA_KEY);
-              var _config = typeof config2 === "object" && config2;
+              var _config = typeof config3 === "object" && config3;
               if (!data2) {
                 data2 = new Toast2(this, _config);
                 $element.data(DATA_KEY, data2);
               }
-              if (typeof config2 === "string") {
-                if (typeof data2[config2] === "undefined") {
-                  throw new TypeError('No method named "' + config2 + '"');
+              if (typeof config3 === "string") {
+                if (typeof data2[config3] === "undefined") {
+                  throw new TypeError('No method named "' + config3 + '"');
                 }
-                data2[config2](this);
+                data2[config3](this);
               }
             });
           };
@@ -31472,8 +31472,8 @@
     /**
     Define a new facet.
     */
-    static define(config2 = {}) {
-      return new _Facet(config2.combine || ((a) => a), config2.compareInput || ((a, b) => a === b), config2.compare || (!config2.combine ? sameArray : (a, b) => a === b), !!config2.static, config2.enables);
+    static define(config3 = {}) {
+      return new _Facet(config3.combine || ((a) => a), config3.compareInput || ((a, b) => a === b), config3.compare || (!config3.combine ? sameArray : (a, b) => a === b), !!config3.static, config3.enables);
     }
     /**
     Returns an extension that adds the given value to this facet.
@@ -31650,10 +31650,10 @@
     /**
     Define a state field.
     */
-    static define(config2) {
-      let field = new _StateField(nextID++, config2.create, config2.update, config2.compare || ((a, b) => a === b), config2);
-      if (config2.provide)
-        field.provides = config2.provide(field);
+    static define(config3) {
+      let field = new _StateField(nextID++, config3.create, config3.update, config3.compare || ((a, b) => a === b), config3);
+      if (config3.provide)
+        field.provides = config3.provide(field);
       return field;
     }
     create(state) {
@@ -32254,12 +32254,12 @@
     };
   }
   var EditorState = class _EditorState {
-    constructor(config2, doc2, selection, values2, computeSlot, tr) {
-      this.config = config2;
+    constructor(config3, doc2, selection, values2, computeSlot, tr) {
+      this.config = config3;
       this.doc = doc2;
       this.selection = selection;
       this.values = values2;
-      this.status = config2.statusTemplate.slice();
+      this.status = config3.statusTemplate.slice();
       this.computeSlot = computeSlot;
       if (tr)
         tr._state = this;
@@ -32430,7 +32430,7 @@
     to [`toJSON`](https://codemirror.net/6/docs/ref/#state.EditorState.toJSON) when serializing as
     third argument.
     */
-    static fromJSON(json, config2 = {}, fields) {
+    static fromJSON(json, config3 = {}, fields) {
       if (!json || typeof json.doc != "string")
         throw new RangeError("Invalid JSON representation for EditorState");
       let fieldInit = [];
@@ -32444,7 +32444,7 @@
       return _EditorState.create({
         doc: json.doc,
         selection: EditorSelection.fromJSON(json.selection),
-        extensions: config2.extensions ? fieldInit.concat([config2.extensions]) : fieldInit
+        extensions: config3.extensions ? fieldInit.concat([config3.extensions]) : fieldInit
       });
     }
     /**
@@ -32452,10 +32452,10 @@
     initializing an editor—updated states are created by applying
     transactions.
     */
-    static create(config2 = {}) {
-      let configuration = Configuration.resolve(config2.extensions || [], /* @__PURE__ */ new Map());
-      let doc2 = config2.doc instanceof Text ? config2.doc : Text.of((config2.doc || "").split(configuration.staticFacet(_EditorState.lineSeparator) || DefaultSplit));
-      let selection = !config2.selection ? EditorSelection.single(0) : config2.selection instanceof EditorSelection ? config2.selection : EditorSelection.single(config2.selection.anchor, config2.selection.head);
+    static create(config3 = {}) {
+      let configuration = Configuration.resolve(config3.extensions || [], /* @__PURE__ */ new Map());
+      let doc2 = config3.doc instanceof Text ? config3.doc : Text.of((config3.doc || "").split(configuration.staticFacet(_EditorState.lineSeparator) || DefaultSplit));
+      let selection = !config3.selection ? EditorSelection.single(0) : config3.selection instanceof EditorSelection ? config3.selection : EditorSelection.single(config3.selection.anchor, config3.selection.head);
       checkSelection(selection, doc2.length);
       if (!configuration.staticFacet(allowMultipleSelections))
         selection = selection.asSingle();
@@ -32592,9 +32592,9 @@
   Compartment.reconfigure = /* @__PURE__ */ StateEffect.define();
   function combineConfig(configs, defaults3, combine = {}) {
     let result = {};
-    for (let config2 of configs)
-      for (let key of Object.keys(config2)) {
-        let value = config2[key], current = result[key];
+    for (let config3 of configs)
+      for (let key of Object.keys(config3)) {
+        let value = config3[key], current = result[key];
         if (current === void 0)
           result[key] = value;
         else if (current === value || value === void 0) ;
@@ -40990,7 +40990,7 @@
     option, or put `view.dom` into your document after creating a
     view, so that the user can see the editor.
     */
-    constructor(config2 = {}) {
+    constructor(config3 = {}) {
       var _a2;
       this.plugins = [];
       this.pluginMap = /* @__PURE__ */ new Map();
@@ -41013,15 +41013,15 @@
       this.dom = document.createElement("div");
       this.dom.appendChild(this.announceDOM);
       this.dom.appendChild(this.scrollDOM);
-      if (config2.parent)
-        config2.parent.appendChild(this.dom);
-      let { dispatch } = config2;
-      this.dispatchTransactions = config2.dispatchTransactions || dispatch && ((trs) => trs.forEach((tr) => dispatch(tr, this))) || ((trs) => this.update(trs));
+      if (config3.parent)
+        config3.parent.appendChild(this.dom);
+      let { dispatch } = config3;
+      this.dispatchTransactions = config3.dispatchTransactions || dispatch && ((trs) => trs.forEach((tr) => dispatch(tr, this))) || ((trs) => this.update(trs));
       this.dispatch = this.dispatch.bind(this);
-      this._root = config2.root || getRoot(config2.parent) || document;
-      this.viewState = new ViewState(this, config2.state || EditorState.create(config2));
-      if (config2.scrollTo && config2.scrollTo.is(scrollIntoView))
-        this.viewState.scrollTarget = config2.scrollTo.value.clip(this.viewState.state);
+      this._root = config3.root || getRoot(config3.parent) || document;
+      this.viewState = new ViewState(this, config3.state || EditorState.create(config3));
+      if (config3.scrollTo && config3.scrollTo.is(scrollIntoView))
+        this.viewState.scrollTarget = config3.scrollTo.value.clip(this.viewState.state);
       this.plugins = this.state.facet(viewPlugin).map((spec) => new PluginInstance(spec));
       for (let plugin of this.plugins)
         plugin.update(this);
@@ -42349,10 +42349,10 @@
     }
   };
   var layerOrder = /* @__PURE__ */ Facet.define();
-  function layer(config2) {
+  function layer(config3) {
     return [
-      ViewPlugin.define((v) => new LayerView(v, config2)),
-      layerOrder.of(config2)
+      ViewPlugin.define((v) => new LayerView(v, config3)),
+      layerOrder.of(config3)
     ];
   }
   var selectionConfig = /* @__PURE__ */ Facet.define({
@@ -42367,9 +42367,9 @@
       });
     }
   });
-  function drawSelection(config2 = {}) {
+  function drawSelection(config3 = {}) {
     return [
-      selectionConfig.of(config2),
+      selectionConfig.of(config3),
       cursorLayer,
       selectionLayer,
       hideNativeSelection,
@@ -42567,8 +42567,8 @@
     /**
     Create a decorator.
     */
-    constructor(config2) {
-      const { regexp, decoration, decorate, boundary, maxLength = 1e3 } = config2;
+    constructor(config3) {
+      const { regexp, decoration, decorate, boundary, maxLength = 1e3 } = config3;
       if (!regexp.global)
         throw new RangeError("The regular expression given to MatchDecorator should have its 'g' flag set");
       this.regexp = regexp;
@@ -42688,20 +42688,20 @@
   }
   var specialCharConfig = /* @__PURE__ */ Facet.define({
     combine(configs) {
-      let config2 = combineConfig(configs, {
+      let config3 = combineConfig(configs, {
         render: null,
         specialChars: Specials,
         addSpecialChars: null
       });
-      if (config2.replaceTabs = !supportsTabSize())
-        config2.specialChars = new RegExp("	|" + config2.specialChars.source, UnicodeRegexpSupport);
-      if (config2.addSpecialChars)
-        config2.specialChars = new RegExp(config2.specialChars.source + "|" + config2.addSpecialChars.source, UnicodeRegexpSupport);
-      return config2;
+      if (config3.replaceTabs = !supportsTabSize())
+        config3.specialChars = new RegExp("	|" + config3.specialChars.source, UnicodeRegexpSupport);
+      if (config3.addSpecialChars)
+        config3.specialChars = new RegExp(config3.specialChars.source + "|" + config3.addSpecialChars.source, UnicodeRegexpSupport);
+      return config3;
     }
   });
-  function highlightSpecialChars(config2 = {}) {
-    return [specialCharConfig.of(config2), specialCharPlugin()];
+  function highlightSpecialChars(config3 = {}) {
+    return [specialCharConfig.of(config3), specialCharPlugin()];
   }
   var _plugin = null;
   function specialCharPlugin() {
@@ -43013,9 +43013,9 @@
       this.madeAbsolute = false;
       this.lastTransaction = 0;
       this.measureTimeout = -1;
-      let config2 = view.state.facet(tooltipConfig);
-      this.position = config2.position;
-      this.parent = config2.parent;
+      let config3 = view.state.facet(tooltipConfig);
+      this.position = config3.position;
+      this.parent = config3.parent;
       this.classes = view.themeClasses;
       this.createContainer();
       this.measureReq = { read: this.readMeasure.bind(this), write: this.writeMeasure.bind(this), key: this };
@@ -43778,10 +43778,10 @@
   var showPanel = /* @__PURE__ */ Facet.define({
     enables: panelPlugin
   });
-  function showDialog(view, config2) {
+  function showDialog(view, config3) {
     let resolve;
     let promise = new Promise((r) => resolve = r);
-    let panelCtor = (view2) => createDialog(view2, config2, resolve);
+    let panelCtor = (view2) => createDialog(view2, config3, resolve);
     if (view.state.field(dialogField, false)) {
       view.dispatch({ effects: openDialogEffect.of(panelCtor) });
     } else {
@@ -43823,22 +43823,22 @@
   });
   var openDialogEffect = /* @__PURE__ */ StateEffect.define();
   var closeDialogEffect = /* @__PURE__ */ StateEffect.define();
-  function createDialog(view, config2, result) {
-    let content2 = config2.content ? config2.content(view, () => done(null)) : null;
+  function createDialog(view, config3, result) {
+    let content2 = config3.content ? config3.content(view, () => done(null)) : null;
     if (!content2) {
       content2 = crelt("form");
-      if (config2.input) {
-        let input = crelt("input", config2.input);
+      if (config3.input) {
+        let input = crelt("input", config3.input);
         if (/^(text|password|number|email|tel|url)$/.test(input.type))
           input.classList.add("cm-textfield");
         if (!input.name)
           input.name = "input";
-        content2.appendChild(crelt("label", (config2.label || "") + ": ", input));
+        content2.appendChild(crelt("label", (config3.label || "") + ": ", input));
       } else {
-        content2.appendChild(document.createTextNode(config2.label || ""));
+        content2.appendChild(document.createTextNode(config3.label || ""));
       }
       content2.appendChild(document.createTextNode(" "));
-      content2.appendChild(crelt("button", { class: "cm-button", type: "submit" }, config2.submitLabel || "OK"));
+      content2.appendChild(crelt("button", { class: "cm-button", type: "submit" }, config3.submitLabel || "OK"));
     }
     let forms = content2.nodeName == "FORM" ? [content2] : content2.querySelectorAll("form");
     for (let i2 = 0; i2 < forms.length; i2++) {
@@ -43863,8 +43863,8 @@
       class: "cm-dialog-close",
       type: "button"
     }, ["\xD7"]));
-    if (config2.class)
-      panel.className = config2.class;
+    if (config3.class)
+      panel.className = config3.class;
     panel.classList.add("cm-dialog");
     function done(form) {
       if (panel.contains(panel.ownerDocument.activeElement))
@@ -43873,12 +43873,12 @@
     }
     return {
       dom: panel,
-      top: config2.top,
+      top: config3.top,
       mount: () => {
-        if (config2.focus) {
+        if (config3.focus) {
           let focus;
-          if (typeof config2.focus == "string")
-            focus = content2.querySelector(config2.focus);
+          if (typeof config3.focus == "string")
+            focus = content2.querySelector(config3.focus);
           else
             focus = content2.querySelector("input") || content2.querySelector("button");
           if (focus && "select" in focus)
@@ -43930,17 +43930,17 @@
     side: "before"
   };
   var activeGutters = /* @__PURE__ */ Facet.define();
-  function gutter(config2) {
-    return [gutters(), activeGutters.of({ ...defaults, ...config2 })];
+  function gutter(config3) {
+    return [gutters(), activeGutters.of({ ...defaults, ...config3 })];
   }
   var unfixGutters = /* @__PURE__ */ Facet.define({
     combine: (values2) => values2.some((x) => x)
   });
-  function gutters(config2) {
+  function gutters(config3) {
     let result = [
       gutterView
     ];
-    if (config2 && config2.fixed === false)
+    if (config3 && config3.fixed === false)
       result.push(unfixGutters.of(true));
     return result;
   }
@@ -44153,14 +44153,14 @@
     }
   };
   var SingleGutterView = class {
-    constructor(view, config2) {
+    constructor(view, config3) {
       this.view = view;
-      this.config = config2;
+      this.config = config3;
       this.elements = [];
       this.spacer = null;
       this.dom = document.createElement("div");
       this.dom.className = "cm-gutter" + (this.config.class ? " " + this.config.class : "");
-      for (let prop in config2.domEventHandlers) {
+      for (let prop in config3.domEventHandlers) {
         this.dom.addEventListener(prop, (event) => {
           let target = event.target, y;
           if (target != this.dom && this.dom.contains(target)) {
@@ -44172,13 +44172,13 @@
             y = event.clientY;
           }
           let line = view.lineBlockAtHeight(y - view.documentTop);
-          if (config2.domEventHandlers[prop](view, line, event))
+          if (config3.domEventHandlers[prop](view, line, event))
             event.preventDefault();
         });
       }
-      this.markers = asArray2(config2.markers(view));
-      if (config2.initialSpacer) {
-        this.spacer = new GutterElement(view, 0, 0, [config2.initialSpacer(view)]);
+      this.markers = asArray2(config3.markers(view));
+      if (config3.initialSpacer) {
+        this.spacer = new GutterElement(view, 0, 0, [config3.initialSpacer(view)]);
         this.dom.appendChild(this.spacer.dom);
         this.spacer.dom.style.cssText += "visibility: hidden; pointer-events: none";
       }
@@ -44331,9 +44331,9 @@
     domEventHandlers: state.facet(lineNumberConfig).domEventHandlers,
     side: "before"
   }));
-  function lineNumbers(config2 = {}) {
+  function lineNumbers(config3 = {}) {
     return [
-      lineNumberConfig.of(config2),
+      lineNumberConfig.of(config3),
       gutters(),
       lineNumberGutter
     ];
@@ -44378,13 +44378,13 @@
     /**
     Create a new node prop type.
     */
-    constructor(config2 = {}) {
+    constructor(config3 = {}) {
       this.id = nextPropID++;
-      this.perNode = !!config2.perNode;
-      this.deserialize = config2.deserialize || (() => {
+      this.perNode = !!config3.perNode;
+      this.deserialize = config3.deserialize || (() => {
         throw new Error("This node type doesn't define a deserialize function");
       });
-      this.combine = config2.combine || null;
+      this.combine = config3.combine || null;
     }
     /**
     This is meant to be used with
@@ -44732,8 +44732,8 @@
     which may have children grouped into subtrees with type
     [`NodeType.none`](#common.NodeType^none).
     */
-    balance(config2 = {}) {
-      return this.children.length <= 8 ? this : balanceRange(NodeType.none, this.children, this.positions, 0, this.children.length, 0, this.length, (children, positions, length) => new _Tree(this.type, children, positions, length, this.propValues), config2.makeTree || ((children, positions, length) => new _Tree(NodeType.none, children, positions, length)));
+    balance(config3 = {}) {
+      return this.children.length <= 8 ? this : balanceRange(NodeType.none, this.children, this.positions, 0, this.children.length, 0, this.length, (children, positions, length) => new _Tree(this.type, children, positions, length, this.propValues), config3.makeTree || ((children, positions, length) => new _Tree(NodeType.none, children, positions, length)));
     }
     /**
     Build a tree from a postfix-ordered buffer of node information,
@@ -46489,8 +46489,8 @@
       let configs = powerSet(mods);
       for (let parent of base2.set)
         if (!parent.modified.length)
-          for (let config2 of configs)
-            set.push(_Modifier.get(parent, config2));
+          for (let config3 of configs)
+            set.push(_Modifier.get(parent, config3));
       return tag;
     }
   };
@@ -47651,8 +47651,8 @@
     } }
   });
   var language = /* @__PURE__ */ Facet.define({
-    combine(languages) {
-      return languages.length ? languages[0] : null;
+    combine(languages2) {
+      return languages2.length ? languages2[0] : null;
     },
     enables: (language2) => [
       Language.state,
@@ -48246,10 +48246,10 @@
       return combineConfig(values2, defaultConfig);
     }
   });
-  function codeFolding(config2) {
+  function codeFolding(config3) {
     let result = [foldState, baseTheme$12];
-    if (config2)
-      result.push(foldConfig.of(config2));
+    if (config3)
+      result.push(foldConfig.of(config3));
     return result;
   }
   function widgetToDOM(view, prepared) {
@@ -48296,9 +48296,9 @@
     foldingChanged: () => false
   };
   var FoldMarker = class extends GutterMarker {
-    constructor(config2, open) {
+    constructor(config3, open) {
       super();
-      this.config = config2;
+      this.config = config3;
       this.open = open;
     }
     eq(other) {
@@ -48313,8 +48313,8 @@
       return span;
     }
   };
-  function foldGutter(config2 = {}) {
-    let fullConfig = { ...foldGutterDefaults, ...config2 };
+  function foldGutter(config3 = {}) {
+    let fullConfig = { ...foldGutterDefaults, ...config3 };
     let canFold = new FoldMarker(fullConfig, true), canUnfold = new FoldMarker(fullConfig, false);
     let markers = ViewPlugin.fromClass(class {
       constructor(view) {
@@ -48593,13 +48593,13 @@
   }
   function bracketDeco(state) {
     let decorations2 = [];
-    let config2 = state.facet(bracketMatchingConfig);
+    let config3 = state.facet(bracketMatchingConfig);
     for (let range of state.selection.ranges) {
       if (!range.empty)
         continue;
-      let match = matchBrackets(state, range.head, -1, config2) || range.head > 0 && matchBrackets(state, range.head - 1, 1, config2) || config2.afterCursor && (matchBrackets(state, range.head, 1, config2) || range.head < state.doc.length && matchBrackets(state, range.head + 1, -1, config2));
+      let match = matchBrackets(state, range.head, -1, config3) || range.head > 0 && matchBrackets(state, range.head - 1, 1, config3) || config3.afterCursor && (matchBrackets(state, range.head, 1, config3) || range.head < state.doc.length && matchBrackets(state, range.head + 1, -1, config3));
       if (match)
-        decorations2 = decorations2.concat(config2.renderMatch(match, state));
+        decorations2 = decorations2.concat(config3.renderMatch(match, state));
     }
     return Decoration.set(decorations2, true);
   }
@@ -48626,8 +48626,8 @@
     bracketMatcher,
     baseTheme2
   ];
-  function bracketMatching(config2 = {}) {
-    return [bracketMatchingConfig.of(config2), bracketMatchingUnique];
+  function bracketMatching(config3 = {}) {
+    return [bracketMatchingConfig.of(config3), bracketMatchingUnique];
   }
   var bracketMatchingHandle = /* @__PURE__ */ new NodeProp();
   function matchingNodes(node, dir, brackets) {
@@ -48645,8 +48645,8 @@
     let hasHandle = node.type.prop(bracketMatchingHandle);
     return hasHandle ? hasHandle(node.node) : node;
   }
-  function matchBrackets(state, pos, dir, config2 = {}) {
-    let maxScanDistance = config2.maxScanDistance || DefaultScanDist, brackets = config2.brackets || DefaultBrackets;
+  function matchBrackets(state, pos, dir, config3 = {}) {
+    let maxScanDistance = config3.maxScanDistance || DefaultScanDist, brackets = config3.brackets || DefaultBrackets;
     let tree = syntaxTree(state), node = tree.resolveInner(pos, dir);
     for (let cur2 = node; cur2; cur2 = cur2.parent) {
       let matches = matchingNodes(cur2.type, dir, brackets);
@@ -49262,8 +49262,8 @@
 
   // node_modules/@codemirror/commands/dist/index.js
   var toggleComment = (target) => {
-    let { state } = target, line = state.doc.lineAt(state.selection.main.from), config2 = getConfig(target.state, line.from);
-    return config2.line ? toggleLineComment(target) : config2.block ? toggleBlockCommentByLine(target) : false;
+    let { state } = target, line = state.doc.lineAt(state.selection.main.from), config3 = getConfig(target.state, line.from);
+    return config3.line ? toggleLineComment(target) : config3.block ? toggleBlockCommentByLine(target) : false;
   };
   function command(f, option) {
     return ({ state, dispatch }) => {
@@ -49439,13 +49439,13 @@
       return HistoryState.empty;
     },
     update(state, tr) {
-      let config2 = tr.state.facet(historyConfig);
+      let config3 = tr.state.facet(historyConfig);
       let fromHist = tr.annotation(fromHistory);
       if (fromHist) {
         let item = HistEvent.fromTransaction(tr, fromHist.selection), from = fromHist.side;
         let other = from == 0 ? state.undone : state.done;
         if (item)
-          other = updateBranch(other, other.length, config2.minDepth, item);
+          other = updateBranch(other, other.length, config3.minDepth, item);
         else
           other = addSelection(other, tr.startState.selection);
         return new HistoryState(from == 0 ? fromHist.rest : other, from == 0 ? other : fromHist.rest);
@@ -49458,9 +49458,9 @@
       let event = HistEvent.fromTransaction(tr);
       let time = tr.annotation(Transaction.time), userEvent = tr.annotation(Transaction.userEvent);
       if (event)
-        state = state.addChanges(event, time, userEvent, config2, tr);
+        state = state.addChanges(event, time, userEvent, config3, tr);
       else if (tr.selection)
-        state = state.addSelection(tr.startState.selection, time, userEvent, config2.newGroupDelay);
+        state = state.addSelection(tr.startState.selection, time, userEvent, config3.newGroupDelay);
       if (isolate == "full" || isolate == "after")
         state = state.isolate();
       return state;
@@ -49472,10 +49472,10 @@
       return new HistoryState(json.done.map(HistEvent.fromJSON), json.undone.map(HistEvent.fromJSON));
     }
   });
-  function history(config2 = {}) {
+  function history(config3 = {}) {
     return [
       historyField_,
-      historyConfig.of(config2),
+      historyConfig.of(config3),
       EditorView.domEventHandlers({
         beforeinput(e, view) {
           let command2 = e.inputType == "historyUndo" ? undo : e.inputType == "historyRedo" ? redo : null;
@@ -49627,13 +49627,13 @@
     isolate() {
       return this.prevTime ? new _HistoryState(this.done, this.undone) : this;
     }
-    addChanges(event, time, userEvent, config2, tr) {
+    addChanges(event, time, userEvent, config3, tr) {
       let done = this.done, lastEvent = done[done.length - 1];
-      if (lastEvent && lastEvent.changes && !lastEvent.changes.empty && event.changes && (!userEvent || joinableUserEvent.test(userEvent)) && (!lastEvent.selectionsAfter.length && time - this.prevTime < config2.newGroupDelay && config2.joinToEvent(tr, isAdjacent(lastEvent.changes, event.changes)) || // For compose (but not compose.start) events, always join with previous event
+      if (lastEvent && lastEvent.changes && !lastEvent.changes.empty && event.changes && (!userEvent || joinableUserEvent.test(userEvent)) && (!lastEvent.selectionsAfter.length && time - this.prevTime < config3.newGroupDelay && config3.joinToEvent(tr, isAdjacent(lastEvent.changes, event.changes)) || // For compose (but not compose.start) events, always join with previous event
       userEvent == "input.type.compose")) {
-        done = updateBranch(done, done.length - 1, config2.minDepth, new HistEvent(event.changes.compose(lastEvent.changes), conc(StateEffect.mapEffects(event.effects, lastEvent.changes), lastEvent.effects), lastEvent.mapped, lastEvent.startSelection, none2));
+        done = updateBranch(done, done.length - 1, config3.minDepth, new HistEvent(event.changes.compose(lastEvent.changes), conc(StateEffect.mapEffects(event.effects, lastEvent.changes), lastEvent.effects), lastEvent.mapped, lastEvent.startSelection, none2));
       } else {
-        done = updateBranch(done, done.length, config2.minDepth, event);
+        done = updateBranch(done, done.length, config3.minDepth, event);
       }
       return new _HistoryState(done, none2, time, userEvent);
     }
@@ -50825,16 +50825,16 @@
     /**
     Create a query object.
     */
-    constructor(config2) {
-      this.search = config2.search;
-      this.caseSensitive = !!config2.caseSensitive;
-      this.literal = !!config2.literal;
-      this.regexp = !!config2.regexp;
-      this.replace = config2.replace || "";
+    constructor(config3) {
+      this.search = config3.search;
+      this.caseSensitive = !!config3.caseSensitive;
+      this.literal = !!config3.literal;
+      this.regexp = !!config3.regexp;
+      this.replace = config3.replace || "";
       this.valid = !!this.search && (!this.regexp || validRegExp(this.search));
       this.unquoted = this.unquote(this.search);
-      this.wholeWord = !!config2.wholeWord;
-      this.test = config2.test;
+      this.wholeWord = !!config3.wholeWord;
+      this.test = config3.test;
     }
     /**
     @internal
@@ -51093,10 +51093,10 @@
     if (!next)
       return false;
     let selection = EditorSelection.single(next.from, next.to);
-    let config2 = view.state.facet(searchConfigFacet);
+    let config3 = view.state.facet(searchConfigFacet);
     view.dispatch({
       selection,
-      effects: [announceMatch(view, next), config2.scrollToMatch(selection.main, view)],
+      effects: [announceMatch(view, next), config3.scrollToMatch(selection.main, view)],
       userEvent: "select.search"
     });
     selectSearchInput(view);
@@ -51108,10 +51108,10 @@
     if (!prev)
       return false;
     let selection = EditorSelection.single(prev.from, prev.to);
-    let config2 = view.state.facet(searchConfigFacet);
+    let config3 = view.state.facet(searchConfigFacet);
     view.dispatch({
       selection,
-      effects: [announceMatch(view, prev), config2.scrollToMatch(selection.main, view)],
+      effects: [announceMatch(view, prev), config3.scrollToMatch(selection.main, view)],
       userEvent: "select.search"
     });
     selectSearchInput(view);
@@ -51206,13 +51206,13 @@
     let selText = sel.empty || sel.to > sel.from + 100 ? "" : state.sliceDoc(sel.from, sel.to);
     if (fallback && !selText)
       return fallback;
-    let config2 = state.facet(searchConfigFacet);
+    let config3 = state.facet(searchConfigFacet);
     return new SearchQuery({
-      search: ((_a2 = fallback === null || fallback === void 0 ? void 0 : fallback.literal) !== null && _a2 !== void 0 ? _a2 : config2.literal) ? selText : selText.replace(/\n/g, "\\n"),
-      caseSensitive: (_b = fallback === null || fallback === void 0 ? void 0 : fallback.caseSensitive) !== null && _b !== void 0 ? _b : config2.caseSensitive,
-      literal: (_c = fallback === null || fallback === void 0 ? void 0 : fallback.literal) !== null && _c !== void 0 ? _c : config2.literal,
-      regexp: (_d = fallback === null || fallback === void 0 ? void 0 : fallback.regexp) !== null && _d !== void 0 ? _d : config2.regexp,
-      wholeWord: (_e = fallback === null || fallback === void 0 ? void 0 : fallback.wholeWord) !== null && _e !== void 0 ? _e : config2.wholeWord
+      search: ((_a2 = fallback === null || fallback === void 0 ? void 0 : fallback.literal) !== null && _a2 !== void 0 ? _a2 : config3.literal) ? selText : selText.replace(/\n/g, "\\n"),
+      caseSensitive: (_b = fallback === null || fallback === void 0 ? void 0 : fallback.caseSensitive) !== null && _b !== void 0 ? _b : config3.caseSensitive,
+      literal: (_c = fallback === null || fallback === void 0 ? void 0 : fallback.literal) !== null && _c !== void 0 ? _c : config3.literal,
+      regexp: (_d = fallback === null || fallback === void 0 ? void 0 : fallback.regexp) !== null && _d !== void 0 ? _d : config3.regexp,
+      wholeWord: (_e = fallback === null || fallback === void 0 ? void 0 : fallback.wholeWord) !== null && _e !== void 0 ? _e : config3.wholeWord
     });
   }
   function getSearchInput(view) {
@@ -51802,9 +51802,9 @@
     };
   }
   var setSelectedEffect = /* @__PURE__ */ StateEffect.define();
-  function optionContent(config2) {
-    let content2 = config2.addToOptions.slice();
-    if (config2.icons)
+  function optionContent(config3) {
+    let content2 = config3.addToOptions.slice();
+    if (config3.icons)
       content2.push({
         render(completion) {
           let icon = document.createElement("div");
@@ -51876,11 +51876,11 @@
       this.currentClass = "";
       let cState = view.state.field(stateField);
       let { options, selected } = cState.open;
-      let config2 = view.state.facet(completionConfig);
-      this.optionContent = optionContent(config2);
-      this.optionClass = config2.optionClass;
-      this.tooltipClass = config2.tooltipClass;
-      this.range = rangeAroundSelected(options.length, selected, config2.maxRenderedOptions);
+      let config3 = view.state.facet(completionConfig);
+      this.optionContent = optionContent(config3);
+      this.optionClass = config3.optionClass;
+      this.tooltipClass = config3.tooltipClass;
+      this.range = rangeAroundSelected(options.length, selected, config3.maxRenderedOptions);
       this.dom = document.createElement("div");
       this.dom.className = "cm-tooltip-autocomplete";
       this.updateTooltipClass(view.state);
@@ -53155,8 +53155,8 @@
       userEvent: "input.type"
     });
   }
-  function handleSame(state, token, allowTriple, config2) {
-    let stringPrefixes = config2.stringPrefixes || defaults2.stringPrefixes;
+  function handleSame(state, token, allowTriple, config3) {
+    let stringPrefixes = config3.stringPrefixes || defaults2.stringPrefixes;
     let dont = null, changes = state.changeByRange((range) => {
       if (!range.empty)
         return {
@@ -53238,11 +53238,11 @@
     }
     return -1;
   }
-  function autocompletion(config2 = {}) {
+  function autocompletion(config3 = {}) {
     return [
       commitCharacters,
       completionState,
-      completionConfig.of(config2),
+      completionConfig.of(config3),
       completionPlugin,
       completionKeymapExt,
       baseTheme4
@@ -55537,25 +55537,25 @@
     given settings modified. Settings not provided in `config` are
     kept from the original parser.
     */
-    configure(config2) {
+    configure(config3) {
       let copy = Object.assign(Object.create(_LRParser.prototype), this);
-      if (config2.props)
-        copy.nodeSet = this.nodeSet.extend(...config2.props);
-      if (config2.top) {
-        let info = this.topRules[config2.top];
+      if (config3.props)
+        copy.nodeSet = this.nodeSet.extend(...config3.props);
+      if (config3.top) {
+        let info = this.topRules[config3.top];
         if (!info)
-          throw new RangeError(`Invalid top rule name ${config2.top}`);
+          throw new RangeError(`Invalid top rule name ${config3.top}`);
         copy.top = info;
       }
-      if (config2.tokenizers)
+      if (config3.tokenizers)
         copy.tokenizers = this.tokenizers.map((t2) => {
-          let found = config2.tokenizers.find((r) => r.from == t2);
+          let found = config3.tokenizers.find((r) => r.from == t2);
           return found ? found.to : t2;
         });
-      if (config2.specializers) {
+      if (config3.specializers) {
         copy.specializers = this.specializers.slice();
         copy.specializerSpecs = this.specializerSpecs.map((s, i2) => {
-          let found = config2.specializers.find((r) => r.from == s.external);
+          let found = config3.specializers.find((r) => r.from == s.external);
           if (!found)
             return s;
           let spec = Object.assign(Object.assign({}, s), { external: found.to });
@@ -55563,16 +55563,16 @@
           return spec;
         });
       }
-      if (config2.contextTracker)
-        copy.context = config2.contextTracker;
-      if (config2.dialect)
-        copy.dialect = this.parseDialect(config2.dialect);
-      if (config2.strict != null)
-        copy.strict = config2.strict;
-      if (config2.wrap)
-        copy.wrappers = copy.wrappers.concat(config2.wrap);
-      if (config2.bufferLength != null)
-        copy.bufferLength = config2.bufferLength;
+      if (config3.contextTracker)
+        copy.context = config3.contextTracker;
+      if (config3.dialect)
+        copy.dialect = this.parseDialect(config3.dialect);
+      if (config3.strict != null)
+        copy.strict = config3.strict;
+      if (config3.wrap)
+        copy.wrappers = copy.wrappers.concat(config3.wrap);
+      if (config3.bufferLength != null)
+        copy.bufferLength = config3.bufferLength;
       return copy;
     }
     /**
@@ -56122,9 +56122,9 @@
   var kwCompletion = (name2) => ({ label: name2, type: "keyword" });
   var keywords = /* @__PURE__ */ "break case const continue default delete export extends false finally in instanceof let new return static super switch this throw true typeof var yield".split(" ").map(kwCompletion);
   var typescriptKeywords = /* @__PURE__ */ keywords.concat(/* @__PURE__ */ ["declare", "implements", "private", "protected", "public"].map(kwCompletion));
-  function javascript(config2 = {}) {
-    let lang = config2.jsx ? config2.typescript ? tsxLanguage : jsxLanguage : config2.typescript ? typescriptLanguage : javascriptLanguage;
-    let completions = config2.typescript ? typescriptSnippets.concat(typescriptKeywords) : snippets.concat(keywords);
+  function javascript(config3 = {}) {
+    let lang = config3.jsx ? config3.typescript ? tsxLanguage : jsxLanguage : config3.typescript ? typescriptLanguage : javascriptLanguage;
+    let completions = config3.typescript ? typescriptSnippets.concat(typescriptKeywords) : snippets.concat(keywords);
     return new LanguageSupport(lang, [
       javascriptLanguage.data.of({
         autocomplete: ifNotIn(dontComplete, completeFromList(completions))
@@ -56132,7 +56132,7 @@
       javascriptLanguage.data.of({
         autocomplete: localCompletionSource
       }),
-      config2.jsx ? autoCloseTags : []
+      config3.jsx ? autoCloseTags : []
     ]);
   }
   function findOpenTag(node) {
@@ -57172,15 +57172,15 @@
     Reconfigure the parser.
     */
     configure(spec) {
-      let config2 = resolveConfig(spec);
-      if (!config2)
+      let config3 = resolveConfig(spec);
+      if (!config3)
         return this;
       let { nodeSet: nodeSet2, skipContextMarkup } = this;
       let blockParsers = this.blockParsers.slice(), leafBlockParsers = this.leafBlockParsers.slice(), blockNames = this.blockNames.slice(), inlineParsers = this.inlineParsers.slice(), inlineNames = this.inlineNames.slice(), endLeafBlock = this.endLeafBlock.slice(), wrappers = this.wrappers;
-      if (nonEmpty(config2.defineNodes)) {
+      if (nonEmpty(config3.defineNodes)) {
         skipContextMarkup = Object.assign({}, skipContextMarkup);
         let nodeTypes2 = nodeSet2.types.slice(), styles;
-        for (let s of config2.defineNodes) {
+        for (let s of config3.defineNodes) {
           let { name: name2, block, composite, style } = typeof s == "string" ? { name: s } : s;
           if (nodeTypes2.some((t2) => t2.name == name2))
             continue;
@@ -57206,10 +57206,10 @@
         if (styles)
           nodeSet2 = nodeSet2.extend(styleTags(styles));
       }
-      if (nonEmpty(config2.props))
-        nodeSet2 = nodeSet2.extend(...config2.props);
-      if (nonEmpty(config2.remove)) {
-        for (let rm2 of config2.remove) {
+      if (nonEmpty(config3.props))
+        nodeSet2 = nodeSet2.extend(...config3.props);
+      if (nonEmpty(config3.remove)) {
+        for (let rm2 of config3.remove) {
           let block = this.blockNames.indexOf(rm2), inline = this.inlineNames.indexOf(rm2);
           if (block > -1)
             blockParsers[block] = leafBlockParsers[block] = void 0;
@@ -57217,8 +57217,8 @@
             inlineParsers[inline] = void 0;
         }
       }
-      if (nonEmpty(config2.parseBlock)) {
-        for (let spec2 of config2.parseBlock) {
+      if (nonEmpty(config3.parseBlock)) {
+        for (let spec2 of config3.parseBlock) {
           let found = blockNames.indexOf(spec2.name);
           if (found > -1) {
             blockParsers[found] = spec2.parse;
@@ -57233,8 +57233,8 @@
             endLeafBlock.push(spec2.endLeaf);
         }
       }
-      if (nonEmpty(config2.parseInline)) {
-        for (let spec2 of config2.parseInline) {
+      if (nonEmpty(config3.parseInline)) {
+        for (let spec2 of config3.parseInline) {
           let found = inlineNames.indexOf(spec2.name);
           if (found > -1) {
             inlineParsers[found] = spec2.parse;
@@ -57245,8 +57245,8 @@
           }
         }
       }
-      if (config2.wrap)
-        wrappers = wrappers.concat(config2.wrap);
+      if (config3.wrap)
+        wrappers = wrappers.concat(config3.wrap);
       return new _MarkdownParser(nodeSet2, blockParsers, leafBlockParsers, blockNames, endLeafBlock, skipContextMarkup, inlineParsers, inlineNames, wrappers);
     }
     /**
@@ -57965,8 +57965,8 @@
     }
     return ranges;
   }
-  function parseCode(config2) {
-    let { codeParser, htmlParser } = config2;
+  function parseCode(config3) {
+    let { codeParser, htmlParser } = config3;
     let wrap = parseMixed((node, input) => {
       let id2 = node.type.id;
       if (codeParser && (id2 == Type.CodeBlock || id2 == Type.FencedCode)) {
@@ -60205,8 +60205,8 @@
   function htmlCompletionSource(context) {
     return htmlCompletionFor(Schema.default, context);
   }
-  function htmlCompletionSourceWith(config2) {
-    let { extraTags, extraGlobalAttributes: extraAttrs } = config2;
+  function htmlCompletionSourceWith(config3) {
+    let { extraTags, extraGlobalAttributes: extraAttrs } = config3;
     let schema = extraAttrs || extraTags ? new Schema(extraTags, extraAttrs) : Schema.default;
     return (context) => htmlCompletionFor(schema, context);
   }
@@ -60306,18 +60306,18 @@
   var htmlLanguage = /* @__PURE__ */ htmlPlain.configure({
     wrap: /* @__PURE__ */ configureNesting(defaultNesting, defaultAttrs)
   });
-  function html(config2 = {}) {
+  function html(config3 = {}) {
     let dialect = "", wrap;
-    if (config2.matchClosingTags === false)
+    if (config3.matchClosingTags === false)
       dialect = "noMatch";
-    if (config2.selfClosingTags === true)
+    if (config3.selfClosingTags === true)
       dialect = (dialect ? dialect + " " : "") + "selfClosing";
-    if (config2.nestedLanguages && config2.nestedLanguages.length || config2.nestedAttributes && config2.nestedAttributes.length)
-      wrap = configureNesting((config2.nestedLanguages || []).concat(defaultNesting), (config2.nestedAttributes || []).concat(defaultAttrs));
+    if (config3.nestedLanguages && config3.nestedLanguages.length || config3.nestedAttributes && config3.nestedAttributes.length)
+      wrap = configureNesting((config3.nestedLanguages || []).concat(defaultNesting), (config3.nestedAttributes || []).concat(defaultAttrs));
     let lang = wrap ? htmlPlain.configure({ wrap, dialect }) : dialect ? htmlLanguage.configure({ dialect }) : htmlLanguage;
     return new LanguageSupport(lang, [
-      htmlLanguage.data.of({ autocomplete: htmlCompletionSourceWith(config2) }),
-      config2.autoCloseTags !== false ? autoCloseTags2 : [],
+      htmlLanguage.data.of({ autocomplete: htmlCompletionSourceWith(config3) }),
+      config3.autoCloseTags !== false ? autoCloseTags2 : [],
       javascript().support,
       css().support
     ]);
@@ -60433,15 +60433,15 @@
     ]
   }]);
   var markdownLanguage = /* @__PURE__ */ mkLang(extended);
-  function getCodeParser(languages, defaultLanguage) {
+  function getCodeParser(languages2, defaultLanguage) {
     return (info) => {
-      if (info && languages) {
+      if (info && languages2) {
         let found = null;
         info = /\S*/.exec(info)[0];
-        if (typeof languages == "function")
-          found = languages(info);
+        if (typeof languages2 == "function")
+          found = languages2(info);
         else
-          found = LanguageDescription.matchLanguageName(languages, info, true);
+          found = LanguageDescription.matchLanguageName(languages2, info, true);
         if (found instanceof LanguageDescription)
           return found.support ? found.support.language.parser : ParseContext.getSkippingParser(found.load());
         else if (found)
@@ -60549,7 +60549,7 @@
     }
     return space4 + content2.slice(blank);
   }
-  var insertNewlineContinueMarkupCommand = (config2 = {}) => ({ state, dispatch }) => {
+  var insertNewlineContinueMarkupCommand = (config3 = {}) => ({ state, dispatch }) => {
     let tree = syntaxTree(state), { doc: doc2 } = state;
     let dont = null, changes = state.changeByRange((range) => {
       if (!range.empty || !markdownLanguage.isActiveAt(state, range.from, -1) && !markdownLanguage.isActiveAt(state, range.from, 1))
@@ -60568,7 +60568,7 @@
         if (inner.item.from < line.from && !/^[\s>]*$/.test(line.text.slice(0, inner.to)))
           return dont = { range };
         let first = inner.node.firstChild, second = inner.node.getChild("ListItem", "ListItem");
-        if (first.to >= pos || second && second.to < pos || line.from > 0 && !/[^\s>]/.test(doc2.lineAt(line.from - 1).text) || config2.nonTightLists === false) {
+        if (first.to >= pos || second && second.to < pos || line.from > 0 && !/[^\s>]/.test(doc2.lineAt(line.from - 1).text) || config3.nonTightLists === false) {
           let next = context.length > 1 ? context[context.length - 2] : null;
           let delTo, insert3 = "";
           if (next && next.item) {
@@ -60710,11 +60710,11 @@
     { key: "Backspace", run: deleteMarkupBackward }
   ];
   var htmlNoMatch = /* @__PURE__ */ html({ matchClosingTags: false });
-  function markdown(config2 = {}) {
-    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser: parser6 } = commonmarkLanguage, completeHTMLTags = true, pasteURLAsLink: pasteURL = true, htmlTagLanguage = htmlNoMatch } = config2;
+  function markdown(config3 = {}) {
+    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser: parser6 } = commonmarkLanguage, completeHTMLTags = true, pasteURLAsLink: pasteURL = true, htmlTagLanguage = htmlNoMatch } = config3;
     if (!(parser6 instanceof MarkdownParser))
       throw new RangeError("Base parser provided to `markdown` should be a Markdown parser");
-    let extensions = config2.extensions ? [config2.extensions] : [];
+    let extensions = config3.extensions ? [config3.extensions] : [];
     let support = [htmlTagLanguage.support, headerIndent], defaultCode;
     if (pasteURL)
       support.push(pasteURLAsLink);
@@ -61519,7 +61519,7 @@
   };
 
   // app/javascript/wallaby/codemirror.js
-  var LANGUAGES = {
+  var languages = {
     gfm: () => markdown(),
     markdown: () => markdown(),
     javascript: () => javascript(),
@@ -61527,9 +61527,14 @@
     ruby: () => StreamLanguage.define(ruby),
     xml: () => xml()
   };
+  var config2 = {
+    base: [basicSetup],
+    extensions: {},
+    languages
+  };
   function languageFor(mode) {
-    const factory = LANGUAGES[mode] || LANGUAGES.javascript;
-    return factory();
+    const language2 = config2.languages[mode] || config2.languages.javascript;
+    return typeof language2 === "function" ? language2() : language2;
   }
   function fromTextArea(textArea, options = {}) {
     const mode = options.mode || textArea.dataset.mode;
@@ -61537,7 +61542,9 @@
       state: EditorState.create({
         doc: textArea.value,
         extensions: [
-          basicSetup,
+          ...config2.base,
+          ...config2.extensions[mode] || [],
+          ...options.extensions || [],
           languageFor(mode),
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
@@ -61559,7 +61566,18 @@
       }
     };
   }
-  var codemirror_default = { fromTextArea };
+  var codemirror_default = {
+    fromTextArea,
+    config: config2,
+    basicSetup,
+    EditorState,
+    EditorView,
+    StreamLanguage,
+    javascript,
+    markdown,
+    ruby,
+    xml
+  };
 
   // app/javascript/wallaby/globals.js
   window.jQuery = window.$ = import_jquery.default;
@@ -64132,11 +64150,11 @@
         return TempusDominusBootstrap43;
       })(DateTimePicker);
       $(document).on(DateTimePicker.Event.CLICK_DATA_API, DateTimePicker.Selector.DATA_TOGGLE, function() {
-        var $originalTarget = $(this), $target = getSelectorFromElement($originalTarget), config2 = $target.data(DateTimePicker.DATA_KEY);
+        var $originalTarget = $(this), $target = getSelectorFromElement($originalTarget), config3 = $target.data(DateTimePicker.DATA_KEY);
         if ($target.length === 0) {
           return;
         }
-        if (config2._options.allowInputToggle && $originalTarget.is('input[data-toggle="datetimepicker"]')) {
+        if (config3._options.allowInputToggle && $originalTarget.is('input[data-toggle="datetimepicker"]')) {
           return;
         }
         TempusDominusBootstrap42._jQueryInterface.call($target, "toggle");
@@ -64147,11 +64165,11 @@
         }
         TempusDominusBootstrap42._jQueryInterface.call($target, "_change", event);
       }).on(DateTimePicker.Event.BLUR, "." + DateTimePicker.ClassName.INPUT, function(event) {
-        var $target = getSelectorFromElement($(this)), config2 = $target.data(DateTimePicker.DATA_KEY);
+        var $target = getSelectorFromElement($(this)), config3 = $target.data(DateTimePicker.DATA_KEY);
         if ($target.length === 0) {
           return;
         }
-        if (config2._options.debug || window.debug) {
+        if (config3._options.debug || window.debug) {
           return;
         }
         TempusDominusBootstrap42._jQueryInterface.call($target, "hide", event);
@@ -64168,11 +64186,11 @@
         }
         TempusDominusBootstrap42._jQueryInterface.call($target, "_keyup", event);
       }).on(DateTimePicker.Event.FOCUS, "." + DateTimePicker.ClassName.INPUT, function(event) {
-        var $target = getSelectorFromElement($(this)), config2 = $target.data(DateTimePicker.DATA_KEY);
+        var $target = getSelectorFromElement($(this)), config3 = $target.data(DateTimePicker.DATA_KEY);
         if ($target.length === 0) {
           return;
         }
-        if (!config2._options.allowInputToggle) {
+        if (!config3._options.allowInputToggle) {
           return;
         }
         TempusDominusBootstrap42._jQueryInterface.call($target, "show", event);

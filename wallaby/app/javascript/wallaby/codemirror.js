@@ -4,6 +4,14 @@
 // data-mode="...">` elements that expect a `WallabyCodeMirror.fromTextArea(el,
 // opts)` helper. This module implements that helper (mirroring the CodeMirror
 // 5 template-level API) on top of CodeMirror 6.
+//
+// Hosts can customise the editors through `window.WallabyCodeMirror.config`
+// (published by globals.js; see docs/frontend.md), for example:
+//
+//   const { EditorView, config } = window.WallabyCodeMirror;
+//   config.base.push(EditorView.lineWrapping);                   // all editors
+//   config.extensions.markdown = [EditorView.theme({ '&': { backgroundColor: '#eee' } })];
+//   config.languages.yaml = () => StreamLanguage.define(/* a legacy mode */);
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
@@ -13,7 +21,7 @@ import { StreamLanguage } from '@codemirror/language';
 import { ruby } from '@codemirror/legacy-modes/mode/ruby';
 
 // Map the `data-mode` values used by the templates to CodeMirror 6 languages.
-const LANGUAGES = {
+const languages = {
   gfm: () => markdown(),
   markdown: () => markdown(),
   javascript: () => javascript(),
@@ -22,9 +30,21 @@ const LANGUAGES = {
   xml: () => xml()
 };
 
+// Host-overridable editor configuration, published as
+// `window.WallabyCodeMirror.config`:
+// - `base`: extensions applied to every editor (defaults to basicSetup)
+// - `extensions`: extra extensions per `data-mode`
+// - `languages`: language factories per `data-mode`; a value may also be a
+//   ready LanguageSupport (e.g. from StreamLanguage.define)
+const config = {
+  base: [basicSetup],
+  extensions: {},
+  languages
+};
+
 function languageFor(mode) {
-  const factory = LANGUAGES[mode] || LANGUAGES.javascript;
-  return factory();
+  const language = config.languages[mode] || config.languages.javascript;
+  return typeof language === 'function' ? language() : language;
 }
 
 // Mirror the CodeMirror 5 `fromTextArea` behaviour: keep the original
@@ -37,7 +57,9 @@ function fromTextArea(textArea, options = {}) {
     state: EditorState.create({
       doc: textArea.value,
       extensions: [
-        basicSetup,
+        ...config.base,
+        ...(config.extensions[mode] || []),
+        ...(options.extensions || []),
         languageFor(mode),
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
@@ -62,4 +84,18 @@ function fromTextArea(textArea, options = {}) {
   };
 }
 
-export default { fromTextArea };
+// The primitives are re-exported from the bundle's single CodeMirror 6
+// instance so host extensions share it (mixing a separately installed copy of
+// `@codemirror/*` can cause duplicated-instance errors).
+export default {
+  fromTextArea,
+  config,
+  basicSetup,
+  EditorState,
+  EditorView,
+  StreamLanguage,
+  javascript,
+  markdown,
+  ruby,
+  xml
+};
