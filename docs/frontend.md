@@ -278,6 +278,72 @@ There are a couple of ways to customize javascript:
   <% end %>
   ```
 
+## CodeMirror
+
+The `json` / `jsonb` / `hstore` / `xml` / `markdown` form fields are rendered
+with a CodeMirror 6 editor through the `window.WallabyCodeMirror` global. The
+default editor configuration is exposed as `window.WallabyCodeMirror.config`
+and can be customised from your own Javascript (which must run before the
+editors are created, i.e. at page load):
+
+```javascript
+// e.g. app/assets/javascripts/admin/wallaby_custom.js, included from your
+// custom `_frontend` partial after the Wallaby bundle
+(function (CodeMirror) {
+  var config = CodeMirror.config;
+
+  // apply an extension to every editor, e.g. wrap long lines
+  config.base.push(CodeMirror.EditorView.lineWrapping);
+
+  // apply an extension to a specific data-mode, e.g. a light theme for markdown
+  config.extensions.markdown = [
+    CodeMirror.EditorView.theme({ '&': { backgroundColor: '#f6f6f6' } })
+  ];
+
+  // register or replace the language for a data-mode
+  config.languages.yaml = function () {
+    return CodeMirror.StreamLanguage.define(/* your legacy mode parser */);
+  };
+})(window.WallabyCodeMirror);
+```
+
+`config.base` is a list of extensions applied to every editor (starts with
+`basicSetup`), `config.extensions` is a map of `data-mode` to extra
+extensions, and `config.languages` is a map of `data-mode` to language
+factories (or ready `LanguageSupport`s, e.g. from `StreamLanguage.define`).
+
+Build custom extensions with the re-exported primitives on
+`window.WallabyCodeMirror` (`EditorView`, `EditorState`, `basicSetup`,
+`StreamLanguage`, `javascript`, `markdown`, `xml`, `ruby`) so they share the
+bundle's single CodeMirror 6 instance — mixing in a separately installed copy
+of `@codemirror/*` can cause duplicated-instance errors.
+
+Per-field options can also be passed through
+`WallabyCodeMirror.fromTextArea(element, { mode, extensions })` when a form
+partial is overridden.
+
+> NOTE: **Summernote's Code View falls back to a plain textarea.** Summernote
+> 0.9.1 drives its Code View with the CodeMirror 5 API, and `window.CodeMirror`
+> is no longer provided by Wallaby, so the button toggles an unhighlighted
+> textarea instead of a second editor. To restore it, supply your own
+> CodeMirror 5 constructor (a separately loaded `codemirror` 5.x build) through
+> Summernote's `codemirror` option in the partial that initialises it:
+>
+> ```javascript
+> $('textarea[data-init="summernote"]').summernote({
+>   height: 150,
+>   codemirror: { CodeMirrorConstructor: window.CodeMirror }
+> })
+> ```
+
+> NOTE: **Register the config before the editors are created.** The form partials
+> register their editor initialisation through `content_for :custom_javascript`
+> using a DOM-ready handler. A config injected through the same
+> `content_for` and wrapped in a ready handler (`documentReady` /
+> `jQuery(fn)`) may therefore run after the editors already exist and have no
+> effect. Use the `_frontend` approach above, or keep the `content_for` script
+> synchronous (no ready wrapper).
+
 # Turbolinks
 
 Wallaby detects Turbolinks automatically if the `turbolinks` gem is present in the host app's `Gemfile` — no configuration is required. To disable it, either remove the `turbolinks` gem from the `Gemfile`, or override the `frontend` partial to take the Turbolinks javascript tags out.

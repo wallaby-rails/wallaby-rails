@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+# The dummy models have no `markdown` column, so the `markdown` partial is
+# exercised through the `text` column; `partial_name` selects the partial.
 field_name = 'text'
 type = type_from __FILE__
 describe field_name, type: :helper do
@@ -9,13 +11,14 @@ describe field_name, type: :helper do
     "#{type} partial", field_name,
     value: '<b>this is a text for more than 20 characters</b>',
     input_selector: 'textarea',
-    partial: 'markdown',
+    partial_name: 'markdown',
     content_for: true,
     skip_general: true,
     skip_nil: true do
-    it 'initializes the summernote' do
+    it 'initializes the codemirror' do
       textarea = page.at_css('textarea.form-control')
-      expect(textarea['data-init']).to eq 'summernote'
+      expect(textarea['data-init']).to eq 'codemirror'
+      expect(textarea['data-mode']).to eq 'gfm'
     end
 
     it 'checks the value' do
