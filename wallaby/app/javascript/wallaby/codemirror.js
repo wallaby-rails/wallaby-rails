@@ -15,6 +15,7 @@
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
+import { json } from '@codemirror/lang-json';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { xml } from '@codemirror/lang-xml';
 import { StreamLanguage } from '@codemirror/language';
@@ -27,7 +28,7 @@ const languages = {
   gfm: () => markdown({ base: markdownLanguage }),
   markdown: () => markdown(),
   javascript: () => javascript(),
-  json: () => javascript(),
+  json: () => json(),
   ruby: () => StreamLanguage.define(ruby),
   xml: () => xml()
 };

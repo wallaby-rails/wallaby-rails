@@ -30776,10 +30776,10 @@
     Create a change desc from its JSON representation (as produced
     by [`toJSON`](https://codemirror.net/6/docs/ref/#state.ChangeDesc.toJSON).
     */
-    static fromJSON(json) {
-      if (!Array.isArray(json) || json.length % 2 || json.some((a) => typeof a != "number"))
+    static fromJSON(json2) {
+      if (!Array.isArray(json2) || json2.length % 2 || json2.some((a) => typeof a != "number"))
         throw new RangeError("Invalid JSON representation of ChangeDesc");
-      return new _ChangeDesc(json);
+      return new _ChangeDesc(json2);
     }
     /**
     @internal
@@ -30982,12 +30982,12 @@
     Create a changeset from its JSON representation (as produced by
     [`toJSON`](https://codemirror.net/6/docs/ref/#state.ChangeSet.toJSON).
     */
-    static fromJSON(json) {
-      if (!Array.isArray(json))
+    static fromJSON(json2) {
+      if (!Array.isArray(json2))
         throw new RangeError("Invalid JSON representation of ChangeSet");
       let sections = [], inserted = [];
-      for (let i2 = 0; i2 < json.length; i2++) {
-        let part = json[i2];
+      for (let i2 = 0; i2 < json2.length; i2++) {
+        let part = json2[i2];
         if (typeof part == "number") {
           sections.push(part, -1);
         } else if (!Array.isArray(part) || typeof part[0] != "number" || part.some((e, i3) => i3 && typeof e != "string")) {
@@ -31296,10 +31296,10 @@
     Convert a JSON representation of a range to a `SelectionRange`
     instance.
     */
-    static fromJSON(json) {
-      if (!json || typeof json.anchor != "number" || typeof json.head != "number")
+    static fromJSON(json2) {
+      if (!json2 || typeof json2.anchor != "number" || typeof json2.head != "number")
         throw new RangeError("Invalid JSON representation for SelectionRange");
-      return EditorSelection.range(json.anchor, json.head);
+      return EditorSelection.range(json2.anchor, json2.head);
     }
     /**
     @internal
@@ -31376,10 +31376,10 @@
     /**
     Create a selection from a JSON representation.
     */
-    static fromJSON(json) {
-      if (!json || !Array.isArray(json.ranges) || typeof json.main != "number" || json.main >= json.ranges.length)
+    static fromJSON(json2) {
+      if (!json2 || !Array.isArray(json2.ranges) || typeof json2.main != "number" || json2.main >= json2.ranges.length)
         throw new RangeError("Invalid JSON representation for EditorSelection");
-      return new _EditorSelection(json.ranges.map((r) => SelectionRange.fromJSON(r)), json.main);
+      return new _EditorSelection(json2.ranges.map((r) => SelectionRange.fromJSON(r)), json2.main);
     }
     /**
     Create a selection holding a single range.
@@ -32430,20 +32430,20 @@
     to [`toJSON`](https://codemirror.net/6/docs/ref/#state.EditorState.toJSON) when serializing as
     third argument.
     */
-    static fromJSON(json, config3 = {}, fields) {
-      if (!json || typeof json.doc != "string")
+    static fromJSON(json2, config3 = {}, fields) {
+      if (!json2 || typeof json2.doc != "string")
         throw new RangeError("Invalid JSON representation for EditorState");
       let fieldInit = [];
       if (fields)
         for (let prop in fields) {
-          if (Object.prototype.hasOwnProperty.call(json, prop)) {
-            let field = fields[prop], value = json[prop];
+          if (Object.prototype.hasOwnProperty.call(json2, prop)) {
+            let field = fields[prop], value = json2[prop];
             fieldInit.push(field.init((state) => field.spec.fromJSON(value, state)));
           }
         }
       return _EditorState.create({
-        doc: json.doc,
-        selection: EditorSelection.fromJSON(json.selection),
+        doc: json2.doc,
+        selection: EditorSelection.fromJSON(json2.selection),
         extensions: config3.extensions ? fieldInit.concat([config3.extensions]) : fieldInit
       });
     }
@@ -44418,10 +44418,10 @@
   NodeProp.lookAhead = new NodeProp({ perNode: true });
   NodeProp.mounted = new NodeProp({ perNode: true });
   var MountedTree = class {
-    constructor(tree, overlay, parser6, bracketed = false) {
+    constructor(tree, overlay, parser7, bracketed = false) {
       this.tree = tree;
       this.overlay = overlay;
-      this.parser = parser6;
+      this.parser = parser7;
       this.bracketed = bracketed;
     }
     /**
@@ -46037,8 +46037,8 @@
     return (parse, input, fragments, ranges) => new MixedParse(parse, nest, input, fragments, ranges);
   }
   var InnerParse = class {
-    constructor(parser6, parse, overlay, bracketed, target, from) {
-      this.parser = parser6;
+    constructor(parser7, parse, overlay, bracketed, target, from) {
+      this.parser = parser7;
       this.parse = parse;
       this.overlay = overlay;
       this.bracketed = bracketed;
@@ -46051,8 +46051,8 @@
       throw new RangeError("Invalid inner parse ranges given: " + JSON.stringify(ranges));
   }
   var ActiveOverlay = class {
-    constructor(parser6, predicate, mounts, index, start, bracketed, target, prev) {
-      this.parser = parser6;
+    constructor(parser7, predicate, mounts, index, start, bracketed, target, prev) {
+      this.parser = parser7;
       this.predicate = predicate;
       this.mounts = mounts;
       this.index = index;
@@ -46310,14 +46310,14 @@
         this.inner = new StructureCursor(frag.tree, -frag.offset);
       }
     }
-    findMounts(pos, parser6) {
+    findMounts(pos, parser7) {
       var _a2;
       let result = [];
       if (this.inner) {
         this.inner.cursor.moveTo(pos, 1);
         for (let pos2 = this.inner.cursor.node; pos2; pos2 = pos2.parent) {
           let mount = (_a2 = pos2.tree) === null || _a2 === void 0 ? void 0 : _a2.prop(NodeProp.mounted);
-          if (mount && mount.parser == parser6) {
+          if (mount && mount.parser == parser7) {
             for (let i2 = this.fragI; i2 < this.fragments.length; i2++) {
               let frag = this.fragments[i2];
               if (frag.from >= pos2.to)
@@ -47157,14 +47157,14 @@
     configure your parser to [attach](https://codemirror.net/6/docs/ref/#language.languageDataProp) it
     to the language's outer syntax node.
     */
-    constructor(data2, parser6, extraExtensions = [], name2 = "") {
+    constructor(data2, parser7, extraExtensions = [], name2 = "") {
       this.data = data2;
       this.name = name2;
       if (!EditorState.prototype.hasOwnProperty("tree"))
         Object.defineProperty(EditorState.prototype, "tree", { get() {
           return syntaxTree(this);
         } });
-      this.parser = parser6;
+      this.parser = parser7;
       this.extension = [
         language.of(this),
         EditorState.languageData.of((state, pos, side) => {
@@ -47251,9 +47251,9 @@
     return tree;
   }
   var LRLanguage = class _LRLanguage extends Language {
-    constructor(data2, parser6, name2) {
-      super(data2, parser6, [], name2);
-      this.parser = parser6;
+    constructor(data2, parser7, name2) {
+      super(data2, parser7, [], name2);
+      this.parser = parser7;
     }
     /**
     Define a language from a parser.
@@ -47314,8 +47314,8 @@
   };
   var currentContext = null;
   var ParseContext = class _ParseContext {
-    constructor(parser6, state, fragments = [], tree, treeLen, viewport, skipped, scheduleOn) {
-      this.parser = parser6;
+    constructor(parser7, state, fragments = [], tree, treeLen, viewport, skipped, scheduleOn) {
+      this.parser = parser7;
       this.state = state;
       this.fragments = fragments;
       this.tree = tree;
@@ -47329,8 +47329,8 @@
     /**
     @internal
     */
-    static create(parser6, state, viewport) {
-      return new _ParseContext(parser6, state, [], Tree.empty, 0, viewport, [], null);
+    static create(parser7, state, viewport) {
+      return new _ParseContext(parser7, state, [], Tree.empty, 0, viewport, [], null);
     }
     startParse() {
       return this.parser.startParse(new DocInput(this.state.doc), this.fragments);
@@ -47478,7 +47478,7 @@
       return new class extends Parser {
         createParse(input, fragments, ranges) {
           let from = ranges[0].from, to = ranges[ranges.length - 1].to;
-          let parser6 = {
+          let parser7 = {
             parsedPos: from,
             advance() {
               let cx = currentContext;
@@ -47495,7 +47495,7 @@
             stopAt() {
             }
           };
-          return parser6;
+          return parser7;
         }
       }();
     }
@@ -48910,20 +48910,20 @@
   }
   var IndentedFrom = /* @__PURE__ */ new WeakMap();
   var StreamLanguage = class _StreamLanguage extends Language {
-    constructor(parser6) {
-      let data2 = defineLanguageFacet(parser6.languageData);
-      let p = fullParser(parser6), self2;
+    constructor(parser7) {
+      let data2 = defineLanguageFacet(parser7.languageData);
+      let p = fullParser(parser7), self2;
       let impl = new class extends Parser {
         createParse(input, fragments, ranges) {
           return new Parse(self2, input, fragments, ranges);
         }
       }();
-      super(data2, impl, [], parser6.name);
+      super(data2, impl, [], parser7.name);
       this.topNode = docID(data2, this);
       self2 = this;
       this.streamParser = p;
       this.stateAfter = new NodeProp({ perNode: true });
-      this.tokenTable = parser6.tokenTable ? new TokenTable(p.tokenTable) : defaultTokenTable;
+      this.tokenTable = parser7.tokenTable ? new TokenTable(p.tokenTable) : defaultTokenTable;
     }
     /**
     Define a stream language.
@@ -49468,8 +49468,8 @@
     toJSON(value) {
       return { done: value.done.map((e) => e.toJSON()), undone: value.undone.map((e) => e.toJSON()) };
     },
-    fromJSON(json) {
-      return new HistoryState(json.done.map(HistEvent.fromJSON), json.undone.map(HistEvent.fromJSON));
+    fromJSON(json2) {
+      return new HistoryState(json2.done.map(HistEvent.fromJSON), json2.undone.map(HistEvent.fromJSON));
     }
   });
   function history(config3 = {}) {
@@ -49525,8 +49525,8 @@
         selectionsAfter: this.selectionsAfter.map((s) => s.toJSON())
       };
     }
-    static fromJSON(json) {
-      return new _HistEvent(json.changes && ChangeSet.fromJSON(json.changes), [], json.mapped && ChangeDesc.fromJSON(json.mapped), json.startSelection && EditorSelection.fromJSON(json.startSelection), json.selectionsAfter.map(EditorSelection.fromJSON));
+    static fromJSON(json2) {
+      return new _HistEvent(json2.changes && ChangeSet.fromJSON(json2.changes), [], json2.mapped && ChangeDesc.fromJSON(json2.mapped), json2.startSelection && EditorSelection.fromJSON(json2.startSelection), json2.selectionsAfter.map(EditorSelection.fromJSON));
     }
     // This does not check `addToHistory` and such, it assumes the
     // transaction needs to be converted to an item. Returns null when
@@ -53957,23 +53957,23 @@
     reduce(action) {
       var _a2;
       let depth = action >> 19, type = action & 65535;
-      let { parser: parser6 } = this.p;
+      let { parser: parser7 } = this.p;
       let lookaheadRecord = this.reducePos < this.pos - 25 && this.setLookAhead(this.pos);
-      let dPrec = parser6.dynamicPrecedence(type);
+      let dPrec = parser7.dynamicPrecedence(type);
       if (dPrec)
         this.score += dPrec;
       if (depth == 0) {
-        if (type < parser6.minRepeatTerm && this.reducePos < this.pos)
+        if (type < parser7.minRepeatTerm && this.reducePos < this.pos)
           this.reducePos = this.pos;
-        this.pushState(parser6.getGoto(this.state, type, true), this.reducePos);
-        if (type < parser6.minRepeatTerm)
+        this.pushState(parser7.getGoto(this.state, type, true), this.reducePos);
+        if (type < parser7.minRepeatTerm)
           this.storeNode(type, this.reducePos, this.reducePos, lookaheadRecord ? 8 : 4, true);
         this.reduceContext(type, this.reducePos);
         return;
       }
       let base2 = this.stack.length - (depth - 1) * 3 - (action & 262144 ? 6 : 0);
       let start = base2 ? this.stack[base2 - 2] : this.p.ranges[0].from;
-      if (type < parser6.minRepeatTerm && start == this.reducePos && this.reducePos < this.pos)
+      if (type < parser7.minRepeatTerm && start == this.reducePos && this.reducePos < this.pos)
         this.reducePos = this.pos;
       let size = this.reducePos - start;
       if (size >= 2e3 && !((_a2 = this.p.parser.nodeSet.types[type]) === null || _a2 === void 0 ? void 0 : _a2.isAnonymous)) {
@@ -53987,8 +53987,8 @@
         }
       }
       let bufferBase = base2 ? this.stack[base2 - 1] : 0, count2 = this.bufferBase + this.buffer.length - bufferBase;
-      if (type < parser6.minRepeatTerm || action & 131072) {
-        let pos = parser6.stateFlag(
+      if (type < parser7.minRepeatTerm || action & 131072) {
+        let pos = parser7.stateFlag(
           this.state,
           1
           /* StateFlag.Skipped */
@@ -53999,7 +53999,7 @@
         this.state = this.stack[base2];
       } else {
         let baseStateID = this.stack[base2 - 3];
-        this.state = parser6.getGoto(baseStateID, type, true);
+        this.state = parser7.getGoto(baseStateID, type, true);
       }
       while (this.stack.length > base2)
         this.stack.pop();
@@ -54058,18 +54058,18 @@
       if (action & 131072) {
         this.pushState(action & 65535, this.pos);
       } else if ((action & 262144) == 0) {
-        let nextState = action, { parser: parser6 } = this.p;
+        let nextState = action, { parser: parser7 } = this.p;
         this.pos = end;
-        let skipped = parser6.stateFlag(
+        let skipped = parser7.stateFlag(
           nextState,
           1
           /* StateFlag.Skipped */
         );
-        if (!skipped && (end > start || type <= parser6.maxNode))
+        if (!skipped && (end > start || type <= parser7.maxNode))
           this.reducePos = end;
         this.pushState(nextState, skipped ? start : Math.min(start, this.reducePos));
         this.shiftContext(type, start);
-        if (type <= parser6.maxNode)
+        if (type <= parser7.maxNode)
           this.buffer.push(type, start, end, 4);
       } else {
         this.pos = end;
@@ -54205,18 +54205,18 @@
     @internal
     */
     forceReduce() {
-      let { parser: parser6 } = this.p;
-      let reduce = parser6.stateSlot(
+      let { parser: parser7 } = this.p;
+      let reduce = parser7.stateSlot(
         this.state,
         5
         /* ParseState.ForcedReduce */
       );
       if ((reduce & 65536) == 0)
         return false;
-      if (!parser6.validAction(this.state, reduce)) {
+      if (!parser7.validAction(this.state, reduce)) {
         let depth = reduce >> 19, term = reduce & 65535;
         let target = this.stack.length - depth * 3;
-        if (target < 0 || parser6.getGoto(this.stack[target], term, false) < 0) {
+        if (target < 0 || parser7.getGoto(this.stack[target], term, false) < 0) {
           let backup = this.findForcedReduction();
           if (backup == null)
             return false;
@@ -54235,18 +54235,18 @@
     isn't a valid action. @internal
     */
     findForcedReduction() {
-      let { parser: parser6 } = this.p, seen = [];
+      let { parser: parser7 } = this.p, seen = [];
       let explore = (state, depth) => {
         if (seen.includes(state))
           return;
         seen.push(state);
-        return parser6.allActions(state, (action) => {
+        return parser7.allActions(state, (action) => {
           if (action & (262144 | 131072)) ;
           else if (action & 65536) {
             let rDepth = (action >> 19) - depth;
             if (rDepth > 1) {
               let term = action & 65535, target = this.stack.length - rDepth * 3;
-              if (target >= 0 && parser6.getGoto(this.stack[target], term, false) >= 0)
+              if (target >= 0 && parser7.getGoto(this.stack[target], term, false) >= 0)
                 return rDepth << 19 | 65536 | term;
             }
           } else {
@@ -54282,12 +54282,12 @@
     get deadEnd() {
       if (this.stack.length != 3)
         return false;
-      let { parser: parser6 } = this.p;
-      return parser6.data[parser6.stateSlot(
+      let { parser: parser7 } = this.p;
+      return parser7.data[parser7.stateSlot(
         this.state,
         1
         /* ParseState.Actions */
-      )] == 65535 && !parser6.stateSlot(
+      )] == 65535 && !parser7.stateSlot(
         this.state,
         4
         /* ParseState.DefaultReduce */
@@ -54710,8 +54710,8 @@
       this.id = id2;
     }
     token(input, stack) {
-      let { parser: parser6 } = stack.p;
-      readToken2(this.data, input, stack, this.id, parser6.data, parser6.tokenPrecTable);
+      let { parser: parser7 } = stack.p;
+      readToken2(this.data, input, stack, this.id, parser7.data, parser7.tokenPrecTable);
     }
   };
   TokenGroup.prototype.contextual = TokenGroup.prototype.fallback = TokenGroup.prototype.extend = false;
@@ -54912,18 +54912,18 @@
     }
   };
   var TokenCache = class {
-    constructor(parser6, stream) {
+    constructor(parser7, stream) {
       this.stream = stream;
       this.tokens = [];
       this.mainToken = null;
       this.actions = [];
-      this.tokens = parser6.tokenizers.map((_) => new CachedToken());
+      this.tokens = parser7.tokenizers.map((_) => new CachedToken());
     }
     getActions(stack) {
       let actionIndex = 0;
       let main = null;
-      let { parser: parser6 } = stack.p, { tokenizers } = parser6;
-      let mask = parser6.stateSlot(
+      let { parser: parser7 } = stack.p, { tokenizers } = parser7;
+      let mask = parser7.stateSlot(
         stack.state,
         3
         /* ParseState.TokenizerMask */
@@ -54981,10 +54981,10 @@
       let start = this.stream.clipPos(stack.pos);
       tokenizer.token(this.stream.reset(start, token), stack);
       if (token.value > -1) {
-        let { parser: parser6 } = stack.p;
-        for (let i2 = 0; i2 < parser6.specialized.length; i2++)
-          if (parser6.specialized[i2] == token.value) {
-            let result = parser6.specializers[i2](this.stream.read(token.start, token.end), stack);
+        let { parser: parser7 } = stack.p;
+        for (let i2 = 0; i2 < parser7.specialized.length; i2++)
+          if (parser7.specialized[i2] == token.value) {
+            let result = parser7.specializers[i2](this.stream.read(token.start, token.end), stack);
             if (result >= 0 && stack.p.parser.dialect.allows(result >> 1)) {
               if ((result & 1) == 0)
                 token.value = result >> 1;
@@ -55008,9 +55008,9 @@
       return index;
     }
     addActions(stack, token, end, index) {
-      let { state } = stack, { parser: parser6 } = stack.p, { data: data2 } = parser6;
+      let { state } = stack, { parser: parser7 } = stack.p, { data: data2 } = parser7;
       for (let set = 0; set < 2; set++) {
-        for (let i2 = parser6.stateSlot(
+        for (let i2 = parser7.stateSlot(
           state,
           set ? 2 : 1
           /* ParseState.Actions */
@@ -55032,8 +55032,8 @@
     }
   };
   var Parse2 = class {
-    constructor(parser6, input, fragments, ranges) {
-      this.parser = parser6;
+    constructor(parser7, input, fragments, ranges) {
+      this.parser = parser7;
       this.input = input;
       this.ranges = ranges;
       this.recovering = 0;
@@ -55045,11 +55045,11 @@
       this.lastBigReductionSize = 0;
       this.bigReductionCount = 0;
       this.stream = new InputStream(input, ranges);
-      this.tokens = new TokenCache(parser6, this.stream);
-      this.topTerm = parser6.top[1];
+      this.tokens = new TokenCache(parser7, this.stream);
+      this.topTerm = parser7.top[1];
       let { from } = ranges[0];
-      this.stacks = [Stack.start(this, parser6.top[0], from)];
-      this.fragments = fragments.length && this.stream.end - from > parser6.bufferLength * 4 ? new FragmentCursor2(fragments, parser6.nodeSet) : null;
+      this.stacks = [Stack.start(this, parser7.top[0], from)];
+      this.fragments = fragments.length && this.stream.end - from > parser7.bufferLength * 4 ? new FragmentCursor2(fragments, parser7.nodeSet) : null;
     }
     get parsedPos() {
       return this.minStackPos;
@@ -55162,18 +55162,18 @@
     // given, stacks split off by ambiguous operations will be pushed to
     // `split`, or added to `stacks` if they move `pos` forward.
     advanceStack(stack, stacks, split) {
-      let start = stack.pos, { parser: parser6 } = this;
+      let start = stack.pos, { parser: parser7 } = this;
       let base2 = verbose ? this.stackID(stack) + " -> " : "";
       if (this.stoppedAt != null && start > this.stoppedAt)
         return stack.forceReduce() ? stack : null;
       if (this.fragments) {
         let strictCx = stack.curContext && stack.curContext.tracker.strict, cxHash = strictCx ? stack.curContext.hash : 0;
         for (let cached = this.fragments.nodeAt(start); cached; ) {
-          let match = this.parser.nodeSet.types[cached.type.id] == cached.type ? parser6.getGoto(stack.state, cached.type.id) : -1;
+          let match = this.parser.nodeSet.types[cached.type.id] == cached.type ? parser7.getGoto(stack.state, cached.type.id) : -1;
           if (match > -1 && cached.length && (!strictCx || (cached.prop(NodeProp.contextHash) || 0) == cxHash)) {
             stack.useNode(cached, match);
             if (verbose)
-              console.log(base2 + this.stackID(stack) + ` (via reuse of ${parser6.getName(cached.type.id)})`);
+              console.log(base2 + this.stackID(stack) + ` (via reuse of ${parser7.getName(cached.type.id)})`);
             return true;
           }
           if (!(cached instanceof Tree) || cached.children.length == 0 || cached.positions[0] > 0)
@@ -55185,7 +55185,7 @@
             break;
         }
       }
-      let defaultReduce = parser6.stateSlot(
+      let defaultReduce = parser7.stateSlot(
         stack.state,
         4
         /* ParseState.DefaultReduce */
@@ -55193,7 +55193,7 @@
       if (defaultReduce > 0) {
         stack.reduce(defaultReduce);
         if (verbose)
-          console.log(base2 + this.stackID(stack) + ` (via always-reduce ${parser6.getName(
+          console.log(base2 + this.stackID(stack) + ` (via always-reduce ${parser7.getName(
             defaultReduce & 65535
             /* Action.ValueMask */
           )})`);
@@ -55211,10 +55211,10 @@
         let main = this.tokens.mainToken;
         localStack.apply(action, term, main ? main.start : localStack.pos, end);
         if (verbose)
-          console.log(base2 + this.stackID(localStack) + ` (via ${(action & 65536) == 0 ? "shift" : `reduce of ${parser6.getName(
+          console.log(base2 + this.stackID(localStack) + ` (via ${(action & 65536) == 0 ? "shift" : `reduce of ${parser7.getName(
             action & 65535
             /* Action.ValueMask */
-          )}`} for ${parser6.getName(term)} @ ${start}${localStack == stack ? "" : ", split"})`);
+          )}`} for ${parser7.getName(term)} @ ${start}${localStack == stack ? "" : ", split"})`);
         if (last2)
           return true;
         else if (localStack.pos > start)
@@ -56186,6 +56186,61 @@
     return true;
   });
 
+  // node_modules/@lezer/json/dist/index.js
+  var jsonHighlighting = styleTags({
+    String: tags.string,
+    Number: tags.number,
+    "True False": tags.bool,
+    PropertyName: tags.propertyName,
+    Null: tags.null,
+    ", :": tags.separator,
+    "[ ]": tags.squareBracket,
+    "{ }": tags.brace
+  });
+  var parser2 = LRParser.deserialize({
+    version: 14,
+    states: "$bOVQPOOOOQO'#Cb'#CbOnQPO'#CeOvQPO'#ClOOQO'#Cr'#CrQOQPOOOOQO'#Cg'#CgO}QPO'#CfO!SQPO'#CtOOQO,59P,59PO![QPO,59PO!aQPO'#CuOOQO,59W,59WO!iQPO,59WOVQPO,59QOqQPO'#CmO!nQPO,59`OOQO1G.k1G.kOVQPO'#CnO!vQPO,59aOOQO1G.r1G.rOOQO1G.l1G.lOOQO,59X,59XOOQO-E6k-E6kOOQO,59Y,59YOOQO-E6l-E6l",
+    stateData: "#O~OeOS~OQSORSOSSOTSOWQO_ROgPO~OVXOgUO~O^[O~PVO[^O~O]_OVhX~OVaO~O]bO^iX~O^dO~O]_OVha~O]bO^ia~O",
+    goto: "!kjPPPPPPkPPkqwPPPPk{!RPPP!XP!e!hXSOR^bQWQRf_TVQ_Q`WRg`QcZRicQTOQZRQe^RhbRYQR]R",
+    nodeNames: "\u26A0 JsonText True False Null Number String } { Object Property PropertyName : , ] [ Array",
+    maxTerm: 25,
+    nodeProps: [
+      ["isolate", -2, 6, 11, ""],
+      ["openedBy", 7, "{", 14, "["],
+      ["closedBy", 8, "}", 15, "]"]
+    ],
+    propSources: [jsonHighlighting],
+    skippedNodes: [0],
+    repeatNodeCount: 2,
+    tokenData: "(|~RaXY!WYZ!W]^!Wpq!Wrs!]|}$u}!O$z!Q!R%T!R![&c![!]&t!}#O&y#P#Q'O#Y#Z'T#b#c'r#h#i(Z#o#p(r#q#r(w~!]Oe~~!`Wpq!]qr!]rs!xs#O!]#O#P!}#P;'S!];'S;=`$o<%lO!]~!}Og~~#QXrs!]!P!Q!]#O#P!]#U#V!]#Y#Z!]#b#c!]#f#g!]#h#i!]#i#j#m~#pR!Q![#y!c!i#y#T#Z#y~#|R!Q![$V!c!i$V#T#Z$V~$YR!Q![$c!c!i$c#T#Z$c~$fR!Q![!]!c!i!]#T#Z!]~$rP;=`<%l!]~$zO]~~$}Q!Q!R%T!R![&c~%YRT~!O!P%c!g!h%w#X#Y%w~%fP!Q![%i~%nRT~!Q![%i!g!h%w#X#Y%w~%zR{|&T}!O&T!Q![&Z~&WP!Q![&Z~&`PT~!Q![&Z~&hST~!O!P%c!Q![&c!g!h%w#X#Y%w~&yO[~~'OO_~~'TO^~~'WP#T#U'Z~'^P#`#a'a~'dP#g#h'g~'jP#X#Y'm~'rOR~~'uP#i#j'x~'{P#`#a(O~(RP#`#a(U~(ZOS~~(^P#f#g(a~(dP#i#j(g~(jP#X#Y(m~(rOQ~~(wOW~~(|OV~",
+    tokenizers: [0],
+    topRules: { "JsonText": [0, 1] },
+    tokenPrec: 0
+  });
+
+  // node_modules/@codemirror/lang-json/dist/index.js
+  var jsonLanguage = /* @__PURE__ */ LRLanguage.define({
+    name: "json",
+    parser: /* @__PURE__ */ parser2.configure({
+      props: [
+        /* @__PURE__ */ indentNodeProp.add({
+          Object: /* @__PURE__ */ continuedIndent({ except: /^\s*\}/ }),
+          Array: /* @__PURE__ */ continuedIndent({ except: /^\s*\]/ })
+        }),
+        /* @__PURE__ */ foldNodeProp.add({
+          "Object Array": foldInside
+        })
+      ]
+    }),
+    languageData: {
+      closeBrackets: { brackets: ["[", "{", '"'] },
+      indentOnInput: /^\s*[\}\]]$/
+    }
+  });
+  function json() {
+    return new LanguageSupport(jsonLanguage);
+  }
+
   // node_modules/@lezer/markdown/dist/index.js
   var CompositeBlock = class _CompositeBlock {
     static create(type, value, from, parentHash, end) {
@@ -56820,8 +56875,8 @@
     /**
     @internal
     */
-    constructor(parser6, input, fragments, ranges) {
-      this.parser = parser6;
+    constructor(parser7, input, fragments, ranges) {
+      this.parser = parser7;
       this.input = input;
       this.ranges = ranges;
       this.line = new Line2();
@@ -56879,9 +56934,9 @@
       let leaf = new LeafBlock(this.lineStart + line.pos, line.text.slice(line.pos));
       for (let parse of this.parser.leafBlockParsers)
         if (parse) {
-          let parser6 = parse(this, leaf);
-          if (parser6)
-            leaf.parsers.push(parser6);
+          let parser7 = parse(this, leaf);
+          if (parser7)
+            leaf.parsers.push(parser7);
         }
       lines: while (this.nextLine()) {
         if (line.pos == line.text.length)
@@ -56891,8 +56946,8 @@
             if (stop(this, line, leaf))
               break lines;
         }
-        for (let parser6 of leaf.parsers)
-          if (parser6.nextLine(this, line, leaf))
+        for (let parser7 of leaf.parsers)
+          if (parser7.nextLine(this, line, leaf))
             return null;
         leaf.content += "\n" + line.scrub();
         for (let m of line.markers)
@@ -57096,8 +57151,8 @@
     @internal
     */
     finishLeaf(leaf) {
-      for (let parser6 of leaf.parsers)
-        if (parser6.finish(this, leaf))
+      for (let parser7 of leaf.parsers)
+        if (parser7.finish(this, leaf))
           return;
       let inline = injectMarks(this.parser.parseInline(leaf.content, leaf.start), leaf.marks);
       this.addNode(this.buffer.writeElements(inline, -leaf.start).finish(Type.Paragraph, leaf.content.length), leaf.start);
@@ -57647,8 +57702,8 @@
     /**
     @internal
     */
-    constructor(parser6, text, offset) {
-      this.parser = parser6;
+    constructor(parser7, text, offset) {
+      this.parser = parser7;
       this.text = text;
       this.offset = offset;
       this.parts = [];
@@ -57952,7 +58007,7 @@
     LinkTitle: tags.string,
     Paragraph: tags.content
   });
-  var parser2 = new MarkdownParser(new NodeSet(nodeTypes).extend(markdownHighlighting), Object.keys(DefaultBlockParsers).map((n) => DefaultBlockParsers[n]), Object.keys(DefaultBlockParsers).map((n) => DefaultLeafBlocks[n]), Object.keys(DefaultBlockParsers), DefaultEndLeaf, DefaultSkipMarkup, Object.keys(DefaultInline).map((n) => DefaultInline[n]), Object.keys(DefaultInline), []);
+  var parser3 = new MarkdownParser(new NodeSet(nodeTypes).extend(markdownHighlighting), Object.keys(DefaultBlockParsers).map((n) => DefaultBlockParsers[n]), Object.keys(DefaultBlockParsers).map((n) => DefaultLeafBlocks[n]), Object.keys(DefaultBlockParsers), DefaultEndLeaf, DefaultSkipMarkup, Object.keys(DefaultInline).map((n) => DefaultInline[n]), Object.keys(DefaultInline), []);
   function leftOverSpace(node, from, to) {
     let ranges = [];
     for (let n = node.firstChild, pos = from; ; n = n.nextSibling) {
@@ -57976,9 +58031,9 @@
           if (infoNode)
             info = input.read(infoNode.from, infoNode.to);
         }
-        let parser6 = codeParser(info);
-        if (parser6)
-          return { parser: parser6, overlay: (node2) => node2.type.id == Type.CodeText, bracketed: id2 == Type.FencedCode };
+        let parser7 = codeParser(info);
+        if (parser7)
+          return { parser: parser7, overlay: (node2) => node2.type.id == Type.CodeText, bracketed: id2 == Type.FencedCode };
       } else if (htmlParser && (id2 == Type.HTMLBlock || id2 == Type.HTMLTag || id2 == Type.CommentBlock)) {
         return { parser: htmlParser, overlay: leftOverSpace(node.node, node.from, node.to) };
       }
@@ -58506,7 +58561,7 @@
     ProcessingInst: tags.processingInstruction,
     DoctypeDecl: tags.documentMeta
   });
-  var parser3 = LRParser.deserialize({
+  var parser4 = LRParser.deserialize({
     version: 14,
     states: ",xOVO!rOOO!ZQ#tO'#CrO!`Q#tO'#C{O!eQ#tO'#DOO!jQ#tO'#DRO!oQ#tO'#DTO!tOaO'#CqO#PObO'#CqO#[OdO'#CqO$kO!rO'#CqOOO`'#Cq'#CqO$rO$fO'#DUO$zQ#tO'#DWO%PQ#tO'#DXOOO`'#Dl'#DlOOO`'#DZ'#DZQVO!rOOO%UQ&rO,59^O%aQ&rO,59gO%lQ&rO,59jO%wQ&rO,59mO&SQ&rO,59oOOOa'#D_'#D_O&_OaO'#CyO&jOaO,59]OOOb'#D`'#D`O&rObO'#C|O&}ObO,59]OOOd'#Da'#DaO'VOdO'#DPO'bOdO,59]OOO`'#Db'#DbO'jO!rO,59]O'qQ#tO'#DSOOO`,59],59]OOOp'#Dc'#DcO'vO$fO,59pOOO`,59p,59pO(OQ#|O,59rO(TQ#|O,59sOOO`-E7X-E7XO(YQ&rO'#CtOOQW'#D['#D[O(hQ&rO1G.xOOOa1G.x1G.xOOO`1G/Z1G/ZO(sQ&rO1G/ROOOb1G/R1G/RO)OQ&rO1G/UOOOd1G/U1G/UO)ZQ&rO1G/XOOO`1G/X1G/XO)fQ&rO1G/ZOOOa-E7]-E7]O)qQ#tO'#CzOOO`1G.w1G.wOOOb-E7^-E7^O)vQ#tO'#C}OOOd-E7_-E7_O){Q#tO'#DQOOO`-E7`-E7`O*QQ#|O,59nOOOp-E7a-E7aOOO`1G/[1G/[OOO`1G/^1G/^OOO`1G/_1G/_O*VQ,UO,59`OOQW-E7Y-E7YOOOa7+$d7+$dOOO`7+$u7+$uOOOb7+$m7+$mOOOd7+$p7+$pOOO`7+$s7+$sO*bQ#|O,59fO*gQ#|O,59iO*lQ#|O,59lOOO`1G/Y1G/YO*qO7[O'#CwO+SOMhO'#CwOOQW1G.z1G.zOOO`1G/Q1G/QOOO`1G/T1G/TOOO`1G/W1G/WOOOO'#D]'#D]O+eO7[O,59cOOQW,59c,59cOOOO'#D^'#D^O+vOMhO,59cOOOO-E7Z-E7ZOOQW1G.}1G.}OOOO-E7[-E7[",
     stateData: ",c~O!_OS~OUSOVPOWQOXROYTO[]O][O^^O_^Oa^Ob^Oc^Od^Oy^O|_O!eZO~OgaO~OgbO~OgcO~OgdO~OgeO~O!XfOPmP![mP~O!YiOQpP![pP~O!ZlORsP![sP~OUSOVPOWQOXROYTOZqO[]O][O^^O_^Oa^Ob^Oc^Od^Oy^O!eZO~O![rO~P#gO!]sO!fuO~OgvO~OgwO~OS|OT}OiyO~OS!POT}OiyO~OS!ROT}OiyO~OS!TOT}OiyO~OS}OT}OiyO~O!XfOPmX![mX~OP!WO![!XO~O!YiOQpX![pX~OQ!ZO![!XO~O!ZlORsX![sX~OR!]O![!XO~O![!XO~P#gOg!_O~O!]sO!f!aO~OS!bO~OS!cO~Oj!dOShXThXihX~OS!fOT!gOiyO~OS!hOT!gOiyO~OS!iOT!gOiyO~OS!jOT!gOiyO~OS!gOT!gOiyO~Og!kO~Og!lO~Og!mO~OS!nO~Ol!qO!a!oO!c!pO~OS!rO~OS!sO~OS!tO~Ob!uOc!uOd!uO!a!wO!b!uO~Ob!xOc!xOd!xO!c!wO!d!xO~Ob!uOc!uOd!uO!a!{O!b!uO~Ob!xOc!xOd!xO!c!{O!d!xO~OT~cbd!ey|!e~",
@@ -58750,7 +58805,7 @@
   var spec_QueryCallee = { __proto__: null, selector: 118, style: 124, layer: 208 };
   var spec_AtKeyword = { __proto__: null, "@import": 204, "@media": 216, "@charset": 220, "@namespace": 224, "@keyframes": 230, "@supports": 242, "@scope": 246, "@font-feature-values": 252 };
   var spec_identifier2 = { __proto__: null, to: 249 };
-  var parser4 = LRParser.deserialize({
+  var parser5 = LRParser.deserialize({
     version: 14,
     states: "MrQYQdOOO$TQdOOP$[O`OOO%XQaO'#CfOOQP'#Ce'#CeO%`QdO'#CgO%eQ`O'#CgO%jQaO'#FrO&eQdO'#CkO'XQaO'#CcO'cQdO'#CnOOQP'#ES'#ESOOQP'#ER'#ERO'nQdO'#ETO'yQdO'#E[O'yQdO'#E_OOQP'#Fr'#FrO)`QhO'#FQOOQS'#Fq'#FqOOQS'#FT'#FTQYQdOOO)gQdO'#EeO*vQhO'#EkO)gQdO'#EmO*}QdO'#EoO+YQdO'#ErO*[QhO'#ExO+bQdO'#EzO+mQdO'#E}O+rQaO'#CfO+yQ`O'#EbO,OQ`O'#GPO,ZQdO'#GPQOQ`OOP,eO&jO'#CaPOOO)CAa)CAaOOQP'#Ci'#CiOOQP,59R,59RO%`QdO,59ROOQP'#Cm'#CmOOQP,59V,59VO&eQdO,59VO,pQdO,59YOOQP,5:m,5:mO'nQdO,5:oO'yQdO,5:vO'yQdO,5:xO'yQdO,5:yO'yQdO'#F[O,{Q`O,58}O-TQdO'#EaOOQS,58},58}OOQP'#Cq'#CqOOQO'#EP'#EPOOQP,59Y,59YO-[Q`O,59YO-aQ`O,59YO-fQpO'#EUO-qQdO'#EVO-vQ`O'#EVO-{QpO,5:oO.iQaO,5:vO/PQaO,5:yOOQW'#D]'#D]O0OQhO'#DgO0cQhO,5;lO*[QhO'#DeO0pQ`O'#DnO0uQhO'#D{OOQW'#Fx'#FxOOQS,5;l,5;lO0zQ`O'#DhO1PQ`O'#DkOOQS-E9R-E9ROOQ['#Cv'#CvO1UQdO'#CwO1iQdO'#C|O1|QdO'#DPOOQ['#DQ'#DQO2aQ!pO'#DRO4jQ!jO,5;POOQO'#DW'#DWO-aQ`O'#DVO4zQ!nO'#FuO6}Q`O'#DXO7SQ`O'#D|OOQ['#Fu'#FuO7XQhO'#GSO7gQ`O,5;VO7lQ!bO,5;XOOQS'#Eq'#EqO7tQ`O,5;ZO7yQdO,5;ZOOQO'#Et'#EtO8RQ`O,5;^O8WQhO,5;dO'yQdO'#DjOOQS,5;f,5;fO0zQ`O,5;fO8`QdO,5;fOOQS'#Fc'#FcO8hQdO'#FPO7gQ`O,5;iO8pQdO,5:|O9QQdO'#F^O9_Q`O,5<kO9_Q`O,5<kPOOO'#FS'#FSP9jO&jO,58{POOO,58{,58{OOQP1G.m1G.mOOQP1G.q1G.qOOQP1G.t1G.tO-[Q`O1G.tO-aQ`O1G.tO9uQpO1G0ZO9}QaO1G0bO:eQaO1G0dO:{QaO1G0eO;cQaO,5;vOOQO-E9Y-E9YOOQS1G.i1G.iO;mQ`O,5:{O;rQdO'#EQO;yQdO'#CuOOQO'#EX'#EXOOQO,5:q,5:qO-qQdO,5:qOOQP1G0Z1G0ZO)gQdO1G0ZO<QQ!jO'#D]O<`Q!bO,59xO<hQhO,5:ROOQO'#Dc'#DcOOQO'#Fy'#FyO<cQ!bO,59|O<pQhO'#FdO*[QhO,59zO*[QhO'#FdO=hQhO1G1WOOQS1G1W1G1WO=rQhO,5:PO>mQhO'#DoOOQW,5:Y,5:YOOQW,5:g,5:gOOQW,5:S,5:SO>wQhO,5:VO?cQ!fO'#FvOOQS'#Fv'#FvOOQS'#FV'#FVO@pQdO,59cOOQ[,59c,59cOATQdO,59hOOQ[,59h,59hOAhQdO,59kOOQ[,59k,59kOOQ[,59m,59mO)gQdO,59oOA{QhO'#EgOOQW'#Eg'#EgOBjQ`O1G0kO4sQhO1G0kOOQ[,59q,59qO*[QhO'#DZOOQ[,59s,59sOBoQ#tO,5:hOBzQhO'#F`OCXQ`O,5<nOOQS1G0q1G0qOOQS1G0s1G0sOOQS1G0u1G0uOCdQ`O1G0uOCiQdO'#EuOOQS1G0x1G0xOOQS1G1O1G1OOCtQaO,5:UO7gQ`O1G1QOOQS1G1Q1G1QO0zQ`O1G1QOOQS-E9a-E9aOOQS1G1T1G1TOC{Q!fO1G0hODcQ`O'#EdOOQO1G0h1G0hOOQO,5;x,5;xODhQdO,5;xOOQO-E9[-E9[ODuQ`O1G2VPOOO-E9Q-E9QPOOO1G.g1G.gOOQP7+$`7+$`OOQP7+%u7+%uO)gQdO7+%uOOQS1G0g1G0gOEQQaO'#F}OE[Q`O,5:lOEaQ!fO'#FUOF_QdO'#FtOFiQ`O,59aOOQO1G0]1G0]OFnQ!bO7+%uO)gQdO1G/dOFyQhO1G/hOOQW1G/m1G/mOOQW1G/f1G/fOG[QhO,5<OOOQW-E9b-E9bOOQS7+&r7+&rOHSQhO'#D]OHbQhO'#F|OHmQ`O'#F|OHrQ`O,5:ZOHwQ!bO'#D_O>wQhO'#DmOISQhO'#DsOI[QhO'#DuOIaQ!jO'#F{OOQO'#F{'#F{OIlQ`O'#DxOItQ!bO'#DzOOQO'#Fz'#FzOIyQ`O1G/qOOQS-E9T-E9TOOQ[1G.}1G.}OOQ[1G/S1G/SOOQ[1G/V1G/VOOQ[1G/Z1G/ZOJOQdO,5;ROOQS7+&V7+&VOJTQ`O7+&VOJYQhO'#D[OJbQ`O,59uO*[QhO,59uOOQ[1G0S1G0SOJjQ`O1G0SOJoQhO,5;zOOQO-E9^-E9^OOQS7+&a7+&aOJ}QbO'#DROOQO'#Ew'#EwOK]Q`O'#EvOOQO'#Ev'#EvOKhQ`O'#FaOKpQdO,5;aOOQS,5;a,5;aOOQ[1G/p1G/pOOQS7+&l7+&lO7gQ`O7+&lOK{Q!fO'#F]O)gQdO'#F]OMSQdO7+&SOOQO7+&S7+&SOOQO,5;O,5;OOOQO1G1d1G1dOMgQ!bO<<IaOMrQdO'#FZOM|Q`O,5<iOOQP1G0W1G0WOOQS-E9S-E9SONUQdO'#FYON`Q`O,5<`OOQ]1G.{1G.{OOQP<<Ia<<IaONhQ`O<<IaONmQdO7+%OOOQO'#D_'#D_ONtQ!bO7+%SON|QhO'#FXO! ZQ`O,5<hO)gQdO,5<hOOQW1G/u1G/uO! cQ`O,5:XO>wQhO'#DtOOQO,5:_,5:_O! hQhO,5:aO! pQhO,5:fO)gQdO,5:dOOQW7+%]7+%]OOQO'#Ei'#EiO! wQ`O1G0mOOQS<<Iq<<IqO)gQdO,59vO!!kQhO1G/aOOQ[1G/a1G/aO!!rQ`O1G/aOOQW-E9U-E9UOOQ[7+%n7+%nOOQO,5;b,5;bOClQdO'#FbOKhQ`O,5;{OOQS,5;{,5;{OOQS-E9_-E9_OOQS1G0{1G0{OOQS<<JW<<JWO!!zQ!fO,5;wOOQS-E9Z-E9ZOOQO<<In<<InOOQPAN>{AN>{O!$RQ`OAN>{O!$WQaO,5;uOOQO-E9X-E9XO!$bQdO,5;tOOQO-E9W-E9WOOQW<<Hj<<HjOOQW<<Hn<<HnO!$lQhO<<HnO!$}QhO'#D]O!%]QhO,5;sO!%hQ`O,5;sOOQO-E9V-E9VO!%mQdO1G2SO!%wQhO1G/sO!&PQ`O,5:`O>wQhO'#DwOOQO1G/{1G/{O!&UQ!bO1G0QO!&^QdO1G0OOJOQdO'#F_O!&eQ`O7+&XOOQW7+&X7+&XO!&mQ!bO1G/bOOQ[7+${7+${O!&xQhO7+${P!'PQ`O'#FWOOQO,5;|,5;|OOQO-E9`-E9`OOQS1G1g1G1gOOQPG24gG24gO!'UQ`OAN>YO)gQdO1G1_O!'ZQ`O7+'nOOQO1G/z1G/zO!'cQ`O,5:cO!'hQhO7+%lOOQO,5;y,5;yOOQO-E9]-E9]OOQW<<Is<<IsOOQ[<<Hg<<HgPOQW,5;r,5;rOOQWG23tG23tO!'oQdO7+&yOOQO1G/}1G/}OOQO<<IW<<IW",
     stateData: "!(S~O$`OS$aQQ~OWVO^`O`WOcYOdYOlaOo]O#P^O#S_O#YeO#`fO#bgO#dhO#giO#mjO#okO#rlO$ZRO$^ZO$gTO$rZO~OQnOWVO^`O`WOcYOdYOlaOo]O#P^O#S_O#YeO#`fO#bgO#dhO#giO#mjO#okO#rlO$ZmO$^ZO$gTO$rZO~O$X$sP~P!mO$arO~O`YXcYXdYXoYXrYX!eYX#PYX#SYX$YYX$^YX$g[X$rYX~OgYX~P$aO$ZtO~O$gvO~O$gvO`$fXc$fXd$fXo$fXr$fX!e$fX#P$fX#S$fX$Y$fX$^$fX$r$fXg$fX~O$ZwO~O`yOczOdzOo|O#P}O#S!PO$Y!OO$^ZO$rZO~Or!SO!e!QO~P&jOf!YO$Z!UO$[!VO~OW!]O$Z!ZO$g![O~OWVO^`O`WOcYOdYOo]O#P^O#S_O$ZRO$^ZO$gTO$rZO~OS!eOc!fOd!fOh!bOr!SO!Y!dO!]!iO!`!jO$]!aO~Om!hO~P(qOQ!uOh!mOo!nOr!oOv!xO|!vO!q!wO$Z!lO$[!sO$^!pO$k!qO~OS!eOc!fOd!fOh!bO!Y!dO!]!iO!`!jO$]!aO~Or$vP~P*[Ov!}O!q!wO$Z!|O~Ov#PO$Z#PO~Oh#SOr!SO#p#UO~O$Z#WO~Oc#VX~P$aOc#ZO~Om#[O$X$sXq$sX~O$X$sXq$sX~P!mO$b#_O$c#_O$d#aO~Of#fO$Z!UO$[!VO~Or!SO!e!QO~Oq$sP~P!mOh#oO~Oh#pO~On!xX!|!xX$g!zX~O$Z#qO~O$g#sO~On#tO!|#uO~O`yOczOdzOo|O$^ZO$rZO~Or#Oa!e#Oa#P#Oa#S#Oa$Y#Oag#Oa~P.TOr#Ra!e#Ra#P#Ra#S#Ra$Y#Rag#Ra~P.TOS!eOc!fOd!fOh!bO!Y!dO!]!iO!`!jO~OR#zOv#zO$]#vO$^#yO$k!qO~P/gOm$QO!T#}O!e$OO~P(qOh$SO~O$]$UO~Oh#SO~Oh$WO~O`$YOc$YOg$]Ol$YOm$YO~P)gO`$YOc$YOl$YOm$YOn$_O~P)gO`$YOc$YOl$YOm$YOq$aO~P)gOP$bOSuXcuXduXhuXmuXxuX!YuX!]uX!`uX#[uX#^uX$]uX!WuXQuX`uXguXluXouXruXvuX|uX!quX$ZuX$[uX$^uX$kuXnuXquX!euX$XuX$uuX!}uX~Ox$cO#[$dO#^$eOm$vP~P*[Oh#pOS$iXc$iXd$iXm$iXx$iX!Y$iX!]$iX!`$iX#[$iX#^$iX$]$iXQ$iX`$iXg$iXl$iXo$iXr$iXv$iX|$iX!q$iX$Z$iX$[$iX$^$iX$k$iXn$iXq$iX!e$iX$X$iX$u$iX!}$iX~Oh$iO~Oh$kO~O!T#}O!e$lOr$vXm$vX~Or!SO~Om$oOx$cO~Om$pO~Ov$qO!q!wO~Or$rO~Or!SO!T#}O~Or!SO#p$xO~O$Z#WOr#sX~O$u$|Om#Ua$X#Uaq#Ua~P)gOm$QX$X$QXq$QX~P!mOm#[O$X$saq$sa~O$b#_O$c#_O$d%TO~On%VO!|%WO~Or#Oi!e#Oi#P#Oi#S#Oi$Y#Oig#Oi~P.TOr#Qi!e#Qi#P#Qi#S#Qi$Y#Qig#Qi~P.TOr#Ri!e#Ri#P#Ri#S#Ri$Y#Rig#Ri~P.TOr$Oa!e$Oa~P&jOq%XO~Og$qP~P'yOg$hP~P)gOc!RXg!PX!T!PX!W!RX~Oc%aO!W%bO~Og%cO!T#}O~O!T#}OS$WXc$WXd$WXh$WXm$WXr$WX!Y$WX!]$WX!`$WX!e$WX$]$WX~Om%gO!e$OO~P(qO!T#}OS!Xac!Xad!Xah!Xam!Xar!Xa!Y!Xa!]!Xa!`!Xa!e!Xa$]!Xag!Xa~O$]%hOg$pP~P/gOR#zOS!eOh%mOv#zO!Y%nO$]%lO$^#yO$k!qO~Ox$cOQ$jX`$jXc$jXg$jXh$jXl$jXm$jXo$jXr$jXv$jX|$jX!q$jX$Z$jX$[$jX$^$jX$k$jXn$jXq$jX~O`$YOc$YOg%wOl$YOm$YO~P)gO`$YOc$YOl$YOm$YOn%xO~P)gO`$YOc$YOl$YOm$YOq%yO~P)gOh%{OS#ZXc#ZXd#ZXm#ZX!Y#ZX!]#ZX!`#ZX$]#ZX~Om%|O~Og&ROv&SO!r&SO~Or$SX!e$SXm$SX~P*[O!e$lOr$vam$va~Om&VO~Oq&^O$Z&XO$k&WO~Og&_O~P&jOx$cO!e&cO$u$|Om#Ui$X#Uiq#Ui~P)gO$t&fO~Om$Qa$X$Qaq$Qa~P!mOm#[O$X$siq$si~O!e&iOg$qX~P&jOg&kO~Ox$cOQ#xXg#xXh#xXo#xXr#xXv#xX|#xX!e#xX!q#xX$Z#xX$[#xX$^#xX$k#xX~O!e&mOg$hX~P)gOg&oO~On&pOx$cO!}&qO~OR#zOv#zO$]&sO$^#yO$k!qO~O!T#}OS$Wac$Wad$Wah$Wam$War$Wa!Y$Wa!]$Wa!`$Wa!e$Wa$]$Wa~Oc!dXg!PX!T!PX!e!PX~O!T#}O!e&uOg$pX~Oc&wO~Og&xO~Oc!mXg!mX!W!RX~OS!eOh&zO~O!T&|O~O!T&|O!W&}Og$oX~Oc'OOg!lX~O!W&}O~Og'PO~O$Z'QO~Om'SO~Oc'TO!T#}O~Og'VOm'UO~Og'YO~O!T#}Or$Sa!e$Sam$Sa~OP$bOruX!euXguX~O$k&WOr#jX!e#jX~Or!SO!e'[O~Oq'`O$Z&XO$k&WO~Ox$cOQ$PXh$PXm$PXo$PXr$PXv$PX|$PX!e$PX!q$PX$X$PX$Z$PX$[$PX$^$PX$k$PX$u$PXq$PX~O!e&cO$u$|Om#Uq$X#Uqq#Uq~P)gOn'eOx$cO!}'fO~Og#}X!e#}X~P'yO!e&iOg$qa~Og#|X!e#|X~P)gO!e&mOg$ha~On'eO~Og'kO~P)gOg'lO!W'mO~O$]'nOg#{X!e#{X~P/gO!e&uOg$pa~Og'sO~OS!eOh'uO~OS!eO~PFyO`'yOg'{O~OS#zac#zad#zah#za!Y#za!]#za!`#za$]#za~Og'}O~P!!POg'}Om(OO~Ox$cOQ$Pah$Pam$Pao$Par$Pav$Pa|$Pa!e$Pa!q$Pa$X$Pa$Z$Pa$[$Pa$^$Pa$k$Pa$u$Paq$Pa~On(TO~Og#}a!e#}a~P&jOg#|a!e#|a~P)gOR#zOv#zO$]&sO$^#yO$k&WO~Oc!fXg!PX!T!PX!e!PX~O!T#}Og#{a!e#{a~Oc(VO~O!e&uOg$pi~P)gOg!ai!T!ji~Og(XO~O!W(ZOg!ni~Og!li~P)gO`'yOg(^O~Ox$cOg!Oim!Oi~Og(_O~P!!POm(`O~Og(aO~O!e&uOg$pq~Og(cO~OS!eO~P!$lOg#{q!e#{q~P)gO$`!r$a$k`$kx#S~",
@@ -59614,7 +59669,7 @@
   var cssCompletionSource = /* @__PURE__ */ defineCSSCompletionSource((n) => n.name == "VariableName");
   var cssLanguage = /* @__PURE__ */ LRLanguage.define({
     name: "css",
-    parser: /* @__PURE__ */ parser4.configure({
+    parser: /* @__PURE__ */ parser5.configure({
       props: [
         /* @__PURE__ */ indentNodeProp.add({
           Declaration: /* @__PURE__ */ continuedIndent()
@@ -60257,7 +60312,7 @@
   ].concat(/* @__PURE__ */ eventAttributes.map((name2) => ({ name: name2, parser: javascriptLanguage.parser })));
   var htmlPlain = /* @__PURE__ */ LRLanguage.define({
     name: "html",
-    parser: /* @__PURE__ */ parser3.configure({
+    parser: /* @__PURE__ */ parser4.configure({
       props: [
         /* @__PURE__ */ indentNodeProp.add({
           Element(context) {
@@ -60377,7 +60432,7 @@
   // node_modules/@codemirror/lang-markdown/dist/index.js
   var data = /* @__PURE__ */ defineLanguageFacet({ commentTokens: { block: { open: "<!--", close: "-->" } } });
   var headingProp = /* @__PURE__ */ new NodeProp();
-  var commonmark = /* @__PURE__ */ parser2.configure({
+  var commonmark = /* @__PURE__ */ parser3.configure({
     props: [
       /* @__PURE__ */ foldNodeProp.add((type) => {
         return !type.is("Block") || type.is("Document") || isHeading(type) != null || isList(type) ? void 0 : (tree, state) => ({ from: state.doc.lineAt(tree.from).to, to: tree.to });
@@ -60421,8 +60476,8 @@
     }
     return null;
   });
-  function mkLang(parser6) {
-    return new Language(data, parser6, [], "markdown");
+  function mkLang(parser7) {
+    return new Language(data, parser7, [], "markdown");
   }
   var commonmarkLanguage = /* @__PURE__ */ mkLang(commonmark);
   var extended = /* @__PURE__ */ commonmark.configure([GFM, Subscript, Superscript, Emoji, {
@@ -60711,8 +60766,8 @@
   ];
   var htmlNoMatch = /* @__PURE__ */ html({ matchClosingTags: false });
   function markdown(config3 = {}) {
-    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser: parser6 } = commonmarkLanguage, completeHTMLTags = true, pasteURLAsLink: pasteURL = true, htmlTagLanguage = htmlNoMatch } = config3;
-    if (!(parser6 instanceof MarkdownParser))
+    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser: parser7 } = commonmarkLanguage, completeHTMLTags = true, pasteURLAsLink: pasteURL = true, htmlTagLanguage = htmlNoMatch } = config3;
+    if (!(parser7 instanceof MarkdownParser))
       throw new RangeError("Base parser provided to `markdown` should be a Markdown parser");
     let extensions = config3.extensions ? [config3.extensions] : [];
     let support = [htmlTagLanguage.support, headerIndent], defaultCode;
@@ -60728,7 +60783,7 @@
     extensions.push(parseCode({ codeParser, htmlParser: htmlTagLanguage.language.parser }));
     if (addKeymap)
       support.push(Prec.high(keymap.of(markdownKeymap)));
-    let lang = mkLang(parser6.configure(extensions));
+    let lang = mkLang(parser7.configure(extensions));
     if (completeHTMLTags)
       support.push(lang.data.of({ autocomplete: htmlTagCompletion }));
     return new LanguageSupport(lang, support);
@@ -60893,7 +60948,7 @@
     DoctypeDecl: tags.documentMeta,
     Cdata: tags.special(tags.string)
   });
-  var parser5 = LRParser.deserialize({
+  var parser6 = LRParser.deserialize({
     version: 14,
     states: ",lOQOaOOOrOxO'#CfOzOpO'#CiO!tOaO'#CgOOOP'#Cg'#CgO!{OrO'#CrO#TOtO'#CsO#]OpO'#CtOOOP'#DT'#DTOOOP'#Cv'#CvQQOaOOOOOW'#Cw'#CwO#eOxO,59QOOOP,59Q,59QOOOO'#Cx'#CxO#mOpO,59TO#uO!bO,59TOOOP'#C|'#C|O$TOaO,59RO$[OpO'#CoOOOP,59R,59ROOOQ'#C}'#C}O$dOrO,59^OOOP,59^,59^OOOS'#DO'#DOO$lOtO,59_OOOP,59_,59_O$tOpO,59`O$|OpO,59`OOOP-E6t-E6tOOOW-E6u-E6uOOOP1G.l1G.lOOOO-E6v-E6vO%UO!bO1G.oO%UO!bO1G.oO%dOpO'#CkO%lO!bO'#CyO%zO!bO1G.oOOOP1G.o1G.oOOOP1G.w1G.wOOOP-E6z-E6zOOOP1G.m1G.mO&VOpO,59ZO&_OpO,59ZOOOQ-E6{-E6{OOOP1G.x1G.xOOOS-E6|-E6|OOOP1G.y1G.yO&gOpO1G.zO&gOpO1G.zOOOP1G.z1G.zO&oO!bO7+$ZO&}O!bO7+$ZOOOP7+$Z7+$ZOOOP7+$c7+$cO'YOpO,59VO'bOpO,59VO'mO!bO,59eOOOO-E6w-E6wO'{OpO1G.uO'{OpO1G.uOOOP1G.u1G.uO(TOpO7+$fOOOP7+$f7+$fO(]O!bO<<GuOOOP<<Gu<<GuOOOP<<G}<<G}O'bOpO1G.qO'bOpO1G.qO(hO#tO'#CnO(vO&jO'#CnOOOO1G.q1G.qO)UOpO7+$aOOOP7+$a7+$aOOOP<<HQ<<HQOOOPAN=aAN=aOOOPAN=iAN=iO'bOpO7+$]OOOO7+$]7+$]OOOO'#Cz'#CzO)^O#tO,59YOOOO,59Y,59YOOOO'#C{'#C{O)lO&jO,59YOOOP<<G{<<G{OOOO<<Gw<<GwOOOO-E6x-E6xOOOO1G.t1G.tOOOO-E6y-E6y",
     stateData: ")z~OPQOSVOTWOVWOWWOXWOiXOyPO!QTO!SUO~OvZOx]O~O^`Oz^O~OPQOQcOSVOTWOVWOWWOXWOyPO!QTO!SUO~ORdO~P!SOteO!PgO~OuhO!RjO~O^lOz^O~OvZOxoO~O^qOz^O~O[vO`sOdwOz^O~ORyO~P!SO^{Oz^O~OteO!P}O~OuhO!R!PO~O^!QOz^O~O[!SOz^O~O[!VO`sOd!WOz^O~Oa!YOz^O~Oz^O[mX`mXdmX~O[!VO`sOd!WO~O^!]Oz^O~O[!_Oz^O~O[!aOz^O~O[!cO`sOd!dOz^O~O[!cO`sOd!dO~Oa!eOz^O~Oz^O{!gO}!hO~Oz^O[ma`madma~O[!kOz^O~O[!lOz^O~O[!mO`sOd!nO~OW!qOX!qO{!sO|!qO~OW!tOX!tO}!sO!O!tO~O[!vOz^O~OW!qOX!qO{!yO|!qO~OW!tOX!tO}!yO!O!tO~O",
@@ -61102,7 +61157,7 @@
   }
   var xmlLanguage = /* @__PURE__ */ LRLanguage.define({
     name: "xml",
-    parser: /* @__PURE__ */ parser5.configure({
+    parser: /* @__PURE__ */ parser6.configure({
       props: [
         /* @__PURE__ */ indentNodeProp.add({
           Element(context) {
@@ -61525,7 +61580,7 @@
     gfm: () => markdown({ base: markdownLanguage }),
     markdown: () => markdown(),
     javascript: () => javascript(),
-    json: () => javascript(),
+    json: () => json(),
     ruby: () => StreamLanguage.define(ruby),
     xml: () => xml()
   };

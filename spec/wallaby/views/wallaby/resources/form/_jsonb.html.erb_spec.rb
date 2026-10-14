@@ -19,6 +19,7 @@ describe field_name, type: :helper do
     it 'initializes the codemirror' do
       textarea = page.at_css('textarea.form-control')
       expect(textarea['data-init']).to eq 'codemirror'
+      expect(textarea['data-mode']).to eq 'json'
     end
 
     it 'checks the value' do
