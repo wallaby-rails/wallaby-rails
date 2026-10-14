@@ -14,7 +14,7 @@
   window.documentReady = function documentReady(namespace, handler) {
     if (typeof Turbolinks === "object") {
       const turbolinksReady = "turbolinks:load" + namespace
-      return jQuery(document).off(turbolinksReady).on(handler);
+      return jQuery(document).off(turbolinksReady).on(turbolinksReady, handler);
     } else {
       return jQuery(handler);
     }
