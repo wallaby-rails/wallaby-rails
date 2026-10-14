@@ -3,25 +3,16 @@
 (function (jQuery) {
   'use strict';
 
-  window.readyPrefix = function readyPrefix(namespace) {
-    if (typeof Turbolinks === "object") {
-      return "turbolinks:load" + namespace;
-    } else {
-      return "ready" + namespace;
-    }
-  }
-
   window.documentReady = function documentReady(namespace, handler) {
     if (typeof Turbolinks === "object") {
       const turbolinksReady = "turbolinks:load" + namespace
-      return jQuery(document).off(turbolinksReady).on(handler);
+      return jQuery(document).off(turbolinksReady).on(turbolinksReady, handler);
     } else {
       return jQuery(handler);
     }
   }
 
   documentReady('.wallaby', function () {
-    console.log('ready here')
     // for tooltip
     jQuery('[data-toggle="tooltip"]').tooltip({ container: 'body' })
 

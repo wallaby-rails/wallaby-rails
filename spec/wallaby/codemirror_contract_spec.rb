@@ -21,6 +21,8 @@ describe 'CodeMirror integration' do
   codemirror_partials = %w[json jsonb hstore xml markdown].map { |name| File.join(forms, "_#{name}.html.erb") }
   summernote_partials = %w[text longtext mediumtext tinytext citext].map { |name| File.join(forms, "_#{name}.html.erb") }
   globals = File.join(repo_root, 'wallaby/app/javascript/wallaby/globals.js')
+  adapter = File.join(repo_root, 'wallaby/app/javascript/wallaby/codemirror.js')
+  setup = File.join(repo_root, 'wallaby/app/assets/javascripts/wallaby/setup.js')
 
   it 'initialises Wallaby editors through the WallabyCodeMirror global' do
     codemirror_partials.each do |path|
@@ -52,5 +54,16 @@ describe 'CodeMirror integration' do
     bundle_text = File.read(bundle)
     expect(bundle_text).to include('window.WallabyCodeMirror = ')
     expect(bundle_text).not_to match(/window\.CodeMirror\s*=/)
+  end
+
+  it 'maps the json data-mode to the dedicated JSON language and exports it' do
+    source = File.read(adapter)
+    expect(source).to include("from '@codemirror/lang-json'")
+    expect(source).to match(/json: \(\) => json\(\)/)
+    expect(source).to match(/^  json,$/)
+  end
+
+  it 'binds documentReady handlers to the turbolinks:load event' do
+    expect(File.read(setup)).to match(/\.on\(turbolinksReady, handler\)/)
   end
 end

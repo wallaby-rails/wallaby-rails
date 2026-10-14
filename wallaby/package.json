@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/lang-json": "^6.0.2",
     "@codemirror/lang-markdown": "^6.5.2",
     "@codemirror/lang-xml": "^6.1.0",
     "@codemirror/language": "^6.12.4",

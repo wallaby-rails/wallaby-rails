@@ -10,7 +10,7 @@ The following params are the variables that can be used in this partial.
 <% form_value = value.is_a?(String) ? value : (JSON.pretty_generate(value) rescue nil) %>
 <div class="form-group <%= form.error_class field_name %>">
   <%= form.label field_name, metadata[:label] %>
-  <%= form.text_area field_name, value: form_value, class: 'form-control', data: { init: 'codemirror', mode: 'javascript' } %>
+  <%= form.text_area field_name, value: form_value, class: 'form-control', data: { init: 'codemirror', mode: 'json' } %>
   <%= form.error_messages field_name %>
   <%= hint_of metadata %>
 </div>
