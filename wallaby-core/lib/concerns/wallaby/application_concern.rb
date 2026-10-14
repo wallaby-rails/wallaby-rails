@@ -74,7 +74,20 @@ module Wallaby
       @exception = exception
       @symbol = symbol
       @code = Wallaby::Utils.status_code(symbol)
+      # SECURITY: only Wallaby's own (user-facing) errors may have their message
+      # rendered. Internal errors (`ActiveRecord::StatementInvalid`,
+      # `ActionController::ParameterMissing`, ...) are logged above but rendered
+      # with a generic message so schema/implementation detail does not leak.
+      @user_facing_message = user_facing_message(exception)
       respond_with @exception, status: @code, template: ERROR_PATH, prefixes: _prefixes
+    end
+
+    # @param exception [Exception, nil]
+    # @return [String, nil] the message when it is safe to show to the user
+    def user_facing_message(exception)
+      return nil unless exception.is_a?(Wallaby::GeneralError)
+
+      exception.message
     end
   end
 end

@@ -12,16 +12,24 @@ module Wallaby
     # Sanitise a value for CSV export to prevent formula injection.
     #
     # Spreadsheet applications treat cells beginning with `=`, `+`, `-`, `@`,
-    # tab or carriage return as formulas. Prefixing them with a single quote
-    # neutralises the formula while keeping the original text visible.
+    # tab or carriage return as formulas. Leading whitespace does not prevent
+    # some applications from evaluating the cell, so it is tolerated before the
+    # formula character. Prefixing with a single quote neutralises the formula
+    # while keeping the original text visible.
     # @see https://owasp.org/www-community/attacks/CSV_Injection
     # @param value [Object]
     # @return [Object] escaped value (non-strings are returned unchanged)
     def csv_escape(value)
       return value unless value.is_a?(String)
-      return value unless value.match?(/\A[=+\-@\t\r]/)
+      return value unless csv_formula_risk?(value)
 
       "'#{value}"
+    end
+
+    # @param value [String]
+    # @return [Boolean] whether the value could be interpreted as a formula
+    def csv_formula_risk?(value)
+      value.match?(/\A[=+\-@\t\r]/) || value.match?(/\A\s+[=+\-@]/)
     end
 
     # If `:fields` parameter is given, only display fields that is in `index_field_names`

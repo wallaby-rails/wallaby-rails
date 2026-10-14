@@ -19,8 +19,10 @@ module Wallaby
       end
 
       # @return [Integer] page size from parameters or Wallaby configuration
+      # SECURITY: must agree with {ModelServiceProvider#paginate} so that the
+      # displayed pagination bounds match the query (and are bounded).
       def page_size
-        @params[:per].to_i
+        ::Wallaby::ActiveRecord::ModelServiceProvider.page_size_for(@params)
       end
 
       # @return [Integer] page number from parameters starting from 1

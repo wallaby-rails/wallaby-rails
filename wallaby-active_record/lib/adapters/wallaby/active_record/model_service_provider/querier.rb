@@ -38,7 +38,10 @@ module Wallaby
         # @param scope [ActiveRecord::Relation]
         # @return [ActiveRecord::Relation]
         def sort(sort_string, scope)
-          return scope if sort_string.blank?
+          # SECURITY: only accept a String. A non-string (e.g. `?sort[x]=y` is
+          # parsed into `ActionController::Parameters`) is ignored rather than
+          # raising `NoMethodError` in the query builder.
+          return scope unless sort_string.is_a?(String) && sort_string.present?
 
           sort_hash = normalize_sort(Sorting::HashBuilder.build(sort_string))
           sorting = Sorting::HashBuilder.to_str(sort_hash)
