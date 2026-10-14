@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `view`, `getValue()` and `setValue()`. The CodeMirror 5 helpers `on`,
   `getDoc`, `save`, `toTextArea` and `setSize` are not provided.
 
+### Fixed
+
+- Wallaby's initialisers (`documentReady`) are now bound to the `turbolinks:load`
+  event. Previously `.on(handler)` bound nothing, so under Turbolinks none of the
+  CodeMirror, Summernote, date/colour/range pickers or `auto_select` initialisers
+  ran.
+
 ### Security
 
 - **Escaped flash messages and validation errors** (previously rendered with

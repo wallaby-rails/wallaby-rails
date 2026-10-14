@@ -314,7 +314,7 @@ factories (or ready `LanguageSupport`s, e.g. from `StreamLanguage.define`).
 
 Build custom extensions with the re-exported primitives on
 `window.WallabyCodeMirror` (`EditorView`, `EditorState`, `basicSetup`,
-`StreamLanguage`, `javascript`, `markdown`, `xml`, `ruby`) so they share the
+`StreamLanguage`, `javascript`, `json`, `markdown`, `xml`, `ruby`) so they share the
 bundle's single CodeMirror 6 instance — mixing in a separately installed copy
 of `@codemirror/*` can cause duplicated-instance errors.
 

@@ -61631,6 +61631,7 @@
     EditorView,
     StreamLanguage,
     javascript,
+    json,
     markdown,
     ruby,
     xml
