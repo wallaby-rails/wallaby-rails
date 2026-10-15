@@ -68,4 +68,22 @@ describe Wallaby::ActiveRecord::ModelPaginationProvider do
       expect(subject.page_size).to eq Wallaby::DEFAULT_PAGE_SIZE
     end
   end
+
+  # `?page[x]=y` is parsed into an ActionController::Parameters; `#page_number`
+  # must coerce it rather than raising NoMethodError (see finding L-2).
+  context 'with a non-scalar page' do
+    subject { described_class.new Product.where(nil), parameters(page: { 'x' => 'y' }) }
+
+    it 'reports page 1 instead of raising' do
+      expect(subject.page_number).to eq 1
+    end
+  end
+end
+
+# End-to-end: a malformed `page` must not 500 the index page.
+describe 'index with a malformed page param', type: :request do
+  it 'still responds successfully' do
+    http :get, '/admin/products', params: { page: { 'x' => 'y' } }
+    expect(response).to be_successful
+  end
 end

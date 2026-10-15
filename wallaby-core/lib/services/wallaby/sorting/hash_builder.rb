@@ -16,7 +16,7 @@ module Wallaby
         sort_string = EMPTY_STRING unless sort_string.is_a?(String)
 
         ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
-          (sort_string || EMPTY_STRING).scan(SORT_REGEX) { |_, key, order| hash[key] = order }
+          sort_string.scan(SORT_REGEX) { |_, key, order| hash[key] = order }
         end
       end
 

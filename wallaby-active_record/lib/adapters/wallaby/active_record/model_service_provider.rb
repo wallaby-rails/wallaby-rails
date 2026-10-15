@@ -13,19 +13,16 @@ module Wallaby
 
       class << self
         # Resolve a safe page size from request params.
+        #
+        # The controller-configured `page_size` is applied upstream by
+        # `Paginatable#pagination_params_for` (`params[:per] ||= page_size`), so
+        # here an absent/invalid `per` only needs to fall back to the default.
         # @param params [ActionController::Parameters]
         # @return [Integer] a page size within `1..MAX_PER`
         def page_size_for(params)
           per = params[:per].to_s.to_i
-          per = configured_page_size if per <= 0
           per = Wallaby::DEFAULT_PAGE_SIZE if per <= 0
           per.clamp(1, MAX_PER)
-        end
-
-        # @return [Integer] the host configured page size (when available), or the default
-        def configured_page_size
-          config = Wallaby.respond_to?(:controller_configuration) ? Wallaby.controller_configuration : nil
-          (config.try(:page_size) || Wallaby::DEFAULT_PAGE_SIZE).to_i
         end
       end
 

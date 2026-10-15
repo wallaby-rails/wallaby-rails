@@ -19,9 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   with `Wallaby::UnprocessableEntity`, bounding parser work (DoS hardening).
 - **Bound pagination.** `ModelServiceProvider#paginate` clamps `per` to
   `1..MAX_PER` (200) and `page` to `>= 1`, and `ModelPaginationProvider#page_size`
-  mirrors the clamp. A crafted `?per=` can no longer materialise a whole table
-  (DoS) or, on adapters where a negative limit means "unlimited", export it in
-  bulk.
+  mirrors the clamp. A non-scalar `page` (e.g. `?page[x]=y`) is coerced instead
+  of raising. A crafted `?per=` can no longer materialise a whole table (DoS) or,
+  on adapters where a negative limit means "unlimited", export it in bulk.
 - **Ignore a non-string `sort`.** `?sort[x]=y` (parsed by Rails into an
   `ActionController::Parameters`) is treated as "no sorting" instead of raising
   an unhandled `NoMethodError` (500).

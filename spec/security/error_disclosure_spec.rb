@@ -16,6 +16,11 @@ describe 'error pages', type: :request do
     expect(response.body).not_to include 'param is missing'
   end
 
+  it 'still renders a generic body for internal errors' do
+    http :post, '/admin/products'
+    expect(response.body).to include 'Your request is not supported'
+  end
+
   it 'still serves a page for user-facing Wallaby errors' do
     http :get, '/admin/all_postgres_types/not-a-real-id'
     expect(response.status).to eq 404

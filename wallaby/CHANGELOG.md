@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Error pages no longer reflect internal messages.** `error.html.erb` and
   `error.json.jbuilder` render the exception message only for Wallaby's own
-  (user-facing) error classes; internal errors are logged but shown generically.
+  (user-facing) error classes; internal errors are logged but shown with a
+  generic, localized message.
 
 ### Changed
 
