@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reaches the `ORDER BY` clause.
 - **Cap search query length.** Queries longer than 1000 characters are rejected
   with `Wallaby::UnprocessableEntity`, bounding parser work (DoS hardening).
+- **Bound pagination.** `ModelServiceProvider#paginate` clamps `per` to
+  `1..MAX_PER` (200) and `page` to `>= 1`, and `ModelPaginationProvider#page_size`
+  mirrors the clamp. A non-scalar `page` (e.g. `?page[x]=y`) is coerced instead
+  of raising. A crafted `?per=` can no longer materialise a whole table (DoS) or,
+  on adapters where a negative limit means "unlimited", export it in bulk.
+- **Ignore a non-string `sort`.** `?sort[x]=y` (parsed by Rails into an
+  `ActionController::Parameters`) is treated as "no sorting" instead of raising
+  an unhandled `NoMethodError` (500).
 
 ## [0.3.3](https://github.com/wallaby-rails/wallaby-rails/releases/tag/wallaby-active_record/0.3.3) - 2026-10-03
 

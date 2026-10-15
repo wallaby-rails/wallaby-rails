@@ -7,6 +7,17 @@ module Wallaby
   class ResourcesResponder < ActionController::Responder
     include ::Responders::FlashResponder
 
+    class << self
+      # SECURITY: keep only characters that are safe inside a
+      # `Content-Disposition` token so a request-derived name cannot inject
+      # header content (CRLF/quote).
+      # @param name [Object]
+      # @return [String]
+      def sanitize_file_name(name)
+        name.to_s.gsub(/[^0-9A-Za-z_.-]/, HYPHEN)
+      end
+    end
+
     # Render CSV with a file name that contains export timestamp.
     def to_csv
       controller.headers['Content-Disposition'] = "attachment; filename=\"#{file_name_to_export}\""
@@ -23,7 +34,7 @@ module Wallaby
       filename =
         (request.params[:resources] || controller.controller_path)
         .gsub(/#{SLASH}|#{COLONS}/o, HYPHEN)
-      "#{filename}-exported-#{timestamp}.#{format}"
+      "#{self.class.sanitize_file_name(filename)}-exported-#{timestamp}.#{format}"
     end
 
     # @return [Boolean] true if there is exception or resource has errors

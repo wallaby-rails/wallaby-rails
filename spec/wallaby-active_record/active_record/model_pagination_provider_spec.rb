@@ -34,15 +34,21 @@ describe Wallaby::ActiveRecord::ModelPaginationProvider do
   end
 
   describe '#page_size' do
-    it 'returns the count' do
+    it 'returns the effective, bounded count' do
       Product.create name: 'product1'
       Product.create name: 'product2'
       Product.create name: 'product3'
       subject = described_class.new Product.where(nil), parameters
-      expect(subject.page_size).to eq 0
+      expect(subject.page_size).to eq Wallaby::DEFAULT_PAGE_SIZE
 
       subject = described_class.new Product.where(nil), parameters(per: 1)
       expect(subject.page_size).to eq 1
+
+      subject = described_class.new Product.where(nil), parameters(per: 999_999_999)
+      expect(subject.page_size).to eq Wallaby::ActiveRecord::ModelServiceProvider::MAX_PER
+
+      subject = described_class.new Product.where(nil), parameters(per: -1)
+      expect(subject.page_size).to eq Wallaby::DEFAULT_PAGE_SIZE
     end
   end
 

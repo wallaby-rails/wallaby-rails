@@ -4,6 +4,28 @@ module Wallaby
   class ActiveRecord
     # Model service provider for {Wallaby::ActiveRecord}
     class ModelServiceProvider < ::Wallaby::ModelServiceProvider
+      # SECURITY: hard upper bound on the requested page size (`per`). Without a
+      # ceiling, `?per=` can materialise an entire table in memory (denial of
+      # service) and `?per=-1` can mean "unlimited" on some adapters (bulk data
+      # egress). Mirrored by {ModelPaginationProvider#page_size} so the paginator
+      # displays the same value that the query used.
+      MAX_PER = 200
+
+      class << self
+        # Resolve a safe page size from request params.
+        #
+        # The controller-configured `page_size` is applied upstream by
+        # `Paginatable#pagination_params_for` (`params[:per] ||= page_size`), so
+        # here an absent/invalid `per` only needs to fall back to the default.
+        # @param params [ActionController::Parameters]
+        # @return [Integer] a page size within `1..MAX_PER`
+        def page_size_for(params)
+          per = params[:per].to_s.to_i
+          per = Wallaby::DEFAULT_PAGE_SIZE if per <= 0
+          per.clamp(1, MAX_PER)
+        end
+      end
+
       # @param params [ActionController::Parameters]
       # @param action [String, Symbol]
       # @param authorizer
@@ -27,8 +49,8 @@ module Wallaby
       # @param params [ActionController::Parameters]
       # @return [ActiveRecord::Relation] paginated query
       def paginate(query, params)
-        per = (params[:per] || Wallaby.controller_configuration.try(:page_size)).to_i
-        page = [params[:page].to_i, 1].max # starting from page 1
+        per = ModelServiceProvider.page_size_for(params)
+        page = [params[:page].to_s.to_i, 1].max # starting from page 1
         query.offset((page - 1) * per).limit(per) # rubocop:disable CodeReuse/ActiveRecord
       end
 

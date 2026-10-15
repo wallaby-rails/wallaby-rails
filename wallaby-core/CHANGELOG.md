@@ -23,7 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fields.
 - **Guard CSV exports against formula injection.** `IndexHelper#csv_escape`
   prefixes exported cells beginning with `=`, `+`, `-`, `@`, tab or carriage
-  return with `'`.
+  return with `'`, including formulas hidden behind leading whitespace.
+- **Sanitize the CSV export file name.** `ResourcesResponder` reduces the
+  request-derived part of the `Content-Disposition` file name to characters that
+  cannot inject header content.
+- **Do not reflect internal error messages.** Error pages render
+  `@exception.message` only for Wallaby's own (user-facing) error classes;
+  internal errors such as `ActiveRecord::StatementInvalid` or
+  `ActionController::ParameterMissing` are logged but shown with a generic
+  message.
 - **Pundit: fail closed on missing policies.** `Pundit::NotDefinedError` now
   results in `403` (`authorize`), `false` (`authorized?`) or an unfiltered scope
   with a warning (`accessible_for`) instead of an unhandled 500.
