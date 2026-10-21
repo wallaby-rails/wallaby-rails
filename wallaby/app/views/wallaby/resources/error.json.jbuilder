@@ -3,8 +3,8 @@
 json.error do
   json.code @code
 
-  if @code < 500 && @exception.present?
-    json.message @exception.message
+  if @user_facing_message.present?
+    json.message @user_facing_message
   else
     json.message wt("json_errors.#{@symbol}")
   end

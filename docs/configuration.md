@@ -161,6 +161,10 @@ end
 
 > When models are whitelisted, models exclusion will NOT be applied.
 
+> **Access control:** these settings only control the model **navigation** in the
+> admin header. They do not restrict which models can be reached by URL — use
+> your authorizer for that. See [Security](security.md#model-allowdeny-lists-are-not-authorization).
+
 ## .models_to_exclude=
 
 To blacklist the models that Wallaby shouldn't handle:
@@ -172,6 +176,9 @@ end
 ```
 
 > NOTE: when models are whitelisted via `models=`, models exclusion will NOT be applied. By default, `ActiveRecord::SchemaMigration` (and similar) is excluded.
+
+> **Access control:** like `models=`, this only affects the model navigation. It is
+> not an access-control boundary. See [Security](security.md#model-allowdeny-lists-are-not-authorization).
 
 ## resource_decorator
 

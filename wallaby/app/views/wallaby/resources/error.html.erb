@@ -13,7 +13,7 @@
           <% if @code >= 500 && @code != 501 %>
             <%= wt "http_errors.report_error_html" %>
           <% else %>
-            <%= @exception.try(:message) || flash[:alert] %>
+            <%= @user_facing_message || flash[:alert] || wt("http_errors.#{@symbol}") %>
           <% end %>
         </p>
       </div>

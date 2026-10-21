@@ -65,6 +65,15 @@ and define the corresponding authorizer/policy. See
 The bundled `Ability` class (`can :manage, :all`) is only used when a host
 application has not defined its own `ability.rb`.
 
+## Model allow/deny lists are not authorization
+
+`self.models =` and `self.models_to_exclude =` in your base controller only
+affect the **navigation** tree rendered in the admin header. They do **not**
+restrict routing or dispatch: every ActiveRecord model known to Wallaby remains
+reachable by URL (for example `GET /admin/users`) unless your authorizer denies
+the action. Treat these lists as a UI convenience and never as an access-control
+boundary — use the authorizer for that.
+
 ## Mass assignment
 
 The ActiveRecord service provider allowlists the model's own columns for mass
@@ -81,6 +90,10 @@ your authorizer (Pundit) or use CanCanCan's attribute restrictions.
   identifiers (`[a-zA-Z_][a-zA-Z0-9_]*`); unsupported directions are dropped.
 - `filter` is only honoured for filters **explicitly declared by the decorator**.
   An undeclared filter value never becomes a method call on the model class.
+- `per` and `page` are bounded: `per` is clamped to `1..200`
+  (`ModelServiceProvider::MAX_PER`) and `page` to `>= 1`, so a single request
+  cannot materialise or export an entire table. A non-numeric `sort` (e.g.
+  `?sort[x]=y`) is ignored instead of raising.
 
 ## Missing policies fail closed
 

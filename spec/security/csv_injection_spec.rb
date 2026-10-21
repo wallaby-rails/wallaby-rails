@@ -32,8 +32,14 @@ describe Wallaby::IndexHelper, type: :helper do
       expect(helper.csv_escape("\rpayload")).to eq "'\rpayload"
     end
 
+    it 'prefixes a formula hidden behind leading whitespace' do
+      expect(helper.csv_escape(' =1+1')).to eq "' =1+1"
+      expect(helper.csv_escape("\n@SUM(A1)")).to eq "'\n@SUM(A1)"
+    end
+
     it 'leaves ordinary strings untouched' do
       expect(helper.csv_escape('ordinary')).to eq 'ordinary'
+      expect(helper.csv_escape('  ordinary')).to eq '  ordinary'
     end
 
     it 'leaves non-string values untouched' do

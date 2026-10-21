@@ -35,6 +35,11 @@ describe Wallaby::Sorting::HashBuilder do
       str = 'name  asc , updated_at  desc, invalid value'
       expect(described_class.build(str)).to eq 'name' => 'asc', 'updated_at' => 'desc'
     end
+
+    it 'ignores non-string values (e.g. ?sort[x]=y)' do
+      expect(described_class.build(nil)).to eq({})
+      expect(described_class.build(ActionController::Parameters.new('x' => 'y'))).to eq({})
+    end
   end
 
   describe '.to_str' do
